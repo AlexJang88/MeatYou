@@ -1,6 +1,7 @@
 package com.gogi.meatyou.bean;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -16,6 +17,8 @@ public class MemberDTO {
 	private String email;
 	private String telep;
 	private String phone;
-	private String reg_date; 
-	private int MStatus;
+	private String regDate; 
+	private int mStatus;
+	private String mstatDetail;
+	private String mstatAuth; 
 }
