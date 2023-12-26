@@ -45,7 +45,8 @@
 				<div class="container">
 				
 					<ul class="header-links pull-right">
-						<li><a href="#"><i class="fa"></i> 로그인</a></li>
+						<li><a href="/main/main"><i class="fa"></i> 임시 메인버튼 </a></li>
+						<li><a href="/member/customLogin"><i class="fa"></i> 로그인</a></li>
 						<li><a href="#"><i class="fa"></i> 회원가입</a></li>
 						<li><a href="#"><i class="fa"></i> 마이페이지</a></li>
 						<li><a href="#"><i class="fa"></i> 고객센터</a></li>

@@ -7,6 +7,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
+import com.gogi.meatyou.bean.MemberDTO;
+
 import lombok.Getter;
 
 @Getter
@@ -17,15 +19,15 @@ public class CustomUser extends User{
 		// TODO Auto-generated constructor stub
 	}
 	
-	//private MemberDTO dto;
 	
-	//public CustomUser(String username, String password, Collection<? extends GrantedAuthority> authorities) {
-	//	super(username, password, authorities);
-	//}
-	
-	//public CustomUser(MemberDTO dto) {
-	//	super(dto.getUserid(),dto.getUserpw(),dto.getAuthList().stream().map(auth-> new SimpleGrantedAuthority(auth.getAuth())).collect(Collectors.toList()));
-	//	this.dto = dto;
-	//}
+	//20231226 ÀÌµµÁØ
+	private MemberDTO dto;
 
+	public CustomUser(MemberDTO dto) {
+		super(dto.getMId(),dto.getPasswd(),
+				dto.getM_status().stream()
+				.map(auth -> new SimpleGrantedAuthority(auth.getM_status()))
+									.collect(Collectors.toList()));
+		this.dto = dto;
+	}
 }

@@ -3,5 +3,31 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gogi.meatyou.repository.MemberMapper">
+		<resultMap id="memberMap" type="com.gogi.meatyou.bean.MemberDTO" >
+		<result property="mId" column="m_id" />
+		<result property="passwd" column="passwd" />
+		<result property="mName" column="m_name" />
+		<result property="birth" column="birth" />
+		<result property="addr1" column="addr1" />
+		<result property="addr2" column="add2" />
+		<result property="email" column="email" />
+		<result property="telep" column="telep" />
+		<result property="phone" column="phone" />
+		<result property="reg_date" column="reg_date" />
+		<collection property="m_status" resultMap="statusList" />  <!-- DTO의 List 사용시 -->
+	</resultMap>
 
+	<resultMap id="statusList" type="com.gogi.meatyou.bean.StatusListDTO" >
+		<result property="m_id" column="m_id" />
+		<result property="m_status" column="m_status" />
+	</resultMap>
+	
+	
+	
+	<select id="read" resultMap="memberMap">
+		select * from member m left outer join status_list  s
+			on m.m_id =s.m_id						
+			where m.m_id=#{m_id}
+	</select>
+		
 </mapper>
