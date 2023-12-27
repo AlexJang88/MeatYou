@@ -7,9 +7,8 @@
 
 
 
-    <form action="/login" method="post">
-		    	<input type="hidden" name="${_csrf.parameterName}" 
-								 value="${_csrf.token}" />                      
+    <form action="/member/login" method="post">
+		    	<input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}" />                      
 			<input type="text" name="username" /> <br />
 			<input type="password" name="password" /> <br />
 			<input type="submit" value="로그인" />

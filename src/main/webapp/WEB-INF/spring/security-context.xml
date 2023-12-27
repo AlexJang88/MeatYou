@@ -10,8 +10,8 @@
 
 	<security:http>
 		<security:intercept-url pattern="/member/all" access="permitAll" />
-		<security:intercept-url pattern="/member/member" access="hasRole('ROLE_MEMBER')" />
-		<security:intercept-url pattern="/member/admin" access="hasRole('ROLE_ADMIN')" />
+		<security:intercept-url pattern="/member/member" access="hasRole('ROLE_MEMBER')"/>
+		<security:intercept-url pattern="/member/admin" access="hasRole('ROLE_ADMIN')"/>
 		<security:intercept-url pattern="/member/saller" access="hasRole('ROLE_SALLER')" />
 		
 		

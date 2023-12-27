@@ -22,9 +22,6 @@ public class CustomLoginHandler implements AuthenticationSuccessHandler {
 			roleNames.add(au.getAuthority());
 		});
 		
-		
-		
-		
 		/*   원래있던거
 		String  rdir = "/main/main";
 		if(roleNames.contains("ROLE_ADMIN")) {

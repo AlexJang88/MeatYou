@@ -12,22 +12,20 @@ import com.gogi.meatyou.bean.MemberDTO;
 import lombok.Getter;
 
 @Getter
-public class CustomUser extends User{
+public class CustomUser extends User {
 
-	public CustomUser(String username, String password, Collection<? extends GrantedAuthority> authorities) {
-		super(username, password, authorities);
-		// TODO Auto-generated constructor stub
-	}
-	
-	
-	//20231226 이도준
-	private MemberDTO dto;
+    public CustomUser(String mId, String passswd, Collection<? extends GrantedAuthority> authorities) {
+        super(mId, passswd, authorities);
+    }
 
-	public CustomUser(MemberDTO dto) {
-		super(dto.getMId(),dto.getPasswd(),
-				dto.getM_status().stream()
-				.map(auth -> new SimpleGrantedAuthority(auth.getM_status()))
-									.collect(Collectors.toList()));
-		this.dto = dto;
-	}
+    private MemberDTO dto;
+
+    public CustomUser(MemberDTO dto) {
+        super(dto.getM_Id(), dto.getPasswd(),
+                dto.getMStatusList().stream().map(auth -> new SimpleGrantedAuthority(String.valueOf(auth.getMStatus())))
+                        .collect(Collectors.toList()));
+        this.dto = dto;
+        // 디버그 로그
+        System.out.println("CustomUser 생성 완료 입력하신 아이디 : " + dto.getM_Id() + " 비밀번호 :"+dto.getPasswd());
+    }
 }

@@ -5,7 +5,7 @@
 <table width="270" border="0" cellspacing="0" cellpadding="5" align="center">
   <tr bgcolor="${title_c}"> 
     <td height="39"  align="center">
-	  <font size="+1" ><b>권한이 차이가 있습니다 ..</b></font></td>
+	  <font size="+1" ><b>가입 완료 되었습니다 축하합니다 </b></font></td>
   </tr>
   <tr>
     <td > 

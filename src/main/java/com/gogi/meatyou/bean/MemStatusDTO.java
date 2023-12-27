@@ -1,10 +1,10 @@
 package com.gogi.meatyou.bean;
 
 import lombok.Data;
-
+import com.gogi.meatyou.bean.MemberDTO;
 @Data
 public class MemStatusDTO {
-	private int mstatNum;
-	private int memStatus;
-	private int mstatDetail;
+	private int mStatus;
+	private String mstatDetail;
+	private String memstatAuth;
 }
