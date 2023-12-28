@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class MemStatusDTO {
-	private int memStatus;
-	private int mstatDetail;
-	private String mstatAuth;
+	private int msta_m_status;
+	private int mstat_detail;
+	private String mstat_auth;
 }

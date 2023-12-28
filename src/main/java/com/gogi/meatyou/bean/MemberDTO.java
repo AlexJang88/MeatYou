@@ -8,17 +8,19 @@ import lombok.Data;
 @Data
 public class MemberDTO {
 
-	private String mId;
+	private String m_id;
 	private String passwd; 
-	private String mName;
+	private String m_name;
 	private Date birth;
-	private String addr1;
-	private String addr2;
+	private String m_addr1;
+	private String m_addr2;
 	private String email;
 	private String telep;
 	private String phone;
-	private String regDate; 
-	private int mStatus;
-	private String mstatDetail;
-	private String mstatAuth; 
+	private String m_regDate; 
+	private int m_status;
+	//private String mstat_detail;
+	//private String mstat_auth;
+	
+	private MemStatusDTO mstatDto;
 }

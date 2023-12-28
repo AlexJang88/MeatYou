@@ -4,8 +4,66 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.gogi.meatyou.repository.AdminMapper">
-	
-	<select id="read" resultType="com.gogi.meatyou.bean.MemberDTO">
-		select * from member m,memStatus s where m.m_status=s.m_status and m.m_id=#{userid}
+	<resultMap type="com.gogi.meatyou.bean.MemberDTO" id="memberMap">
+		<result property="m_id" column="m_id" />
+		<result property="passwd" column="passwd"/>
+		<result property="m_name" column="m_name"/>
+	<association property="dto" column="msta_m_status" javaType="com.gogi.meatyou.bean.MemStatusDTO">
+			<id column="msta_m_status" property="msta_m_status"/>
+			<result property="mstat_detail" column="mstat_detail"/>
+			<result property="mstat_auth" column="mstat_auth"/>	
+	</association>
+
+	</resultMap>
+		<select id="test" resultType="memberMap" parameterType="String">
+		select * from member m,memStatus s where m.m_status=s.msta_m_status and m.m_id=#{m_id}
 	</select>
+
+	
+	<select id="read" resultType="com.gogi.meatyou.bean.MemberDTO" parameterType="String">
+		select * from member m,memStatus s where m.m_status=s.msta_m_status and m.m_id=#{m_id}
+	</select>
+	
+	<select id="memberList" resultType="com.gogi.meatyou.bean.MemberDTO" parameterType="hashMap">
+		<![CDATA[
+		select * from (select mem.*,rownum r from (select * from member m,memstatus ms where m.m_status=ms.msta_m_status and m.m_status between 1001 and 1049) mem) where r>=#{start} and r<=#{end}
+		]]>
+	</select>
+	<select id="customList" resultType="com.gogi.meatyou.bean.MemberDTO" parameterType="hashMap">
+		<![CDATA[
+		select * from (select mem.*,rownum r from (select * from member m,memstatus ms where m.m_status=ms.msta_m_status and m.m_status between 2001 and 2999) mem) where r>=#{start} and r<=#{end}
+		]]>
+	</select>
+	<select id="memCount">
+	<![CDATA[
+		select count(*) from member where m_status>1000 and m_status<2000
+		]]>
+	</select>
+	<select id="cusCount">
+	<![CDATA[
+		select count(*) from member where m_status>2000 and m_status<3000
+		]]>
+	</select>
+	<select id="goodMember" resultType="String">
+		<![CDATA[
+		select * from (select order_m_id,sum(order_p_price) from m_order group by order_m_id having sum(order_p_price)>=200000) where order_paydate>=add_months(trunc(sysdate,'mm'),-1) and m_reg_date<=trunc(sysdate,'mm')-1
+		]]>
+	</select>
+	<select id="bestMember" resultType="String">
+		<![CDATA[
+		select * from (select order_m_id,sum(order_p_price) from m_order group by order_m_id having sum(order_p_price)>=400000) where order_paydate>=add_months(trunc(sysdate,'mm'),-1) and m_reg_date<=trunc(sysdate,'mm')-1
+		]]>
+	</select>
+	<update id="goodMemberUpdate" parameterType="java.util.ArrayList">
+		update member set m_status=1002 where
+			<foreach collection="array" item="item" index="index" separator=",">
+				m_id = ${item}
+			</foreach>
+	</update>
+	<update id="bestMemberUpdate" parameterType="java.util.ArrayList">
+		update member set m_status=1003 where
+			<foreach collection="array" item="item" index="index" separator=",">
+				m_id = ${item}
+			</foreach>
+	</update>
 </mapper>
