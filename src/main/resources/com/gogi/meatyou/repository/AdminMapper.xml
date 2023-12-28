@@ -5,17 +5,24 @@
 
 <mapper namespace="com.gogi.meatyou.repository.AdminMapper">
 	<resultMap type="com.gogi.meatyou.bean.MemberDTO" id="memberMap">
-		<result property="m_id" column="m_id" />
+		<result property="m_id" column="m_id"/>
 		<result property="passwd" column="passwd"/>
 		<result property="m_name" column="m_name"/>
-	<association property="dto" column="msta_m_status" javaType="com.gogi.meatyou.bean.MemStatusDTO">
-			<id column="msta_m_status" property="msta_m_status"/>
+		<association property="mstatDto" javaType="com.gogi.meatyou.bean.MemStatusDTO">
+			<result property="msta_m_status" column="msta_m_status"/>
+			<result property="mstat_detail" column="mstat_detail"/>
+			<result property="mstat_auth" column="mstat_auth"/>
+		</association>
+		</resultMap>
+		 <!-- <collection property="MemStatusDTO" resultMap="memStatus" />
+	</resultMap>
+	<resultMap type="com.gogi.meatyou.bean.MemStatusDTO" id="memStatus">
+			<result property="msta_m_status" column="msta_m_status"/>
 			<result property="mstat_detail" column="mstat_detail"/>
 			<result property="mstat_auth" column="mstat_auth"/>	
-	</association>
+	</resultMap>	 -->
 
-	</resultMap>
-		<select id="test" resultType="memberMap" parameterType="String">
+		<select id="test" resultMap="memberMap" parameterType="String">
 		select * from member m,memStatus s where m.m_status=s.msta_m_status and m.m_id=#{m_id}
 	</select>
 

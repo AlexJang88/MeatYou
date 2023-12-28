@@ -139,6 +139,11 @@ public class AdminServiceImpl implements AdminService{
 		mapper.bestMemberUpdate(mapper.bestMember());
 		}
 	}
+
+	@Override
+	public MemberDTO test(String m_id) {
+		return mapper.test(m_id);
+	}
 	
 	
 }

@@ -1,5 +1,7 @@
 package com.gogi.meatyou.controller;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -41,10 +43,12 @@ public class AdminController {
 		System.out.println("================"+dto.getM_id());
 		System.out.println("================"+dto.getM_status());
 		adminServicImpl.memberList(check,model,pageNum);
-		return "/admin/memberList";
+		return "admin/memberList";
 	}
 	@RequestMapping("/test")
 	public String test(Model model) {
-		return "admin/main";
+			MemberDTO mem =	adminServicImpl.test("test");
+			model.addAttribute("mem", mem);
+		return "test";
 	}
 }
