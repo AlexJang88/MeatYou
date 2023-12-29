@@ -1,5 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ include file="../header.jsp" %>
+
  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -33,7 +37,7 @@
     <tr> 
       <td width="200"> 사용자 ID</td>
       <td width="400"> 
-        <input type="text" name="m_Id" size="10" maxlength="12">
+       <input type="text" name="m_id" size="10" maxlength="12">
       </td>
     </tr>
     <tr> 
@@ -45,7 +49,7 @@
     <tr>  
       <td width="200">비밀번호 확인</td>
       <td width="400"> 
-        <input type="password" name="passwd2" size="15" maxlength="12">
+        <input type="password" size="15" maxlength="12">
       </td>
     </tr>
     
@@ -59,22 +63,23 @@
         <input type="text" name="m_name" size="15" maxlength="10">
       </td>
     </tr>
-    <tr>
-      <td width="200">생년월일</td>
-      <td width="400">
-    <div class="form-group">
-      <label for="birthdate">생년월일</label>
-      <input type="date" class="form-control"  name ="birth "id="birth">
-  </div>
-  </tr>
-    <tr>
+ <tr>
+ <td width="200">생년월일</td>
+            <td width="400">
+                <div class="form-group">
+                    <label for="birthdate">생년월일</label>
+                    <input type="date" class="form-control" name="birth" id="birth">
+                </div>
+            </td>
+        </tr>
+        <tr>
   <div class="form-group">
           <label for="address">주소</label>
           <input type="text" class="form-control" id="address"  name="m_addr1" placeholder="주소">
-        </div>
+   </div>
         <!-- Button to trigger address search -->
         <button type="button" id="addressButton" class="btn btn-primary btn-block">주소 검색</button>
-  
+     	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />		
       <!-- Second input field for detailed address -->
       <div class="form-group">
           <label for="detailAddress">상세주소</label>
@@ -103,8 +108,7 @@
     
 <tr>
       <td> 
-          <input type="submit" name="confirm" value="등   록">
-          <input type="reset" name="reset" value="다시입력">
+          <input type="submit" name="confirm" value="회원가입">
           <input type="button" value="가입안함" onclick="javascript:window.location='../main/main'">
       </td>
     </tr>

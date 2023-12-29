@@ -1,13 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../header.jsp" %>
+<%@ include file="../../header.jsp" %>
 
 
-<h1> 로그인 하시나요 ~ </h1>
 
-
-    <h1> /admin </h1>
-    <h1>관리자 이용 가능</h1>
+    <h1>관리자 님 환영합니다</h1>
     
     <form action="/member/customLogout" method="post">
     	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
@@ -15,4 +12,4 @@
     </form>
 
 
-<%@ include file="../footer.jsp" %>
+<%@ include file="../../footer.jsp" %>
