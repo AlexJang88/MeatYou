@@ -27,6 +27,5 @@ public interface MemberMapper {
 		
 		
 		public int statusAdminChange(MemberDTO dto);
-		public int statusChange(@Param("id")  String id ,
-						@Param("passwd") String passwd);
+		public int statusChange(MemberDTO dto);
 }

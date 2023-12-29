@@ -13,7 +13,7 @@ public interface MemberService {
 	
 	public MemberDTO getUser(String m_id);
 	
-	public int userDelete(String m_id,String passwd);
+	public int userDelete(MemberDTO dto);
 	//È¸¿ø Å»Åğ
 	public int statusChange(MemberDTO dto);
 	//Å»ÅğÇÏ¸é Ã¼ÀÎÁöµÇ¾î¾ß ÇÏ´Ï±î 

@@ -105,6 +105,10 @@
         <input type="text" name="phone" size="40" maxlength="30">
       </td>
     </tr>
+    <tr> 
+ 
+        <input type="hidden" name="m_status" size="40" maxlength="30">
+    </tr>
     
 <tr>
       <td> 

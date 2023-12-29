@@ -122,18 +122,18 @@ public class MemberController {
 	
 	@RequestMapping("deleteForm")
 	public String deleteForm() {
-		return "member/deleteForm";
+		return "member/delete/deleteForm";
 	}
 	
 	@RequestMapping("deletePro")
-	public String deletePro(Model model , String passwd , HttpSession session) {
+	public String deletePro(Model model , String passwd , HttpSession session,MemberDTO dto) {
 		String m_id =(String)session.getAttribute("m_id");
-		int check = service.userDelete(m_id, passwd);
+		int check = service.userDelete(dto);
 		if(check == 1) {
 			session.invalidate();
 		}
 		model.addAttribute("check",check);
-		return "member/deletePro";
+		return "member/delete/deletePro";
 	}
 	
     

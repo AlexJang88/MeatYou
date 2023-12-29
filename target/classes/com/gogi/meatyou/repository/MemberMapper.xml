@@ -50,11 +50,11 @@
 
 
 
-
+<!-- 
 
 <insert id="insertMember" parameterType="com.gogi.meatyou.bean.MemberDTO">
     <![CDATA[
-    INSERT INTO member(m_id, passwd, m_name, birth, m_addr1, m_addr2, email, telep, phone)
+    INSERT INTO member(m_id,passwd,m_name,birth,m_addr1,m_addr2,email,telep,phone ,m_status)
     VALUES (
         #{m_id},
         #{passwd},
@@ -68,7 +68,28 @@
     )
     ]]>
 </insert>
+ -->
+		
+		<insert id="insertMember" parameterType="com.gogi.meatyou.bean.MemberDTO">
+    <![CDATA[
+    INSERT INTO member(m_id, passwd, m_name, birth, m_addr1, m_addr2, email, telep, phone, m_status)
+    VALUES (
+        #{m_id},
+        #{passwd},
+        #{m_name},
+        to_date(#{birth}, 'YYYY-MM-DD'),
+        #{m_addr1},
+        #{m_addr2},
+        #{email},
+        #{telep},
+        #{phone},
+       1001)
+    
+    ]]>
+</insert>
 
+		
+		
 		
 		<update id="memberUpdate" parameterType="com.gogi.meatyou.bean.MemberDTO">
 		update member 
@@ -86,14 +107,14 @@
 	</update>
 	
 	
-		<update id="statusChange" parameterType="String">
-		update member set m_status=0 where m_id=#{m_id} and passwd=#{passwd}
+	<update id="statusChange" parameterType="com.gogi.meatyou.bean.MemberDTO" >
+		update member set m_status = 1001 where m_id=#{m_id} and passwd = #{passwd}		
 	</update>
 	
 	<update id="statusAdminChange" parameterType="com.gogi.meatyou.bean.MemberDTO">
 		update member set m_status=#{m_status} where m_id=#{m_id}
 	</update>
-	
+	          
 		
 		
 		

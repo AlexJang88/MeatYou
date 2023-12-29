@@ -24,8 +24,8 @@ public class MemberServiceImpl implements MemberService {
         
         
         @Override
-    	public int userDelete(String m_id, String passwd) {
-    		return mapper.statusChange(m_id,passwd);
+    	public int userDelete(MemberDTO dto) {
+    		return mapper.statusChange(dto);
     	}
 
     
