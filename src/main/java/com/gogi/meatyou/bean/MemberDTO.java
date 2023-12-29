@@ -19,8 +19,7 @@ public class MemberDTO {
 	private String phone;
 	private String m_regDate; 
 	private int m_status;
-	//private String mstat_detail;
-	//private String mstat_auth;
-	
+	private String mstat_detail;
+	private String mstat_auth;
 	private MemStatusDTO mstatDto;
 }

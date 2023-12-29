@@ -21,7 +21,6 @@
 					<td>현재 등급</td>
 					<td>바꿀등급</td>
 				</tr>
-				
 				<tr>
 					<td>${d.m_id}</td>
 					<td>${d.m_name} </td>
@@ -42,10 +41,10 @@
 					<c:if test="${check==2}">
 						<td>
 							<select name="m_status">
-								<option value="1001">일반판매자 
-								<option value="1002">상위노출결제 판매자
-								<option value="1003">품목결제 판매자
-								<option value="1004">품목,상위노출결제 판매자
+								<option value="2001">일반판매자 
+								<option value="2002">상위노출결제 판매자
+								<option value="2003">품목결제 판매자
+								<option value="2004">품목,상위노출결제 판매자
 							</select>
 							<input type="submit" value="변경">
 						</td>

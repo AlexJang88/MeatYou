@@ -1,5 +1,6 @@
 package com.gogi.meatyou.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -16,9 +17,13 @@ import com.gogi.meatyou.service.AdminService;
 @Controller
 @RequestMapping("/admin/*")
 public class AdminController {
-	
 	@Autowired
 	private AdminService adminServicImpl;
+	
+	@RequestMapping("/chart")
+	public String chart() {
+		return "admin/chart";
+	}
 	
 	@RequestMapping("/main")
 	public String main() {

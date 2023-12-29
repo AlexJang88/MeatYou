@@ -4,8 +4,11 @@ package com.gogi.meatyou.service;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ScheduledExecutorService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -16,7 +19,10 @@ import com.gogi.meatyou.repository.AdminMapper;
 public class AdminServiceImpl implements AdminService{
 	@Autowired
 	private HashMap adminMap;
-
+	
+	@Autowired
+	private AdminService adminServiceImpl;
+	
 //	@Override
 //	public void list(int pageNum, Model model) {
 //		
@@ -143,6 +149,22 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public MemberDTO test(String m_id) {
 		return mapper.test(m_id);
+	}
+	
+	
+	
+	/*
+	  @Scheduled(cron="* * * * * *")
+	초 분 시간 일 월 요일 
+	  */
+	
+	@Scheduled(cron="0 0 0 1 * *")
+	public void autoMemberUpdate() {
+		if(goodMember().size()>0) {
+			mapper.goodMemberUpdate(mapper.goodMember());
+		}if(bestMember().size()>0) {
+			mapper.bestMemberUpdate(mapper.bestMember());
+		}
 	}
 	
 	

@@ -24,7 +24,7 @@ public class CustomUser extends User{
 	public CustomUser(MemberDTO dto) {
 		//super(dto.getMId(),dto.getPasswd(),dto.getMstatAuthList().stream().map(auth-> new SimpleGrantedAuthority(auth.getMstatAuth())).collect(Collectors.toList()));
 		
-		super(dto.getM_id(),dto.getPasswd(),Collections.singletonList(new SimpleGrantedAuthority(dto.getMstatDto().getMstat_auth())));
+		super(dto.getM_id(),dto.getPasswd(),Collections.singletonList(new SimpleGrantedAuthority(dto.getMstat_auth())));
 		this.dto = dto;
 	}
 
