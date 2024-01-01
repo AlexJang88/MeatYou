@@ -115,7 +115,7 @@
 		update member set m_status = 1000 where  passwd = #{passwd}		
 	</update>
 	
-	
+
 	
 	<update id="statusAdminChange" parameterType="com.gogi.meatyou.bean.MemberDTO">
 		update member set m_status=#{m_status} where m_id=#{m_id}

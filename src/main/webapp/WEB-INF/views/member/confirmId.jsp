@@ -2,10 +2,10 @@
 <%@ include file="../header.jsp" %>
 <html>
 <head><title>ID 중복확인</title>
-<body bgcolor="${bodyback_c}">
+<body >
 	<c:if test="${check == 1}" >
 		<table width="270" >
-		  <tr bgcolor="${title_c}"> 
+		  <tr > 
 		    <td height="39" >${id}이미 사용중인 아이디입니다.</td>
 		  </tr>
 		</table>
