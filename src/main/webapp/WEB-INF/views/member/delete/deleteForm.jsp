@@ -7,7 +7,7 @@
 	<title>회원탈퇴</title>
 </head>
 
-<BODY onload="begin()" bgcolor="${bodyback_c}">
+<BODY onload="begin()" >
 <form name="myform" action="/member/deletePro" method="post" onSubmit="return deleteCheckIt()">
 <TABLE border=1 align="center" >
   

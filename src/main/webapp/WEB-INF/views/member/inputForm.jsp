@@ -107,7 +107,7 @@
     </tr>
     <tr> 
  
-        <input type="hidden" name="m_status" size="40" maxlength="30">
+<!--         <input type="hidden" name="m_status" size="40" maxlength="30"> -->
     </tr>
     
 <tr>
