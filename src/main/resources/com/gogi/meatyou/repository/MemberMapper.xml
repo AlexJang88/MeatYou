@@ -125,14 +125,7 @@
 		    WHERE m_id = #{m_id}
 		</update>
 		
-		
-	<!-- 	
-		Insert into Cus_detail
-		<insert id="insertIntoCusDetail" parameterType="map">
-		    INSERT INTO cus_detail (cus_m_id,ceoname,corpno,company,cus_address1,cus_address2,cus_pnum)
-		    VALUES ( #{cus_m_id},#{ceoname},#{corpno},#{company},#{cus_address1}, #{cus_address2}, #{cus_pnum})
-		</insert>
-				 -->
+
 				
 					<insert id="insertIntoCusDetail" parameterType="com.gogi.meatyou.bean.CusDetailDTO">
     <![CDATA[

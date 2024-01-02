@@ -13,11 +13,18 @@
 <bean id="noopPw" class="com.gogi.meatyou.security.CustomNoopPasswordEncoder"/>
 	<security:http>
 		
+ <!-- "/member/all" URI에는 모든 사용자가 접근 가능 -->
+        <security:intercept-url pattern="/member/all" access="permitAll" />
 
-		<security:intercept-url pattern="/member/all" access="permitAll" />	
-		<security:intercept-url pattern="/member/member" access="hasRole('ROLE_MEMBER')"/>
-		<security:intercept-url pattern="/member/admin" access="hasRole('ROLE_ADMIN')"/>
-		<security:intercept-url pattern="/member/saller" access="hasRole('ROLE_SALLER')" />
+        <!-- "/member/member" URI에는 ROLE_MEMBER 역할을 가진 사용자만 접근 가능 -->
+        <security:intercept-url pattern="/member/member" access="hasRole('ROLE_MEMBER')"/>
+
+        <!-- "/member/admin" URI에는 ROLE_ADMIN 역할을 가진 사용자만 접근 가능 -->
+        <security:intercept-url pattern="/member/admin" access="hasRole('ROLE_ADMIN')"/>
+
+        <!-- "/member/saller" URI에는 ROLE_SALLER 역할을 가진 사용자만 접근 가능 -->
+        <security:intercept-url pattern="/member/saller" access="hasRole('ROLE_SALLER')" />
+
 	 
 		
 		<!-- 필수항목 -->

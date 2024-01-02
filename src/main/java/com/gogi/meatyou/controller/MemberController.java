@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.gogi.meatyou.bean.CusDetailDTO;
 import com.gogi.meatyou.bean.MemStatusDTO;
 import com.gogi.meatyou.bean.MemberDTO;
+import com.gogi.meatyou.bean.ShoppingCartDTO;
 import com.gogi.meatyou.service.MemberService;
 
 
@@ -25,6 +27,7 @@ import com.gogi.meatyou.service.MemberService;
 public class MemberController {
 	@Autowired
 	private MemberService service;
+	private JdbcTemplate jdbcTemplate;
 	//로그인  20231225 이도준
 	
 	
@@ -59,7 +62,7 @@ public class MemberController {
 		return "member/accessError";
 	}
 	
-
+	//로그인 
 	@RequestMapping("customLogin")
 	public String doLogin(Model model, MemberDTO dto,MemStatusDTO  mdto,HttpSession  session) {
 		 session.setAttribute("status",dto.getM_status());
@@ -75,44 +78,34 @@ public class MemberController {
 	
 	
 	
-	
+	//로그아웃
 	@RequestMapping("customLogout")
 	public String doLogout(HttpSession session) {
 			session.invalidate();
 	//	return "member/loginSequrity/login";
 			return "redirect:../../main/main";
 	}
-	
+	//회원가입 
     @RequestMapping("inputForm")
     public String inputForm(Model model, HttpSession session) {
         return "member/inputForm";
         
     }
-    
+    	
     @RequestMapping("inputPro")
     public String inputPro(Model model, MemberDTO dto, HttpSession session) {
         int check = service.insertMember(dto);
         model.addAttribute("check", check);
         return "member/inputPro"; // 이 부분이 정상적으로 실행되고 있는지 확인
     }
-	
     
     
-    @RequestMapping("sallerInputForm")
-    public String sallerInputForm(Model model, Authentication authentication,CusDetailDTO cdto) {
-    	
-        String username = authentication.getName();
-        MemberDTO dto = service.getUser(username);
-        model.addAttribute("dto", dto);
-    	
-    	return "member/saller/sallerInputForm";
-    	
-    }
+    
+    
     
     @RequestMapping("sallerInputPro")
     public String sallerInputPro(MemberDTO dto,CusDetailDTO cdto, Authentication authentication) {
         String m_id = authentication.getName();
-
         // 사용자 정보 업데이트
         dto.setM_id(m_id);
 
@@ -120,22 +113,7 @@ public class MemberController {
         Map<String, Object> statusParamMap = new HashMap<>();
         statusParamMap.put("m_id", m_id);
         service.updateMemberStatus(dto);
-
-		/*
-		 * // Cus_detail에 데이터 인서트
-		 * cdto.setPde_num(dto.getCusdetail_list().get(0).getPde_num()); // 예시로 첫 번째 데이터
-		 * 사용 cdto.setCorpno(dto.getCusdetail_list().get(0).getCorpno());
-		 * cdto.setM_id(dto.GetM_id);
-		 * cdto.setCeoname(dto.getCusdetail_list().get(0).getCeoname());
-		 * cdto.setCompany(dto.getCusdetail_list().get(0).getCompany());
-		 * cdto.setCus_address1(dto.getCusdetail_list().get(0).getCus_address1());
-		 * cdto.setCus_address2(dto.getCusdetail_list().get(0).getCus_address2());
-		 * cdto.setCus_pnum(dto.getCusdetail_list().get(0).getCus_pnum());
-		 */
-
         service.insertIntoCusDetail(cdto);
-
-    	
     	return "member/saller/sallerInputPro"; // 이 부분이 정상적으로 실행되고 있는지 확인
     }
     
@@ -143,7 +121,7 @@ public class MemberController {
     
     
     
-    
+    //회원정보수정 
     @RequestMapping("/modify")
     public String modify(Model model, Authentication authentication) {
         String username = authentication.getName();
@@ -167,7 +145,7 @@ public class MemberController {
         service.userUpdate(dto);
         return "member/myPage/modifyPro";
     }
-	
+	//회원탈퇴  (사실상 status 변경)
 	@RequestMapping("deleteForm")
 	public String deleteForm() {
 		return "member/delete/deleteForm";
@@ -183,6 +161,30 @@ public class MemberController {
 		model.addAttribute("check",check);
 		return "member/delete/deletePro";
 	}
+	
+	
+    // 장바구니 담기 
+    @RequestMapping("shoppingCartForm")
+    public String shoppingCartForm(Model model, Authentication authentication,MemberDTO dto,ShoppingCartDTO cdto) {
+    	
+        model.addAttribute("cdto", cdto);
+        model.addAttribute("dto", dto);
+    	
+    	return "member/shoppingCart/shoppingCartForm";
+    	
+    }
+    
+    
+    
+    @RequestMapping("shoppingCartPro")
+    public String shoppingCartPro(MemberDTO dto,ShoppingCartDTO cdto) {
+        // 사용자 정보 업데이트
+
+    	return "member/shoppingCart/shoppingCartPro"; // 
+    }
+    
+    
+    
 	
     
     
