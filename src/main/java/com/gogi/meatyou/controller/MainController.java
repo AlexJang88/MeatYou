@@ -1,21 +1,26 @@
 package com.gogi.meatyou.controller;
 
-import java.lang.ProcessHandle.Info;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.gogi.meatyou.bean.MemStatusDTO;
-import com.gogi.meatyou.bean.MemberDTO;
+import com.gogi.meatyou.bean.ProductDTO;
+import com.gogi.meatyou.service.MainService;
 
 @Controller
 @RequestMapping("/main/*")
 public class MainController {
 	
-	  @RequestMapping("main")
+	@Autowired
+	private MainService service;
+
+	 @RequestMapping("main")
 	    public String test(Model model, MemberDTO dto,HttpSession  session,MemStatusDTO mdto) {
 		  session.setAttribute("status",dto.getM_status());
 		  session.setAttribute("level", mdto.getMstat_auth());
@@ -23,10 +28,45 @@ public class MainController {
 		  	String level= (String)session.getAttribute("mstat_auth");
 		    
 		  	model.addAttribute("status", status);
-		  System.out.print("Áö±İ ÇöÀç ½ºÅ×ÀÌÅÍ½º´Â   "+status+"  ÀÔ´Ï´Ù,±×¸®°í µî±ŞÀº"+level+"ÀÔ´Ï´Ù");
+		  System.out.print("ì§€ê¸ˆ í˜„ì¬ ìŠ¤í…Œì´í„°ìŠ¤ëŠ”   "+status+"  ì…ë‹ˆë‹¤,ê·¸ë¦¬ê³  ë“±ê¸‰ì€"+level+"ì…ë‹ˆë‹¤");
 
 
 		    return "main/main";
 	    }	
 
+	
+	
+	@RequestMapping("main")
+	public String main(Model model) {
+		List<ProductDTO> cusList = service.mainCUS();
+		List<ProductDTO> meatList = service.meatBest();
+		List<ProductDTO> forkList = service.forkBest();
+		List<ProductDTO> newProduct = service.newProduct();
+		model.addAttribute("cusList", cusList);
+		model.addAttribute("meatList", meatList);
+		model.addAttribute("forkList", forkList);
+		model.addAttribute("newProduct", newProduct);
+		return "main/main";
+	}
+
+	@RequestMapping("search")
+	public String searchList(HttpSession session, Model model, @RequestParam(value="pageNum", defaultValue = "1") 
+	int pageNum , String desc, String searchOption, String search) {
+	service.searchList(pageNum, model , desc ,searchOption ,search);
+	return "main/searchList";
+	}
+	
+	@RequestMapping("searchPrice")
+	public String searchPrice(HttpSession session, Model model, @RequestParam(value="pageNum", defaultValue = "1") 
+	int pageNum , String price, String searchOption, String search) {
+	service.searchPrice(pageNum, model , price ,searchOption ,search);
+	return "main/searchPrice";
+	}
+	
+	@RequestMapping("searchSale")
+	public String searchSale(HttpSession session, Model model, @RequestParam(value="pageNum", defaultValue = "1") 
+	int pageNum , String price, String searchOption, String search) {
+	service.searchSale(pageNum, model , searchOption ,search);
+	return "main/searchSale";
+	}
 }
