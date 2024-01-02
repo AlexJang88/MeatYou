@@ -20,3 +20,4 @@ public class ProductDTO {
 	   private int p_status; 		// 판매상태
 	   private int count;
 	}
+
