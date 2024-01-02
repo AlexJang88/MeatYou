@@ -22,14 +22,26 @@
 		<result property="phone" column="phone" />
 		<result property="m_reg_date" column="m_reg_date" />
 		<result property="m_status" column="m_status" />
-		
 		<collection property="mstatus_list" resultMap="status" />  
+		<collection property="Cusdetail_list" resultMap="cus_detail" />  
+		
 	</resultMap>
 
 	<resultMap id="status" type="com.gogi.meatyou.bean.MemStatusDTO" >
 		<result property="msta_m_status" column="msta_m_status" />
 		<result property="mstat_detail" column="mstat_detail" />
 		<result property="mstat_auth" column="mstat_auth" />
+	</resultMap>
+	
+	
+	<resultMap id="cus_detail" type="com.gogi.meatyou.bean.CusDetailDTO" >
+		<result property="corpno" column="corpno" />
+		<result property="cus_m_id" column="cus_m_id" />
+		<result property="ceoname" column="ceoname" />
+		<result property="company" column="company" />
+		<result property="cus_address1" column="cus_address1" />
+		<result property="cus_address2" column="cus_address2" />
+		<result property="cus_pnum" column="cus_pnum" />
 	</resultMap>
 	
 	
@@ -49,26 +61,6 @@
 	</select>
 
 
-
- 
-<!-- 
-		<insert id="insertMember" parameterType="com.gogi.meatyou.bean.MemberDTO">
-    <![CDATA[
-    INSERT INTO member(m_id, passwd, m_name, birth, m_addr1, m_addr2, email, telep, phone, m_status)
-    VALUES (
-        #{m_id},
-        #{passwd},
-        #{m_name},
-        to_date(#{birth}, 'YYYY-MM-DD'),
-        #{m_addr1},
-        #{m_addr2},
-        #{email},
-        #{telep},
-        #{phone},
-       1001)
-    ]]>
-</insert>
- -->
 			<insert id="insertMember" parameterType="com.gogi.meatyou.bean.MemberDTO">
     <![CDATA[
     INSERT INTO member(m_id, passwd, m_name, birth, m_addr1, m_addr2, email, telep, phone, m_reg_date, m_status)
@@ -121,6 +113,48 @@
 		update member set m_status=#{m_status} where m_id=#{m_id}
 	</update>
 	          
+		
+		
+		
+		
+				
+				<!-- Update Member Status -->
+		<update id="updateMemberStatus" parameterType="com.gogi.meatyou.bean.MemberDTO">
+		    UPDATE member
+		    SET m_status = 1050
+		    WHERE m_id = #{m_id}
+		</update>
+		
+		
+	<!-- 	
+		Insert into Cus_detail
+		<insert id="insertIntoCusDetail" parameterType="map">
+		    INSERT INTO cus_detail (cus_m_id,ceoname,corpno,company,cus_address1,cus_address2,cus_pnum)
+		    VALUES ( #{cus_m_id},#{ceoname},#{corpno},#{company},#{cus_address1}, #{cus_address2}, #{cus_pnum})
+		</insert>
+				 -->
+				
+					<insert id="insertIntoCusDetail" parameterType="com.gogi.meatyou.bean.CusDetailDTO">
+    <![CDATA[
+    INSERT INTO cus_detail(cus_num,cus_m_id, ceoname, corpno, company, cus_address1, cus_address2, cus_pnum)
+    VALUES (
+    	cus_detail_seq.nextval,
+        #{cus_m_id},
+        #{ceoname},
+        #{corpno},
+        #{company},
+        #{cus_address1},
+        #{cus_address2},
+        #{cus_pnum}
+)
+    ]]>
+</insert>
+		
+		
+		
+		
+		
+		
 		
 		
 		

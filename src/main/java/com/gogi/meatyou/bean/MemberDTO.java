@@ -22,6 +22,8 @@ public class MemberDTO {
     
 	private String mstat_detail;
 	private String mstat_auth;
-    private List<MemStatusDTO> mstatus_list; // 권한리스트로 따로 뺄게요 1226 이도준
-
+	
+    private List<MemStatusDTO> mstatus_list; // 권한 list: 담았다가 가져와서 처리
+    private List<CusDetailDTO> Cusdetail_list; // 판매자 가입 list  : 담았다가 가져와서 처리
+    
 }

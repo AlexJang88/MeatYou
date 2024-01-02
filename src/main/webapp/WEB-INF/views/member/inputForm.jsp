@@ -73,6 +73,8 @@
             </td>
         </tr>
         <tr>
+        
+ <%--        
   <div class="form-group">
           <label for="address">주소</label>
           <input type="text" class="form-control" id="address"  name="m_addr1" placeholder="주소">
@@ -86,6 +88,38 @@
           <input type="text" class="form-control" name="m_addr2" placeholder="상세주소">
       </div>
   </tr>
+   --%>
+  
+     <tr>  
+      <td> 
+          <label for="address">주소</label>
+	   </td>
+   <td> 
+   	<div class="form-group"> 
+   		<input type="text" class="form-control" id="address"  name="m_addr1" placeholder="주소">  
+   	</div>
+ <button type="button" id="addressButton" class="btn btn-primary btn-block">주소 검색</button>
+     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />		   	
+   </td>	      
+  </tr>
+  <tr>
+  	<td>
+	      <label for="detailAddress">상세주소</label>
+	  </td>
+	  <td>
+	       <div class="form-group">
+	        <input type="text" class="form-control" name="m_addr2" placeholder="상세주소">
+	     </div>
+ 	<td>
+  </tr>
+  
+  
+  
+  
+  
+  
+  
+  
   
     <tr> 
       <td width="200">E-Mail</td>

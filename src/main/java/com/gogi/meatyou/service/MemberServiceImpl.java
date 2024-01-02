@@ -1,7 +1,11 @@
 package com.gogi.meatyou.service;
 
+import com.gogi.meatyou.bean.CusDetailDTO;
 import com.gogi.meatyou.bean.MemberDTO;
 import com.gogi.meatyou.repository.MemberMapper;
+
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +50,23 @@ public class MemberServiceImpl implements MemberService {
 			// TODO Auto-generated method stub
 			return null;
 		}
+		
+		
+		  @Override
+		    public int updateMemberStatus(MemberDTO dto) {
+			 return  mapper.updateMemberStatus(dto);
+		    }
+
+		    @Override
+		    public int insertIntoCusDetail(CusDetailDTO cdto) {
+		    	return	mapper.insertIntoCusDetail(cdto);
+		    }
+		
+		
+		
+		
+		
+		
 
     	
     }

@@ -1,7 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    
+     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.getElementById('addressButton').addEventListener('click', function () {
+        new daum.Postcode({
+          oncomplete: function (data) {
+            // This function will be called when the user selects an address
+            var fullAddress = data.address; // Full address with postcode
+            document.getElementById('address').value = fullAddress; // Update the input field with the address
+          }
+        }).open();
+      });
+    });
+
+
+</script>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>     
 <%@ include file="../../header.jsp" %>
 
@@ -14,8 +29,7 @@
 </head>
 <body >
 
-<form method="post" action="modifyPro" name="userinput"
- onsubmit="return modifyCheckIt()">
+<form method="post" action="modifyPro" name="userinput">
 
   <table width="600" border="1"  align="center">
     <tr > 
@@ -63,19 +77,36 @@
             </td>
         </tr>
      <tr> --> 
-  <div class="form-group">
-          <label for="address">주소</label>
-          <input type="text" class="form-control" id="address"  name="m_addr1" placeholder="주소" value="${dto.m_addr1}">
-   </div>
-        <!-- Button to trigger address search -->
-        <button type="button" id="addressButton" class="btn btn-primary btn-block">주소 검색</button>
+     
   
-      <!-- Second input field for detailed address -->
-      <div class="form-group">
-          <label for="detailAddress">상세주소</label>
-          <input type="text" class="form-control" name="m_addr2" placeholder="상세주소"  value="${dto.m_addr2}">
-      </div>
-  </tr>      
+     <tr>  
+      <td> 
+          <label for="address">주소</label>
+	   </td>
+   <td> 
+   	<div class="form-group"> 
+   		<input type="text" class="form-control" id="address"  name="m_addr1" placeholder="주소" value="${dto.m_addr1}">   
+   	</div>
+ <button type="button" id="addressButton" class="btn btn-primary btn-block">주소 검색</button>
+     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />		   	
+     <input type="hidden" name="cus_num" />		   	
+   </td>	      
+  </tr>
+  <tr>
+  	<td>
+	      <label for="detailAddress">상세주소</label>
+	  </td>
+	  <td>
+	       <div class="form-group">
+	        <input type="text" class="form-control" name="m_addr2" placeholder="상세주소"  value="${dto.m_addr2}">   
+	     </div>
+ 	<td>
+  </tr>
+  
+  
+  
+  
+  
    <tr> 
       <td width="200">E-Mail</td>
       <td width="400">
@@ -98,6 +129,7 @@
       <td colspan="2" align="center"> 
        <input type="submit" name="modify" value="수   정" >
        <input type="button" value="취  소" onclick="javascript:window.location='/main/main'">      
+       <input type="button" name="modify" value="판매자 신청"  onclick="javascript:window.location='/member/sallerInputForm'" style="background-color:orange; ">
       </td>
     </tr>
   </table>

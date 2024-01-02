@@ -4,12 +4,12 @@ import lombok.Data;
 
 @Data
 public class CusDetailDTO {
-	private int pdeNum;
-	private int cusNum;
-	private int corpNo;
-	private String mId;
-	private String ceoName;
+	private int corpno;
+	private String cus_m_id;
+	private String ceoname;
 	private String company;
-	private String cusAddress1;
-	private String cusAddress2;
+	private String cus_address1;
+	private String cus_address2;
+	private String cus_pnum;
+	
 }

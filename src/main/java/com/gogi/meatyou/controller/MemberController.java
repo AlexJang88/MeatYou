@@ -1,5 +1,8 @@
 package com.gogi.meatyou.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +11,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.gogi.meatyou.bean.CusDetailDTO;
 import com.gogi.meatyou.bean.MemStatusDTO;
 import com.gogi.meatyou.bean.MemberDTO;
 import com.gogi.meatyou.service.MemberService;
@@ -91,6 +96,49 @@ public class MemberController {
         return "member/inputPro"; // 이 부분이 정상적으로 실행되고 있는지 확인
     }
 	
+    
+    
+    @RequestMapping("sallerInputForm")
+    public String sallerInputForm(Model model, Authentication authentication,CusDetailDTO cdto) {
+    	
+        String username = authentication.getName();
+        MemberDTO dto = service.getUser(username);
+        model.addAttribute("dto", dto);
+    	
+    	return "member/saller/sallerInputForm";
+    	
+    }
+    
+    @RequestMapping("sallerInputPro")
+    public String sallerInputPro(MemberDTO dto,CusDetailDTO cdto, Authentication authentication) {
+        String m_id = authentication.getName();
+
+        // 사용자 정보 업데이트
+        dto.setM_id(m_id);
+
+        // 회원 상태 업데이트
+        Map<String, Object> statusParamMap = new HashMap<>();
+        statusParamMap.put("m_id", m_id);
+        service.updateMemberStatus(dto);
+
+		/*
+		 * // Cus_detail에 데이터 인서트
+		 * cdto.setPde_num(dto.getCusdetail_list().get(0).getPde_num()); // 예시로 첫 번째 데이터
+		 * 사용 cdto.setCorpno(dto.getCusdetail_list().get(0).getCorpno());
+		 * cdto.setM_id(dto.GetM_id);
+		 * cdto.setCeoname(dto.getCusdetail_list().get(0).getCeoname());
+		 * cdto.setCompany(dto.getCusdetail_list().get(0).getCompany());
+		 * cdto.setCus_address1(dto.getCusdetail_list().get(0).getCus_address1());
+		 * cdto.setCus_address2(dto.getCusdetail_list().get(0).getCus_address2());
+		 * cdto.setCus_pnum(dto.getCusdetail_list().get(0).getCus_pnum());
+		 */
+
+        service.insertIntoCusDetail(cdto);
+
+    	
+    	return "member/saller/sallerInputPro"; // 이 부분이 정상적으로 실행되고 있는지 확인
+    }
+    
     
     
     
