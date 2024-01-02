@@ -9,7 +9,7 @@
 			<!-- container -->
 			<div class="container">
 				<!-- row -->
-				<div class="row"> 
+				<div class="row">  
 
 					<!-- section title -->
 					<div class="col-md-12">

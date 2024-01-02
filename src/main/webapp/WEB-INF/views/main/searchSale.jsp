@@ -11,7 +11,7 @@
 				<!-- row -->
 				<div class="row"> 
 
-					<!-- section title -->
+					<!-- section title --> 
 					<div class="col-md-12">
 						<div class="section-title">
 							<h3 class="title">검색한 ${search}의 결과</h3>

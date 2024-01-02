@@ -14,7 +14,7 @@
  		<!-- Bootstrap -->
  		<link type="text/css" rel="stylesheet" href="/resources/css/bootstrap.min.css"/>
 
- 		<!-- Slick -->
+ 		<!-- Slick --> 
  		<link type="text/css" rel="stylesheet" href="/resources/css/slick.css"/>
  		<link type="text/css" rel="stylesheet" href="/resources/css/slick-theme.css"/>
 

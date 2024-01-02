@@ -13,7 +13,7 @@
  		<!-- Google font -->
  		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
 
- 		<!-- Bootstrap -->
+ 		<!-- Bootstrap --> 
  		<link type="text/css" rel="stylesheet" href="/resources/css/bootstrap.min.css"/>
 
  		<!-- Slick -->

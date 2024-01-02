@@ -352,7 +352,7 @@
 									<div class="products-slick" data-nav="#slick-nav-5">
 										<!-- product -->
 										<c:forEach var="newList" items="${newProduct}">
-										<div class="product">
+										<div class="product"> 
 											<div class="product-img">
 												<img src="../resources/img/product01.png" alt="">
 												<div class="product-label">

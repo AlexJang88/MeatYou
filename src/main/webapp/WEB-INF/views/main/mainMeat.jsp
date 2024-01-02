@@ -7,7 +7,7 @@
 		<div class="section">
 			<!-- container -->
 			<div class="container">
-				<!-- row -->
+				<!-- row --> 
 				<div class="row">
 
 					<!-- section title -->

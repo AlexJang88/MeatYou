@@ -152,7 +152,7 @@
 													<span class="sale" ><a>상품설명</a></span>
 													<span class="sale" ><a>상품평/평점</a></span>
 												</div>
-											</div>
+											</div> 
 											<div class="product-body">
 												<p class="product-category">Category</p>
 												<h3 class="product-name"><a href="#">제목 : product name goes here</a></h3>
