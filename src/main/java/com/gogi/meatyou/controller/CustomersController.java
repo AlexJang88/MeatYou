@@ -93,11 +93,32 @@ public class CustomersController {
 		return "redirect:/customers/itemListOut";
 	}
 	
-	@RequestMapping("itemRevise") //상품 정보수정
-	public String itemRevise() {
+	@RequestMapping("content") //상품 정보보기
+	public String content(Model model, int p_num, HttpSession session ) {
+		model.addAttribute("p_num",p_num);
+		
+		return "customer/content";
+	}
+	
+	
+	@RequestMapping("itemRevise") //상품 정보수정 (값 확인하기
+	public String itemRevise(Model model, int p_num ) {
+		model.addAttribute("p_num",p_num);
+		service.lister(model, p_num);			
 		return "customer/itemRevise";
 	}
 	
+	
+	@RequestMapping("itemRevisePro") //상품 정보수정 프로페이지
+	public String itemRevisePro( ProductDTO productdto, PDetailDTO pdetaildto) {
+			
+		//productdto.setStartdate(productdto.getStartdate().substring(0,10)); 날짜 잘라보기 위해 실험
+		//productdto.setEnddate(productdto.getEnddate().substring(0,10));
+		//System.out.println("================"+productdto.getEnddate().substring(0,10)+"========"); 날짜 잘라보기 위해 실험
+		service.updateitemPro(productdto,pdetaildto);
+				
+		return "redirect:/customers/itemList";
+	}
 	
 	
 	

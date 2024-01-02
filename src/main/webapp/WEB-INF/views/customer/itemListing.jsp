@@ -21,7 +21,7 @@
 	</c:if>
 	
 	<c:if test="${counting >=  0}">		
-			<h2 align="center">판매중인 상품목록 : ${counting}</h2>
+			<h3 align="center">판매중인 상품목록 : ${counting} / 사용 가능한 유료 상품 갯수 : ${paycount} 개</h3>
 			<table border="1" width="1000" cellpadding="0" cellspacing="0" align="center">			
 				<tr height="30"> 
 					<td width="300" align="center">썸네일 사진</td>
@@ -97,6 +97,14 @@ function validateForm() {
         alert("판매중은 3개만 선택할 수 있습니다. 추가 판매를 원할 시 유료결제를 진행하세요");
         return false; // 변경을 막기
     }
+
+    
+    var paySelectedCount = countSelected('1'); // '1'은 유료결제
+    if (paySelectedCount > ${paycount}) {
+        alert("유료결제는 최대 ${paycount}개까지만 선택할 수 있습니다.");
+        return false; // 변경을 막기
+    }
+
     return true; // 변경 허용
 }
 </script>

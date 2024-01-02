@@ -13,4 +13,9 @@ public interface CustomersService {
 	public void listing(Model model, String id); //판매중인 상품 모델에 담아서 불러오기
 	public void listout(Model model, String id); //판매종료된 상품 모델에 담아서 불러오기
 	public int statusChange(ProductDTO productdto); //회원의 판매상태를 변경
+	
+	//아래로는 상품 수정
+	public void lister(Model model, int p_num); // 번호에 맞는 상품 정보 가져오기	
+	public void updateitemPro(ProductDTO productdto, PDetailDTO pdetaildto); //상품정보수정
+	
 }
