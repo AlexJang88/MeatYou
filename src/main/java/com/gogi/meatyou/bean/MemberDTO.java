@@ -2,28 +2,26 @@ package com.gogi.meatyou.bean;
 
 import java.util.Date;
 import java.util.List;
+
 import lombok.Data;
 
 @Data
 public class MemberDTO {
 
-    private String m_id;
-    private String passwd;
-    private String m_name;
-    private String birth;
-    private String m_addr1;
-    private String m_addr2;
-    private String email;
-    private String telep;
-    private String phone;
-    private String m_reg_date;
-    private int m_status;
-    
-    
+	private String m_id;
+	private String passwd; 
+	private String m_name;
+	private Date birth;
+	private String m_addr1;
+	private String m_addr2;
+	private String email;
+	private String telep;
+	private String phone;
+	private String m_regDate; 
+	private int m_status;
 	private String mstat_detail;
 	private String mstat_auth;
-	
-    private List<MemStatusDTO> mstatus_list; // ±ÇÇÑ list: ´ã¾Ò´Ù°¡ °¡Á®¿Í¼­ Ã³¸®
-    private List<CusDetailDTO> Cusdetail_list; // ÆÇ¸ÅÀÚ °¡ÀÔ list  : ´ã¾Ò´Ù°¡ °¡Á®¿Í¼­ Ã³¸®
-    
+	private MemStatusDTO mstatDto;
+ 	private List<MemStatusDTO> mstatus_list; // ê¶Œí•œ list: ë‹´ì•˜ë‹¤ê°€ ê°€ì ¸ì™€ì„œ ì²˜ë¦¬
+	 private List<CusDetailDTO> Cusdetail_list; // íŒë§¤ì ê°€ì… list  : ë‹´ì•˜ë‹¤ê°€ ê°€ì ¸ì™€ì„œ ì²˜ë¦¬
 }
