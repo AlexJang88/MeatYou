@@ -56,4 +56,9 @@ public class AdminController {
 			model.addAttribute("mem", mem);
 		return "test";
 	}
+	@RequestMapping("apiTest")
+	public String apiTest(Model model) {
+			adminServicImpl.apiTest(model);
+		return "admin/apiTest";
+	}
 }

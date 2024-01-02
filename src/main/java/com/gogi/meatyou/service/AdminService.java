@@ -18,4 +18,5 @@ public interface AdminService {
 	public void goodMemberUpdate(List<String> id);
 	public void bestMemberUpdate(List<String> id);
 	public MemberDTO test(String m_id);
+	public void apiTest(Model model);
 }
