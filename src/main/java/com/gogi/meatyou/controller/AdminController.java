@@ -45,10 +45,9 @@ public class AdminController {
 	}
 	@RequestMapping("/statChange")
 	public String statChange(int check,@RequestParam(value="pageNum",defaultValue="1")int pageNum,Model model,MemberDTO dto) {
-		System.out.println("================"+dto.getM_id());
-		System.out.println("================"+dto.getM_status());
-		adminServicImpl.memberList(check,model,pageNum);
-		return "admin/memberList";
+		adminServicImpl.statChange(dto);
+		
+		return "redirect:/admin/memberlist?check="+check+"&pageNum="+pageNum;
 	}
 	@RequestMapping("/test")
 	public String test(Model model) {
@@ -56,9 +55,18 @@ public class AdminController {
 			model.addAttribute("mem", mem);
 		return "test";
 	}
-	@RequestMapping("apiTest")
+	@RequestMapping("/apiTest")
 	public String apiTest(Model model) {
 			adminServicImpl.apiTest(model);
 		return "admin/apiTest";
+	}
+	@RequestMapping("/sales")
+	public String sales(Model model,@RequestParam(value="check",defaultValue="0")int check,String start,String end) {
+		if(check<=0) {	
+			adminServicImpl.getSales(model,check);
+		}else {
+			adminServicImpl.getCheckSalse(model,check,start,end);
+		}
+		return "admin/sales";
 	}
 }

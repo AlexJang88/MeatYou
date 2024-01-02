@@ -19,4 +19,7 @@ public interface AdminService {
 	public void bestMemberUpdate(List<String> id);
 	public MemberDTO test(String m_id);
 	public void apiTest(Model model);
+	public void statChange(MemberDTO dto);
+	public void getSales(Model model,int check);
+	public void getCheckSalse(Model model,int check,String start,String end);
 }

@@ -40,43 +40,22 @@ public class AdminServiceImpl implements AdminService {
 	private HttpURLConnection conn;
 
 	public void memberList(int check, Model model, int pageNum) {
+		int count=0;
+		int pageSize = 10;
+		int startRow = (pageNum - 1) * pageSize + 1;
+		int endRow = pageNum * pageSize;
+		List<MemberDTO> list = Collections.EMPTY_LIST;
 		if (check == 1) {
-			int pageSize = 10;
-			int startRow = (pageNum - 1) * pageSize + 1;
-			int endRow = pageNum * pageSize;
-			int count = mapper.memCount();
-			List<MemberDTO> list = Collections.EMPTY_LIST;
-
+			count = mapper.memCount();
 			if (count > 0) {
 				adminMap.put("start", startRow);
 				adminMap.put("end", endRow);
 				list = mapper.memberList(adminMap);
 			}
 
-			model.addAttribute("list", list);
-			model.addAttribute("count", count);
-			model.addAttribute("pageNum", pageNum);
-			model.addAttribute("pageSize", pageSize);
-
-			// page
-			int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
-			int startPage = (int) (pageNum / 10) * 10 + 1;
-			int pageBlock = 10;
-			int endPage = startPage + pageBlock - 1;
-			if (endPage > pageCount) {
-				endPage = pageCount;
-			}
-			model.addAttribute("pageCount", pageCount);
-			model.addAttribute("startPage", startPage);
-			model.addAttribute("pageBlock", pageBlock);
-			model.addAttribute("endPage", endPage);
-			model.addAttribute("check", check);
+			
 		} else if (check == 2) {
-			int pageSize = 10;
-			int startRow = (pageNum - 1) * pageSize + 1;
-			int endRow = pageNum * pageSize;
-			int count = mapper.cusCount();
-			List<MemberDTO> list = Collections.EMPTY_LIST;
+			count = mapper.cusCount();
 
 			if (count > 0) {
 				adminMap.put("start", startRow);
@@ -84,26 +63,42 @@ public class AdminServiceImpl implements AdminService {
 				list = mapper.customList(adminMap);
 			}
 
-			model.addAttribute("list", list);
-			System.out.println(list);
-			model.addAttribute("count", count);
-			model.addAttribute("pageNum", pageNum);
-			model.addAttribute("pageSize", pageSize);
-
-			// page
-			int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
-			int startPage = (int) (pageNum / 10) * 10 + 1;
-			int pageBlock = 10;
-			int endPage = startPage + pageBlock - 1;
-			if (endPage > pageCount) {
-				endPage = pageCount;
+		}else if(check==3) {
+			count = mapper.cusWaitCount();
+			
+			if (count > 0) {
+				adminMap.put("start", startRow);
+				adminMap.put("end", endRow);
+				list = mapper.cusWaitList(adminMap);
 			}
-			model.addAttribute("pageCount", pageCount);
-			model.addAttribute("startPage", startPage);
-			model.addAttribute("pageBlock", pageBlock);
-			model.addAttribute("endPage", endPage);
-			model.addAttribute("check", check);
+
+		}else if(check==4) {
+			count = mapper.cusPaidCount();
+			
+			if (count > 0) {
+				adminMap.put("start", startRow);
+				adminMap.put("end", endRow);
+				list = mapper.cusPaidList(adminMap);
+			}
 		}
+		model.addAttribute("list", list);
+		model.addAttribute("count", count);
+		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("pageSize", pageSize);
+
+		// page
+		int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+		int startPage = (int) (pageNum / 10) * 10 + 1;
+		int pageBlock = 10;
+		int endPage = startPage + pageBlock - 1;
+		if (endPage > pageCount) {
+			endPage = pageCount;
+		}
+		model.addAttribute("pageCount", pageCount);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("pageBlock", pageBlock);
+		model.addAttribute("endPage", endPage);
+		model.addAttribute("check", check);
 	}
 
 	@Override
@@ -264,5 +259,35 @@ public class AdminServiceImpl implements AdminService {
 	//	  conn.disconnect();      
 	//	  System.out.println(sb.toString());
 	}
+
+	@Override
+	public void statChange(MemberDTO dto) {
+		mapper.statChange(dto);
+	}
+
+	@Override
+	public void getSales(Model model,int check) {
+		model.addAttribute("ps", mapper.getProductSalse(check));
+		model.addAttribute("pc", mapper.getProductComm(check));
+		model.addAttribute("pi", mapper.getPaidItem(check));
+		model.addAttribute("pa", mapper.getPaidAdv(check));
+		model.addAttribute("uc", mapper.getUsedCoupon(check));
+		model.addAttribute("pt", mapper.getPaidAdv(check)+mapper.getPaidItem(check)+mapper.getProductSalse(check)+mapper.getProductComm(check)-mapper.getUsedCoupon(check));
+		model.addAttribute("check",check);
+	}
+
+	@Override
+	public void getCheckSalse(Model model,int check,String start,String end) {
+		model.addAttribute("ps", mapper.getLastProductSalse(start,end));
+		model.addAttribute("pc", mapper.getLastProductComm(start,end));
+		model.addAttribute("pi", mapper.getLastPaidItem(start,end));
+		model.addAttribute("pa", mapper.getLastPaidAdv(start,end));
+		model.addAttribute("uc", mapper.getLastUsedCoupon(start,end));
+		model.addAttribute("pt", mapper.getLastPaidAdv(start,end)+mapper.getLastPaidItem(start,end)+mapper.getLastProductSalse(start,end)+mapper.getLastProductComm(start,end)-mapper.getLastUsedCoupon(start,end));
+		model.addAttribute("check",check);
+	}
+
+
+	
 
 }

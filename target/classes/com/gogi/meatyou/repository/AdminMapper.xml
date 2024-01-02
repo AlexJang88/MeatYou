@@ -44,6 +44,16 @@
 		select * from (select mem.*,rownum r from (select * from member m,memstatus ms where m.m_status=ms.msta_m_status and m.m_status between 2001 and 2999) mem) where r>=#{start} and r<=#{end}
 		]]>
 	</select>
+	<select id="cusWaitList" resultType="com.gogi.meatyou.bean.MemberDTO" parameterType="hashMap">
+		<![CDATA[
+		select * from (select mem.*,rownum r from (select * from member m,memstatus ms where m.m_status=ms.msta_m_status and m.m_status between 1050 and 1099) mem) where r>=#{start} and r<=#{end}
+		]]>
+	</select>
+	<select id="cusPaidList" resultType="com.gogi.meatyou.bean.MemberDTO" parameterType="hashMap">
+		<![CDATA[
+		select * from (select mem.*,rownum r from (select * from member m,memstatus ms where m.m_status=ms.msta_m_status and m.m_status between 2002 and 2004) mem) where r>=#{start} and r<=#{end}
+		]]>
+	</select>
 	<select id="memCount">
 	<![CDATA[
 		select count(*) from member where m_status>1000 and m_status<2000
@@ -52,6 +62,16 @@
 	<select id="cusCount">
 	<![CDATA[
 		select count(*) from member where m_status>2000 and m_status<3000
+		]]>
+	</select>
+	<select id="cusWaitCount">
+	<![CDATA[
+		select count(*) from member where m_status>=1050 and m_status<1100
+		]]>
+	</select>
+		<select id="cusPaidCount">
+	<![CDATA[
+		select count(*) from member where m_status between 2002 and 2004
 		]]>
 	</select>
 	<select id="goodMember" resultType="String">
@@ -69,7 +89,9 @@
 			<foreach collection="list" item="item" index="index" open="(" close =")" separator=",">
 				#{item}
 			</foreach>
-			
+	</update>
+	<update id="statChange" parameterType="com.gogi.meatyou.bean.MemberDTO">
+		update member set m_status=#{m_status} where m_id=#{m_id}
 	</update>
 	<update id="bestMemberUpdate" parameterType="java.util.List">
 		update member set m_status=1003 where m_id in(
@@ -78,4 +100,135 @@
 			</foreach>
 			)
 	</update>
+	<select id="getProductSalse" resultType="int">
+		<choose>
+			<when test="check==0">
+			<![CDATA[
+			select nvl(sum(order_totalprice),0) from m_order where order_paydate>=trunc(sysdate,'MM') and order_paydate<sysdate
+			]]>
+			</when>
+			<when test="check==-1">
+			<![CDATA[
+			select nvl(sum(order_totalprice),0) from m_order where order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=trunc(sysdate,'mm') ${check}
+			]]>
+			</when>
+			<otherwise>
+			<![CDATA[
+			select nvl(sum(order_totalprice),0) from m_order where order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=add_months(trunc(sysdate,'mm'),${check}+1)-1
+			]]>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="getProductComm" resultType="int">
+		<choose>
+			<when test="check==0">
+			<![CDATA[
+				select nvl(sum(order_totalprice/10),0) from m_order where order_paydate>=trunc(sysdate,'MM') and order_paydate<sysdate
+			]]>
+			</when>
+			<when test="check==-1">
+			<![CDATA[
+				select nvl(sum(order_totalprice/10),0) from m_order  where order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=trunc(sysdate,'mm') ${check}									
+			]]>
+			</when>
+			<otherwise>
+			<![CDATA[
+				select nvl(sum(order_totalprice/10),0) from m_order  where order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=add_months(trunc(sysdate,'mm'),${check}+1)-1 									
+			]]>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="getPaidItem" resultType="int">
+		<choose>
+			<when test="check==0">
+			<![CDATA[
+				select nvl(sum(co_quantity*co_pay),0) from cus_order where co_category=2003 and co_paydate>=trunc(sysdate,'MM') and co_paydate<sysdate
+			]]>
+			</when>
+			<when test="check==-1">
+			<![CDATA[
+				select nvl(sum(co_quantity*co_pay),0) from cus_order where co_category=2003 and  co_paydate>=add_months(trunc(sysdate,'mm'),${check}) and co_paydate<=trunc(sysdate,'mm') ${check}									
+			]]>
+			</when>
+			<otherwise>
+			<![CDATA[
+				select nvl(sum(co_quantity*co_pay),0) from cus_order where co_category=2003 and  co_paydate>=add_months(trunc(sysdate,'mm'),${check}) and co_paydate<=add_months(trunc(sysdate,'mm'),${check}+1)-1									
+			]]>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="getPaidAdv" resultType="int">
+		<choose>
+			<when test="check==0">
+			<![CDATA[
+				select nvl(sum(co_quantity*co_pay),0) from cus_order where co_category=2003 and co_paydate>=trunc(sysdate,'MM') and co_paydate<sysdate
+			]]>
+			</when>
+			<when test="check==-1">
+			<![CDATA[
+				select nvl(sum(co_quantity*co_pay),0) from cus_order where co_category=2002 and co_paydate>=add_months(trunc(sysdate,'MM') ,${check}) and co_paydate<trunc(sysdate,'mm') ${check}									
+			]]>
+			</when>
+			<otherwise>
+			<![CDATA[
+				select nvl(sum(co_quantity*co_pay),0) from cus_order where co_category=2002 and co_paydate>=add_months(trunc(sysdate,'MM') ,${check}) and co_paydate<add_months(trunc(sysdate,'mm') ,${check}+1)-1									
+			]]>
+			</otherwise>
+		</choose>
+	</select>
+	<select id="getUsedCoupon" resultType="int">
+		<choose>
+			<when test="check==0">
+			<![CDATA[
+				select nvl(sum(cp_price),0) from (select * from coupon where usedate>=trunc(sysdate,'mm') and usedate<sysdate)
+			]]>
+			</when>
+			<when test="check==-1">
+			<![CDATA[
+				select nvl(sum(cp_price),0) from coupon where usedate>=add_months(trunc(sysdate,'mm'),${check}) and usedate<=trunc(sysdate,'mm')${check}									
+			
+			]]>
+			</when>
+			<otherwise>
+			<![CDATA[
+				select nvl(sum(cp_price),0) from coupon where usedate>=add_months(trunc(sysdate,'mm'),${check}) and usedate<=add_months(trunc(sysdate,'mm'),${check}+1)-1									
+			
+			]]>
+			</otherwise>
+		</choose>
+	
+	
+	</select>
+	
+	
+	<select id="getCheckProductSalse" resultType="int" parameterType="String">
+		
+	</select>
+	<select id="getCheckProductComm" resultType="int" parameterType="String">
+	<![CDATA[
+		]]>
+	</select>
+	<select id="getCheckPaidItem" resultType="int" parameterType="String">
+	<![CDATA[
+		]]>
+	</select>
+	<select id="getCheckPaidAdv" resultType="int" parameterType="String">
+	<![CDATA[
+		]]>
+	</select>
+	<select id="getCheckUsedCoupon" resultType="int" parameterType="String">
+	<![CDATA[
+		]]>
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
 </mapper>

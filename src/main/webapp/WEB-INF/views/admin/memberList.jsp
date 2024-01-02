@@ -3,14 +3,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../header.jsp" %>
-<a href="/admin/memberlist?check=1">회원목록 조회(일반)</a><a href="/admin/memberlist?check=2">회원목록 조회(판매자)</a><br />
+<a href="/admin/memberlist?check=1">회원목록 조회(일반)</a>
+<a href="/admin/memberlist?check=2">회원목록 조회(판매자)</a>
+<a href="/admin/memberlist?check=3">판매자 승인대기</a>
+<a href="/admin/memberlist?check=4">판매자(유료회원)목록</a>
+<br />
 	
-	<c:forEach var="d" items="${list}">
-		<form action="/admin/statChange" method="post">
-		<input type="hidden" name="check" value="${check}">
-		<input type="hidden" name="m_id" value="${d.m_id}">
-		<input type="hidden" name="pageNum" value="${pageNum}">
-		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+	
 			<table>
 				<tr>
 					<td>아이디</td>
@@ -21,6 +20,12 @@
 					<td>현재 등급</td>
 					<td>바꿀등급</td>
 				</tr>
+		<c:forEach var="d" items="${list}">
+		<form action="/admin/statChange" method="post">
+		<input type="hidden" name="check" value="${check}">
+		<input type="hidden" name="m_id" value="${d.m_id}">
+		<input type="hidden" name="pageNum" value="${pageNum}">
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 				<tr>
 					<td>${d.m_id}</td>
 					<td>${d.m_name} </td>
@@ -49,10 +54,22 @@
 							<input type="submit" value="변경">
 						</td>
 					</c:if>
+						<c:if test="${check==3}">
+						<td>
+							<select name="m_status">
+								<option value="2001">판매자 승인  
+								<option value="1051">판매자 승인보류 
+								<option value="1052">판매자 승인취소 
+							</select>
+							<input type="submit" value="전송">
+						</td>
+					</c:if>
 				</tr>
+				</form>
+				</c:forEach>
 			</table>
-		</form>
-	</c:forEach>
+		
+	
 	<c:if test="${count>0}">
 			<c:if test="${startPage>10}">
 	        	<a href="/admin/memberlist?pageNum=${startPage-10}&check=${check}">[이전]</a>
