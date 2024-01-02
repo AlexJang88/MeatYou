@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../header.jsp" %>
 
+
 		<!-- SECTION -->
 		<div class="section">
 			<!-- container -->
@@ -404,3 +405,5 @@
 
 
 <%@ include file="../footer.jsp" %>
+
+
