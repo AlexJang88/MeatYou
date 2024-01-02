@@ -4,4 +4,124 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gogi.meatyou.repository.MainMapper">
 
+	<select id="cusCount" resultType="int" >
+		select count(*) from product p ,CUS_ORDER c where p.p_num = c.p_num
+	</select>
+
+	<!-- 메인 파워링크 리스트 -->
+	<select id="mainCUS" resultType="com.gogi.meatyou.bean.ProductDTO" >
+		select * from product p ,CUS_ORDER c where p.p_num = c.co_p_num
+	</select>
+	
+	<!-- 메인 소고기 베스트 -->
+	<select id="meatBest" resultType="com.gogi.meatyou.bean.ProductDTO" >
+		select * from 
+		(select b.* , rownum r from
+		((select * from 
+		(select order_p_num,count(*) count from m_order group by order_p_num) 
+		ck ,product p,meat_category mc where ck.order_p_num=p.p_num and mc.meat_p_category=p.p_category order by count desc) b)
+		<![CDATA[ where mod((meat_p_category),100)>=20) where r >= 1 and r <= 4 ]]>
+	</select>
+
+	<!-- 메인 돼지고기 베스트 -->
+	<select id="forkBest" resultType="com.gogi.meatyou.bean.ProductDTO" >
+		select * from 
+		(select b.* , rownum r from
+		((select * from 
+		(select order_p_num,count(*) count from m_order group by order_p_num) 
+		ck ,product p,meat_category mc where ck.order_p_num=p.p_num and mc.meat_p_category=p.p_category order by count desc) b)
+		<![CDATA[ where mod((meat_p_category),100)<20) where r >= 1 and r <= 4 ]]>
+	</select>
+	
+	
+	<!-- 메인 신상품 순 -->
+	<select id="newProduct" resultType="com.gogi.meatyou.bean.ProductDTO" >
+		select * from product order by p_reg_date desc
+	</select>
+	
+	<!-- 서칭 리스트(최신순) -->
+	<select id="searchList" resultType="com.gogi.meatyou.bean.ProductDTO" parameterType="hashmap">
+		select * from
+		(select b.* , rownum r from
+		(select *
+		from product p, p_detail d
+		where  p.p_num = d.pd_p_num and 
+		<if test="searchOption == 'title'"> p_name like '%' || #{search} || '%'  </if> 
+		<if test="searchOption == 'total'"> (p_name like '%' || #{search} || '%' or pd_P_DESC like '%' || #{search} || '%') </if> 
+		order by p_reg_date
+		<if test="desc == null"> asc ) b )</if>
+		<if test="desc != null"> desc ) b )</if>
+		<![CDATA[ where r >= #{start} and r <= #{end} ]]>
+	</select>
+
+	<!-- 서칭 리스트(가격순) -->
+	<select id="searchPrice" resultType="com.gogi.meatyou.bean.ProductDTO" parameterType="hashmap">
+		select * from
+		(select b.* , rownum r from
+		(select *
+		from product p, p_detail d
+		where  p.p_num = d.pd_p_num and 
+		<if test="searchOption == 'title'"> p_name like '%' || #{search} || '%'  </if> 
+		<if test="searchOption == 'total'"> (p_name like '%' || #{search} || '%' or pd_P_DESC like '%' || #{search} || '%') </if> 
+		order by (p_price/weight)*100
+		<if test="price != null"> asc ) b )</if>
+		<if test="price == null"> desc ) b )</if>
+		<![CDATA[ where r >= #{start} and r <= #{end} ]]>
+	</select>
+
+
+	<!-- 서칭 리스트(판매량순) -->
+	<select id="searchSale" resultType="com.gogi.meatyou.bean.ProductDTO" parameterType="hashmap">
+		select * from 
+		(select * from 
+		(select order_p_num,count(*) count from m_order group by order_p_num) ck ,product p, p_detail d
+		where ck.order_p_num=p.p_num and p.p_num=d.pd_p_num order by count desc) 
+		<if test="searchOption == 'title'"> where p_name like '%' || #{search} || '%' </if> 
+		<if test="searchOption == 'total'"> where p_name like '%' || #{search} || '%' or pd_P_DESC like '%' || #{search} || '%' </if> 
+	</select>
+	
+	
+		<!-- 메인 메뉴 소고기 -->
+	<select id="mainMeat" resultType="com.gogi.meatyou.bean.ProductDTO" >
+		select * from 
+		(select b.* , rownum r from
+		((select * from 
+		(select order_p_num,count(*) count from m_order group by order_p_num) 
+		ck ,product p,meat_category mc where ck.order_p_num=p.p_num and mc.meat_p_category=p.p_category order by count desc) b)
+		<![CDATA[ where mod((meat_p_category),100)>=20) where r >= #{start} and r <= #{end} ]]>
+	</select>
+	
+	<!-- 메인 메뉴 돼지고기 -->
+	<select id="mainFork" resultType="com.gogi.meatyou.bean.ProductDTO" >
+		select * from 
+		(select b.* , rownum r from
+		((select * from 
+		(select order_p_num,count(*) count from m_order group by order_p_num) 
+		ck ,product p,meat_category mc where ck.order_p_num=p.p_num and mc.meat_p_category=p.p_category order by count desc) b)
+		<![CDATA[ where mod((meat_p_category),100)<20) where r >= #{start} and r <= #{end} ]]>
+	</select>
+	
+
+
+<!--
+ 	<select id="searchList" resultType="com.gogi.meatyou.bean.ProductDTO" parameterType="hashmap">
+		select * from
+		(select b.* , rownum r from
+		(select * from product where
+		<if test="searchOption == 'title'"> p_name like '%' || #{search} || '%' </if> 
+		<if test="searchOption == 'total'"> p_name like '%' || #{search} || '%' </if> 
+		 order by p_reg_date
+		<if test="desc != null"> desc</if>  asc ) b )
+		<![CDATA[ where r >= #{start} and r <= #{end} ]]>
+	</select> 
+-->
+	
+	<select id="searchCount" resultType="int">
+		select count(*) from product where
+		<if test="searchOption == 'title'"> p_name like '%' || #{search} || '%' </if> 
+		<if test="searchOption == 'total'"> p_name like '%' || #{search} || '%' </if>
+	</select>
+	
+	
+
 </mapper>

@@ -64,7 +64,7 @@
 						<div class="col-md-3">
 							<div class="header-logo">
 								<a href="#" class="logo">
-								<a href="/main/main"><h1 style="color:white;">I Meet You</h1></a>
+								<h1 style="color:white;"><a href="/main/main">I Meet You</a></h1>
 									<!-- <img src="../resources/img/logo.png" alt=""> -->
 								</a>
 							</div>
@@ -74,14 +74,14 @@
 						<!-- SEARCH BAR -->
 						<div class="col-md-6">
 							<div class="header-search">
-								<form action="/main/search">
+								<form>
 <!-- 								<img src="../resources/img/MeetYou1.gif" style="width: 200px"> -->
-									<select class="input-select" name="searchOption">
-										<option value="total">검색하기</option>
-										<option value="title">제목 검색</option>
-										<option value="total">제목+본문 검색</option>
+									<select class="input-select">
+										<option value="0">검색하기</option>
+										<option value="1">제목 검색</option>
+										<option value="0">제목+본문 검색</option>
 									</select>
-									<input class="input" name="search" placeholder="여기서 검색하세요..!">
+									<input class="input" placeholder="여기서 검색하세요..!">
 									<button class="search-btn">검색</button>
 								</form>
 							</div>
@@ -140,7 +140,7 @@
 				<div id="responsive-nav">
 					<!-- NAV -->
 					<ul class="main-nav nav navbar-nav">
-						<li class="active"><a href="/main/main">홈</a></li>
+						<li class="active"><a href="#">홈</a></li>
 						<li><a href="#">소고기</a></li>
 						<li><a href="#">돼지고기</a></li>
 						<li><a href="#">1~2인</a></li>
