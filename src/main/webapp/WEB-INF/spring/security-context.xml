@@ -4,16 +4,15 @@
 	xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
-		
+	
 	<bean id="customLoginSuccess" class="com.gogi.meatyou.security.CustomLoginHandler" />
-	
 	<bean id="userService" class="com.gogi.meatyou.security.CustomUserDetailsService"  />
+	<bean id="noopPw" class="com.gogi.meatyou.security.CustomNoopPasswordEncoder"/>
+	<!-- <bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"  /> -->
 	
-<!-- <bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"  /> -->	
-<bean id="noopPw" class="com.gogi.meatyou.security.CustomNoopPasswordEncoder"/>
+	
 	<security:http>
-		
- <!-- "/member/all" URI에는 모든 사용자가 접근 가능 -->
+		 <!-- "/member/all" URI에는 모든 사용자가 접근 가능 -->
         <security:intercept-url pattern="/member/all" access="permitAll" />
 
         <!-- "/member/member" URI에는 ROLE_MEMBER 역할을 가진 사용자만 접근 가능 -->
@@ -24,26 +23,19 @@
 
         <!-- "/member/saller" URI에는 ROLE_SALLER 역할을 가진 사용자만 접근 가능 -->
         <security:intercept-url pattern="/member/saller" access="hasRole('ROLE_SALLER')" />
-
-	 
-		
 		<!-- 필수항목 -->
-		<security:form-login login-page="/member/customLogin" authentication-success-handler-ref="customLoginSuccess" />
 		
-		<security:logout invalidate-session="true" logout-url="/member/customLogout" delete-cookies="remember-me" />
-		
-		<security:remember-me 
-		data-source-ref="dataSource" token-validity-seconds="172800"  user-service-ref="userService"
-		
-		  /> 
-
+		<security:form-login login-page="/admin/customLogin" authentication-success-handler-ref="customLoginSuccess" />
+		<security:logout invalidate-session="true" logout-url="/sample/customLogout" delete-cookies="remember-me" />
+		<security:remember-me data-source-ref="dataSource" token-validity-seconds="172800"/>
 		
 		<!-- 접근 권한 없는 URI 접근시 에러페이지 설정 -->
-		<security:access-denied-handler error-page="/member/accessError" />
+		<security:access-denied-handler error-page="/admin/accessError" />
 	</security:http>
 	
 	<security:authentication-manager>
 		<security:authentication-provider user-service-ref="userService">
+			<!-- <security:password-encoder ref="bcryptPasswordEncoder" /> -->
 			<security:password-encoder ref="noopPw" />
 		</security:authentication-provider>
 	</security:authentication-manager>
