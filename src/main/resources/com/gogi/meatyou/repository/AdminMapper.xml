@@ -169,12 +169,12 @@
 			</when>
 			<when test="check==-1">
 			<![CDATA[
-				select nvl(sum(co_quantity*co_pay),0) from cus_order where co_category=2002 and co_paydate>=add_months(trunc(sysdate,'MM') ,${check}) and co_paydate<trunc(sysdate,'mm') ${check}									
+				select nvl(sum(co_quantity*co_pay),0) from cus_order where co_category=2002 and co_paydate>=add_months(trunc(sysdate,'MM') ,${check}) and co_paydate<=trunc(sysdate,'mm') ${check}									
 			]]>
 			</when>
 			<otherwise>
 			<![CDATA[
-				select nvl(sum(co_quantity*co_pay),0) from cus_order where co_category=2002 and co_paydate>=add_months(trunc(sysdate,'MM') ,${check}) and co_paydate<add_months(trunc(sysdate,'mm') ,${check}+1)-1									
+				select nvl(sum(co_quantity*co_pay),0) from cus_order where co_category=2002 and co_paydate>=add_months(trunc(sysdate,'MM') ,${check}) and co_paydate<=add_months(trunc(sysdate,'mm') ,${check}+1)-1									
 			]]>
 			</otherwise>
 		</choose>
@@ -204,23 +204,29 @@
 	</select>
 	
 	
-	<select id="getCheckProductSalse" resultType="int" parameterType="String">
-		
-	</select>
-	<select id="getCheckProductComm" resultType="int" parameterType="String">
+	<select id="getCheckProductSalse" resultType="int" parameterType="hashMap">
 	<![CDATA[
+		select nvl(sum(order_totalprice),0) from m_order where order_paydate>=to_date(#{start},'YYYY-MM-DD') and order_paydate<=to_date(#{end},'YYYY-MM-DD')
 		]]>
 	</select>
-	<select id="getCheckPaidItem" resultType="int" parameterType="String">
+	<select id="getCheckProductComm" resultType="int" parameterType="hashMap">
 	<![CDATA[
+		select nvl(sum(order_totalprice/10),0) from m_order  where order_paydate>=to_date(#{start},'YYYY-MM-DD') and order_paydate<=to_date(#{end},'YYYY-MM-DD')									
 		]]>
 	</select>
-	<select id="getCheckPaidAdv" resultType="int" parameterType="String">
+	<select id="getCheckPaidItem" resultType="int" parameterType="hashMap">
 	<![CDATA[
+		select nvl(sum(co_quantity*co_pay),0) from cus_order where co_category=2003 and  co_paydate>=to_date(#{start},'YYYY-MM-DD') and co_paydate<=to_date(#{end},'YYYY-MM-DD')									
 		]]>
 	</select>
-	<select id="getCheckUsedCoupon" resultType="int" parameterType="String">
+	<select id="getCheckPaidAdv" resultType="int" parameterType="hashMap">
 	<![CDATA[
+		select nvl(sum(co_quantity*co_pay),0) from cus_order where co_category=2002 and co_paydate>=to_date(#{start},'YYYY-MM-DD') and co_paydate<=to_date(#{end},'YYYY-MM-DD')									
+		]]>
+	</select>
+	<select id="getCheckUsedCoupon" resultType="int" parameterType="hashMap">
+	<![CDATA[
+		select nvl(sum(cp_price),0) from coupon where usedate>=to_date(#{start},'YYYY-MM-DD') and usedate<=to_date(#{end},'YYYY-MM-DD')								
 		]]>
 	</select>
 	

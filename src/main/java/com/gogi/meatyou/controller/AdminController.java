@@ -61,10 +61,13 @@ public class AdminController {
 		return "admin/apiTest";
 	}
 	@RequestMapping("/sales")
-	public String sales(Model model,@RequestParam(value="check",defaultValue="0")int check,String start,String end) {
+	public String sales(Model model,@RequestParam(value="check",defaultValue="0")int check,String daterange) {
+		System.out.println("check==========="+check);
 		if(check<=0) {	
 			adminServicImpl.getSales(model,check);
 		}else {
+			String start = daterange.substring(0,10);
+			String end = daterange.substring(13, 23);
 			adminServicImpl.getCheckSalse(model,check,start,end);
 		}
 		return "admin/sales";

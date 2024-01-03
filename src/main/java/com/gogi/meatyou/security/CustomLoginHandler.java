@@ -17,7 +17,6 @@ public class CustomLoginHandler implements AuthenticationSuccessHandler {
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		List<String> roleNames = new ArrayList<String>();
-		//security-context.xml 설정된 USER -모든 권한 이름 가져오귀~
 		authentication.getAuthorities().forEach(au ->{
 			roleNames.add(au.getAuthority());
 		});

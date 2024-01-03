@@ -3,6 +3,8 @@ package com.gogi.meatyou.repository;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.gogi.meatyou.bean.MemberDTO;
 
 public interface AdminMapper {
@@ -26,9 +28,9 @@ public interface AdminMapper {
 	public int getPaidItem(int check);
 	public int getPaidAdv(int check);
 	public int getUsedCoupon(int check);
-	public int getLastProductSalse(String start,String end);
-	public int getLastProductComm(String start,String end);
-	public int getLastPaidItem(String start,String end);
-	public int getLastPaidAdv(String start,String end);
-	public int getLastUsedCoupon(String start,String end);
+	public int getCheckProductSalse(HashMap hashmap);
+	public int getCheckProductComm(HashMap hashmap);
+	public int getCheckPaidItem(HashMap hashmap);
+	public int getCheckPaidAdv(HashMap hashmap);
+	public int getCheckUsedCoupon(HashMap hashmap);
 }

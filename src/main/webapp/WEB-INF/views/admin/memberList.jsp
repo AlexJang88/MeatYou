@@ -8,6 +8,8 @@
 <a href="/admin/memberlist?check=3">판매자 승인대기</a>
 <a href="/admin/memberlist?check=4">판매자(유료회원)목록</a>
 <br />
+<a href="/admin/sales">매출보기</a>
+<br>
 	
 	
 			<table>

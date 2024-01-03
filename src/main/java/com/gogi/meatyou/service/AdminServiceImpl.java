@@ -278,12 +278,18 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public void getCheckSalse(Model model,int check,String start,String end) {
-		model.addAttribute("ps", mapper.getLastProductSalse(start,end));
-		model.addAttribute("pc", mapper.getLastProductComm(start,end));
-		model.addAttribute("pi", mapper.getLastPaidItem(start,end));
-		model.addAttribute("pa", mapper.getLastPaidAdv(start,end));
-		model.addAttribute("uc", mapper.getLastUsedCoupon(start,end));
-		model.addAttribute("pt", mapper.getLastPaidAdv(start,end)+mapper.getLastPaidItem(start,end)+mapper.getLastProductSalse(start,end)+mapper.getLastProductComm(start,end)-mapper.getLastUsedCoupon(start,end));
+		String[] startarr = start.split("/");
+		String[] endarr=end.split("/");
+		start = startarr[2]+"-"+startarr[0]+"-"+startarr[1];
+		end = endarr[2]+"-"+endarr[0]+"-"+endarr[1];
+		adminMap.put("start", start);
+		adminMap.put("end",end);
+		model.addAttribute("ps", mapper.getCheckProductSalse(adminMap));
+		model.addAttribute("pc", mapper.getCheckProductComm(adminMap));
+		model.addAttribute("pi", mapper.getCheckPaidItem(adminMap));
+		model.addAttribute("pa", mapper.getCheckPaidAdv(adminMap));
+		model.addAttribute("uc", mapper.getCheckUsedCoupon(adminMap));
+		model.addAttribute("pt", mapper.getCheckPaidAdv(adminMap)+mapper.getCheckPaidItem(adminMap)+mapper.getCheckProductSalse(adminMap)+mapper.getCheckProductComm(adminMap)-mapper.getCheckUsedCoupon(adminMap));
 		model.addAttribute("check",check);
 	}
 
