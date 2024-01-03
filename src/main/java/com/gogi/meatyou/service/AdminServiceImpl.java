@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.gogi.meatyou.bean.MemberDTO;
+import com.gogi.meatyou.bean.ReckonDTO;
 import com.gogi.meatyou.repository.AdminMapper;
 
 @Service
@@ -292,6 +293,45 @@ public class AdminServiceImpl implements AdminService {
 		model.addAttribute("pt", mapper.getCheckPaidAdv(adminMap)+mapper.getCheckPaidItem(adminMap)+mapper.getCheckProductSalse(adminMap)+mapper.getCheckProductComm(adminMap)-mapper.getCheckUsedCoupon(adminMap));
 		model.addAttribute("check",check);
 	}
+
+	@Override
+	public void getReckon(Model model, int pageNum, String year, String month) {
+		
+		String CheckMonth = year+"-"+month;
+		int count=0;
+		int pageSize = 10;
+		int startRow = (pageNum - 1) * pageSize + 1;
+		int endRow = pageNum * pageSize;
+		List<ReckonDTO> list = Collections.EMPTY_LIST;
+			adminMap.put("CheckMonth",CheckMonth);
+			count = mapper.getReckCount(adminMap);
+			if (count > 0) {
+				adminMap.put("start", startRow);
+				adminMap.put("end", endRow);
+				
+				list = mapper.getReckon(adminMap);
+			}
+			model.addAttribute("list", list);
+			model.addAttribute("count", count);
+			model.addAttribute("pageNum", pageNum);
+			model.addAttribute("pageSize", pageSize);
+
+			// page
+			int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+			int startPage = (int) (pageNum / 10) * 10 + 1;
+			int pageBlock = 10;
+			int endPage = startPage + pageBlock - 1;
+			if (endPage > pageCount) {
+				endPage = pageCount;
+			}
+			model.addAttribute("pageCount", pageCount);
+			model.addAttribute("startPage", startPage);
+			model.addAttribute("pageBlock", pageBlock);
+			model.addAttribute("endPage", endPage);
+	}
+
+	
+	
 
 
 	

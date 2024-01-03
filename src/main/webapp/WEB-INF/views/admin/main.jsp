@@ -8,7 +8,8 @@
 <br />
 <a href="/admin/sales">매출보기</a>
 <br>
-
+<a href="/admin/reckon">정산내역 확인</a>
+<br>
 <h2>매출 요약정보</h2>
 <table>
 	<tr>

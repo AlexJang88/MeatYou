@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gogi.meatyou.bean.MemberDTO;
 import com.gogi.meatyou.service.AdminService;
@@ -72,4 +73,12 @@ public class AdminController {
 		}
 		return "admin/sales";
 	}
+	@RequestMapping("reckon")
+	public String reckon(Model model,@RequestParam(value="start",defaultValue="2023") String start,@RequestParam(value="end",defaultValue="12")String end,@RequestParam(value="pageNum",defaultValue="1")int pageNum) {
+		
+		adminServicImpl.getReckon(model,pageNum , start, end);
+		
+		return "admin/reckon";
+	}
+	
 }

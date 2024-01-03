@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.ui.Model;
 
 import com.gogi.meatyou.bean.MemberDTO;
+import com.gogi.meatyou.bean.ReckonDTO;
 
 public interface AdminService {
 	public void memberList(int check,Model model,int pageNum);
@@ -22,4 +23,5 @@ public interface AdminService {
 	public void statChange(MemberDTO dto);
 	public void getSales(Model model,int check);
 	public void getCheckSalse(Model model,int check,String start,String end);
+	public void getReckon(Model model,int pageNum,String year,String month);
 }

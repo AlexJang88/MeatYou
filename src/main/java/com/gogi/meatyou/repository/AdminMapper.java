@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.gogi.meatyou.bean.MemberDTO;
+import com.gogi.meatyou.bean.ReckonDTO;
 
 public interface AdminMapper {
 	public MemberDTO read(String m_id);
@@ -33,4 +34,7 @@ public interface AdminMapper {
 	public int getCheckPaidItem(HashMap hashmap);
 	public int getCheckPaidAdv(HashMap hashmap);
 	public int getCheckUsedCoupon(HashMap hashmap);
+	public List<ReckonDTO> getReckon(HashMap hashmap);
+	public int getReckCount(HashMap hashmap);
+	public void insertTest(String id);
 }
