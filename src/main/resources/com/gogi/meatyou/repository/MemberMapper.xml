@@ -77,9 +77,77 @@
         TO_CHAR(SYSDATE, 'YYYY-MM-DD'), 
        1001)
     ]]>
+    
+    
+    		
 </insert>
-		
-		
+
+
+
+			<insert id="shoppingCart" >
+    <![CDATA[
+        CREATE TABLE ShoppingCart_${m_id} (
+            shop_num NUMBER PRIMARY KEY, 
+            m_id VARCHAR2(1000) NOT NULL, 
+            P_num NUMBER NOT NULL,
+            quantity NUMBER NOT NULL,
+            CONSTRAINT fk_shop_member_${m_id} FOREIGN KEY (m_id) REFERENCES MEMBER (m_id) ON DELETE CASCADE,
+            CONSTRAINT fk_shop_product_${m_id} FOREIGN KEY (P_num) REFERENCES PRODUCT (p_num) ON DELETE CASCADE
+        )
+    ]]>
+</insert>
+
+				
+				<insert id="shoppingCart_seq">
+				 <![CDATA[
+					create sequence shoppingcart_${m_id}_seq   NOCACHE	
+					    ]]>
+				</insert>
+				
+				
+								
+							<insert id="pick_me">
+				    <![CDATA[
+				        CREATE TABLE pick_me_${m_id} (
+				            pm_num NUMBER PRIMARY KEY,
+				            pm_m_id VARCHAR2(1000) NOT NULL,
+				            pm_c_id VARCHAR2(1000) NOT NULL,
+				            CONSTRAINT fk_pick_me_member_${m_id}_1 FOREIGN KEY (pm_m_id) REFERENCES MEMBER (m_id) ON DELETE CASCADE,
+				            CONSTRAINT fk_pick_me_member_${m_id}_2 FOREIGN KEY (pm_c_id) REFERENCES MEMBER (m_id) ON DELETE CASCADE
+				        )
+				    ]]>
+				</insert>
+
+				
+				<insert id="pick_me_seq">
+				 <![CDATA[
+				create	sequence pick_me_${m_id}_Seq   NOCACHE
+					 ]]>
+				</insert>
+				
+				
+				<insert id="p_pick">
+			    <![CDATA[
+			        CREATE TABLE p_pick_${m_id} (
+			            ppic_num NUMBER PRIMARY KEY,
+			            ppic_p_num NUMBER NOT NULL,
+			            ppic_m_id VARCHAR2(1000) NOT NULL,
+			            CONSTRAINT p_pick_product_${m_id} FOREIGN KEY (ppic_p_num) REFERENCES product (p_num) ON DELETE CASCADE,
+			            CONSTRAINT p_pick_member_${m_id} FOREIGN KEY (ppic_m_id) REFERENCES MEMBER (m_id) ON DELETE CASCADE
+			        )
+			    ]]>
+			</insert>
+
+				
+				
+				<insert id="p_pick_seq">
+				 <![CDATA[
+				create	sequence p_pick_${m_id}_Seq   NOCACHE
+					    ]]>
+				</insert>
+				
+				
+			
 		<update id="memberUpdate" parameterType="com.gogi.meatyou.bean.MemberDTO">
 		update member 
 			<set>
@@ -144,17 +212,7 @@
 </insert>
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+	
 		
 		
 		

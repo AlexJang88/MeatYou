@@ -24,4 +24,15 @@ public interface MemberService {
 	
 	public int insertIntoCusDetail(CusDetailDTO cdto) ;
 		
+	
+	
+	
+		public void shoppingCart(String m_id);
+	    public void shoppingCart_seq(String m_id);
+	    
+	    public void pick_me(String m_id);
+	    public void pick_me_seq(String m_id);
+	    
+	    public void p_pick(String m_id);
+	    public void p_pick_seq(String m_id);
 }

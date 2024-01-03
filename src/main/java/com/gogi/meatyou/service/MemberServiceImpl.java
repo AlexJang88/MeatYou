@@ -63,7 +63,32 @@ public class MemberServiceImpl implements MemberService {
 		    }
 		
 		
-		
+		    
+		    
+		    public void shoppingCart(String m_id) {
+		    	mapper.shoppingCart(m_id);
+		    };
+		    public void shoppingCart_seq(String m_id) {
+		    	mapper.shoppingCart_seq(m_id);
+		    };
+		    
+		    ;
+		    
+		    public void pick_me(String m_id) {
+		    	mapper.pick_me(m_id);
+		    }
+		    public void pick_me_seq(String m_id){
+		    	mapper.pick_me_seq(m_id);
+		    };
+		    public void p_pick(String m_id) {
+		    	mapper.p_pick(m_id);
+		    	
+		    };
+		    public void p_pick_seq(String m_id) {
+		    	mapper.p_pick_seq(m_id);
+		    	
+		    	
+		    };
 		
 		
 		

@@ -1,19 +1,18 @@
 package com.gogi.meatyou.controller;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gogi.meatyou.bean.CusDetailDTO;
 import com.gogi.meatyou.bean.MemStatusDTO;
@@ -22,12 +21,14 @@ import com.gogi.meatyou.bean.ShoppingCartDTO;
 import com.gogi.meatyou.service.MemberService;
 
 
+
+
+
 @Controller
 @RequestMapping("/member/*")
 public class MemberController {
 	@Autowired
 	private MemberService service;
-	private JdbcTemplate jdbcTemplate;
 	//로그인  20231225 이도준
 	
 	
@@ -59,10 +60,9 @@ public class MemberController {
 	@RequestMapping("accessError")
 	public String accessError(Authentication auth) {
 		System.out.println("access Denied==>>"+auth);
-		return "member/accessError";
+		return "member/loginSequrity/accessError";
 	}
 	
-	//로그인 
 	@RequestMapping("customLogin")
 	public String doLogin(Model model, MemberDTO dto,MemStatusDTO  mdto,HttpSession  session) {
 		 session.setAttribute("status",dto.getM_status());
@@ -77,7 +77,6 @@ public class MemberController {
 	}
 	
 	
-	
 	//로그아웃
 	@RequestMapping("customLogout")
 	public String doLogout(HttpSession session) {
@@ -85,22 +84,42 @@ public class MemberController {
 	//	return "member/loginSequrity/login";
 			return "redirect:../../main/main";
 	}
+	
+	
 	//회원가입 
     @RequestMapping("inputForm")
     public String inputForm(Model model, HttpSession session) {
         return "member/inputForm";
         
     }
-    	
+    
+    
+    
     @RequestMapping("inputPro")
     public String inputPro(Model model, MemberDTO dto, HttpSession session) {
         int check = service.insertMember(dto);
-        model.addAttribute("check", check);
-        return "member/inputPro"; // 이 부분이 정상적으로 실행되고 있는지 확인
+        
+        if (check > 0) {
+            // insertMember가 정상적으로 실행되었다면 다른 서비스 메소드들을 호출
+            service.shoppingCart(dto.getM_id()); // 예시: insertShoppingCart 메소드 호출
+            service.shoppingCart_seq(dto.getM_id()); // 예시: insertShoppingCart 메소드 호출
+            
+            service.pick_me(dto.getM_id()); // 예시: insertPickMe 메소드 호출
+            service.pick_me_seq(dto.getM_id()); 
+            
+            service.p_pick(dto.getM_id()); // 예시: insertPPick 메소드 호출
+            service.p_pick_seq(dto.getM_id());
+            // 다른 서비스 메소드들도 유사하게 호출
+            
+            model.addAttribute("check", check);
+            return "member/inputPro";
+        } else {
+            // insertMember가 실패했을 경우 처리
+            // 실패에 대한 로직 구현
+            return "errorPage"; // 실패에 대한 페이지로 리다이렉트 또는 처리
+        }
     }
-    
-    
-    
+
     
     
     @RequestMapping("sallerInputPro")
