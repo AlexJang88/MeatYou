@@ -1,5 +1,7 @@
 package com.gogi.meatyou.service;
 
+
+import com.gogi.meatyou.bean.CusDetailDTO;
 import com.gogi.meatyou.bean.MemberDTO;
 
 public interface MemberService {
@@ -18,4 +20,19 @@ public interface MemberService {
 	public int statusChange(MemberDTO dto);
 	//탈퇴하면 체인지되어야 하니까 
 	
+	public int updateMemberStatus  (MemberDTO dto);
+	
+	public int insertIntoCusDetail(CusDetailDTO cdto) ;
+		
+	
+	
+	
+		public void shoppingCart(String m_id);
+	    public void shoppingCart_seq(String m_id);
+	    
+	    public void pick_me(String m_id);
+	    public void pick_me_seq(String m_id);
+	    
+	    public void p_pick(String m_id);
+	    public void p_pick_seq(String m_id);
 }

@@ -1,18 +1,27 @@
 package com.gogi.meatyou.controller;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
+import com.gogi.meatyou.bean.CusDetailDTO;
 import com.gogi.meatyou.bean.MemStatusDTO;
 import com.gogi.meatyou.bean.MemberDTO;
+import com.gogi.meatyou.bean.ShoppingCartDTO;
 import com.gogi.meatyou.service.MemberService;
+
+
+
 
 
 @Controller
@@ -51,10 +60,9 @@ public class MemberController {
 	@RequestMapping("accessError")
 	public String accessError(Authentication auth) {
 		System.out.println("access Denied==>>"+auth);
-		return "member/accessError";
+		return "member/loginSequrity/accessError";
 	}
 	
-
 	@RequestMapping("customLogin")
 	public String doLogin(Model model, MemberDTO dto,MemStatusDTO  mdto,HttpSession  session) {
 		 session.setAttribute("status",dto.getM_status());
@@ -69,8 +77,7 @@ public class MemberController {
 	}
 	
 	
-	
-	
+	//로그아웃
 	@RequestMapping("customLogout")
 	public String doLogout(HttpSession session) {
 			session.invalidate();
@@ -78,24 +85,62 @@ public class MemberController {
 			return "redirect:../../main/main";
 	}
 	
+	
+	//회원가입 
     @RequestMapping("inputForm")
     public String inputForm(Model model, HttpSession session) {
         return "member/inputForm";
         
     }
     
+    
+    
     @RequestMapping("inputPro")
     public String inputPro(Model model, MemberDTO dto, HttpSession session) {
         int check = service.insertMember(dto);
-        model.addAttribute("check", check);
-        return "member/inputPro"; // 이 부분이 정상적으로 실행되고 있는지 확인
+        
+        if (check > 0) {
+            // insertMember가 정상적으로 실행되었다면 다른 서비스 메소드들을 호출
+            service.shoppingCart(dto.getM_id()); // 예시: insertShoppingCart 메소드 호출
+            service.shoppingCart_seq(dto.getM_id()); // 예시: insertShoppingCart 메소드 호출
+            
+            service.pick_me(dto.getM_id()); // 예시: insertPickMe 메소드 호출
+            service.pick_me_seq(dto.getM_id()); 
+            
+            service.p_pick(dto.getM_id()); // 예시: insertPPick 메소드 호출
+            service.p_pick_seq(dto.getM_id());
+            // 다른 서비스 메소드들도 유사하게 호출
+            
+            model.addAttribute("check", check);
+            return "member/inputPro";
+        } else {
+            // insertMember가 실패했을 경우 처리
+            // 실패에 대한 로직 구현
+            return "errorPage"; // 실패에 대한 페이지로 리다이렉트 또는 처리
+        }
     }
-	
+
+    
+    
+    @RequestMapping("sallerInputPro")
+    public String sallerInputPro(MemberDTO dto,CusDetailDTO cdto, Authentication authentication) {
+        String m_id = authentication.getName();
+        // 사용자 정보 업데이트
+        dto.setM_id(m_id);
+
+        // 회원 상태 업데이트
+        Map<String, Object> statusParamMap = new HashMap<>();
+        statusParamMap.put("m_id", m_id);
+        service.updateMemberStatus(dto);
+        service.insertIntoCusDetail(cdto);
+    	return "member/saller/sallerInputPro"; // 이 부분이 정상적으로 실행되고 있는지 확인
+    }
     
     
     
     
     
+    //회원정보수정 
     @RequestMapping("/modify")
     public String modify(Model model, Authentication authentication) {
         String username = authentication.getName();
@@ -119,7 +164,7 @@ public class MemberController {
         service.userUpdate(dto);
         return "member/myPage/modifyPro";
     }
-	
+	//회원탈퇴  (사실상 status 변경)
 	@RequestMapping("deleteForm")
 	public String deleteForm() {
 		return "member/delete/deleteForm";
@@ -135,6 +180,30 @@ public class MemberController {
 		model.addAttribute("check",check);
 		return "member/delete/deletePro";
 	}
+	
+	
+    // 장바구니 담기 
+    @RequestMapping("shoppingCartForm")
+    public String shoppingCartForm(Model model, Authentication authentication,MemberDTO dto,ShoppingCartDTO cdto) {
+    	
+        model.addAttribute("cdto", cdto);
+        model.addAttribute("dto", dto);
+    	
+    	return "member/shoppingCart/shoppingCartForm";
+    	
+    }
+    
+    
+    
+    @RequestMapping("shoppingCartPro")
+    public String shoppingCartPro(MemberDTO dto,ShoppingCartDTO cdto) {
+        // 사용자 정보 업데이트
+
+    	return "member/shoppingCart/shoppingCartPro"; // 
+    }
+    
+    
+    
 	
     
     

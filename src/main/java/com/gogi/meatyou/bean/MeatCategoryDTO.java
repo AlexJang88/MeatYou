@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class MeatCategoryDTO {
-	private int pCategory;
+	private int meatPCategory;
 	private String meatDes;
 	
 }

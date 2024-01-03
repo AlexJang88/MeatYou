@@ -12,11 +12,10 @@ import com.gogi.meatyou.bean.MemStatusDTO;
 import com.gogi.meatyou.bean.MemberDTO;
 import com.gogi.meatyou.repository.MemberMapper;
 
-
-public  class CustomUserDetailsService implements UserDetailsService{
-	//1226도준 영역
-		
-		@Autowired
+@Service
+public class CustomUserDetailsService implements UserDetailsService{
+	
+	@Autowired
 		private MemberMapper mapper;
 
 		MemStatusDTO mdto=new MemStatusDTO();
@@ -26,4 +25,27 @@ public  class CustomUserDetailsService implements UserDetailsService{
 
 			return dto == null ? null : new CustomUser(dto );
 		}
-	}
+	
+	
+	
+	
+	//@Autowired
+	//private AdminMapper mapper;
+	//@Override
+	//public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	//	MemberDTO dto = mapper.read(username);
+	//	
+	//	return dto==null ? null:new CustomUser(dto);
+	//}
+
+	//@Autowired
+	//private SecurityMapper mapper;
+	
+	//@Override
+	//public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	//		MemberDTO dto= mapper.read(username);
+			
+	//	return dto==null ? null:new CustomUser(dto);
+	//}
+	
+}
