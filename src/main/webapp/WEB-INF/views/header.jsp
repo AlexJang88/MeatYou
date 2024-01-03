@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -43,13 +45,22 @@
 			<!-- TOP HEADER -->
 			<div id="top-header">
 				<div class="container">
-				
-					<ul class="header-links pull-right">
-						<li><a href="#"><i class="fa"></i> 로그인</a></li>
-						<li><a href="#"><i class="fa"></i> 회원가입</a></li>
-						<li><a href="#"><i class="fa"></i> 마이페이지</a></li>
-						<li><a href="#"><i class="fa"></i> 고객센터</a></li>
-					</ul>
+				 <ul class="header-links pull-right">3
+						<li><a href="/main/main"><i class="fa"></i> 임시 메인버튼 </a></li>				
+						    	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />		
+						<sec:authorize access="isAnonymous()">
+						    <li><a href="/member/inputForm"><i class="fa"></i>회원가입 </a></li>
+						    <li><a href="/member/customLogin"><i class="fa"></i> 로그인</a></li>
+						    
+						</sec:authorize>
+
+							<sec:authorize access="isAuthenticated()">
+							    <li><a href="/member/modify"><i class="fa"></i> 마이페이지</a></li>
+							    <li><a href="/member/customLogout"><i class="fa"></i> 로그아웃</a></li>
+							</sec:authorize>
+
+						<li><a href="#"><i class="fa"></i> 고객센터</a></li>		
+					</ul> 
 				</div>
 			</div>
 			<!-- /TOP HEADER -->

@@ -4,18 +4,19 @@ import java.util.Date;
 
 import lombok.Data;
 
+
 @Data
 public class ProductDTO {
-	private int pNum;
-	private String mId;
-	private String pName;
-	private int pCategory;
-	private int sCategory;
-	private String thumb;
-	private int pPrice;
-	private int pRcount;
-	private Date regDate;
-	private Date startdate;
-	private Date enddate;
-	private int pStatus;
+   private int p_num;
+   private String p_m_id;
+   private String p_name;
+   private int p_category;
+   private int p_s_category;
+   private String thumb;
+   private int p_price;
+   private int p_rcount;
+   private Date p_reg_date;
+   private Date startdate;
+   private Date enddate;
+   private int p_status;
 }
