@@ -18,5 +18,5 @@ public class ProductDTO {
    private String startdate;  // 판매시작일
    private String enddate;  // 판매종료일
    private int p_status; // 판매상태
-   
+   private int count;
 }

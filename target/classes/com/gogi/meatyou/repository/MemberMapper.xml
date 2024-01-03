@@ -4,4 +4,216 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gogi.meatyou.repository.MemberMapper">
 
+
+	<select id="memberList" resultType="com.gogi.meatyou.bean.MemberDTO">
+		select * from member
+	</select>
+
+
+	<resultMap id="memberMap" type="com.gogi.meatyou.bean.MemberDTO" >
+		<result property="m_id" column="m_id" />
+		<result property="passwd" column="passwd" />
+		<result property="m_name" column="m_name" />
+		<result property="birth" column="birth" />
+		<result property="m_addr1" column="m_addr1" />
+		<result property="m_addr2" column="m_addr2" />
+		<result property="email" column="email" />
+		<result property="telep" column="telep" />
+		<result property="phone" column="phone" />
+		<result property="m_reg_date" column="m_reg_date" />
+		<result property="m_status" column="m_status" />
+		<collection property="mstatus_list" resultMap="status" />  
+		<collection property="Cusdetail_list" resultMap="cus_detail" />  
+		
+	</resultMap>
+
+	<resultMap id="status" type="com.gogi.meatyou.bean.MemStatusDTO" >
+		<result property="msta_m_status" column="msta_m_status" />
+		<result property="mstat_detail" column="mstat_detail" />
+		<result property="mstat_auth" column="mstat_auth" />
+	</resultMap>
+	
+	
+	<resultMap id="cus_detail" type="com.gogi.meatyou.bean.CusDetailDTO" >
+		<result property="corpno" column="corpno" />
+		<result property="cus_m_id" column="cus_m_id" />
+		<result property="ceoname" column="ceoname" />
+		<result property="company" column="company" />
+		<result property="cus_address1" column="cus_address1" />
+		<result property="cus_address2" column="cus_address2" />
+		<result property="cus_pnum" column="cus_pnum" />
+	</resultMap>
+	
+	
+
+	<select id="read" resultMap="memberMap" resultType="com.gogi.meatyou.bean.MemberDTO" >		
+			select * from member a left outer join memstatus b
+						on a.m_status = b.msta_m_status
+						where a.m_id=#{m_id}
+	</select>
+	
+	
+	
+	
+	
+	<select id="member" resultType="com.gogi.meatyou.bean.MemberDTO">
+		select * from member where  m_id=#{m_id}
+	</select>
+
+
+			<insert id="insertMember" parameterType="com.gogi.meatyou.bean.MemberDTO">
+    <![CDATA[
+    INSERT INTO member(m_id, passwd, m_name, birth, m_addr1, m_addr2, email, telep, phone, m_reg_date, m_status)
+    VALUES (
+        #{m_id},
+        #{passwd},
+        #{m_name},
+        to_date(#{birth}, 'YYYY-MM-DD'),
+        #{m_addr1},
+        #{m_addr2},
+        #{email},
+        #{telep},
+        #{phone},
+        TO_CHAR(SYSDATE, 'YYYY-MM-DD'), 
+       1001)
+    ]]>
+    
+    
+    		
+</insert>
+
+
+
+			<insert id="shoppingCart" >
+    <![CDATA[
+        CREATE TABLE ShoppingCart_${m_id} (
+            shop_num NUMBER PRIMARY KEY, 
+            m_id VARCHAR2(1000) NOT NULL, 
+            P_num NUMBER NOT NULL,
+            quantity NUMBER NOT NULL,
+            CONSTRAINT fk_shop_member_${m_id} FOREIGN KEY (m_id) REFERENCES MEMBER (m_id) ON DELETE CASCADE,
+            CONSTRAINT fk_shop_product_${m_id} FOREIGN KEY (P_num) REFERENCES PRODUCT (p_num) ON DELETE CASCADE
+        )
+    ]]>
+</insert>
+
+				
+				<insert id="shoppingCart_seq">
+				 <![CDATA[
+					create sequence shoppingcart_${m_id}_seq   NOCACHE	
+					    ]]>
+				</insert>
+				
+				
+								
+							<insert id="pick_me">
+				    <![CDATA[
+				        CREATE TABLE pick_me_${m_id} (
+				            pm_num NUMBER PRIMARY KEY,
+				            pm_m_id VARCHAR2(1000) NOT NULL,
+				            pm_c_id VARCHAR2(1000) NOT NULL,
+				            CONSTRAINT fk_pick_me_member_${m_id}_1 FOREIGN KEY (pm_m_id) REFERENCES MEMBER (m_id) ON DELETE CASCADE,
+				            CONSTRAINT fk_pick_me_member_${m_id}_2 FOREIGN KEY (pm_c_id) REFERENCES MEMBER (m_id) ON DELETE CASCADE
+				        )
+				    ]]>
+				</insert>
+
+				
+				<insert id="pick_me_seq">
+				 <![CDATA[
+				create	sequence pick_me_${m_id}_Seq   NOCACHE
+					 ]]>
+				</insert>
+				
+				
+				<insert id="p_pick">
+			    <![CDATA[
+			        CREATE TABLE p_pick_${m_id} (
+			            ppic_num NUMBER PRIMARY KEY,
+			            ppic_p_num NUMBER NOT NULL,
+			            ppic_m_id VARCHAR2(1000) NOT NULL,
+			            CONSTRAINT p_pick_product_${m_id} FOREIGN KEY (ppic_p_num) REFERENCES product (p_num) ON DELETE CASCADE,
+			            CONSTRAINT p_pick_member_${m_id} FOREIGN KEY (ppic_m_id) REFERENCES MEMBER (m_id) ON DELETE CASCADE
+			        )
+			    ]]>
+			</insert>
+
+				
+				
+				<insert id="p_pick_seq">
+				 <![CDATA[
+				create	sequence p_pick_${m_id}_Seq   NOCACHE
+					    ]]>
+				</insert>
+				
+				
+			
+		<update id="memberUpdate" parameterType="com.gogi.meatyou.bean.MemberDTO">
+		update member 
+			<set>
+				<if test="passwd != null and passwd != '' ">passwd=#{passwd},</if>
+				<if test="m_name != null and m_name != '' ">m_name=#{m_name},</if>
+		<!-- 		<if test="birth != null and birth != '' "> birth = TO_DATE(#{birth}, 'YYYY-MM-DD HH24:MI:SS.FF'),,</if> -->
+				<if test="m_addr1 != null and m_addr1 != '' ">m_addr1=#{m_addr1},</if>
+				<if test="m_addr2 != null and m_addr2 != '' ">m_addr2=#{m_addr2},</if>
+				<if test="email != null and email != '' ">email=#{email},</if>
+				<if test="telep != null and telep != '' ">telep=#{telep},</if>
+				<if test="phone != null and phone != '' ">phone=#{phone}</if>
+			</set> 
+		where m_id=#{m_id}
+	</update>
+	<!-- 
+	
+		<update id="statusChange" parameterType="com.gogi.meatyou.bean.MemberDTO" >
+		update member set m_status = 1001 where m_id=#{m_id} and passwd = #{passwd}		
+	</update>
+	
+	
+	 -->
+	
+	<update id="statusChange" parameterType="com.gogi.meatyou.bean.MemberDTO" >
+		update member set m_status = 1000 where  passwd = #{passwd}		
+	</update>
+	
+
+	
+	<update id="statusAdminChange" parameterType="com.gogi.meatyou.bean.MemberDTO">
+		update member set m_status=#{m_status} where m_id=#{m_id}
+	</update>
+	          
+		
+		
+		
+		
+				
+				<!-- Update Member Status -->
+		<update id="updateMemberStatus" parameterType="com.gogi.meatyou.bean.MemberDTO">
+		    UPDATE member
+		    SET m_status = 1050
+		    WHERE m_id = #{m_id}
+		</update>
+		
+
+				
+					<insert id="insertIntoCusDetail" parameterType="com.gogi.meatyou.bean.CusDetailDTO">
+    <![CDATA[
+    INSERT INTO cus_detail(cus_num,cus_m_id, ceoname, corpno, company, cus_address1, cus_address2, cus_pnum)
+    VALUES (
+    	cus_detail_seq.nextval,
+        #{cus_m_id},
+        #{ceoname},
+        #{corpno},
+        #{company},
+        #{cus_address1},
+        #{cus_address2},
+        #{cus_pnum}
+)
+    ]]>
+</insert>
+		
+		
+	
+		
+		
+		
 </mapper>
