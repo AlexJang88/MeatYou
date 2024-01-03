@@ -1,9 +1,11 @@
 package com.gogi.meatyou.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.gogi.meatyou.bean.CusDetailDTO;
 import com.gogi.meatyou.bean.MemberDTO;
 
 public interface MemberMapper {
@@ -27,5 +29,33 @@ public interface MemberMapper {
 		
 		
 		public int statusAdminChange(MemberDTO dto);
+		
 		public int statusChange(MemberDTO dto);
+		
+		
+		
+		  // 회원 상태 업데이트
+	    public int updateMemberStatus(MemberDTO dto);
+
+	    // Cus_detail에 데이터 인서트
+	    public int insertIntoCusDetail(CusDetailDTO cdto);
+	    
+	    
+	    public void shoppingCart(String m_id);
+	    public void shoppingCart_seq(String m_id);
+	    
+	    public void pick_me(String m_id);
+	    public void pick_me_seq(String m_id);
+	    
+	    public void p_pick(String m_id);
+	    public void p_pick_seq(String m_id);
+	    
+	    
+	    
 }
+
+
+
+
+
+

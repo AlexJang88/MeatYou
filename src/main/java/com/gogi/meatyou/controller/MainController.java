@@ -23,7 +23,7 @@ public class MainController {
 		  	String level= (String)session.getAttribute("mstat_auth");
 		    
 		  	model.addAttribute("status", status);
-		  System.out.print("Áö±İ ÇöÀç ½ºÅ×ÀÌÅÍ½º´Â   "+status+"  ÀÔ´Ï´Ù,±×¸®°í µî±ŞÀº"+level+"ÀÔ´Ï´Ù");
+		  System.out.print("ì§€ê¸ˆ í˜„ì¬ ìŠ¤í…Œì´í„°ìŠ¤ëŠ”   "+status+"  ì…ë‹ˆë‹¤,ê·¸ë¦¬ê³  ë“±ê¸‰ì€"+level+"ì…ë‹ˆë‹¤");
 
 
 		    return "main/main";

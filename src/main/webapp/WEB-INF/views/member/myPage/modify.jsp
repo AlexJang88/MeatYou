@@ -15,6 +15,7 @@
 
     <p>
         <a href="../member/modifyForm">정보수정</a>
+        <a href="../member/shoppingCartForm">장바구니</a>
         <a href="/member/deleteForm">탈퇴</a>
     </p>
 </body>
