@@ -21,6 +21,8 @@ public class CustomLoginHandler implements AuthenticationSuccessHandler {
 		authentication.getAuthorities().forEach(au ->{
 			roleNames.add(au.getAuthority());
 		});
+		
+		/*   원래있던거
 		String  rdir = "/main/main";
 		if(roleNames.contains("ROLE_ADMIN")) {
 			rdir = "/admin/main";
@@ -28,7 +30,20 @@ public class CustomLoginHandler implements AuthenticationSuccessHandler {
 			rdir="/main/main";
 		}
 		response.sendRedirect(rdir);
+	}*/
 		
+//	   2023-12-16	도준 
+		String  rdir = "/main/main";
+		if(roleNames.contains("ROLE_ADMIN")) {
+			rdir = "/member/admin";
+		}else if(roleNames.contains("ROLE_MEMBER")) {
+			rdir="/member/member";
+		}else if(roleNames.contains("ROLE_SALLER")) {
+			rdir="/member/saller";
+		}
+		response.sendRedirect(rdir);
 	}
+		
+		
 
 }

@@ -18,8 +18,6 @@ public class ProductDTO {
    private String startdate;  // 판매시작일
    private String enddate;  // 판매종료일
    private int p_status; // 판매상태
-   
-   
    private int pd_p_num;  //상품id
 	private String pd_p_desc;  //상품설명	
 	private String origin; // 원산진
@@ -32,5 +30,6 @@ public class ProductDTO {
 	private String pd_duedate;  //유통기한
 	private int pd_p_status;  // 노출상태
 	private PDetailDTO pdetaildto;  // 디테일 축약
+	private int count;
    
 }

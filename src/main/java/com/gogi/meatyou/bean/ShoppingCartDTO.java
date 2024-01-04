@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class ShoppingCartDTO {
-	private int shopNum;
-	private String mId;
-	private int pNum;
+	private int shop_num;
+	private String m_id;
+	private int p_num;
 	private int quantity; 
 }
