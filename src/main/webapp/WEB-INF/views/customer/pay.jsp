@@ -31,6 +31,7 @@
 		<table border="1" width="900" cellpadding="0" cellspacing="0" align="center">		
 			<tr height="30">				
 				<td width="150" align="center">구매자아이디</td>
+				<td width="150" align="center">구매코드번호</td>
 				<td width="150" align="center">등록된 상품 번호</td>
 				<td width="200" align="center">클릭당 금액</td>
 				<td width="200" align="center">남은 클릭 갯수</td>				
@@ -39,6 +40,7 @@
 			<c:forEach var="pay" items="${powerlist}">
 			  <tr align="center">
 				 <td>${pay.co_m_id}</td>
+				 <td>${pay.co_num}</td>
 				 <td>${pay.co_p_num}</td>
 				 <td>${pay.co_pay}</td>
 				 <td>${pay.co_quantity}</td>
@@ -66,6 +68,7 @@
 		<table border="1" width="900" cellpadding="0" cellspacing="0" align="center">		
 			<tr height="30">				
 				<td width="150" align="center">구매자아이디</td>
+				<td width="150" align="center">구매 코드번호</td>			
 				<td width="150" align="center">사용중인 상품번호</td>
 				<td width="200" align="center">사용한 금액</td>
 				<td width="200" align="center">결제일</td>				
@@ -74,6 +77,7 @@
 			<c:forEach var="pay" items="${paylist}">
 			  <tr align="center">
 				 <td>${pay.co_m_id}</td>
+				 <td>${pay.co_num}</td>
 				 <td>${pay.co_p_num}</td>
 				 <td>${pay.co_pay}</td>
 				 <td>
