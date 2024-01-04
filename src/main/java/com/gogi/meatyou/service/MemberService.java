@@ -1,16 +1,21 @@
 package com.gogi.meatyou.service;
 
 
+import java.util.List;
+
+import org.springframework.ui.Model;
+
 import com.gogi.meatyou.bean.CusDetailDTO;
 import com.gogi.meatyou.bean.MemberDTO;
+import com.gogi.meatyou.bean.ShoppingCartDTO;
 
 public interface MemberService {
     int insertMember(MemberDTO dto);
     
     
     
-    public MemberDTO member(String m_id);
-    
+    public MemberDTO member(String m_id);	
+    public List<ShoppingCartDTO> shoppingCartCheck(String m_id);
 	public void userUpdate(MemberDTO dto);
 	
 	public MemberDTO getUser(String m_id);

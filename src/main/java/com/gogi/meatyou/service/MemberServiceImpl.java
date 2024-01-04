@@ -2,12 +2,16 @@ package com.gogi.meatyou.service;
 
 import com.gogi.meatyou.bean.CusDetailDTO;
 import com.gogi.meatyou.bean.MemberDTO;
+import com.gogi.meatyou.bean.ShoppingCartDTO;
 import com.gogi.meatyou.repository.MemberMapper;
 
+import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -50,6 +54,8 @@ public class MemberServiceImpl implements MemberService {
 			// TODO Auto-generated method stub
 			return null;
 		}
+	   		
+		
 		
 		
 		  @Override
@@ -88,7 +94,16 @@ public class MemberServiceImpl implements MemberService {
 		    	mapper.p_pick_seq(m_id);
 		    	
 		    	
-		    };
+		    }
+
+
+			@Override
+			public List<ShoppingCartDTO> shoppingCartCheck(String m_id) {
+				
+					
+					
+				return mapper.shoppingcartCheck(m_id);
+			};
 		
 		
 		

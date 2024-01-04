@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.gogi.meatyou.bean.CusDetailDTO;
 import com.gogi.meatyou.bean.MemberDTO;
+import com.gogi.meatyou.bean.ShoppingCartDTO;
 
 public interface MemberMapper {
 	public MemberDTO read(String m_id);
@@ -23,8 +24,9 @@ public interface MemberMapper {
 	 
 		public MemberDTO member(String m_id);
 		
+		//public ShoppingCartDTO shoppingcartCheck(String m_id);
 		
-		
+		public List<ShoppingCartDTO> shoppingcartCheck(String m_id);
 		public void memberUpdate(MemberDTO dto);
 		
 		
@@ -49,6 +51,10 @@ public interface MemberMapper {
 	    
 	    public void p_pick(String m_id);
 	    public void p_pick_seq(String m_id);
+	    
+	    
+	    
+	    
 	    
 	    
 	    

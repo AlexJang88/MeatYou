@@ -46,6 +46,13 @@
 	<select id="member" resultType="com.gogi.meatyou.bean.MemberDTO">
 		select * from member where  m_id=#{m_id}
 	</select>
+	
+	
+<select id="shoppingcartCheck" resultType="com.gogi.meatyou.bean.ShoppingCartDTO">
+    select * from shoppingcart_${m_id} where shop_m_id=#{m_id}
+</select>
+
+
 
 
 			<insert id="insertMember" parameterType="com.gogi.meatyou.bean.MemberDTO">
@@ -75,16 +82,15 @@
     <![CDATA[
         CREATE TABLE ShoppingCart_${m_id} (
             shop_num NUMBER PRIMARY KEY, 
-            m_id VARCHAR2(1000) NOT NULL, 
-            P_num NUMBER NOT NULL,
+           shop_m_id VARCHAR2(1000) NOT NULL, 
+            shop_p_num NUMBER NOT NULL,
             quantity NUMBER NOT NULL,
-            CONSTRAINT fk_shop_member_${m_id} FOREIGN KEY (m_id) REFERENCES MEMBER (m_id) ON DELETE CASCADE,
-            CONSTRAINT fk_shop_product_${m_id} FOREIGN KEY (P_num) REFERENCES PRODUCT (p_num) ON DELETE CASCADE
+            CONSTRAINT fk_shop_member_${m_id} FOREIGN KEY (shop_m_id) REFERENCES MEMBER (m_id) ON DELETE CASCADE,
+            CONSTRAINT fk_shop_product_${m_id} FOREIGN KEY (shop_p_num) REFERENCES PRODUCT (p_num) ON DELETE CASCADE
         )
     ]]>
 </insert>
 
-				
 				<insert id="shoppingCart_seq">
 				 <![CDATA[
 					create sequence shoppingcart_${m_id}_seq   NOCACHE	
@@ -197,6 +203,8 @@
 )
     ]]>
 </insert>
+
+
 		
 		
 	

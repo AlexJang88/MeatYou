@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -193,23 +194,18 @@ public class MemberController {
 	
     // 장바구니 담기 
     @RequestMapping("shoppingCartForm")
-    public String shoppingCartForm(Model model, Authentication authentication,MemberDTO dto,ShoppingCartDTO cdto) {
-    	
-        model.addAttribute("cdto", cdto);
-        model.addAttribute("dto", dto);
-    	
+    public String shoppingCartForm(Model model, Authentication authentication) {
+    	 String m_id = authentication.getName();
+    	 // 여기서 service를 통해 해당 회원의 장바구니 정보를 가져와야 합니다.
+    	 
+    	 List<ShoppingCartDTO> dto = service.shoppingCartCheck(m_id);
+    	 model.addAttribute("dto", dto);
+	        
     	return "member/shoppingCart/shoppingCartForm";
     	
     }
     
     
-    
-    @RequestMapping("shoppingCartPro")
-    public String shoppingCartPro(MemberDTO dto,ShoppingCartDTO cdto) {
-        // 사용자 정보 업데이트
-
-    	return "member/shoppingCart/shoppingCartPro"; // 
-    }
     
     
     
