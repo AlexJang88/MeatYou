@@ -18,4 +18,14 @@ public interface CustomersService {
 	public void lister(Model model, int p_num); // 번호에 맞는 상품 정보 가져오기	
 	public void updateitemPro(ProductDTO productdto, PDetailDTO pdetaildto); //상품정보수정
 	
+	//재고 현황
+	public void stocklist(Model model, String id); //아이디와 모델 넘기기/ 전체 재고 목록 
+	public void onStock(Model model, String id); //아이디와 모델 넘기기 // 판매중인 제고 목록
+	public void stockPro (PDetailDTO pdetaildto); // 번호에 맞는 상품 재고 변경 (전체)
+	public void stockOnPro (PDetailDTO pdetaildto); // 번호에 맞는 상품 재고 변경(판매중)
+	
+	//유료결제란
+	public void pay(Model model, String id); //상품 유료결제 목록 불러오기
+	
+	
 }

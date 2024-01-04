@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.ui.Model;
 
+import com.gogi.meatyou.bean.CusOrderDTO;
 import com.gogi.meatyou.bean.PDetailDTO;
 import com.gogi.meatyou.bean.ProductDTO;
 
@@ -31,5 +32,20 @@ public interface CustomersMapper {
 	public PDetailDTO listerPD(int p_num); // 번호에 맞는 상품상세 정보 가져오기
 	public void itemUP(ProductDTO productdto); //상품 정보수정
 	public void itemDpUP(PDetailDTO pdetaildto); //상품상세 정보수정
+	
+	//재고현황	
+	public List<ProductDTO> stocklist(String id);  // 아이디에 맞는 상품 제고 및 목록 가져오기
+	public List<ProductDTO> stockonlist(String id);  // id에 맞는상품 제고 중 판매중인 리스트 가져오기
+	public void stockPro (PDetailDTO pdetaildto); // 번호에 맞는 상품 재고 변경
+	
+	//유료결제
+	public int listPayCount (String id); // 품목확장 유료결제 갯수 
+	public int listpaynowcount (String id); // 품목확장 유료결제 갯수 
+	public int powerPayCount (String id); // 파워링크 유료결제 횟수	
+	public List<CusOrderDTO> powerlist (String id); // 상위노출 목록 리스트로 정보 가져오기
+	public List<CusOrderDTO> paylist (String id); // 상위노출 목록 리스트로 정보 가져오기
+	
+	
+	
 	
 }

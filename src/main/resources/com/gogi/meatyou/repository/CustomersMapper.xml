@@ -36,7 +36,7 @@
 	    </insert>
 	       
 	    <select id="paycount" resultType="int">
-	    	select count(*) from CUS_ORDER where co_m_ID = #{id} and co_category = 2003
+	    	select count(*) from cus_order where co_category=2003 and co_m_id=#{id} and co_paydate>add_months(sysdate,-1)
 	    </select>	    
 		
 		<select id="itemcount" resultType="int">
@@ -79,7 +79,7 @@
 	    <select id="listerPD" resultType="com.gogi.meatyou.bean.PDetailDTO">
 	    SELECT * FROM P_DETAIL WHERE pd_P_num = #{p_num}
 	    </select>
-	    
+	   
 	    <update id="itemUP" parameterType="com.gogi.meatyou.bean.ProductDTO">
 		    update product
 		    <set>
@@ -95,21 +95,60 @@
 		</update>
 		
 		<update id="itemDpUP" parameterType="com.gogi.meatyou.bean.PDetailDTO">
-    update P_DETAIL
-    <set>
-        <if test="pd_p_desc != null and pd_p_desc != '' ">pd_p_desc=#{pd_p_desc},</if>
-        <if test="origin != null and origin != '' ">origin=#{origin},</if> 
-        <if test="local != null and local != '' ">local=#{local},</if> 
-        <if test="butchery != null and butchery != '' ">butchery=#{butchery},</if> 
-        <if test="weight != null and weight != '' ">weight=#{weight},</if> 
-        <if test="serialNum != null and serialNum != '' ">serialNum=#{serialNum},</if> 
-        <if test="retain != null and retain != '' ">retain=#{retain},</if> 
-        <if test="stock != null and stock != '' ">stock=#{stock},</if> 
-        <if test="pd_duedate != null and pd_duedate != '' ">pd_duedate=#{pd_duedate}</if> 
-    </set>
-    where pd_p_num=#{pd_p_num} 
-</update>
+		    update P_DETAIL
+		    <set>
+		        <if test="pd_p_desc != null and pd_p_desc != '' ">pd_p_desc=#{pd_p_desc},</if>
+		        <if test="origin != null and origin != '' ">origin=#{origin},</if> 
+		        <if test="local != null and local != '' ">local=#{local},</if> 
+		        <if test="butchery != null and butchery != '' ">butchery=#{butchery},</if> 
+		        <if test="weight != null and weight != '' ">weight=#{weight},</if> 
+		        <if test="serialNum != null and serialNum != '' ">serialNum=#{serialNum},</if> 
+		        <if test="retain != null and retain != '' ">retain=#{retain},</if> 
+		        <if test="stock != null and stock != '' ">stock=#{stock},</if> 
+		        <if test="pd_duedate != null and pd_duedate != '' ">pd_duedate=#{pd_duedate}</if> 
+		    </set>
+		    where pd_p_num=#{pd_p_num} 
+		</update>
     	
-    	
+		<select id="stocklist" resultType="com.gogi.meatyou.bean.ProductDTO">
+	   	 select * from product p, P_DETAIL pd where p.P_num = pd.pd_P_num and p.p_M_ID =#{id}
+	    </select>    	
+
+		<select id="stockonlist" resultType="com.gogi.meatyou.bean.ProductDTO">
+	   	 SELECT * FROM product p, P_DETAIL pd WHERE p.P_num = pd.pd_P_num AND p.p_M_ID = #{id} AND (p.p_status = 0 OR p.p_status = 1)
+	    </select>
+
+		<update id="stockPro" parameterType="com.gogi.meatyou.bean.PDetailDTO">
+		    update P_DETAIL
+		    <set>     
+		        <if test="stock != null and stock != '' ">stock=#{stock}</if> 	        
+		    </set>
+		    where pd_p_num=#{pd_p_num} 
+		</update>
+
+		
+
+		<select id="listPayCount" resultType="int">
+	    select count(*) from CUS_ORDER where co_m_id=#{id} and co_category=2003 order by co_paydate desc
+	    </select>
+	    
+	    <select id="listpaynowcount" resultType="int">
+	    select count(*) from cus_order where co_category=2003 and co_m_id=#{id} and co_paydate>add_months(sysdate,-1)
+	    </select>
+		
+		<select id="powerPayCount" resultType="int">
+	    select count(*) from CUS_ORDER where co_m_id=#{id} and co_category=2002 order by co_paydate desc
+	    </select>
+
+		<select id="powerlist" resultType="com.gogi.meatyou.bean.CusOrderDTO">
+		    SELECT * FROM CUS_ORDER WHERE co_m_id = #{id} AND co_category = 2002 ORDER BY co_paydate DESC
+		</select>
+
+		<select id="paylist" resultType="com.gogi.meatyou.bean.CusOrderDTO">
+		SELECT co_NUM, co_category, co_QUANTITY, co_PAY, co_m_ID, AUTOPAY, co_P_NUM, co_paydate,co_paydate + INTERVAL '1' MONTH AS co_payenddate
+		FROM CUS_ORDER where co_category=2003 and co_m_id=#{id} order by co_paydate desc
+		</select> 
+
+
 
 </mapper>

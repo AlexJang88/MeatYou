@@ -21,10 +21,11 @@
 	</c:if>
 	
 	<c:if test="${counting >=  0}">		
-			<h3 align="center">판매중인 상품목록 : ${counting} / 사용 가능한 유료 상품 갯수 : ${paycount} 개</h3>
-			<table border="1" width="1000" cellpadding="0" cellspacing="0" align="center">			
+			<h3 align="center">판매중인 상품목록 : ${counting} / 사용 가능한 유료 품목 확장 갯수 : ${paycount} 개</h3>
+			<table border="1" width="1100" cellpadding="0" cellspacing="0" align="center">			
 				<tr height="30"> 
 					<td width="300" align="center">썸네일 사진</td>
+					<td width="100" align="center">등록된 상품번호</td>
 					<td width="200" align="center">제품이름</td>
 					<td width="200" align="center">가격</td>				
 					<td width="200" align="center">현재상태</td>				
@@ -38,8 +39,9 @@
             		 <input type="hidden" name="p_m_id" value="${memId}">	
             		 <input type="hidden" name="p_num" value="${product.p_num}">	
      			
-            		 	<tr>
+            		 	<tr align="center">
             		 		<td>${product.thumb}</td>
+            		 		<td>${product.p_num}</td>
             		 		<td>${product.p_name}</td>
             		 		<td>${product.p_price}</td>
             		 		<td>
