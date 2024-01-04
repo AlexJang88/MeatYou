@@ -21,9 +21,10 @@
 	
 	<c:if test="${countout >=  0}">		
 			<h2 align="center">판매 종료 및 대기 상품목록 : ${countout}</h2>
-			<table border="1" width="1000" cellpadding="0" cellspacing="0" align="center">			
+			<table border="1" width="1100" cellpadding="0" cellspacing="0" align="center">			
 				<tr height="30"> 
 					<td width="300" align="center">썸네일 사진</td>
+					<td width="100" align="center">등록된 상품번호</td>
 					<td width="200" align="center">제품이름</td>
 					<td width="200" align="center">가격</td>				
 					<td width="200" align="center">현재상태</td>	
@@ -31,8 +32,9 @@
 				</tr>
 					
 				<c:forEach var="product" items="${listout}">			 			 			   			
-            		 	<tr>
+            		 	<tr align="center">
             		 		<td>${product.thumb}</td>
+            		 		<td>${product.p_num}</td>
             		 		<td>${product.p_name}</td>
             		 		<td>${product.p_price}</td>
             		 		<td>

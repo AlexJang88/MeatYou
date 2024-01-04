@@ -26,12 +26,12 @@ public class CustomUser extends User {
     public CustomUser(MemberDTO dto ) {
     	
         super(dto.getM_id(), dto.getPasswd(),
-                dto.getMstatus_list().stream().map(auth -> new SimpleGrantedAuthority(String.valueOf(auth.getMsta_m_status())))
+                dto.getMstatus_list().stream().map(auth -> new SimpleGrantedAuthority(String.valueOf(auth.getMstat_auth())))
                         .collect(Collectors.toList()));
         this.dto = dto;
-        // µð¹ö±× ·Î±×
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î±ï¿½
         
-        System.out.println("CustomUser »ý¼º ¿Ï·á!!!!"+dto.getM_name()+"´Ô²²¼­ÀÔ·ÂÇÏ½Å ¾ÆÀÌµð : " + dto.getM_id() + " ºñ¹Ð¹øÈ£ :"+dto.getPasswd()+"µî±ÞÀº:"+dto.getMstat_auth()+"ÀÌ¸ç "+dto.getMstat_detail()+"´Ô ÀÔ´Ï´Ù");
+        System.out.println("CustomUser ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½!!!!"+dto.getM_name()+"ï¿½Ô²ï¿½ï¿½ï¿½ï¿½Ô·ï¿½ï¿½Ï½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ : " + dto.getM_id() + " ï¿½ï¿½Ð¹ï¿½È£ :"+dto.getPasswd()+"ï¿½ï¿½ï¿½ï¿½ï¿½:"+dto.getMstat_auth()+"ï¿½Ì¸ï¿½ "+dto.getMstat_detail()+"ï¿½ï¿½ ï¿½Ô´Ï´ï¿½");
         
     }
 }

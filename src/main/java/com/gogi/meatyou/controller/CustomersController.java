@@ -17,152 +17,179 @@ import com.gogi.meatyou.service.CustomersService;
 @Controller
 @RequestMapping("/customers/*")
 public class CustomersController {
-	
-	@Autowired
-	private CustomersService service;
-	
-	@RequestMapping("customer") //È¨
-	public String home(HttpSession session) {		
-		session.setAttribute("memId", "user5");
-		return "customer/customer";
-	}
-	
-	@RequestMapping("itemUpdate") //»óÇ°µî·Ï
-	public String update() {
-		return "customer/itemUpdate";
-	}
+   
+   @Autowired
+   private CustomersService service;
+   
+   @RequestMapping("customer") //í™ˆ
+   public String home(HttpSession session) {      
+      session.setAttribute("memId", "user5");
+      return "customer/customer";
+   }
+   
+   @RequestMapping("itemUpdate") //ìƒí’ˆë“±ë¡
+   public String update() {
+      return "customer/itemUpdate";
+   }
 
-	@RequestMapping("itemUpdatePro") //»óÇ°µî·Ï È®ÀÎ
-	public String itemUpdatePro( ProductDTO productdto, PDetailDTO pdetaildto) {		
-		service.itemUpdate(productdto,pdetaildto);		
-		return "redirect:/customers/customer";
-	}
-	
-	@RequestMapping("itemListing") //ÆÇ¸ÅÁßÀÎ »óÇ°¸ñ·Ï
-	public String itemListing(Model model, HttpSession session ) {		
-		String id = (String)session.getAttribute("memId"); // ¼¼¼ÇÀ» ½ºÆ®¸µÀ¸·Î º¯È¯
-		service.listing(model, id);  // ¾ÆÀÌµğ°ª ³Ñ±â±â		
-		return "customer/itemListing";
-	}
-	
-	@RequestMapping("/statusChangeing") //ÆÇ¸ÅÁßÀÎ »óÇ°¸ñ·Ï ÆäÀÌÁö¿¡¼­ º¯°æÇÏ¸é µ¹¾Æ¿À´Â°÷¼³Á¤
-	public String statusChangeing(String p_m_id, int p_status, int p_num) {	
-		ProductDTO productdto = new ProductDTO();  //¾Æ·¡ 3°³¸¦ ¹­À½
-		productdto.setP_m_id(p_m_id);	// ¾ÆÀÌµğ°ª
-		productdto.setP_status(p_status); // º¯°æµÈ »óÇ° »óÅÂ°ª
-		productdto.setP_num(p_num); //»óÇ°¹øÈ£°ª
-		
-		service.statusChange(productdto); // È¸¿øÀÇ ÆÇ¸Å»óÅÂ¸¦ º¯°æ
-		return "redirect:/customers/itemListing";
-	}
-		
-	@RequestMapping("itemList") //µî·ÏÇÑ »óÇ°¸ñ·Ï
-	public String itemList(Model model, HttpSession session ) {		
-		String id = (String)session.getAttribute("memId"); // ¼¼¼ÇÀ» ½ºÆ®¸µÀ¸·Î º¯È¯
-		service.list(model, id);  // ¾ÆÀÌµğ°ª ³Ñ±â±â		
-		return "customer/itemList";
-	}
-	
-	@RequestMapping("/statusChange") //»óÇ°¸ñ·ÏÆäÀÌÁö¿¡¼­ º¯°æÇÏ¸é µ¹¾Æ¿À´Â°÷¼³Á¤
-	public String statusChange(String p_m_id, int p_status, int p_num) {	
-		ProductDTO productdto = new ProductDTO();  //¾Æ·¡ 3°³¸¦ ¹­À½
-		productdto.setP_m_id(p_m_id);	// ¾ÆÀÌµğ°ª
-		productdto.setP_status(p_status); // º¯°æµÈ »óÇ° »óÅÂ°ª
-		productdto.setP_num(p_num); //»óÇ°¹øÈ£°ª
-		
-		service.statusChange(productdto); // È¸¿øÀÇ ÆÇ¸Å»óÅÂ¸¦ º¯°æ
-		return "redirect:/customers/itemList";
-	}
-	
-	@RequestMapping("itemListOut") //ÆÇ¸ÅÁ¾·áµÈ »óÇ°¸ñ·Ï
-	public String itemListOut(Model model, HttpSession session ) {		
-		String id = (String)session.getAttribute("memId"); // ¼¼¼ÇÀ» ½ºÆ®¸µÀ¸·Î º¯È¯
-		service.listout(model, id);  // ¾ÆÀÌµğ°ª ³Ñ±â±â		
-		
-		return "customer/itemListOut";
-	}
-	
-	@RequestMapping("/statusChangeout") //ÆÇ¸ÅÁ¾·áµÈ »óÇ°¸ñ·Ï ÆäÀÌÁö¿¡¼­ º¯°æÇÏ¸é µ¹¾Æ¿À´Â°÷¼³Á¤
-	public String statusChangeout(String p_m_id, int p_status, int p_num) {	
-		ProductDTO productdto = new ProductDTO();  //¾Æ·¡ 3°³¸¦ ¹­À½
-		productdto.setP_m_id(p_m_id);	// ¾ÆÀÌµğ°ª
-		productdto.setP_status(p_status); // º¯°æµÈ »óÇ° »óÅÂ°ª
-		productdto.setP_num(p_num); //»óÇ°¹øÈ£°ª
-		
-		service.statusChange(productdto); // È¸¿øÀÇ ÆÇ¸Å»óÅÂ¸¦ º¯°æ
-		return "redirect:/customers/itemListOut";
-	}
-	
-	@RequestMapping("content") //»óÇ° Á¤º¸º¸±â
-	public String content(Model model, int p_num, HttpSession session ) {
-		model.addAttribute("p_num",p_num);
-		
-		return "customer/content";
-	}
-	
-	
-	@RequestMapping("itemRevise") //»óÇ° Á¤º¸¼öÁ¤ (°ª È®ÀÎÇÏ±â
-	public String itemRevise(Model model, int p_num ) {
-		model.addAttribute("p_num",p_num);
-		service.lister(model, p_num);			
-		return "customer/itemRevise";
-	}
-	
-	
-	@RequestMapping("itemRevisePro") //»óÇ° Á¤º¸¼öÁ¤ ÇÁ·ÎÆäÀÌÁö
-	public String itemRevisePro( ProductDTO productdto, PDetailDTO pdetaildto) {
-			
-		//productdto.setStartdate(productdto.getStartdate().substring(0,10)); ³¯Â¥ Àß¶óº¸±â À§ÇØ ½ÇÇè
-		//productdto.setEnddate(productdto.getEnddate().substring(0,10));
-		//System.out.println("================"+productdto.getEnddate().substring(0,10)+"========"); ³¯Â¥ Àß¶óº¸±â À§ÇØ ½ÇÇè
-		service.updateitemPro(productdto,pdetaildto);
-				
-		return "redirect:/customers/itemList";
-	}
-	
-	
-	
-	
-	
-	
-	@RequestMapping("profit") //¸ÅÃâÇöÈ²
-	public String profit() {
-		return "customer/profit";
-	}
-	
-	@RequestMapping("stock") //Àç°íÇöÈ²
-	public String stock() {
-		return "customer/stock";
-	}
-		
-	@RequestMapping("consumerList") //±¸¸ÅÈ¸¿ø
-	public String consumerList() {
-		return "customer/consumerList";
-	}
-	
-	@RequestMapping("pay") //À¯·á°áÁ¦
-	public String pat() {
-		return "customer/pay";
-	}
-	
-	@RequestMapping("deliver") //¹è¼ÛÇöÈ²
-	public String deliver() {
-		return "customer/deliver";
-	}
-	
-	@RequestMapping("total") //Á¤»ê¾È³»
-	public String total() {
-		return "customer/total";
-	}
-	
-	@RequestMapping("cusQna") //¹®ÀÇÇÏ±â
-	public String cusQna() {
-		return "customer/cusQna";
-	}
-	
-	@RequestMapping("cusCoupon") //ÄíÆùÁ¦°ø¸®½ºÆ®
-	public String cusCoupon() {
-		return "customer/cusCoupon";
-	}
-	
+   @RequestMapping("itemUpdatePro") //ìƒí’ˆë“±ë¡ í™•ì¸
+   public String itemUpdatePro( ProductDTO productdto, PDetailDTO pdetaildto) {      
+      service.itemUpdate(productdto,pdetaildto);      
+      return "redirect:/customers/customer";
+   }
+   
+   @RequestMapping("itemListing") //íŒë§¤ì¤‘ì¸ ìƒí’ˆëª©ë¡
+   public String itemListing(Model model, HttpSession session ) {      
+      String id = (String)session.getAttribute("memId"); // ì„¸ì…˜ì„ ìŠ¤íŠ¸ë§ìœ¼ë¡œ ë³€í™˜
+      service.listing(model, id);  // ì•„ì´ë””ê°’ ë„˜ê¸°ê¸°      
+      return "customer/itemListing";
+   }
+   
+   @RequestMapping("/statusChangeing") //íŒë§¤ì¤‘ì¸ ìƒí’ˆëª©ë¡ í˜ì´ì§€ì—ì„œ ë³€ê²½í•˜ë©´ ëŒì•„ì˜¤ëŠ”ê³³ì„¤ì •
+   public String statusChangeing(String p_m_id, int p_status, int p_num) {   
+      ProductDTO productdto = new ProductDTO();  //ì•„ë˜ 3ê°œë¥¼ ë¬¶ìŒ
+      productdto.setP_m_id(p_m_id);   // ì•„ì´ë””ê°’
+      productdto.setP_status(p_status); // ë³€ê²½ëœ ìƒí’ˆ ìƒíƒœê°’
+      productdto.setP_num(p_num); //ìƒí’ˆë²ˆí˜¸ê°’      
+      service.statusChange(productdto); // íšŒì›ì˜ íŒë§¤ìƒíƒœë¥¼ ë³€ê²½
+      return "redirect:/customers/itemListing";
+   }
+      
+   @RequestMapping("itemList") //ë“±ë¡í•œ ìƒí’ˆëª©ë¡
+   public String itemList(Model model, HttpSession session ) {      
+      String id = (String)session.getAttribute("memId"); // ì„¸ì…˜ì„ ìŠ¤íŠ¸ë§ìœ¼ë¡œ ë³€í™˜
+      service.list(model, id);  // ì•„ì´ë””ê°’ ë„˜ê¸°ê¸°      
+      return "customer/itemList";
+   }
+   
+   @RequestMapping("/statusChange") //ìƒí’ˆëª©ë¡í˜ì´ì§€ì—ì„œ ë³€ê²½í•˜ë©´ ëŒì•„ì˜¤ëŠ”ê³³ì„¤ì •
+   public String statusChange(String p_m_id, int p_status, int p_num) {   
+      ProductDTO productdto = new ProductDTO();  //ì•„ë˜ 3ê°œë¥¼ ë¬¶ìŒ
+      productdto.setP_m_id(p_m_id);   // ì•„ì´ë””ê°’
+      productdto.setP_status(p_status); // ë³€ê²½ëœ ìƒí’ˆ ìƒíƒœê°’
+      productdto.setP_num(p_num); //ìƒí’ˆë²ˆí˜¸ê°’   
+      service.statusChange(productdto); // íšŒì›ì˜ íŒë§¤ìƒíƒœë¥¼ ë³€ê²½
+      return "redirect:/customers/itemList";
+   }
+   
+   @RequestMapping("itemListOut") //íŒë§¤ì¢…ë£Œëœ ìƒí’ˆëª©ë¡
+   public String itemListOut(Model model, HttpSession session ) {      
+      String id = (String)session.getAttribute("memId"); // ì„¸ì…˜ì„ ìŠ¤íŠ¸ë§ìœ¼ë¡œ ë³€í™˜
+      service.listout(model, id);  // ì•„ì´ë””ê°’ ë„˜ê¸°ê¸°         
+      return "customer/itemListOut";
+   }
+   
+   @RequestMapping("/statusChangeout") //íŒë§¤ì¢…ë£Œëœ ìƒí’ˆëª©ë¡ í˜ì´ì§€ì—ì„œ ë³€ê²½í•˜ë©´ ëŒì•„ì˜¤ëŠ”ê³³ì„¤ì •
+   public String statusChangeout(String p_m_id, int p_status, int p_num) {   
+      ProductDTO productdto = new ProductDTO();  //ì•„ë˜ 3ê°œë¥¼ ë¬¶ìŒ
+      productdto.setP_m_id(p_m_id);   // ì•„ì´ë””ê°’
+      productdto.setP_status(p_status); // ë³€ê²½ëœ ìƒí’ˆ ìƒíƒœê°’
+      productdto.setP_num(p_num); //ìƒí’ˆë²ˆí˜¸ê°’      
+      service.statusChange(productdto); // íšŒì›ì˜ íŒë§¤ìƒíƒœë¥¼ ë³€ê²½
+      return "redirect:/customers/itemListOut";
+   }
+   
+   @RequestMapping("content") //ìƒí’ˆ ì •ë³´ë³´ê¸°
+   public String content(Model model, int p_num, HttpSession session ) {
+      model.addAttribute("p_num",p_num);      
+      return "customer/content";
+   }
+   
+   
+   //ì—¬ê¸°ëŠ” ì •ë³´ìˆ˜ì •   
+   @RequestMapping("itemRevise") //ìƒí’ˆ ì •ë³´ìˆ˜ì • (ê°’ í™•ì¸í•˜ê¸°
+   public String itemRevise(Model model, int p_num ) {
+      model.addAttribute("p_num",p_num);
+      service.lister(model, p_num);         
+      return "customer/itemRevise";
+   }
+      
+   @RequestMapping("itemRevisePro") //ìƒí’ˆ ì •ë³´ìˆ˜ì • í”„ë¡œí˜ì´ì§€
+   public String itemRevisePro( ProductDTO productdto, PDetailDTO pdetaildto) {         
+      //productdto.setStartdate(productdto.getStartdate().substring(0,10)); ë‚ ì§œ ì˜ë¼ë³´ê¸° ìœ„í•´ ì‹¤í—˜
+      //productdto.setEnddate(productdto.getEnddate().substring(0,10));
+      //System.out.println("================"+productdto.getEnddate().substring(0,10)+"========"); ë‚ ì§œ ì˜ë¼ë³´ê¸° ìœ„í•´ ì‹¤í—˜
+      service.updateitemPro(productdto,pdetaildto);         
+      return "redirect:/customers/itemList";
+   }
+   
+   
+   //ì—¬ê¸°ëŠ” ì¬ê³ í˜„í™©íŒŒì•…
+   
+   @RequestMapping("stock") //ì „ì²´ ìƒí’ˆ ì¬ê³ í˜„í™©
+   public String stock(Model model, HttpSession session) {
+      String id = (String)session.getAttribute("memId"); // ì„¸ì…˜ì„ ìŠ¤íŠ¸ë§ìœ¼ë¡œ ë³€í™˜         
+      service.stocklist(model, id);  // ì•„ì´ë””ê°’ ë„˜ê¸°ê¸°      
+      return "customer/stock";
+   }
+   
+   @RequestMapping("onStock") //íŒë§¤ì¤‘ì¸ ìƒí’ˆ ì¬ê³ í˜„í™©
+   public String onStock(Model model, HttpSession session) {
+      String id = (String)session.getAttribute("memId"); // ì„¸ì…˜ì„ ìŠ¤íŠ¸ë§ìœ¼ë¡œ ë³€í™˜
+      service.onStock(model, id);      
+      return "customer/onStock";
+   }
+   
+   @RequestMapping("stockPro") //ìƒí’ˆ ì „ì²´ëª©ë¡ ì¤‘ ì¬ê³  ë³€ê²½
+   public String stockPro(PDetailDTO pdetaildto) {      
+      service.stockPro(pdetaildto);      
+      return "redirect:/customers/stock";
+   }
+   
+   @RequestMapping("stockOnPro") //íŒë§¤ì¤‘ì¸ ìƒí’ˆì¤‘ ì¤‘ ì¬ê³  ë³€ê²½
+   public String stockOnPro(PDetailDTO pdetaildto) {      
+      service.stockOnPro(pdetaildto);      
+      return "redirect:/customers/onStock";
+   }
+   
+   
+   //ìœ ë£Œê²°ì œë€
+   @RequestMapping("pay") //ìœ ë£Œê²°ì œ
+   public String pay(Model model, HttpSession session) { //ìœ ë£Œê²°ì œ í•­ëª© ë¶ˆëŸ¬ì˜¤ê¸°
+      String id = (String)session.getAttribute("memId"); // ì„¸ì…˜ì„ ìŠ¤íŠ¸ë§ìœ¼ë¡œ ë³€í™˜
+      service.pay(model, id);
+      return "customer/pay";
+   }
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   @RequestMapping("profit") //ë§¤ì¶œí˜„í™©
+   public String profit() {
+      return "customer/profit";
+   }
+   
+   
+   @RequestMapping("consumerList") //êµ¬ë§¤íšŒì›
+   public String consumerList() {
+      return "customer/consumerList";
+   }
+   
+   
+   
+   @RequestMapping("deliver") //ë°°ì†¡í˜„í™©
+   public String deliver() {
+      return "customer/deliver";
+   }
+   
+   @RequestMapping("total") //ì •ì‚°ì•ˆë‚´
+   public String total() {
+      return "customer/total";
+   }
+   
+   @RequestMapping("cusQna") //ë¬¸ì˜í•˜ê¸°
+   public String cusQna() {
+      return "customer/cusQna";
+   }
+   
+   @RequestMapping("cusCoupon") //ì¿ í°ì œê³µë¦¬ìŠ¤íŠ¸
+   public String cusCoupon() {
+      return "customer/cusCoupon";
+   }
+   
 }

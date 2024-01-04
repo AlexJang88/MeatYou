@@ -5,31 +5,47 @@ import java.util.List;
 
 import org.springframework.ui.Model;
 
+import com.gogi.meatyou.bean.CusOrderDTO;
 import com.gogi.meatyou.bean.PDetailDTO;
 import com.gogi.meatyou.bean.ProductDTO;
 
 
 public interface CustomersMapper {
 
-	public void productUp(ProductDTO productdto); //»óÇ°µî·Ï
-	public void P_DETAILUp(PDetailDTO pdetaildto);  // »óÇ°»ó¼¼µî·Ï
-	
-	public int itemcount(String id); // »óÇ°¸ñ·ÏÆäÀÌÁöÀÇ  ÃÑ µî·Ï °¹¼ö
-	public int paycount(String id); // Ç°¸ñ À¯·á°áÁ¦ÇÑ °¹¼ö
-	public int itemcounting(String id); // ÆÇ¸ÅÁßÀÎ »óÇ° ÆäÀÌÁö¿¡¼­ ÆÇ¸ÅÁßÀÎ °¹¼ö
-	public int itemcountout(String id); // ÆÇ¸ÅÁßÀÎ »óÇ° ÆäÀÌÁö¿¡¼­ ÆÇ¸ÅÁßÀÎ °¹¼ö
-	
-	public List<ProductDTO> list(String id); // »óÇ°¸ñ·Ï ÀüÃ¼ ÆäÀÌÁö
-	public List<ProductDTO> listing(String id); // ÆÇ¸ÅÁßÀÎ »óÇ°µéÀÌ º¸ÀÌ´Â ÆäÀÌÁö 
-	public List<ProductDTO> listout(String id); // ÆÇ¸ÅÁßÀÎ »óÇ°µéÀÌ º¸ÀÌ´Â ÆäÀÌÁö 
-	
-	public int member_status(String id); // »óÇ°¸ñ·Ï¿¡¼­ ³ëÃâºñ³ëÃâ Ç¥±â½Ã µî±Ş¿¡µû¶ó ³ª¿À°Ô ( 2001 2002 2003 2004 ÀÌ³ª¿Â´Ù)
-	public int statusChange(ProductDTO productdto); //È¸¿øÀÇ ÆÇ¸Å»óÅÂ¸¦ º¯°æ
-	
-	//¾Æ·¡·Î´Â »óÇ° ¼öÁ¤
-	public ProductDTO lister(int p_num); // ¹øÈ£¿¡ ¸Â´Â »óÇ° Á¤º¸ °¡Á®¿À±â
-	public PDetailDTO listerPD(int p_num); // ¹øÈ£¿¡ ¸Â´Â »óÇ°»ó¼¼ Á¤º¸ °¡Á®¿À±â
-	public void itemUP(ProductDTO productdto); //»óÇ° Á¤º¸¼öÁ¤
-	public void itemDpUP(PDetailDTO pdetaildto); //»óÇ°»ó¼¼ Á¤º¸¼öÁ¤
-	
+   public void productUp(ProductDTO productdto); //ìƒí’ˆë“±ë¡
+   public void P_DETAILUp(PDetailDTO pdetaildto);  // ìƒí’ˆìƒì„¸ë“±ë¡
+   
+   public int itemcount(String id); // ìƒí’ˆëª©ë¡í˜ì´ì§€ì˜  ì´ ë“±ë¡ ê°¯ìˆ˜
+   public int paycount(String id); // í’ˆëª© ìœ ë£Œê²°ì œí•œ ê°¯ìˆ˜
+   public int itemcounting(String id); // íŒë§¤ì¤‘ì¸ ìƒí’ˆ í˜ì´ì§€ì—ì„œ íŒë§¤ì¤‘ì¸ ê°¯ìˆ˜
+   public int itemcountout(String id); // íŒë§¤ì¤‘ì¸ ìƒí’ˆ í˜ì´ì§€ì—ì„œ íŒë§¤ì¤‘ì¸ ê°¯ìˆ˜
+   
+   public List<ProductDTO> list(String id); // ìƒí’ˆëª©ë¡ ì „ì²´ í˜ì´ì§€
+   public List<ProductDTO> listing(String id); // íŒë§¤ì¤‘ì¸ ìƒí’ˆë“¤ì´ ë³´ì´ëŠ” í˜ì´ì§€ 
+   public List<ProductDTO> listout(String id); // íŒë§¤ì¤‘ì¸ ìƒí’ˆë“¤ì´ ë³´ì´ëŠ” í˜ì´ì§€ 
+   
+   public int member_status(String id); // ìƒí’ˆëª©ë¡ì—ì„œ ë…¸ì¶œë¹„ë…¸ì¶œ í‘œê¸°ì‹œ ë“±ê¸‰ì—ë”°ë¼ ë‚˜ì˜¤ê²Œ ( 2001 2002 2003 2004 ì´ë‚˜ì˜¨ë‹¤)
+   public int statusChange(ProductDTO productdto); //íšŒì›ì˜ íŒë§¤ìƒíƒœë¥¼ ë³€ê²½
+   
+   //ì•„ë˜ë¡œëŠ” ìƒí’ˆ ìˆ˜ì •
+   public ProductDTO lister(int p_num); // ë²ˆí˜¸ì— ë§ëŠ” ìƒí’ˆ ì •ë³´ ê°€ì ¸ì˜¤ê¸°
+   public PDetailDTO listerPD(int p_num); // ë²ˆí˜¸ì— ë§ëŠ” ìƒí’ˆìƒì„¸ ì •ë³´ ê°€ì ¸ì˜¤ê¸°
+   public void itemUP(ProductDTO productdto); //ìƒí’ˆ ì •ë³´ìˆ˜ì •
+   public void itemDpUP(PDetailDTO pdetaildto); //ìƒí’ˆìƒì„¸ ì •ë³´ìˆ˜ì •
+   
+   //ì¬ê³ í˜„í™©   
+   public List<ProductDTO> stocklist(String id);  // ì•„ì´ë””ì— ë§ëŠ” ìƒí’ˆ ì œê³  ë° ëª©ë¡ ê°€ì ¸ì˜¤ê¸°
+   public List<ProductDTO> stockonlist(String id);  // idì— ë§ëŠ”ìƒí’ˆ ì œê³  ì¤‘ íŒë§¤ì¤‘ì¸ ë¦¬ìŠ¤íŠ¸ ê°€ì ¸ì˜¤ê¸°
+   public void stockPro (PDetailDTO pdetaildto); // ë²ˆí˜¸ì— ë§ëŠ” ìƒí’ˆ ì¬ê³  ë³€ê²½
+   
+   //ìœ ë£Œê²°ì œ
+   public int listPayCount (String id); // í’ˆëª©í™•ì¥ ìœ ë£Œê²°ì œ ê°¯ìˆ˜ 
+   public int listpaynowcount (String id); // í’ˆëª©í™•ì¥ ìœ ë£Œê²°ì œ ê°¯ìˆ˜ 
+   public int powerPayCount (String id); // íŒŒì›Œë§í¬ ìœ ë£Œê²°ì œ íšŸìˆ˜   
+   public List<CusOrderDTO> powerlist (String id); // ìƒìœ„ë…¸ì¶œ ëª©ë¡ ë¦¬ìŠ¤íŠ¸ë¡œ ì •ë³´ ê°€ì ¸ì˜¤ê¸°
+   public List<CusOrderDTO> paylist (String id); // ìƒìœ„ë…¸ì¶œ ëª©ë¡ ë¦¬ìŠ¤íŠ¸ë¡œ ì •ë³´ ê°€ì ¸ì˜¤ê¸°
+   
+   
+   
+   
 }

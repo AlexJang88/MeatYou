@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.gogi.meatyou.bean.CusOrderDTO;
 import com.gogi.meatyou.bean.PDetailDTO;
 import com.gogi.meatyou.bean.ProductDTO;
 import com.gogi.meatyou.repository.CustomersMapper;
@@ -14,87 +15,130 @@ import com.gogi.meatyou.repository.CustomersMapper;
 @Service
 public class CustomersServiceImpl implements CustomersService {
 
-	@Autowired
-	private CustomersMapper mapper;
+   @Autowired
+   private CustomersMapper mapper;
 
-	@Override
-	public void itemUpdate(ProductDTO productdto, PDetailDTO pdetaildto) { //»óÇ°µî·Ï		
-		mapper.productUp(productdto);
-		mapper.P_DETAILUp(pdetaildto);
-	}
-	
-	@Override  //¾ÆÀÌµğ¿¡ ¸Â´Â »óÇ° °¹¼ö ºÒ·¯¿À±â
-	public int itemcount(String id) {		
-		return mapper.itemcount(id);
-	}
-	
-	@Override // ¾ÆÀÌµğ¿¡ ¸Â´Â »óÇ°°¹¼ö ºÒ·¯¿Í¼­ ¸ğµ¨¿¡ ´ã¾Æ¼­ °ª °¡Á®¿À±â (»óÇ°ÀüÃ¼¸ñ·Ï)
-	public void list(Model model, String id) {  //»óÇ°°¹¼ö¹Ş¾Æ¿À±â , Á¤º¸µé
-		int count = mapper.itemcount(id);   //id¿¡ ¸Â´Â »óÇ°°¹¼ö ¹Ş¾Æ¿À±â
-		int paycount = mapper.paycount(id); //id¿¡ ¸Â´Â À¯·á°áÁ¦ Ç°¸ñ°¹¼ö
-		int M_status =mapper.member_status(id);		
-		List<ProductDTO> list = mapper.list(id); // id¿¡ ¸Â´Â »óÇ°¸ñ·Ï ¸®½ºÆ® °¡Á®¿À±â
-		
-		model.addAttribute("M_status", M_status); // id¿¡ ¸Â´Â µî±Ş°¡Á®¿À±â
-		model.addAttribute("count", count);  // count¿¡ »óÇ°°¹¼ö ´ã±â
-		model.addAttribute("paycount", paycount);  // paycount¿¡ Ç°¸ñ À¯·á°áÀçÇÑ °¹¼ö ´ã±â
-		model.addAttribute("list", list);
-		
-	}
-	
-	@Override
-	public void listing(Model model, String id) { //ÆÇ¸ÅÁßÀÎ »óÇ°
-		int counting = mapper.itemcounting(id); // ÆÇ¸ÅÁßÀÎ »óÇ°°¹¼ö ´ã±â
-		int paycount = mapper.paycount(id); //id¿¡ ¸Â´Â À¯·á°áÁ¦ Ç°¸ñ°¹¼ö
-		int M_status =mapper.member_status(id);		 //¾ÆÀÌµğ¸¦ ³Ö°í µî±Ş°¡Á®¿À±â
-		List<ProductDTO> listing = mapper.listing(id); // id¿¡ ¸Â´Â »óÇ°¸ñ·Ï ¸®½ºÆ® °¡Á®¿À±â
-		
-		model.addAttribute("M_status", M_status); // id¿¡ ¸Â´Â µî±Ş°¡Á®¿À±â
-		model.addAttribute("counting", counting);  // counting¿¡ ÆÇ¸ÅÁßÀÎ »óÇ°°¹¼ö ´ã±â
-		model.addAttribute("paycount", paycount);  // paycount¿¡ Ç°¸ñ À¯·á°áÀçÇÑ °¹¼ö ´ã±â
-		model.addAttribute("listing", listing); // id¿¡ ¸Â´Â »óÇ°¸ñ·Ï ¸®½ºÆ® °¡Á®¿À±â
-	}
-	
-	@Override
-	public void listout(Model model, String id) { //ÆÇ¸ÅÁ¾·áµÈ ÆäÀÌÁö
-		int countout= mapper.itemcountout(id); // ÆÇ¸ÅÁßÀÎ »óÇ°°¹¼ö ´ã±â
-		int M_status =mapper.member_status(id);		 //¾ÆÀÌµğ¸¦ ³Ö°í µî±Ş°¡Á®¿À±â
-		List<ProductDTO> listout = mapper.listout(id); // id¿¡ ¸Â´Â »óÇ°¸ñ·Ï ¸®½ºÆ® °¡Á®¿À±â
-		
-		model.addAttribute("M_status", M_status); // id¿¡ ¸Â´Â µî±Ş°¡Á®¿À±â
-		model.addAttribute("countout", countout);  // counting¿¡ ÆÇ¸ÅÁßÀÎ »óÇ°°¹¼ö ´ã±â
-		model.addAttribute("listout", listout); // id¿¡ ¸Â´Â »óÇ°¸ñ·Ï ¸®½ºÆ® °¡Á®¿À±â
-	}
+   @Override
+   public void itemUpdate(ProductDTO productdto, PDetailDTO pdetaildto) { //ìƒí’ˆë“±ë¡      
+      mapper.productUp(productdto);
+      mapper.P_DETAILUp(pdetaildto);
+   }
+   
+   @Override  //ì•„ì´ë””ì— ë§ëŠ” ìƒí’ˆ ê°¯ìˆ˜ ë¶ˆëŸ¬ì˜¤ê¸°
+   public int itemcount(String id) {      
+      return mapper.itemcount(id);
+   }
+   
+   @Override // ì•„ì´ë””ì— ë§ëŠ” ìƒí’ˆê°¯ìˆ˜ ë¶ˆëŸ¬ì™€ì„œ ëª¨ë¸ì— ë‹´ì•„ì„œ ê°’ ê°€ì ¸ì˜¤ê¸° (ìƒí’ˆì „ì²´ëª©ë¡)
+   public void list(Model model, String id) {  //ìƒí’ˆê°¯ìˆ˜ë°›ì•„ì˜¤ê¸° , ì •ë³´ë“¤
+      int count = mapper.itemcount(id);   //idì— ë§ëŠ” ìƒí’ˆê°¯ìˆ˜ ë°›ì•„ì˜¤ê¸°
+      int paycount = mapper.paycount(id); //idì— ë§ëŠ” ìœ ë£Œê²°ì œ í’ˆëª©ê°¯ìˆ˜
+      int M_status =mapper.member_status(id);      
+      List<ProductDTO> list = mapper.list(id); // idì— ë§ëŠ” ìƒí’ˆëª©ë¡ ë¦¬ìŠ¤íŠ¸ ê°€ì ¸ì˜¤ê¸°
+      
+      model.addAttribute("M_status", M_status); // idì— ë§ëŠ” ë“±ê¸‰ê°€ì ¸ì˜¤ê¸°
+      model.addAttribute("count", count);  // countì— ìƒí’ˆê°¯ìˆ˜ ë‹´ê¸°
+      model.addAttribute("paycount", paycount);  // paycountì— í’ˆëª© ìœ ë£Œê²°ì¬í•œ ê°¯ìˆ˜ ë‹´ê¸°
+      model.addAttribute("list", list);
+      
+   }
+   
+   @Override
+   public void listing(Model model, String id) { //íŒë§¤ì¤‘ì¸ ìƒí’ˆ
+      int counting = mapper.itemcounting(id); // íŒë§¤ì¤‘ì¸ ìƒí’ˆê°¯ìˆ˜ ë‹´ê¸°
+      int paycount = mapper.paycount(id); //idì— ë§ëŠ” ìœ ë£Œê²°ì œ í’ˆëª©ê°¯ìˆ˜
+      int M_status =mapper.member_status(id);       //ì•„ì´ë””ë¥¼ ë„£ê³  ë“±ê¸‰ê°€ì ¸ì˜¤ê¸°
+      List<ProductDTO> listing = mapper.listing(id); // idì— ë§ëŠ” ìƒí’ˆëª©ë¡ ë¦¬ìŠ¤íŠ¸ ê°€ì ¸ì˜¤ê¸°
+      
+      model.addAttribute("M_status", M_status); // idì— ë§ëŠ” ë“±ê¸‰ê°€ì ¸ì˜¤ê¸°
+      model.addAttribute("counting", counting);  // countingì— íŒë§¤ì¤‘ì¸ ìƒí’ˆê°¯ìˆ˜ ë‹´ê¸°
+      model.addAttribute("paycount", paycount);  // paycountì— í’ˆëª© ìœ ë£Œê²°ì¬í•œ ê°¯ìˆ˜ ë‹´ê¸°
+      model.addAttribute("listing", listing); // idì— ë§ëŠ” ìƒí’ˆëª©ë¡ ë¦¬ìŠ¤íŠ¸ ê°€ì ¸ì˜¤ê¸°
+   }
+   
+   @Override
+   public void listout(Model model, String id) { //íŒë§¤ì¢…ë£Œëœ í˜ì´ì§€
+      int countout= mapper.itemcountout(id); // íŒë§¤ì¤‘ì¸ ìƒí’ˆê°¯ìˆ˜ ë‹´ê¸°
+      int M_status =mapper.member_status(id);       //ì•„ì´ë””ë¥¼ ë„£ê³  ë“±ê¸‰ê°€ì ¸ì˜¤ê¸°
+      List<ProductDTO> listout = mapper.listout(id); // idì— ë§ëŠ” ìƒí’ˆëª©ë¡ ë¦¬ìŠ¤íŠ¸ ê°€ì ¸ì˜¤ê¸°
+      
+      model.addAttribute("M_status", M_status); // idì— ë§ëŠ” ë“±ê¸‰ê°€ì ¸ì˜¤ê¸°
+      model.addAttribute("countout", countout);  // countingì— íŒë§¤ì¤‘ì¸ ìƒí’ˆê°¯ìˆ˜ ë‹´ê¸°
+      model.addAttribute("listout", listout); // idì— ë§ëŠ” ìƒí’ˆëª©ë¡ ë¦¬ìŠ¤íŠ¸ ê°€ì ¸ì˜¤ê¸°
+   }
 
-	@Override
-	public int statusChange(ProductDTO productdto) { //ÆÇ¸ÅÀÚÀÇ ÆÇ¸Å»óÅÂº¯°æ			
-		return mapper.statusChange(productdto);
-	}
+   @Override
+   public int statusChange(ProductDTO productdto) { //íŒë§¤ìì˜ íŒë§¤ìƒíƒœë³€ê²½         
+      return mapper.statusChange(productdto);
+   }
 
-	
-	//¾Æ·¡·Î´Â »óÇ° ¼öÁ¤ °ü·Ã
-	@Override
-	public void lister(Model model, int p_num) {
-		ProductDTO lister = mapper.lister(p_num); // ¹øÈ£¿¡ ¸Â´Â »óÇ°Á¤º¸ °¡Á®¿À±â
-		PDetailDTO listerPD = mapper.listerPD(p_num); //¹øÈ£¿¡ ¸Â´Â »ó¼¼Á¤º¸ °¡Á®¿À±â
-		model.addAttribute("lister", lister);		
-		model.addAttribute("listerPD", listerPD);		
-	}
-	
+   
+   //ì•„ë˜ë¡œëŠ” ìƒí’ˆ ìˆ˜ì • ê´€ë ¨
+   @Override
+   public void lister(Model model, int p_num) {  //ìƒí’ˆ ì •ë³´ìˆ˜ì •
+      ProductDTO lister = mapper.lister(p_num); // ë²ˆí˜¸ì— ë§ëŠ” ìƒí’ˆì •ë³´ ê°€ì ¸ì˜¤ê¸°
+      PDetailDTO listerPD = mapper.listerPD(p_num); //ë²ˆí˜¸ì— ë§ëŠ” ìƒì„¸ì •ë³´ ê°€ì ¸ì˜¤ê¸°
+      model.addAttribute("lister", lister);      
+      model.addAttribute("listerPD", listerPD);      
+   }
+   
+   @Override
+   public void updateitemPro(ProductDTO productdto, PDetailDTO pdetaildto) {
+      mapper.itemUP(productdto);  //ì •ë³´ìˆ˜ì •
+      mapper.itemDpUP(pdetaildto);  // ì •ë³´ìˆ˜ì • ìƒì„¸   
+   }
 
-	@Override
-	public void updateitemPro(ProductDTO productdto, PDetailDTO pdetaildto) {
-		mapper.itemUP(productdto);  //Á¤º¸¼öÁ¤
-		mapper.itemDpUP(pdetaildto);  // Á¤º¸¼öÁ¤ »ó¼¼
-		
-	}
+   
+   //ì¬ê³  í˜„í™©ê´€ë¦¬   
+   @Override
+   public void stocklist(Model model, String id) {  // ì „ì²´ ìƒí’ˆ ì¬ê³  ì¡°íšŒ
+      int stockcount = mapper.itemcount(id);  // ì „ì²´ ìƒí’ˆ ëª©ë¡ ê°¯ìˆ˜
+      List<ProductDTO> stocklist = mapper.stocklist(id); // idì— ë§ëŠ” ì œê³  ë° ìƒí’ˆ ì „ì²´ ë¦¬ìŠ¤íŠ¸ ê°€ì ¸ì˜¤ê¸°
+      model.addAttribute("stockcount", stockcount);
+      model.addAttribute("stocklist", stocklist);
+   }
 
-	
+   @Override
+   public void onStock(Model model, String id) { 
+      int stockcount = mapper.itemcounting(id); // íŒë§¤ì¤‘ì¸ ìƒí’ˆ ëª©ë¡ ê°¯ìˆ˜
+      List<ProductDTO> stockonlist = mapper.stockonlist(id); // idì— ë§ëŠ”ìƒí’ˆ ì œê³  ì¤‘ íŒë§¤ì¤‘ì¸ ë¦¬ìŠ¤íŠ¸ ê°€ì ¸ì˜¤ê¸°      
+      model.addAttribute("stockcount", stockcount);
+      model.addAttribute("stockonlist", stockonlist);
+   }
 
-	
+   @Override
+   public void stockPro(PDetailDTO pdetaildto) { //íˆë“ ìœ¼ë¡œ ë„˜ê¸´ ë²ˆí˜¸ë¥¼ í†µí•´ (ì „ì²´ ëª©ë¡ì¤‘ ì¬ê³  ë³€ê²½)
+      mapper.stockPro(pdetaildto);
+   }
 
-	
-	
-	
-	
+   @Override
+   public void stockOnPro(PDetailDTO pdetaildto) { //ìœ„ì™€ ë™ì¼ (íŒë§¤ì¤‘ì¸ ìƒí’ˆ ì œê³ ë³€ê²½)
+      mapper.stockPro(pdetaildto);      
+   }
+
+   @Override
+   public void pay(Model model, String id) { // ìœ ë£Œê²°ì¬ ê°¯ìˆ˜, ì •ë³´ ê°€ì ¸ì˜¤ê¸°
+      int listPayCount = mapper.listPayCount(id); // í’ˆëª©í™•ì¥ ìœ ë£Œê²°ì œ ì „ì²´ê°¯ìˆ˜
+      int listpaynowcount = mapper.listpaynowcount(id); // í’ˆëª©í™•ì¥ ìœ ë£Œê²°ì œ ë‚¨ì€ ê°¯ìˆ˜
+      int powerPayCount = mapper.powerPayCount(id); // íŒŒì›Œë§í¬ ìœ ë£Œê²°ì œ ì „ì²´ ê°¯ìˆ˜
+      
+      List<CusOrderDTO> powerlist = mapper.powerlist(id); //íŒŒì›Œë§í¬ ì •ë³´
+      List<CusOrderDTO> paylist = mapper.paylist(id);  // ìƒí’ˆ í™•ì¥ ì •ë³´
+      
+      model.addAttribute("listPayCount", listPayCount);
+      model.addAttribute("listpaynowcount", listpaynowcount);
+      model.addAttribute("powerPayCount", powerPayCount);
+      model.addAttribute("powerlist", powerlist);
+      model.addAttribute("paylist", paylist);
+            
+   }
+
+   
+
+   
+
+   
+   
+   
+   
 }

@@ -21,8 +21,7 @@ public class MemberDTO {
     
 	private String mstat_detail;
 	private String mstat_auth;
-    private List<MemStatusDTO> mstatus_list; // ±ÇÇÑ¸®½ºÆ®·Î µû·Î »¬°Ô¿ä 1226 ÀÌµµÁØ
+    private List<MemStatusDTO> mstatus_list; // ï¿½ï¿½ï¿½Ñ¸ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ô¿ï¿½ 1226 ï¿½Ìµï¿½ï¿½ï¿½
 
-    private List<CusDetailDTO> Cusdetail_list; // ÆÇ¸ÅÀÚ °¡ÀÔ list  : ´ã¾Ò´Ù°¡ °¡Á®¿Í¼­ Ã³¸®
 
 }

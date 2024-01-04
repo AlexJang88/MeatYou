@@ -23,7 +23,6 @@
 		<result property="m_reg_date" column="m_reg_date" />
 		<result property="m_status" column="m_status" />
 		<collection property="mstatus_list" resultMap="status" />  
-		<collection property="Cusdetail_list" resultMap="cus_detail" />  
 		
 	</resultMap>
 
@@ -32,18 +31,6 @@
 		<result property="mstat_detail" column="mstat_detail" />
 		<result property="mstat_auth" column="mstat_auth" />
 	</resultMap>
-	
-	
-	<resultMap id="cus_detail" type="com.gogi.meatyou.bean.CusDetailDTO" >
-		<result property="corpno" column="corpno" />
-		<result property="cus_m_id" column="cus_m_id" />
-		<result property="ceoname" column="ceoname" />
-		<result property="company" column="company" />
-		<result property="cus_address1" column="cus_address1" />
-		<result property="cus_address2" column="cus_address2" />
-		<result property="cus_pnum" column="cus_pnum" />
-	</resultMap>
-	
 	
 
 	<select id="read" resultMap="memberMap" resultType="com.gogi.meatyou.bean.MemberDTO" >		

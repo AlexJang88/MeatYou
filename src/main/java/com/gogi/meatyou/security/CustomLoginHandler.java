@@ -21,7 +21,7 @@ public class CustomLoginHandler implements AuthenticationSuccessHandler {
 			roleNames.add(au.getAuthority());
 		});
 		
-		/*   ¿ø·¡ÀÖ´ø°Å
+		/*   ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ï¿½ï¿½
 		String  rdir = "/main/main";
 		if(roleNames.contains("ROLE_ADMIN")) {
 			rdir = "/admin/main";
@@ -31,10 +31,10 @@ public class CustomLoginHandler implements AuthenticationSuccessHandler {
 		response.sendRedirect(rdir);
 	}*/
 		
-//	   2023-12-16	µµÁØ 
+//	   2023-12-16	ï¿½ï¿½ï¿½ï¿½ 
 		String  rdir = "/main/main";
 		if(roleNames.contains("ROLE_ADMIN")) {
-			rdir = "/member/admin";
+			rdir = "/admin/main";
 		}else if(roleNames.contains("ROLE_MEMBER")) {
 			rdir="/member/member";
 		}else if(roleNames.contains("ROLE_SALLER")) {

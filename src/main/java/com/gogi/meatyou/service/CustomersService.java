@@ -7,15 +7,25 @@ import com.gogi.meatyou.bean.ProductDTO;
 
 public interface CustomersService {
 
-	public void itemUpdate(ProductDTO productdto, PDetailDTO pdetaildto); //»óÇ°µî·Ï
-	public int itemcount(String id); // ¾ÆÀÌµğ¿¡ ¸Â´Â »óÇ° µî·Ï °¹¼ö ºÒ·¯¿À±â
-	public void list(Model model, String id); // ¾ÆÀÌµğ¿¡ ¸Â´Â »óÇ°°¹¼ö ¹× Á¤º¸µé ¸ğµ¨¿¡ ´ã¾Æ¼­ ºÒ·¯¿À±â
-	public void listing(Model model, String id); //ÆÇ¸ÅÁßÀÎ »óÇ° ¸ğµ¨¿¡ ´ã¾Æ¼­ ºÒ·¯¿À±â
-	public void listout(Model model, String id); //ÆÇ¸ÅÁ¾·áµÈ »óÇ° ¸ğµ¨¿¡ ´ã¾Æ¼­ ºÒ·¯¿À±â
-	public int statusChange(ProductDTO productdto); //È¸¿øÀÇ ÆÇ¸Å»óÅÂ¸¦ º¯°æ
-	
-	//¾Æ·¡·Î´Â »óÇ° ¼öÁ¤
-	public void lister(Model model, int p_num); // ¹øÈ£¿¡ ¸Â´Â »óÇ° Á¤º¸ °¡Á®¿À±â	
-	public void updateitemPro(ProductDTO productdto, PDetailDTO pdetaildto); //»óÇ°Á¤º¸¼öÁ¤
-	
+   public void itemUpdate(ProductDTO productdto, PDetailDTO pdetaildto); //ìƒí’ˆë“±ë¡
+   public int itemcount(String id); // ì•„ì´ë””ì— ë§ëŠ” ìƒí’ˆ ë“±ë¡ ê°¯ìˆ˜ ë¶ˆëŸ¬ì˜¤ê¸°
+   public void list(Model model, String id); // ì•„ì´ë””ì— ë§ëŠ” ìƒí’ˆê°¯ìˆ˜ ë° ì •ë³´ë“¤ ëª¨ë¸ì— ë‹´ì•„ì„œ ë¶ˆëŸ¬ì˜¤ê¸°
+   public void listing(Model model, String id); //íŒë§¤ì¤‘ì¸ ìƒí’ˆ ëª¨ë¸ì— ë‹´ì•„ì„œ ë¶ˆëŸ¬ì˜¤ê¸°
+   public void listout(Model model, String id); //íŒë§¤ì¢…ë£Œëœ ìƒí’ˆ ëª¨ë¸ì— ë‹´ì•„ì„œ ë¶ˆëŸ¬ì˜¤ê¸°
+   public int statusChange(ProductDTO productdto); //íšŒì›ì˜ íŒë§¤ìƒíƒœë¥¼ ë³€ê²½
+   
+   //ì•„ë˜ë¡œëŠ” ìƒí’ˆ ìˆ˜ì •
+   public void lister(Model model, int p_num); // ë²ˆí˜¸ì— ë§ëŠ” ìƒí’ˆ ì •ë³´ ê°€ì ¸ì˜¤ê¸°   
+   public void updateitemPro(ProductDTO productdto, PDetailDTO pdetaildto); //ìƒí’ˆì •ë³´ìˆ˜ì •
+   
+   //ì¬ê³  í˜„í™©
+   public void stocklist(Model model, String id); //ì•„ì´ë””ì™€ ëª¨ë¸ ë„˜ê¸°ê¸°/ ì „ì²´ ì¬ê³  ëª©ë¡ 
+   public void onStock(Model model, String id); //ì•„ì´ë””ì™€ ëª¨ë¸ ë„˜ê¸°ê¸° // íŒë§¤ì¤‘ì¸ ì œê³  ëª©ë¡
+   public void stockPro (PDetailDTO pdetaildto); // ë²ˆí˜¸ì— ë§ëŠ” ìƒí’ˆ ì¬ê³  ë³€ê²½ (ì „ì²´)
+   public void stockOnPro (PDetailDTO pdetaildto); // ë²ˆí˜¸ì— ë§ëŠ” ìƒí’ˆ ì¬ê³  ë³€ê²½(íŒë§¤ì¤‘)
+   
+   //ìœ ë£Œê²°ì œë€
+   public void pay(Model model, String id); //ìƒí’ˆ ìœ ë£Œê²°ì œ ëª©ë¡ ë¶ˆëŸ¬ì˜¤ê¸°
+   
+   
 }
