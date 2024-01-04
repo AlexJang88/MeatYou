@@ -1,2 +1,4 @@
 eclipse.preferences.version=1
 encoding//src/main/java/com/gogi/meatyou/controller/MainController.java=UTF-8
+encoding//src/main/java/com/gogi/meatyou/repository/CustomersMapper.java=UTF-8
+encoding//src/main/java/com/gogi/meatyou/service/CustomersServiceImpl.java=UTF-8

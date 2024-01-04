@@ -37,10 +37,16 @@
           
        <select id="paycount" resultType="int">
           select count(*) from cus_order where co_category=2003 and co_m_id=#{id} and co_paydate>add_months(sysdate,-1)
-       </select>       
+       </select>
+       
+       <select id="cus_order" resultType="com.gogi.meatyou.bean.CusOrderDTO">
+       	select co_num from cus_order where co_category=2003 and co_m_id=#{id} and co_paydate>add_months(sysdate,-1)
+       </select>
+              
+          
       
       <select id="itemcount" resultType="int">
-          select count(*) from product where p_m_id = #{id}
+          select count(*) from product where p_m_id = #{id} and p_status= 0 or p_status=1
        </select>           
        
       <select id="itemcounting" resultType="int">
@@ -52,15 +58,15 @@
        </select>
        
        <select id="list" resultType="com.gogi.meatyou.bean.ProductDTO">
-       SELECT * FROM product WHERE p_M_ID = #{id} ORDER BY p_num DESC
+       select * from (SELECT * FROM product LEFT JOIN CUS_ORDER ON product.p_num = CUS_ORDER.co_p_num where product.p_m_id= #{id}  and product.p_status=0 or product.p_status = 1   ORDER BY product.p_num DESC) where co_num is not null
        </select>
        
-       <select id="listing" resultType="com.gogi.meatyou.bean.ProductDTO">
-       select * from product where p_M_ID = #{id} and p_status = 0 or p_status = 1 ORDER BY p_num DESC
-       </select>
+       
+       
+       
        
        <select id="listout" resultType="com.gogi.meatyou.bean.ProductDTO">
-       select * from product where p_M_ID = #{id} and p_status = 2 or p_status = 3 ORDER BY p_num DESC
+        SELECT * FROM product LEFT JOIN CUS_ORDER ON product.p_num = CUS_ORDER.co_p_num where product.p_m_id=#{id} and product.p_status=2 or product.p_status = 3   ORDER BY product.p_num DESC
        </select>
        
        <select id="member_status" resultType="int">
@@ -69,6 +75,10 @@
        
       <update id="statusChange" parameterType="com.gogi.meatyou.bean.ProductDTO">
           UPDATE product SET p_status=#{p_status} WHERE p_M_ID=#{p_m_id} AND p_num=#{p_num}      
+       </update>
+       
+      <update id="cus_num" parameterType="com.gogi.meatyou.bean.CusOrderDTO">
+          UPDATE CUS_ORDER SET co_p_num=#{p_num} WHERE co_num=#{co_num} and co_category= 2003    
        </update>
        
        
@@ -135,6 +145,7 @@
        <select id="listpaynowcount" resultType="int">
        select count(*) from cus_order where co_category=2003 and co_m_id=#{id} and co_paydate>add_months(sysdate,-1)
        </select>
+      
       
       <select id="powerPayCount" resultType="int">
        select count(*) from CUS_ORDER where co_m_id=#{id} and co_category=2002 order by co_paydate desc
