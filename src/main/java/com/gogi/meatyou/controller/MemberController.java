@@ -14,7 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gogi.meatyou.bean.CusDetailDTO;
 import com.gogi.meatyou.bean.MemStatusDTO;
@@ -194,49 +198,75 @@ public class MemberController {
 		return "member/delete/deletePro";
 	}
 	
-	/*
-    // 장바구니 담기 
-    @RequestMapping("shoppingCartForm")
-    public String shoppingCartForm(Model model, Authentication authentication) {
-    	 String m_id = authentication.getName();
-    	 // 여기서 service를 통해 해당 회원의 장바구니 정보를 가져와야 합니다.
-    	 
-    	 List<ShoppingCartDTO> dto = service.shoppingCartCheck(m_id);
-    	 model.addAttribute("dto", dto);
-	        
-    	return "member/shoppingCart/shoppingCartForm";
-    	
-    }
-    
-    
-    
-    */
-  //장바구니       
+	 
+	
 	@RequestMapping("shoppingCartForm")
-	public String shoppingCartForm(Principal  seid ,Model model, Authentication authentication, ShoppingCartDTO sdto) {
-	    String shop_m_id=(String)seid.getName();
-	    sdto.setShop_m_id(shop_m_id);
-	    //String shop_m_id=sdto.getShop_m_id();
+	public String shoppingCartForm(Principal seid, Model model,ShoppingCartDTO sdto,ProductDTO pdto ) {
+	    String shop_m_id = (String) seid.getName();
+	    int totalPrice=sdto.getQuantity()*sdto.getP_price();
 	    System.out.print("시큐리티 확인======================================================"+shop_m_id);
+	    
 	    // 여기서 service를 통해 해당 회원의 장바구니 정보를 가져옵니다.
-	    service.ShoppingCartAndProduct(shop_m_id,sdto);
+	    List<ShoppingCartDTO> shoppingCartList = service.ShoppingCartAndProduct(shop_m_id,sdto,pdto );
 	    
 	    // 모델에 장바구니 정보를 추가합니다.
-	    
-	    model.addAttribute("sdto",sdto);
+	    model.addAttribute("shoppingCartList", shoppingCartList);
+	    model.addAttribute("totalPrice", totalPrice);
 
 	    return "member/shoppingCart/shoppingCartForm";
 	}
-
-
-    
-    
-    
 	
     
+    /*
+	// 수량 올리기 
+	@PostMapping("/shoppingCartFormPro")
+	public String modifyQuantity(@RequestParam("quantity") ShoppingCartDTO sdto,  @RequestParam("shop_num") int shopNum, Model model) {
+	    int result = service.increaseQuantity(sdto);
+
+	    // result를 이용하여 추가적인 처리가 필요한 경우 구현
+
+	    // 예시로 모델에 결과 값을 추가하여 뷰에 전달
+	    model.addAttribute("result", result);
+
+	    return "redirect:/member/shoppingCart/shoppingCartFormPro"; // 적절한 뷰로 리다이렉트
+	}
+
+	// 수량 내리기 
+	@PostMapping("/decreaseQuantity")
+	public String decreaseQuantity(@ModelAttribute("shoppingCartDTO") ShoppingCartDTO sdto, Model model) {
+	    int result = service.decreaseQuantity(sdto);
+
+	    // result를 이용하여 추가적인 처리가 필요한 경우 구현
+
+	    // 예시로 모델에 결과 값을 추가하여 뷰에 전달
+	    model.addAttribute("result", result);
+
+	    return "redirect:/member/shoppingCart/shoppingCartFormPro"; // 적절한 뷰로 리다이렉트
+	}
     
-    
-    
-    
-    
+    */
+	 // 수량 증가 처리 방법1
+	@RequestMapping("/numModify")
+	public String modifyQuantity(@RequestParam("quantity") int quantity, @RequestParam("shop_num") int shopNum, Model model) {
+	    ShoppingCartDTO sdto = new ShoppingCartDTO();
+	    sdto.setQuantity(quantity);
+	    sdto.setShop_num(shopNum);
+
+	    int result = service.modifyQuantity(sdto);
+
+	    model.addAttribute("result", result);
+
+	    return "redirect:/member/shoppingCart/shoppingCartForm";
+	}
+/*
+	@PostMapping("/delete")
+	public String deleteItems(@RequestParam(value = "shop_nums", required = false) int[] shopNums, Model model) {
+	    if (shopNums != null) {
+	        for (int shopNum : shopNums) {
+	            service.deleteItem(shopNum);
+	        }
+	    }
+
+	    return "redirect:/member/shoppingCart/shoppingCartForm";
+	}*/
 }

@@ -1,5 +1,7 @@
 package com.gogi.meatyou.bean;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -13,4 +15,14 @@ public class ShoppingCartDTO {
 	private String p_name ;
 	private String thumb;
 	private int p_price ;
+
+
+	private int salePrice;
+	private int totalPrice;
+	/* 상품 이미지 */
+	
+
+	
 }
+
+

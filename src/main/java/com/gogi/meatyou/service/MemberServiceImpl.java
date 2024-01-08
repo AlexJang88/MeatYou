@@ -100,29 +100,45 @@ public class MemberServiceImpl implements MemberService {
 
 			@Override
 			public List<ShoppingCartDTO> shoppingCartCheck(String m_id) {
-				
-					
-					
-				return mapper.shoppingcartCheck(m_id);
+					return mapper.shoppingcartCheck(m_id);
 			};
 		
 			
 			
 
-
+			
+			// 반환 타입을 List<ShoppingCartDTO>로 수정
 			@Override
-
-			public void ShoppingCartAndProduct( String shop_m_id,ShoppingCartDTO sdto) {
-			    mapper.ShoppingCartAndProduct(shop_m_id);
-				
+			public List<ShoppingCartDTO> ShoppingCartAndProduct(String shop_m_id,ShoppingCartDTO sdto,ProductDTO pdto) {
+			    return mapper.ShoppingCartAndProduct(shop_m_id);
 			}
 
+			
+			
+	
+				//수량변경 
+			 @Override
+			    public int increaseQuantity(ShoppingCartDTO sdto) {
+			        return mapper.upquantity(sdto);
+			    }
 
-
-
-
-
+			    @Override
+			    public int decreaseQuantity(ShoppingCartDTO sdto) {
+			        return mapper.downquantity(sdto);
+			    }
 
     	
+			
+			
+			@Override
+			public int modifyQuantity(ShoppingCartDTO sdto) {
+			    int result;
+			    if (sdto.getQuantity() > 0) {
+			        result = mapper.upquantity(sdto);
+			    } else {
+			        result = mapper.downquantity(sdto);
+			    }
+			    return result;
+			}
     }
 

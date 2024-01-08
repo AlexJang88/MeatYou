@@ -27,7 +27,6 @@ public interface MemberMapper {
 		
 		
 		public List<ShoppingCartDTO> shoppingcartCheck(String m_id);
-	//	   public void ShoppingCartAndProduct(@Param("m_id") String m_id,ProductDTO pdto,ShoppingCartDTO sdto);
 		public void memberUpdate(MemberDTO dto);
 		
 		
@@ -52,9 +51,14 @@ public interface MemberMapper {
 
 
 
-		public void ShoppingCartAndProduct(String shop_m_id ) ;
+	//	public void ShoppingCartAndProduct(String shop_m_id ) ;
+	 // 반환 타입을 List<ShoppingCartDTO>로 수정
+	    List<ShoppingCartDTO> ShoppingCartAndProduct(String shop_m_id);
 	    
-	    
+	  // 장바구니 수량 변경 
+	    public int upquantity(ShoppingCartDTO sdto);
+
+	    public  int downquantity(ShoppingCartDTO sdto);
 	    
 }
 

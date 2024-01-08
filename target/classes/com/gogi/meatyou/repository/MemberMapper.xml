@@ -52,20 +52,38 @@
     select * from shoppingcart_${m_id} where shop_m_id=#{m_id}
 </select>
 
-
-
-<!-- Mapper XML 파일 -->
-<select id="ShoppingCartAndProduct"   resultType="com.gogi.meatyou.bean.ShoppingCartDTO">
-    SELECT shoppingcart_${shop_m_id}.shop_num,
-           shoppingcart_${shop_m_id}.shop_m_id,
-           shoppingcart_${shop_m_id}.quantity,
-           product.p_num ,
-           product.p_name ,
-           product.thumb,
-           product.p_price 
-    FROM shoppingcart_${shop_m_id}
-    INNER JOIN product ON shoppingcart_${shop_m_id}.shop_p_num = product.p_num
+ <!-- 반환 타입이 List<ShoppingCartDTO>인 경우 -->
+<select id="ShoppingCartAndProduct" resultType="com.gogi.meatyou.bean.ShoppingCartDTO">
+    SELECT
+        sc.shop_num,
+        sc.shop_m_id,
+        sc.quantity,
+        p.p_num,
+        p.p_name,
+        p.thumb,
+        p.p_price
+    FROM
+        shoppingcart_${shop_m_id} sc
+    INNER JOIN
+        product p ON sc.shop_p_num = p.p_num
 </select>
+
+
+<update id="upquantity"   parameterType="com.gogi.meatyou.bean.ShoppingCartDTO">
+	UPDATE shoppingcart_${shop_m_id}
+SET quantity = quantity + 1
+WHERE shop_num = #{shop_num}
+
+
+</update>
+<update id="downquantity"   parameterType="com.gogi.meatyou.bean.ShoppingCartDTO">
+
+		UPDATE shoppingcart_${shop_m_id}
+SET quantity = quantity - 1
+WHERE shop_num = #{shop_num}
+
+</update>
+	
 
 
 
@@ -92,7 +110,7 @@
         insert into prefer(pre_num, pre_m_id, pre0_response, pre1_response, pre2_response, pre_reg_date, pre_status)
         values(
             prefer_seq.nextval,
-            ${m_id},
+           #{m_id},
             null,
             null,
             null,

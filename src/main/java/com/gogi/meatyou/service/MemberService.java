@@ -17,12 +17,8 @@ public interface MemberService {
     
     public MemberDTO member(String m_id);	
     public List<ShoppingCartDTO> shoppingCartCheck(String m_id);
-    //public void     ShoppingCartAndProduct(String m_id, ProductDTO pdto, ShoppingCartDTO sdto, int p_price, String p_name, String thumb);
-    
-
-
-	public void ShoppingCartAndProduct( String shop_m_id,ShoppingCartDTO sdto) ;
-    
+ // 반환 타입을 List<ShoppingCartDTO>로 수정
+	public List<ShoppingCartDTO> ShoppingCartAndProduct(String shop_m_id,ShoppingCartDTO sdto,ProductDTO pdto) ;
 	public void userUpdate(MemberDTO dto);
 	
 	public MemberDTO getUser(String m_id);
@@ -49,10 +45,14 @@ public interface MemberService {
 	    public void p_pick_seq(String m_id);
 	    public void prefer(String m_id);
 
+	    	// 수량변경
+	    
+	    
+	    public int increaseQuantity(ShoppingCartDTO cartDTO);
 
+	    public  int decreaseQuantity(ShoppingCartDTO cartDTO);
 
-
-
+	    public int modifyQuantity(ShoppingCartDTO sdto);
 
 
 
