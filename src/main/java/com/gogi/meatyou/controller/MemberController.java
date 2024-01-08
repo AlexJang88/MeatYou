@@ -1,5 +1,6 @@
 package com.gogi.meatyou.controller;
 
+import java.security.Principal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.gogi.meatyou.bean.CusDetailDTO;
 import com.gogi.meatyou.bean.MemStatusDTO;
 import com.gogi.meatyou.bean.MemberDTO;
+import com.gogi.meatyou.bean.ProductDTO;
 import com.gogi.meatyou.bean.ShoppingCartDTO;
 import com.gogi.meatyou.service.MemberService;
 
@@ -110,6 +112,7 @@ public class MemberController {
             
             service.p_pick(dto.getM_id()); // 예시: insertPPick 메소드 호출
             service.p_pick_seq(dto.getM_id());
+            service.prefer(dto.getM_id());
             // 다른 서비스 메소드들도 유사하게 호출
             
             model.addAttribute("check", check);
@@ -191,7 +194,7 @@ public class MemberController {
 		return "member/delete/deletePro";
 	}
 	
-	
+	/*
     // 장바구니 담기 
     @RequestMapping("shoppingCartForm")
     public String shoppingCartForm(Model model, Authentication authentication) {
@@ -206,6 +209,26 @@ public class MemberController {
     }
     
     
+    
+    */
+  //장바구니       
+	@RequestMapping("shoppingCartForm")
+	public String shoppingCartForm(Principal  seid ,Model model, Authentication authentication, ShoppingCartDTO sdto) {
+	    String shop_m_id=(String)seid.getName();
+	    sdto.setShop_m_id(shop_m_id);
+	    //String shop_m_id=sdto.getShop_m_id();
+	    System.out.print("시큐리티 확인======================================================"+shop_m_id);
+	    // 여기서 service를 통해 해당 회원의 장바구니 정보를 가져옵니다.
+	    service.ShoppingCartAndProduct(shop_m_id,sdto);
+	    
+	    // 모델에 장바구니 정보를 추가합니다.
+	    
+	    model.addAttribute("sdto",sdto);
+
+	    return "member/shoppingCart/shoppingCartForm";
+	}
+
+
     
     
     

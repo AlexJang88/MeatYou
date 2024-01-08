@@ -54,6 +54,20 @@
 
 
 
+<!-- Mapper XML 파일 -->
+<select id="ShoppingCartAndProduct"   resultType="com.gogi.meatyou.bean.ShoppingCartDTO">
+    SELECT shoppingcart_${shop_m_id}.shop_num,
+           shoppingcart_${shop_m_id}.shop_m_id,
+           shoppingcart_${shop_m_id}.quantity,
+           product.p_num ,
+           product.p_name ,
+           product.thumb,
+           product.p_price 
+    FROM shoppingcart_${shop_m_id}
+    INNER JOIN product ON shoppingcart_${shop_m_id}.shop_p_num = product.p_num
+</select>
+
+
 
 			<insert id="insertMember" parameterType="com.gogi.meatyou.bean.MemberDTO">
     <![CDATA[
@@ -71,9 +85,21 @@
         TO_CHAR(SYSDATE, 'YYYY-MM-DD'), 
        1001)
     ]]>
-    
-    
-    		
+</insert>
+
+<insert id="prefer">
+    <![CDATA[
+        insert into prefer(pre_num, pre_m_id, pre0_response, pre1_response, pre2_response, pre_reg_date, pre_status)
+        values(
+            prefer_seq.nextval,
+            ${m_id},
+            null,
+            null,
+            null,
+            sysdate, 
+            0
+        )
+    ]]>
 </insert>
 
 

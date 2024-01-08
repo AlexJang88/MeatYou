@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-
 <%@ include file="../../header.jsp" %>
 
 <div class="row">
@@ -16,62 +15,60 @@
     </div>
 
     <div class="panel-body">
-        <form action="/shoppingCart/modify" method="post">
-            <table class="table table-striped table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th>NO</th>
-                        <th>상품 내용</th>
-                        <th>상품 수량</th>
-                        <th>상태</th>
-                        <th>금액</th>
-                        <th>체크</th>
-                    </tr>
-                </thead>
-			  <c:forEach var = "cartItem" items = "${dto}">
-			        <tr>
-			            <td><c:out value="${cartItem.shop_num}" /></td>
-			            <td><c:out value="${cartItem.shop_p_num}" /></td>
-			            <td>
-			                <input type="number" name="quantity" value="${cartItem.quantity}" />
-			                <!-- 여러 아이템을 수정할 경우, 각각의 아이템을 식별할 수 있는 값들을 hidden으로 전송 -->
-			                <input type="hidden" name="shop_num" value="${cartItem.shop_num}" />
-			                <input type="hidden" name="shop_m_id" value="${cartItem.shop_m_id}" />
-			                <input type="hidden" name="shop_p_num" value="${cartItem.shop_p_num}" />
-			            </td>
-			            <td>
-			                <!-- 수정 버튼 클릭 시 폼을 서버로 전송하는 동작을 추가 -->
-			                <button type="submit" class="btn btn-primary">수정</button>
-			            </td>
-			            <td>상태</td>
-			            <td>   <input type="hidden" name="shop_p_num" value="${cartItem.shop_p_num}" /></td>
-			            <td>체크박스</td>
-			        </tr>
-			    </c:forEach>
-            </table>
-        </form>
+<form action="/shoppingCart/modify" method="post">
+ <table class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>번호</th>
+            <th>상품 내용</th>
+            <th>상품 수량</th>
+            <th>상품 사진</th>
+            <th>금액</th>
+            <th>체크</th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td><c:out value="${sdto.shop_num}" /></td>
+        <td><c:out value="${sdto.p_name}" /></td>
+        <td><c:out value="${sdto.quantity}" /></td>
+        <td><c:out value="${sdto.thumb}" /></td>
+        <td><c:out value="${sdto.p_price}" /></td>
+        <td><input type="hidden" value="${sdto.shop_p_num}"/></td>
+    </tr>
+    	
+</table>
+    <!-- 제출 버튼 또는 필요한 다른 요소를 여기에 추가 -->
+</form>
 
-        <!-- 아래는 검색과 페이지네이션 부분 수정 -->
-        <div class='row'>
-            <div class="col-lg-12">
-                <form id='searchForm' action="/member/shoppingCartForm" method='get'>
-                    <select name='type'>
-                        <!-- 이 부분은 검색 옵션을 선택할 수 있도록 하는 부분입니다. -->
-                        <option value="" <c:if test="${pageMaker.cri.type == null}">selected</c:if>>--</option>
-                        <option value="T" <c:if test="${pageMaker.cri.type eq 'T'}">selected</c:if>>제목</option>
-                        <option value="C" <c:if test="${pageMaker.cri.type eq 'C'}">selected</c:if>>내용</option>
-                        <option value="W" <c:if test="${pageMaker.cri.type eq 'W'}">selected</c:if>>작성자</option>
-                        <option value="TC" <c:if test="${pageMaker.cri.type eq 'TC'}">selected</c:if>>제목 or 내용</option>
-                        <option value="TW" <c:if test="${pageMaker.cri.type eq 'TW'}">selected</c:if>>제목 or 작성자</option>
-                        <option value="TWC" <c:if test="${pageMaker.cri.type eq 'TWC'}">selected</c:if>>제목 or 내용 or 작성자</option>
-                    </select>
-                    <input type='text' name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>' />
-                    <input type='hidden' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum}"/>' />
-                    <input type='hidden' name='amount' value='<c:out value="${pageMaker.cri.amount}"/>' />
-                    <button class='btn btn-default'>Search</button>
-                </form>
-            </div>
-        </div>
+
+
+
+
+    <!-- 삭제 버튼 -->
+    <button type="submit" class="btn btn-danger">선택된 상품 삭제</button>
+</form>
+       <!-- 아래는 검색과 페이지네이션 부분 수정 -->
+<div class='row'>
+    <div class="col-lg-12">
+        <form id='searchForm' action="/member/shoppingCartForm" method='get'>
+            <select name='type'>
+                <!-- 이 부분은 검색 옵션을 선택할 수 있도록 하는 부분입니다. -->
+                <option value="" <c:if test="${pageMaker.cri.type == null}">selected</c:if>>--</option>
+                <option value="T" <c:if test="${pageMaker.cri.type eq 'T'}">selected</c:if>>제목</option>
+                <option value="C" <c:if test="${pageMaker.cri.type eq 'C'}">selected</c:if>>내용</option>
+                <option value="W" <c:if test="${pageMaker.cri.type eq 'W'}">selected</c:if>>작성자</option>
+                <option value="TC" <c:if test="${pageMaker.cri.type eq 'TC'}">selected</c:if>>제목 or 내용</option>
+                <option value="TW" <c:if test="${pageMaker.cri.type eq 'TW'}">selected</c:if>>제목 or 작성자</option>
+                <option value="TWC" <c:if test="${pageMaker.cri.type eq 'TWC'}">selected</c:if>>제목 or 내용 or 작성자</option>
+            </select>
+            <input type='text' name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>' />
+            <input type='hidden' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum}"/>' />
+            <input type='hidden' name='amount' value='<c:out value="${pageMaker.cri.amount}"/>' />
+            <button class='btn btn-default'>Search</button>
+        </form>
+    </div>
+</div>
 
         <!-- 페이지네이션 부분 -->
         <div class='pull-right'>
@@ -118,7 +115,6 @@
         <!-- /.modal-dialog -->
     </div>
     <!-- /.modal -->
-
 </div>
 
 <script type="text/javascript">
