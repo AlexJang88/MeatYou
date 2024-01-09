@@ -4,6 +4,7 @@ package com.gogi.meatyou.service;
 import java.util.List;
 
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gogi.meatyou.bean.CusDetailDTO;
 import com.gogi.meatyou.bean.MemberDTO;
@@ -53,7 +54,6 @@ public interface MemberService {
 	    public  int decreaseQuantity(ShoppingCartDTO cartDTO);
 
 	    public int modifyQuantity(ShoppingCartDTO sdto);
-
-
+	    public void updateQuantity(int shop_num,int    quantity, String shop_m_id);
 
 }

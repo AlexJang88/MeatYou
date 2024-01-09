@@ -11,14 +11,18 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gogi.meatyou.bean.CusDetailDTO;
 import com.gogi.meatyou.bean.MemStatusDTO;
@@ -245,28 +249,43 @@ public class MemberController {
 	}
     
     */
-	 // 수량 증가 처리 방법1
-	@RequestMapping("/numModify")
-	public String modifyQuantity(@RequestParam("quantity") int quantity, @RequestParam("shop_num") int shopNum, Model model) {
-	    ShoppingCartDTO sdto = new ShoppingCartDTO();
-	    sdto.setQuantity(quantity);
-	    sdto.setShop_num(shopNum);
-
-	    int result = service.modifyQuantity(sdto);
-
-	    model.addAttribute("result", result);
-
-	    return "redirect:/member/shoppingCart/shoppingCartForm";
-	}
-/*
-	@PostMapping("/delete")
-	public String deleteItems(@RequestParam(value = "shop_nums", required = false) int[] shopNums, Model model) {
-	    if (shopNums != null) {
-	        for (int shopNum : shopNums) {
-	            service.deleteItem(shopNum);
+	/*
+// 수량 증가 처리 방법1  updateQuantity
+	 @PostMapping("/updateQuantity")
+	    @ResponseBody
+	    public String updateQuantity(@RequestParam("shop_num") int shop_num,
+	    							@RequestParam("quantity") int    quantity,
+	                                 @RequestParam("shop_m_id") 	String shop_m_id) {
+	        try {
+	        	 service.updateQuantity(shop_num,   quantity, shop_m_id);
+	            return "success";
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return "error";
 	        }
 	    }
+	 */
+	 
+	 
+	 @PostMapping("/updateQuantity")
+	 @ResponseBody
+	 public ResponseEntity<String> updateQuantity(@RequestParam("shop_num") int shop_num,
+	                                             @RequestParam("quantity") int quantity,
+	                                             @RequestParam("shop_m_id") String shop_m_id,
+	                                             Principal seid
+			 													) {
+		 	
+	     try {
+	         // 여기서 비즈니스 로직을 수행
+	         // 예시: 수량 업데이트
+	         service.updateQuantity(shop_num, quantity, shop_m_id);
 
-	    return "redirect:/member/shoppingCart/shoppingCartForm";
-	}*/
+	         // 성공 시 ResponseEntity.ok() 반환
+	         return ResponseEntity.ok("success");
+	     } catch (Exception e) {
+	         e.printStackTrace();
+	         // 실패 시 ResponseEntity.status()를 사용하여 적절한 HTTP 상태 코드와 메시지 반환
+	         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("error");
+	     }
+	 }
 }

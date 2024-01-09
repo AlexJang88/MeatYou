@@ -60,7 +60,11 @@ public interface MemberMapper {
 
 	    public  int downquantity(ShoppingCartDTO sdto);
 	    
-}
+	    
+	    
+	    public void updateQuantity(@Param("shop_num") int shop_num,  String shop_m_id);
+	}
+
 
 
 

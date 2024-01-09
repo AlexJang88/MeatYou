@@ -140,5 +140,13 @@ public class MemberServiceImpl implements MemberService {
 			    }
 			    return result;
 			}
+			
+			
+			@Override
+			public void updateQuantity(int shop_num,int    quantity, String shop_m_id) {
+				mapper.updateQuantity(shop_num,  shop_m_id);
+		    }
+			
+			
     }
 
