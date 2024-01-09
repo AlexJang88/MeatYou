@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-<head>
+<head> 
 <a href="/customers/customer">홈으로</a>
 <title>쿠폰제공리스트</title>
 </head>

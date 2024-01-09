@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ include file="../header.jsp" %>
-<%@ include file="../sort.jsp" %>
+<%@ include file="../header.jsp" %> 
+<%@ include file="../newSort.jsp" %>
 
 		<!-- SECTION -->
 		<div class="section">
@@ -14,7 +14,7 @@
 					<!-- section title -->
 					<div class="col-md-12">
 						<div class="section-title">
-							<h3 class="title">파워링크 목록</h3>
+							<h3 class="title">신상품 목록</h3>
 							<div class="section-nav">
 							</div>
 						</div>
@@ -41,7 +41,7 @@
 											</div>
 											<div class="product-body">
 												<p class="product-category">Category1 , Category2</p>
-												<h3 class="product-name"><a href="#">${newList.p_name}</a></h3>
+												<h3 class="product-name"><a href="../main/product?p_num=${newList.p_num}">${newList.p_name}</a></h3>
 												<h4 class="product-price">${newList.p_price}</h4>
 												<div class="product-rating">
 													<i class="fa fa-star"></i>

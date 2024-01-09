@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ include file="../header.jsp" %>
+<%@ include file="../header.jsp" %> 
 <%@ include file="../sort.jsp" %>
 
 		<!-- SECTION -->
@@ -41,7 +41,7 @@
 											</div>
 											<div class="product-body">
 												<p class="product-category">Category1 , Category2</p>
-												<h3 class="product-name"><a href="#">${poList.p_name}</a></h3>
+												<h3 class="product-name"><a href="../main/product?p_num=${poList.p_num}">${poList.p_name}</a></h3>
 												<h4 class="product-price">${poList.p_price}</h4>
 												<div class="product-rating">
 													<i class="fa fa-star"></i>

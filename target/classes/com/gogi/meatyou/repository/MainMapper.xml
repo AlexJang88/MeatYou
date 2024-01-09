@@ -171,11 +171,13 @@
    </select>
    
    
-   
-   
-   
-   
-   
+	<!-- 제품 상세정보 -->
+   <select id="productDetail" resultType="com.gogi.meatyou.bean.ProductDetailDTO" >
+      select * from 
+      (select * from product, p_detail
+      where p_num = pd_p_num) where p_num=${p_num}
+   </select>
+
    
    
    

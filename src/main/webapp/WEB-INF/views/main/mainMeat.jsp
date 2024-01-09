@@ -4,7 +4,7 @@
 <%@ include file="../header.jsp" %>
 <%@ include file="../mainMeatSort.jsp" %>
 
-<!DOCTYPE html>
+<!DOCTYPE html> 
 
 		<!-- SECTION -->
 		<div class="section">
@@ -65,7 +65,7 @@
 									</div>
 									<div class="product-body">
 										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">${meat.p_name}</a></h3>
+										<h3 class="product-name"><a href="../main/product?p_num=${meat.p_num}">${meat.p_name}</a></h3>
 										<h4 class="product-price">${meat.p_price}</h4>
 										<div class="product-rating">
 											<i class="fa fa-star"></i>

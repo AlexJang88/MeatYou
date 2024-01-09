@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gogi.meatyou.bean.ProductDTO;
+import com.gogi.meatyou.bean.ProductDetailDTO;
 import com.gogi.meatyou.service.MainService;
 
 @Controller
@@ -32,7 +33,8 @@ public class MainController {
       model.addAttribute("newProduct", newProduct);
       return "main/main";
    }
- 
+
+   
    @RequestMapping("search")
    public String searchList(Model model, @RequestParam(value="pageNum", defaultValue = "1") 
       int pageNum , String desc, String searchOption, String search) {
@@ -67,27 +69,49 @@ public class MainController {
       return "main/powerLink";
    }
    
-   @RequestMapping("modal")
-   public String modal() {
-      return "main/modal";
+   @RequestMapping("meatBest")
+   public String meatBest(Model model, String price , int category, String sale, String reg, @RequestParam(value="pageNum", defaultValue = "1") int pageNum) {
+      service.mainMeat(pageNum, model, price , category, sale, reg);
+      model.addAttribute("category", category);
+      return "main/meatBest";
    }
    
-   @RequestMapping("product")
-   public String index() {
-      return "main/product";
+   @RequestMapping("forkBest")
+   public String forkBest(Model model, String price , int category, String sale, String reg, @RequestParam(value="pageNum", defaultValue = "1") int pageNum) {
+      service.mainMeat(pageNum, model, price , category, sale, reg);
+      model.addAttribute("category", category);
+      return "main/forkBest";
    }
    
-   @RequestMapping("store")
-   public String store() {
-      return "main/store";
+   @RequestMapping("newBest")
+   public String newBest(Model model, @RequestParam(value="pageNum", defaultValue = "1") int pageNum) {
+      service.newProduct(pageNum, model);
+      return "main/newBest";
    }
-   
    
    @RequestMapping("newProduct")
    public String newProduct(Model model, @RequestParam(value="pageNum", defaultValue = "1") int pageNum) {
       service.newProduct(pageNum, model);
       return "main/newProduct";
    }
+
+   @RequestMapping("product")
+   public String product(ProductDetailDTO dto, Model model) {
+	   dto = service.productDetail(dto, model);
+	   model.addAttribute("dto", dto);
+      return "main/productDetail";
+   }
+   
+   @RequestMapping("review")
+   public String review() {
+      return "main/review";
+   }
+   
+   @RequestMapping("modal")
+   public String modal() {
+      return "main/modal";
+   }
+
 
 
    

@@ -14,7 +14,7 @@
  		<!-- Bootstrap -->
  		<link type="text/css" rel="stylesheet" href="/resources/css/bootstrap.min.css"/>
 
- 		<!-- Slick -->
+ 		<!-- Slick --> 
  		<link type="text/css" rel="stylesheet" href="/resources/css/slick.css"/>
  		<link type="text/css" rel="stylesheet" href="/resources/css/slick-theme.css"/>
 
@@ -33,6 +33,23 @@
  		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
  		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
  		<![endif]-->
+
+        <nav >
+ 			<hr class="my-0" />
+				<ul >
+				<c:if test="${count > 0}">
+					<c:if test="${startPage > 10}">
+						<li ><a class="page-link" href="/main/searchList?pageNum=${startPage-10}&searchOption=${searchOption}&search=${search}" >이전</a></li>
+					</c:if>
+					<c:forEach var="i" begin="${startPage}" end="${endPage}">
+						<li ><a class="page-link" href="/main/searchList?pageNum=${i}&searchOption=${searchOption}&search=${search}">${i}</a></li>
+					</c:forEach>
+					<c:if test="${endPage > pageCount}">
+						<li ><a class="page-link" href="/main/searchList?pageNum=${startPage+10}&searchOption=${searchOption}&search=${search}">다음</a></li>
+					</c:if>
+				</c:if>
+				</ul>
+        </nav>
 
     </head>
 <!-- FOOTER -->
@@ -125,3 +142,13 @@
 			<!-- /bottom footer -->
 		</footer>
 		<!-- /FOOTER -->
+		
+		<!-- jQuery Plugins -->
+		<script src="../resources/js/jquery.min.js"></script>
+		<script src="../resources/js/bootstrap.min.js"></script>
+		<script src="../resources/js/slick.min.js"></script>
+		<script src="../resources/js/jquery.zoom.min.js"></script>
+		<script src="../resources/js/main.js"></script>
+
+	</body>
+</html>

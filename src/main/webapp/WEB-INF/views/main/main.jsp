@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../header.jsp" %>
 
 		<!-- SECTION -->
 		<div class="section">
 			<!-- container -->
-			<div class="container"> 
+			<div class="container">
 				<!-- row -->
 				<div class="row">
 
@@ -16,7 +16,7 @@
 							<h3 class="title">파워링크</h3>
 							<div class="section-nav">
 								<ul class="section-tab-nav tab-nav">
-									<li class="active"><a href="/main/powerLink">파워링크 상품 더보기</a></li>
+									<li class="active"><a href="../main/powerLink">파워링크 상품 더보기</a></li>
 								</ul>
 							</div>
 						</div>
@@ -34,23 +34,23 @@
 										<c:forEach var="cus" items="${cusList}">
 										<div class="product">
 											<div class="product-img">
-												<img src="/resources/img/product01.png" alt="">
+												<img src="../resources/img/product01.png" alt="">
 												<div class="product-label">
 													<span class="sale" ><a>목록확인</a></span>
 													<span class="sale" ><a>상품설명</a></span>
 													<span class="sale" ><a>상품평/평점</a></span>
-												</div> 
+												</div>
 											</div>
 											<div class="product-body">
 												<p class="product-category">Category1 , Category2</p>
-												<h3 class="product-name"><a href="#">${cus.p_name}</a></h3>
+												<h3 class="product-name"><a href="../main/product?p_num=${cus.p_num}">${cus.p_name}</a></h3>
 												<h4 class="product-price">${cus.p_price}</h4>
 												<div class="product-rating">
 													<i class="fa fa-star"></i>
 													<i class="fa fa-star"></i>
 													<i class="fa fa-star"></i>
 													<i class="fa fa-star"></i>
-													<i class="fa fa-star-o"></i>
+													<i class="fa fa-star"></i>
 												</div>
 												<div class="product-btns">
 													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
@@ -122,7 +122,7 @@
 											</div>
 											<div class="product-body">
 												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">제목 : product name goes here</a></h3>
+												<h3 class="product-name"><a href="../main/product?p_num=${cus.p_num}">제목 : product name goes here</a></h3>
 												<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
 												<div class="product-rating">
 													<i class="fa fa-star"></i>
@@ -201,7 +201,7 @@
 											</div>
 											<div class="product-body">
 												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">${meat.p_name}</a></h3>
+												<h3 class="product-name"><a href="../main/product?p_num=${meat.p_num}">${meat.p_name}</a></h3>
 												<h4 class="product-price">${meat.p_price}</h4>
 												<div class="product-rating">
 													<i class="fa fa-star"></i>
@@ -281,7 +281,7 @@
 											</div>
 											<div class="product-body">
 												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">${fork.p_name}</a></h3>
+												<h3 class="product-name"><a href="../main/product?p_num=${fork.p_num}">${fork.p_name}</a></h3>
 												<h4 class="product-price">${fork.p_price}</del></h4>
 												<div class="product-rating">
 													<i class="fa fa-star"></i>
@@ -336,7 +336,7 @@
 							<h3 class="title">신상품 Best</h3>
 							<div class="section-nav">
 								<ul class="section-tab-nav tab-nav">
-									<li class="active"><a href="/main/newProduct">신상품 Best 더보기</a></li>
+									<li class="active"><a href="../main/newProduct">신상품 Best 더보기</a></li>
 								</ul>
 							</div>
 						</div>
@@ -363,7 +363,7 @@
 											</div>
 											<div class="product-body">
 												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">${newList.p_name}</a></h3>
+												<h3 class="product-name"><a href="../main/product?p_num=${newList.p_num}">${newList.p_name}</a></h3>
 												<h4 class="product-price">${newList.p_price}</h4>
 												<div class="product-rating">
 													<i class="fa fa-star"></i>

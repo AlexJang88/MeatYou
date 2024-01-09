@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>고객리스트</title>
-</head>
+</head> 
 <body>
     <h2>고객리스트 구매회원, 단골회원, 쿠폰리스트, 쿠폰 주기 기능 추가 </h2>
     <a href="/customers/customer">홈으로</a>

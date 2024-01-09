@@ -11,7 +11,7 @@
       <p>입력하신 내용대로 수정이 완료되었습니다.</p>
     </td>
   </tr>
-  <tr>
+  <tr> 
     <td  align="center"> 
       <form>
 	    <input type="button" value="메인으로" onclick="window.location='/main/main'">

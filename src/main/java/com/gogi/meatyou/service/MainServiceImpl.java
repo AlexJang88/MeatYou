@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.gogi.meatyou.bean.DeAddressDTO;
 import com.gogi.meatyou.bean.ProductDTO;
+import com.gogi.meatyou.bean.ProductDetailDTO;
 import com.gogi.meatyou.repository.MainMapper;
 
 @Service
@@ -284,7 +286,7 @@ public class MainServiceImpl implements MainService {
         int pageCount = count / pageSize + ( count % pageSize == 0 ? 0 : 1);
        
         int startPage = (int)(pageNum/10)*10+1;
-      int pageBlock=10;
+        int pageBlock=10;
         int endPage = startPage + pageBlock-1;
         if (endPage > pageCount) {
            endPage = pageCount;
@@ -295,7 +297,69 @@ public class MainServiceImpl implements MainService {
        model.addAttribute("endPage", endPage);
    }
 
+@Override
+public ProductDetailDTO productDetail(ProductDetailDTO dto, Model model) {
+	dto = mapper.productDetail(dto);
+	
+	String category1="";
+	String category2="";
+	String category3="";
+	
+	String cate = dto.getP_category()+"";
+	cate.charAt(0); //  
+	cate.charAt(1); //
+	cate.charAt(2); //
 
+	if((cate.charAt(0)-48) == 1) {
+		category1 = "국내산";
+	} else{
+		category1 = "수입산";
+	}
+	
+	if((cate.charAt(1)-48) == 1) {
+		category2 = "돼지고기";
+	} else{
+		category2 = "소고기";
+	}
+	
+	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
+		category3 = "특수부위";
+	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
+		category3 = "삼겹살";
+	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
+		category3 = "목살";
+	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
+		category3 = "안심";
+	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
+		category3 = "등심";
+	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
+		category3 = "앞다리";
+	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
+		category3 = "갈매기살";
+	}
+	
+	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
+		category3 = "특수부위";
+	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
+		category3 = "등심";
+	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
+		category3 = "안심";
+	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
+		category3 = "갈비";
+	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
+		category3 = "채끝";
+	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
+		category3 = "목심";
+	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
+		category3 = "부채살";
+	}
+
+	model.addAttribute("category1", category1);
+	model.addAttribute("category2", category2);
+	model.addAttribute("category3", category3);
+
+	return mapper.productDetail(dto);
+}
 
 
 

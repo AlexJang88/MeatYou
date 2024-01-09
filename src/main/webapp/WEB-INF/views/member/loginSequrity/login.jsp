@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../../header.jsp" %>
+<%@ include file="../../header.jsp" %> 
 
 
 <h1> 로그인 하시나요 ~ </h1>

@@ -5,7 +5,7 @@
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       document.getElementById('addressButton').addEventListener('click', function () {
-        new daum.Postcode({
+        new daum.Postcode({ 
           oncomplete: function (data) {
             // This function will be called when the user selects an address
             var fullAddress = data.address; // Full address with postcode

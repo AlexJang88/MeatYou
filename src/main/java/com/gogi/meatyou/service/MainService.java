@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.ui.Model;
 
 import com.gogi.meatyou.bean.ProductDTO;
+import com.gogi.meatyou.bean.ProductDetailDTO;
 
 public interface MainService {
 
@@ -31,8 +32,8 @@ public interface MainService {
    void poLinkList(int pageNum, Model model);
    
    public void newProduct(int pageNum, Model model);
-   
-   
+
+   public ProductDetailDTO productDetail(ProductDetailDTO dto, Model model);
    
    
    

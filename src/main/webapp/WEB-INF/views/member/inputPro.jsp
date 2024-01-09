@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="../header.jsp" %>
+<%@ include file="../header.jsp" %> 
 
 <table width="270" border="0" cellspacing="0" cellpadding="5" align="center">
     <tr bgcolor="${title_c}"> 
