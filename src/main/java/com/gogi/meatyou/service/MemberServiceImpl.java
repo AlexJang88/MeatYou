@@ -6,6 +6,7 @@ import com.gogi.meatyou.bean.ProductDTO;
 import com.gogi.meatyou.bean.ShoppingCartDTO;
 import com.gogi.meatyou.repository.MemberMapper;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -117,30 +118,7 @@ public class MemberServiceImpl implements MemberService {
 			
 			
 	
-				//수량변경 
-			 @Override
-			    public int increaseQuantity(ShoppingCartDTO sdto) {
-			        return mapper.upquantity(sdto);
-			    }
-
-			    @Override
-			    public int decreaseQuantity(ShoppingCartDTO sdto) {
-			        return mapper.downquantity(sdto);
-			    }
-
-    	
-			
-			
-			@Override
-			public int modifyQuantity(ShoppingCartDTO sdto) {
-			    int result;
-			    if (sdto.getQuantity() > 0) {
-			        result = mapper.upquantity(sdto);
-			    } else {
-			        result = mapper.downquantity(sdto);
-			    }
-			    return result;
-			}
+		
 			
 			
 			@Override
@@ -148,5 +126,28 @@ public class MemberServiceImpl implements MemberService {
 				mapper.updateQuantity(shop_num, quantity ,shop_m_id);
 		    }
 			
-    }
+			
+			public List<ShoppingCartDTO> getShoppingCartItemsPaged(String shop_m_id, int page, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto) {
+			    int startRow = (page - 1) * pageSize + 1;
+			    int endRow = startRow + pageSize - 1;
+
+			    Map<String, Object> parameters = new HashMap<>();
+			    parameters.put("shop_m_id", shop_m_id);
+			    parameters.put("startRow", startRow);
+			    parameters.put("endRow", endRow);
+
+			 //   return mapper.getShoppingCartItemsPaged(parameters);
+			    List<ShoppingCartDTO> result = mapper.getShoppingCartItemsPaged(parameters);
+			    System.out.println("서비스 호출 - 페이지: " + page + ", 결과 개수: " + result.size());
+			    return result;
+			}
+
+			
+			
+			
+			    @Override
+			    public int getTotalShoppingCartItems(String shop_m_id) {
+			        return mapper.getTotalShoppingCartItems(shop_m_id);
+			    }
+}
 

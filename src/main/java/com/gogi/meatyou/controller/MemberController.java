@@ -108,7 +108,7 @@ public class MemberController {
     }
     
     
-    
+    //회원가입 
     @RequestMapping("inputPro")
     public String inputPro(Model model, MemberDTO dto, HttpSession session) {
         int check = service.insertMember(dto);
@@ -135,7 +135,7 @@ public class MemberController {
         }
     }
 
-    
+    //판매자 신청  1050으로 스테이터스변경 
     @RequestMapping("sallerInputForm")
     public String sallerInputForm(Model model, Authentication authentication,CusDetailDTO cdto) {
     	
@@ -146,6 +146,8 @@ public class MemberController {
     	return "member/saller/sallerInputForm";
     	
     }
+    
+    //판매자 신청  1050으로 스테이터스변경 
     @RequestMapping("sallerInputPro")
     public String sallerInputPro(MemberDTO dto,CusDetailDTO cdto, Authentication authentication) {
         String m_id = authentication.getName();
@@ -172,7 +174,7 @@ public class MemberController {
         model.addAttribute("dto", dto);
         return "member/myPage/modify";
     }
-
+//정보확인 
     @RequestMapping("/modifyForm")
     public String modifyForm(Model model, Authentication authentication) {
         String username = authentication.getName();
@@ -180,7 +182,7 @@ public class MemberController {
         model.addAttribute("dto", dto);
         return "member/myPage/modifyForm";
     }
-
+  //정보수정 
     @RequestMapping("/modifyPro")
     public String modifyPro(MemberDTO dto, Authentication authentication) {
         String m_id = authentication.getName();
@@ -193,7 +195,7 @@ public class MemberController {
 	public String deleteForm() {
 		return "member/delete/deleteForm";
 	}
-	
+	//회원 탈퇴  : 스테이터스 1000으로 변경
 	@RequestMapping("deletePro")
 	public String deletePro(Model model , String passwd , HttpSession session,MemberDTO dto) {
 		String m_id =(String)session.getAttribute("m_id");
@@ -205,8 +207,7 @@ public class MemberController {
 		return "member/delete/deletePro";
 	}
 	
-	 
-	
+/*  //기존 장바구니 목록보기 
 	@RequestMapping("shoppingCartForm")
 	public String shoppingCartForm(Principal seid, Model model,ShoppingCartDTO sdto,ProductDTO pdto ) {
 	    String shop_m_id = (String) seid.getName();
@@ -222,7 +223,48 @@ public class MemberController {
 
 	    return "member/shoppingCart/shoppingCartForm";
 	}
+	*/
 	
+	
+	//방바구니 보이기 + 페이징 처리 
+	@RequestMapping("shoppingCartForm")
+	public String shoppingCartForm(
+	        Principal seid,
+	        Model model,
+	        @RequestParam(defaultValue = "1") int page,  // 현재 페이지 번호, 기본값 1
+	        @RequestParam(defaultValue = "7") int pageSize,  // 페이지당 표시할 항목 수, 기본값 7
+	        ShoppingCartDTO sdto,
+	        ProductDTO pdto
+	) {
+	    String shop_m_id = (String) seid.getName();
+	    int totalPrice = sdto.getQuantity() * sdto.getP_price();
+	    System.out.print("시큐리티 확인======================================================"+shop_m_id);
+
+	    // 여기서 service를 통해 해당 회원의 특정 범위의 장바구니 정보를 가져옵니다.
+	    List<ShoppingCartDTO> shoppingCartList = service.getShoppingCartItemsPaged(shop_m_id, page, pageSize, sdto, pdto);
+
+	    // 여기서 service를 통해 해당 회원의 장바구니 총 상품 개수를 가져옵니다.
+	    int totalItemCount = service.getTotalShoppingCartItems(shop_m_id);
+
+	    // 페이징 처리를 위한 계산
+	    int totalPage = (int) Math.ceil((double) totalItemCount / pageSize);
+	    
+	    	System.out.println("페이지 크기  ============= ="+pageSize);
+	    	System.out.println("페이지 ============ ="+page);
+	    	System.out.println("총페이지는 ============= ="+totalPage);
+	    	System.out.println("총 카운트   =================="+totalItemCount);
+	    // 모델에 장바구니 정보 및 페이징 관련 정보를 추가합니다.
+	    model.addAttribute("shoppingCartList", shoppingCartList);
+	    model.addAttribute("totalPrice", totalPrice);
+	    model.addAttribute("page", page);
+	    model.addAttribute("pageSize", pageSize);
+	    model.addAttribute("totalPage", totalPage);
+
+	    return "member/shoppingCart/shoppingCartForm";
+	}
+	
+	
+	//수량변경 
 	
 	@RequestMapping("updateQuantity")
 	public @ResponseBody String updateQuantity(Principal seid,int shop_num,int quantity) {

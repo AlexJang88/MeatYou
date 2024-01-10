@@ -101,12 +101,32 @@ function updateQuantity(new_quantity, shop_num) {
                 </tbody>
             </table>
         </form>
+<!-- 페이징 -->
+<div class="pagination">
+    <c:if test="${page > 1}">
+        <a href="?page=${page - 1}&pageSize=${pageSize}">&laquo; 이전</a>
+    </c:if>
 
+    <c:forEach var="pageNumber" begin="1" end="${totalPage}">
+        <c:choose>
+            <c:when test="${pageNumber == page}">
+                <span class="current">${pageNumber}</span>
+            </c:when>
+            <c:otherwise>
+                <a href="?page=${pageNumber}&pageSize=${pageSize}">${pageNumber}</a>
+            </c:otherwise>
+        </c:choose>
+    </c:forEach>
+
+    <c:if test="${page < totalPage}">
+        <a href="?page=${page + 1}&pageSize=${pageSize}">다음 &raquo;</a>
+    </c:if>
+</div>
+        
         <!-- 삭제 버튼 -->
         <form action="/shoppingCart/delete" method="post">
             <button type="submit" class="btn btn-danger">선택된 상품 삭제</button>
         </form>
     </div>
 </div>
-
 <%@ include file="../../footer.jsp" %>

@@ -50,12 +50,17 @@ public interface MemberService {
 
 	    	// 수량변경
 	    
-	    
-	    public int increaseQuantity(ShoppingCartDTO cartDTO);
 
-	    public  int decreaseQuantity(ShoppingCartDTO cartDTO);
 
-	    public int modifyQuantity(ShoppingCartDTO sdto);
 		public void updateQuantity(int  shop_num,int  quantity, String shop_m_id) ;
+		
+		
+		
+		
+	    List<ShoppingCartDTO> getShoppingCartItemsPaged(String shop_m_id, int startRow, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto);
+
+	    int getTotalShoppingCartItems(String shop_m_id);
+
+		
 
 }

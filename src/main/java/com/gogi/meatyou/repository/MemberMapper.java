@@ -63,6 +63,21 @@ public interface MemberMapper {
 	   
 	    public void updateQuantity(@Param("shop_num") int shop_num, @Param("quantity") int quantity,@Param("shop_m_id")	String shop_m_id);
 	  
+
+	    
+	
+	    	
+	    List<ShoppingCartDTO> getPaginatedShoppingCart(
+	            @Param("shop_m_id") String shop_m_id,
+	            @Param("startRow") int startRow,
+	            @Param("pageSize") int pageSize,
+	            @Param("sdto") ShoppingCartDTO sdto,
+	            @Param("pdto") ProductDTO pdto);
+	    
+	    List<ShoppingCartDTO> getShoppingCartItemsPaged(Map<String, Object> params);
+
+	    int getTotalShoppingCartItems(String shop_m_id);
+	    
 	}
 
 
