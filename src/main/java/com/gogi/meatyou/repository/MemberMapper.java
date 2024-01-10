@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 
 import com.gogi.meatyou.bean.CusDetailDTO;
@@ -66,7 +67,7 @@ public interface MemberMapper {
 
 	    
 	
-	    	
+	  //페이징 처리하기위한 리스트   	
 	    List<ShoppingCartDTO> getPaginatedShoppingCart(
 	            @Param("shop_m_id") String shop_m_id,
 	            @Param("startRow") int startRow,
@@ -77,6 +78,9 @@ public interface MemberMapper {
 	    List<ShoppingCartDTO> getShoppingCartItemsPaged(Map<String, Object> params);
 
 	    int getTotalShoppingCartItems(String shop_m_id);
+
+	    void deleteSelectedItems(@Param("selectedItems") List<String> selectedItems);
+	    
 	    
 	}
 

@@ -5,6 +5,42 @@
 <%@ include file="../../header.jsp" %>
 <head>
 <script>
+//삭제 메서드
+// 삭제 메서드
+// 삭제 메서드
+function deleteSelectedItems(shop_num, shop_m_id) {
+    // 체크된 체크박스를 찾아서 배열에 추가
+    var selectedItems = [];
+    $("input:checkbox:checked").each(function () {
+        selectedItems.push($(this).val());
+    });
+
+    // 체크된 상품이 없을 경우 알림
+    if (selectedItems.length === 0) {
+        alert("삭제할 상품을 선택하세요.");
+        return;
+    }
+
+    // AJAX를 사용하여 선택된 상품 삭제 요청
+    $.ajax({
+        type: "POST",
+        url: "/member/deleteSelectedItems",
+        data: {
+            selectedItems: selectedItems,
+            shop_num: shop_num,
+            shop_m_id: shop_m_id
+        },
+        success: function (response) {
+            console.log(response);
+            // 삭제 후 페이지 리로드 또는 필요한 업데이트 작업 수행
+            location.reload(); // or location.href = location.href;
+        },
+        error: function (error) {
+            console.error(error);
+            // 에러 처리 로직 추가
+        }
+    });
+}
 function update_click(button, operation,shop_num) {
     var input_element = button.parentElement.querySelector('.quantity');
     
@@ -33,7 +69,11 @@ function updateQuantity(new_quantity, shop_num) {
     $.ajax({
         type: "POST",
         url: "/member/updateQuantity",
-        data: {  quantity: new_quantity ,shop_num:shop_num   },
+        data: { 
+        quantity: new_quantity ,shop_num:shop_num 
+
+        
+        },
         success: function(response) {
             console.log(response);
            // updateUIWithData(response);
@@ -123,10 +163,11 @@ function updateQuantity(new_quantity, shop_num) {
     </c:if>
 </div>
         
-        <!-- 삭제 버튼 -->
-        <form action="/shoppingCart/delete" method="post">
-            <button type="submit" class="btn btn-danger">선택된 상품 삭제</button>
-        </form>
+<!-- 삭제 버튼 -->
+<form id="deleteForm" method="post">
+    <button type="button" class="btn btn-danger" onclick="deleteSelectedItems('${item.shop_num}', '${item.shop_m_id}')">선택된 상품 삭제</button>
+</form>
+
     </div>
 </div>
 <%@ include file="../../footer.jsp" %>

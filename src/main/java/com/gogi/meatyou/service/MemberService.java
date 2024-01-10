@@ -61,6 +61,6 @@ public interface MemberService {
 
 	    int getTotalShoppingCartItems(String shop_m_id);
 
-		
-
+	 // 서비스 인터페이스
+	    void deleteSelectedItems(List<String> selectedItems, String shop_m_id,	int shop_num);
 }

@@ -149,5 +149,18 @@ public class MemberServiceImpl implements MemberService {
 			    public int getTotalShoppingCartItems(String shop_m_id) {
 			        return mapper.getTotalShoppingCartItems(shop_m_id);
 			    }
+			    
+			 // 서비스 메서드
+			    @Override
+			    public void deleteSelectedItems(List<String> selectedItems, String shop_m_id,	int shop_num) {
+			        Map<String, Object> paramMap = new HashMap<>();
+			        paramMap.put("selectedItems", selectedItems);
+			        paramMap.put("shop_m_id", shop_m_id);
+			        paramMap.put("shop_num", shop_num);
+			        // Mapper를 통해 DB에서 선택된 상품 삭제
+			        mapper.deleteSelectedItems(selectedItems);
+			    }
+			    
+			    
 }
 

@@ -207,24 +207,7 @@ public class MemberController {
 		return "member/delete/deletePro";
 	}
 	
-/*  //기존 장바구니 목록보기 
-	@RequestMapping("shoppingCartForm")
-	public String shoppingCartForm(Principal seid, Model model,ShoppingCartDTO sdto,ProductDTO pdto ) {
-	    String shop_m_id = (String) seid.getName();
-	    int totalPrice=sdto.getQuantity()*sdto.getP_price();
-	    System.out.print("시큐리티 확인======================================================"+shop_m_id);
-	    
-	    // 여기서 service를 통해 해당 회원의 장바구니 정보를 가져옵니다.
-	    List<ShoppingCartDTO> shoppingCartList = service.ShoppingCartAndProduct(shop_m_id,sdto,pdto );
-	    
-	    // 모델에 장바구니 정보를 추가합니다.
-	    model.addAttribute("shoppingCartList", shoppingCartList);
-	    model.addAttribute("totalPrice", totalPrice);
-
-	    return "member/shoppingCart/shoppingCartForm";
-	}
-	*/
-	
+ 
 	
 	//방바구니 보이기 + 페이징 처리 
 	@RequestMapping("shoppingCartForm")
@@ -276,4 +259,18 @@ public class MemberController {
 	    	
 	    return "success"; // 또는 업데이트가 성공했을 때의 응답 메시지
 	}
+	
+	
+	// 컨트롤러 메서드
+	@RequestMapping("deleteSelectedItems" )
+	public @ResponseBody String deleteSelectedItems(@RequestParam(value = "selectedItems[]") List<String> selectedItems,
+            @RequestParam(value = "shop_m_id") String shop_m_id,
+            @RequestParam(value = "shop_num") int shop_num) {
+	    // 서비스를 통해 선택된 상품 삭제
+	    service.deleteSelectedItems(selectedItems, shop_m_id,shop_num);
+	    return "success";
+	}
+	
+	
+	
 }

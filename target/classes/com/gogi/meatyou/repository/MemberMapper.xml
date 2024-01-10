@@ -104,16 +104,25 @@ WHERE rnum >= #{startRow, jdbcType=NUMERIC}
     ]]>
 </select>
 
-    <!-- MemberMapper.xml -->
+
+<!-- 총 카운트 보기 -->
 
 <select id="getTotalShoppingCartItems" resultType="int">
     SELECT COUNT(*)
     FROM shoppingcart_${shop_m_id}
 </select>
     
+    <!-- 여기까지가 페이징 -->
     
-    
-
+<!-- 게시물 선택 삭제  -->
+<delete id="deleteSelectedItems" parameterType="map">
+    DELETE FROM shoppingcart_${shop_m_id}
+    WHERE shop_num IN
+    <foreach item="item" collection="selectedItems" open="(" separator="," close=")">
+        #{item}
+    </foreach>
+    AND shop_m_id = #{shop_m_id}
+</delete>
 
 		<insert id="insertMember" parameterType="com.gogi.meatyou.bean.MemberDTO">
     <![CDATA[
