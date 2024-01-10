@@ -7,9 +7,11 @@ import java.sql.PreparedStatement;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gogi.meatyou.bean.CusDetailDTO;
 import com.gogi.meatyou.bean.MemStatusDTO;
@@ -220,72 +223,15 @@ public class MemberController {
 	    return "member/shoppingCart/shoppingCartForm";
 	}
 	
-    
-    /*
-	// 수량 올리기 
-	@PostMapping("/shoppingCartFormPro")
-	public String modifyQuantity(@RequestParam("quantity") ShoppingCartDTO sdto,  @RequestParam("shop_num") int shopNum, Model model) {
-	    int result = service.increaseQuantity(sdto);
-
-	    // result를 이용하여 추가적인 처리가 필요한 경우 구현
-
-	    // 예시로 모델에 결과 값을 추가하여 뷰에 전달
-	    model.addAttribute("result", result);
-
-	    return "redirect:/member/shoppingCart/shoppingCartFormPro"; // 적절한 뷰로 리다이렉트
+	
+	@RequestMapping("updateQuantity")
+	public @ResponseBody String updateQuantity(Principal seid,int shop_num,int quantity) {
+		  String shop_m_id = (String) seid.getName();
+		
+	    // 여기에서 수량 업데이트 로직을 수행합니다.
+	    // 실제로는 이 부분을 비즈니스 로직에 맞게 수정해야 합니다.
+	    service.updateQuantity(shop_num, quantity, shop_m_id);
+	    	
+	    return "success"; // 또는 업데이트가 성공했을 때의 응답 메시지
 	}
-
-	// 수량 내리기 
-	@PostMapping("/decreaseQuantity")
-	public String decreaseQuantity(@ModelAttribute("shoppingCartDTO") ShoppingCartDTO sdto, Model model) {
-	    int result = service.decreaseQuantity(sdto);
-
-	    // result를 이용하여 추가적인 처리가 필요한 경우 구현
-
-	    // 예시로 모델에 결과 값을 추가하여 뷰에 전달
-	    model.addAttribute("result", result);
-
-	    return "redirect:/member/shoppingCart/shoppingCartFormPro"; // 적절한 뷰로 리다이렉트
-	}
-    
-    */
-	/*
-// 수량 증가 처리 방법1  updateQuantity
-	 @PostMapping("/updateQuantity")
-	    @ResponseBody
-	    public String updateQuantity(@RequestParam("shop_num") int shop_num,
-	    							@RequestParam("quantity") int    quantity,
-	                                 @RequestParam("shop_m_id") 	String shop_m_id) {
-	        try {
-	        	 service.updateQuantity(shop_num,   quantity, shop_m_id);
-	            return "success";
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            return "error";
-	        }
-	    }
-	 */
-	 
-	 
-	 @PostMapping("/updateQuantity")
-	 @ResponseBody
-	 public ResponseEntity<String> updateQuantity(@RequestParam("shop_num") int shop_num,
-	                                             @RequestParam("quantity") int quantity,
-	                                             @RequestParam("shop_m_id") String shop_m_id,
-	                                             Principal seid
-			 													) {
-		 	
-	     try {
-	         // 여기서 비즈니스 로직을 수행
-	         // 예시: 수량 업데이트
-	         service.updateQuantity(shop_num, quantity, shop_m_id);
-
-	         // 성공 시 ResponseEntity.ok() 반환
-	         return ResponseEntity.ok("success");
-	     } catch (Exception e) {
-	         e.printStackTrace();
-	         // 실패 시 ResponseEntity.status()를 사용하여 적절한 HTTP 상태 코드와 메시지 반환
-	         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("error");
-	     }
-	 }
 }

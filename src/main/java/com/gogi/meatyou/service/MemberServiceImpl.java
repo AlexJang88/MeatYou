@@ -8,6 +8,7 @@ import com.gogi.meatyou.repository.MemberMapper;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -143,10 +144,9 @@ public class MemberServiceImpl implements MemberService {
 			
 			
 			@Override
-			public void updateQuantity(int shop_num,int    quantity, String shop_m_id) {
-				mapper.updateQuantity(shop_num,  shop_m_id);
+			public void updateQuantity(int  shop_num,int  quantity, String shop_m_id) {
+				mapper.updateQuantity(shop_num, quantity ,shop_m_id);
 		    }
-			
 			
     }
 

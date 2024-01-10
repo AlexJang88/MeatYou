@@ -2,6 +2,7 @@ package com.gogi.meatyou.repository;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -59,10 +60,9 @@ public interface MemberMapper {
 	    public int upquantity(ShoppingCartDTO sdto);
 
 	    public  int downquantity(ShoppingCartDTO sdto);
-	    
-	    
-	    
-	    public void updateQuantity(@Param("shop_num") int shop_num,  String shop_m_id);
+	   
+	    public void updateQuantity(@Param("shop_num") int shop_num, @Param("quantity") int quantity,@Param("shop_m_id")	String shop_m_id);
+	  
 	}
 
 

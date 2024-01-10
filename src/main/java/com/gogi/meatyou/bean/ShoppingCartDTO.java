@@ -16,6 +16,8 @@ public class ShoppingCartDTO {
 	private String thumb;
 	private int p_price ;
 
+	
+	private int new_quantity;
 	private int salePrice;
 	private int totalPrice;
 	/* 상품 이미지 */

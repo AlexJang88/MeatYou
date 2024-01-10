@@ -71,31 +71,11 @@
 </select>
 
 <!--장바구니 수량변경  -->
-<update id="updateQuantity"  parameterType="map">
-        UPDATE shoppingcart_${shop_m_id}
-        SET quantity = ${quantity}
-        WHERE shop_p_num = ${shop_p_num}
+	<update id="updateQuantity"  >
+        UPDATE shoppingcart_${shop_m_id} SET quantity = #{quantity} WHERE shop_num = #{shop_num}
     </update>
 
 
-<!-- <update id="upquantity"   parameterType="com.gogi.meatyou.bean.ShoppingCartDTO">
-	UPDATE shoppingcart_${shop_m_id}
-SET quantity = quantity + 1
-WHERE shop_num = #{shop_num}
-
-
-</update>
-<update id="downquantity"   parameterType="com.gogi.meatyou.bean.ShoppingCartDTO">
-
-		UPDATE shoppingcart_${shop_m_id}
-SET quantity = quantity - 1
-WHERE shop_num = #{shop_num}
-
-</update>
-	
-
-
- -->
 			<insert id="insertMember" parameterType="com.gogi.meatyou.bean.MemberDTO">
     <![CDATA[
     INSERT INTO member(m_id, passwd, m_name, birth, m_addr1, m_addr2, email, telep, phone, m_reg_date, m_status)

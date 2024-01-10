@@ -2,7 +2,9 @@ package com.gogi.meatyou.service;
 
 
 import java.util.List;
+import java.util.Optional;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -54,6 +56,6 @@ public interface MemberService {
 	    public  int decreaseQuantity(ShoppingCartDTO cartDTO);
 
 	    public int modifyQuantity(ShoppingCartDTO sdto);
-	    public void updateQuantity(int shop_num,int    quantity, String shop_m_id);
+		public void updateQuantity(int  shop_num,int  quantity, String shop_m_id) ;
 
 }
