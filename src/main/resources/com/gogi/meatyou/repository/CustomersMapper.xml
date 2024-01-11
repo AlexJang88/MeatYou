@@ -17,7 +17,7 @@
           sysdate,
           to_date(#{startdate},'YYYY-MM-DD'),
           to_date(#{enddate},'YYYY-MM-DD'),    
-          0)
+          2)
        </insert>
 
       <insert id="P_DETAILUp" parameterType="com.gogi.meatyou.bean.PDetailDTO">
@@ -43,10 +43,13 @@
        	select co_num from cus_order where co_category=2003 and co_m_id=#{id} and co_paydate>add_months(sysdate,-1)
        </select>
               
+      <select id="stockcount" resultType="int">
+          select count(*) from product where p_m_id=#{id}
+       </select>
           
       
       <select id="itemcount" resultType="int">
-          select count(*) from product where p_m_id = #{id} and p_status= 0 or p_status=1
+          select count(*) from product where p_m_id = #{id} and (p_status= 0 or p_status=1 or p_status=2)
        </select>           
        
       <select id="itemcounting" resultType="int">
@@ -54,11 +57,11 @@
        </select>
        
        <select id="itemcountout" resultType="int">
-          select count(*) from product where p_m_id = #{id} and p_status = 2 or p_status = 3
+          select count(*) from product where p_m_id = #{id} and p_status=3
        </select>
        
        <select id="list" resultType="com.gogi.meatyou.bean.ProductDTO">
-       select * from (SELECT * FROM product LEFT JOIN CUS_ORDER ON product.p_num = CUS_ORDER.co_p_num where product.p_m_id= #{id}  and product.p_status=0 or product.p_status = 1   ORDER BY product.p_num DESC) where co_num is not null
+        SELECT * FROM product LEFT JOIN CUS_ORDER ON product.p_num = CUS_ORDER.co_p_num where product.p_m_id= #{id}  and ( product.p_status=0 or product.p_status = 1 or product.p_status= 2)AND ( product.p_status=0 or  product.p_status=1 or product.p_status=2  or co_num is not null) ORDER BY product.p_num DESC 
        </select>
        
        
@@ -66,20 +69,48 @@
        
        
        <select id="listout" resultType="com.gogi.meatyou.bean.ProductDTO">
-        SELECT * FROM product LEFT JOIN CUS_ORDER ON product.p_num = CUS_ORDER.co_p_num where product.p_m_id=#{id} and product.p_status=2 or product.p_status = 3   ORDER BY product.p_num DESC
+        SELECT * FROM product LEFT JOIN CUS_ORDER ON product.p_num = CUS_ORDER.co_p_num where product.p_m_id=#{id} and  product.p_status = 3   ORDER BY product.p_num DESC
        </select>
        
        <select id="member_status" resultType="int">
        SELECT M_Status FROM member WHERE m_id = #{id}
        </select>
        
+       
+       
+       <update id="conumchange" parameterType="com.gogi.meatyou.bean.ProductDTO">
+       UPDATE CUS_ORDER SET co_p_num = NULL WHERE co_p_num = #{p_num} and co_category=2003
+       </update>  
+
       <update id="statusChange" parameterType="com.gogi.meatyou.bean.ProductDTO">
           UPDATE product SET p_status=#{p_status} WHERE p_M_ID=#{p_m_id} AND p_num=#{p_num}      
-       </update>
+       </update>   
+
+       <select id="cuscheck" resultType="int">
+		   SELECT count(*) FROM product LEFT JOIN CUS_ORDER ON product.p_num = CUS_ORDER.co_p_num WHERE product.p_m_id = #{p_m_id} AND co_num = #{co_num}
+		</select>
+ 
+       <update id="gijon" parameterType="com.gogi.meatyou.bean.ProductDTO">
+		   UPDATE product SET p_status = 2 WHERE EXISTS ( SELECT 1 FROM CUS_ORDER WHERE product.p_num = CUS_ORDER.co_p_num AND CUS_ORDER.co_num = #{co_num})
+		</update>
        
+       <update id="gijonCoNum" parameterType="com.gogi.meatyou.bean.ProductDTO">
+		   UPDATE CUS_ORDER SET co_p_num = null WHERE co_num = #{co_num} and co_category=2003
+		</update>
+              
       <update id="cus_num" parameterType="com.gogi.meatyou.bean.CusOrderDTO">
           UPDATE CUS_ORDER SET co_p_num=#{p_num} WHERE co_num=#{co_num} and co_category= 2003    
        </update>
+       
+      <update id="cus_numdelete" parameterType="com.gogi.meatyou.bean.CusOrderDTO">
+      	UPDATE cus_order c SET co_p_num = NULL WHERE EXISTS (  SELECT 1  FROM product p WHERE c.co_p_num = p.P_num AND c.co_category = 2003 AND p.P_num = #{p_num})       
+       </update>
+       
+       
+       
+       
+       
+       
        
        
         <select id="lister" resultType="com.gogi.meatyou.bean.ProductDTO">
@@ -145,8 +176,7 @@
        <select id="listpaynowcount" resultType="int">
        select count(*) from cus_order where co_category=2003 and co_m_id=#{id} and co_paydate>add_months(sysdate,-1)
        </select>
-      
-      
+   
       <select id="powerPayCount" resultType="int">
        select count(*) from CUS_ORDER where co_m_id=#{id} and co_category=2002 order by co_paydate desc
        </select>
@@ -156,13 +186,37 @@
       </select>
 
       <select id="paylist" resultType="com.gogi.meatyou.bean.CusOrderDTO">
-      SELECT co_NUM, co_category, co_QUANTITY, co_PAY, co_m_ID, AUTOPAY, co_P_NUM, co_paydate,co_paydate + INTERVAL '1' MONTH AS co_payenddate
-      FROM CUS_ORDER where co_category=2003 and co_m_id=#{id} order by co_paydate desc
+    	SELECT * FROM CUS_ORDER where co_category=2003 and co_m_id= #{id} and co_paydate>add_months(sysdate,-1) order by co_num asc
       </select> 
 
+	   <select id="countter" resultType="int">
+       SELECT count(*) FROM product p LEFT JOIN cus_order c ON p.P_num = c.co_P_num where p.p_M_ID = 'user5' and p.p_status in(0,1) and nvl(c.co_category,0) in (0,2003 )  ORDER BY p.P_num DESC
+       </select>
+
+       <select id="poweredlist" resultType="com.gogi.meatyou.bean.ProductDTO">
+        SELECT * FROM product p LEFT JOIN cus_order c ON p.P_num = c.co_P_num where p.p_M_ID = #{id} and p.p_status in(0,1) and nvl(c.co_category,0) in (0,2003 )  ORDER BY p.P_num DESC
+       </select>
+       
+       <select id="payMentItem" resultType="com.gogi.meatyou.bean.ProductDTO">
+         select * from product p, P_DETAIL d where  p.P_num = d.pd_p_num and  p.p_m_id = #{p_m_id} and p.p_num= #{p_num}
+       </select>	
+    	
+		
+		 <insert id="payFinish" parameterType="com.gogi.meatyou.bean.CusOrderDTO">
+          insert into CUS_ORDER(co_num, co_category, co_quantity, co_pay, co_m_id, autoPay, co_p_num, co_paydate, co_payenddate) values (
+          CUS_ORDER_seq.NEXTVAL,
+          2002,          
+          #{co_quantity},
+          #{co_pay},
+          #{co_m_id},                   
+          0,
+          #{co_p_num},
+          sysdate,
+          null
+          )          
+       </insert>
 
 
-    	
-    	
+
 
 </mapper>

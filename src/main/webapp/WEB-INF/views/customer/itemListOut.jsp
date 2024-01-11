@@ -20,7 +20,7 @@
 	</c:if>
 	
 	<c:if test="${countout >  0}">		
-			<h3 align="center">판매 종료 및 대기 상품목록 : ${countout} / 사용 가능한 유료 품목 확장 갯수 : ${paycount} 개</h3>
+			<h3 align="center">판매 종료 및 대기 상품목록 : ${countout} </h3>
 			<table border="1" width="1100" cellpadding="0" cellspacing="0" align="center">			
 				<tr height="30"> 
 					<td width="300" align="center">썸네일 사진</td>
@@ -53,16 +53,11 @@
 							<td valgn="top">
 							    <select name="p_status">
 							        <c:choose>
-							            <c:when test="${M_status == 2001 || M_status == 2002}">
-							                <option value="0" ${product.p_status == 0 ? 'selected' : ''}>판매중</option>
-							                
+							            <c:when test="${M_status == 2001 || M_status == 2002}">							                
+							                <option value="2" ${product.p_status == 2 ? 'selected' : ''}>판매대기</option>
 							            </c:when>
 							            <c:when test="${M_status == 2003 || M_status == 2004}">							             
-							                <option value="0" ${product.p_status == 0 ? 'selected' : ''}>판매중</option>				               								
-							                <c:forEach var="cus" items="${cus_order}">							                					               								
-							                <option value="${cus.co_num}" ${product.p_status == 1 ? 'selected' : ''}>판매중 (유료결제: ${cus.co_num})</option>
-							                </c:forEach>
-							                
+							                <option value="2" ${product.p_status == 2 ? 'selected' : ''}>판매대기</option>			               														             						                
 							            </c:when>							         
 							        </c:choose>
 							</select>
@@ -71,40 +66,14 @@
 			                  <input type="submit" value="변경">
 			                 </td> 
 		                </tr>		
-		            </form>	    			   				        		
+		            </form>	  
 				</c:forEach>
 			</table>
+			
+			
 		</c:if>
 	
 </body>
 </html>
 
-<script>
-function countSelected(status) {
-    var selectedCount = 0;
-    var selects = document.getElementsByName("p_status");
-    for (var i = 0; i < selects.length; i++) {
-        if (selects[i].value == status && selects[i].value != '3') {
-            selectedCount++;
-        }
-    }
-    return selectedCount;
-}
 
-function validateForm() {
-    var selectedCount = countSelected('0'); // '0'은 판매중
-    if (selectedCount >= 4) {
-        alert("판매중은 3개만 선택할 수 있습니다. 추가 판매를 원할 시 유료결제를 진행하세요");
-        return false; // 변경을 막기
-    }
-
-    
-    var paySelectedCount = countSelected('1'); // '1'은 유료결제
-    if (paySelectedCount > ${paycount}) {
-        alert("유료결제는 최대 ${paycount}개까지만 선택할 수 있습니다.");
-        return false; // 변경을 막기
-    }
-
-    return true; // 변경 허용
-}
-</script>

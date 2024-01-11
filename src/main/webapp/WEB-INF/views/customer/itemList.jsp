@@ -41,23 +41,21 @@
 				  <form action="/customers/statusChange" method="post" onsubmit="return validateForm();">
             		 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
             		 <input type="hidden" name="p_m_id" value="${memId}">	
-            		 <input type="hidden" name="p_num" value="${product.p_num}">	
-            			
-            		 	
-     			
-            		 	<tr align="center">
-            		 		<td>${product.thumb}</td>
-            		 		<td>${product.p_num} </td>
-            		 		<td><a href="/customers/content?p_num=${product.p_num}">${product.p_name}</a></td>
-            		 		<td>${product.p_price}</td>
-            		 		<td>
-							    <c:choose>
-							        <c:when test="${product.p_status == 0}">판매중</c:when>
-							        <c:when test="${product.p_status == 1}">판매중(유료결제 ${product.co_num})</c:when>
-							        <c:when test="${product.p_status == 2}">판매대기</c:when>
-							        <c:when test="${product.p_status == 3}">판매종료</c:when>							       
-							    </c:choose>
-							</td>
+            		 <input type="hidden" name="p_num" value="${product.p_num}">	      		 
+						
+            		 		<tr align="center">
+	            		 		<td>${product.thumb}</td>
+	            		 		<td>${product.p_num} </td>
+	            		 		<td><a href="/customers/content?p_num=${product.p_num}">${product.p_name}</a></td>
+	            		 		<td>${product.p_price}</td>
+	            		 		<td>
+								    <c:choose>
+								        <c:when test="${product.p_status == 0}">판매중</c:when>
+								        <c:when test="${product.p_status == 1}">판매중(유료결제 ${product.co_num})</c:when>							       
+								        <c:when test="${product.p_status == 2}">판매대기</c:when>
+								        <c:when test="${product.p_status == 3}">판매종료</c:when>							       
+								    </c:choose>
+								</td>
 							<td valgn="top">
 							    <select name="p_status">
 							        <c:choose>
@@ -66,10 +64,10 @@
 							                <option value="2" ${product.p_status == 2 ? 'selected' : ''}>판매대기</option>
 							                <option value="3" ${product.p_status == 3 ? 'selected' : ''}>판매종료</option>
 							            </c:when>
-							            <c:when test="${M_status == 2003 || M_status == 2004}">							             
+							            <c:when test="${M_status == 2003 || M_status == 2004 }">							             
 							                <option value="0" ${product.p_status == 0 ? 'selected' : ''}>판매중</option>				               								
-							                <c:forEach var="cus" items="${cus_order}">							                					               								
-							                <option value="${cus.co_num}" ${product.p_status == 1 ? 'selected' : ''}>판매중 (유료결제: ${cus.co_num})</option>
+							                <c:forEach var="cus" items="${cus_order}">
+							                <option value="${cus.co_num}" ${product.co_num == cus.co_num ? 'selected' : ''}>판매중 (유료결제:  ${cus.co_num})</option>
 							                </c:forEach>
 							                <option value="2" ${product.p_status == 2 ? 'selected' : ''}>판매대기</option>
 							                <option value="3" ${product.p_status == 3 ? 'selected' : ''}>판매종료</option>
@@ -78,12 +76,13 @@
 							    </select>
 							</td>						  
 							  <td align="center" >   
+							
 			                  <input type="submit" value="변경">
 			                 </td> 
 		                </tr>		    			   				        		
              	  </form>
 				</c:forEach>
-			</table>
+			</table>			
 		</c:if>
 
 </body>

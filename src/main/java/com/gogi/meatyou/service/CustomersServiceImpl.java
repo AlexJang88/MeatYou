@@ -63,14 +63,23 @@ public  class CustomersServiceImpl implements CustomersService {
 	}
 
 	@Override
-	public void statusChange(ProductDTO productdto) { //판매자의 판매상태변경			
-		 
-		 mapper.statusChange(productdto);
-		 // cus order 상품 번호가 바껴야함 기준 co_num
- 		 mapper.cus_num(productdto);
-		 
-		 
-		 	
+	public void statusChange(ProductDTO productdto, int p_status) { //판매자의 판매상태변경						
+		
+		if(p_status==0 || p_status==2 || p_status== 3) {
+			mapper.conumchange(productdto); //유료결제, 대기중 등에서  판매중으로 변경시  CUS_ORDER 번호값을 null로
+		}  
+				
+		if(p_status ==1) {			
+			int cuscheck = mapper.cuscheck(productdto);// 우선 기존에 값이 있는지 찾는다 있으면 1번  없으면 0			
+			if(cuscheck==1) {				 
+				mapper.gijon(productdto); // 기존의 값이 있어서 1이 나오면 기존의 값을 status 2(판매대기)로 바꾼다
+				mapper.gijonCoNum(productdto);	//기존에 가지고 있던 cus_order의 co_p_num을  null로 바꾼다
+				//내꺼 해재하는것 여기에서 if로 내가 해재할때 이프문을 만들어야함					
+			}
+			mapper.cus_numdelete(productdto); //신규로 등록하려는데 cus_order에 이미 유료결제 코드가 있다면 null
+			mapper.cus_num(productdto); // 신규 cus_order 유료결제 코드 번호를 설정하는곳
+		} 	
+		mapper.statusChange(productdto); // product의 0, 1, 2, 3 으로 상태변경	스테이터스 값 변경	 	
 	}
 
    
@@ -93,7 +102,7 @@ public  class CustomersServiceImpl implements CustomersService {
 		//재고 현황관리	
 		@Override
 		public void stocklist(Model model, String id) {  // 전체 상품 재고 조회
-			int stockcount = mapper.itemcount(id);  // 전체 상품 목록 갯수
+			int stockcount = mapper.stockcount(id);  // 전체 상품 목록 갯수
 			List<ProductDTO> stocklist = mapper.stocklist(id); // id에 맞는 제고 및 상품 전체 리스트 가져오기
 			model.addAttribute("stockcount", stockcount);
 			model.addAttribute("stocklist", stocklist);
@@ -116,6 +125,8 @@ public  class CustomersServiceImpl implements CustomersService {
 		public void stockOnPro(PDetailDTO pdetaildto) { //위와 동일 (판매중인 상품 제고변경)
 			mapper.stockPro(pdetaildto);		
 		}
+		
+		//아래는 유료결제
 
 		@Override
 		public void pay(Model model, String id) { // 유료결재 갯수, 정보 가져오기
@@ -132,6 +143,34 @@ public  class CustomersServiceImpl implements CustomersService {
 			model.addAttribute("powerlist", powerlist);
 			model.addAttribute("paylist", paylist);
 					
+		}
+		
+		//여기는 파워링크
+		@Override
+		public void powerlist(Model model, String id) {
+			int counting = mapper.itemcounting(id);   //id에 맞는 판매중인 상품 갯수 가져오기
+			int countter = mapper.countter(id); //판매중이나 아직 상위노출 안하고 있는 상품 갯수
+			int powerPayCount = mapper.powerPayCount(id); // 파워링크 유료결제 전체 갯수 
+			List<ProductDTO> poweredlist = mapper.poweredlist(id); //판매중이나 아직 상위노출 안하고 있는 상품
+			
+			
+			model.addAttribute("counting", counting);  //id에 맞는 판매중인 상품 갯수 가져오기
+			model.addAttribute("countter", countter);  //판매중이나 아직 상위노출 안하고 있는 상품 갯수
+			model.addAttribute("powerPayCount", powerPayCount);  //상위노출 중인 갯수
+			model.addAttribute("poweredlist", poweredlist);  //판매중이나 아직 상위노출 안하고 있는 상품
+			
+		}
+
+		@Override  //결재 직전 단계
+		public void payment(Model model, ProductDTO productdto) { //파워링크 결제 페이지에서 결제할목록 보여주기		
+		 ProductDTO payMentItem = mapper.payMentItem( productdto);// 결제할 상품번호의 정보를 담음		 	 
+		 
+		 model.addAttribute("payMentItem", payMentItem);
+		}
+
+		@Override
+		public void payFinish(CusOrderDTO cusorderDTO) { //결재완료
+			mapper.payFinish(cusorderDTO);		
 		}
 
    
