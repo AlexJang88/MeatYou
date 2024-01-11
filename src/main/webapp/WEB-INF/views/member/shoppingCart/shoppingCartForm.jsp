@@ -1,45 +1,39 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ include file="../../header.jsp" %>
 <head>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
-//삭제 메서드
 // 삭제 메서드
-// 삭제 메서드
-function deleteSelectedItems(shop_num, shop_m_id) {
-    // 체크된 체크박스를 찾아서 배열에 추가
-    var selectedItems = [];
-    $("input:checkbox:checked").each(function () {
-        selectedItems.push($(this).val());
-    });
+function deleteSelectedItems(button,shop_num) {
+  var selectedItems = [];
+  $(".checkbox:checked").each(function () {
+    selectedItems.push($(this).data("shop-num"));
+  });
 
-    // 체크된 상품이 없을 경우 알림
-    if (selectedItems.length === 0) {
-        alert("삭제할 상품을 선택하세요.");
-        return;
-    }
+  if (selectedItems.length === 0) {
+    alert("삭제할 상품을 선택하세요.");
+    return;
+  }
 
-    // AJAX를 사용하여 선택된 상품 삭제 요청
-    $.ajax({
-        type: "POST",
-        url: "/member/deleteSelectedItems",
-        data: {
-            selectedItems: selectedItems,
-            shop_num: shop_num,
-            shop_m_id: shop_m_id
-        },
-        success: function (response) {
-            console.log(response);
-            // 삭제 후 페이지 리로드 또는 필요한 업데이트 작업 수행
-            location.reload(); // or location.href = location.href;
-        },
-        error: function (error) {
-            console.error(error);
-            // 에러 처리 로직 추가
-        }
-    });
+  $.ajax({
+    type: "POST",
+    url: "/member/deleteSelectedItems",
+    data: {
+      selectedItems: JSON.stringify(selectedItems),
+    },
+    success: function (response) {
+      console.log(response);
+      $("#상품목록").html(response.상품목록);
+      $("#성공메시지").show();
+    },
+    error: function (error) {
+      console.error(error);
+      alert("삭제 중 오류가 발생했습니다. 다시 시도해주세요.");
+      $("#오류메시지").show();
+    },
+  });
 }
 function update_click(button, operation,shop_num) {
     var input_element = button.parentElement.querySelector('.quantity');
@@ -134,9 +128,10 @@ function updateQuantity(new_quantity, shop_num) {
 						<%--	${item.p_price * item.quantity} --%>
 				 	  		<c:out value="${item.p_price * item.quantity}" />
 				 	  	<b> 원</b></td> 
-				    <td><input type="checkbox"></td>
+				  <td><input type="checkbox" value="item1" class="checkbox" data-shop-num="1"></td>
 				    <td><c:out value="${item.shop_m_id}" /></td>
 				  </tr>
+				 
 				</c:forEach>
                 </tbody>
             </table>
@@ -162,10 +157,19 @@ function updateQuantity(new_quantity, shop_num) {
         <a href="?page=${page + 1}&pageSize=${pageSize}">다음 &raquo;</a>
     </c:if>
 </div>
-        
-<!-- 삭제 버튼 -->
+
+<%-- <form id="deleteForm"  action="/deleteSelectedItems" method="post"  >
+   <c:forEach var="items" items="${deleteforyou}">
+    <button type="button" class="btn btn-danger" onclick="deleteSelectedItems(${items.shop_num})">선택된 상품 삭제</button>
+		</c:forEach>
+</form>
+ --%>
 <form id="deleteForm" method="post">
-    <button type="button" class="btn btn-danger" onclick="deleteSelectedItems('${item.shop_num}', '${item.shop_m_id}')">선택된 상품 삭제</button>
+    <c:forEach var="items" items="${selectedItems}">
+        <button type="button" class="btn btn-danger" onclick="deleteSelectedItems(${items.shop_num})">
+            선택된 상품 삭제 - ${items.shop_num}
+        </button>
+    </c:forEach>
 </form>
 
     </div>

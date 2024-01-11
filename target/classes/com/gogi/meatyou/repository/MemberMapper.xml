@@ -75,7 +75,6 @@
     </update>
 
   <!-- 특정 회원의 장바구니 목록 조회 (페이징 처리) -->
-   <!-- ShoppingCartMapper.xml -->
 
 <select id="getShoppingCartItemsPaged" parameterType="map" resultType="com.gogi.meatyou.bean.ShoppingCartDTO">
     <![CDATA[
@@ -115,14 +114,14 @@ WHERE rnum >= #{startRow, jdbcType=NUMERIC}
     <!-- 여기까지가 페이징 -->
     
 <!-- 게시물 선택 삭제  -->
-<delete id="deleteSelectedItems" parameterType="map">
-    DELETE FROM shoppingcart_${shop_m_id}
-    WHERE shop_num IN
-    <foreach item="item" collection="selectedItems" open="(" separator="," close=")">
-        #{item}
-    </foreach>
-    AND shop_m_id = #{shop_m_id}
-</delete>
+	<delete id="deleteSelectedItems" parameterType="map">
+	    DELETE FROM shoppingcart_${shop_m_id}
+	    WHERE shop_num IN
+	    <foreach item="item" collection="selectedItems" open="(" separator="," close=")">
+	        #{item}    
+	    </foreach>
+	    AND shop_m_id = #{shop_m_id}
+	</delete>
 
 		<insert id="insertMember" parameterType="com.gogi.meatyou.bean.MemberDTO">
     <![CDATA[

@@ -4,9 +4,12 @@ import java.security.Principal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
@@ -15,6 +18,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -261,16 +265,24 @@ public class MemberController {
 	}
 	
 	
-	// 컨트롤러 메서드
-	@RequestMapping("deleteSelectedItems" )
-	public @ResponseBody String deleteSelectedItems(@RequestParam(value = "selectedItems[]") List<String> selectedItems,
-            @RequestParam(value = "shop_m_id") String shop_m_id,
-            @RequestParam(value = "shop_num") int shop_num) {
-	    // 서비스를 통해 선택된 상품 삭제
-	    service.deleteSelectedItems(selectedItems, shop_m_id,shop_num);
-	    return "success";
-	}
 	
-	
-	
+
+    @PreAuthorize("hasRole('ROLE_ANONYMOUS')")
+    @RequestMapping("deleteSelectedItems")
+    public @ResponseBody String deleteSelectedItems(   String shop_m_id, Integer shop_num) {
+    	 List<String> selectedItems = new ArrayList<>(); // 또는 다른 방식으로 객체를 초기화
+        if (shop_num == null) {
+            return "error=====================================shop_num is null===============================";
+        }
+
+        try {
+            //service.deleteSelectedItems(Arrays.asList(selectedItems), shop_m_id, shop_num);
+      	  List<ShoppingCartDTO> deleteforyou= service.deleteSelectedItems( selectedItems, shop_m_id, shop_num);
+        	
+            return "success============================================================== 성============공-=================";
+        } catch (Exception e) {
+            e.printStackTrace(); // 또는 로깅
+            return "error=====================================error2===============================";
+        }
+    }
 }

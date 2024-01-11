@@ -2,18 +2,14 @@ package com.gogi.meatyou.service;
 
 
 import java.util.List;
-import java.util.Optional;
 
-import org.apache.ibatis.annotations.Param;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gogi.meatyou.bean.CusDetailDTO;
 import com.gogi.meatyou.bean.MemberDTO;
 import com.gogi.meatyou.bean.ProductDTO;
 import com.gogi.meatyou.bean.ShoppingCartDTO;
 
-public interface MemberService {
+public interface MemberService  {
     int insertMember(MemberDTO dto);
     
     
@@ -53,14 +49,17 @@ public interface MemberService {
 
 
 		public void updateQuantity(int  shop_num,int  quantity, String shop_m_id) ;
-		
-		
-		
-		
 	    List<ShoppingCartDTO> getShoppingCartItemsPaged(String shop_m_id, int startRow, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto);
 
 	    int getTotalShoppingCartItems(String shop_m_id);
 
+
+
+		List<ShoppingCartDTO> deleteSelectedItems(List<String> selectedItems, String shop_m_id, int shop_num);
+
+	    
 	 // 서비스 인터페이스
-	    void deleteSelectedItems(List<String> selectedItems, String shop_m_id,	int shop_num);
+	   // public List<ShoppingCartDTO> deleteSelectedItems(List<String> selectedItems, String shop_m_id,	int shop_num);
+	  //  public List<ShoppingCartDTO> deleteSelectedItems(List<String> selectedItems, String shop_m_id,	int shop_num);
+	    
 }

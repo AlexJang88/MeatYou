@@ -79,7 +79,11 @@ public interface MemberMapper {
 
 	    int getTotalShoppingCartItems(String shop_m_id);
 
-	    void deleteSelectedItems(@Param("selectedItems") List<String> selectedItems);
+	   
+	    
+	    void deleteSelectedItems(Map<String, Object>paramMap  	//	@Param("selectedItems") List<String> selectedItems, @Param("shop_m_id") String shop_m_id,	@Param("shop_num")int shop_num
+	    		
+	    		);
 	    
 	    
 	}

@@ -16,7 +16,7 @@ public class ShoppingCartDTO {
 	private String thumb;
 	private int p_price ;
 
-	
+	private int checkit;
 	private int new_quantity;
 	private int salePrice;
 	private int totalPrice;
