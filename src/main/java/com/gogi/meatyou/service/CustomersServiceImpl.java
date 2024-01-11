@@ -169,8 +169,13 @@ public  class CustomersServiceImpl implements CustomersService {
 		}
 
 		@Override
-		public void payFinish(CusOrderDTO cusorderDTO) { //결재완료
+		public void payFinish(CusOrderDTO cusorderDTO) { //파워링크 결재완료
 			mapper.payFinish(cusorderDTO);		
+		}
+
+		@Override
+		public void itempayFinish(CusOrderDTO cusorderDTO) {	//품목결재완료		
+			mapper.itempayFinish(cusorderDTO);
 		}
 
    

@@ -193,8 +193,14 @@ public class CustomersController {
  			return "customer/powerlinkpayPro";
  		}
  		
-   
  		
+ 		@RequestMapping("itemplusPro") //품목결재 완료
+ 		public String itemplusPro(CusOrderDTO cusorderDTO, Principal pc) { 					
+ 			cusorderDTO.setCo_m_id(pc.getName());
+ 			
+ 			service.itempayFinish(cusorderDTO);
+ 			return "customer/itemplusPro";
+ 		}
  		
    
    

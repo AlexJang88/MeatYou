@@ -30,6 +30,6 @@ public interface CustomersService {
 	public void powerlist(Model model, String id); //상품 유료결제 목록 불러오기
 	public void payment(Model model, ProductDTO productdto); //파워링크 결제 페이지에서 결제할목록 보여주기
 	public void payFinish(CusOrderDTO cusorderDTO); //파워링크 결제 페이지에서 결제할목록 보여주기
-   
+    public void itempayFinish(CusOrderDTO cusorderDTO);//품목 확장 결제 완료
    
 }

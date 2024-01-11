@@ -23,7 +23,7 @@
 		<td width="200" align="center">환불여부</td>				
 		<td width="100" align="center">결제하기</td>			
 	</tr>
-	<form action="/customers/#" method="post" >
+	<form action="/customers/itemplusPro" method="post" >
 	 <tr height="30"> 
       <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
       <input type="hidden" name="p_m_id" value="${id}">	

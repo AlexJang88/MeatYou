@@ -58,5 +58,5 @@ public interface CustomersMapper {
     public List<ProductDTO> poweredlist(String id); // 판매중이나 아직 상위노출 안하고 있는 상품 
     public ProductDTO payMentItem(ProductDTO productdto); // 결제 번호에 맞는 상품 정보 가져오기
     public void payFinish(CusOrderDTO cusorderDTO); //파워링크 결제 페이지에서 결제할목록 보여주기
-   
+    public void itempayFinish(CusOrderDTO cusorderDTO);//품목 확장 결제 완료
 }

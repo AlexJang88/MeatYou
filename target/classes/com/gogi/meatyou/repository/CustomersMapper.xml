@@ -215,8 +215,20 @@
           null
           )          
        </insert>
-
-
-
+		
+		<insert id="itempayFinish" parameterType="com.gogi.meatyou.bean.CusOrderDTO">
+          insert into CUS_ORDER(co_num, co_category, co_quantity, co_pay, co_m_id, autoPay, co_p_num, co_paydate, co_payenddate) values (
+          CUS_ORDER_seq.NEXTVAL,
+          2003,          
+          1,
+          50000,
+          #{co_m_id},                   
+          0,
+          null,
+          sysdate,
+          sysdate + INTERVAL '1' MONTH
+          )          
+       </insert>
+		
 
 </mapper>
