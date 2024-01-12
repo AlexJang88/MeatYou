@@ -242,10 +242,49 @@
                select count(*) from (select p_m_id as rk_m_id,sum(order_totalprice) totalprice,sum(order_p_price) p_price,sum(order_dere_pay) dere_pay from (select * from (select * from m_order mo,product p,cus_detail cd where mo.order_p_num=p.p_num and p.p_m_id=cd.cus_m_id) where order_paydate>=to_date(#{CheckMonth},'YYYY-MM') and order_paydate<=LAST_DAY(to_date(#{CheckMonth},'YYYY-MM'))) group by p_m_id) 
       
       ]]>
-      
    </select>
-   
-   
+   <select id="noticeMaxnum" resultType="int">
+   		select  nvl(max(n_num),0) from notice
+   </select>
+      <select id="getNotice" resultType="com.gogi.meatyou.bean.NoticeDTO">
+	select * from notice where n_num=(select max(n_num) from notice)
+   </select>
+	<select id="noticeList" parameterType="hashMap">
+	<![CDATA[
+		select * from(select n.*,rownum r from notice n) where r>=#{start} and r<=#{end}
+		  ]]>
+	</select>
+	<select id="getNoticeCount">
+		select count(*) from notice
+	</select>
+	<insert id="noticeReg" parameterType="com.gogi.meatyou.bean.NoticeDTO">
+		insert into notice values(
+			notice_seq.nextval,
+			#{n_title},
+			#{n_content},
+			sysdate
+		)
+	</insert>
+	<insert id="noticeFileUpload" parameterType="com.gogi.meatyou.bean.NoticeFileDTO">
+		insert into noticefile values(
+		noticefile_seq.nextval,
+		#{nf_n_num},
+		#{nf_filename},
+		10
+		)
+	</insert>
+	<select id="noticeContent" parameterType="com.gogi.meatyou.bean.NoticeDTO" resultType="com.gogi.meatyou.bean.NoticeDTO">
+		select * from notice where n_num=#{n_num}
+	</select>
+	<select id="noticeFileUpdate" resultType="com.gogi.meatyou.bean.NoticeFileDTO" >
+		select * from noticefile where nf_n_num=#{nf_n_num} and nf_category=10
+	</select>
+	<delete id="noticeFileDelete">
+		delete from noticefile where nf_n_num=#{nf_n_num}
+	</delete>
+	<delete id="noticedelete">
+		delete from notice where n_num=#{n_num}
+	</delete>
 	
 	
 </mapper>

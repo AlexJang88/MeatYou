@@ -6,6 +6,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.gogi.meatyou.bean.MemberDTO;
+import com.gogi.meatyou.bean.NoticeDTO;
+import com.gogi.meatyou.bean.NoticeFileDTO;
 import com.gogi.meatyou.bean.ReckonDTO;
 
 public interface AdminMapper {
@@ -37,4 +39,15 @@ public interface AdminMapper {
    public List<ReckonDTO> getReckon(HashMap hashmap);
    public int getReckCount(HashMap hashmap);
    public void insertTest(String id);
+   public int noticeMaxnum();
+   public NoticeDTO getNotice();
+   public List<NoticeDTO> noticeList(HashMap hashmap);
+   public int getNoticeCount();
+   public void noticeReg(NoticeDTO dto);
+   public void noticeFileUpload(NoticeFileDTO dto);
+   public NoticeDTO noticeContent(NoticeDTO dto);
+   public List<NoticeFileDTO> noticeFileUpdate(int nf_n_num);
+   public void noticeFileDelete(int nf_n_num);
+   public void noticedelete(int n_num);
+   
 }

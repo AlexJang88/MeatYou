@@ -33,5 +33,4 @@
 		<beans:property name="uploadTempDir" value="/Users/jang-uiseog/Documents/tmp" />
 	</beans:bean>
 	
-	
 </beans:beans>

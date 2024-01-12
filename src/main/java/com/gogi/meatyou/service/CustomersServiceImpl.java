@@ -4,17 +4,28 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import com.gogi.meatyou.bean.CusOrderDTO;
+import com.gogi.meatyou.bean.KakaoApproveResponse;
+import com.gogi.meatyou.bean.KakaoReadyResponse;
 import com.gogi.meatyou.bean.PDetailDTO;
 import com.gogi.meatyou.bean.ProductDTO;
 import com.gogi.meatyou.repository.CustomersMapper;
 
 @Service
 public class CustomersServiceImpl implements CustomersService {
-
+	
+	static final String cid="TC0ONETIME";
+	static final String admin_Key ="35a33e74d93b78679104437333310ddb";
+	private KakaoReadyResponse kakaoReady;
+	
    @Autowired
    private CustomersMapper mapper;
 
@@ -132,13 +143,6 @@ public class CustomersServiceImpl implements CustomersService {
       model.addAttribute("paylist", paylist);
             
    }
-
-   
-
-   
-
-   
-   
    
    
 }

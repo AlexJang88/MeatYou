@@ -6,13 +6,19 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
+import java.util.Map;
 import java.util.concurrent.ScheduledExecutorService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,15 +31,30 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gogi.meatyou.bean.MemberDTO;
+import com.gogi.meatyou.bean.NoticeDTO;
+import com.gogi.meatyou.bean.NoticeFileDTO;
 import com.gogi.meatyou.bean.ReckonDTO;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+
 import com.gogi.meatyou.repository.AdminMapper;
+import com.google.gson.JsonObject;
 
 @Service
 public class AdminServiceImpl implements AdminService {
+   
+	private int imgcnt=0;
+	
    @Autowired
    private HashMap adminMap;
-
+   
+   @Autowired
+   private ArrayList<String> oldname;
+   
+   @Autowired
+   private NoticeFileDTO noticefiledto;
+   
    @Autowired
    private AdminService adminServiceImpl;
 
@@ -198,7 +219,6 @@ public class AdminServiceImpl implements AdminService {
               conn.setRequestProperty("Content-type","application/json");
               //  뿰寃고븯怨   뜲 씠 꽣瑜   씫 뒿 땲 떎.
               //  삁: int responseCode = conn.getResponseCode();
-              System.out.println("Response cod:"+conn.getResponseCode());
               BufferedReader rd;
               if(conn.getResponseCode()>=200 && conn.getResponseCode()<=300) {
                  rd=new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -338,56 +358,214 @@ public class AdminServiceImpl implements AdminService {
          model.addAttribute("endPage", endPage);
    }
 
-   @Override
-   public void noticeReg(MultipartFile multipartFile, HttpServletRequest request) {
-      
-      ObjectMapper ojm = new ObjectMapper();
-      
-      String realPath = "/Users/jang-uiseog/Documents/Spring/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps";
-       //  이미지 파일이 저장될 경로 설정 
-       String contextRoot = realPath + "/upload_image/image/fileupload/29/";
-       String fileRoot = contextRoot;
-       
-       //  업로드된 파일의 원본 파일명과 확장자 추출
-       String originalFileName = multipartFile.getOriginalFilename();
-       String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
-       
-    // 새로운 파일명 생성 (고유한 식별자 + 확장자)옣 옄)
-       String savedFileName = UUID.randomUUID() + extension;
-       
-    // 저장될 파일의 경로와 파일명을 나타내는 File 객체 생성       
-       File targetFile = new File(fileRoot + savedFileName);
-       
-       try {
-           // 업로드된 파일의 InputStream 얻기
-           java.io.InputStream fileStream = multipartFile.getInputStream();
-           
-           // 업로드된 파일을 지정된 경로에 저장
-           FileUtils.copyInputStreamToFile(fileStream, targetFile);
-           
-           // JSON 객체에 이미지 URL과 응답 코드 추가
-           adminMap.put("url", "/upload_image/image/fileupload/29/"+savedFileName);
-           adminMap.put("responseCode", "success");
-       } catch (IOException e) {
-           // 파일 저장 중 오류가 발생한 경우 해당 파일 삭제 및 에러 응답 코드 추가
-           FileUtils.deleteQuietly(targetFile);
-           adminMap.put("responseCode","error");
-           e.printStackTrace();
+
+@Override
+public int noticeMaxnum() {
+	return mapper.noticeMaxnum();
+}
+
+@Override
+public NoticeDTO getNotice() {
+	return mapper.getNotice();
+}
+
+@Override
+public int noticeReg(HttpServletRequest req, HttpServletResponse resp, Model model, NoticeDTO dto) {
+	 HttpSession session = req.getSession();
+     // �ۼ��� �Խù� �� ���� �ֱ� �Խù� ��������
+     NoticeDTO board = mapper.getNotice();
+     String realpath = req.getServletContext().getRealPath("/resources/file/notice/"+(noticeMaxnum()+1)+"/");
+     for(int i=0;i<oldname.size();i++) {
+    	 if(!dto.getN_content().contains(oldname.get(i))) {
+    		 File f = new File(realpath+oldname.get(i));
+    		 if(f.exists()) {
+    			 f.delete();
+    		 }
+    	 }else {
+    		 noticefiledto.setNf_filename(oldname.get(i));
+    		 noticefiledto.setNf_n_num(mapper.noticeMaxnum()+1);
+    		 mapper.noticeFileUpload(noticefiledto);
+    	 }
+     }
+     mapper.noticeReg(dto);
+     imgcnt=0;
+    oldname.clear();
+	return 0;
+}
+
+@Override
+public String uploadSummerImgFile(MultipartFile multipartFile, HttpServletRequest request) {
+	// JSON ��ü ����
+			JsonObject jsonObject = new JsonObject();
+
+			// �̹��� ������ ����� ��� ����
+			String path = request.getServletContext().getRealPath("/resources/file/notice/"+(noticeMaxnum()+1)+"/");
+			
+			// ���ε�� ������ ���� ���ϸ�� Ȯ���� ����
+			String originalFileName = multipartFile.getOriginalFilename();
+			String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+
+			// ���ο� ���ϸ� ���� (������ �ĺ��� + Ȯ����)
+			int n_num = mapper.noticeMaxnum();
+			imgcnt+=1;
+			String savedFileName = "notice_"+(n_num+1)+"_"+imgcnt+extension;
+			
+			oldname.add(savedFileName);
+
+			// ����� ������ ��ο� ���ϸ��� ��Ÿ���� File ��ü ����
+			File targetFile = new File(path + savedFileName);
+			
+			try {
+				if(!targetFile.exists()) {
+					targetFile.mkdir();
+				}
+				// ���ε�� ������ InputStream ���
+				java.io.InputStream fileStream = multipartFile.getInputStream();
+
+				// ���ε�� ������ ������ ��ο� ����
+				FileUtils.copyInputStreamToFile(fileStream, targetFile);
+
+				// JSON ��ü�� �̹��� URL�� ���� �ڵ� �߰�
+				jsonObject.addProperty("url", "/resources/file/notice/" +(noticeMaxnum()+1)+"/"+ savedFileName);
+				jsonObject.addProperty("responseCode", "success");
+			} catch (IOException e) {
+				// ���� ���� �� ������ �߻��� ��� �ش� ���� ���� �� ���� ���� �ڵ� �߰�
+				FileUtils.deleteQuietly(targetFile);
+				jsonObject.addProperty("responseCode", "error");
+				e.printStackTrace();
+			}
+			// JSON ��ü�� ���ڿ��� ��ȯ�Ͽ� ��ȯ
+			String a = jsonObject.toString();
+	return a;
+}
+
+@Override
+public void noticeList(Model model,int pageNum) {
+    int count=0;
+    int pageSize = 10;
+    int startRow = (pageNum - 1) * pageSize + 1;
+    int endRow = pageNum * pageSize;
+    List<NoticeDTO> list = Collections.EMPTY_LIST;
+       count = mapper.getNoticeCount();
+       if (count > 0) {
+          adminMap.put("start", startRow);
+          adminMap.put("end", endRow);
+          
+          list = mapper.noticeList(adminMap);
        }
-       try {
-         String jsonStr = ojm.writeValueAsString(adminMap);
-      } catch (JsonProcessingException e) {
-         e.printStackTrace();
-      }
+       System.out.println("====title"+list.get(0).getN_title());
+       model.addAttribute("list", list);
+       model.addAttribute("count", count);
+       model.addAttribute("pageNum", pageNum);
+       model.addAttribute("pageSize", pageSize);
+
+       // page
+       int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+       int startPage = (int) (pageNum / 10) * 10 + 1;
+       int pageBlock = 10;
+       int endPage = startPage + pageBlock - 1;
+       if (endPage > pageCount) {
+          endPage = pageCount;
+       }
+       model.addAttribute("pageCount", pageCount);
+       model.addAttribute("startPage", startPage);
+       model.addAttribute("pageBlock", pageBlock);
+       model.addAttribute("endPage", endPage);
        
-       // JSON 媛앹껜瑜  臾몄옄 뿴濡  蹂  솚 븯 뿬 諛섑솚
-      // return jsonStr;
-   }
+}
 
-   
-   
+@Override
+public void getNoticeContent(Model model,NoticeDTO dto,NoticeFileDTO fdto) {
+	 dto = mapper.noticeContent(dto);
+	 List<NoticeFileDTO> list = mapper.noticeFileUpdate(dto.getN_num());
+	 model.addAttribute("dto", dto);
+	 model.addAttribute("list",list);
+	 
+}
 
+@Override
+public String updateSummerImgFile(MultipartFile multipartFile, HttpServletRequest request,int n_num) {
+	// JSON ��ü ����
+				JsonObject jsonObject = new JsonObject();
+				
+				List<NoticeFileDTO> olddto= mapper.noticeFileUpdate(n_num);
+				ArrayList<String> fname=new ArrayList<String>();
+				
+				for(NoticeFileDTO dto : olddto) {
+					oldname.add(dto.getNf_filename());
+				}
+				
+				// �̹��� ������ ����� ��� ����
+				String path = request.getServletContext().getRealPath("/resources/file/notice/"+n_num+"/");
+				
+				// ���ε�� ������ ���� ���ϸ�� Ȯ���� ����
+				String originalFileName = multipartFile.getOriginalFilename();
+				String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
 
-   
+				// ���ο� ���ϸ� ���� (������ �ĺ��� + Ȯ����)
+				imgcnt=oldname.size()+1;
+				String savedFileName = "notice_"+n_num+"_"+imgcnt+extension;
+				
+				oldname.add(savedFileName);
+
+				// ����� ������ ��ο� ���ϸ��� ��Ÿ���� File ��ü ����
+				File targetFile = new File(path + savedFileName);
+				
+				try {
+					if(!targetFile.exists()) {
+						targetFile.mkdir();
+					}
+					// ���ε�� ������ InputStream ���
+					java.io.InputStream fileStream = multipartFile.getInputStream();
+
+					// ���ε�� ������ ������ ��ο� ����
+					FileUtils.copyInputStreamToFile(fileStream, targetFile);
+
+					// JSON ��ü�� �̹��� URL�� ���� �ڵ� �߰�
+					jsonObject.addProperty("url", "/resources/file/notice/" +n_num+"/"+ savedFileName);
+					jsonObject.addProperty("responseCode", "success");
+				} catch (IOException e) {
+					// ���� ���� �� ������ �߻��� ��� �ش� ���� ���� �� ���� ���� �ڵ� �߰�
+					FileUtils.deleteQuietly(targetFile);
+					jsonObject.addProperty("responseCode", "error");
+					e.printStackTrace();
+				}
+				// JSON ��ü�� ���ڿ��� ��ȯ�Ͽ� ��ȯ
+		 		String a = jsonObject.toString();
+	return a;
+}
+@Override
+public int noticeupdate(HttpServletRequest req, HttpServletResponse resp, Model model, NoticeDTO dto) {
+	 HttpSession session = req.getSession();
+     // �ۼ��� �Խù� �� ���� �ֱ� �Խù� ��������
+     NoticeDTO board = mapper.getNotice();
+     String realpath = req.getServletContext().getRealPath("/resources/file/notice/"+dto.getN_num()+"/");
+     	mapper.noticeFileDelete(dto.getN_num());
+     for(int i=0;i<oldname.size();i++) {
+    	 if(!dto.getN_content().contains(oldname.get(i))) {
+    		 File f = new File(realpath+oldname.get(i));
+    		 if(f.exists()) {
+    			 f.delete();
+    		 }
+    	 }else {
+    		 noticefiledto.setNf_filename(oldname.get(i));
+    		 noticefiledto.setNf_n_num(dto.getN_num());
+    		 mapper.noticeFileUpload(noticefiledto);
+    	 }
+     }
+     mapper.noticeReg(dto);
+     imgcnt=0;
+    oldname.clear();
+	return 0;
+}
+
+@Override
+public void noticedelete(int n_num) {
+	mapper.noticedelete(n_num);
+	mapper.noticeFileDelete(n_num);
+}
+
+	
+
 
 }

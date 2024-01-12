@@ -31,7 +31,7 @@ public class CustomUser extends User {
         this.dto = dto;
         // ����� �α�
         
-        System.out.println("CustomUser ���� �Ϸ�!!!!"+dto.getM_name()+"�Բ����Է��Ͻ� ���̵� : " + dto.getM_id() + " ��й�ȣ :"+dto.getPasswd()+"�����:"+dto.getMstat_auth()+"�̸� "+dto.getMstat_detail()+"�� �Դϴ�");
+        System.out.println("CustomUser ���� �Ϸ�!!!!"+dto.getM_name()+"�Բ����Է��Ͻ� ���̵� : " + dto.getM_id() + " ��й�ȣ :"+dto.getPasswd()+"�����:"+dto.getMstatus_list().get(0).getMstat_auth()+"�̸� "+dto.getMstat_detail()+"�� �Դϴ�");
         
     }
 }

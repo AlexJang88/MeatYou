@@ -12,17 +12,21 @@
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 	
 	
-<form method="post" action="/admin/reg" enctype="multipart/form-data">
+<form method="post" action="/admin/noticeupdate" enctype="multipart/form-data">
   <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
   <input type="hidden" name="category" value="10">
-  제목 : <input type="text" name="n_title">
-  <textarea id="summernote" name="n_content"></textarea>
-  <input type="submit" value="전송">
+  <input type="hidden" name="n_num" id="n_num" value="${dto.n_num}"/>
+  제목 : <input type="text" name="n_title" value="${dto.n_title}">
+  <textarea id="summernote" name="n_content">
+  	${dto.n_content}
+  </textarea>
+  <input type="submit" value="수정">
 </form>
 
 <script>
 $(document).ready(function () {
     $('#summernote').summernote({
+    	
         codeviewFilter: false, // 코드 보기 필터 비활성화
         codeviewIframeFilter: false, // 코드 보기 iframe 필터 비활성화
 
@@ -74,59 +78,36 @@ $(document).ready(function () {
         ],
 
         callbacks: {
-            onImageUpload: function (files, editor, welEditable) {
+            onImageUpload: function (files, editor) {
                 // 파일 업로드 (다중 업로드를 위해 반복문 사용)
+                var n_num = $('#n_num').val();
                 for (var i = files.length - 1; i >= 0; i--) {
                     var fileName = files[i].name
-                    uploadSummernoteImageFile(files[i], this)
+                    updateSummernoteImageFile(files[i], this,n_num)
                 }
             },
-        },
-        onMediaDelete: function ($target, editor, $editable) {
-            // 삭제된 이미지의 파일 이름을 알아내기 위해 split 활용
-            if (confirm('이미지를 삭제하시겠습니까?')) {
-                var deletedImageUrl = $target.attr('src').split('/').pop()
-
-                // ajax 함수 호출
-                deleteSummernoteImageFile(deletedImageUrl)
-            }
         },
     })
 })
 
-function uploadSummernoteImageFile(file, el) {
+function updateSummernoteImageFile(file, el,n_num) {
 		data = new FormData()
         data.append('file', file)
         $.ajax({
-            data: data,
+            data: {data:data,n_num:n_num},
             type: 'POST',
-            url: '/admin/uploadSummernoteImageFile',
+            url: '/admin/updateSummernoteImageFile',
             contentType: false,
             enctype: 'multipart/form-data',
             processData: false,
-            success: function (data) {
+            success: function (fdata) {
                 $(el).summernote(
                     'editor.insertImage',
                     data.url
-                 /* ,   function ($image) {
-                        $image.attr('alt', caption) // 캡션 정보를 이미지의 alt 속성에 설정
-                    } */
                 )
             },
         })
     }
-/* function deleteSummernoteImageFile(imageName) {
-    data = new FormData()
-    data.append('file', imageName)
-    $.ajax({
-        data: data,
-        type: 'POST',
-        url: '/admin/deleteSummernoteImageFile',
-        contentType: false,
-        enctype: 'multipart/form-data',
-        processData: false,
-    })
-} */
 
 </script>
 </sec:authorize>
