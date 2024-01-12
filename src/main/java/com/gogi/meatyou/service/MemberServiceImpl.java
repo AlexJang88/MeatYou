@@ -156,11 +156,15 @@ public class MemberServiceImpl implements MemberService {
 				 return mapper.deleteCart(shop_num,shop_m_id);
 
 				}
-			    /*
+		
+			    
+ 
+			    
+			    
 			    
 			  //Âò°ü·Ã 
-				List<PickMeDTO> pickMeCountPage(String pm_m_id, int startRow, int pageSize, PickMeDTO pdto, CusDetailDTO cdto){
-				    int startRow = (page - 1) * pageSize + 1;
+				public	List<PickMeDTO> pickMeCountPage(String pm_m_id, int page, int pageSize, PickMeDTO pdto, CusDetailDTO cdto){
+				    int startRow = (page  - 1) * pageSize + 1;
 				    int endRow = startRow + pageSize - 1;
 
 				    Map<String, Object> parameters = new HashMap<>();
@@ -176,7 +180,8 @@ public class MemberServiceImpl implements MemberService {
 				
 				
 				
-				int pickMeCount(String pm_m_id) {
+			    @Override
+			    public int pickMeCount(String pm_m_id) {
 			        return mapper.pickMeCount(pm_m_id);
 			    }
 				
@@ -188,9 +193,7 @@ public class MemberServiceImpl implements MemberService {
 						    
 			    
 			    
-			    
-			    */
-			    
+			
 			    
 			    
 			    

@@ -58,13 +58,13 @@ public interface MemberService  {
 
 		
 		
-		/*
+		
 		//찜관련 
-		List<PickMeDTO> pickMeCountPages(String pm_m_id, int startRow, int pageSize, PickMeDTO pdto, CusDetailDTO cdto);
+		List<PickMeDTO> pickMeCountPage(String pm_m_id, int startRow, int pageSize, PickMeDTO pdto, CusDetailDTO cdto);
 		
 		int pickMeCount(String pm_m_id);
 		/* 카트 삭제 */
-	//	public int deleteHim(int pm_num,String pm_m_id);
+			public int deleteHim(int pm_num,String pm_m_id);
 		
 		
 		

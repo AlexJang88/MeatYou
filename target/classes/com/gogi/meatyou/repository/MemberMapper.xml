@@ -140,22 +140,24 @@ WHERE rnum >= #{startRow, jdbcType=NUMERIC}
 
 <select id="pickMeCountPage" parameterType="map" resultType="com.gogi.meatyou.bean.PickMeDTO">
     <![CDATA[
-SELECT rnum, pm_m_id, pm_c_id,ceoname,cus_address1 ,cus_address2, company,t
+SELECT rnum, pm_m_id, pm_c_id,ceoname,cus_address1 ,cus_address2, company
 FROM (
     SELECT ROWNUM AS rnum, t.*
     FROM (
         SELECT
+            pp.pm_num,
             pp.pm_m_id,
 		    pp.pm_c_id,
 		    cu.ceoname,
 		    cu.company,
-		    cu.cus_address1 || cu.cus_address2,
+		    cu.address1,
+		    cu.address2,
 		    cu.cus_pnum
         FROM
            pick_me_${pm_m_id} pp
         INNER JOIN
-           cus_detail cu ON pp.pm_c_id = cu.cus_m_id;
- <!--        ORDER BY sc.pm_num -->
+           cus_detail cu ON pp.pm_c_id = cu.cus_m_id
+	   ORDER BY  pp.pm_num 
     ) t
     WHERE ROWNUM <= #{endRow, jdbcType=NUMERIC}
 )

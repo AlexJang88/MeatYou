@@ -106,25 +106,23 @@
                      <div class="header-ctn">   
                       <sec:authorize access="isAnonymous()">
 					         		<div>
-					 <a href="/member/customLogin" class="login-required" onclick="checkLogin()">
-    <i class="fa fa-heart-o"></i>
-    <span>찜목록</span>
-  </a>
-</div>
-
-<div class="dropdown">
-  <a href="/member/customLogin" class="login-required" onclick="checkLogin()">
-    <i class="fa fa-shopping-cart"></i>
-    <span>장바구니</span>
-  </a>
-</div>
-        
-        
+						 <a href="/member/customLogin" class="login-required" onclick="checkLogin()">
+							    <i class="fa fa-heart-o"></i>
+							    <span>찜목록</span>
+							  </a>
+							</div>
+							
+							<div class="dropdown">
+							  <a href="/member/customLogin" class="login-required" onclick="checkLogin()">
+							    <i class="fa fa-shopping-cart"></i>
+							    <span>장바구니</span>
+							  </a>
+							</div>
               		    </sec:authorize>
 
                      <sec:authorize access="isAuthenticated()">
                            <div>
-                           <a href="/member/pPickList">
+                           <a href="/member/pickMe">
                               <i class="fa fa-heart-o"></i>
                               <span>찜목록</span>
                               <div class="qty">2</div>

@@ -34,6 +34,7 @@ import com.gogi.meatyou.bean.CusDetailDTO;
 import com.gogi.meatyou.bean.MemStatusDTO;
 import com.gogi.meatyou.bean.MemberDTO;
 import com.gogi.meatyou.bean.PPicDTO;
+import com.gogi.meatyou.bean.PickMeDTO;
 import com.gogi.meatyou.bean.ProductDTO;
 import com.gogi.meatyou.bean.ShoppingCartDTO;
 import com.gogi.meatyou.service.MemberService;
@@ -214,8 +215,7 @@ public class MemberController {
 	
  
 	
-	//장바구니 보이기 + 페이징 처리 
-	
+
 	
 	//장바구니 보이기 + 페이징 처리 
 		@RequestMapping("shoppingCartForm")
@@ -284,9 +284,7 @@ public class MemberController {
 		}
 		
 		
-		/*
-	
-	
+		
 	
 	
 	
@@ -314,31 +312,24 @@ public class MemberController {
 	//판매자 찜~~~~~~~~~~
 	
 	
+
 	
-	
-	
-	
-	
-	
-	
-	@RequestMapping("pPickList")
+	@RequestMapping("pickMe")
 	public String pPickList(
 	        Principal seid,
 	        Model model,
 	        @RequestParam(defaultValue = "1") int page,  // 현재 페이지 번호, 기본값 1
 	        @RequestParam(defaultValue = "7") int pageSize,  // 페이지당 표시할 항목 수, 기본값 7
-	        ShoppingCartDTO sdto,
-	        ProductDTO pdto
-	) {
-	    String shop_m_id = (String) seid.getName();
-	    int totalPrice = sdto.getQuantity() * sdto.getP_price();
-	    System.out.print("시큐리티 확인======================================================"+shop_m_id);
+	        PickMeDTO pdto, CusDetailDTO cdto	) {
+	    String pm_m_id = (String) seid.getName();
+	  //  int totalPrice = sdto.getQuantity() * sdto.getP_price();
+	    System.out.print("시큐리티 확인======================================================"+pm_m_id);
 
 	    // 여기서 service를 통해 해당 회원의 특정 범위의 장바구니 정보를 가져옵니다.
-	    List<PPicDTO> pPickList = service.getShoppingCartItemsPaged(shop_m_id, page, pageSize, sdto, pdto);
+	    List<PickMeDTO> pPickList = service.pickMeCountPage(pm_m_id, page, pageSize,pdto, cdto);
 
 	    // 여기서 service를 통해 해당 회원의 장바구니 총 상품 개수를 가져옵니다.
-	    int totalItemCount = service.getTotalShoppingCartItems(shop_m_id);
+	    int totalItemCount = service.pickMeCount(pm_m_id);
 
 	    // 페이징 처리를 위한 계산
 	    int totalPage = (int) Math.ceil((double) totalItemCount / pageSize);
@@ -348,50 +339,36 @@ public class MemberController {
 	    	System.out.println("총페이지는 ============= ="+totalPage);
 	    	System.out.println("총 카운트   =================="+totalItemCount);
 	    // 모델에 장바구니 정보 및 페이징 관련 정보를 추가합니다.
-	    model.addAttribute("shoppingCartList", shoppingCartList);
-	    model.addAttribute("totalPrice", totalPrice);
+	    model.addAttribute("pPickList", pPickList);
+	    //model.addAttribute("totalPrice", totalPrice);
 	    model.addAttribute("page", page);
 	    model.addAttribute("pageSize", pageSize);
 	    model.addAttribute("totalPage", totalPage);
 
-	    return "member/shoppingCart/shoppingCartForm";
+	    return "member/pickMe/pickMe";
 	}
 	
-	//수량변경 
-	@RequestMapping("updateQuantity")
-	public @ResponseBody String updateQuantity(Principal seid,int shop_num,int quantity) {
-		  String shop_m_id = (String) seid.getName();
-		
-	    // 여기에서 수량 업데이트 로직을 수행합니다.
-	    // 실제로는 이 부분을 비즈니스 로직에 맞게 수정해야 합니다.
-	    service.updateQuantity(shop_num, quantity, shop_m_id);
-	    	
-	    return "success"; // 또는 업데이트가 성공했을 때의 응답 메시지
-	}	
+
     //@PreAuthorize("hasRole('ROLE_ANONYMOUS')")
-//	@RequestMapping("delete")
-	@PostMapping("delete")
-	public String deleteItems(Principal seid,ShoppingCartDTO sdto) {
+//	@RequestMapping("delete")				
+	@PostMapping("deleteHim")  
+	public String deleteHim(Principal seid,PickMeDTO pdto) {
 		// 기존 코드
 		// shop_m_id = sdto.getShop_m_id();
 
 		// 수정 후 코드
-		  String shop_m_id = (String) seid.getName();
+		  String pm_m_id = (String) seid.getName();
 
-		int check = service.deleteCart(sdto.getShop_num(), shop_m_id);
+		int check = service.deleteHim(pdto.getPm_num(), pm_m_id);
 		if (check == 1) {
-			 return "redirect:../shoppingCart/shoppingCartForm";
+			 return "redirect:../pickMe/pickMe";
 		} else {
 			return "error";
 		}	
 	}
 	
 	
-	
-	*/
-	
-	
-	
+
 	
 	
 	
