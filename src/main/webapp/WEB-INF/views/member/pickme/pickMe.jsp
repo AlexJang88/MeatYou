@@ -84,7 +84,7 @@ function updateQuantity(new_quantity, shop_num) {
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        장바구니 
+내가 관심있는 판매자  
     </div>
 
     <div class="panel-body">

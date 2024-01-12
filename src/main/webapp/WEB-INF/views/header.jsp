@@ -4,6 +4,10 @@
 <!DOCTYPE html>
 <html lang="en">
    <head>
+   <script>
+ 
+</script>
+
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -46,7 +50,7 @@
             <div class="container">
             
                <ul class="header-links pull-right">
-                                           <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />      
+                              <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />      
                   <sec:authorize access="isAnonymous()">
                       <li><a href="/member/inputForm"><i class="fa"></i>회원가입 </a></li>
                       <li><a href="/member/customLogin"><i class="fa"></i> 로그인</a></li>
@@ -99,26 +103,46 @@
 
                   <!-- ACCOUNT -->
                   <div class="col-md-3 clearfix">
-                     <div class="header-ctn">
-                        <!-- Wishlist -->
-                        <div>
-                           <a href="#">
+                     <div class="header-ctn">   
+                      <sec:authorize access="isAnonymous()">
+					         		<div>
+					 <a href="/member/customLogin" class="login-required" onclick="checkLogin()">
+    <i class="fa fa-heart-o"></i>
+    <span>찜목록</span>
+  </a>
+</div>
+
+<div class="dropdown">
+  <a href="/member/customLogin" class="login-required" onclick="checkLogin()">
+    <i class="fa fa-shopping-cart"></i>
+    <span>장바구니</span>
+  </a>
+</div>
+        
+        
+              		    </sec:authorize>
+
+                     <sec:authorize access="isAuthenticated()">
+                           <div>
+                           <a href="/member/pPickList">
                               <i class="fa fa-heart-o"></i>
                               <span>찜목록</span>
                               <div class="qty">2</div>
                            </a>
                         </div>
                         <!-- /Wishlist -->
-
                         <!-- Cart -->
                         <div class="dropdown">
-                           <a href="#">
+                           <a href="/member/shoppingCartForm">
                                  <i class="fa fa-shopping-cart"></i>
                                  <span>장바구니</span>
                                  <div class="qty">3</div>
                            </a>
-                           
                         </div>
+                     </sec:authorize>
+
+                        <!-- Wishlist -->
+                      
                         <!-- /Cart -->
 
                         <!-- Menu Toogle -->

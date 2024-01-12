@@ -2,6 +2,7 @@ package com.gogi.meatyou.service;
 
 import com.gogi.meatyou.bean.CusDetailDTO;
 import com.gogi.meatyou.bean.MemberDTO;
+import com.gogi.meatyou.bean.PickMeDTO;
 import com.gogi.meatyou.bean.ProductDTO;
 import com.gogi.meatyou.bean.ShoppingCartDTO;
 import com.gogi.meatyou.repository.MemberMapper;
@@ -147,33 +148,51 @@ public class MemberServiceImpl implements MemberService {
 			        return mapper.getTotalShoppingCartItems(shop_m_id);
 			    }
 			    
+			    			    
 			    
-			    
-			    
-			 // 삭제 
 			    @Override
-			    public List<ShoppingCartDTO> deleteSelectedItems(List<String> selectedItems, String shop_m_id,	int shop_num) {
-			        Map<String, Object> paramMap = new HashMap<>();
-			        paramMap.put("selectedItems", selectedItems);
-			        paramMap.put("shop_m_id", shop_m_id);
-			        paramMap.put("shop_num", shop_num);
-			        // Mapper를 통해 DB에서 선택된 상품 삭제
-			        mapper.deleteSelectedItems(paramMap);
-					return null;
+				public int deleteCart(int shop_num,@Param("shop_m_id")String shop_m_id) {
+
+				 return mapper.deleteCart(shop_num,shop_m_id);
+
+				}
+			    /*
+			    
+			  //찜관련 
+				List<PickMeDTO> pickMeCountPage(String pm_m_id, int startRow, int pageSize, PickMeDTO pdto, CusDetailDTO cdto){
+				    int startRow = (page - 1) * pageSize + 1;
+				    int endRow = startRow + pageSize - 1;
+
+				    Map<String, Object> parameters = new HashMap<>();
+				    parameters.put("pm_m_id", pm_m_id);
+				    parameters.put("startRow", startRow);
+				    parameters.put("endRow", endRow);
+
+				 //   return mapper.getShoppingCartItemsPaged(parameters);
+				    List<PickMeDTO> result = mapper.pickMeCountPage(parameters);
+				    System.out.println("서비스 호출 - 페이지: " + page + ", 결과 개수: " + result.size());
+				    return result;
+				}
+				
+				
+				
+				int pickMeCount(String pm_m_id) {
+			        return mapper.pickMeCount(pm_m_id);
 			    }
-			   /* 
-			 // 삭제 
-			    @Override
-			    public List<ShoppingCartDTO> deleteSelectedItems(List<String> selectedItems, String shop_m_id, int shop_num) {
-			        Map<String, Object> paramMap = new HashMap<>();
-			        paramMap.put("selectedItems", selectedItems);
-			        paramMap.put("shop_m_id", shop_m_id);
-			        paramMap.put("shop_num", shop_num);
-			        // Mapper를 통해 DB에서 선택된 상품 삭제
-			        mapper.deleteSelectedItems(paramMap);
-			        return null;
-			    }
-*/
+				
+				public int deleteHim(int pm_num,@Param("pm_m_id")String pm_m_id){
+
+					 return mapper.deleteHim(pm_num,pm_m_id);
+
+					}
+						    
+			    
+			    
+			    
+			    */
+			    
+			    
+			    
 			    
 			    
 }

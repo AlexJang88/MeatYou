@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.gogi.meatyou.bean.CusDetailDTO;
 import com.gogi.meatyou.bean.MemberDTO;
+import com.gogi.meatyou.bean.PickMeDTO;
 import com.gogi.meatyou.bean.ProductDTO;
 import com.gogi.meatyou.bean.ShoppingCartDTO;
 
@@ -47,19 +48,30 @@ public interface MemberService  {
 	    	// 수량변경
 	    
 
-
+	    	//장바구니 관련
 		public void updateQuantity(int  shop_num,int  quantity, String shop_m_id) ;
 	    List<ShoppingCartDTO> getShoppingCartItemsPaged(String shop_m_id, int startRow, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto);
 
 	    int getTotalShoppingCartItems(String shop_m_id);
+		/* 카트 삭제 */
+		public int deleteCart(int shop_num,String shop_m_id);
 
-
-
-		List<ShoppingCartDTO> deleteSelectedItems(List<String> selectedItems, String shop_m_id, int shop_num);
-
-	    
-	 // 서비스 인터페이스
-	   // public List<ShoppingCartDTO> deleteSelectedItems(List<String> selectedItems, String shop_m_id,	int shop_num);
-	  //  public List<ShoppingCartDTO> deleteSelectedItems(List<String> selectedItems, String shop_m_id,	int shop_num);
-	    
+		
+		
+		/*
+		//찜관련 
+		List<PickMeDTO> pickMeCountPages(String pm_m_id, int startRow, int pageSize, PickMeDTO pdto, CusDetailDTO cdto);
+		
+		int pickMeCount(String pm_m_id);
+		/* 카트 삭제 */
+	//	public int deleteHim(int pm_num,String pm_m_id);
+		
+		
+		
+		
+		
+		
+		
+		
+		
 }

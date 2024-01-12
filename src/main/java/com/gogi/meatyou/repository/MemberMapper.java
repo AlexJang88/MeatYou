@@ -9,6 +9,8 @@ import org.apache.ibatis.annotations.Param;
 
 import com.gogi.meatyou.bean.CusDetailDTO;
 import com.gogi.meatyou.bean.MemberDTO;
+import com.gogi.meatyou.bean.PPicDTO;
+import com.gogi.meatyou.bean.PickMeDTO;
 import com.gogi.meatyou.bean.ProductDTO;
 import com.gogi.meatyou.bean.ShoppingCartDTO;
 
@@ -59,7 +61,6 @@ public interface MemberMapper {
 	    
 	  // 장바구니 수량 변경 
 	    public int upquantity(ShoppingCartDTO sdto);
-
 	    public  int downquantity(ShoppingCartDTO sdto);
 	   
 	    public void updateQuantity(@Param("shop_num") int shop_num, @Param("quantity") int quantity,@Param("shop_m_id")	String shop_m_id);
@@ -80,10 +81,31 @@ public interface MemberMapper {
 	    int getTotalShoppingCartItems(String shop_m_id);
 
 	   
+	    public  int deleteCart(@Param("shop_num") int shop_num, @Param("shop_m_id") String shop_m_id);
+		   
 	    
-	    void deleteSelectedItems(Map<String, Object>paramMap  	//	@Param("selectedItems") List<String> selectedItems, @Param("shop_m_id") String shop_m_id,	@Param("shop_num")int shop_num
-	    		
-	    		);
+	    
+	    
+	    
+	    
+	    
+		// 찜목록 시작 
+	    
+	    
+		  //페이징 처리하기위한 리스트   	
+		    List<PickMeDTO> pickMeCountPages(
+		            @Param("pm_m_id") String pm_m_id,
+		            @Param("startRow") int startRow,
+		            @Param("pageSize") int pageSize,
+		            @Param("pdto") PickMeDTO pdto,
+		            @Param("cdto") CusDetailDTO cdto);
+		    
+		    List<PickMeDTO> pickMeCountPage(Map<String, Object> params);
+
+		    int pickMeCount(String pm_m_id);
+
+		   
+		    public  int deleteHim(@Param("pm_num") int shop_num, @Param("pm_m_id") String pm_m_id);
 	    
 	    
 	}

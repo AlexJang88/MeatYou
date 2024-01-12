@@ -16,24 +16,24 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gogi.meatyou.bean.CusDetailDTO;
 import com.gogi.meatyou.bean.MemStatusDTO;
 import com.gogi.meatyou.bean.MemberDTO;
+import com.gogi.meatyou.bean.PPicDTO;
 import com.gogi.meatyou.bean.ProductDTO;
 import com.gogi.meatyou.bean.ShoppingCartDTO;
 import com.gogi.meatyou.service.MemberService;
@@ -41,7 +41,8 @@ import com.gogi.meatyou.service.MemberService;
 
 
 
-
+@Configuration
+@EnableWebSecurity
 @Controller
 @RequestMapping("/member/*")
 public class MemberController {
@@ -213,9 +214,115 @@ public class MemberController {
 	
  
 	
-	//방바구니 보이기 + 페이징 처리 
-	@RequestMapping("shoppingCartForm")
-	public String shoppingCartForm(
+	//장바구니 보이기 + 페이징 처리 
+	
+	
+	//장바구니 보이기 + 페이징 처리 
+		@RequestMapping("shoppingCartForm")
+		public String shoppingCartForm(
+		        Principal seid,
+		        Model model,
+		        @RequestParam(defaultValue = "1") int page,  // 현재 페이지 번호, 기본값 1
+		        @RequestParam(defaultValue = "10") int pageSize,  // 페이지당 표시할 항목 수, 기본값 7
+		        ShoppingCartDTO sdto,
+		        ProductDTO pdto
+		) {
+		    String shop_m_id = (String) seid.getName();
+		    int totalPrice = sdto.getQuantity() * sdto.getP_price();
+		    System.out.print("시큐리티 확인======================================================"+shop_m_id);
+
+		    // 여기서 service를 통해 해당 회원의 특정 범위의 장바구니 정보를 가져옵니다.
+		    List<ShoppingCartDTO> shoppingCartList = service.getShoppingCartItemsPaged(shop_m_id, page, pageSize, sdto, pdto);
+
+		    // 여기서 service를 통해 해당 회원의 장바구니 총 상품 개수를 가져옵니다.
+		    int totalItemCount = service.getTotalShoppingCartItems(shop_m_id);
+
+		    // 페이징 처리를 위한 계산
+		    int totalPage = (int) Math.ceil((double) totalItemCount / pageSize);
+		    
+		    	System.out.println("페이지 크기  ============= ="+pageSize);
+		    	System.out.println("페이지 ============ ="+page);
+		    	System.out.println("총페이지는 ============= ="+totalPage);
+		    	System.out.println("총 카운트   =================="+totalItemCount);
+		    // 모델에 장바구니 정보 및 페이징 관련 정보를 추가합니다.
+		    model.addAttribute("shoppingCartList", shoppingCartList);
+		    model.addAttribute("totalPrice", totalPrice);
+		    model.addAttribute("page", page);
+		    model.addAttribute("pageSize", pageSize);
+		    model.addAttribute("totalPage", totalPage);
+
+		    return "member/shoppingCart/shoppingCartForm";
+		}
+		
+		//수량변경 
+		@RequestMapping("updateQuantity")
+		public @ResponseBody String updateQuantity(Principal seid,int shop_num,int quantity) {
+			  String shop_m_id = (String) seid.getName();
+			
+		    // 여기에서 수량 업데이트 로직을 수행합니다.
+		    // 실제로는 이 부분을 비즈니스 로직에 맞게 수정해야 합니다.
+		    service.updateQuantity(shop_num, quantity, shop_m_id);
+		    	
+		    return "success"; // 또는 업데이트가 성공했을 때의 응답 메시지
+		}	
+	    //@PreAuthorize("hasRole('ROLE_ANONYMOUS')")
+//		@RequestMapping("delete")
+		@PostMapping("delete")
+		public String deleteItems(Principal seid,ShoppingCartDTO sdto) {
+			// 기존 코드
+			// shop_m_id = sdto.getShop_m_id();
+
+			// 수정 후 코드
+			  String shop_m_id = (String) seid.getName();
+
+			int check = service.deleteCart(sdto.getShop_num(), shop_m_id);
+			if (check == 1) {
+				 return "redirect:../shoppingCart/shoppingCartForm";
+			} else {
+				return "error";
+			}	
+		}
+		
+		
+		/*
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//판매자 찜~~~~~~~~~~
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@RequestMapping("pPickList")
+	public String pPickList(
 	        Principal seid,
 	        Model model,
 	        @RequestParam(defaultValue = "1") int page,  // 현재 페이지 번호, 기본값 1
@@ -228,7 +335,7 @@ public class MemberController {
 	    System.out.print("시큐리티 확인======================================================"+shop_m_id);
 
 	    // 여기서 service를 통해 해당 회원의 특정 범위의 장바구니 정보를 가져옵니다.
-	    List<ShoppingCartDTO> shoppingCartList = service.getShoppingCartItemsPaged(shop_m_id, page, pageSize, sdto, pdto);
+	    List<PPicDTO> pPickList = service.getShoppingCartItemsPaged(shop_m_id, page, pageSize, sdto, pdto);
 
 	    // 여기서 service를 통해 해당 회원의 장바구니 총 상품 개수를 가져옵니다.
 	    int totalItemCount = service.getTotalShoppingCartItems(shop_m_id);
@@ -250,9 +357,7 @@ public class MemberController {
 	    return "member/shoppingCart/shoppingCartForm";
 	}
 	
-	
 	//수량변경 
-	
 	@RequestMapping("updateQuantity")
 	public @ResponseBody String updateQuantity(Principal seid,int shop_num,int quantity) {
 		  String shop_m_id = (String) seid.getName();
@@ -262,27 +367,40 @@ public class MemberController {
 	    service.updateQuantity(shop_num, quantity, shop_m_id);
 	    	
 	    return "success"; // 또는 업데이트가 성공했을 때의 응답 메시지
+	}	
+    //@PreAuthorize("hasRole('ROLE_ANONYMOUS')")
+//	@RequestMapping("delete")
+	@PostMapping("delete")
+	public String deleteItems(Principal seid,ShoppingCartDTO sdto) {
+		// 기존 코드
+		// shop_m_id = sdto.getShop_m_id();
+
+		// 수정 후 코드
+		  String shop_m_id = (String) seid.getName();
+
+		int check = service.deleteCart(sdto.getShop_num(), shop_m_id);
+		if (check == 1) {
+			 return "redirect:../shoppingCart/shoppingCartForm";
+		} else {
+			return "error";
+		}	
 	}
 	
 	
 	
-
-    @PreAuthorize("hasRole('ROLE_ANONYMOUS')")
-    @RequestMapping("deleteSelectedItems")
-    public @ResponseBody String deleteSelectedItems(   String shop_m_id, Integer shop_num) {
-    	 List<String> selectedItems = new ArrayList<>(); // 또는 다른 방식으로 객체를 초기화
-        if (shop_num == null) {
-            return "error=====================================shop_num is null===============================";
-        }
-
-        try {
-            //service.deleteSelectedItems(Arrays.asList(selectedItems), shop_m_id, shop_num);
-      	  List<ShoppingCartDTO> deleteforyou= service.deleteSelectedItems( selectedItems, shop_m_id, shop_num);
-        	
-            return "success============================================================== 성============공-=================";
-        } catch (Exception e) {
-            e.printStackTrace(); // 또는 로깅
-            return "error=====================================error2===============================";
-        }
-    }
+	*/
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+    
 }

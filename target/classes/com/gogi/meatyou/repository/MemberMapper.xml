@@ -122,6 +122,65 @@ WHERE rnum >= #{startRow, jdbcType=NUMERIC}
 	    </foreach>
 	    AND shop_m_id = #{shop_m_id}
 	</delete>
+<!-- 카트 삭제 -->
+	<delete id="deleteCart">
+	                                
+		delete from shoppingcart_${shop_m_id} where shop_num = #{shop_num}
+	
+	</delete>
+
+
+<!-- 찜 목록 리스트   -->
+<select id="pickMeCheck" resultType="com.gogi.meatyou.bean.PickMeDTO">
+    select * from pick_me_${m_id} where pm_m_id=#{m_id}
+</select>
+
+
+  <!-- 특정 회원의 장바구니 목록 조회 (페이징 처리) -->
+
+<select id="pickMeCountPage" parameterType="map" resultType="com.gogi.meatyou.bean.PickMeDTO">
+    <![CDATA[
+SELECT rnum, pm_m_id, pm_c_id,ceoname,cus_address1 ,cus_address2, company,t
+FROM (
+    SELECT ROWNUM AS rnum, t.*
+    FROM (
+        SELECT
+            pp.pm_m_id,
+		    pp.pm_c_id,
+		    cu.ceoname,
+		    cu.company,
+		    cu.cus_address1 || cu.cus_address2,
+		    cu.cus_pnum
+        FROM
+           pick_me_${pm_m_id} pp
+        INNER JOIN
+           cus_detail cu ON pp.pm_c_id = cu.cus_m_id;
+ <!--        ORDER BY sc.pm_num -->
+    ) t
+    WHERE ROWNUM <= #{endRow, jdbcType=NUMERIC}
+)
+WHERE rnum >= #{startRow, jdbcType=NUMERIC}
+
+    ]]>
+</select>
+
+
+<!-- 총 카운트 보기 -->
+
+<select id="pickMeCount" resultType="int">
+    SELECT COUNT(*)
+    FROM pick_me_${pm_m_id}
+</select>
+    
+<!-- 게시물 선택 삭제  -->
+	<delete id="deleteHim" parameterType="map">
+                      
+		delete from pick_me_${pm_m_id} where pm_num = #{pm_num}
+	</delete>
+
+
+
+
 
 		<insert id="insertMember" parameterType="com.gogi.meatyou.bean.MemberDTO">
     <![CDATA[
