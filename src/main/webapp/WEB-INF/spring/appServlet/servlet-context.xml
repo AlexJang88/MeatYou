@@ -22,7 +22,7 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="com.gogi.meatyou"/>
+
 	
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<beans:property name="defaultEncoding" value="UTF-8" />
@@ -32,5 +32,4 @@
 		<beans:property name="uploadTempDir" value="file:/d:/upload/tmp" />
 		<!-- <beans:property name="uploadTempDir" value="/Users/jang-uiseog/Documents/tmp" /> -->
 	</beans:bean>
-	
 </beans:beans>
