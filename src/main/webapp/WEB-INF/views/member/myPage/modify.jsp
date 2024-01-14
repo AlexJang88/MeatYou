@@ -16,6 +16,8 @@
     <p>
         <a href="../member/modifyForm">정보수정</a>
         <a href="../member/shoppingCartForm">장바구니</a>
+        <a href="../member/pickMe">내가마음에드는 업체</a>
+        <a href="..//member/pPickList">찜목록</a>
         <a href="/member/deleteForm">탈퇴</a>
     </p>
 </body>

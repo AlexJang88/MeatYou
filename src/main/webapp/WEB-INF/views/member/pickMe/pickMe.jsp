@@ -11,7 +11,7 @@
 $(document).on("click", ".delete_btn", function(e) {
 ;
     console.log();
-    const shop_num = $(this).data("pm_num");
+    const pm_num = $(this).data("pm_num");
     $(".quantity_delete_form").submit();
     e.preventDefault(pm_num);
     // AJAX를 사용하여 삭제 요청 보내기
@@ -19,7 +19,7 @@ $(document).on("click", ".delete_btn", function(e) {
         type: "POST",
         url: "/member/deleteHim",
         data: {
-            shop_num: shop_num
+            pm_num: pm_num
         },
         success: function(response) {
             // 성공적으로 삭제된 경우 페이지 새로고침
@@ -36,7 +36,7 @@ $(document).on("click", ".delete_btn", function(e) {
 </head>
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">장바구니</h1>
+        <h1 class="page-header">내가 관심있는 업체</h1>
     </div>
 </div>
 
@@ -51,28 +51,31 @@ $(document).on("click", ".delete_btn", function(e) {
           <table class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
-            <th>식별번호(히든)</th>
+            <th>식별번호(히든처리예정)</th>
             <th>내가 찜한 업체</th>
             <th>매장 위치</th>
             <th>업체 전화번호</th>
             <th>대표자 성함</th>
             <th>판매자아이디</th>
-            <td>내아이디 (히든)</td>
-            <td>삭제</td>
+            <th>내아이디 (히든처리예정)</th>
+            <th>입금계좌</th>
+            <th>삭제</th>
         </tr>
     </thead>
     <tbody>
-        <c:forEach var="item" items="${pPickList}">
+    
+        <c:forEach var="item" items="${pickMekList}">
             <tr>
                 <td><c:out value="${item.pm_num}"  /></td>
                 <td><c:out value="${item.company}"  /></td>
-                <td><c:out value="${item.address1}"/><c:out value="${item.address2}" /></td>
-                <td><c:out value="${item.ceoname}" /></td>
+                <td><c:out value="${item.cus_address1}"/><c:out value="${item.cus_address2}" /></td>
                 <td><c:out value="${item.cus_pnum}" /></td>
+                <td><c:out value="${item.ceoname}" /></td>
                 <td><c:out value="${item.pm_c_id}" /></td>
                   <td><c:out value="${item.pm_m_id}" /></td>
+                  <td><c:out value="${item.acc_num}" /></td>
                 <td>
-                    <form action="delete" method="post" class="quantity_delete_form">
+                    <form action="deleteHim" method="post" class="quantity_delete_form">
                         <input type="hidden" name="pm_num" value="${item.pm_num}" />
                         <button type="submit" class="delete_btn">삭제</button>
                     </form>

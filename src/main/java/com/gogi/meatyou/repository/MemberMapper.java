@@ -68,7 +68,7 @@ public interface MemberMapper {
 
 	    
 	
-	  //페이징 처리하기위한 리스트   	
+	  //장바구니 목록 +페이징 처리하기위한 리스트   	
 	    List<ShoppingCartDTO> getPaginatedShoppingCart(
 	            @Param("shop_m_id") String shop_m_id,
 	            @Param("startRow") int startRow,
@@ -89,7 +89,7 @@ public interface MemberMapper {
 	    
 	    
 	    
-		// 찜목록 시작 
+		// 찜 업체 목록 시작 
 	    
 	    
 		  //페이징 처리하기위한 리스트   	
@@ -100,6 +100,8 @@ public interface MemberMapper {
 		            @Param("pdto") PickMeDTO pdto,
 		            @Param("cdto") CusDetailDTO cdto);
 		    
+		
+		    
 		    List<PickMeDTO> pickMeCountPage(Map<String, Object> params);
 
 		    int pickMeCount(String pm_m_id);
@@ -108,6 +110,35 @@ public interface MemberMapper {
 		    public  int deleteHim(@Param("pm_num") int shop_num, @Param("pm_m_id") String pm_m_id);
 	    
 	    
+		    
+		    
+ // 
+			    
+		//    List<PPicDTO> pPickCountPage(Map<String, Object> params);
+		    //    List<PPicDTO> pPickCountPage(Map<String, Object> params);
+			    
+
+		    //페이징 처리하기위한 리스트   	
+		    List<PPicDTO> pPickCountPage(Map<String, Object> params,
+		            @Param("ppic_m_id") String ppic_m_id,
+		            @Param("startRow") int startRow,
+		            @Param("pageSize") int pageSize,
+		            @Param("ppdto") PPicDTO ppdto,
+		            ProductDTO pdto, @Param("ppic_num")int ppic_num
+		            	
+		    		);
+		    
+			    int pPickCount( @Param("ppic_num") int ppic_num, @Param("ppic_m_id") String ppic_m_id);
+
+			   
+			    public  int deleteP_item(@Param("ppic_num") int ppic_num, @Param("ppic_m_id") String ppic_m_id);
+
+
+			    				
+			    
+			    
+			    
+			    
 	}
 
 

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -56,7 +57,7 @@ public class MemberController {
 	public String doAll(Model model, MemberDTO dto,HttpSession  session,MemStatusDTO mdto) {
 		
 		return "member/loginSequrity/all";
-	
+
 	}
 	
 	
@@ -277,7 +278,8 @@ public class MemberController {
 
 			int check = service.deleteCart(sdto.getShop_num(), shop_m_id);
 			if (check == 1) {
-				 return "redirect:../shoppingCart/shoppingCartForm";
+			   	
+			    return "success"; // 또는 업데이트가 성공했을 때의 응답 메시지
 			} else {
 				return "error";
 			}	
@@ -315,7 +317,7 @@ public class MemberController {
 
 	
 	@RequestMapping("pickMe")
-	public String pPickList(
+	public String pickMekList(
 	        Principal seid,
 	        Model model,
 	        @RequestParam(defaultValue = "1") int page,  // 현재 페이지 번호, 기본값 1
@@ -326,8 +328,7 @@ public class MemberController {
 	    System.out.print("시큐리티 확인======================================================"+pm_m_id);
 
 	    // 여기서 service를 통해 해당 회원의 특정 범위의 장바구니 정보를 가져옵니다.
-	    List<PickMeDTO> pPickList = service.pickMeCountPage(pm_m_id, page, pageSize,pdto, cdto);
-
+	    List<PickMeDTO> pickMekList = service.pickMeCountPage(pm_m_id, page, pageSize,pdto, cdto);
 	    // 여기서 service를 통해 해당 회원의 장바구니 총 상품 개수를 가져옵니다.
 	    int totalItemCount = service.pickMeCount(pm_m_id);
 
@@ -339,7 +340,7 @@ public class MemberController {
 	    	System.out.println("총페이지는 ============= ="+totalPage);
 	    	System.out.println("총 카운트   =================="+totalItemCount);
 	    // 모델에 장바구니 정보 및 페이징 관련 정보를 추가합니다.
-	    model.addAttribute("pPickList", pPickList);
+	    model.addAttribute("pickMekList", pickMekList);
 	    //model.addAttribute("totalPrice", totalPrice);
 	    model.addAttribute("page", page);
 	    model.addAttribute("pageSize", pageSize);
@@ -361,7 +362,8 @@ public class MemberController {
 
 		int check = service.deleteHim(pdto.getPm_num(), pm_m_id);
 		if (check == 1) {
-			 return "redirect:../pickMe/pickMe";
+		   	
+		    return "success"; // 또는 업데이트가 성공했을 때의 응답 메시지
 		} else {
 			return "error";
 		}	
@@ -370,8 +372,102 @@ public class MemberController {
 	
 
 	
+
+	// 찜목록 
+	/*
+	@RequestMapping("pPickList")
+	public String pPickList(Principal seid, Model model, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "1") Integer ppic_num, @RequestParam(defaultValue = "10") int pageSize, PPicDTO ppdto, ProductDTO pdto ) {
+
+	// 로그인한 사용자의 아이디를 가져옵니다.
+	String ppic_m_id = (String) seid.getName();
+
+	// 장바구니 목록을 조회합니다.
+	List<PPicDTO> pPickList = service.pPickCountPages(ppic_m_id, ppic_num, page, pageSize, ppdto, pdto);
+
+	// 장바구니 총 상품 개수를 조회합니다.
+	int totalItemCount = service.pPickCount(ppic_m_id, ppic_num);
+
+	// 페이징 처리를 위한 계산
+	int totalPage = (int) Math.ceil((double) totalItemCount / pageSize);
+
+	// 모델에 데이터를 추가합니다.
+	model.addAttribute("ppic_num", ppic_num);
+	model.addAttribute("ppic_m_id", ppic_m_id);
+	model.addAttribute("pPickList", pPickList);
+	model.addAttribute("page", page);
+	model.addAttribute("pageSize", pageSize);
+	model.addAttribute("totalPage", totalPage);
+
+	// 뷰를 렌더링합니다.
+	return "member/ppick/pPickList";
+	}*/
+	
+	@RequestMapping("pPickList")
+	public String pPickList(
+			Principal seid,
+			Model model,
+			@RequestParam(defaultValue = "1") int page,
+		//	@RequestParam(defaultValue = "1") Integer ppic_num,
+			@RequestParam(defaultValue = "10") int pageSize, 
+			PPicDTO ppdto, 
+			ProductDTO pdto,
+			Map<String, Object> params, 
+			MemberDTO mdto,
+			@Param("ppic_num")int ppic_num
+			
+			) {
+
+	    // 로그인한 사용자의 아이디를 가져옵니다.
+	    String ppic_m_id = (String) seid.getName();
+	    System.out.print("시큐리티 확인======================================================"+ppic_m_id);
+	    // 장바구니 목록을 조회합니다.Map<String, Object> params,String ppic_m_id,int page, int pageSize, PPicDTO ppdto, ProductDTO pdto,MemberDTO mdto,int ppic_num
+	    List<PPicDTO> pPickList = service.pPickCountPages( params,  ppic_m_id,  page,  pageSize,  ppdto,   pdto, mdto, ppic_num);
+	    // 장바구니 총 상품 개수를 조회합니다.
+	    int totalItemCount = service.pPickCount(ppic_m_id=mdto.getM_id( ),ppic_num);
+
+	    // 페이징 처리를 위한 계산
+	    int totalPage = (int) Math.ceil((double) totalItemCount / pageSize);
+			    	System.out.println("페이지 크기  ============= ="+pageSize);
+			    	System.out.println("페이지 ============ ="+page);
+			    	System.out.println("총페이지는 ============= ="+totalPage);
+			    	System.out.println("총 카운트   =================="+totalItemCount);
+				    	
+	    
+	    		
+	    // 모델에 데이터를 추가합니다.
+	   // model.addAttribute("ppic_num", ppic_num);
+	    model.addAttribute("pPickList", pPickList);
+	    model.addAttribute("page", page);
+	    model.addAttribute("pageSize", pageSize);
+	    model.addAttribute("totalPage", totalPage);
+	    model.addAttribute("ppic_num", ppic_num);
+	    model.addAttribute("ppic_m_id", ppic_m_id);
+
+	    // 뷰를 렌더링합니다.
+	    return "member/ppick/pPickList";
+	}
 	
 	
+	
+		
+	    //@PreAuthorize("hasRole('ROLE_ANONYMOUS')")
+//		@RequestMapping("delete")				
+		@PostMapping("deletePick")  
+		public String deletePick(Principal seid,PPicDTO ppdto) {
+			// 기존 코드
+			// shop_m_id = sdto.getShop_m_id();
+
+			// 수정 후 코드
+			  String ppic_m_id = (String) seid.getName();
+
+			int check = service.deleteP_item(ppdto.getPpic_num(), ppic_m_id);
+			if (check == 1) {
+			   	
+			    return "success"; // 또는 업데이트가 성공했을 때의 응답 메시지
+			} else {
+				return "error";
+			}	
+		}
 	
 	
 	

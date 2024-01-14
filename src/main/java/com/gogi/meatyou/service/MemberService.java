@@ -2,10 +2,13 @@ package com.gogi.meatyou.service;
 
 
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 
 import com.gogi.meatyou.bean.CusDetailDTO;
 import com.gogi.meatyou.bean.MemberDTO;
+import com.gogi.meatyou.bean.PPicDTO;
 import com.gogi.meatyou.bean.PickMeDTO;
 import com.gogi.meatyou.bean.ProductDTO;
 import com.gogi.meatyou.bean.ShoppingCartDTO;
@@ -50,7 +53,8 @@ public interface MemberService  {
 
 	    	//장바구니 관련
 		public void updateQuantity(int  shop_num,int  quantity, String shop_m_id) ;
-	    List<ShoppingCartDTO> getShoppingCartItemsPaged(String shop_m_id, int startRow, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto);
+		
+		List<ShoppingCartDTO> getShoppingCartItemsPaged(String shop_m_id, int startRow, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto);
 
 	    int getTotalShoppingCartItems(String shop_m_id);
 		/* 카트 삭제 */
@@ -59,14 +63,23 @@ public interface MemberService  {
 		
 		
 		
-		//찜관련 
+		//찜 업체 관련 
 		List<PickMeDTO> pickMeCountPage(String pm_m_id, int startRow, int pageSize, PickMeDTO pdto, CusDetailDTO cdto);
 		
 		int pickMeCount(String pm_m_id);
 		/* 카트 삭제 */
 			public int deleteHim(int pm_num,String pm_m_id);
 		
-		
+			
+			
+		//찜  관련 
+		   List<PPicDTO> pPickCountPages(Map<String, Object> params,String ppic_m_id,int page, int pageSize, PPicDTO ppdto, ProductDTO pdto,MemberDTO mdto,int ppic_num);
+		 
+		   int pPickCount(@Param("ppic_m_id")String ppic_m_id,@Param("ppic_num")int ppic_num) ;
+		/* 카트 삭제 */
+		public int deleteP_item(int ppic_num,String ppic_m_id);
+	
+
 		
 		
 		

@@ -12,10 +12,16 @@ public class PickMeDTO {
 	private int cus_num ;
 	private String ceoname;
 	private String company;
-	private int cus_address1 ;
-	private int cus_address2 ;
+	private String cus_address1 ;
+	private String cus_address2 ;
 
-	private int cus_pnum;
+	private String cus_pnum;
+	private String acc_num;
+	
+	
+	
+	
+	
 	/* 상품 이미지 */
 	
 }

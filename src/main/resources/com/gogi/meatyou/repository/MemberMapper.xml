@@ -138,9 +138,9 @@ WHERE rnum >= #{startRow, jdbcType=NUMERIC}
 
   <!-- 특정 회원의 장바구니 목록 조회 (페이징 처리) -->
 
-<select id="pickMeCountPage" parameterType="map" resultType="com.gogi.meatyou.bean.PickMeDTO">
+<select id="pickMeCountPage"   resultType="com.gogi.meatyou.bean.PickMeDTO">
     <![CDATA[
-SELECT rnum, pm_m_id, pm_c_id,ceoname,cus_address1 ,cus_address2, company
+SELECT rnum, pm_num,pm_m_id, pm_c_id,ceoname,cus_address1,cus_address2,company,cus_pnum,acc_num
 FROM (
     SELECT ROWNUM AS rnum, t.*
     FROM (
@@ -149,16 +149,17 @@ FROM (
             pp.pm_m_id,
 		    pp.pm_c_id,
 		    cu.ceoname,
+		    cu.cus_address1,
+		    cu.cus_address2,
 		    cu.company,
-		    cu.address1,
-		    cu.address2,
-		    cu.cus_pnum
+		    cu.cus_pnum,
+		    cu.acc_num
         FROM
            pick_me_${pm_m_id} pp
         INNER JOIN
            cus_detail cu ON pp.pm_c_id = cu.cus_m_id
 	   ORDER BY  pp.pm_num 
-    ) t
+   ) t
     WHERE ROWNUM <= #{endRow, jdbcType=NUMERIC}
 )
 WHERE rnum >= #{startRow, jdbcType=NUMERIC}
@@ -174,11 +175,118 @@ WHERE rnum >= #{startRow, jdbcType=NUMERIC}
     FROM pick_me_${pm_m_id}
 </select>
     
-<!-- 게시물 선택 삭제  -->
-	<delete id="deleteHim" parameterType="map">
-                      
+<!-- 찜 업체  선택 삭제  -->
+	<delete id="deleteHim" parameterType="map">  
 		delete from pick_me_${pm_m_id} where pm_num = #{pm_num}
 	</delete>
+
+
+
+
+  <!-- 특정 회원의 장바구니 목록 조회 (페이징 처리) -->
+
+
+<!-- 상품 찜 -->
+<select id="pPickCountPage" parameterType="int" resultType="com.gogi.meatyou.bean.PPicDTO">
+  <![CDATA[
+SELECT
+  rnum,
+  ppic_num,
+  ppic_m_id,
+  ppic_p_num,
+  p_num,
+  p_name,
+  thumb,
+  p_reg_date,
+  startdate,
+  enddate,
+  p_status,
+  p_price
+FROM (
+  SELECT
+    ROWNUM AS rnum,
+    t.*
+  FROM (
+    SELECT
+      ppic_num,
+      ppic_m_id,
+      ppic_p_num,
+      p_num,
+      p_name,
+      thumb,
+      p_reg_date,
+      startdate,
+      enddate,
+      p_status,
+      p_price
+    FROM
+      p_pick_${pm_m_id}pp
+    INNER JOIN
+      product p ON pp.ppic_num = p.p_num
+    ORDER BY
+      pp.ppic_num
+  ) t
+  WHERE
+    ROWNUM <= #{endRow}
+)
+WHERE
+  rnum >= #{startRow}
+    ]]>
+</select>
+
+<!-- 
+<select id="pPickCountPage" parameterType="map" resultType="com.gogi.meatyou.bean.PPicDTO">
+  <![CDATA[
+    SELECT rnum, ppic_num, ppic_m_id, ppic_p_num,p_num,p_name,thumb,p_reg_date,startdate, enddate, p_status, p_price
+    FROM (
+         SELECT ROWNUM AS rnum, t.*
+        FROM (
+         SELECT
+                pp.ppic_num,
+                pp.ppic_m_id,
+                pp.ppic_p_num,
+                p.p_num,
+                p.p_name,
+                p.thumb,
+                p.p_reg_date,
+                p.startdate,
+                p.enddate,
+                p.p_status,
+                p.p_price
+            FROM
+                p_pick_${ppic_m_id} pp
+            INNER JOIN
+                product p ON pp.ppic_num = p.p_num
+           ORDER BY  pp.ppic_num 
+        ) t
+        WHERE ROWNUM <= #{endRow, jdbcType=NUMERIC}
+    )
+    WHERE rnum >= #{startRow, jdbcType=NUMERIC}
+ 
+  ]]>
+</select>
+
+상품 찜 -->
+
+
+<!-- 총 카운트 보기 -->
+
+<select id="pPickCount" resultType="int">
+    SELECT COUNT(*)
+    FROM p_pick_${ppic_m_id}
+</select>
+    
+<!-- 찜 업체  선택 삭제  -->
+	<delete id="deleteP_item" parameterType="map">  
+		delete from p_pick_${ppic_m_id} where ppic_num = #{ppic_num}
+	</delete>
+
+
+
+
+
+
+
 
 
 
@@ -225,7 +333,7 @@ WHERE rnum >= #{startRow, jdbcType=NUMERIC}
             shop_num NUMBER PRIMARY KEY, 
            shop_m_id VARCHAR2(1000) NOT NULL, 
             shop_p_num NUMBER NOT NULL,
-            quantity NUMBER NOT NULL,
+             shop_quantity NUMBER NOT NULL,
             CONSTRAINT fk_shop_member_${m_id} FOREIGN KEY (shop_m_id) REFERENCES MEMBER (m_id) ON DELETE CASCADE,
             CONSTRAINT fk_shop_product_${m_id} FOREIGN KEY (shop_p_num) REFERENCES PRODUCT (p_num) ON DELETE CASCADE
         )

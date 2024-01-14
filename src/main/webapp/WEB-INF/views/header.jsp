@@ -122,7 +122,7 @@
 
                      <sec:authorize access="isAuthenticated()">
                            <div>
-                           <a href="/member/pickMe">
+                           <a href="/member/pPickList">
                               <i class="fa fa-heart-o"></i>
                               <span>찜목록</span>
                               <div class="qty">2</div>
