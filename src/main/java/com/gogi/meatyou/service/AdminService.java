@@ -40,5 +40,6 @@ public interface AdminService {
    public String updateSummerImgFile(@RequestParam("file") MultipartFile multipartFile,HttpServletRequest request,int n_num);
    public int noticeupdate(HttpServletRequest req, HttpServletResponse resp, Model model, NoticeDTO dto);
    public void noticedelete(int n_num);
+   public int getNoticeNum();
    
 }

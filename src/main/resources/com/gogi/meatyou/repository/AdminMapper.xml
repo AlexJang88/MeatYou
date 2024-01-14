@@ -285,6 +285,9 @@
 	<delete id="noticedelete">
 		delete from notice where n_num=#{n_num}
 	</delete>
+	<select id="getNoticeNum" parameterType="int">
+		select * from notice_seq.currval from dual
+	</select>
 	
 	
 </mapper>

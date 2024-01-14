@@ -14,17 +14,22 @@
 	
 <form method="post" action="/admin/noticeupdate" enctype="multipart/form-data">
   <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+  <div id="temp" style="display:none">${dto.n_content}</div>
   <input type="hidden" name="category" value="10">
   <input type="hidden" name="n_num" id="n_num" value="${dto.n_num}"/>
   제목 : <input type="text" name="n_title" value="${dto.n_title}">
   <textarea id="summernote" name="n_content">
-  	${dto.n_content}
+   
   </textarea>
   <input type="submit" value="수정">
 </form>
 
 <script>
-$(document).ready(function () {
+	// dto를 summernote에 붙여넣기
+window.onload=function(){
+		$('#summernote').summernote('code',document.getElementById('temp').innerHTML)
+	}	
+$(document).ready(function () {		
     $('#summernote').summernote({
     	
         codeviewFilter: false, // 코드 보기 필터 비활성화
@@ -89,7 +94,6 @@ $(document).ready(function () {
         },
     })
 })
-
 function updateSummernoteImageFile(file, el,n_num) {
 		data = new FormData()
         data.append('file', file)
@@ -100,7 +104,7 @@ function updateSummernoteImageFile(file, el,n_num) {
             contentType: false,
             enctype: 'multipart/form-data',
             processData: false,
-            success: function (fdata) {
+            success: function (data) {
                 $(el).summernote(
                     'editor.insertImage',
                     data.url

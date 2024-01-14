@@ -49,5 +49,6 @@ public interface AdminMapper {
    public List<NoticeFileDTO> noticeFileUpdate(int nf_n_num);
    public void noticeFileDelete(int nf_n_num);
    public void noticedelete(int n_num);
+   public int getNoticeNum();
    
 }

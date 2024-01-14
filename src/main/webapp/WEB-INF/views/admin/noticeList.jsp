@@ -8,12 +8,20 @@
 		<tr>
 			<td>제목</td>
 			<td>등록일</td>
+			<td></td>
 		</tr>
 	<c:forEach items="${list}" var="notice" >
+		<form action="/admin/noticedelete" method="post">
 		<tr>
+			
 			<td><a href="/admin/noticeContent?n_num=${notice.n_num}">${notice.n_title}</a></td>
 			<td><fmt:formatDate value="${notice.n_reg_date}" pattern="yyyy-MM-dd"/></td>
+			<td>
+				<input type="hidden" name="n_num" value="${notice.n_num}">
+				<input type="submit" value="삭제">
+			</td>
 		</tr>
+		</form>
 	</c:forEach>		
 	</table>
 	

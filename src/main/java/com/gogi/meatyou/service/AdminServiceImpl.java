@@ -2,13 +2,11 @@ package com.gogi.meatyou.service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -45,6 +43,7 @@ import com.google.gson.JsonObject;
 public class AdminServiceImpl implements AdminService {
    
 	private int imgcnt=0;
+	private int check=0;
 	
    @Autowired
    private HashMap adminMap;
@@ -185,7 +184,7 @@ public class AdminServiceImpl implements AdminService {
    }
 
    /*
-    * @Scheduled(cron="* * * * * *") 占쏙옙 占쏙옙 占시곤옙 占쏙옙 占쏙옙 占쏙옙占쏙옙
+    * @Scheduled(cron="* * * * * *") �뜝�룞�삕 �뜝�룞�삕 �뜝�떆怨ㅼ삕 �뜝�룞�삕 �뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕
     */
 
    @Scheduled(cron = "0 0 0 1 * *")
@@ -205,7 +204,7 @@ public class AdminServiceImpl implements AdminService {
        urlBuilder.append("/1c9a14382163bb7dc822492a3dca9b9a8841b3782755afedd33d3b5879c98e94");
        urlBuilder.append("/xml");   
        urlBuilder.append("/Grid_20151204000000000316_1/1/5");   
-      // urlBuilder.append("?API-KEY="); // API  궎瑜   븞 쟾 븳 怨녹뿉 꽌 遺덈윭 삤 룄濡   닔 젙 븯 꽭 슂.
+      // urlBuilder.append("?API-KEY="); // API  沅롧몴   釉� �읈 釉� �⑤끃肉� 苑� �겫�뜄�쑎 �궎 猷꾣에   �땾 �젟 釉� 苑� �뒄.
         //  urlBuilder.append("&START_INDEX=1");
         //  urlBuilder.append("&END_INDEX=10");
         //  urlBuilder.append("&TYPE=json");
@@ -214,11 +213,11 @@ public class AdminServiceImpl implements AdminService {
           try {
               URL url = new URL(urlBuilder.toString());
               conn = (HttpURLConnection) url.openConnection();
-              //  뿰寃   꽕 젙 (硫붿꽌 뱶,  뿤 뜑,  벑)
+              //  肉겼칰   苑� �젟 (簾ル뗄苑� 諭�,  肉� �쐭,  踰�)
               conn.setRequestMethod("GET");
               conn.setRequestProperty("Content-type","application/json");
-              //  뿰寃고븯怨   뜲 씠 꽣瑜   씫 뒿 땲 떎.
-              //  삁: int responseCode = conn.getResponseCode();
+              //  肉겼칰怨좊릭��   �쑓 �뵠 苑ｇ몴   �뵭 �뮸 �빍 �뼄.
+              //  �굙: int responseCode = conn.getResponseCode();
               BufferedReader rd;
               if(conn.getResponseCode()>=200 && conn.getResponseCode()<=300) {
                  rd=new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -232,61 +231,61 @@ public class AdminServiceImpl implements AdminService {
               }
               model.addAttribute("test", sb);
               rd.close();
-              // 異붽  쟻 쑝濡   쓳 떟 쓣 泥섎━ 븯 뒗 肄붾뱶瑜   뿬湲곗뿉 異붽  븯 꽭 슂.
+              // �빊遺�  �읅 �몵嚥�   �벓 �뼗 �뱽 力μ꼶�봺 釉� �뮉 �굜遺얜굡�몴   肉ф묾怨쀫퓠 �빊遺�  釉� 苑� �뒄.
           } catch (MalformedURLException e) {
-              // URL  삎 떇 씠  옒紐삳맂 寃쎌슦 쓽  삁 쇅 泥섎━
+              // URL  �굨 �뻼 �뵠  �삋榮먯궠留� 野껋럩�뒭 �벥  �굙 �뇚 力μ꼶�봺
               e.printStackTrace();
           } catch (IOException e) {
-              //  뿰寃곗쓣  뿬 뒗 怨쇱젙 뿉 꽌 I/O  삁 쇅 泥섎━
+              //  肉겼칰怨쀬뱽  肉� �뮉 �⑥눘�젟 肉� 苑� I/O  �굙 �뇚 力μ꼶�봺
               e.printStackTrace();
           } finally {
               if (conn != null) {
                   conn.disconnect();
               }
           }
-      //HttpURLConnection혻conn혻=혻(HttpURLConnection)url.openConnection();혻혻혻혻혻
-      //   혻혻혻conn.setRequestMethod("GET");혻혻혻혻혻
-      //   혻혻혻conn.setRequestProperty("Content-type","application/json");혻혻혻혻혻혻
-      //   혻혻System.out.println("Response혻code:혻"혻+혻conn.getResponseCode());혻혻혻혻
-      //   혻혻혻혻BufferedReader혻rd;혻혻혻
-      //   혻혻혻혻혻if(conn.getResponseCode()혻>=혻200혻&&혻conn.getResponseCode()혻<=혻300)혻{혻혻혻혻혻혻
-      //      혻혻혻혻혻혻rd혻=혻new혻BufferedReader(new혻InputStreamReader(conn.getInputStream()));혻혻혻혻혻혻
-      //      혻혻}혻else혻{혻혻혻혻혻혻혻혻
-      //         혻혻혻혻rd혻=혻new혻BufferedReader(new혻InputStreamReader(conn.getErrorStream()));혻혻혻혻
-      //         혻혻혻혻}혻혻혻혻
-      //   혻혻혻혻StringBuilder혻sb혻=혻new혻StringBuilder();혻혻혻혻혻혻
-      //   혻혻String혻line;혻혻혻혻혻혻혻
-      //   혻while혻((line혻=혻rd.readLine())혻!=혻null)혻{혻혻혻혻혻
-      //      혻혻혻혻혻혻혻sb.append(line);혻혻혻혻혻혻혻
-      //      혻}혻혻혻혻혻혻혻
-      //   혻rd.close();혻혻혻혻혻혻
-      //   혻혻conn.disconnect();혻혻혻혻혻혻
-      //   혻혻System.out.println(sb.toString());
+      //HttpURLConnection�샍conn�샍=�샍(HttpURLConnection)url.openConnection();�샍�샍�샍�샍�샍
+      //   �샍�샍�샍conn.setRequestMethod("GET");�샍�샍�샍�샍�샍
+      //   �샍�샍�샍conn.setRequestProperty("Content-type","application/json");�샍�샍�샍�샍�샍�샍
+      //   �샍�샍System.out.println("Response�샍code:�샍"�샍+�샍conn.getResponseCode());�샍�샍�샍�샍
+      //   �샍�샍�샍�샍BufferedReader�샍rd;�샍�샍�샍
+      //   �샍�샍�샍�샍�샍if(conn.getResponseCode()�샍>=�샍200�샍&&�샍conn.getResponseCode()�샍<=�샍300)�샍{�샍�샍�샍�샍�샍�샍
+      //      �샍�샍�샍�샍�샍�샍rd�샍=�샍new�샍BufferedReader(new�샍InputStreamReader(conn.getInputStream()));�샍�샍�샍�샍�샍�샍
+      //      �샍�샍}�샍else�샍{�샍�샍�샍�샍�샍�샍�샍�샍
+      //         �샍�샍�샍�샍rd�샍=�샍new�샍BufferedReader(new�샍InputStreamReader(conn.getErrorStream()));�샍�샍�샍�샍
+      //         �샍�샍�샍�샍}�샍�샍�샍�샍
+      //   �샍�샍�샍�샍StringBuilder�샍sb�샍=�샍new�샍StringBuilder();�샍�샍�샍�샍�샍�샍
+      //   �샍�샍String�샍line;�샍�샍�샍�샍�샍�샍�샍
+      //   �샍while�샍((line�샍=�샍rd.readLine())�샍!=�샍null)�샍{�샍�샍�샍�샍�샍
+      //      �샍�샍�샍�샍�샍�샍�샍sb.append(line);�샍�샍�샍�샍�샍�샍�샍
+      //      �샍}�샍�샍�샍�샍�샍�샍�샍
+      //   �샍rd.close();�샍�샍�샍�샍�샍�샍
+      //   �샍�샍conn.disconnect();�샍�샍�샍�샍�샍�샍
+      //   �샍�샍System.out.println(sb.toString());
       
       
-   //   StringBuilder혻urlBuilder혻=혻new혻StringBuilder("http://211.237.50.150:7080/openapi/sample/xml/Grid_20220823000000000636_1/1/5");혻/*URL*/혻혻혻혻혻혻혻혻
-   //   urlBuilder.append("?"혻+혻URLEncoder.encode("API-KEY","UTF-8")혻+혻"=1c9a14382163bb7dc822492a3dca9b9a8841b3782755afedd33d3b5879c98e94");혻/*Service혻Key*/혻
-   //   혻혻혻혻혻혻혻urlBuilder.append("&"혻+혻URLEncoder.encode("START_INDEX","UTF-8")혻+혻"="혻+혻URLEncoder.encode("1",혻"UTF-8"));혻/* 븳혻 럹 씠吏 혻寃곌낵혻 닔*/혻혻혻혻혻혻
-   //   혻혻urlBuilder.append("&"혻+혻URLEncoder.encode("END_INDEX","UTF-8")혻+혻"="혻+혻URLEncoder.encode("10",혻"UTF-8"));혻/* 럹 씠吏 혻踰덊샇*/혻혻혻
-   //   혻혻혻혻혻urlBuilder.append("&"혻+혻URLEncoder.encode("TYPE","UTF-8")혻+혻"="혻+혻URLEncoder.encode("json",혻"UTF-8"));혻/*痢≪젙 냼혻 씠由 */혻혻혻혻혻혻
-   //   혻혻HttpURLConnection혻conn혻=혻(HttpURLConnection)혻url.openConnection();혻혻혻혻혻
-   //   혻혻혻conn.setRequestMethod("GET");혻혻혻혻혻
-   //   혻혻혻conn.setRequestProperty("Content-type",혻"application/json");혻혻혻혻혻혻
-   //   혻혻System.out.println("Response혻code:혻"혻+혻conn.getResponseCode());혻혻혻혻
-   //   혻혻혻혻BufferedReader혻rd;혻혻혻
-   //   혻혻혻혻혻if(conn.getResponseCode()혻>=혻200혻&&혻conn.getResponseCode()혻<=혻300)혻{혻혻혻혻혻혻
-   //      혻혻혻혻혻혻rd혻=혻new혻BufferedReader(new혻InputStreamReader(conn.getInputStream()));혻혻혻혻혻혻
-   //      혻혻}혻else혻{혻혻혻혻혻혻혻혻
-   //         혻혻혻혻rd혻=혻new혻BufferedReader(new혻InputStreamReader(conn.getErrorStream()));혻혻혻혻
-   //         혻혻혻혻}혻혻혻혻
-   //   혻혻혻혻StringBuilder혻sb혻=혻new혻StringBuilder();혻혻혻혻혻혻
-   //   혻혻String혻line;혻혻혻혻혻혻혻
-   //   혻while혻((line혻=혻rd.readLine())혻!=혻null)혻{혻혻혻혻혻
-   //      혻혻혻혻혻혻혻sb.append(line);혻혻혻혻혻혻혻
-   //      혻}혻혻혻혻혻혻혻
-   //   혻rd.close();혻혻혻혻혻혻
-   //   혻혻conn.disconnect();혻혻혻혻혻혻
-   //   혻혻System.out.println(sb.toString());
+   //   StringBuilder�샍urlBuilder�샍=�샍new�샍StringBuilder("http://211.237.50.150:7080/openapi/sample/xml/Grid_20220823000000000636_1/1/5");�샍/*URL*/�샍�샍�샍�샍�샍�샍�샍�샍
+   //   urlBuilder.append("?"�샍+�샍URLEncoder.encode("API-KEY","UTF-8")�샍+�샍"=1c9a14382163bb7dc822492a3dca9b9a8841b3782755afedd33d3b5879c98e94");�샍/*Service�샍Key*/�샍
+   //   �샍�샍�샍�샍�샍�샍�샍urlBuilder.append("&"�샍+�샍URLEncoder.encode("START_INDEX","UTF-8")�샍+�샍"="�샍+�샍URLEncoder.encode("1",�샍"UTF-8"));�샍/* 釉논샍 �읂 �뵠�릯 �샍野껉퀗�궢�샍 �땾*/�샍�샍�샍�샍�샍�샍
+   //   �샍�샍urlBuilder.append("&"�샍+�샍URLEncoder.encode("END_INDEX","UTF-8")�샍+�샍"="�샍+�샍URLEncoder.encode("10",�샍"UTF-8"));�샍/* �읂 �뵠�릯 �샍甕곕뜇�깈*/�샍�샍�샍
+   //   �샍�샍�샍�샍�샍urlBuilder.append("&"�샍+�샍URLEncoder.encode("TYPE","UTF-8")�샍+�샍"="�샍+�샍URLEncoder.encode("json",�샍"UTF-8"));�샍/*�뿢�돦�젟 �꺖�샍 �뵠�뵳 */�샍�샍�샍�샍�샍�샍
+   //   �샍�샍HttpURLConnection�샍conn�샍=�샍(HttpURLConnection)�샍url.openConnection();�샍�샍�샍�샍�샍
+   //   �샍�샍�샍conn.setRequestMethod("GET");�샍�샍�샍�샍�샍
+   //   �샍�샍�샍conn.setRequestProperty("Content-type",�샍"application/json");�샍�샍�샍�샍�샍�샍
+   //   �샍�샍System.out.println("Response�샍code:�샍"�샍+�샍conn.getResponseCode());�샍�샍�샍�샍
+   //   �샍�샍�샍�샍BufferedReader�샍rd;�샍�샍�샍
+   //   �샍�샍�샍�샍�샍if(conn.getResponseCode()�샍>=�샍200�샍&&�샍conn.getResponseCode()�샍<=�샍300)�샍{�샍�샍�샍�샍�샍�샍
+   //      �샍�샍�샍�샍�샍�샍rd�샍=�샍new�샍BufferedReader(new�샍InputStreamReader(conn.getInputStream()));�샍�샍�샍�샍�샍�샍
+   //      �샍�샍}�샍else�샍{�샍�샍�샍�샍�샍�샍�샍�샍
+   //         �샍�샍�샍�샍rd�샍=�샍new�샍BufferedReader(new�샍InputStreamReader(conn.getErrorStream()));�샍�샍�샍�샍
+   //         �샍�샍�샍�샍}�샍�샍�샍�샍
+   //   �샍�샍�샍�샍StringBuilder�샍sb�샍=�샍new�샍StringBuilder();�샍�샍�샍�샍�샍�샍
+   //   �샍�샍String�샍line;�샍�샍�샍�샍�샍�샍�샍
+   //   �샍while�샍((line�샍=�샍rd.readLine())�샍!=�샍null)�샍{�샍�샍�샍�샍�샍
+   //      �샍�샍�샍�샍�샍�샍�샍sb.append(line);�샍�샍�샍�샍�샍�샍�샍
+   //      �샍}�샍�샍�샍�샍�샍�샍�샍
+   //   �샍rd.close();�샍�샍�샍�샍�샍�샍
+   //   �샍�샍conn.disconnect();�샍�샍�샍�샍�샍�샍
+   //   �샍�샍System.out.println(sb.toString());
    }
 
    @Override
@@ -372,7 +371,7 @@ public NoticeDTO getNotice() {
 @Override
 public int noticeReg(HttpServletRequest req, HttpServletResponse resp, Model model, NoticeDTO dto) {
 	 HttpSession session = req.getSession();
-     // �ۼ��� �Խù� �� ���� �ֱ� �Խù� ��������
+     // 占쌜쇽옙占쏙옙 占쌉시뱄옙 占쏙옙 占쏙옙占쏙옙 占쌍깍옙 占쌉시뱄옙 占쏙옙占쏙옙占쏙옙占쏙옙
      NoticeDTO board = mapper.getNotice();
      String realpath = req.getServletContext().getRealPath("/resources/file/notice/"+(noticeMaxnum()+1)+"/");
      for(int i=0;i<oldname.size();i++) {
@@ -395,46 +394,36 @@ public int noticeReg(HttpServletRequest req, HttpServletResponse resp, Model mod
 
 @Override
 public String uploadSummerImgFile(MultipartFile multipartFile, HttpServletRequest request) {
-	// JSON ��ü ����
 			JsonObject jsonObject = new JsonObject();
 
-			// �̹��� ������ ����� ��� ����
 			String path = request.getServletContext().getRealPath("/resources/file/notice/"+(noticeMaxnum()+1)+"/");
 			
-			// ���ε�� ������ ���� ���ϸ�� Ȯ���� ����
 			String originalFileName = multipartFile.getOriginalFilename();
 			String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
 
-			// ���ο� ���ϸ� ���� (������ �ĺ��� + Ȯ����)
 			int n_num = mapper.noticeMaxnum();
 			imgcnt+=1;
 			String savedFileName = "notice_"+(n_num+1)+"_"+imgcnt+extension;
 			
 			oldname.add(savedFileName);
 
-			// ����� ������ ��ο� ���ϸ��� ��Ÿ���� File ��ü ����
 			File targetFile = new File(path + savedFileName);
 			
 			try {
 				if(!targetFile.exists()) {
 					targetFile.mkdir();
 				}
-				// ���ε�� ������ InputStream ���
 				java.io.InputStream fileStream = multipartFile.getInputStream();
 
-				// ���ε�� ������ ������ ��ο� ����
 				FileUtils.copyInputStreamToFile(fileStream, targetFile);
 
-				// JSON ��ü�� �̹��� URL�� ���� �ڵ� �߰�
 				jsonObject.addProperty("url", "/resources/file/notice/" +(noticeMaxnum()+1)+"/"+ savedFileName);
 				jsonObject.addProperty("responseCode", "success");
 			} catch (IOException e) {
-				// ���� ���� �� ������ �߻��� ��� �ش� ���� ���� �� ���� ���� �ڵ� �߰�
 				FileUtils.deleteQuietly(targetFile);
 				jsonObject.addProperty("responseCode", "error");
 				e.printStackTrace();
 			}
-			// JSON ��ü�� ���ڿ��� ��ȯ�Ͽ� ��ȯ
 			String a = jsonObject.toString();
 	return a;
 }
@@ -485,59 +474,52 @@ public void getNoticeContent(Model model,NoticeDTO dto,NoticeFileDTO fdto) {
 
 @Override
 public String updateSummerImgFile(MultipartFile multipartFile, HttpServletRequest request,int n_num) {
-	// JSON ��ü ����
 				JsonObject jsonObject = new JsonObject();
 				
 				List<NoticeFileDTO> olddto= mapper.noticeFileUpdate(n_num);
 				ArrayList<String> fname=new ArrayList<String>();
 				
 				for(NoticeFileDTO dto : olddto) {
+					if(olddto.size()>check) {
 					oldname.add(dto.getNf_filename());
+					}
+					check++;
+				
 				}
 				
-				// �̹��� ������ ����� ��� ����
 				String path = request.getServletContext().getRealPath("/resources/file/notice/"+n_num+"/");
 				
-				// ���ε�� ������ ���� ���ϸ�� Ȯ���� ����
 				String originalFileName = multipartFile.getOriginalFilename();
 				String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
 
-				// ���ο� ���ϸ� ���� (������ �ĺ��� + Ȯ����)
 				imgcnt=oldname.size()+1;
 				String savedFileName = "notice_"+n_num+"_"+imgcnt+extension;
 				
 				oldname.add(savedFileName);
 
-				// ����� ������ ��ο� ���ϸ��� ��Ÿ���� File ��ü ����
 				File targetFile = new File(path + savedFileName);
 				
 				try {
 					if(!targetFile.exists()) {
 						targetFile.mkdir();
 					}
-					// ���ε�� ������ InputStream ���
-					java.io.InputStream fileStream = multipartFile.getInputStream();
+					multipartFile.transferTo(targetFile);
+					
 
-					// ���ε�� ������ ������ ��ο� ����
-					FileUtils.copyInputStreamToFile(fileStream, targetFile);
-
-					// JSON ��ü�� �̹��� URL�� ���� �ڵ� �߰�
-					jsonObject.addProperty("url", "/resources/file/notice/" +n_num+"/"+ savedFileName);
+					jsonObject.addProperty("url", "/resources/file/notice/" +n_num+"_"+ savedFileName);
 					jsonObject.addProperty("responseCode", "success");
 				} catch (IOException e) {
-					// ���� ���� �� ������ �߻��� ��� �ش� ���� ���� �� ���� ���� �ڵ� �߰�
 					FileUtils.deleteQuietly(targetFile);
 					jsonObject.addProperty("responseCode", "error");
 					e.printStackTrace();
 				}
-				// JSON ��ü�� ���ڿ��� ��ȯ�Ͽ� ��ȯ
 		 		String a = jsonObject.toString();
 	return a;
 }
 @Override
 public int noticeupdate(HttpServletRequest req, HttpServletResponse resp, Model model, NoticeDTO dto) {
 	 HttpSession session = req.getSession();
-     // �ۼ��� �Խù� �� ���� �ֱ� �Խù� ��������
+     // 占쌜쇽옙占쏙옙 占쌉시뱄옙 占쏙옙 占쏙옙占쏙옙 占쌍깍옙 占쌉시뱄옙 占쏙옙占쏙옙占쏙옙占쏙옙
      NoticeDTO board = mapper.getNotice();
      String realpath = req.getServletContext().getRealPath("/resources/file/notice/"+dto.getN_num()+"/");
      	mapper.noticeFileDelete(dto.getN_num());
@@ -563,6 +545,11 @@ public int noticeupdate(HttpServletRequest req, HttpServletResponse resp, Model 
 public void noticedelete(int n_num) {
 	mapper.noticedelete(n_num);
 	mapper.noticeFileDelete(n_num);
+}
+
+@Override
+public int getNoticeNum() {
+	return mapper.getNoticeNum();
 }
 
 	
