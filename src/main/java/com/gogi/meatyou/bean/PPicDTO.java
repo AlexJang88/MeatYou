@@ -4,7 +4,13 @@ import lombok.Data;
 
 @Data
 public class PPicDTO {
-	private int ppicNum;
-	private int pNum;
-	private String mId;
+	private int ppic_num;
+	private int ppic_p_num;
+	private String ppic_m_id;
+	
+	
+	
+	
+
+	
 }
