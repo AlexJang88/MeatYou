@@ -14,7 +14,7 @@
          
         <form method="post" name="productForm" action="/customers/itemUpdatePro" >
         	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-        	<input type="hidden" name="p_m_id" value="${memId}">
+        	
         
             <table width="500" border="1" cellspacing="0" cellpadding="0" align="center">
             

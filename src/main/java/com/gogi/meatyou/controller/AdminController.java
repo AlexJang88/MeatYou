@@ -149,12 +149,12 @@ public class AdminController {
 //		return adminServicImpl.uploadSummerImgFile(multipartFile, request);
 //	}
 
-	@RequestMapping("/reg")
-	public String reg(HttpServletRequest req, HttpServletResponse resp, NoticeDTO dto, Model model) {
-		adminServicImpl.noticeReg(req, resp, model, dto);
-		
-		return "redirect:/admin/noticeList";
-	}
+//	@RequestMapping("/reg")
+//	public String reg(HttpServletRequest req, HttpServletResponse resp, NoticeDTO dto, Model model) {
+//		adminServicImpl.noticeReg(req, resp, model, dto);
+//		
+//		return "redirect:/admin/noticeList";
+//	}
 	
 	@RequestMapping("/noticeContent")
 	public String noticeContent(Model model,NoticeDTO dto,NoticeFileDTO fdto) {
@@ -195,23 +195,23 @@ public class AdminController {
 		model.addAttribute("n_num",n_num);
 		return "admin/testform";
 	}
-	// °Ô½Ã±Û ¾÷·Îµå ¿äÃ» ·ÎÁ÷
+	// ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½Ã» ï¿½ï¿½ï¿½ï¿½
     @RequestMapping("reg")
     public String reg(HttpServletRequest req, HttpServletResponse resp, String content, Model model) {
         HttpSession session = req.getSession();
         int board_num=adminServicImpl.getNoticeNum()+1;
         if (session.getAttribute("true") != null) {
             String realPath = req.getServletContext().getRealPath("/resources/file");
-        	// ±âÁ¸ tempÆú´õ¿¡ ÀúÀåµÈ ÀÌ¹ÌÁö Ç¥½Ã¸¦ À§ÇØ ¿¡µðÅÍ¿¡´Â /temp·Î °æ·Î°¡ ÁöÁ¤µÇ¾î ÀÖ´Ù 
-            // ÀÌ¸¦ ¸¶Áö¸· °Ô½Ã±Û ´ÙÀ½ ¹øÈ£·Î ¼³Á¤ÇÑ´Ù.
+        	// ï¿½ï¿½ï¿½ï¿½ tempï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ Ç¥ï¿½Ã¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¿ï¿½ï¿½ï¿½ /tempï¿½ï¿½ ï¿½ï¿½Î°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ ï¿½Ö´ï¿½ 
+            // ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
             
             content = content.replaceAll("/temp", "/" + board_num);
 
-            // temp Æú´õ ¾ÈÀÇ ÀÌ¹ÌÁö¸¦ °Ô½Ã±Û ÀúÀå¼Ò·Î ÀÌµ¿
+            // temp ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½Ò·ï¿½ ï¿½Ìµï¿½
             String path_folder1 = realPath + "/temp/";
             String path_folder2 = realPath + "/" + board_num + "/";
 
-            // Æú´õ º¹»ç ÇÔ¼ö
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
             fileUpload(path_folder1, path_folder2);
 
             
@@ -219,28 +219,28 @@ public class AdminController {
         return "admin/noticeList";
     }
 
-    // °Ô½Ã±Û ¼öÁ¤ ÆäÀÌÁö ¿äÃ»
+    // ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»
     @RequestMapping("update")
     public String update(HttpServletRequest req, Model model, String num) {
         HttpSession session = req.getSession();
         String realPath = req.getServletContext().getRealPath("/resources/file");
         // ...
 
-        // ´õ¹Ì ÀÌ¹ÌÁö ¹æÁö¸¦ À§ÇØ ±âÁ¸ temp Æú´õ¸¦ ºñ¿öÁØ´Ù.
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ temp ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
         String path = realPath + "/temp/";
 
-        // Æú´õ ³»ºÎ ÆÄÀÏ »èÁ¦ ÇÔ¼ö
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
         deleteFolder(path);
 
-        // °Ô½Ã±Û ÀúÀå¼Ò¿¡ ÀÖ´Â ÆÄÀÏµéÀ» temp ÆÄÀÏ·Î ¾÷·Îµå 
-        // °Ô½Ã±Û ¼öÁ¤Áß º¯½ÉÀ¸·Î ÆäÀÌÁö ¹þ¾î³öµµ ¿øº» °Ô½Ã±ÛÀÇ ÀÌ¹ÌÁö´Â º¸Á¸µÈ´Ù.
+        // ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½Ò¿ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ temp ï¿½ï¿½ï¿½Ï·ï¿½ ï¿½ï¿½ï¿½Îµï¿½ 
+        // ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½Ã±ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½È´ï¿½.
         String path_folder1 = realPath + "/" +num + "/";
         String path_folder2 = realPath + "/temp/";
 
-        // temp·Î ÀÓ½ÃÀúÀå
+        // tempï¿½ï¿½ ï¿½Ó½ï¿½ï¿½ï¿½ï¿½ï¿½
         fileUpload(path_folder1, path_folder2);
         NoticeDTO board = adminServicImpl.getNotice();
-        // º»±Û¿¡ÀÖ´ø ÀÌ¹ÌÁö °æ·Î¸¦ temp·Î ¹Ù²ãÁØ´Ù
+        // ï¿½ï¿½ï¿½Û¿ï¿½ï¿½Ö´ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½Î¸ï¿½ tempï¿½ï¿½ ï¿½Ù²ï¿½ï¿½Ø´ï¿½
         board.setN_content(board.getN_content().replaceAll("/" +num + "/", "/temp/"));
         model.addAttribute("board", board);
         return "admin/noticeList";
@@ -252,22 +252,22 @@ public class AdminController {
 
         // ...
     	String realPath = req.getServletContext().getRealPath("/resources/file");
-        // º»¹®³»¿ë¿¡ temp Æú´õ·Î ¹Ù²Û ÀÌ¹ÌÁö °æ·Î¸¦ ¿ø·¡´ë·Î ¼³Á¤ 
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë¿¡ temp ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
         content = content.replaceAll("/temp", "/" + num);
 
-        // º»¹®¿¡ ¾Èµé¾î°£ ÆÄÀÏµé »èÁ¦(temp Æú´õ)
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Èµï¿½î°£ ï¿½ï¿½ï¿½Ïµï¿½ ï¿½ï¿½ï¿½ï¿½(temp ï¿½ï¿½ï¿½ï¿½)
         String filePath = realPath + "/temp/";
 
-        // ´õ¹Ì ÆÄÀÏ »èÁ¦ÇÔ¼ö ¸Å°³º¯¼ö : ÆÄÀÏ ¸ñ·Ï, ÆÄÀÏ °æ·Î, °Ë»çÇÒ º»¹®
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½ ï¿½Å°ï¿½ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½Ë»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         removeDummyFiles(getFileNamesFromFolder(filePath), filePath, content);
 
-        // º»±ÛÀÇ Æú´õ ºñ¿ì±â
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         filePath = realPath + "/" + num + "/";
         for (String fileName : getFileNamesFromFolder(filePath)) {
             deleteFile(filePath, fileName);
         }
 
-        // temp ¿¡¼­ ÀúÀåµÈ µ¥ÀÌÅÍµé ¾÷·Îµå
+        // temp ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½Îµï¿½
         String path_folder1 = realPath + "/temp/";
         String path_folder2 = realPath + "/" + num + "/";
 
@@ -276,104 +276,104 @@ public class AdminController {
         return "admin/noticeList";
     }
 
-    // ¼­¸Ó³ëÆ® ÀÌ¹ÌÁö ¾÷·Îµå temp ÀúÀå
+    // ï¿½ï¿½ï¿½Ó³ï¿½Æ® ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ temp ï¿½ï¿½ï¿½ï¿½
     @RequestMapping(value = "/uploadSummernoteImageFile", produces = "application/json; charset=utf8")
     @ResponseBody
     public String uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile,
             HttpServletRequest request) {
-        // JSON °´Ã¼ »ý¼º
+        // JSON ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½
         JsonObject jsonObject = new JsonObject();
         String realPath =request.getServletContext().getRealPath("/resources/file");
-        // ÀÌ¹ÌÁö ÆÄÀÏÀÌ ÀúÀåµÉ °æ·Î ¼³Á¤
+        // ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         String contextRoot = realPath + "/temp/";
         String fileRoot = contextRoot;
 
-        // ¾÷·ÎµåµÈ ÆÄÀÏÀÇ ¿øº» ÆÄÀÏ¸í°ú È®ÀåÀÚ ÃßÃâ
+        // ï¿½ï¿½ï¿½Îµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½ È®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         String originalFileName = multipartFile.getOriginalFilename();
         String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
 
-        // »õ·Î¿î ÆÄÀÏ¸í »ý¼º (°íÀ¯ÇÑ ½Äº°ÀÚ + È®ÀåÀÚ)
+        // ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Äºï¿½ï¿½ï¿½ + È®ï¿½ï¿½ï¿½ï¿½)
         String savedFileName = UUID.randomUUID() + extension;
 
-        // ÀúÀåµÉ ÆÄÀÏÀÇ °æ·Î¿Í ÆÄÀÏ¸íÀ» ³ªÅ¸³»´Â File °´Ã¼ »ý¼º
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ï¿½ File ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½
         File targetFile = new File(fileRoot + savedFileName);
 
         try {
-            // ¾÷·ÎµåµÈ ÆÄÀÏÀÇ InputStream ¾ò±â
+            // ï¿½ï¿½ï¿½Îµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ InputStream ï¿½ï¿½ï¿½
             java.io.InputStream fileStream = multipartFile.getInputStream();
 
-            // ¾÷·ÎµåµÈ ÆÄÀÏÀ» ÁöÁ¤µÈ °æ·Î¿¡ ÀúÀå
+            // ï¿½ï¿½ï¿½Îµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½
             FileUtils.copyInputStreamToFile(fileStream, targetFile);
 
-            // JSON °´Ã¼¿¡ ÀÌ¹ÌÁö URL°ú ÀÀ´ä ÄÚµå Ãß°¡
+            // JSON ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ URLï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ ï¿½ß°ï¿½
             jsonObject.addProperty("url", "/resources/temp/" + savedFileName);
             jsonObject.addProperty("responseCode", "success");
         } catch (IOException e) {
-            // ÆÄÀÏ ÀúÀå Áß ¿À·ù°¡ ¹ß»ýÇÑ °æ¿ì ÇØ´ç ÆÄÀÏ »èÁ¦ ¹× ¿¡·¯ ÀÀ´ä ÄÚµå Ãß°¡
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ ï¿½ß°ï¿½
             FileUtils.deleteQuietly(targetFile);
             jsonObject.addProperty("responseCode", "error");
             e.printStackTrace();
         }
 
-        // JSON °´Ã¼¸¦ ¹®ÀÚ¿­·Î º¯È¯ÇÏ¿© ¹ÝÈ¯
+        // JSON ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ï¿ï¿½ ï¿½ï¿½È¯
         String a = jsonObject.toString();
         return a;
     }
 
-    // ¼­¸Ó³ëÆ® ÀÌ¹ÌÁö »èÁ¦ temp¿¡¼­
+    // ï¿½ï¿½ï¿½Ó³ï¿½Æ® ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ tempï¿½ï¿½ï¿½ï¿½
     @RequestMapping(value = "/deleteSummernoteImageFile", produces = "application/json; charset=utf8")
     @ResponseBody
     public void deleteSummernoteImageFile(@RequestParam("file") String fileName,HttpServletRequest req) {
     	
-        // Æú´õ À§Ä¡
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
         String filePath = req.getServletContext().getRealPath("/resources/temp");
 
-        // ÇØ´ç ÆÄÀÏ »èÁ¦
+        // ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         deleteFile(filePath, fileName);
     }
 
-    // ÇÏÀ§ Æú´õ º¹»ç
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     private void fileUpload(String path_folder1, String path_folder2) {
-        // path_folder1¿¡¼­ path_folder2·Î ÆÄÀÏÀ» º¹»çÇÏ´Â ÇÔ¼öÀÔ´Ï´Ù.
+        // path_folder1ï¿½ï¿½ï¿½ï¿½ path_folder2ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ô¼ï¿½ï¿½Ô´Ï´ï¿½.
 
         File folder1;
         File folder2;
         folder1 = new File(path_folder1);
         folder2 = new File(path_folder2);
 
-        // º¹»çÇÒ Æú´õµéÀÌ Á¸ÀçÇÏÁö ¾ÊÀ¸¸é »ý¼ºÇÕ´Ï´Ù.
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
         if (!folder1.exists())
             folder1.mkdirs();
         if (!folder2.exists())
             folder2.mkdirs();
 
-        // Æú´õ1¿¡¼­ ÆÄÀÏ ¸ñ·ÏÀ» °¡Á®¿É´Ï´Ù.
+        // ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½É´Ï´ï¿½.
         File[] target_file = folder1.listFiles();
         for (File file : target_file) {
-            // º¹»ç ´ë»ó ÆÄÀÏÀÇ °æ·Î¿Í ÀÌ¸§À» ¼³Á¤ÇÕ´Ï´Ù.
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¿ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
             File temp = new File(folder2.getAbsolutePath() + File.separator + file.getName());
 
             if (file.isDirectory()) {
-                // ´ë»óÀÌ Æú´õÀÎ °æ¿ì, ÇØ´ç Æú´õ¸¦ »ý¼ºÇÕ´Ï´Ù.
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
                 temp.mkdir();
             } else {
                 FileInputStream fis = null;
                 FileOutputStream fos = null;
                 try {
-                    // ÆÄÀÏ º¹»ç¸¦ À§ÇØ FileInputStream°ú FileOutputStreamÀ» »ý¼ºÇÕ´Ï´Ù.
+                    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ç¸¦ ï¿½ï¿½ï¿½ï¿½ FileInputStreamï¿½ï¿½ FileOutputStreamï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
                     fis = new FileInputStream(file);
                     fos = new FileOutputStream(temp);
 
                     byte[] b = new byte[4096];
                     int cnt = 0;
                     while ((cnt = fis.read(b)) != -1) {
-                        // ¹öÆÛ¸¦ »ç¿ëÇÏ¿© ÆÄÀÏ ³»¿ëÀ» ÀÐ°í º¹»çÇÕ´Ï´Ù.
+                        // ï¿½ï¿½ï¿½Û¸ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ð°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
                         fos.write(b, 0, cnt);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
-                    // FileInputStream°ú FileOutputStreamÀ» ´Ý½À´Ï´Ù.
+                    // FileInputStreamï¿½ï¿½ FileOutputStreamï¿½ï¿½ ï¿½Ý½ï¿½ï¿½Ï´ï¿½.
                     try {
                         fis.close();
                         fos.close();
@@ -385,9 +385,9 @@ public class AdminController {
         }
     }
 
-    // ÇÏÀ§ Æú´õ »èÁ¦
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     private void deleteFolder(String path) {
-        // ÁÖ¾îÁø °æ·Î¿¡ ÀÖ´Â Æú´õ¿Í ÆÄÀÏÀ» Àç±ÍÀûÀ¸·Î »èÁ¦ÇÏ´Â ÇÔ¼öÀÔ´Ï´Ù.
+        // ï¿½Ö¾ï¿½ï¿½ï¿½ ï¿½ï¿½Î¿ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ô¼ï¿½ï¿½Ô´Ï´ï¿½.
 
         File folder = new File(path);
         try {
@@ -395,15 +395,15 @@ public class AdminController {
                 File[] folder_list = folder.listFiles();
                 for (int i = 0; i < folder_list.length; i++) {
                     if (folder_list[i].isFile())
-                        // ÆÄÀÏÀÎ °æ¿ì, ÆÄÀÏÀ» »èÁ¦ÇÕ´Ï´Ù.
+                        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
                         folder_list[i].delete();
                     else
-                        // Æú´õÀÎ °æ¿ì, Àç±ÍÀûÀ¸·Î Æú´õ ³»ºÎÀÇ ÆÄÀÏ ¹× Æú´õ¸¦ »èÁ¦ÇÕ´Ï´Ù.
+                        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
                         deleteFolder(folder_list[i].getPath());
-                    // ÆÄÀÏÀÌ³ª Æú´õ¸¦ »èÁ¦ÇÕ´Ï´Ù.
+                    // ï¿½ï¿½ï¿½ï¿½ï¿½Ì³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
                     folder_list[i].delete();
                 }
-                // Æú´õ¸¦ »èÁ¦ÇÕ´Ï´Ù.
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
                 folder.delete();
             }
         } catch (Exception e) {
@@ -411,44 +411,44 @@ public class AdminController {
         }
     }
 
-    // À§Ä¡°ªÀ¸·Î ³»ºÎ ÆÄÀÏ ÀÌ¸§ °¡Á®¿À±â
+    // ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     private List<String> getFileNamesFromFolder(String folderName) {
-        // ÆÄÀÏ ÀÌ¸§À» ÀúÀåÇÒ ¸®½ºÆ® »ý¼º
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
         List<String> fileNames = new ArrayList<>();
 
-        // ÁÖ¾îÁø Æú´õ °æ·Î¸¦ ±â¹ÝÀ¸·Î Æú´õ °´Ã¼ »ý¼º
+        // ï¿½Ö¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½
         File folder = new File(folderName);
-        // Æú´õ ³»ÀÇ ÆÄÀÏµéÀ» °¡Á®¿È
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         File[] files = folder.listFiles();
         if (files != null) {
-            // ÆÄÀÏÀÎ °æ¿ì ÆÄÀÏ ÀÌ¸§À» ¸®½ºÆ®¿¡ Ãß°¡
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ß°ï¿½
             for (File file : files) {
                 if (file.isFile()) {
                     fileNames.add(file.getName());
                 }
             }
         }
-        // ÆÄÀÏ ÀÌ¸§À» ´ãÀº ¸®½ºÆ® ¹ÝÈ¯
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½È¯
         return fileNames;
     }
 
-    // ´õ¹Ì ÆÄÀÏ »èÁ¦
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     private void removeDummyFiles(List<String> fileNames, String filePath, String contents) {
-        // ÁÖ¾îÁø ÆÄÀÏ ÀÌ¸§ ¸®½ºÆ®¸¦ ±â¹ÝÀ¸·Î ÆÄÀÏÀ» »èÁ¦
+        // ï¿½Ö¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         for (String fileName : fileNames) {
-            // contents ¹®ÀÚ¿­¿¡ ÆÄÀÏ ÀÌ¸§ÀÌ Æ÷ÇÔµÇ¾î ÀÖÁö ¾ÊÀº °æ¿ì ÆÄÀÏ »èÁ¦
+            // contents ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÔµÇ¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             if (!contents.contains(fileName)) {
                 deleteFile(filePath, fileName);
             }
         }
     }
 
-    // ÆÄÀÏ ÇÏ³ª »èÁ¦
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ ï¿½ï¿½ï¿½ï¿½
     private void deleteFile(String filePath, String fileName) {
-        // ÁÖ¾îÁø ÆÄÀÏ °æ·Î¿Í ÀÌ¸§À» ±â¹ÝÀ¸·Î ÆÄÀÏ °æ·Î °´Ã¼ »ý¼º
+        // ï¿½Ö¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¿ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½
         Path path = Paths.get(filePath, fileName);
         try {
-            // ÆÄÀÏ »èÁ¦
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             Files.delete(path);
         } catch (IOException e) {
             e.printStackTrace();

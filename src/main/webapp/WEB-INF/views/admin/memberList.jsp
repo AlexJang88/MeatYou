@@ -33,7 +33,7 @@
 					<td>${d.m_name} </td>
 					<td>${d.email} </td>
 					<td>${d.phone}</td>
-					<td>${d.m_regDate}</td>
+					<td>${d.m_reg_date}</td>
 					<td>${d.mstat_detail}</td>
 					<c:if test="${check==1}">
 						<td>

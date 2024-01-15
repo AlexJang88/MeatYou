@@ -8,7 +8,6 @@
 <head> 
 </head>
 <body>
-<c:if test="${sessionScope.memId!=null}">
 
 <a href="/customers/customer">홈으로</a>
 <a href="/customers/itemUpdate">상품등록</a>
@@ -17,7 +16,7 @@
 <a href="/customers/stock">재고현황</a>
 <a href="/customers/consumerList">구매회원</a>
 <a href="/customers/pay">유료결제</a>
-<a href="/customers/deliver">배송현황</a>
+<a href="/customers/deliver">주문 및 배송현황</a>
 <a href="/customers/total">정산하기</a>
 <a href="/customers/cusQna">문의게시판</a>
 
@@ -35,7 +34,6 @@
 문의게시판-> 상품별 문의게시글 확인<br>
 
 
-</c:if>
 </body>
 </html>
 
