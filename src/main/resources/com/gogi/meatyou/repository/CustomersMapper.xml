@@ -4,4 +4,256 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gogi.meatyou.repository.CustomersMapper">
 
+
+      <insert id="productUp" parameterType="com.gogi.meatyou.bean.ProductDTO">
+          insert into product(p_num, p_m_id, p_name, p_category, p_s_category, thumb, p_price, p_rcount, p_reg_date, startdate, enddate, p_status) values (
+          product_seq.NEXTVAL,
+          #{p_m_id},
+          #{p_name},
+          #{p_category},
+          #{p_s_category},
+          #{thumb},
+          #{p_price},
+          0,          
+          sysdate,
+          to_date(#{startdate},'YYYY-MM-DD'),
+          to_date(#{enddate},'YYYY-MM-DD'),    
+          2)
+       </insert>
+
+      <insert id="P_DETAILUp" parameterType="com.gogi.meatyou.bean.PDetailDTO">
+          insert into P_DETAIL(pd_p_num, pd_p_desc, origin, local, weight, butchery, serialNum, retain, stock, pd_duedate, pd_p_status) values (
+          P_DETAIL_seq.NEXTVAL,
+          #{pd_p_desc},          
+          #{origin},
+          #{local},
+          #{weight},          
+          #{butchery},
+          #{serialNum},
+          #{retain},
+          #{stock},
+          #{pd_duedate},
+          0)          
+       </insert>
+          
+       <select id="paycount" resultType="int">
+          select count(*) from cus_order where co_category=2003 and co_m_id=#{id} and co_paydate>add_months(sysdate,-1)
+       </select>
+       
+       <select id="cus_order" resultType="com.gogi.meatyou.bean.CusOrderDTO">
+          select co_num from cus_order where co_category=2003 and co_m_id=#{id} and co_paydate>add_months(sysdate,-1)
+       </select>
+              
+      <select id="stockcount" resultType="int">
+          select count(*) from product where p_m_id=#{id}
+       </select>
+          
+      
+      <select id="itemcount" resultType="int">
+           select count(*) from product where p_m_id =#{id} and  (p_status = 0 or  p_status = 1 or  p_status = 2) order by p_num desc
+       </select>           
+       
+      <select id="itemcounting" resultType="int">
+          select count(*) from product where p_m_id = #{id} and p_status = 0 or p_status = 1
+       </select>
+       
+       <select id="itemcountout" resultType="int">
+          select count(*) from product where p_m_id = #{id} and p_status=3
+       </select>
+       
+       <select id="list" resultType="com.gogi.meatyou.bean.ProductDTO" parameterType="hashmap">
+           <![CDATA[
+      SELECT * FROM ( SELECT b.*, rownum r FROM ( SELECT * FROM product LEFT JOIN CUS_ORDER ON product.p_num = CUS_ORDER.co_p_num WHERE product.p_m_id = #{id} AND (product.p_status = 0 OR product.p_status = 1 OR product.p_status = 2)  AND (product.p_status = 0 OR product.p_status = 1 OR product.p_status = 2 OR co_num IS NOT NULL)  ORDER BY product.p_num DESC) b) WHERE r>=#{start} and r<=#{end}
+         ]]>
+       </select>
+       
+       
+       
+       
+       
+       <select id="listout" resultType="com.gogi.meatyou.bean.ProductDTO" parameterType="hashmap">
+       <![CDATA[
+        SELECT * FROM ( SELECT b.*, rownum r FROM (SELECT * FROM product where p_m_id=#{id} and  p_status = 3   ORDER BY p_num DESC ) b) WHERE r>=#{start} and r<=#{end}
+        ]]>
+       </select>
+       
+       <select id="member_status" resultType="int">
+       SELECT M_Status FROM member WHERE m_id = #{id}
+       </select>
+       
+       
+       
+       <update id="conumchange" parameterType="com.gogi.meatyou.bean.ProductDTO">
+       UPDATE CUS_ORDER SET co_p_num = NULL WHERE co_p_num = #{p_num} and co_category=2003
+       </update>  
+
+      <update id="statusChange" parameterType="com.gogi.meatyou.bean.ProductDTO">
+          UPDATE product SET p_status=#{p_status} WHERE p_M_ID=#{p_m_id} AND p_num=#{p_num}      
+       </update>   
+
+       <select id="cuscheck" resultType="int">
+         SELECT count(*) FROM product LEFT JOIN CUS_ORDER ON product.p_num = CUS_ORDER.co_p_num WHERE product.p_m_id = #{p_m_id} AND co_num = #{co_num}
+      </select>
+ 
+       <update id="gijon" parameterType="com.gogi.meatyou.bean.ProductDTO">
+         UPDATE product SET p_status = 2 WHERE EXISTS ( SELECT 1 FROM CUS_ORDER WHERE product.p_num = CUS_ORDER.co_p_num AND CUS_ORDER.co_num = #{co_num})
+      </update>
+       
+       <update id="gijonCoNum" parameterType="com.gogi.meatyou.bean.ProductDTO">
+         UPDATE CUS_ORDER SET co_p_num = null WHERE co_num = #{co_num} and co_category=2003
+      </update>
+              
+      <update id="cus_num" parameterType="com.gogi.meatyou.bean.CusOrderDTO">
+          UPDATE CUS_ORDER SET co_p_num=#{p_num} WHERE co_num=#{co_num} and co_category= 2003    
+       </update>
+       
+      <update id="cus_numdelete" parameterType="com.gogi.meatyou.bean.CusOrderDTO">
+         UPDATE cus_order c SET co_p_num = NULL WHERE EXISTS (  SELECT 1  FROM product p WHERE c.co_p_num = p.P_num AND c.co_category = 2003 AND p.P_num = #{p_num})       
+       </update>
+       
+       
+       
+       
+       
+       
+       
+       
+        <select id="lister" resultType="com.gogi.meatyou.bean.ProductDTO">
+       SELECT * FROM product WHERE p_num = #{p_num}
+       </select>
+       
+       <select id="listerPD" resultType="com.gogi.meatyou.bean.PDetailDTO">
+       SELECT * FROM P_DETAIL WHERE pd_P_num = #{p_num}
+       </select>
+      
+       <update id="itemUP" parameterType="com.gogi.meatyou.bean.ProductDTO">
+          update product
+          <set>
+              <if test="p_name != null and p_name != '' ">p_name=#{p_name},</if>
+              <if test="p_category != null and p_category != '' ">p_category=#{p_category},</if> 
+              <if test="p_s_category != null and p_s_category != '' ">p_s_category=#{p_s_category},</if> 
+              <if test="thumb != null and thumb != '' ">thumb=#{thumb},</if> 
+              <if test="p_price != null and p_price != '' ">p_price=#{p_price},</if> 
+              <if test="startdate != null and startdate != '' "> startdate=to_date(#{startdate},'YYYY-MM-DD'),</if> 
+              <if test="enddate != null and enddate != '' "> enddate=to_date(#{enddate},'YYYY-MM-DD')</if>
+          </set>
+          where p_num=#{p_num} 
+      </update>
+      
+      <update id="itemDpUP" parameterType="com.gogi.meatyou.bean.PDetailDTO">
+          update P_DETAIL
+          <set>
+              <if test="pd_p_desc != null and pd_p_desc != '' ">pd_p_desc=#{pd_p_desc},</if>
+              <if test="origin != null and origin != '' ">origin=#{origin},</if> 
+              <if test="local != null and local != '' ">local=#{local},</if> 
+              <if test="butchery != null and butchery != '' ">butchery=#{butchery},</if> 
+              <if test="weight != null and weight != '' ">weight=#{weight},</if> 
+              <if test="serialNum != null and serialNum != '' ">serialNum=#{serialNum},</if> 
+              <if test="retain != null and retain != '' ">retain=#{retain},</if> 
+              <if test="stock != null and stock != '' ">stock=#{stock},</if> 
+              <if test="pd_duedate != null and pd_duedate != '' ">pd_duedate=#{pd_duedate}</if> 
+          </set>
+          where pd_p_num=#{pd_p_num} 
+      </update>
+       
+      <select id="stocklist" resultType="com.gogi.meatyou.bean.ProductDTO" parameterType="hashmap">
+         <![CDATA[
+         SELECT * FROM ( SELECT b.*, rownum r FROM (select * from product p, P_DETAIL pd where p.P_num = pd.pd_P_num and p.p_M_ID =#{id} order by p_num desc) b) WHERE r>=#{start} and r<=#{end}
+         ]]>
+       </select>       
+
+      <select id="stockonlist" resultType="com.gogi.meatyou.bean.ProductDTO" parameterType="hashmap">
+         <![CDATA[
+         SELECT * FROM ( SELECT b.*, rownum r FROM (   SELECT * FROM product p, P_DETAIL pd WHERE p.P_num = pd.pd_P_num AND p.p_M_ID = #{id} AND (p.p_status = 0 OR p.p_status = 1) order by p.p_num desc ) b) WHERE r>=#{start} and r<=#{end}
+         ]]>
+       </select>
+
+      <update id="stockPro" parameterType="com.gogi.meatyou.bean.PDetailDTO">
+          update P_DETAIL
+          <set>     
+              <if test="stock != null and stock != '' ">stock=#{stock}</if>            
+          </set>
+          where pd_p_num=#{pd_p_num} 
+      </update>
+
+   <select id="stocklistcount" parameterType="hashmap" resultType="int">
+      select count(*) from product p, m_Order m where (p.P_num = m.order_p_num) and p.p_M_ID =#{id} and p.P_num =#{p_num} order by p_num desc
+   </select>
+      
+
+      <select id="listPayCount" resultType="int">
+       select count(*) from CUS_ORDER where co_m_id=#{id} and co_category=2003 order by co_paydate desc
+       </select>
+       
+       <select id="listpaynowcount" resultType="int">
+       select count(*) from cus_order where co_category=2003 and co_m_id=#{id} and co_paydate>add_months(sysdate,-1)
+       </select>
+   
+      <select id="powerPayCount" resultType="int">
+       select count(*) from CUS_ORDER where co_m_id=#{id} and co_category=2002 order by co_paydate desc
+       </select>
+
+      <select id="powerlist" resultType="com.gogi.meatyou.bean.CusOrderDTO">
+       SELECT * FROM CUS_ORDER WHERE co_m_id = #{id} AND co_category = 2002 ORDER BY co_paydate DESC
+       </select>
+
+      <select id="powerlistOne" resultType="com.gogi.meatyou.bean.CusOrderDTO" parameterType="hashmap">
+      <![CDATA[
+          SELECT * FROM ( SELECT b.*, rownum r FROM ( SELECT * FROM CUS_ORDER WHERE co_m_id = #{id} AND co_category = 2002 ORDER BY co_paydate DESC) b) WHERE r>=#{start} and r<=#{end}
+         ]]>
+      </select>
+
+      <select id="paylist" resultType="com.gogi.meatyou.bean.CusOrderDTO">
+       SELECT * FROM CUS_ORDER where co_category=2003 and co_m_id= #{id} and co_paydate>add_months(sysdate,-1) order by co_num asc
+      </select> 
+      
+      <select id="paylistTwo" resultType="com.gogi.meatyou.bean.CusOrderDTO">
+      <![CDATA[
+       SELECT * FROM ( SELECT b.*, rownum r FROM ( SELECT * FROM CUS_ORDER where co_category=2003 and co_m_id= #{id} and co_paydate>add_months(sysdate,-1) order by co_num desc ) b) WHERE r>=#{start} and r<=#{end}
+        ]]>
+      </select> 
+      
+
+      <select id="countter" resultType="int">
+       SELECT count(*) FROM product p LEFT JOIN cus_order c ON p.P_num = c.co_P_num where p.p_M_ID = 'user5' and p.p_status in(0,1) and nvl(c.co_category,0) in (0,2003 )  ORDER BY p.P_num DESC
+       </select>
+
+       <select id="poweredlist" resultType="com.gogi.meatyou.bean.ProductDTO">
+        SELECT * FROM product p LEFT JOIN cus_order c ON p.P_num = c.co_P_num where p.p_M_ID = #{id} and p.p_status in(0,1) and nvl(c.co_category,0) in (0,2003 )  ORDER BY p.P_num DESC
+       </select>
+       
+       <select id="payMentItem" resultType="com.gogi.meatyou.bean.ProductDTO">
+         select * from product p, P_DETAIL d where  p.P_num = d.pd_p_num and  p.p_m_id = #{p_m_id} and p.p_num= #{p_num}
+       </select>   
+       
+      
+       <insert id="payFinish" parameterType="com.gogi.meatyou.bean.CusOrderDTO">
+          insert into CUS_ORDER(co_num, co_category, co_quantity, co_pay, co_m_id, autoPay, co_p_num, co_paydate, co_payenddate) values (
+          CUS_ORDER_seq.NEXTVAL,
+          2002,          
+          #{co_quantity},
+          #{co_pay},
+          #{co_m_id},                   
+          0,
+          #{co_p_num},
+          sysdate,
+          null
+          )          
+       </insert>
+      
+      <insert id="itempayFinish" parameterType="com.gogi.meatyou.bean.CusOrderDTO">
+          insert into CUS_ORDER(co_num, co_category, co_quantity, co_pay, co_m_id, autoPay, co_p_num, co_paydate, co_payenddate) values (
+          CUS_ORDER_seq.NEXTVAL,
+          2003,          
+          1,
+          50000,
+          #{co_m_id},                   
+          0,
+          null,
+          sysdate,
+          sysdate + INTERVAL '1' MONTH
+          )          
+       </insert>
+      
+
 </mapper>

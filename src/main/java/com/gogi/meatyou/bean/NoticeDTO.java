@@ -6,9 +6,9 @@ import lombok.Data;
 
 @Data
 public class NoticeDTO {
-	private int num;
-	private String title;
-	private String content;
-	private Date regDate;
+	private int n_num;
+	private String n_title;
+	private String n_content;
+	private Date n_reg_date;
 	
 }

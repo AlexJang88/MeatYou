@@ -1,15 +1,558 @@
 package com.gogi.meatyou.service;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ScheduledExecutorService;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gogi.meatyou.bean.MemberDTO;
+import com.gogi.meatyou.bean.NoticeDTO;
+import com.gogi.meatyou.bean.NoticeFileDTO;
+import com.gogi.meatyou.bean.ReckonDTO;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 
 import com.gogi.meatyou.repository.AdminMapper;
+import com.google.gson.JsonObject;
 
 @Service
-public class AdminServiceImpl {
+public class AdminServiceImpl implements AdminService {
+   
+	private int imgcnt=0;
+	private int check=0;
+	
+   @Autowired
+   private HashMap adminMap;
+   
+   @Autowired
+   private ArrayList<String> oldname;
+   
+   @Autowired
+   private NoticeFileDTO noticefiledto;
+   
+   @Autowired
+   private AdminService adminServiceImpl;
+
+//   @Override
+//   public void list(int pageNum, Model model) {
+//      
+//
+//   }
+
+   @Autowired
+   private AdminMapper mapper;
+
+   private HttpURLConnection conn;
+
+   public void memberList(int check, Model model, int pageNum) {
+      int count=0;
+      int pageSize = 10;
+      int startRow = (pageNum - 1) * pageSize + 1;
+      int endRow = pageNum * pageSize;
+      List<MemberDTO> list = Collections.EMPTY_LIST;
+      if (check == 1) {
+         count = mapper.memCount();
+         if (count > 0) {
+            adminMap.put("start", startRow);
+            adminMap.put("end", endRow);
+            list = mapper.memberList(adminMap);
+         }
+
+         
+      } else if (check == 2) {
+         count = mapper.cusCount();
+
+         if (count > 0) {
+            adminMap.put("start", startRow);
+            adminMap.put("end", endRow);
+            list = mapper.customList(adminMap);
+         }
+
+      }else if(check==3) {
+         count = mapper.cusWaitCount();
+         
+         if (count > 0) {
+            adminMap.put("start", startRow);
+            adminMap.put("end", endRow);
+            list = mapper.cusWaitList(adminMap);
+         }
+
+      }else if(check==4) {
+         count = mapper.cusPaidCount();
+         
+         if (count > 0) {
+            adminMap.put("start", startRow);
+            adminMap.put("end", endRow);
+            list = mapper.cusPaidList(adminMap);
+         }
+      }
+      model.addAttribute("list", list);
+      model.addAttribute("count", count);
+      model.addAttribute("pageNum", pageNum);
+      model.addAttribute("pageSize", pageSize);
+
+      // page
+      int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+      int startPage = (int) (pageNum / 10) * 10 + 1;
+      int pageBlock = 10;
+      int endPage = startPage + pageBlock - 1;
+      if (endPage > pageCount) {
+         endPage = pageCount;
+      }
+      model.addAttribute("pageCount", pageCount);
+      model.addAttribute("startPage", startPage);
+      model.addAttribute("pageBlock", pageBlock);
+      model.addAttribute("endPage", endPage);
+      model.addAttribute("check", check);
+   }
+
+   @Override
+   public List<MemberDTO> customList(HashMap hashmap) {
+      return mapper.customList(hashmap);
+   }
+
+   @Override
+   public List<MemberDTO> memberList(HashMap hashmap) {
+      return mapper.memberList(hashmap);
+   }
+
+   @Override
+   public int cusCount() {
+      // TODO Auto-generated method stub
+      return mapper.cusCount();
+   }
+
+   @Override
+   public int memCount() {
+      // TODO Auto-generated method stub
+      return mapper.memCount();
+   }
+
+   @Override
+   public List<String> goodMember() {
+      // TODO Auto-generated method stub
+      return mapper.goodMember();
+   }
+
+   @Override
+   public List<String> bestMember() {
+      return mapper.bestMember();
+   }
+
+   @Override
+   public void goodMemberUpdate(List<String> id) {
+      if (goodMember().size() > 0) {
+         mapper.goodMemberUpdate(mapper.goodMember());
+      }
+   }
+
+   @Override
+   public void bestMemberUpdate(List<String> id) {
+      if (bestMember().size() > 0) {
+         mapper.bestMemberUpdate(mapper.bestMember());
+      }
+   }
+
+   @Override
+   public MemberDTO test(String m_id) {
+
+      return mapper.test(m_id);
+   }
+
+   /*
+    * @Scheduled(cron="* * * * * *") �뜝�룞�삕 �뜝�룞�삕 �뜝�떆怨ㅼ삕 �뜝�룞�삕 �뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕
+    */
+
+   @Scheduled(cron = "0 0 0 1 * *")
+   public void autoMemberUpdate() {
+      if (goodMember().size() > 0) {
+         mapper.goodMemberUpdate(mapper.goodMember());
+      }
+      if (bestMember().size() > 0) {
+         mapper.bestMemberUpdate(mapper.bestMember());
+      }
+   }
+
+   @Override
+   public void apiTest(Model model){
+      StringBuilder urlBuilder = new StringBuilder("http://211.237.50.150:7080/openapi"); 
+      //StringBuilder urlBuilder = new StringBuilder("http://211.237.50.150:7080/openapi/sample/xml/Grid_20151204000000000316_1/1/5");
+       urlBuilder.append("/1c9a14382163bb7dc822492a3dca9b9a8841b3782755afedd33d3b5879c98e94");
+       urlBuilder.append("/xml");   
+       urlBuilder.append("/Grid_20151204000000000316_1/1/5");   
+      // urlBuilder.append("?API-KEY="); // API  沅롧몴   釉� �읈 釉� �⑤끃肉� 苑� �겫�뜄�쑎 �궎 猷꾣에   �땾 �젟 釉� 苑� �뒄.
+        //  urlBuilder.append("&START_INDEX=1");
+        //  urlBuilder.append("&END_INDEX=10");
+        //  urlBuilder.append("&TYPE=json");
+
+          HttpURLConnection conn = null;
+          try {
+              URL url = new URL(urlBuilder.toString());
+              conn = (HttpURLConnection) url.openConnection();
+              //  肉겼칰   苑� �젟 (簾ル뗄苑� 諭�,  肉� �쐭,  踰�)
+              conn.setRequestMethod("GET");
+              conn.setRequestProperty("Content-type","application/json");
+              //  肉겼칰怨좊릭��   �쑓 �뵠 苑ｇ몴   �뵭 �뮸 �빍 �뼄.
+              //  �굙: int responseCode = conn.getResponseCode();
+              BufferedReader rd;
+              if(conn.getResponseCode()>=200 && conn.getResponseCode()<=300) {
+                 rd=new BufferedReader(new InputStreamReader(conn.getInputStream()));
+              }else {
+                 rd=new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+              }
+              StringBuilder sb = new StringBuilder();
+              String line;
+              while((line=rd.readLine())!=null) {
+                 sb.append(line);
+              }
+              model.addAttribute("test", sb);
+              rd.close();
+              // �빊遺�  �읅 �몵嚥�   �벓 �뼗 �뱽 力μ꼶�봺 釉� �뮉 �굜遺얜굡�몴   肉ф묾怨쀫퓠 �빊遺�  釉� 苑� �뒄.
+          } catch (MalformedURLException e) {
+              // URL  �굨 �뻼 �뵠  �삋榮먯궠留� 野껋럩�뒭 �벥  �굙 �뇚 力μ꼶�봺
+              e.printStackTrace();
+          } catch (IOException e) {
+              //  肉겼칰怨쀬뱽  肉� �뮉 �⑥눘�젟 肉� 苑� I/O  �굙 �뇚 力μ꼶�봺
+              e.printStackTrace();
+          } finally {
+              if (conn != null) {
+                  conn.disconnect();
+              }
+          }
+      //HttpURLConnection�샍conn�샍=�샍(HttpURLConnection)url.openConnection();�샍�샍�샍�샍�샍
+      //   �샍�샍�샍conn.setRequestMethod("GET");�샍�샍�샍�샍�샍
+      //   �샍�샍�샍conn.setRequestProperty("Content-type","application/json");�샍�샍�샍�샍�샍�샍
+      //   �샍�샍System.out.println("Response�샍code:�샍"�샍+�샍conn.getResponseCode());�샍�샍�샍�샍
+      //   �샍�샍�샍�샍BufferedReader�샍rd;�샍�샍�샍
+      //   �샍�샍�샍�샍�샍if(conn.getResponseCode()�샍>=�샍200�샍&&�샍conn.getResponseCode()�샍<=�샍300)�샍{�샍�샍�샍�샍�샍�샍
+      //      �샍�샍�샍�샍�샍�샍rd�샍=�샍new�샍BufferedReader(new�샍InputStreamReader(conn.getInputStream()));�샍�샍�샍�샍�샍�샍
+      //      �샍�샍}�샍else�샍{�샍�샍�샍�샍�샍�샍�샍�샍
+      //         �샍�샍�샍�샍rd�샍=�샍new�샍BufferedReader(new�샍InputStreamReader(conn.getErrorStream()));�샍�샍�샍�샍
+      //         �샍�샍�샍�샍}�샍�샍�샍�샍
+      //   �샍�샍�샍�샍StringBuilder�샍sb�샍=�샍new�샍StringBuilder();�샍�샍�샍�샍�샍�샍
+      //   �샍�샍String�샍line;�샍�샍�샍�샍�샍�샍�샍
+      //   �샍while�샍((line�샍=�샍rd.readLine())�샍!=�샍null)�샍{�샍�샍�샍�샍�샍
+      //      �샍�샍�샍�샍�샍�샍�샍sb.append(line);�샍�샍�샍�샍�샍�샍�샍
+      //      �샍}�샍�샍�샍�샍�샍�샍�샍
+      //   �샍rd.close();�샍�샍�샍�샍�샍�샍
+      //   �샍�샍conn.disconnect();�샍�샍�샍�샍�샍�샍
+      //   �샍�샍System.out.println(sb.toString());
+      
+      
+   //   StringBuilder�샍urlBuilder�샍=�샍new�샍StringBuilder("http://211.237.50.150:7080/openapi/sample/xml/Grid_20220823000000000636_1/1/5");�샍/*URL*/�샍�샍�샍�샍�샍�샍�샍�샍
+   //   urlBuilder.append("?"�샍+�샍URLEncoder.encode("API-KEY","UTF-8")�샍+�샍"=1c9a14382163bb7dc822492a3dca9b9a8841b3782755afedd33d3b5879c98e94");�샍/*Service�샍Key*/�샍
+   //   �샍�샍�샍�샍�샍�샍�샍urlBuilder.append("&"�샍+�샍URLEncoder.encode("START_INDEX","UTF-8")�샍+�샍"="�샍+�샍URLEncoder.encode("1",�샍"UTF-8"));�샍/* 釉논샍 �읂 �뵠�릯 �샍野껉퀗�궢�샍 �땾*/�샍�샍�샍�샍�샍�샍
+   //   �샍�샍urlBuilder.append("&"�샍+�샍URLEncoder.encode("END_INDEX","UTF-8")�샍+�샍"="�샍+�샍URLEncoder.encode("10",�샍"UTF-8"));�샍/* �읂 �뵠�릯 �샍甕곕뜇�깈*/�샍�샍�샍
+   //   �샍�샍�샍�샍�샍urlBuilder.append("&"�샍+�샍URLEncoder.encode("TYPE","UTF-8")�샍+�샍"="�샍+�샍URLEncoder.encode("json",�샍"UTF-8"));�샍/*�뿢�돦�젟 �꺖�샍 �뵠�뵳 */�샍�샍�샍�샍�샍�샍
+   //   �샍�샍HttpURLConnection�샍conn�샍=�샍(HttpURLConnection)�샍url.openConnection();�샍�샍�샍�샍�샍
+   //   �샍�샍�샍conn.setRequestMethod("GET");�샍�샍�샍�샍�샍
+   //   �샍�샍�샍conn.setRequestProperty("Content-type",�샍"application/json");�샍�샍�샍�샍�샍�샍
+   //   �샍�샍System.out.println("Response�샍code:�샍"�샍+�샍conn.getResponseCode());�샍�샍�샍�샍
+   //   �샍�샍�샍�샍BufferedReader�샍rd;�샍�샍�샍
+   //   �샍�샍�샍�샍�샍if(conn.getResponseCode()�샍>=�샍200�샍&&�샍conn.getResponseCode()�샍<=�샍300)�샍{�샍�샍�샍�샍�샍�샍
+   //      �샍�샍�샍�샍�샍�샍rd�샍=�샍new�샍BufferedReader(new�샍InputStreamReader(conn.getInputStream()));�샍�샍�샍�샍�샍�샍
+   //      �샍�샍}�샍else�샍{�샍�샍�샍�샍�샍�샍�샍�샍
+   //         �샍�샍�샍�샍rd�샍=�샍new�샍BufferedReader(new�샍InputStreamReader(conn.getErrorStream()));�샍�샍�샍�샍
+   //         �샍�샍�샍�샍}�샍�샍�샍�샍
+   //   �샍�샍�샍�샍StringBuilder�샍sb�샍=�샍new�샍StringBuilder();�샍�샍�샍�샍�샍�샍
+   //   �샍�샍String�샍line;�샍�샍�샍�샍�샍�샍�샍
+   //   �샍while�샍((line�샍=�샍rd.readLine())�샍!=�샍null)�샍{�샍�샍�샍�샍�샍
+   //      �샍�샍�샍�샍�샍�샍�샍sb.append(line);�샍�샍�샍�샍�샍�샍�샍
+   //      �샍}�샍�샍�샍�샍�샍�샍�샍
+   //   �샍rd.close();�샍�샍�샍�샍�샍�샍
+   //   �샍�샍conn.disconnect();�샍�샍�샍�샍�샍�샍
+   //   �샍�샍System.out.println(sb.toString());
+   }
+
+   @Override
+   public void statChange(MemberDTO dto) {
+      mapper.statChange(dto);
+   }
+
+   @Override
+   public void getSales(Model model,int check) {
+      model.addAttribute("ps", mapper.getProductSalse(check));
+      model.addAttribute("pc", mapper.getProductComm(check));
+      model.addAttribute("pi", mapper.getPaidItem(check));
+      model.addAttribute("pa", mapper.getPaidAdv(check));
+      model.addAttribute("uc", mapper.getUsedCoupon(check));
+      model.addAttribute("pt", mapper.getPaidAdv(check)+mapper.getPaidItem(check)+mapper.getProductSalse(check)+mapper.getProductComm(check)-mapper.getUsedCoupon(check));
+      model.addAttribute("check",check);
+   }
+
+   @Override
+   public void getCheckSalse(Model model,int check,String start,String end) {
+      String[] startarr = start.split("/");
+      String[] endarr=end.split("/");
+      start = startarr[2]+"-"+startarr[0]+"-"+startarr[1];
+      end = endarr[2]+"-"+endarr[0]+"-"+endarr[1];
+      adminMap.put("start", start);
+      adminMap.put("end",end);
+      model.addAttribute("ps", mapper.getCheckProductSalse(adminMap));
+      model.addAttribute("pc", mapper.getCheckProductComm(adminMap));
+      model.addAttribute("pi", mapper.getCheckPaidItem(adminMap));
+      model.addAttribute("pa", mapper.getCheckPaidAdv(adminMap));
+      model.addAttribute("uc", mapper.getCheckUsedCoupon(adminMap));
+      model.addAttribute("pt", mapper.getCheckPaidAdv(adminMap)+mapper.getCheckPaidItem(adminMap)+mapper.getCheckProductSalse(adminMap)+mapper.getCheckProductComm(adminMap)-mapper.getCheckUsedCoupon(adminMap));
+      model.addAttribute("check",check);
+   }
+
+   @Override
+   public void getReckon(Model model, int pageNum, String year, String month) {
+      
+      String CheckMonth = year+"-"+month;
+      int count=0;
+      int pageSize = 10;
+      int startRow = (pageNum - 1) * pageSize + 1;
+      int endRow = pageNum * pageSize;
+      List<ReckonDTO> list = Collections.EMPTY_LIST;
+         adminMap.put("CheckMonth",CheckMonth);
+         count = mapper.getReckCount(adminMap);
+         if (count > 0) {
+            adminMap.put("start", startRow);
+            adminMap.put("end", endRow);
+            
+            list = mapper.getReckon(adminMap);
+         }
+         model.addAttribute("list", list);
+         model.addAttribute("count", count);
+         model.addAttribute("pageNum", pageNum);
+         model.addAttribute("pageSize", pageSize);
+
+         // page
+         int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+         int startPage = (int) (pageNum / 10) * 10 + 1;
+         int pageBlock = 10;
+         int endPage = startPage + pageBlock - 1;
+         if (endPage > pageCount) {
+            endPage = pageCount;
+         }
+         model.addAttribute("pageCount", pageCount);
+         model.addAttribute("startPage", startPage);
+         model.addAttribute("pageBlock", pageBlock);
+         model.addAttribute("endPage", endPage);
+   }
+
+
+@Override
+public int noticeMaxnum() {
+	return mapper.noticeMaxnum();
+}
+
+@Override
+public NoticeDTO getNotice() {
+	return mapper.getNotice();
+}
+
+@Override
+public int noticeReg(HttpServletRequest req, HttpServletResponse resp, Model model, NoticeDTO dto) {
+	 HttpSession session = req.getSession();
+     // 占쌜쇽옙占쏙옙 占쌉시뱄옙 占쏙옙 占쏙옙占쏙옙 占쌍깍옙 占쌉시뱄옙 占쏙옙占쏙옙占쏙옙占쏙옙
+     NoticeDTO board = mapper.getNotice();
+     String realpath = req.getServletContext().getRealPath("/resources/file/notice/"+(noticeMaxnum()+1)+"/");
+     for(int i=0;i<oldname.size();i++) {
+    	 if(!dto.getN_content().contains(oldname.get(i))) {
+    		 File f = new File(realpath+oldname.get(i));
+    		 if(f.exists()) {
+    			 f.delete();
+    		 }
+    	 }else {
+    		 noticefiledto.setNf_filename(oldname.get(i));
+    		 noticefiledto.setNf_n_num(mapper.noticeMaxnum()+1);
+    		 mapper.noticeFileUpload(noticefiledto);
+    	 }
+     }
+     mapper.noticeReg(dto);
+     imgcnt=0;
+    oldname.clear();
+	return 0;
+}
+
+@Override
+public String uploadSummerImgFile(MultipartFile multipartFile, HttpServletRequest request) {
+			JsonObject jsonObject = new JsonObject();
+
+			String path = request.getServletContext().getRealPath("/resources/file/notice/"+(noticeMaxnum()+1)+"/");
+			
+			String originalFileName = multipartFile.getOriginalFilename();
+			String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+
+			int n_num = mapper.noticeMaxnum();
+			imgcnt+=1;
+			String savedFileName = "notice_"+(n_num+1)+"_"+imgcnt+extension;
+			
+			oldname.add(savedFileName);
+
+			File targetFile = new File(path + savedFileName);
+			
+			try {
+				if(!targetFile.exists()) {
+					targetFile.mkdir();
+				}
+				java.io.InputStream fileStream = multipartFile.getInputStream();
+
+				FileUtils.copyInputStreamToFile(fileStream, targetFile);
+
+				jsonObject.addProperty("url", "/resources/file/notice/" +(noticeMaxnum()+1)+"/"+ savedFileName);
+				jsonObject.addProperty("responseCode", "success");
+			} catch (IOException e) {
+				FileUtils.deleteQuietly(targetFile);
+				jsonObject.addProperty("responseCode", "error");
+				e.printStackTrace();
+			}
+			String a = jsonObject.toString();
+	return a;
+}
+
+@Override
+public void noticeList(Model model,int pageNum) {
+    int count=0;
+    int pageSize = 10;
+    int startRow = (pageNum - 1) * pageSize + 1;
+    int endRow = pageNum * pageSize;
+    List<NoticeDTO> list = Collections.EMPTY_LIST;
+       count = mapper.getNoticeCount();
+       if (count > 0) {
+          adminMap.put("start", startRow);
+          adminMap.put("end", endRow);
+          
+          list = mapper.noticeList(adminMap);
+       }
+       System.out.println("====title"+list.get(0).getN_title());
+       model.addAttribute("list", list);
+       model.addAttribute("count", count);
+       model.addAttribute("pageNum", pageNum);
+       model.addAttribute("pageSize", pageSize);
+
+       // page
+       int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+       int startPage = (int) (pageNum / 10) * 10 + 1;
+       int pageBlock = 10;
+       int endPage = startPage + pageBlock - 1;
+       if (endPage > pageCount) {
+          endPage = pageCount;
+       }
+       model.addAttribute("pageCount", pageCount);
+       model.addAttribute("startPage", startPage);
+       model.addAttribute("pageBlock", pageBlock);
+       model.addAttribute("endPage", endPage);
+       
+}
+
+@Override
+public void getNoticeContent(Model model,NoticeDTO dto,NoticeFileDTO fdto) {
+	 dto = mapper.noticeContent(dto);
+	 List<NoticeFileDTO> list = mapper.noticeFileUpdate(dto.getN_num());
+	 model.addAttribute("dto", dto);
+	 model.addAttribute("list",list);
+	 
+}
+
+@Override
+public String updateSummerImgFile(MultipartFile multipartFile, HttpServletRequest request,int n_num) {
+				JsonObject jsonObject = new JsonObject();
+				
+				List<NoticeFileDTO> olddto= mapper.noticeFileUpdate(n_num);
+				ArrayList<String> fname=new ArrayList<String>();
+				
+				for(NoticeFileDTO dto : olddto) {
+					if(olddto.size()>check) {
+					oldname.add(dto.getNf_filename());
+					}
+					check++;
+				
+				}
+				
+				String path = request.getServletContext().getRealPath("/resources/file/notice/"+n_num+"/");
+				
+				String originalFileName = multipartFile.getOriginalFilename();
+				String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+
+				imgcnt=oldname.size()+1;
+				String savedFileName = "notice_"+n_num+"_"+imgcnt+extension;
+				
+				oldname.add(savedFileName);
+
+				File targetFile = new File(path + savedFileName);
+				
+				try {
+					if(!targetFile.exists()) {
+						targetFile.mkdir();
+					}
+					multipartFile.transferTo(targetFile);
+					
+
+					jsonObject.addProperty("url", "/resources/file/notice/" +n_num+"_"+ savedFileName);
+					jsonObject.addProperty("responseCode", "success");
+				} catch (IOException e) {
+					FileUtils.deleteQuietly(targetFile);
+					jsonObject.addProperty("responseCode", "error");
+					e.printStackTrace();
+				}
+		 		String a = jsonObject.toString();
+	return a;
+}
+@Override
+public int noticeupdate(HttpServletRequest req, HttpServletResponse resp, Model model, NoticeDTO dto) {
+	 HttpSession session = req.getSession();
+     // 占쌜쇽옙占쏙옙 占쌉시뱄옙 占쏙옙 占쏙옙占쏙옙 占쌍깍옙 占쌉시뱄옙 占쏙옙占쏙옙占쏙옙占쏙옙
+     NoticeDTO board = mapper.getNotice();
+     String realpath = req.getServletContext().getRealPath("/resources/file/notice/"+dto.getN_num()+"/");
+     	mapper.noticeFileDelete(dto.getN_num());
+     for(int i=0;i<oldname.size();i++) {
+    	 if(!dto.getN_content().contains(oldname.get(i))) {
+    		 File f = new File(realpath+oldname.get(i));
+    		 if(f.exists()) {
+    			 f.delete();
+    		 }
+    	 }else {
+    		 noticefiledto.setNf_filename(oldname.get(i));
+    		 noticefiledto.setNf_n_num(dto.getN_num());
+    		 mapper.noticeFileUpload(noticefiledto);
+    	 }
+     }
+     mapper.noticeReg(dto);
+     imgcnt=0;
+    oldname.clear();
+	return 0;
+}
+
+@Override
+public void noticedelete(int n_num) {
+	mapper.noticedelete(n_num);
+	mapper.noticeFileDelete(n_num);
+}
+
+@Override
+public int getNoticeNum() {
+	return mapper.getNoticeNum();
+}
 
 	
-	@Autowired
-	private AdminMapper mapper;
-	
+
+
 }

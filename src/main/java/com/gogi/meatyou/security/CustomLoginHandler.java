@@ -17,10 +17,11 @@ public class CustomLoginHandler implements AuthenticationSuccessHandler {
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		List<String> roleNames = new ArrayList<String>();
-		//security-context.xml ¼³Á¤µÈ USER -¸ðµç ±ÇÇÑ ÀÌ¸§ °¡Á®¿À±Í~
 		authentication.getAuthorities().forEach(au ->{
 			roleNames.add(au.getAuthority());
 		});
+		
+		/*   ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ï¿½ï¿½
 		String  rdir = "/main/main";
 		if(roleNames.contains("ROLE_ADMIN")) {
 			rdir = "/admin/main";
@@ -28,7 +29,20 @@ public class CustomLoginHandler implements AuthenticationSuccessHandler {
 			rdir="/main/main";
 		}
 		response.sendRedirect(rdir);
+	}*/
 		
+//	   2023-12-16	ï¿½ï¿½ï¿½ï¿½ 
+		String  rdir = "/main/main";
+		if(roleNames.contains("ROLE_ADMIN")) {
+			rdir = "/admin/main";
+		}else if(roleNames.contains("ROLE_MEMBER")) {
+			rdir="/member/member";
+		}else if(roleNames.contains("ROLE_SALLER")) {
+			rdir="/member/saller";
+		}
+		response.sendRedirect(rdir);
 	}
+		
+		
 
 }

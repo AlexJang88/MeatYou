@@ -2,6 +2,292 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.gogi.meatyou.repository.AdminMapper">
 
+
+<mapper namespace="com.gogi.meatyou.repository.AdminMapper">
+   <resultMap type="com.gogi.meatyou.bean.MemberDTO" id="memberMap">
+      <result property="m_id" column="m_id"/>
+      <result property="passwd" column="passwd"/>
+      <result property="m_name" column="m_name"/>
+      <association property="mstatDto" javaType="com.gogi.meatyou.bean.MemStatusDTO">
+         <result property="msta_m_status" column="msta_m_status"/>
+         <result property="mstat_detail" column="mstat_detail"/>
+         <result property="mstat_auth" column="mstat_auth"/>
+      </association>
+      </resultMap>
+       
+       <!--
+        <collection property="MemStatusDTO" resultMap="memStatus" />
+            </resultMap>
+            <resultMap type="com.gogi.meatyou.bean.MemStatusDTO" id="memStatus">
+                  <result property="msta_m_status" column="msta_m_status"/>
+                  <result property="mstat_detail" column="mstat_detail"/>
+                  <result property="mstat_auth" column="mstat_auth"/>   
+            </resultMap>   
+       -->
+
+    <select id="test" resultMap="memberMap" parameterType="String">
+      select * from member m,memStatus s where m.m_status=s.msta_m_status and m.m_id=#{m_id}
+   </select> 
+
+   
+   <select id="read" resultType="com.gogi.meatyou.bean.MemberDTO" parameterType="String">
+      select * from member m,memStatus s where m.m_status=s.msta_m_status and m.m_id=#{m_id}
+   </select>
+   
+   <select id="memberList" resultType="com.gogi.meatyou.bean.MemberDTO" parameterType="hashMap">
+      <![CDATA[
+      select * from (select mem.*,rownum r from (select * from member m,memstatus ms where m.m_status=ms.msta_m_status and m.m_status between 1001 and 1049) mem) where r>=#{start} and r<=#{end}
+      ]]>
+   </select>
+   <select id="customList" resultType="com.gogi.meatyou.bean.MemberDTO" parameterType="hashMap">
+      <![CDATA[
+      select * from (select mem.*,rownum r from (select * from member m,memstatus ms where m.m_status=ms.msta_m_status and m.m_status between 2001 and 2999) mem) where r>=#{start} and r<=#{end}
+      ]]>
+   </select>
+   <select id="cusWaitList" resultType="com.gogi.meatyou.bean.MemberDTO" parameterType="hashMap">
+      <![CDATA[
+      select * from (select mem.*,rownum r from (select * from member m,memstatus ms where m.m_status=ms.msta_m_status and m.m_status between 1050 and 1099) mem) where r>=#{start} and r<=#{end}
+      ]]>
+   </select>
+   <select id="cusPaidList" resultType="com.gogi.meatyou.bean.MemberDTO" parameterType="hashMap">
+      <![CDATA[
+      select * from (select mem.*,rownum r from (select * from member m,memstatus ms where m.m_status=ms.msta_m_status and m.m_status between 2002 and 2004) mem) where r>=#{start} and r<=#{end}
+      ]]>
+   </select>
+   <select id="memCount">
+   <![CDATA[
+      select count(*) from member where m_status>1000 and m_status<2000
+      ]]>
+   </select>
+   <select id="cusCount">
+   <![CDATA[
+      select count(*) from member where m_status>2000 and m_status<3000
+      ]]>
+   </select>
+   <select id="cusWaitCount">
+   <![CDATA[
+      select count(*) from member where m_status>=1050 and m_status<1100
+      ]]>
+   </select>
+      <select id="cusPaidCount">
+   <![CDATA[
+      select count(*) from member where m_status between 2002 and 2004
+      ]]>
+   </select>
+   <select id="goodMember" resultType="String">
+      <![CDATA[
+      select order_m_id,sum(order_p_price) from (select order_m_id,order_paydate,order_p_price from m_order where order_paydate>=add_months(trunc(sysdate,'mm'),-1) and order_paydate<=trunc(sysdate,'mm')-1) group by order_m_id having sum(order_p_price)>=200000
+      ]]>
+   </select>
+   <select id="bestMember" resultType="String">
+      <![CDATA[
+      select order_m_id,sum(order_p_price) from (select order_m_id,order_paydate,order_p_price from m_order where order_paydate>=add_months(trunc(sysdate,'mm'),-1) and order_paydate<=trunc(sysdate,'mm')-1) group by order_m_id having sum(order_p_price)>=400000
+      ]]>
+   </select>
+   <update id="goodMemberUpdate" parameterType="java.util.List">
+      update member set m_status=1002 where m_id in
+         <foreach collection="list" item="item" index="index" open="(" close =")" separator=",">
+            #{item}
+         </foreach>
+   </update>
+   <update id="statChange" parameterType="com.gogi.meatyou.bean.MemberDTO">
+      update member set m_status=#{m_status} where m_id=#{m_id}
+   </update>
+   <update id="bestMemberUpdate" parameterType="java.util.List">
+      update member set m_status=1003 where m_id in(
+         <foreach collection="array" item="item" index="index" separator=",">
+            ${item}
+         </foreach>
+         )
+   </update>
+   <select id="getProductSalse" resultType="int">
+      <choose>
+         <when test="check==0">
+         <![CDATA[
+         select nvl(sum(order_totalprice),0) from m_order where order_paydate>=trunc(sysdate,'MM') and order_paydate<sysdate
+         ]]>
+         </when>
+         <when test="check==-1">
+         <![CDATA[
+         select nvl(sum(order_totalprice),0) from m_order where order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=trunc(sysdate,'mm') ${check}
+         ]]>
+         </when>
+         <otherwise>
+         <![CDATA[
+         select nvl(sum(order_totalprice),0) from m_order where order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=add_months(trunc(sysdate,'mm'),${check}+1)-1
+         ]]>
+         </otherwise>
+      </choose>
+   </select>
+   
+   <select id="getProductComm" resultType="int">
+      <choose>
+         <when test="check==0">
+         <![CDATA[
+            select nvl(sum(order_totalprice/10),0) from m_order where order_paydate>=trunc(sysdate,'MM') and order_paydate<sysdate
+         ]]>
+         </when>
+         <when test="check==-1">
+         <![CDATA[
+            select nvl(sum(order_totalprice/10),0) from m_order  where order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=trunc(sysdate,'mm') ${check}                           
+         ]]>
+         </when>
+         <otherwise>
+         <![CDATA[
+            select nvl(sum(order_totalprice/10),0) from m_order  where order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=add_months(trunc(sysdate,'mm'),${check}+1)-1                            
+         ]]>
+         </otherwise>
+      </choose>
+   </select>
+   
+   <select id="getPaidItem" resultType="int">
+      <choose>
+         <when test="check==0">
+         <![CDATA[
+            select nvl(sum(co_quantity*co_pay),0) from cus_order where co_category=2003 and co_paydate>=trunc(sysdate,'MM') and co_paydate<sysdate
+         ]]>
+         </when>
+         <when test="check==-1">
+         <![CDATA[
+            select nvl(sum(co_quantity*co_pay),0) from cus_order where co_category=2003 and  co_paydate>=add_months(trunc(sysdate,'mm'),${check}) and co_paydate<=trunc(sysdate,'mm') ${check}                           
+         ]]>
+         </when>
+         <otherwise>
+         <![CDATA[
+            select nvl(sum(co_quantity*co_pay),0) from cus_order where co_category=2003 and  co_paydate>=add_months(trunc(sysdate,'mm'),${check}) and co_paydate<=add_months(trunc(sysdate,'mm'),${check}+1)-1                           
+         ]]>
+         </otherwise>
+      </choose>
+   </select>
+   
+   <select id="getPaidAdv" resultType="int">
+      <choose>
+         <when test="check==0">
+         <![CDATA[
+            select nvl(sum(co_quantity*co_pay),0) from cus_order where co_category=2003 and co_paydate>=trunc(sysdate,'MM') and co_paydate<sysdate
+         ]]>
+         </when>
+         <when test="check==-1">
+         <![CDATA[
+            select nvl(sum(co_quantity*co_pay),0) from cus_order where co_category=2002 and co_paydate>=add_months(trunc(sysdate,'MM') ,${check}) and co_paydate<=trunc(sysdate,'mm') ${check}                           
+         ]]>
+         </when>
+         <otherwise>
+         <![CDATA[
+            select nvl(sum(co_quantity*co_pay),0) from cus_order where co_category=2002 and co_paydate>=add_months(trunc(sysdate,'MM') ,${check}) and co_paydate<=add_months(trunc(sysdate,'mm') ,${check}+1)-1                           
+         ]]>
+         </otherwise>
+      </choose>
+   </select>
+   <select id="getUsedCoupon" resultType="int">
+      <choose>
+         <when test="check==0">
+         <![CDATA[
+            select nvl(sum(cp_price),0) from (select * from coupon where usedate>=trunc(sysdate,'mm') and usedate<sysdate)
+         ]]>
+         </when>
+         <when test="check==-1">
+         <![CDATA[
+            select nvl(sum(cp_price),0) from coupon where usedate>=add_months(trunc(sysdate,'mm'),${check}) and usedate<=trunc(sysdate,'mm')${check}                           
+         
+         ]]>
+         </when>
+         <otherwise>
+         <![CDATA[
+            select nvl(sum(cp_price),0) from coupon where usedate>=add_months(trunc(sysdate,'mm'),${check}) and usedate<=add_months(trunc(sysdate,'mm'),${check}+1)-1                           
+         
+         ]]>
+         </otherwise>
+      </choose>
+   
+   
+   </select>
+   
+   
+   <select id="getCheckProductSalse" resultType="int" parameterType="hashMap">
+   <![CDATA[
+      select nvl(sum(order_totalprice),0) from m_order where order_paydate>=to_date(#{start},'YYYY-MM-DD') and order_paydate<=to_date(#{end},'YYYY-MM-DD')
+      ]]>
+   </select>
+   <select id="getCheckProductComm" resultType="int" parameterType="hashMap">
+   <![CDATA[
+      select nvl(sum(order_totalprice/10),0) from m_order  where order_paydate>=to_date(#{start},'YYYY-MM-DD') and order_paydate<=to_date(#{end},'YYYY-MM-DD')                           
+      ]]>
+   </select>
+   <select id="getCheckPaidItem" resultType="int" parameterType="hashMap">
+   <![CDATA[
+      select nvl(sum(co_quantity*co_pay),0) from cus_order where co_category=2003 and  co_paydate>=to_date(#{start},'YYYY-MM-DD') and co_paydate<=to_date(#{end},'YYYY-MM-DD')                           
+      ]]>
+   </select>
+   <select id="getCheckPaidAdv" resultType="int" parameterType="hashMap">
+   <![CDATA[
+      select nvl(sum(co_quantity*co_pay),0) from cus_order where co_category=2002 and co_paydate>=to_date(#{start},'YYYY-MM-DD') and co_paydate<=to_date(#{end},'YYYY-MM-DD')                           
+      ]]>
+   </select>
+   <select id="getCheckUsedCoupon" resultType="int" parameterType="hashMap">
+   <![CDATA[
+      select nvl(sum(cp_price),0) from coupon where usedate>=to_date(#{start},'YYYY-MM-DD') and usedate<=to_date(#{end},'YYYY-MM-DD')                        
+      ]]>
+   </select>
+   
+   <select id="getReckon" resultType="com.gogi.meatyou.bean.ReckonDTO" parameterType="hashMap">
+      <![CDATA[
+         select * from (select a.*,rownum r from (select p_m_id as rk_m_id,sum(order_totalprice) totalprice,sum(order_p_price) p_price,sum(order_dere_pay) dere_pay from (select * from (select * from m_order mo,product p,cus_detail cd where mo.order_p_num=p.p_num and p.p_m_id=cd.cus_m_id) where order_paydate>=to_date(#{CheckMonth},'YYYY-MM') and order_paydate<=LAST_DAY(to_date(#{CheckMonth},'YYYY-MM'))) group by p_m_id) a) where r>=#{start} and r<=#{end}
+      ]]>
+   </select>
+   
+   <select id="getReckCount" parameterType="hashMap">
+      <![CDATA[
+               select count(*) from (select p_m_id as rk_m_id,sum(order_totalprice) totalprice,sum(order_p_price) p_price,sum(order_dere_pay) dere_pay from (select * from (select * from m_order mo,product p,cus_detail cd where mo.order_p_num=p.p_num and p.p_m_id=cd.cus_m_id) where order_paydate>=to_date(#{CheckMonth},'YYYY-MM') and order_paydate<=LAST_DAY(to_date(#{CheckMonth},'YYYY-MM'))) group by p_m_id) 
+      
+      ]]>
+   </select>
+   <select id="noticeMaxnum" resultType="int">
+   		select  nvl(max(n_num),0) from notice
+   </select>
+      <select id="getNotice" resultType="com.gogi.meatyou.bean.NoticeDTO">
+	select * from notice where n_num=(select max(n_num) from notice)
+   </select>
+	<select id="noticeList" parameterType="hashMap">
+	<![CDATA[
+		select * from(select n.*,rownum r from notice n) where r>=#{start} and r<=#{end}
+		  ]]>
+	</select>
+	<select id="getNoticeCount">
+		select count(*) from notice
+	</select>
+	<insert id="noticeReg" parameterType="com.gogi.meatyou.bean.NoticeDTO">
+		insert into notice values(
+			notice_seq.nextval,
+			#{n_title},
+			#{n_content},
+			sysdate
+		)
+	</insert>
+	<insert id="noticeFileUpload" parameterType="com.gogi.meatyou.bean.NoticeFileDTO">
+		insert into noticefile values(
+		noticefile_seq.nextval,
+		#{nf_n_num},
+		#{nf_filename},
+		10
+		)
+	</insert>
+	<select id="noticeContent" parameterType="com.gogi.meatyou.bean.NoticeDTO" resultType="com.gogi.meatyou.bean.NoticeDTO">
+		select * from notice where n_num=#{n_num}
+	</select>
+	<select id="noticeFileUpdate" resultType="com.gogi.meatyou.bean.NoticeFileDTO" >
+		select * from noticefile where nf_n_num=#{nf_n_num} and nf_category=10
+	</select>
+	<delete id="noticeFileDelete">
+		delete from noticefile where nf_n_num=#{nf_n_num}
+	</delete>
+	<delete id="noticedelete">
+		delete from notice where n_num=#{n_num}
+	</delete>
+	<select id="getNoticeNum" parameterType="int">
+		select * from notice_seq.currval from dual
+	</select>
+	
+	
 </mapper>
