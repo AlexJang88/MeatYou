@@ -2,6 +2,8 @@ package com.gogi.meatyou.service;
 
 import org.springframework.ui.Model;
 
+import com.gogi.meatyou.bean.KakaoApproveResponse;
+import com.gogi.meatyou.bean.KakaoReadyResponse;
 import com.gogi.meatyou.bean.PDetailDTO;
 import com.gogi.meatyou.bean.ProductDTO;
 

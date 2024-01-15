@@ -13,6 +13,9 @@
     <div style="width: 600px; height: 400px;">
         <canvas id="sales-chart"></canvas>
     </div>
+    <div>
+    	id : ${sid}
+    </div>
     <script>
         var ctx = document.getElementById('sales-chart').getContext('2d');
         var salesChart = new Chart(ctx, {
