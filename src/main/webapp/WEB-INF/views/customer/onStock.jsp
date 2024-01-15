@@ -23,7 +23,7 @@
 		</c:if>
 			
 		<c:if test="${stockcount >  0}">		
-			<h3 align="center">판매중인 상품 목록 : ${stockcount} </h3> 
+			<h3 align="center">판매중인 상품 재고 : ${stockcount} 건 </h3> 
 			<table border="1" width="1000" cellpadding="0" cellspacing="0" align="center">		
 				<tr height="30"> 				
 					<td width="300" align="center">썸네일 사진</td>
@@ -64,6 +64,18 @@
 				</c:forEach>
 			</table>
 		</c:if>		
-
+		
+		<c:if test="${stockcount>0}">
+			<c:if test="${startPage>10}">
+	        	<a href="/customers/onStock?pageNum=${startPage-10}">[이전]</a>
+			</c:if>
+			<c:forEach var="i" begin="${startPage}" end="${endPage}" step="1">
+	        	<a href="/customers/onStock?pageNum=${i}">[${i}]</a>
+			</c:forEach>
+				<c:if test="${endPage<pageCount}">
+	        	<a href="/customers/onStock?pageNum=${startPage+10}">[다음]</a>
+			</c:if>
+		</c:if>
+		
 </body>
 </html>

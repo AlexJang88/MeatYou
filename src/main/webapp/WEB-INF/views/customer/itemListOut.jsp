@@ -36,7 +36,8 @@
 				<form action="/customers/statusChangeout" method="post">
 					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
             		 <input type="hidden" name="p_m_id" value="${memId}">	
-            		 <input type="hidden" name="p_num" value="${product.p_num}">		 			 			   			
+            		 <input type="hidden" name="p_num" value="${product.p_num}">
+            		 <input type="hidden" name="pageNum" value="${pageNum}">		 			 			   			
             		 	<tr align="center">
             		 		<td>${product.thumb}</td>
             		 		<td>${product.p_num} </td>
@@ -44,9 +45,6 @@
             		 		<td>${product.p_price}</td>
             		 		<td>
 							    <c:choose>
-							        <c:when test="${product.p_status == 0}">판매중</c:when>
-							        <c:when test="${product.p_status == 1}">판매중(유료결제 ${product.co_num})</c:when>
-							        <c:when test="${product.p_status == 2}">판매대기</c:when>
 							        <c:when test="${product.p_status == 3}">판매종료</c:when>							       
 							    </c:choose>
 							</td>
@@ -68,9 +66,19 @@
 		                </tr>		
 		            </form>	  
 				</c:forEach>
-			</table>
-			
-			
+			</table>		
+		</c:if>
+		
+		<c:if test="${countout>0}">
+			<c:if test="${startPage>10}">
+	        	<a href="/customers/itemListOut?pageNum=${startPage-10}">[이전]</a>
+			</c:if>
+			<c:forEach var="i" begin="${startPage}" end="${endPage}" step="1">
+	        	<a href="/customers/itemListOut?pageNum=${i}">[${i}]</a>
+			</c:forEach>
+				<c:if test="${endPage<pageCount}">
+	        	<a href="/customers/itemListOut?pageNum=${startPage+10}">[다음]</a>
+			</c:if>
 		</c:if>
 	
 </body>

@@ -37,22 +37,27 @@
 				<td width="200" align="center">남은 클릭 갯수</td>				
 				<td width="200" align="center">결제일</td>				
 			</tr> 
-			<c:forEach var="pay" items="${powerlist}">
-			  <tr align="center">
-				 <td>${pay.co_m_id}</td>
-				 <td>${pay.co_num}</td>
-				 <td>${pay.co_p_num}</td>
-				 <td>${pay.co_pay}</td>
-				 <td>${pay.co_quantity}</td>
-				 <td>
-                    <fmt:formatDate value="${pay.co_paydate}" pattern="yyyy-MM-dd" />
-                </td>			 
-			  </tr>
-			</c:forEach>
-		</table>
-	</c:if>
+			<c:forEach var="pay" items="${powerlist}" varStatus="loop">
+			 	<c:if test="${loop.index lt 5}">
+					  <tr align="center">
+						 <td>${pay.co_m_id}</td>
+						 <td>${pay.co_num}</td>
+						 <td>${pay.co_p_num}</td>
+						 <td>${pay.co_pay}</td>
+						 <td>${pay.co_quantity}</td>
+						 <td>
+		                    <fmt:formatDate value="${pay.co_paydate}" pattern="yyyy-MM-dd" />
+		                </td>			 
+					  </tr>
+				</c:if>				
+			</c:forEach>			
+		</table>		
+		  <c:if test="${powerPayCount >= 6 }">				
+			<h3 align="center"> <a href="/customers/payOne?pageNum=${pageNum}">파워링크 구매기록 더보기 </a> </h3>				
+		  </c:if>			
+	 </c:if>
 	
-
+<br/>
 
  <h2 align="center">품목 추가 유료결제 </h2>
  	<c:if test="${listPayCount==0}">
@@ -74,21 +79,26 @@
 				<td width="200" align="center">결제일</td>				
 				<td width="200" align="center">종료일</td>				
 			</tr>
-			<c:forEach var="pay" items="${paylist}">
-			  <tr align="center">
-				 <td>${pay.co_m_id}</td>
-				 <td>${pay.co_num}</td>
-				 <td>${pay.co_p_num}</td>
-				 <td>${pay.co_pay}</td>
-				 <td>
-                    <fmt:formatDate value="${pay.co_paydate}" pattern="yyyy-MM-dd" />
-                </td>
-                <td>
-                    <fmt:formatDate value="${pay.co_payenddate}" pattern="yyyy-MM-dd" />
-                </td>			 			 			 
-			  </tr>
+			<c:forEach var="pay" items="${paylist}" varStatus="loop">
+			 	<c:if test="${loop.index lt 5}">
+				  <tr align="center">
+					 <td>${pay.co_m_id}</td>
+					 <td>${pay.co_num}</td>
+					 <td>${pay.co_p_num}</td>
+					 <td>${pay.co_pay}</td>
+					 <td>
+	                    <fmt:formatDate value="${pay.co_paydate}" pattern="yyyy-MM-dd" />
+	                </td>
+	                <td>
+	                    <fmt:formatDate value="${pay.co_payenddate}" pattern="yyyy-MM-dd" />
+	                </td>			 			 			 
+				  </tr>
+			  </c:if>
 			</c:forEach> 
 		</table>
+		<c:if test="${listPayCount >= 6 }">				
+			<h3 align="center"> <a href="/customers/payTwo?pageNum=${pageNum}"> 품목 확장 구매 기록 더보기 </a> </h3>				
+		</c:if>
 	</c:if>
 
 </body>

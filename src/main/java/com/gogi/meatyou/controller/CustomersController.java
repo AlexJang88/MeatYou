@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gogi.meatyou.bean.CusOrderDTO;
@@ -31,12 +32,14 @@ public class CustomersController {
    }
    
    @RequestMapping("itemUpdate") //상품등록
-   public String update() {
+   public String update(Principal pc) {
+	   String id = pc.getName();
       return "customer/itemUpdate";
    }
 
    @RequestMapping("itemUpdatePro") //상품등록확인
-   public String itemUpdatePro( ProductDTO productdto, PDetailDTO pdetaildto) {      
+   public String itemUpdatePro( Principal pc, ProductDTO productdto, PDetailDTO pdetaildto) {
+	   productdto.setP_m_id(pc.getName());
       service.itemUpdate(productdto,pdetaildto);      
       return "redirect:/customers/customer";
    }
@@ -45,54 +48,55 @@ public class CustomersController {
   
       
    @RequestMapping("itemList") //등록한 상품목록
-	public String itemList(Model model, Principal pc) { 
+	public String itemList(Model model, Principal pc, @RequestParam(value="pageNum", defaultValue = "1") int pageNum) { 
 			String id = pc.getName();
-		service.list(model, id);  // 아이디값 넘기기		
+		service.list(model, id, pageNum);  // 아이디값 넘기기		
 		return "customer/itemList";
 	}
    
    @RequestMapping("/statusChange") //상품목록페이지에서 변경하면 돌아오는곳설정
-   public String statusChange(String p_m_id, int p_status, int p_num) {	   
-       int co_num=p_status;
-	   ProductDTO productdto = new ProductDTO();  //아래 3개를 묶음     
-	       if(p_status!=0 && p_status!=2 && p_status!=3) {
-	    	   co_num=p_status;
-	    	   p_status=1;     	   
-	       }
-         
-       productdto.setP_m_id(p_m_id);    // 아이디값
+   public String statusChange(Model model, Principal pc, int p_status, int p_num, int pageNum, ProductDTO productdto) {	   
+	   model.addAttribute("pageNum", pageNum);
+	   String id = pc.getName();
+	   
+       int co_num=p_status;	     
+	    if(p_status!=0 && p_status!=2 && p_status!=3) {
+	    	co_num=p_status;
+	    	p_status=1;     	   
+	   }      
+       productdto.setP_m_id(id);    // 아이디값
        productdto.setP_status(p_status); // 변경된 상품 상태값
        productdto.setP_num(p_num); //상품번호값
        productdto.setCo_num(co_num); //상품번호값 1번일떄만씀
+        
+       System.out.println("===++"+id);
+       System.out.println("===++"+p_status);
+       System.out.println("===++"+p_num);
+       System.out.println("===++"+co_num);
        
-       service.statusChange(productdto, p_status); // 회원의 판매상태를 변경
-       return "redirect:/customers/itemList";
+       
+       service.statusChange(productdto); // 회원의 판매상태를 변경
+       return "redirect:/customers/itemList?pageNum="+pageNum;
    }
    
    @RequestMapping("itemListOut") //판매종료된 상품목록
- 	public String itemListOut(Model model, Principal pc ) {
+ 	public String itemListOut(Model model, Principal pc, @RequestParam(value="pageNum", defaultValue = "1") int pageNum ) {
 	    String id= pc.getName();		
- 		service.listout(model, id);  // 아이디값 넘기기			
+ 		service.listout(model, id, pageNum); // 아이디값 넘기기			
  		return "customer/itemListOut";
  	}
    
    
    
    @RequestMapping("/statusChangeout") //판매종료된 상품목록 페이지에서 변경하면 돌아오는곳설정
-	public String statusChangeout(String p_m_id, int p_status, int p_num) {	
-	   int co_num=0;
-	   ProductDTO productdto = new ProductDTO();  //아래 3개를 묶음     
-       if(p_status!=0 && p_status!=2 && p_status!=3) {
-    	   co_num=p_status;
-    	   p_status=1;  	   
-       }
+	public String statusChangeout(Principal pc,  int p_status, int p_num,  ProductDTO productdto, int pageNum) {	   
+	   String id= pc.getName();
+	   productdto.setP_m_id(id); // 변경된 상품 상태값	
+	   productdto.setP_num(p_num); // 변경된 상품 상태값	
+		productdto.setP_status(p_status); // 변경된 상품 상태값	
 		
-		productdto.setP_m_id(p_m_id);	// 아이디값
-		productdto.setP_status(p_status); // 변경된 상품 상태값
-		productdto.setP_num(p_num); //상품번호값
-		productdto.setCo_num(co_num); //상품번호값
-		service.statusChange(productdto, p_status); // 회원의 판매상태를 변경
-		return "redirect:/customers/itemListOut";
+		service.statusChangeouut(productdto); // 회원의 판매상태를 변경	
+		return "redirect:/customers/itemListOut?pageNum="+pageNum;
 	}
    
    @RequestMapping("content") //상품 정보보기
@@ -120,16 +124,16 @@ public class CustomersController {
  	//여기는 재고현황파악
 	
  		@RequestMapping("stock") //전체 상품 재고현황
- 		public String stock(Model model, Principal pc ) {
+ 		public String stock(Model model, Principal pc, @RequestParam(value="pageNum", defaultValue = "1") int pageNum) {
  		    String id= pc.getName();		
- 			service.stocklist(model, id);  // 아이디값 넘기기		
+ 			service.stocklist(model, id, pageNum);  // 아이디값 넘기기		
  			return "customer/stock";
  		}
    
  		@RequestMapping("onStock") //판매중인 상품 재고현황
- 		public String onStock(Model model, Principal pc ) {
+ 		public String onStock(Model model, Principal pc, @RequestParam(value="pageNum", defaultValue = "1") int pageNum) {
  		    String id= pc.getName();
- 			service.onStock(model, id);		
+ 			service.onStock(model, id, pageNum);		
  			return "customer/onStock";
  		}
  		
@@ -144,15 +148,42 @@ public class CustomersController {
  			service.stockOnPro(pdetaildto);		
  			return "redirect:/customers/onStock";
  		}
+ 		
+ 	
+ 		
+ 		
+ 		
    
    
  		//유료결제란
  		@RequestMapping("pay") //유료결제
- 		public String pay(Model model, Principal pc ) {
+ 		public String pay(Model model, Principal pc, @RequestParam(value="pageNum", defaultValue = "1") int pageNum ) {
  		    String id= pc.getName();
+ 		   model.addAttribute("pageNum",pageNum);
+		    
  			service.pay(model, id);
  			return "customer/pay";
  		}
+ 		
+		
+ 		@RequestMapping("payOne") //유료결제
+ 		public String payOne(Model model, Principal pc, @RequestParam(value="pageNum", defaultValue = "1") int pageNum ) {
+ 		    String id= pc.getName();
+ 		   model.addAttribute("pageNum",pageNum);
+ 		   
+ 			service.payOne(model, id, pageNum);
+ 			return "customer/payOne";
+ 		}
+ 		
+ 		@RequestMapping("payTwo") //유료결제
+ 		public String payTwo(Model model, Principal pc, @RequestParam(value="pageNum", defaultValue = "1") int pageNum ) {
+ 		    String id= pc.getName();
+ 		   model.addAttribute("pageNum",pageNum);
+ 		   
+ 			service.payTwo(model, id, pageNum);
+ 			return "customer/payTwo";
+ 		}
+ 		
  		
  		@RequestMapping("powerlink") //파워링크 유료결제 페이지
  		public String powerlink(Model model, Principal pc ) {
@@ -205,7 +236,16 @@ public class CustomersController {
    
    
  		@RequestMapping("profit") //매출현황
- 		public String profit() {
+ 		public String profit(Model model,@RequestParam(value="check",defaultValue="0")int check,String daterange) {
+ 			System.out.println("check==========="+check);
+ 			if(check<=0) {	
+ 				service.getprofit(model,check);
+ 			}else {
+ 				String start = daterange.substring(0,10);
+ 				String end = daterange.substring(13, 23);
+ 				service.getCheckprofit(model,check,start,end);
+ 			}
+ 			
  			return "customer/profit";
  		}
  		

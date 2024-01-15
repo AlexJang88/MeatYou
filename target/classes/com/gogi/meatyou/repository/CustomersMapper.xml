@@ -49,7 +49,7 @@
           
       
       <select id="itemcount" resultType="int">
-          select count(*) from product where p_m_id = #{id} and (p_status= 0 or p_status=1 or p_status=2)
+           select count(*) from product where p_m_id =#{id} and  (p_status = 0 or  p_status = 1 or  p_status = 2) order by p_num desc
        </select>           
        
       <select id="itemcounting" resultType="int">
@@ -60,16 +60,20 @@
           select count(*) from product where p_m_id = #{id} and p_status=3
        </select>
        
-       <select id="list" resultType="com.gogi.meatyou.bean.ProductDTO">
-        SELECT * FROM product LEFT JOIN CUS_ORDER ON product.p_num = CUS_ORDER.co_p_num where product.p_m_id= #{id}  and ( product.p_status=0 or product.p_status = 1 or product.p_status= 2)AND ( product.p_status=0 or  product.p_status=1 or product.p_status=2  or co_num is not null) ORDER BY product.p_num DESC 
+       <select id="list" resultType="com.gogi.meatyou.bean.ProductDTO" parameterType="hashmap">
+      	  <![CDATA[
+		SELECT * FROM ( SELECT b.*, rownum r FROM ( SELECT * FROM product LEFT JOIN CUS_ORDER ON product.p_num = CUS_ORDER.co_p_num WHERE product.p_m_id = #{id} AND (product.p_status = 0 OR product.p_status = 1 OR product.p_status = 2)  AND (product.p_status = 0 OR product.p_status = 1 OR product.p_status = 2 OR co_num IS NOT NULL)  ORDER BY product.p_num DESC) b) WHERE r>=#{start} and r<=#{end}
+	      ]]>
        </select>
        
        
        
        
        
-       <select id="listout" resultType="com.gogi.meatyou.bean.ProductDTO">
-        SELECT * FROM product LEFT JOIN CUS_ORDER ON product.p_num = CUS_ORDER.co_p_num where product.p_m_id=#{id} and  product.p_status = 3   ORDER BY product.p_num DESC
+       <select id="listout" resultType="com.gogi.meatyou.bean.ProductDTO" parameterType="hashmap">
+       <![CDATA[
+        SELECT * FROM ( SELECT b.*, rownum r FROM (SELECT * FROM product where p_m_id=#{id} and  p_status = 3   ORDER BY p_num DESC ) b) WHERE r>=#{start} and r<=#{end}
+        ]]>
        </select>
        
        <select id="member_status" resultType="int">
@@ -151,12 +155,16 @@
           where pd_p_num=#{pd_p_num} 
       </update>
        
-      <select id="stocklist" resultType="com.gogi.meatyou.bean.ProductDTO">
-          select * from product p, P_DETAIL pd where p.P_num = pd.pd_P_num and p.p_M_ID =#{id}
+      <select id="stocklist" resultType="com.gogi.meatyou.bean.ProductDTO" parameterType="hashmap">
+	      <![CDATA[
+			SELECT * FROM ( SELECT b.*, rownum r FROM (select * from product p, P_DETAIL pd where p.P_num = pd.pd_P_num and p.p_M_ID =#{id} order by p_num desc) b) WHERE r>=#{start} and r<=#{end}
+			]]>
        </select>       
 
-      <select id="stockonlist" resultType="com.gogi.meatyou.bean.ProductDTO">
-          SELECT * FROM product p, P_DETAIL pd WHERE p.P_num = pd.pd_P_num AND p.p_M_ID = #{id} AND (p.p_status = 0 OR p.p_status = 1)
+      <select id="stockonlist" resultType="com.gogi.meatyou.bean.ProductDTO" parameterType="hashmap">
+	      <![CDATA[
+			SELECT * FROM ( SELECT b.*, rownum r FROM (	SELECT * FROM product p, P_DETAIL pd WHERE p.P_num = pd.pd_P_num AND p.p_M_ID = #{id} AND (p.p_status = 0 OR p.p_status = 1) order by p.p_num desc ) b) WHERE r>=#{start} and r<=#{end}
+			]]>
        </select>
 
       <update id="stockPro" parameterType="com.gogi.meatyou.bean.PDetailDTO">
@@ -167,6 +175,9 @@
           where pd_p_num=#{pd_p_num} 
       </update>
 
+	<select id="stocklistcount" parameterType="hashmap" resultType="int">
+		select count(*) from product p, m_Order m where (p.P_num = m.order_p_num) and p.p_M_ID =#{id} and p.P_num =#{p_num} order by p_num desc
+	</select>
       
 
       <select id="listPayCount" resultType="int">
@@ -181,13 +192,26 @@
        select count(*) from CUS_ORDER where co_m_id=#{id} and co_category=2002 order by co_paydate desc
        </select>
 
-      <select id="powerlist" resultType="com.gogi.meatyou.bean.CusOrderDTO">
-          SELECT * FROM CUS_ORDER WHERE co_m_id = #{id} AND co_category = 2002 ORDER BY co_paydate DESC
+		<select id="powerlist" resultType="com.gogi.meatyou.bean.CusOrderDTO">
+       SELECT * FROM CUS_ORDER WHERE co_m_id = #{id} AND co_category = 2002 ORDER BY co_paydate DESC
+       </select>
+
+      <select id="powerlistOne" resultType="com.gogi.meatyou.bean.CusOrderDTO" parameterType="hashmap">
+      <![CDATA[
+          SELECT * FROM ( SELECT b.*, rownum r FROM ( SELECT * FROM CUS_ORDER WHERE co_m_id = #{id} AND co_category = 2002 ORDER BY co_paydate DESC) b) WHERE r>=#{start} and r<=#{end}
+         ]]>
       </select>
 
       <select id="paylist" resultType="com.gogi.meatyou.bean.CusOrderDTO">
     	SELECT * FROM CUS_ORDER where co_category=2003 and co_m_id= #{id} and co_paydate>add_months(sysdate,-1) order by co_num asc
       </select> 
+      
+      <select id="paylistTwo" resultType="com.gogi.meatyou.bean.CusOrderDTO">
+      <![CDATA[
+    	SELECT * FROM ( SELECT b.*, rownum r FROM ( SELECT * FROM CUS_ORDER where co_category=2003 and co_m_id= #{id} and co_paydate>add_months(sysdate,-1) order by co_num desc ) b) WHERE r>=#{start} and r<=#{end}
+    	 ]]>
+      </select> 
+      
 
 	   <select id="countter" resultType="int">
        SELECT count(*) FROM product p LEFT JOIN cus_order c ON p.P_num = c.co_P_num where p.p_M_ID = 'user5' and p.p_status in(0,1) and nvl(c.co_category,0) in (0,2003 )  ORDER BY p.P_num DESC
