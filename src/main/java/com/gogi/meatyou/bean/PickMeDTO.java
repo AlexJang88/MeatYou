@@ -16,7 +16,7 @@ public class PickMeDTO {
    private String cus_address2 ;
 
    private String cus_pnum;
-   private String acc_num;
+   private String cus_accnum;
    
    
    

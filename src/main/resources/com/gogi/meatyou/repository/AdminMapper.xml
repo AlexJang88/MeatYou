@@ -27,32 +27,32 @@
        -->
 
     <select id="test" resultMap="memberMap" parameterType="String">
-      select * from member m,memStatus s where m.m_status=s.msta_m_status and m.m_id=#{m_id}
+      select * from member m,memStatus s where m.m_status=s.mstat_m_status and m.m_id=#{m_id}
    </select> 
 
    
    <select id="read" resultType="com.gogi.meatyou.bean.MemberDTO" parameterType="String">
-      select * from member m,memStatus s where m.m_status=s.msta_m_status and m.m_id=#{m_id}
+      select * from member m,memStatus s where m.m_status=s.mstat_m_status and m.m_id=#{m_id}
    </select>
    
    <select id="memberList" resultType="com.gogi.meatyou.bean.MemberDTO" parameterType="hashMap">
       <![CDATA[
-      select * from (select mem.*,rownum r from (select * from member m,memstatus ms where m.m_status=ms.msta_m_status and m.m_status between 1001 and 1049) mem) where r>=#{start} and r<=#{end}
+      select * from (select mem.*,rownum r from (select * from member m,memstatus ms where m.m_status=ms.mstat_m_status and m.m_status between 1001 and 1049) mem) where r>=#{start} and r<=#{end}
       ]]>
    </select>
    <select id="customList" resultType="com.gogi.meatyou.bean.MemberDTO" parameterType="hashMap">
       <![CDATA[
-      select * from (select mem.*,rownum r from (select * from member m,memstatus ms where m.m_status=ms.msta_m_status and m.m_status between 2001 and 2999) mem) where r>=#{start} and r<=#{end}
+      select * from (select mem.*,rownum r from (select * from member m,memstatus ms where m.m_status=ms.mstat_m_status and m.m_status between 2001 and 2999) mem) where r>=#{start} and r<=#{end}
       ]]>
    </select>
    <select id="cusWaitList" resultType="com.gogi.meatyou.bean.MemberDTO" parameterType="hashMap">
       <![CDATA[
-      select * from (select mem.*,rownum r from (select * from member m,memstatus ms where m.m_status=ms.msta_m_status and m.m_status between 1050 and 1099) mem) where r>=#{start} and r<=#{end}
+      select * from (select mem.*,rownum r from (select * from member m,memstatus ms where m.m_status=ms.mstat_m_status and m.m_status between 1050 and 1099) mem) where r>=#{start} and r<=#{end}
       ]]>
    </select>
    <select id="cusPaidList" resultType="com.gogi.meatyou.bean.MemberDTO" parameterType="hashMap">
       <![CDATA[
-      select * from (select mem.*,rownum r from (select * from member m,memstatus ms where m.m_status=ms.msta_m_status and m.m_status between 2002 and 2004) mem) where r>=#{start} and r<=#{end}
+      select * from (select mem.*,rownum r from (select * from member m,memstatus ms where m.m_status=ms.mstat_m_status and m.m_status between 2002 and 2004) mem) where r>=#{start} and r<=#{end}
       ]]>
    </select>
    <select id="memCount">
