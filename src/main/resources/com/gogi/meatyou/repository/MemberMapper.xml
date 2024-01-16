@@ -25,7 +25,7 @@
       
    </resultMap>
    <resultMap id="status" type="com.gogi.meatyou.bean.MemStatusDTO" >
-      <result property="msta_m_status" column="msta_m_status" />
+      <result property="mstat_m_status" column="msta_m_status" />
       <result property="mstat_detail" column="mstat_detail" />
       <result property="mstat_auth" column="mstat_auth" />
    </resultMap>
@@ -33,7 +33,7 @@
 
    <select id="read" resultMap="memberMap" resultType="com.gogi.meatyou.bean.MemberDTO" >      
          select * from member a left outer join memstatus b
-                  on a.m_status = b.msta_m_status
+                  on a.m_status = b.mstat_m_status
                   where a.m_id=#{m_id}
    </select>
    
@@ -56,7 +56,7 @@
     SELECT
         sc.shop_num,
         sc.shop_m_id,
-        sc.quantity,
+        sc.shop_quantity,
         p.p_num,
         p.p_name,
         p.thumb,
@@ -76,14 +76,14 @@
 
 <select id="getShoppingCartItemsPaged" parameterType="map" resultType="com.gogi.meatyou.bean.ShoppingCartDTO">
     <![CDATA[
-SELECT rnum, shop_num, shop_m_id, quantity, p_num, p_name, thumb, p_price
+SELECT rnum, shop_num, shop_m_id, shop_quantity, p_num, p_name, thumb, p_price
 FROM (
     SELECT ROWNUM AS rnum, t.*
     FROM (
         SELECT
             sc.shop_num,
             sc.shop_m_id,
-            sc.quantity,
+            sc.shop_quantity,
             p.p_num,
             p.p_name,
             p.thumb,
@@ -138,7 +138,7 @@ WHERE rnum >= #{startRow, jdbcType=NUMERIC}
 
 <select id="pickMeCountPage"   resultType="com.gogi.meatyou.bean.PickMeDTO">
     <![CDATA[
-SELECT rnum, pm_num,pm_m_id, pm_c_id,ceoname,cus_address1,cus_address2,company,cus_pnum,acc_num
+SELECT rnum, pm_num,pm_m_id, pm_c_id,ceoname,cus_address1,cus_address2,company,cus_pnum,cus_accnum
 FROM (
     SELECT ROWNUM AS rnum, t.*
     FROM (
@@ -151,7 +151,7 @@ FROM (
           cu.cus_address2,
           cu.company,
           cu.cus_pnum,
-          cu.acc_num
+          cu.cus_accnum
         FROM
            pick_me_${pm_m_id} pp
         INNER JOIN
