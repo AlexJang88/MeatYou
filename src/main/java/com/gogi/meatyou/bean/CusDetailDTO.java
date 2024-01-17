@@ -11,5 +11,6 @@ public class CusDetailDTO {
 	private String cus_address1;
 	private String cus_address2;
 	private String cus_pnum;
+	private  String cus_accnum;
 	
 }

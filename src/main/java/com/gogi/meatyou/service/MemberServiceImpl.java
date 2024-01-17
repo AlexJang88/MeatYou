@@ -110,7 +110,7 @@ public class MemberServiceImpl implements MemberService {
          
 
          
-         // 반환 타입을 List<ShoppingCartDTO>로 수정
+         // 諛섑솚 ���엯�쓣 List<ShoppingCartDTO>濡� �닔�젙
          @Override
          public List<ShoppingCartDTO> ShoppingCartAndProduct(String shop_m_id,ShoppingCartDTO sdto,ProductDTO pdto) {
              return mapper.ShoppingCartAndProduct(shop_m_id);
@@ -121,14 +121,13 @@ public class MemberServiceImpl implements MemberService {
    
       
          
-         //장바구니 수량변경
          @Override
-         public void updateQuantity(int  shop_num,int  quantity, String shop_m_id) {
-            mapper.updateQuantity(shop_num, quantity ,shop_m_id);
+         public void updateQuantity(int  shop_num,int  shop_quantity, String shop_m_id) {
+            mapper.updateQuantity(shop_num, shop_quantity ,shop_m_id);
           }
          
          
-         //장바구니 리스트 
+         //�옣諛붽뎄�땲 由ъ뒪�듃 
          
          public List<ShoppingCartDTO> getShoppingCartItemsPaged(String shop_m_id, int page, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto) {
              int startRow = (page - 1) * pageSize + 1;
@@ -141,7 +140,7 @@ public class MemberServiceImpl implements MemberService {
 
           //   return mapper.getShoppingCartItemsPaged(parameters);
              List<ShoppingCartDTO> result = mapper.getShoppingCartItemsPaged(parameters);
-             System.out.println("서비스 호출 - 페이지: " + page + ", 결과 개수: " + result.size());
+             System.out.println("�꽌鍮꾩뒪 �샇異� - �럹�씠吏�: " + page + ", 寃곌낵 媛쒖닔: " + result.size());
              return result;
          }
 
@@ -166,7 +165,7 @@ public class MemberServiceImpl implements MemberService {
              
              
              
-           //찜 업체 관련 .
+           //李� �뾽泥� 愿��젴 .
             @Override
             public   List<PickMeDTO> pickMeCountPage(String pm_m_id, int page, int pageSize, PickMeDTO pdto, CusDetailDTO cdto){
                 int startRow = (page  - 1) * pageSize + 1;
@@ -179,7 +178,7 @@ public class MemberServiceImpl implements MemberService {
 
              //   return mapper.getShoppingCartItemsPaged(parameters);
                 List<PickMeDTO> result = mapper.pickMeCountPage(parameters);
-                System.out.println("서비스 호출 - 페이지: " + page + ", 결과 개수: " + result.size());
+                System.out.println("�꽌鍮꾩뒪 �샇異� - �럹�씠吏�: " + page + ", 寃곌낵 媛쒖닔: " + result.size());
                 return result;
             }
        
@@ -199,10 +198,10 @@ public class MemberServiceImpl implements MemberService {
              
             
             
-          // 서비스의 pPickCountPages 메서드 수정
+          // �꽌鍮꾩뒪�쓽 pPickCountPages 硫붿꽌�뱶 �닔�젙
             @Override
             public List<PPicDTO> pPickCountPages( @Param("ppic_m_id")String ppic_m_id,Map<String, Object> params, int page,
-                  int pageSize, PPicDTO ppdto, ProductDTO pdto, MemberDTO mdto,@Param("ppic_num") int ppic_num) {
+                  int pageSize, PPicDTO ppdto, ProductDTO pdto, MemberDTO mdto,@Param("ppic_num") int ppic_num,CusDetailDTO cdto) {
                 int startRow = (page - 1) * pageSize + 1;
                     int endRow = startRow + pageSize - 1;
                     Map<String, Object> parameters = new HashMap<>();
@@ -215,13 +214,13 @@ public class MemberServiceImpl implements MemberService {
                   // parameters.put("ppic_m_id",mdto.getM_id());
                    
                    
-                   System.out.println(("id는 무엇인가요 ~~~=-============================")+parameters.get("ppic_m_id"));
+                   System.out.println(("id�뒗 臾댁뾿�씤媛��슂 ~~~=-============================")+parameters.get("ppic_m_id"));
                   
                    
-                   List<PPicDTO> result = mapper.pPickCountPage(parameters); // 매개변수 전달
+                   List<PPicDTO> result = mapper.pPickCountPage(parameters); // 留ㅺ컻蹂��닔 �쟾�떖
                    
                     
-                    System.out.println("서비스 호출 - 페이지: " + page + ", 결과 개수: " + result.size());
+                    System.out.println("�꽌鍮꾩뒪 �샇異� - �럹�씠吏�: " + page + ", 寃곌낵 媛쒖닔: " + result.size());
                    
                     return result;                              
             }

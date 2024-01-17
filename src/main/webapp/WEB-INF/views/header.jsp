@@ -105,6 +105,7 @@
                    <a href="/member/customLogin" class="login-required" onclick="checkLogin()">
                          <i class="fa fa-heart-o"></i>
                          <span>찜목록</span>
+                         <div class="qty">${pickCNT}</div>
                        </a>
                      </div>
                      
@@ -112,6 +113,7 @@
                        <a href="/member/customLogin" class="login-required" onclick="checkLogin()">
                          <i class="fa fa-shopping-cart"></i>
                          <span>장바구니</span>
+                         <div class="qty">${CartCNT}</div>
                        </a>
                      </div>
                         </sec:authorize>
@@ -121,7 +123,7 @@
                            <a href="/member/pPickList">
                               <i class="fa fa-heart-o"></i>
                               <span>찜목록</span>
-                              <div class="qty">2</div>
+                              <div class="qty">${pickCNT}</div>
                            </a>
                         </div>
                         <!-- /Wishlist -->
@@ -130,7 +132,7 @@
                            <a href="/member/shoppingCartForm">
                                  <i class="fa fa-shopping-cart"></i>
                                  <span>장바구니</span>
-                                 <div class="qty">3</div>
+                                 <div class="qty">${CartCNT}</div>
                            </a>
                         </div>
                      </sec:authorize>

@@ -12,10 +12,9 @@
       <!-- <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/> -->
       
       <property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" />
-      <!-- jdbc:log4jdbc:oracle:thin:@192.168.219.123:1521/orcl 
-      		jdbc:log4jdbc:oracle:thin:@58.73.200.225/orcl 
-      -->
-      <property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@58.73.200.225:1521/orcl"/>
+   
+      <property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@192.168.219.123:1521/orcl"/>
+     <!-- <property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@58.73.200.225:1521/orcl"/>   -->
       <property name="username" value="final03" />
       <property name="password" value="final03" />
    </bean>

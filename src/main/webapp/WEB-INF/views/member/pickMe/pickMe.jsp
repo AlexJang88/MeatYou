@@ -51,13 +51,11 @@ $(document).on("click", ".delete_btn", function(e) {
           <table class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
-            <th>식별번호(히든처리예정)</th>
             <th>내가 찜한 업체</th>
             <th>매장 위치</th>
             <th>업체 전화번호</th>
             <th>대표자 성함</th>
             <th>판매자아이디</th>
-            <th>내아이디 (히든처리예정)</th>
             <th>입금계좌</th>
             <th>삭제</th>
         </tr>
@@ -66,17 +64,25 @@ $(document).on("click", ".delete_btn", function(e) {
     
         <c:forEach var="item" items="${pickMekList}">
             <tr>
-                <td><c:out value="${item.pm_num}"  /></td>
                 <td><c:out value="${item.company}"  /></td>
                 <td><c:out value="${item.cus_address1}"/><c:out value="${item.cus_address2}" /></td>
                 <td><c:out value="${item.cus_pnum}" /></td>
                 <td><c:out value="${item.ceoname}" /></td>
-                <td><c:out value="${item.pm_c_id}" /></td>
-                  <td><c:out value="${item.pm_m_id}" /></td>
+                <td><c:out value="${item.p_m_id}" /></td>
                   <td><c:out value="${item.acc_num}" /></td>
                 <td>
                     <form action="deleteHim" method="post" class="quantity_delete_form">
                         <input type="hidden" name="pm_num" value="${item.pm_num}" />
+                        <input type="hidden" name="pm_num" value="${item.pm_num}" />
+                        <input type="hidden" name="pm_num" value="${item.pm_num}" />
+                        
+                        <input type="hidden" name="pm_num" value="${item.pm_num}" />
+                        
+                        <input type="hidden" name="pm_c_id" value="${item.pm_c_id}" />
+                        <input type="hidden" name="pm_m_id" value="${item.pm_m_id}" />
+                        
+                        
+                        
                         <button type="submit" class="delete_btn">삭제</button>
                     </form>
                 </td>

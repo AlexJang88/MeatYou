@@ -17,12 +17,12 @@ import com.gogi.meatyou.bean.ShoppingCartDTO;
 public interface MemberMapper {
    public MemberDTO read(String m_id);
    
-      //회원가입
+      //�쉶�썝媛��엯
    
     public int insertMember(MemberDTO dto);
     
 
-       // Spring Security에서 사용자 정보를 가져오기 위한 메서드
+       // Spring Security�뿉�꽌 �궗�슜�옄 �젙蹂대�� 媛��졇�삤湲� �쐞�븳 硫붿꽌�뱶
        public MemberDTO loadUserByUsername(String username);
       
        public List<MemberDTO> memberList();
@@ -40,10 +40,10 @@ public interface MemberMapper {
       
       
       
-        // 회원 상태 업데이트
+        // �쉶�썝 �긽�깭 �뾽�뜲�씠�듃
        public int updateMemberStatus(MemberDTO dto);
 
-       // Cus_detail에 데이터 인서트
+       // Cus_detail�뿉 �뜲�씠�꽣 �씤�꽌�듃
        public int insertIntoCusDetail(CusDetailDTO cdto);
        public void shoppingCart(String m_id);
        public void shoppingCart_seq(String m_id);
@@ -56,19 +56,19 @@ public interface MemberMapper {
 
 
    //   public void ShoppingCartAndProduct(String shop_m_id ) ;
-    // 반환 타입을 List<ShoppingCartDTO>로 수정
+    // 諛섑솚 ���엯�쓣 List<ShoppingCartDTO>濡� �닔�젙
        List<ShoppingCartDTO> ShoppingCartAndProduct(String shop_m_id);
        
-     // 장바구니 수량 변경 
+     // �옣諛붽뎄�땲 �닔�웾 蹂�寃� 
        public int upquantity(ShoppingCartDTO sdto);
        public  int downquantity(ShoppingCartDTO sdto);
       
-       public void updateQuantity(@Param("shop_num") int shop_num, @Param("quantity") int quantity,@Param("shop_m_id")   String shop_m_id);
+       public void updateQuantity(@Param("shop_num") int shop_num, @Param("shop_quantity") int shop_quantity,@Param("shop_m_id")   String shop_m_id);
      
 
        
    
-     //장바구니 목록 +페이징 처리하기위한 리스트      
+     //�옣諛붽뎄�땲 紐⑸줉 +�럹�씠吏� 泥섎━�븯湲곗쐞�븳 由ъ뒪�듃      
        List<ShoppingCartDTO> getPaginatedShoppingCart(
                @Param("shop_m_id") String shop_m_id,
                @Param("startRow") int startRow,
@@ -89,10 +89,10 @@ public interface MemberMapper {
        
        
        
-      // 찜 업체 목록 시작 
+      // 李� �뾽泥� 紐⑸줉 �떆�옉 
        
        
-        //페이징 처리하기위한 리스트      
+        //�럹�씠吏� 泥섎━�븯湲곗쐞�븳 由ъ뒪�듃      
           List<PickMeDTO> pickMeCountPages(
                   @Param("pm_m_id") String pm_m_id,
                   @Param("startRow") int startRow,
@@ -118,7 +118,7 @@ public interface MemberMapper {
           //    List<PPicDTO> pPickCountPage(Map<String, Object> params);
              
 
-          //페이징 처리하기위한 리스트      
+          //�럹�씠吏� 泥섎━�븯湲곗쐞�븳 由ъ뒪�듃      
     List<PPicDTO> pPickCountPage(Map<String, Object> params);
 
           

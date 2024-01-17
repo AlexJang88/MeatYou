@@ -63,7 +63,7 @@
     <tr> 
       <td   width="200">사용자 이름</td>
       <td  width="400"> 
-        <input type="text" name="name" size="15" maxlength="20" value="${dto.m_name}">
+       ${dto.m_name}
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
       </td>
     </tr>

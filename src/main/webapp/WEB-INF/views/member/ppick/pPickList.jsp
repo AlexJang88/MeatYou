@@ -4,6 +4,14 @@
 <%@ include file="../../header.jsp" %>
 <head>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<style>
+	.heartHim:{
+		cursor: pointer;
+	}
+	.heartHim:hover:{
+		font-weight: bold;
+	}
+</style>
 <script>
 // 삭제 메서드
 /* 장바구니 삭제 버튼 */
@@ -32,30 +40,6 @@ $(document).on("click", ".delete_btn", function(e) {
         }
     });
 });
-/* $(document).on("click", ".delete_btn", function(e) {
-
-    console.log();
-    const ppic_num = $(this).data("ppic_num");
-    $(".quantity_delete_form").submit();
-    e.preventDefault(ppic_num);
-    // AJAX를 사용하여 삭제 요청 보내기
-    $.ajax({
-        type: "POST",
-        url: "/member/deleteP_item",
-        data: {
-            ppic_num: ppic_num
-        },
-        success: function(response) {
-            // 성공적으로 삭제된 경우 페이지 새로고침
-            location.reload();
-        },
-        error: function(error) {
-            console.log("Error:", error);
-            // 오류가 발생한 경우 적절히 처리
-        }
-    });
-});
-  */
 </script>
 </head>
 <div class="row">
@@ -66,7 +50,7 @@ $(document).on("click", ".delete_btn", function(e) {
 
 <div class="panel panel-default">
     <div class="panel-heading">
-내가 관심있는 판매자  
+내가 관심있는상품
     </div>
 
     <div class="panel-body">
@@ -75,17 +59,15 @@ $(document).on("click", ".delete_btn", function(e) {
           <table class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
-            <th>식별번호(히든처리예정)</th>
-            <th>식별번호(히든처리예정)</th>
-            <th>식별번호(히든처리예정)</th>
-            <th>식별번호(히든처리예정)</th>
-            <th>내가 찜한 업체</th>
+            <th>상품이름 </th>
+            <th>상품사진</th>
             <th>매장 위치</th>
-            <th>업체 전화번호</th>
-            <th>대표자 성함</th>
+            <th>판매등록일 또는 등록예정일</th>
+            <th>판매 시작 날짜</th>
+            <th>판매 종료 날짜 </th>
+            <th>상품상태</th>
             <th>판매자아이디</th>
-            <th>내아이디 (히든처리예정)</th>
-            <th>입금계좌</th>
+            <th>가격</th>
             <th>삭제</th>
         </tr>
     </thead>
@@ -93,19 +75,11 @@ $(document).on("click", ".delete_btn", function(e) {
     
         <c:forEach var="item" items="${pPickList}">         
             <tr>
-              <%--   <td><c:out value="${item.ppic_num}"  /></td> --%>
-            <td><input type="hidden" class="ppic_num" value="${item.ppic_num}" />
-                <c:out value="${item.ppic_num}" /></td>
-                <td><c:out value="${item.ppic_m_id}"  /></td>
-                
-                <td><c:out value="${item.ppic_p_num}"/> </td>
-                
-                <td><c:out value="${item.p_num}" /></td>
-                
                 <td><c:out value="${item.p_name}" /></td>
-                
                 <td><c:out value="${item.thumb}" /></td>
-                
+                <td>
+           		<c:out value="${item.cus_address1}" /> <c:out value="${item.cus_address2}" />  
+                </td>
                   <td><c:out value="${item.p_reg_date}" /></td>
                   
                   <td><c:out value="${item.startdate}" /></td>
@@ -113,12 +87,22 @@ $(document).on("click", ".delete_btn", function(e) {
                   <td><c:out value="${item.enddate}" /></td>
                   
                   <td><c:out value="${item.p_status}" /></td>
-                  
+                  <td>
+                  	<a href="#" class="heartHim"> 
+                  	<c:out value="${item.p_m_id}" />
+                  	</a>
+                  	</td>
                   <td><c:out value="${item.p_price}" /></td>
                 <td>
                     <form action="deleteP_item" method="post" class="quantity_delete_form">
                         <input type="hidden" name="ppic_num" value="${item.ppic_num}" />
+                        
+                              <input type="hidden"  class="ppic_num"  value="${item.ppic_num}"/> 	
+               				 	<input type="hidden"  class="ppic_p_num"  value="${item.ppic_p_num}"/>  
+             			  	  <input type="hidden"  class="p_num"  value="${item.p_num}"/>  
+                   
                         <button type="submit" class="delete_btn">삭제</button>
+                    
                     </form>
                 </td>
               
