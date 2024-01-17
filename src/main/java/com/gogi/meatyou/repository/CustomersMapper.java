@@ -3,63 +3,77 @@ package com.gogi.meatyou.repository;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.ui.Model;
 
 import com.gogi.meatyou.bean.CusOrderDTO;
+import com.gogi.meatyou.bean.MOrderDTO;
 import com.gogi.meatyou.bean.PDetailDTO;
 import com.gogi.meatyou.bean.ProductDTO;
+import com.gogi.meatyou.bean.ProductMorderDTO;
 
 
 public interface CustomersMapper {
 
-   public void productUp(ProductDTO productdto); //ìƒí’ˆë“±ë¡
-   public void P_DETAILUp(PDetailDTO pdetaildto);  // ìƒí’ˆìƒì„¸ë“±ë¡
-   
-   public int itemcount(String id); // ìƒí’ˆëª©ë¡í˜ì´ì§€ì˜  ì´ ë“±ë¡ ê°¯ìˆ˜
-   public int paycount(String id); // í’ˆëª© ìœ ë£Œê²°ì œí•œ ê°¯ìˆ˜   
-   public int itemcounting(String id); // íŒë§¤ì¤‘ì¸ ìƒí’ˆ í˜ì´ì§€ì—ì„œ íŒë§¤ì¤‘ì¸ ê°¯ìˆ˜
-   public int itemcountout(String id); // íŒë§¤ì¤‘ì¸ ìƒí’ˆ í˜ì´ì§€ì—ì„œ íŒë§¤ì¤‘ì¸ ê°¯ìˆ˜
-   
-   public List<ProductDTO> list(HashMap map); // ìƒí’ˆëª©ë¡ ì „ì²´ í˜ì´ì§€
-   public List<ProductDTO> listout(HashMap map); // íŒë§¤ì¤‘ì¸ ìƒí’ˆë“¤ì´ ë³´ì´ëŠ” í˜ì´ì§€ 
-   public List<CusOrderDTO> cus_order (String id); // ìœ ë£Œê²°ì œ ì½”ë“œ ê°€ì ¸ì˜¤ê¸°
-   public int member_status(String id); // ìƒí’ˆëª©ë¡ì—ì„œ ë…¸ì¶œë¹„ë…¸ì¶œ í‘œê¸°ì‹œ ë“±ê¸‰ì—ë”°ë¼ ë‚˜ì˜¤ê²Œ ( 2001 2002 2003 2004 ì´ë‚˜ì˜¨ë‹¤)
-   
-   //íšŒì› ë“±ê¸‰ì„ ë°”ê¾¸ëŠ” ì½”ë“œ
-   public int cuscheck(ProductDTO productdto);//ìš°ì„  ê¸°ì¡´ì— ê°’ì´ ìˆëŠ”ì§€ ì°¾ëŠ”ë‹¤ ìˆìœ¼ë©´ 1ë²ˆ  ì—†ìœ¼ë©´ 0   
-   public void gijon(ProductDTO productdto); // ê¸°ì¡´ì˜ ê°’ì´ ìˆì–´ì„œ 1ì´ ë‚˜ì˜¤ë©´ ê¸°ì¡´ì˜ ê°’ì„ status 2(íŒë§¤ëŒ€ê¸°)ë¡œ ë°”ê¾¼ë‹¤
-   public void gijonCoNum(ProductDTO productdto); // ê¸°ì¡´ì— ê°€ì§€ê³  ìˆë˜ cus_orderì˜ co_p_numì„  nullë¡œ ë°”ê¾¼ë‹¤
-   public void conumchange(ProductDTO productdto); // ìœ ë£Œê²°ì œ, ëŒ€ê¸°ì¤‘ ë“±ì—ì„œ  íŒë§¤ì¤‘ìœ¼ë¡œ ë³€ê²½ì‹œ  CUS_ORDER ë²ˆí˜¸ê°’ì„ nullë¡œ   
-   public void statusChange(ProductDTO productdto); //productì˜ 0, 1, 2, 3 ìœ¼ë¡œ ìƒíƒœë³€ê²½   ìŠ¤í…Œì´í„°ìŠ¤ ê°’ ë³€ê²½
-   public void cus_num(ProductDTO productdto); //cus oder ìœ ë£Œê²°ì œ ì½”ë“œ ë²ˆí˜¸ë¥¼ ì„¤ì •í•˜ëŠ”ê³³
-   public void cus_numdelete(ProductDTO productdto); //cus oder ìœ ë£Œê²°ì œ ì½”ë“œ ë²ˆí˜¸ë¥¼ ì„¤ì •í•˜ëŠ”ê³³
-   
-   //ì•„ë˜ë¡œëŠ” ìƒí’ˆ ìˆ˜ì •
-   public ProductDTO lister(int p_num); // ë²ˆí˜¸ì— ë§ëŠ” ìƒí’ˆ ì •ë³´ ê°€ì ¸ì˜¤ê¸°
-   public PDetailDTO listerPD(int p_num); // ë²ˆí˜¸ì— ë§ëŠ” ìƒí’ˆìƒì„¸ ì •ë³´ ê°€ì ¸ì˜¤ê¸°
-   public void itemUP(ProductDTO productdto); //ìƒí’ˆ ì •ë³´ìˆ˜ì •
-   public void itemDpUP(PDetailDTO pdetaildto); //ìƒí’ˆìƒì„¸ ì •ë³´ìˆ˜ì •
-   
-   //ì¬ê³ í˜„í™©   
-   public List<ProductDTO> stocklist(HashMap map);  // ì•„ì´ë””ì— ë§ëŠ” ìƒí’ˆ ì œê³  ë° ëª©ë¡ ê°€ì ¸ì˜¤ê¸°
-   public List<ProductDTO> stockonlist(HashMap map);  // idì— ë§ëŠ”ìƒí’ˆ ì œê³  ì¤‘ íŒë§¤ì¤‘ì¸ ë¦¬ìŠ¤íŠ¸ ê°€ì ¸ì˜¤ê¸°
-   public void stockPro (PDetailDTO pdetaildto); // ë²ˆí˜¸ì— ë§ëŠ” ìƒí’ˆ ì¬ê³  ë³€ê²½
-   public int stockcount (String id); // ë³´ìœ í•œ ì „ì²´ìƒí’ˆ 
-   public int stocklistcount(HashMap map);
-   
-   //ìœ ë£Œê²°ì œ
-   public int listPayCount (String id); // í’ˆëª©í™•ì¥ ìœ ë£Œê²°ì œ ê°¯ìˆ˜ 
-   public int listpaynowcount (String id); // í’ˆëª©í™•ì¥ ìœ ë£Œê²°ì œ ê°¯ìˆ˜ 
-   public int powerPayCount (String id); // íŒŒì›Œë§í¬ ìœ ë£Œê²°ì œ íšŸìˆ˜   
-   public List<CusOrderDTO> powerlist (String id); // ìƒìœ„ë…¸ì¶œ ëª©ë¡ ë¦¬ìŠ¤íŠ¸ë¡œ ì •ë³´ ê°€ì ¸ì˜¤ê¸°
-   public List<CusOrderDTO> powerlistOne (HashMap map); // ìƒìœ„ë…¸ì¶œ ëª©ë¡ ë¦¬ìŠ¤íŠ¸ë¡œ ì •ë³´ ê°€ì ¸ì˜¤ê¸°
-   public List<CusOrderDTO> paylist (String id); // ìƒìœ„ë…¸ì¶œ ëª©ë¡ ë¦¬ìŠ¤íŠ¸ë¡œ ì •ë³´ ê°€ì ¸ì˜¤ê¸°
-   public List<CusOrderDTO> paylistTwo (HashMap map); // ìƒìœ„ë…¸ì¶œ ëª©ë¡ ë¦¬ìŠ¤íŠ¸ë¡œ ì •ë³´ ê°€ì ¸ì˜¤ê¸°
-   
-   //ìƒìœ„ë…¸ì¶œ
-   public int countter (String id); // íŒë§¤ì¤‘ì´ë‚˜ ì•„ì§ ìƒìœ„ë…¸ì¶œ ì•ˆí•˜ê³  ìˆëŠ” ìƒí’ˆ ê°¯ìˆ˜
-    public List<ProductDTO> poweredlist(String id); // íŒë§¤ì¤‘ì´ë‚˜ ì•„ì§ ìƒìœ„ë…¸ì¶œ ì•ˆí•˜ê³  ìˆëŠ” ìƒí’ˆ 
-    public ProductDTO payMentItem(ProductDTO productdto); // ê²°ì œ ë²ˆí˜¸ì— ë§ëŠ” ìƒí’ˆ ì •ë³´ ê°€ì ¸ì˜¤ê¸°
-    public void payFinish(CusOrderDTO cusorderDTO); //íŒŒì›Œë§í¬ ê²°ì œ í˜ì´ì§€ì—ì„œ ê²°ì œí• ëª©ë¡ ë³´ì—¬ì£¼ê¸°
-    public void itempayFinish(CusOrderDTO cusorderDTO);//í’ˆëª© í™•ì¥ ê²°ì œ ì™„ë£Œ
+	public void productUp(ProductDTO productdto); //»óÇ°µî·Ï
+	public int productCurrval();//µî·ÏµÈ »óÇ°¹øÈ£ °¡Á®¿À±â
+	public void P_DETAILUp(PDetailDTO pdetaildto);  // »óÇ°»ó¼¼µî·Ï
+	
+	public int itemcount(String id); // »óÇ°¸ñ·ÏÆäÀÌÁöÀÇ  ÃÑ µî·Ï °¹¼ö
+	public int paycount(String id); // Ç°¸ñ À¯·á°áÁ¦ÇÑ °¹¼ö	
+	public int itemcounting(String id); // ÆÇ¸ÅÁßÀÎ »óÇ° ÆäÀÌÁö¿¡¼­ ÆÇ¸ÅÁßÀÎ °¹¼ö
+	public int itemcountout(String id); // ÆÇ¸ÅÁßÀÎ »óÇ° ÆäÀÌÁö¿¡¼­ ÆÇ¸ÅÁßÀÎ °¹¼ö
+	
+	public List<ProductDTO> list(HashMap map); // »óÇ°¸ñ·Ï ÀüÃ¼ ÆäÀÌÁö
+	public List<ProductDTO> listout(HashMap map); // ÆÇ¸ÅÁßÀÎ »óÇ°µéÀÌ º¸ÀÌ´Â ÆäÀÌÁö 
+	public List<CusOrderDTO> cus_order (String id); // À¯·á°áÁ¦ ÄÚµå °¡Á®¿À±â
+	public int member_status(String id); // »óÇ°¸ñ·Ï¿¡¼­ ³ëÃâºñ³ëÃâ Ç¥±â½Ã µî±Ş¿¡µû¶ó ³ª¿À°Ô ( 2001 2002 2003 2004 ÀÌ³ª¿Â´Ù)
+	
+	//È¸¿ø µî±ŞÀ» ¹Ù²Ù´Â ÄÚµå
+	public int cuscheck(ProductDTO productdto);//¿ì¼± ±âÁ¸¿¡ °ªÀÌ ÀÖ´ÂÁö Ã£´Â´Ù ÀÖÀ¸¸é 1¹ø  ¾øÀ¸¸é 0	
+	public void gijon(ProductDTO productdto); // ±âÁ¸ÀÇ °ªÀÌ ÀÖ¾î¼­ 1ÀÌ ³ª¿À¸é ±âÁ¸ÀÇ °ªÀ» status 2(ÆÇ¸Å´ë±â)·Î ¹Ù²Û´Ù
+	public void gijonCoNum(ProductDTO productdto); // ±âÁ¸¿¡ °¡Áö°í ÀÖ´ø cus_orderÀÇ co_p_numÀ»  null·Î ¹Ù²Û´Ù
+	public void conumchange(ProductDTO productdto); // À¯·á°áÁ¦, ´ë±âÁß µî¿¡¼­  ÆÇ¸ÅÁßÀ¸·Î º¯°æ½Ã  CUS_ORDER ¹øÈ£°ªÀ» null·Î	
+	public void statusChange(ProductDTO productdto); //productÀÇ 0, 1, 2, 3 À¸·Î »óÅÂº¯°æ	½ºÅ×ÀÌÅÍ½º °ª º¯°æ
+	public void cus_num(ProductDTO productdto); //cus oder À¯·á°áÁ¦ ÄÚµå ¹øÈ£¸¦ ¼³Á¤ÇÏ´Â°÷
+	public void cus_numdelete(ProductDTO productdto); //cus oder À¯·á°áÁ¦ ÄÚµå ¹øÈ£¸¦ ¼³Á¤ÇÏ´Â°÷
+	
+	//¾Æ·¡·Î´Â »óÇ° ¼öÁ¤
+	public ProductDTO lister(int p_num); // ¹øÈ£¿¡ ¸Â´Â »óÇ° Á¤º¸ °¡Á®¿À±â
+	public PDetailDTO listerPD(int p_num); // ¹øÈ£¿¡ ¸Â´Â »óÇ°»ó¼¼ Á¤º¸ °¡Á®¿À±â
+	public void itemUP(ProductDTO productdto); //»óÇ° Á¤º¸¼öÁ¤
+	public void itemDpUP(PDetailDTO pdetaildto); //»óÇ°»ó¼¼ Á¤º¸¼öÁ¤
+	
+	//Àç°íÇöÈ²	
+	public List<ProductDTO> stocklist(HashMap map);  // ¾ÆÀÌµğ¿¡ ¸Â´Â »óÇ° Á¦°í ¹× ¸ñ·Ï °¡Á®¿À±â
+	public List<ProductDTO> stockonlist(HashMap map);  // id¿¡ ¸Â´Â»óÇ° Á¦°í Áß ÆÇ¸ÅÁßÀÎ ¸®½ºÆ® °¡Á®¿À±â
+	public void stockPro (PDetailDTO pdetaildto); // ¹øÈ£¿¡ ¸Â´Â »óÇ° Àç°í º¯°æ
+	public int stockcount (String id); // º¸À¯ÇÑ ÀüÃ¼»óÇ° 
+	public int stocklistcount(HashMap map);
+	
+	//À¯·á°áÁ¦
+	public int listPayCount (String id); // Ç°¸ñÈ®Àå À¯·á°áÁ¦ °¹¼ö 
+	public int listpaynowcount (String id); // Ç°¸ñÈ®Àå À¯·á°áÁ¦ °¹¼ö 
+	public int powerPayCount (String id); // ÆÄ¿ö¸µÅ© À¯·á°áÁ¦ È½¼ö	
+	public List<CusOrderDTO> powerlist (String id); // »óÀ§³ëÃâ ¸ñ·Ï ¸®½ºÆ®·Î Á¤º¸ °¡Á®¿À±â
+	public List<CusOrderDTO> powerlistOne (HashMap map); // »óÀ§³ëÃâ ¸ñ·Ï ¸®½ºÆ®·Î Á¤º¸ °¡Á®¿À±â
+	public List<CusOrderDTO> paylist (String id); // »óÀ§³ëÃâ ¸ñ·Ï ¸®½ºÆ®·Î Á¤º¸ °¡Á®¿À±â
+	public List<CusOrderDTO> paylistTwo (HashMap map); // »óÀ§³ëÃâ ¸ñ·Ï ¸®½ºÆ®·Î Á¤º¸ °¡Á®¿À±â
+	
+	//»óÀ§³ëÃâ
+	public int countter (String id); // ÆÇ¸ÅÁßÀÌ³ª ¾ÆÁ÷ »óÀ§³ëÃâ ¾ÈÇÏ°í ÀÖ´Â »óÇ° °¹¼ö
+    public List<ProductDTO> poweredlist(String id); // ÆÇ¸ÅÁßÀÌ³ª ¾ÆÁ÷ »óÀ§³ëÃâ ¾ÈÇÏ°í ÀÖ´Â »óÇ° 
+    public ProductDTO payMentItem(ProductDTO productdto); // °áÁ¦ ¹øÈ£¿¡ ¸Â´Â »óÇ° Á¤º¸ °¡Á®¿À±â
+    public void payFinish(CusOrderDTO cusorderDTO); //ÆÄ¿ö¸µÅ© °áÁ¦ ÆäÀÌÁö¿¡¼­ °áÁ¦ÇÒ¸ñ·Ï º¸¿©ÁÖ±â
+    public void itempayFinish(CusOrderDTO cusorderDTO);//Ç°¸ñ È®Àå °áÁ¦ ¿Ï·á
+    
+    // ¸ÅÃâ¾× º¸´Â È­¸é
+    public int getProductTotalmoney(@Param ("check") int check, @Param ("id") String id); // ÃÑ ¸ÅÃâ¾× ¿ùº°·Î ³Ñ±â±â
+    public int getTotalCount(@Param ("check") int check, @Param ("id") String id); // ÃÑ±¸¸Å¼ö·® ³Ñ±â±â
+    public int getDeliveryPay(@Param ("check") int check, @Param ("id") String id); // ÃÑ¹è¼Ûºñ ±¸ÇÏ±â
+    public Integer getHOT(@Param ("check") int check, @Param ("id") String id); // ÆÇ¸Å·® ³ôÀº °Í ±¸ÇÏ±â
+    //ÆÇ¸ÅµÈ »óÇ° ¸®½ºÆ® »Ì±â  
+    public List<ProductMorderDTO> ProfitItemlist(HashMap map);  // ÆÇ¸ÅµÈ »óÇ° ³¯Â¥ ¹Ì¼±ÅÃ È®ÀÎ
+    public int ProfitItemcount(@Param ("check") int check, @Param ("id") String id); //¿ùº° ±¸¸Å ÁøÇà È½¼ö 
+    
 }

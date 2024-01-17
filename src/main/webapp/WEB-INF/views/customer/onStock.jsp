@@ -24,20 +24,25 @@
 			
 		<c:if test="${stockcount >  0}">		
 			<h3 align="center">판매중인 상품 재고 : ${stockcount} 건 </h3> 
-			<table border="1" width="1000" cellpadding="0" cellspacing="0" align="center">		
+			<table border="1" width="1500" cellpadding="0" cellspacing="0" align="center">		
 				<tr height="30"> 				
 					<td width="300" align="center">썸네일 사진</td>
+					<td width="200" align="center">상품 번호</td>
 					<td width="300" align="center">제품 이름</td>
-					<td width="300" align="center">판매 상태</td>
-					<td width="100" align="center">보유 재고</td>				
-					<td width="100" align="center">판매량</td>									
+					<td width="200" align="center">판매 상태</td>
+					<td width="100" align="center">등록 재고</td>				
 					<td width="100" align="center">재고 변경</td>	
 					<td width="100" align="center">변경하기</td>	
+					<td width="100" align="center">판매량</td>									
+					<td width="100" align="center">남은재고</td>									
 				</tr>
 				
-				<c:forEach var="product" items="${stockonlist}">			 			 			   				             		
+				<c:forEach var="product" items="${stockonlist}" varStatus="loopStatus">
+					<c:set var="i" value="${loopStatus.index}" />			 			 			   				             		
+					<c:set var="nam" value="${product.stock - aree[i]}" />			 			 			   				             		
             		 <tr align="center">
             		 	<td>${product.thumb}</td>
+            		 	<td>${product.p_num}</td>
             		 	<td><a href="/customers/content?p_num=${product.p_num}">${product.p_name}</a></td>
             		 	<td>
 							 <c:choose>
@@ -47,19 +52,18 @@
 							   <c:when test="${product.p_status == 3}">판매종료</c:when>							       
 							 </c:choose>
 						</td>
-            		 	<td>${product.stock}</td>
-            		 	<td>우선은 0</td>
+            		 	<td>${product.stock}</td>           		 	
             		 		<form action="/customers/stockOnPro" method="post"  >
             		 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
             		 			<input type="hidden" name="p_m_id" value="${memId}">
-            		 			<input type="hidden" name="pd_p_num" value="${product.pd_p_num}">
-            		 			
-		            		 	<td> <input type="number" size="40" maxlength="30" name="stock" required="required" placeholder="변경할 재고를 입력하세요"></td>
-		            		 		
-		            		 	<td align="center" >   
-					                 <input type="submit" value="변경">
-					            </td> 		          	    			   				        		
+            		 			<input type="hidden" name="pd_p_num" value="${product.pd_p_num}">         		 			
+			           				<td> <input type="number" size="40" maxlength="30" name="stock" required="required" placeholder="변경할 재고를 입력하세요"></td>		            		 		
+			            		 	<td align="center" >   
+						                 <input type="submit" value="변경">
+						            </td> 		          	    			   				        		
              	 			 </form>
+             	 		<td>${aree[i]}</td>
+             	 		<td>${nam}</td>
              	 	</tr>	
 				</c:forEach>
 			</table>
