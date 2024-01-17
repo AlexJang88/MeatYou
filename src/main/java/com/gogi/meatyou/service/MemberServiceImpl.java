@@ -27,6 +27,15 @@ public class MemberServiceImpl implements MemberService {
         return mapper.insertMember(dto);
     }
        
+    @Override
+    public int pick_mem_Insert(PickMeDTO pdto) {
+    	return mapper.pick_mem_Insert(pdto);
+    }
+    
+    @Override
+    public int pick_saller_Insert(PickMeDTO pdto) {
+    	return mapper.pick_saller_Insert(pdto);
+    }
     
        @Override
        public void userUpdate(MemberDTO dto) {

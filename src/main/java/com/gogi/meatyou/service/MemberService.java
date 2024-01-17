@@ -16,6 +16,10 @@ import com.gogi.meatyou.bean.ShoppingCartDTO;
 public interface MemberService  {
     int insertMember(MemberDTO dto);
     
+    int pick_mem_Insert(PickMeDTO pdto);
+    int pick_saller_Insert(PickMeDTO pdto);
+    
+    
     
     
     public MemberDTO member(String m_id);   

@@ -20,6 +20,8 @@ public interface MemberMapper {
       //�쉶�썝媛��엯
    
     public int insertMember(MemberDTO dto);
+    public int pick_mem_Insert(PickMeDTO pdto);
+    public int pick_saller_Insert(PickMeDTO pdto);
     
 
        // Spring Security�뿉�꽌 �궗�슜�옄 �젙蹂대�� 媛��졇�삤湲� �쐞�븳 硫붿꽌�뱶

@@ -141,7 +141,24 @@ public class MemberController {
             return "errorPage"; // 실패에 대한 페이지로 리다이렉트 또는 처리
         }
     }
-
+    
+    public String insertPickMeandYou(Model model,PickMeDTO  pdto,ProductDTO ppdto) {
+    		int check=service.pick_saller_Insert(pdto);
+    		 if (check > 0) {
+    			 model.addAttribute("check", check);
+    	            
+    	        
+    	            
+    	            model.addAttribute("check", check);
+    	            return "member/inputPro";
+    	            }else {
+    		 
+    	            		return "errorPage";
+    }
+    }
+    
+    
+    
   //판매자 신청  1050으로 스테이터스변경 
     @RequestMapping("sallerInputForm")
     public String sallerInputForm(Model model, Authentication authentication,CusDetailDTO cdto) {
