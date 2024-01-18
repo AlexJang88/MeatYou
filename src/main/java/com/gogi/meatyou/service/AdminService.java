@@ -36,10 +36,10 @@ public interface AdminService {
    public int noticeReg(HttpServletRequest req, HttpServletResponse resp,Model model,NoticeDTO dto);
    public String uploadSummerImgFile(@RequestParam("file") MultipartFile multipartFile,HttpServletRequest request);
    public void noticeList(Model model,int pageNum);
-   public void getNoticeContent(Model model,NoticeDTO dto,NoticeFileDTO fdto);
+   public void getNoticeContent(Model model,NoticeDTO dto);
    public String updateSummerImgFile(@RequestParam("file") MultipartFile multipartFile,HttpServletRequest request,int n_num);
    public int noticeupdate(HttpServletRequest req, HttpServletResponse resp, Model model, NoticeDTO dto);
-   public void noticedelete(int n_num);
+   public void noticedelete(int n_num,HttpServletRequest req);
    public int getNoticeNum();
    
 }

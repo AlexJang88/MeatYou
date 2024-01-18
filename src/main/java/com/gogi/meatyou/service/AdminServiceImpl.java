@@ -358,22 +358,14 @@ public class AdminServiceImpl implements AdminService {
    }
 
 
-@Override
-public int noticeMaxnum() {
-	return mapper.noticeMaxnum();
-}
 
-@Override
-public NoticeDTO getNotice() {
-	return mapper.getNotice();
-}
 
 @Override
 public int noticeReg(HttpServletRequest req, HttpServletResponse resp, Model model, NoticeDTO dto) {
 	 HttpSession session = req.getSession();
      // 占쌜쇽옙占쏙옙 占쌉시뱄옙 占쏙옙 占쏙옙占쏙옙 占쌍깍옙 占쌉시뱄옙 占쏙옙占쏙옙占쏙옙占쏙옙
-     NoticeDTO board = mapper.getNotice();
-     String realpath = req.getServletContext().getRealPath("/resources/file/notice/"+(noticeMaxnum()+1)+"/");
+	 int num=mapper.getNoticeNum();
+	 String realpath = req.getServletContext().getRealPath("/resources/file/notice/"+num+"/");
      for(int i=0;i<oldname.size();i++) {
     	 if(!dto.getN_content().contains(oldname.get(i))) {
     		 File f = new File(realpath+oldname.get(i));
@@ -382,7 +374,7 @@ public int noticeReg(HttpServletRequest req, HttpServletResponse resp, Model mod
     		 }
     	 }else {
     		 noticefiledto.setNf_filename(oldname.get(i));
-    		 noticefiledto.setNf_n_num(mapper.noticeMaxnum()+1);
+    		 noticefiledto.setNf_n_num(num);
     		 mapper.noticeFileUpload(noticefiledto);
     	 }
      }
@@ -395,15 +387,15 @@ public int noticeReg(HttpServletRequest req, HttpServletResponse resp, Model mod
 @Override
 public String uploadSummerImgFile(MultipartFile multipartFile, HttpServletRequest request) {
 			JsonObject jsonObject = new JsonObject();
-
-			String path = request.getServletContext().getRealPath("/resources/file/notice/"+(noticeMaxnum()+1)+"/");
+			
+			int n_num = mapper.getNoticeNum();
+			String path = request.getServletContext().getRealPath("/resources/file/notice/"+n_num+"/");
 			
 			String originalFileName = multipartFile.getOriginalFilename();
 			String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
-
-			int n_num = mapper.noticeMaxnum();
+			
 			imgcnt+=1;
-			String savedFileName = "notice_"+(n_num+1)+"_"+imgcnt+extension;
+			String savedFileName = "notice_"+n_num+"_"+imgcnt+extension;
 			
 			oldname.add(savedFileName);
 
@@ -417,7 +409,7 @@ public String uploadSummerImgFile(MultipartFile multipartFile, HttpServletReques
 
 				FileUtils.copyInputStreamToFile(fileStream, targetFile);
 
-				jsonObject.addProperty("url", "/resources/file/notice/" +(noticeMaxnum()+1)+"/"+ savedFileName);
+				jsonObject.addProperty("url", "/resources/file/notice/"+n_num+"/"+ savedFileName);
 				jsonObject.addProperty("responseCode", "success");
 			} catch (IOException e) {
 				FileUtils.deleteQuietly(targetFile);
@@ -464,35 +456,39 @@ public void noticeList(Model model,int pageNum) {
 }
 
 @Override
-public void getNoticeContent(Model model,NoticeDTO dto,NoticeFileDTO fdto) {
+public void getNoticeContent(Model model,NoticeDTO dto) {
+	 imgcnt=0;
+	 oldname.clear();
 	 dto = mapper.noticeContent(dto);
-	 List<NoticeFileDTO> list = mapper.noticeFileUpdate(dto.getN_num());
 	 model.addAttribute("dto", dto);
-	 model.addAttribute("list",list);
-	 
-}
+	 List<NoticeFileDTO> olddto= mapper.getNoticeFiles(dto.getN_num());
+		for(NoticeFileDTO ndto : olddto) {
+			oldname.add(ndto.getNf_filename());
+			}
+		int temp=0;
+		for(int i=0; i<oldname.size(); i++ ) {
+			int start= oldname.get(i).lastIndexOf("_")+1;
+			int end = oldname.get(i).lastIndexOf(".");
+			int result = Integer.parseInt(oldname.get(i).substring(start,end));
+			System.out.println("substring ====== " + result);
+			if(result>temp) {
+				temp = result;
+			}
+			
+		}
+		imgcnt=temp+1;
+		}
 
 @Override
 public String updateSummerImgFile(MultipartFile multipartFile, HttpServletRequest request,int n_num) {
 				JsonObject jsonObject = new JsonObject();
-				
-				List<NoticeFileDTO> olddto= mapper.noticeFileUpdate(n_num);
 				ArrayList<String> fname=new ArrayList<String>();
-				
-				for(NoticeFileDTO dto : olddto) {
-					if(olddto.size()>check) {
-					oldname.add(dto.getNf_filename());
-					}
-					check++;
-				
-				}
-				
+				System.out.println("imgcnt=====updateimg lastnum" + imgcnt);
 				String path = request.getServletContext().getRealPath("/resources/file/notice/"+n_num+"/");
 				
 				String originalFileName = multipartFile.getOriginalFilename();
 				String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
-
-				imgcnt=oldname.size()+1;
+				
 				String savedFileName = "notice_"+n_num+"_"+imgcnt+extension;
 				
 				oldname.add(savedFileName);
@@ -506,23 +502,23 @@ public String updateSummerImgFile(MultipartFile multipartFile, HttpServletReques
 					multipartFile.transferTo(targetFile);
 					
 
-					jsonObject.addProperty("url", "/resources/file/notice/" +n_num+"_"+ savedFileName);
+					jsonObject.addProperty("url", "/resources/file/notice/"+n_num+"/"+ savedFileName);
 					jsonObject.addProperty("responseCode", "success");
 				} catch (IOException e) {
-					FileUtils.deleteQuietly(targetFile);
 					jsonObject.addProperty("responseCode", "error");
 					e.printStackTrace();
 				}
 		 		String a = jsonObject.toString();
 	return a;
 }
+
 @Override
 public int noticeupdate(HttpServletRequest req, HttpServletResponse resp, Model model, NoticeDTO dto) {
 	 HttpSession session = req.getSession();
-     // 占쌜쇽옙占쏙옙 占쌉시뱄옙 占쏙옙 占쏙옙占쏙옙 占쌍깍옙 占쌉시뱄옙 占쏙옙占쏙옙占쏙옙占쏙옙
-     NoticeDTO board = mapper.getNotice();
+     
+    
      String realpath = req.getServletContext().getRealPath("/resources/file/notice/"+dto.getN_num()+"/");
-     	mapper.noticeFileDelete(dto.getN_num());
+     mapper.noticeFileDelete(dto.getN_num());
      for(int i=0;i<oldname.size();i++) {
     	 if(!dto.getN_content().contains(oldname.get(i))) {
     		 File f = new File(realpath+oldname.get(i));
@@ -535,21 +531,49 @@ public int noticeupdate(HttpServletRequest req, HttpServletResponse resp, Model 
     		 mapper.noticeFileUpload(noticefiledto);
     	 }
      }
-     mapper.noticeReg(dto);
+     mapper.noticeUpdate(dto);
      imgcnt=0;
     oldname.clear();
 	return 0;
 }
-
 @Override
-public void noticedelete(int n_num) {
+public void noticedelete(int n_num,HttpServletRequest req) {
 	mapper.noticedelete(n_num);
+	String path = req.getServletContext().getRealPath("/resources/file/notice/"+n_num);
+	File folder = new File(path);
+	try {
+	    while(folder.exists()) {
+		File[] folder_list = folder.listFiles(); //파일리스트 얻어오기
+				
+		for (int j = 0; j < folder_list.length; j++) {
+			folder_list[j].delete(); //파일 삭제 
+			System.out.println("파일이 삭제되었습니다.");
+		}
+		if(folder_list.length == 0 && folder.isDirectory()){ 
+			folder.delete(); //대상폴더 삭제
+			System.out.println("폴더가 삭제되었습니다.");
+		}
+            }
+	 } catch (Exception e) {
+		e.getStackTrace();
+	}
 	mapper.noticeFileDelete(n_num);
 }
-
 @Override
 public int getNoticeNum() {
 	return mapper.getNoticeNum();
+}
+
+@Override
+public int noticeMaxnum() {
+	// TODO Auto-generated method stub
+	return 0;
+}
+
+@Override
+public NoticeDTO getNotice() {
+	// TODO Auto-generated method stub
+	return null;
 }
 
 	

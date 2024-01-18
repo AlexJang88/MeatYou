@@ -16,7 +16,6 @@
 
  		<!-- Bootstrap --> 
  		<link type="text/css" rel="stylesheet" href="/resources/css/bootstrap.min.css"/>
-
  		<!-- Slick -->
  		<link type="text/css" rel="stylesheet" href="/resources/css/slick.css"/>
  		<link type="text/css" rel="stylesheet" href="/resources/css/slick-theme.css"/>
@@ -46,7 +45,7 @@
 				<div class="container">
 				
 					<ul class="header-links pull-right">
-						                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />      
+			 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />      
                   <sec:authorize access="isAnonymous()">
                       <li><a href="/member/inputForm"><i class="fa"></i>회원가입 </a></li>
                       <li><a href="/member/customLogin"><i class="fa"></i> 로그인</a></li>

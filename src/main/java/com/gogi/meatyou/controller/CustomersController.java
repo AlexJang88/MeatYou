@@ -2,6 +2,9 @@ package com.gogi.meatyou.controller;
 
 import java.security.Principal;
 import java.security.Provider.Service;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.servlet.http.HttpSession;
 
@@ -25,21 +28,21 @@ public class CustomersController {
    @Autowired
    private CustomersService service;
    
-   @RequestMapping("customer") //í™ˆ
+   @RequestMapping("customer") //È¨
    public String home(Principal pc) {      
       String id = pc.getName();
       return "customer/customer";
    }
    
-   @RequestMapping("itemUpdate") //ìƒí’ˆë“±ë¡
+   @RequestMapping("itemUpdate") //»óÇ°µî·Ï
    public String update(Principal pc) {
-      String id = pc.getName();
+	   String id = pc.getName();
       return "customer/itemUpdate";
    }
 
-   @RequestMapping("itemUpdatePro") //ìƒí’ˆë“±ë¡í™•ì¸
+   @RequestMapping("itemUpdatePro") //»óÇ°µî·ÏÈ®ÀÎ
    public String itemUpdatePro( Principal pc, ProductDTO productdto, PDetailDTO pdetaildto) {
-      productdto.setP_m_id(pc.getName());
+	   productdto.setP_m_id(pc.getName());
       service.itemUpdate(productdto,pdetaildto);      
       return "redirect:/customers/customer";
    }
@@ -47,27 +50,27 @@ public class CustomersController {
 
   
       
-   @RequestMapping("itemList") //ë“±ë¡í•œ ìƒí’ˆëª©ë¡
-   public String itemList(Model model, Principal pc, @RequestParam(value="pageNum", defaultValue = "1") int pageNum) { 
-         String id = pc.getName();
-      service.list(model, id, pageNum);  // ì•„ì´ë””ê°’ ë„˜ê¸°ê¸°      
-      return "customer/itemList";
-   }
+   @RequestMapping("itemList") //µî·ÏÇÑ »óÇ°¸ñ·Ï
+	public String itemList(Model model, Principal pc, @RequestParam(value="pageNum", defaultValue = "1") int pageNum) { 
+			String id = pc.getName();
+		service.list(model, id, pageNum);  // ¾ÆÀÌµğ°ª ³Ñ±â±â		
+		return "customer/itemList";
+	}
    
-   @RequestMapping("/statusChange") //ìƒí’ˆëª©ë¡í˜ì´ì§€ì—ì„œ ë³€ê²½í•˜ë©´ ëŒì•„ì˜¤ëŠ”ê³³ì„¤ì •
-   public String statusChange(Model model, Principal pc, int p_status, int p_num, int pageNum, ProductDTO productdto) {      
-      model.addAttribute("pageNum", pageNum);
-      String id = pc.getName();
-      
-       int co_num=p_status;        
-       if(p_status!=0 && p_status!=2 && p_status!=3) {
-          co_num=p_status;
-          p_status=1;           
-      }      
-       productdto.setP_m_id(id);    // ì•„ì´ë””ê°’
-       productdto.setP_status(p_status); // ë³€ê²½ëœ ìƒí’ˆ ìƒíƒœê°’
-       productdto.setP_num(p_num); //ìƒí’ˆë²ˆí˜¸ê°’
-       productdto.setCo_num(co_num); //ìƒí’ˆë²ˆí˜¸ê°’ 1ë²ˆì¼ë–„ë§Œì”€
+   @RequestMapping("/statusChange") //»óÇ°¸ñ·ÏÆäÀÌÁö¿¡¼­ º¯°æÇÏ¸é µ¹¾Æ¿À´Â°÷¼³Á¤
+   public String statusChange(Model model, Principal pc, int p_status, int p_num, int pageNum, ProductDTO productdto) {	   
+	   model.addAttribute("pageNum", pageNum);
+	   String id = pc.getName();
+	   System.out.println("===++"+p_status);
+       int co_num=p_status;	     
+	    if(p_status!=0 && p_status!=2 && p_status!=3) {
+	    	co_num=p_status;
+	    	p_status=1;     	   
+	   }      
+       productdto.setP_m_id(id);    // ¾ÆÀÌµğ°ª
+       productdto.setP_status(p_status); // º¯°æµÈ »óÇ° »óÅÂ°ª
+       productdto.setP_num(p_num); //»óÇ°¹øÈ£°ª
+       productdto.setCo_num(co_num); //»óÇ°¹øÈ£°ª 1¹øÀÏ‹š¸¸¾¸
         
        System.out.println("===++"+id);
        System.out.println("===++"+p_status);
@@ -75,221 +78,264 @@ public class CustomersController {
        System.out.println("===++"+co_num);
        
        
-       service.statusChange(productdto); // íšŒì›ì˜ íŒë§¤ìƒíƒœë¥¼ ë³€ê²½
+       service.statusChange(productdto); // È¸¿øÀÇ ÆÇ¸Å»óÅÂ¸¦ º¯°æ
        return "redirect:/customers/itemList?pageNum="+pageNum;
    }
    
-   @RequestMapping("itemListOut") //íŒë§¤ì¢…ë£Œëœ ìƒí’ˆëª©ë¡
-    public String itemListOut(Model model, Principal pc, @RequestParam(value="pageNum", defaultValue = "1") int pageNum ) {
-       String id= pc.getName();      
-       service.listout(model, id, pageNum); // ì•„ì´ë””ê°’ ë„˜ê¸°ê¸°         
-       return "customer/itemListOut";
-    }
+   @RequestMapping("itemListOut") //ÆÇ¸ÅÁ¾·áµÈ »óÇ°¸ñ·Ï
+ 	public String itemListOut(Model model, Principal pc, @RequestParam(value="pageNum", defaultValue = "1") int pageNum ) {
+	    String id= pc.getName();		
+ 		service.listout(model, id, pageNum); // ¾ÆÀÌµğ°ª ³Ñ±â±â			
+ 		return "customer/itemListOut";
+ 	}
    
    
    
-   @RequestMapping("/statusChangeout") //íŒë§¤ì¢…ë£Œëœ ìƒí’ˆëª©ë¡ í˜ì´ì§€ì—ì„œ ë³€ê²½í•˜ë©´ ëŒì•„ì˜¤ëŠ”ê³³ì„¤ì •
-   public String statusChangeout(Principal pc,  int p_status, int p_num,  ProductDTO productdto, int pageNum) {      
-      String id= pc.getName();
-      productdto.setP_m_id(id); // ë³€ê²½ëœ ìƒí’ˆ ìƒíƒœê°’   
-      productdto.setP_num(p_num); // ë³€ê²½ëœ ìƒí’ˆ ìƒíƒœê°’   
-      productdto.setP_status(p_status); // ë³€ê²½ëœ ìƒí’ˆ ìƒíƒœê°’   
+   @RequestMapping("/statusChangeout") //ÆÇ¸ÅÁ¾·áµÈ »óÇ°¸ñ·Ï ÆäÀÌÁö¿¡¼­ º¯°æÇÏ¸é µ¹¾Æ¿À´Â°÷¼³Á¤
+	public String statusChangeout(Principal pc,  int p_status, int p_num,  ProductDTO productdto, int pageNum) {	   
+	   String id= pc.getName();
+	   productdto.setP_m_id(id); // º¯°æµÈ »óÇ° »óÅÂ°ª	
+	   productdto.setP_num(p_num); // º¯°æµÈ »óÇ° »óÅÂ°ª	
+		productdto.setP_status(p_status); // º¯°æµÈ »óÇ° »óÅÂ°ª	
+		
+		service.statusChangeouut(productdto); // È¸¿øÀÇ ÆÇ¸Å»óÅÂ¸¦ º¯°æ	
+		return "redirect:/customers/itemListOut?pageNum="+pageNum;
+	}
+   
+   @RequestMapping("content") //»óÇ° Á¤º¸º¸±â
+	public String content(Model model, int p_num ) {
+		model.addAttribute("p_num",p_num);		
+		return "customer/content";
+	}
+   
+   
+ //¿©±â´Â Á¤º¸¼öÁ¤	
+ 	@RequestMapping("itemRevise") //»óÇ° Á¤º¸¼öÁ¤ (°ª È®ÀÎÇÏ±â
+ 	public String itemRevise(Model model, int p_num ) {
+ 		model.addAttribute("p_num",p_num);
+ 		service.lister(model, p_num);			
+ 		return "customer/itemRevise";
+ 	}
       
-      service.statusChangeouut(productdto); // íšŒì›ì˜ íŒë§¤ìƒíƒœë¥¼ ë³€ê²½   
-      return "redirect:/customers/itemListOut?pageNum="+pageNum;
-   }
-   
-   @RequestMapping("content") //ìƒí’ˆ ì •ë³´ë³´ê¸°
-   public String content(Model model, int p_num ) {
-      model.addAttribute("p_num",p_num);      
-      return "customer/content";
-   }
+ 	@RequestMapping("itemRevisePro") //»óÇ° Á¤º¸¼öÁ¤ ÇÁ·ÎÆäÀÌÁö
+	public String itemRevisePro( ProductDTO productdto, PDetailDTO pdetaildto) {					
+		service.updateitemPro(productdto,pdetaildto);			
+		return "redirect:/customers/itemList";
+	}
    
    
- //ì—¬ê¸°ëŠ” ì •ë³´ìˆ˜ì •   
-    @RequestMapping("itemRevise") //ìƒí’ˆ ì •ë³´ìˆ˜ì • (ê°’ í™•ì¸í•˜ê¸°
-    public String itemRevise(Model model, int p_num ) {
-       model.addAttribute("p_num",p_num);
-       service.lister(model, p_num);         
-       return "customer/itemRevise";
-    }
-      
-    @RequestMapping("itemRevisePro") //ìƒí’ˆ ì •ë³´ìˆ˜ì • í”„ë¡œí˜ì´ì§€
-   public String itemRevisePro( ProductDTO productdto, PDetailDTO pdetaildto) {               
-      service.updateitemPro(productdto,pdetaildto);         
-      return "redirect:/customers/itemList";
-   }
+ 	//¿©±â´Â Àç°íÇöÈ²ÆÄ¾Ç
+	
+ 		@RequestMapping("stock") //ÀüÃ¼ »óÇ° Àç°íÇöÈ²
+ 		public String stock(Model model, Principal pc, @RequestParam(value="pageNum", defaultValue = "1") int pageNum) {
+ 		    String id= pc.getName();		
+ 			service.stocklist(model, id, pageNum);  // ¾ÆÀÌµğ°ª ³Ñ±â±â		
+ 			return "customer/stock";
+ 		}
+   
+ 		@RequestMapping("onStock") //ÆÇ¸ÅÁßÀÎ »óÇ° Àç°íÇöÈ²
+ 		public String onStock(Model model, Principal pc, @RequestParam(value="pageNum", defaultValue = "1") int pageNum) {
+ 		    String id= pc.getName();
+ 			service.onStock(model, id, pageNum);		
+ 			return "customer/onStock";
+ 		}
+ 		
+ 		@RequestMapping("stockPro") //»óÇ° ÀüÃ¼¸ñ·Ï Áß Àç°í º¯°æ
+ 		public String stockPro(PDetailDTO pdetaildto) {		
+ 			service.stockPro(pdetaildto);		
+ 			return "redirect:/customers/stock";
+ 		}
+ 		
+ 		@RequestMapping("stockOnPro") //ÆÇ¸ÅÁßÀÎ »óÇ°Áß Áß Àç°í º¯°æ
+ 		public String stockOnPro(PDetailDTO pdetaildto) {		
+ 			service.stockOnPro(pdetaildto);		
+ 			return "redirect:/customers/onStock";
+ 		}
+ 		
+ 	
+ 		
+ 		
+ 		
    
    
-    //ì—¬ê¸°ëŠ” ì¬ê³ í˜„í™©íŒŒì•…
+ 		//À¯·á°áÁ¦¶õ
+ 		@RequestMapping("pay") //À¯·á°áÁ¦
+ 		public String pay(Model model, Principal pc, @RequestParam(value="pageNum", defaultValue = "1") int pageNum ) {
+ 		    String id= pc.getName();
+ 		   model.addAttribute("pageNum",pageNum);
+		    
+ 			service.pay(model, id);
+ 			return "customer/pay";
+ 		}
+ 		
+		
+ 		@RequestMapping("payOne") //À¯·á°áÁ¦
+ 		public String payOne(Model model, Principal pc, @RequestParam(value="pageNum", defaultValue = "1") int pageNum ) {
+ 		    String id= pc.getName();
+ 		   model.addAttribute("pageNum",pageNum);
+ 		   
+ 			service.payOne(model, id, pageNum);
+ 			return "customer/payOne";
+ 		}
+ 		
+ 		@RequestMapping("payTwo") //À¯·á°áÁ¦
+ 		public String payTwo(Model model, Principal pc, @RequestParam(value="pageNum", defaultValue = "1") int pageNum ) {
+ 		    String id= pc.getName();
+ 		   model.addAttribute("pageNum",pageNum);
+ 		   
+ 			service.payTwo(model, id, pageNum);
+ 			return "customer/payTwo";
+ 		}
+ 		
+ 		
+ 		@RequestMapping("powerlink") //ÆÄ¿ö¸µÅ© À¯·á°áÁ¦ ÆäÀÌÁö
+ 		public String powerlink(Model model, Principal pc ) {
+ 		    String id= pc.getName();
+ 			service.powerlist(model, id);  // ¾ÆÀÌµğ°ª ³Ñ±â±â			
+ 			return "customer/powerlink";
+ 		}
+ 		
+ 		@RequestMapping("itemplus") //Ç°¸ñÈ®Àå À¯·á°áÁ¦ ÆäÀÌÁö
+ 		public String itemplus(Model model, Principal pc) { 		
+ 			String id = pc.getName();
+ 			model.addAttribute("id",id);
+ 			return "customer/itemplus";
+ 		}
+ 		
+ 		@RequestMapping("powerlinkpay") //ÆÄ¿ö¸µÅ© °áÁ¦ Ã¢  // ÀÌ°Å ¾ÆÁ÷ ¾ÈµÊ
+ 		public String powerlinkpay(Model model, int p_num, Principal pc, int co_num, int clickpay) { 
+ 			String id = pc.getName();
+ 			ProductDTO productdto = new ProductDTO();  			 			
+ 			productdto.setP_m_id(id);	// ¾ÆÀÌµğ°ª		
+ 			productdto.setP_num(p_num); //»óÇ°¹øÈ£°ª
+ 			service.payment(model,productdto); // °áÁ¦ÇÏ´Â°÷À¸·Î »óÇ° ¹øÈ£³Ñ±â±â
+ 			model.addAttribute("co_num",co_num);
+ 			model.addAttribute("clickpay",clickpay);			
+ 			return "customer/powerlinkpay";
+ 		}
+ 		
+ 		@RequestMapping("powerlinkpayPro") //ÆÄ¿ö¸µÅ© °áÁ¦ Ã¢  // ÀÌ°Å ¾ÆÁ÷ ¾ÈµÊ
+ 		public String powerlinkpayPro(int clickcount,int clickpay, CusOrderDTO cusorderDTO, Principal pc, int p_num) { 
+ 			String id = pc.getName();		
+ 			cusorderDTO.setCo_m_id(id);
+ 			cusorderDTO.setCo_p_num(p_num);
+ 			cusorderDTO.setCo_quantity(clickcount);
+ 			cusorderDTO.setCo_pay(clickpay);
+ 			
+ 			service.payFinish(cusorderDTO);
+ 		
+ 			return "customer/powerlinkpayPro";
+ 		}
+ 		
+ 		
+ 		@RequestMapping("itemplusPro") //Ç°¸ñ°áÀç ¿Ï·á
+ 		public String itemplusPro(CusOrderDTO cusorderDTO, Principal pc) { 					
+ 			cusorderDTO.setCo_m_id(pc.getName());
+ 			
+ 			service.itempayFinish(cusorderDTO);
+ 			return "customer/itemplusPro";
+ 		}
+ 		
    
-       @RequestMapping("stock") //ì „ì²´ ìƒí’ˆ ì¬ê³ í˜„í™©
-       public String stock(Model model, Principal pc, @RequestParam(value="pageNum", defaultValue = "1") int pageNum) {
-           String id= pc.getName();      
-          service.stocklist(model, id, pageNum);  // ì•„ì´ë””ê°’ ë„˜ê¸°ê¸°      
-          return "customer/stock";
-       }
+ 		
+ 		
+ 		
    
-       @RequestMapping("onStock") //íŒë§¤ì¤‘ì¸ ìƒí’ˆ ì¬ê³ í˜„í™©
-       public String onStock(Model model, Principal pc, @RequestParam(value="pageNum", defaultValue = "1") int pageNum) {
-           String id= pc.getName();
-          service.onStock(model, id, pageNum);      
-          return "customer/onStock";
-       }
-       
-       @RequestMapping("stockPro") //ìƒí’ˆ ì „ì²´ëª©ë¡ ì¤‘ ì¬ê³  ë³€ê²½
-       public String stockPro(PDetailDTO pdetaildto) {      
-          service.stockPro(pdetaildto);      
-          return "redirect:/customers/stock";
-       }
-       
-       @RequestMapping("stockOnPro") //íŒë§¤ì¤‘ì¸ ìƒí’ˆì¤‘ ì¤‘ ì¬ê³  ë³€ê²½
-       public String stockOnPro(PDetailDTO pdetaildto) {      
-          service.stockOnPro(pdetaildto);      
-          return "redirect:/customers/onStock";
-       }
-       
-    
-       
-       
-       
-   
-   
-       //ìœ ë£Œê²°ì œë€
-       @RequestMapping("pay") //ìœ ë£Œê²°ì œ
-       public String pay(Model model, Principal pc, @RequestParam(value="pageNum", defaultValue = "1") int pageNum ) {
-           String id= pc.getName();
-          model.addAttribute("pageNum",pageNum);
-          
-          service.pay(model, id);
-          return "customer/pay";
-       }
-       
-      
-       @RequestMapping("payOne") //ìœ ë£Œê²°ì œ
-       public String payOne(Model model, Principal pc, @RequestParam(value="pageNum", defaultValue = "1") int pageNum ) {
-           String id= pc.getName();
-          model.addAttribute("pageNum",pageNum);
-          
-          service.payOne(model, id, pageNum);
-          return "customer/payOne";
-       }
-       
-       @RequestMapping("payTwo") //ìœ ë£Œê²°ì œ
-       public String payTwo(Model model, Principal pc, @RequestParam(value="pageNum", defaultValue = "1") int pageNum ) {
-           String id= pc.getName();
-          model.addAttribute("pageNum",pageNum);
-          
-          service.payTwo(model, id, pageNum);
-          return "customer/payTwo";
-       }
-       
-       
-       @RequestMapping("powerlink") //íŒŒì›Œë§í¬ ìœ ë£Œê²°ì œ í˜ì´ì§€
-       public String powerlink(Model model, Principal pc ) {
-           String id= pc.getName();
-          service.powerlist(model, id);  // ì•„ì´ë””ê°’ ë„˜ê¸°ê¸°         
-          return "customer/powerlink";
-       }
-       
-       @RequestMapping("itemplus") //í’ˆëª©í™•ì¥ ìœ ë£Œê²°ì œ í˜ì´ì§€
-       public String itemplus(Model model, Principal pc) {       
-          String id = pc.getName();
-          model.addAttribute("id",id);
-          return "customer/itemplus";
-       }
-       
-       @RequestMapping("powerlinkpay") //íŒŒì›Œë§í¬ ê²°ì œ ì°½  // ì´ê±° ì•„ì§ ì•ˆë¨
-       public String powerlinkpay(Model model, int p_num, Principal pc, int co_num, int clickpay) { 
-          String id = pc.getName();
-          ProductDTO productdto = new ProductDTO();                     
-          productdto.setP_m_id(id);   // ì•„ì´ë””ê°’      
-          productdto.setP_num(p_num); //ìƒí’ˆë²ˆí˜¸ê°’
-          service.payment(model,productdto); // ê²°ì œí•˜ëŠ”ê³³ìœ¼ë¡œ ìƒí’ˆ ë²ˆí˜¸ë„˜ê¸°ê¸°
-          model.addAttribute("co_num",co_num);
-          model.addAttribute("clickpay",clickpay);         
-          return "customer/powerlinkpay";
-       }
-       
-       @RequestMapping("powerlinkpayPro") //íŒŒì›Œë§í¬ ê²°ì œ ì°½  // ì´ê±° ì•„ì§ ì•ˆë¨
-       public String powerlinkpayPro(int clickcount,int clickpay, CusOrderDTO cusorderDTO, Principal pc, int p_num) { 
-          String id = pc.getName();      
-          cusorderDTO.setCo_m_id(id);
-          cusorderDTO.setCo_p_num(p_num);
-          cusorderDTO.setCo_quantity(clickcount);
-          cusorderDTO.setCo_pay(clickpay);
-          
-          service.payFinish(cusorderDTO);
-       
-          return "customer/powerlinkpayPro";
-       }
-       
-       
-       @RequestMapping("itemplusPro") //í’ˆëª©ê²°ì¬ ì™„ë£Œ
-       public String itemplusPro(CusOrderDTO cusorderDTO, Principal pc) {                
-          cusorderDTO.setCo_m_id(pc.getName());
-          
-          service.itempayFinish(cusorderDTO);
-          return "customer/itemplusPro";
-       }
-       
-   
-   
-       @RequestMapping("profit") //ë§¤ì¶œí˜„í™©
-       public String profit(Model model,@RequestParam(value="check",defaultValue="0")int check,String daterange) {
-          System.out.println("check==========="+check);
-          if(check<=0) {   
-             service.getprofit(model,check);
-          }else {
-             String start = daterange.substring(0,10);
-             String end = daterange.substring(13, 23);
-             service.getCheckprofit(model,check,start,end);
-          }
-          
-          return "customer/profit";
-       }
-       
-       
-       @RequestMapping("consumerList") //êµ¬ë§¤íšŒì›
-       public String consumerList() {
-          return "customer/consumerList";
-       }
-       
-       
-       
-       @RequestMapping("deliver") //ë°°ì†¡í˜„í™©
-       public String deliver() {
-          return "customer/deliver";
-       }
-       
-       @RequestMapping("delivered") //ë°°ì†¡ì™„ë£Œ
-       public String delivered() {
-          return "customer/delivered";
-       }
-       
-       @RequestMapping("delivering") //ë°°ì†¡ì˜ˆì •
-       public String delivering() {
-          return "customer/delivering";
-       }
-       
-       
-       
-       
-       
-       
-       @RequestMapping("total") //ì •ì‚°ì•ˆë‚´
-       public String total() {
-          return "customer/total";
-       }
-       
-       @RequestMapping("cusQna") //ë¬¸ì˜í•˜ê¸°
-       public String cusQna() {
-          return "customer/cusQna";
-       }
-       
-       @RequestMapping("cusCoupon") //ì¿ í°ì œê³µë¦¬ìŠ¤íŠ¸
-       public String cusCoupon() {
-          return "customer/cusCoupon";
-       }
+ 		@RequestMapping("profit") //¸ÅÃâÇöÈ²
+ 		public String profit(Model model,@RequestParam(value="check",defaultValue="0")int check,String daterange, Principal pc) {
+ 			String id = pc.getName();
+ 			
+ 		// ÇöÀç ³¯Â¥
+ 	        Date currentDate = new Date();
+ 	        // check¿¡ µû¶ó¼­ ³¯Â¥¸¦ °è»ê
+ 	        Date targetDate = service.calculateTargetDate(currentDate, check);
+ 	        // SimpleDateFormatÀ» »ç¿ëÇÏ¿© ¿øÇÏ´Â Çü½ÄÀ¸·Î ³¯Â¥¸¦ ¹®ÀÚ¿­·Î º¯È¯
+ 	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy³â MM¿ù");
+ 	        String formattedDate = sdf.format(targetDate);
+ 	        model.addAttribute("currentMonth", targetDate.getMonth() + 1);
+ 	        model.addAttribute("currentYear", targetDate.getYear() + 1900);
+ 		
+ 			if(check<=0) {	
+ 				service.getprofit(model,check,id);
+ 			}else {
+ 				String start = daterange.substring(0,10);
+ 				String end = daterange.substring(13, 23);
+ 				//service.getCheckprofit(model,check,start,end,id); ¾ÆÁ÷ ¾ÈÇÔ
+ 			}			
+ 			return "customer/profit";
+ 		}	
+ 		
+ 		@RequestMapping("profitItem") //ÆÇ¸Å»óÇ°ÇöÈ²
+ 		public String profitItem(Model model,@RequestParam(value="check",defaultValue="0")int check,String daterange, Principal pc, @RequestParam(value="pageNum", defaultValue = "1") int pageNum) {
+ 			String id = pc.getName();
+ 			
+ 		// ÇöÀç ³¯Â¥
+ 	        Date currentDate = new Date();
+ 	        // check¿¡ µû¶ó¼­ ³¯Â¥¸¦ °è»ê
+ 	        Date targetDate = service.calculateTargetDate(currentDate, check);
+ 	        // SimpleDateFormatÀ» »ç¿ëÇÏ¿© ¿øÇÏ´Â Çü½ÄÀ¸·Î ³¯Â¥¸¦ ¹®ÀÚ¿­·Î º¯È¯
+ 	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy³â MM¿ù");
+ 	        String formattedDate = sdf.format(targetDate);
+ 	        model.addAttribute("currentMonth", targetDate.getMonth() + 1);
+ 	        model.addAttribute("currentYear", targetDate.getYear() + 1900);
+
+ 			
+ 			if(check<=0) {	
+ 				service.getProfitItem(model,check,id, pageNum);
+ 			}else {
+ 				String start = daterange.substring(0,10);
+ 				String end = daterange.substring(13, 23);
+ 				//service.getCheckProfitItem(model,check,start,end,id); ¾ÆÁ÷¾ÈÇÔ
+ 			}			
+ 			return "customer/profitItem";
+ 		}
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
+
+		@RequestMapping("consumerList") //±¸¸ÅÈ¸¿ø
+ 		public String consumerList() {
+ 			return "customer/consumerList";
+ 		}
+ 		
+ 		
+ 		
+ 		@RequestMapping("deliver") //¹è¼ÛÇöÈ²
+ 		public String deliver() {
+ 			return "customer/deliver";
+ 		}
+ 		
+ 		@RequestMapping("delivered") //¹è¼Û¿Ï·á
+ 		public String delivered() {
+ 			return "customer/delivered";
+ 		}
+ 		
+ 		@RequestMapping("delivering") //¹è¼Û¿¹Á¤
+ 		public String delivering() {
+ 			return "customer/delivering";
+ 		}
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		@RequestMapping("total") //Á¤»ê¾È³»
+ 		public String total() {
+ 			return "customer/total";
+ 		}
+ 		
+ 		@RequestMapping("cusQna") //¹®ÀÇÇÏ±â
+ 		public String cusQna() {
+ 			return "customer/cusQna";
+ 		}
+ 		
+ 		@RequestMapping("cusCoupon") //ÄíÆùÁ¦°ø¸®½ºÆ®
+ 		public String cusCoupon() {
+ 			return "customer/cusCoupon";
+ 		}
    
 }

@@ -10,8 +10,6 @@
 <br />
 <a href="/admin/sales">매출보기</a>
 <br>
-	
-	
 			<table>
 				<tr>
 					<td>아이디</td>
@@ -22,12 +20,12 @@
 					<td>현재 등급</td>
 					<td>바꿀등급</td>
 				</tr>
-		<c:forEach var="d" items="${list}">
-		<form action="/admin/statChange" method="post">
-		<input type="hidden" name="check" value="${check}">
-		<input type="hidden" name="m_id" value="${d.m_id}">
-		<input type="hidden" name="pageNum" value="${pageNum}">
-		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+					<c:forEach var="d" items="${list}">
+					<form action="/admin/statChange" method="post">
+					<input type="hidden" name="check" value="${check}">
+					<input type="hidden" name="m_id" value="${d.m_id}">
+					<input type="hidden" name="pageNum" value="${pageNum}">
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 				<tr>
 					<td>${d.m_id}</td>
 					<td>${d.m_name} </td>
