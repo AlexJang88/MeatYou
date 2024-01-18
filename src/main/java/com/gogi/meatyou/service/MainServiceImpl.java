@@ -54,6 +54,7 @@ public class MainServiceImpl implements MainService {
        int startRow = (pageNum - 1) * pageSize + 1;
        int endRow = pageNum * pageSize;
        int count = mapper.searchCount(searchOption, search);
+       
        List<ProductDTO> searchList = Collections.EMPTY_LIST;
        if(count > 0) {
           searchMap.put("start", startRow);
@@ -61,7 +62,14 @@ public class MainServiceImpl implements MainService {
           searchMap.put("desc", desc);
           searchMap.put("searchOption", searchOption);
           searchMap.put("search", search);
-           searchList = mapper.searchList(searchMap);
+          searchList = mapper.searchList(searchMap);
+          System.out.println("pageSize : "+pageSize);
+          System.out.println("pageNum : "+pageNum);
+          System.out.println("count : "+count);
+          System.out.println("startRow : "+startRow);
+          System.out.println("endRow : "+endRow);
+          System.out.println("searchOption : "+searchOption);
+          System.out.println("search : "+search);
        }
        model.addAttribute("searchList", searchList);
        model.addAttribute("pageSize", pageSize);
@@ -70,19 +78,35 @@ public class MainServiceImpl implements MainService {
        model.addAttribute("searchOption", searchOption);
        model.addAttribute("search", search);
        
-       //page
-        int pageCount = count / pageSize + ( count % pageSize == 0 ? 0 : 1);
+     //page
+       int pageCount = count / pageSize + ( count % pageSize == 0 ? 0 : 1);
+      
+       int startPage = (int)(pageNum/10)*10+1;
+       int pageBlock=10;
+       int endPage = startPage + pageBlock-1;
+       if (endPage > pageCount) {
+          endPage = pageCount;
+       }
+      model.addAttribute("pageCount", pageCount);
+      model.addAttribute("startPage", startPage);
+      model.addAttribute("pageBlock", pageBlock);
+      model.addAttribute("endPage", endPage);
        
-        int startPage = (int)(pageNum/10)*10+1;
-      int pageBlock=10;
-        int endPage = startPage + pageBlock-1;
-        if (endPage > pageCount) {
-           endPage = pageCount;
-        }
-       model.addAttribute("pageCount", pageCount);
-       model.addAttribute("startPage", startPage);
-       model.addAttribute("pageBlock", pageBlock);
-       model.addAttribute("endPage", endPage);
+       
+       for(ProductDTO rdto : searchList) {
+    	   int p_num = rdto.getP_num();
+    	   double result=0;
+    	   double sum =0.0;
+   		  	int recount = mapper.reviewAllCNT(p_num);
+   			if(recount > 0) {
+   			sum = mapper.reviewSum(p_num);
+   			result = sum / (double)recount;
+   			result = Double.parseDouble(String.format("%.1f", result));
+   			rdto.setStar(result);
+   			}
+       }
+       
+      
    }
    
    
@@ -108,6 +132,19 @@ public class MainServiceImpl implements MainService {
        model.addAttribute("searchOption", searchOption);
        model.addAttribute("search", search);
        
+       for(ProductDTO rdto : searchPrice) {
+    	   int p_num = rdto.getP_num();
+    	   double result=0;
+    	   double sum =0.0;
+   		  	int recount = mapper.reviewAllCNT(p_num);
+   			if(recount > 0) {
+   			sum = mapper.reviewSum(p_num);
+   			result = sum / (double)recount;
+   			result = Double.parseDouble(String.format("%.1f", result));
+   			rdto.setStar(result);
+   			}
+       }
+       
        //page
         int pageCount = count / pageSize + ( count % pageSize == 0 ? 0 : 1);
        
@@ -128,7 +165,7 @@ public class MainServiceImpl implements MainService {
       int pageSize = 6; 
        int startRow = (pageNum - 1) * pageSize + 1;
        int endRow = pageNum * pageSize;
-       int count = mapper.searchCount(searchOption, search);
+       int count = mapper.searchSaleCNT(searchOption, search);
        List<ProductDTO> searchSale = Collections.EMPTY_LIST;
        if(count > 0) {
           searchMap.put("start", startRow);
@@ -144,6 +181,19 @@ public class MainServiceImpl implements MainService {
        model.addAttribute("count", count);
        model.addAttribute("searchOption", searchOption);
        model.addAttribute("search", search);
+       
+       for(ProductDTO rdto : searchSale) {
+    	   int p_num = rdto.getP_num();
+    	   double result=0;
+    	   double sum =0.0;
+   		  	int recount = mapper.reviewAllCNT(p_num);
+   			if(recount > 0) {
+   			sum = mapper.reviewSum(p_num);
+   			result = sum / (double)recount;
+   			result = Double.parseDouble(String.format("%.1f", result));
+   			rdto.setStar(result);
+   			}
+       }
        
        //page
         int pageCount = count / pageSize + ( count % pageSize == 0 ? 0 : 1);
@@ -310,47 +360,47 @@ public ProductDetailDTO productDetail(ProductDetailDTO dto, Model model) {
 	String cate = dto.getP_category()+"";
 
 	if((cate.charAt(0)-48) == 1) {
-		category1 = "êµ­ë‚´ì‚°";
+		category1 = "±¹³»»ê";
 	} else{
-		category1 = "ìˆ˜ì…ì‚°";
+		category1 = "¼öÀÔ»ê";
 	}
 	
 	if((cate.charAt(1)-48) == 1) {
-		category2 = "ë¼ì§€ê³ ê¸°";
+		category2 = "µÅÁö°í±â";
 	} else{
-		category2 = "ì†Œê³ ê¸°";
+		category2 = "¼Ò°í±â";
 	}
 	
 	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
+		category3 = "Æ¯¼öºÎÀ§";
 	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-		category3 = "ì‚¼ê²¹ì‚´";
+		category3 = "»ï°ã»ì";
 	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-		category3 = "ëª©ì‚´";
+		category3 = "¸ñ»ì";
 	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-		category3 = "ì•ˆì‹¬";
+		category3 = "¾È½É";
 	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-		category3 = "ë“±ì‹¬";
+		category3 = "µî½É";
 	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-		category3 = "ì•ë‹¤ë¦¬ì‚´";
+		category3 = "¾Õ´Ù¸®»ì";
 	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-		category3 = "ê°ˆë§¤ê¸°ì‚´";
+		category3 = "°¥¸Å±â»ì";
 	}
 	
 	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
+		category3 = "Æ¯¼öºÎÀ§";
 	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-		category3 = "ë“±ì‹¬";
+		category3 = "µî½É";
 	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-		category3 = "ì•ˆì‹¬";
+		category3 = "¾È½É";
 	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-		category3 = "ê°ˆë¹„";
+		category3 = "°¥ºñ";
 	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-		category3 = "ì±„ë";
+		category3 = "Ã¤³¡";
 	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-		category3 = "ëª©ì‹¬";
+		category3 = "¸ñ½É";
 	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-		category3 = "ë¶€ì±„ì‚´";
+		category3 = "ºÎÃ¤»ì";
 	}
 
 	model.addAttribute("category1", category1);
@@ -370,47 +420,47 @@ public ProductDetailDTO productDetail(ProductDetailDTO dto, Model model) {
 		String cate = dto.getP_category()+"";
 
 		if((cate.charAt(0)-48) == 1) {
-			category1 = "êµ­ë‚´ì‚°";
+			category1 = "±¹³»»ê";
 		} else{
-			category1 = "ìˆ˜ì…ì‚°";
+			category1 = "¼öÀÔ»ê";
 		}
 		
 		if((cate.charAt(1)-48) == 1) {
-			category2 = "ë¼ì§€ê³ ê¸°";
+			category2 = "µÅÁö°í±â";
 		} else{
-			category2 = "ì†Œê³ ê¸°";
+			category2 = "¼Ò°í±â";
 		}
 		
 		if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-			category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
+			category3 = "Æ¯¼öºÎÀ§";
 		} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-			category3 = "ì‚¼ê²¹ì‚´";
+			category3 = "»ï°ã»ì";
 		}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-			category3 = "ëª©ì‚´";
+			category3 = "¸ñ»ì";
 		}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-			category3 = "ì•ˆì‹¬";
+			category3 = "¾È½É";
 		}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-			category3 = "ë“±ì‹¬";
+			category3 = "µî½É";
 		}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-			category3 = "ì•ë‹¤ë¦¬ì‚´";
+			category3 = "¾Õ´Ù¸®»ì";
 		}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-			category3 = "ê°ˆë§¤ê¸°ì‚´";
+			category3 = "°¥¸Å±â»ì";
 		}
 		
 		if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-			category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
+			category3 = "Æ¯¼öºÎÀ§";
 		} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-			category3 = "ë“±ì‹¬";
+			category3 = "µî½É";
 		}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-			category3 = "ì•ˆì‹¬";
+			category3 = "¾È½É";
 		}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-			category3 = "ê°ˆë¹„";
+			category3 = "°¥ºñ";
 		}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-			category3 = "ì±„ë";
+			category3 = "Ã¤³¡";
 		}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-			category3 = "ëª©ì‹¬";
+			category3 = "¸ñ½É";
 		}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-			category3 = "ë¶€ì±„ì‚´";
+			category3 = "ºÎÃ¤»ì";
 		}
 
 		model.addAttribute("category1", category1);
@@ -591,6 +641,20 @@ public ProductDetailDTO productDetail(ProductDetailDTO dto, Model model) {
 		model.addAttribute("CartCNT" , CartCNT);
 		return CartCNT;
 	}
+	
+	@Override
+	public int ShoppingCartInsert2(Model model, String m_id, int p_num, int shop_quantity) {
+		System.out.println("mid : "+m_id);
+		System.out.println("p_num : "+p_num);
+		System.out.println("shop_quantity : "+shop_quantity);
+		int CartCNT = mapper.ShoppingCartCNT2(m_id);
+		mapper.ShoppingCartInsert2(m_id , p_num, shop_quantity);
+		model.addAttribute("m_id" , m_id);
+		model.addAttribute("p_num" , p_num);
+		model.addAttribute("shop_quantity" , shop_quantity);
+		model.addAttribute("CartCNT" , CartCNT);
+		return CartCNT;
+	}
 
 	@Override
 	public void pickInsert(Model model, PPicDTO dto, String ppic_m_id, int ppic_p_num) {
@@ -613,6 +677,9 @@ public ProductDetailDTO productDetail(ProductDetailDTO dto, Model model) {
 	public int pick_p_numCNT(String ppic_m_id, int ppic_p_num) {
 		return mapper.pick_p_numCNT(ppic_m_id , ppic_p_num);
 	}
+
+
+
 
 
 
