@@ -6,31 +6,33 @@ import lombok.Data;
 
 @Data
 public class ProductDTO {
-      private int p_num;  //ìƒí’ˆì•„ì´ë””
-      private String p_m_id;  //íŒë§¤ìì•„ì´ë””
-      private String p_name; //ìƒí’ˆëª…
-      private int p_category; // ì¹´í…Œê³ ë¦¬ì„ íƒ 111 ì‚¼ê²¹ì‚´
-      private int p_s_category;  // ë‹¨í’ˆì„¸íŠ¸
-      private String thumb;  // ì¸ë„¤ì¼ ì‚¬ì§„
-      private int p_price;  // ê°€ê²©
-      private int p_rcount;  // ì¡°íšŒìˆ˜ 
-      private Date p_reg_date;  // ë“±ë¡ì¼
-      private String startdate;  // íŒë§¤ì‹œì‘ì¼
-      private String enddate;  // íŒë§¤ì¢…ë£Œì¼
-      private int co_num; // ìœ ë£Œê²°ì œ ì½”ë“œë²ˆí˜¸
-      private int co_p_num; // ìœ ë£Œê²°ì œ ìƒí’ˆë²ˆí˜¸
-      private int p_status; // íŒë§¤ìƒíƒœ   
-      private int pd_p_num;  //ìƒí’ˆid
-      private String pd_p_desc;  //ìƒí’ˆì„¤ëª…   
-      private String origin; // ì›ì‚°ì§„
-      private String local;  // ë†ì¥ì£¼ì†Œ
-      private int weight;  // ì¤‘ëŸ‰
-      private String butchery;  // ë„ì¶•ì¥
-      private int serialNum;  // ì´ë ¥ ë²ˆí˜¸
-      private String retain; // ë³´ê´€ë°©ë²•
-      private int stock;  //ì¬ê³ ìˆ˜
-      private String pd_duedate;  //ìœ í†µê¸°í•œ
-      private int pd_p_status;  // ë…¸ì¶œìƒíƒœ
-      private PDetailDTO pdetaildto;  // ë””í…Œì¼ ì¶•ì•½
+	   private int p_num;  //»óÇ°¾ÆÀÌµğ
+	   private String p_m_id;  //ÆÇ¸ÅÀÚ¾ÆÀÌµğ
+	   private String p_name; //»óÇ°¸í
+	   private int p_category; // Ä«Å×°í¸®¼±ÅÃ 111 »ï°ã»ì
+	   private int p_s_category;  // ´ÜÇ°¼¼Æ®
+	   private String thumb;  // ½æ³×ÀÏ »çÁø
+	   private int p_price;  // °¡°İ
+	   private int p_rcount;  // Á¶È¸¼ö 
+	   private Date p_reg_date;  // µî·ÏÀÏ
+	   private String startdate;  // ÆÇ¸Å½ÃÀÛÀÏ
+	   private String enddate;  // ÆÇ¸ÅÁ¾·áÀÏ	  
+	   
+	   private int co_num; // À¯·á°áÁ¦ ÄÚµå¹øÈ£
+	   private int co_p_num; // À¯·á°áÁ¦ »óÇ°¹øÈ£
+ 
+	   private int p_status; // ÆÇ¸Å»óÅÂ   
+	   private int pd_p_num;  //»óÇ°id
+		private String pd_p_desc;  //»óÇ°¼³¸í	
+		private String origin; // ¿ø»êÁø
+		private String local;  // ³óÀåÁÖ¼Ò
+		private int weight;  // Áß·®
+		private String butchery;  // µµÃàÀå
+		private int serialNum;  // ÀÌ·Â ¹øÈ£
+		private String retain; // º¸°ü¹æ¹ı
+		private int stock;  //Àç°í¼ö
+		private String pd_duedate;  //À¯Åë±âÇÑ
+		private int pd_p_status;  // ³ëÃâ»óÅÂ
+		private PDetailDTO pdetaildto;  // µğÅ×ÀÏ Ãà¾à
       
    }
