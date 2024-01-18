@@ -15,7 +15,6 @@
 <form method="post" action="/admin/noticeupdate" enctype="multipart/form-data">
   <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
   <div id="temp" style="display:none">${dto.n_content}</div>
-  <input type="hidden" name="category" value="10">
   <input type="hidden" name="n_num" id="n_num" value="${dto.n_num}"/>
   제목 : <input type="text" name="n_title" value="${dto.n_title}">
   <textarea id="summernote" name="n_content">
@@ -30,7 +29,8 @@ window.onload=function(){
 		$('#summernote').summernote('code',document.getElementById('temp').innerHTML)
 	}	
 $(document).ready(function () {		
-    $('#summernote').summernote({
+    var n_num = document.getElementById("n_num");
+	$('#summernote').summernote({
     	
         codeviewFilter: false, // 코드 보기 필터 비활성화
         codeviewIframeFilter: false, // 코드 보기 iframe 필터 비활성화
@@ -95,10 +95,12 @@ $(document).ready(function () {
     })
 })
 function updateSummernoteImageFile(file, el,n_num) {
-		data = new FormData()
+		data = new FormData();
+		data.append('file',file);
+		data.append('n_num',n_num);
         data.append('file', file)
         $.ajax({
-            data: {data:data,n_num:n_num},
+            data: data,
             type: 'POST',
             url: '/admin/updateSummernoteImageFile',
             contentType: false,

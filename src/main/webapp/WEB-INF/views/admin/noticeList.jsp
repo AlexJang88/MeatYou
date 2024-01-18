@@ -13,7 +13,6 @@
 	<c:forEach items="${list}" var="notice" >
 		<form action="/admin/noticedelete" method="post">
 		<tr>
-			
 			<td><a href="/admin/noticeContent?n_num=${notice.n_num}">${notice.n_title}</a></td>
 			<td><fmt:formatDate value="${notice.n_reg_date}" pattern="yyyy-MM-dd"/></td>
 			<td>
@@ -24,7 +23,6 @@
 		</form>
 	</c:forEach>		
 	</table>
-	
 	
 <c:if test="${count>0}">
 			<c:if test="${startPage>10}">
@@ -37,4 +35,4 @@
 	        	<a href="/admin/noticeList?pageNum=${startPage+10}">[다음]</a>
 			</c:if>
 		</c:if>
-<%@ include file="../footer.jsp" %>
+<jsp:include page="/WEB-INF/views/footer.jsp" />

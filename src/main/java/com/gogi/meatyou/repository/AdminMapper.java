@@ -39,16 +39,15 @@ public interface AdminMapper {
    public List<ReckonDTO> getReckon(HashMap hashmap);
    public int getReckCount(HashMap hashmap);
    public void insertTest(String id);
-   public int noticeMaxnum();
-   public NoticeDTO getNotice();
    public List<NoticeDTO> noticeList(HashMap hashmap);
    public int getNoticeCount();
    public void noticeReg(NoticeDTO dto);
    public void noticeFileUpload(NoticeFileDTO dto);
    public NoticeDTO noticeContent(NoticeDTO dto);
-   public List<NoticeFileDTO> noticeFileUpdate(int nf_n_num);
+   public List<NoticeFileDTO> getNoticeFiles(int nf_n_num);
    public void noticeFileDelete(int nf_n_num);
    public void noticedelete(int n_num);
    public int getNoticeNum();
+   public void noticeUpdate(NoticeDTO dto);
    
 }

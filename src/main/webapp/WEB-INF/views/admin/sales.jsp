@@ -5,7 +5,7 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-<%@ include file="../header.jsp" %>
+<jsp:include page="/WEB-INF/views/header.jsp" />
 <a href="/admin/memberlist?check=1">회원목록 조회(일반)</a>
 <a href="/admin/memberlist?check=2">회원목록 조회(판매자)</a>
 <a href="/admin/memberlist?check=3">판매자 승인대기</a>
@@ -48,7 +48,7 @@
 		<td>${pc}</td>
 	</tr>
 </table>
-<br /><%@ include file="../footer.jsp" %>
+<jsp:include page="/WEB-INF/views/footer.jsp" />
 <script>
 $(function() {
   $('input[name="daterange"]').daterangepicker({
