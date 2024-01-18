@@ -301,311 +301,318 @@ public class MainServiceImpl implements MainService {
 
 @Override
 public ProductDetailDTO productDetail(ProductDetailDTO dto, Model model) {
-   dto = mapper.productDetail(dto);
-   
-   String category1="";
-   String category2="";
-   String category3="";
-   
-   System.out.println("dto.getP_category() : "+dto);
-   String cate = dto.getP_category()+"";
+	dto = mapper.productDetail(dto);
+	
+	String category1="";
+	String category2="";
+	String category3="";
+	
+	String cate = dto.getP_category()+"";
 
-   if((cate.charAt(0)-48) == 1) {
-      category1 = "국내산";
-   } else{
-      category1 = "수입산";
-   }
-   
-   if((cate.charAt(1)-48) == 1) {
-      category2 = "돼지고기";
-   } else{
-      category2 = "소고기";
-   }
-   
-   if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-      category3 = "특수부위";
-   } else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-      category3 = "삼겹살";
-   }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-      category3 = "목살";
-   }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-      category3 = "안심";
-   }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-      category3 = "등심";
-   }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-      category3 = "앞다리살";
-   }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-      category3 = "갈매기살";
-   }
-   
-   if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-      category3 = "특수부위";
-   } else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-      category3 = "등심";
-   }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-      category3 = "안심";
-   }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-      category3 = "갈비";
-   }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-      category3 = "채끝";
-   }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-      category3 = "목심";
-   }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-      category3 = "부채살";
-   }
+	if((cate.charAt(0)-48) == 1) {
+		category1 = "국내산";
+	} else{
+		category1 = "수입산";
+	}
+	
+	if((cate.charAt(1)-48) == 1) {
+		category2 = "돼지고기";
+	} else{
+		category2 = "소고기";
+	}
+	
+	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
+		category3 = "특수부위";
+	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
+		category3 = "삼겹살";
+	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
+		category3 = "목살";
+	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
+		category3 = "안심";
+	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
+		category3 = "등심";
+	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
+		category3 = "앞다리살";
+	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
+		category3 = "갈매기살";
+	}
+	
+	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
+		category3 = "특수부위";
+	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
+		category3 = "등심";
+	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
+		category3 = "안심";
+	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
+		category3 = "갈비";
+	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
+		category3 = "채끝";
+	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
+		category3 = "목심";
+	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
+		category3 = "부채살";
+	}
 
-   model.addAttribute("category1", category1);
-   model.addAttribute("category2", category2);
-   model.addAttribute("category3", category3);
+	model.addAttribute("category1", category1);
+	model.addAttribute("category2", category2);
+	model.addAttribute("category3", category3);
 
-   return mapper.productDetail(dto);
-   }
-
-
-   @Override
-   public List<ProductDetailDTO> otherProductDetail(ProductDetailDTO dto, Model model) {
-      String category1="";
-      String category2="";
-      String category3="";
-      
-      String cate = dto.getP_category()+"";
-
-      if((cate.charAt(0)-48) == 1) {
-         category1 = "국내산";
-      } else{
-         category1 = "수입산";
-      }
-      
-      if((cate.charAt(1)-48) == 1) {
-         category2 = "돼지고기";
-      } else{
-         category2 = "소고기";
-      }
-      
-      if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-         category3 = "특수부위";
-      } else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-         category3 = "삼겹살";
-      }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-         category3 = "목살";
-      }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-         category3 = "안심";
-      }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-         category3 = "등심";
-      }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-         category3 = "앞다리살";
-      }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-         category3 = "갈매기살";
-      }
-      
-      if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-         category3 = "특수부위";
-      } else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-         category3 = "등심";
-      }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-         category3 = "안심";
-      }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-         category3 = "갈비";
-      }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-         category3 = "채끝";
-      }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-         category3 = "목심";
-      }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-         category3 = "부채살";
-      }
-
-      model.addAttribute("category1", category1);
-      model.addAttribute("category2", category2);
-      model.addAttribute("category3", category3);
-
-      return mapper.otherProductDetail(dto);
-   }
+	return mapper.productDetail(dto);
+	}
 
 
-   @Override
-   public List<ReviewDTO> reviewAll(int p_num) {
-      return mapper.reviewAll(p_num);
-   }
+	@Override
+	public List<ProductDetailDTO> otherProductDetail(ProductDetailDTO dto, Model model) {
+		String category1="";
+		String category2="";
+		String category3="";
+		
+		String cate = dto.getP_category()+"";
 
-   @Override
-   public void reviewCNT(String mid, int p_num, Model model) {
-      int order = 0;
-      int review = 0;
-      int result = 0;
-      order = mapper.mOderCount(mid, p_num);
-      review = mapper.reviewCount(mid , p_num);
-      if(order >= 1) {
-         result = order - review;
-      } else {
-         result = -1;
-      }
-      model.addAttribute("result" , result);
-   }
-   
-   @Override
-   public void reviewInsert(ReviewDTO dto) {
-      mapper.reviewInsert(dto);
-   }
+		if((cate.charAt(0)-48) == 1) {
+			category1 = "국내산";
+		} else{
+			category1 = "수입산";
+		}
+		
+		if((cate.charAt(1)-48) == 1) {
+			category2 = "돼지고기";
+		} else{
+			category2 = "소고기";
+		}
+		
+		if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
+			category3 = "특수부위";
+		} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
+			category3 = "삼겹살";
+		}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
+			category3 = "목살";
+		}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
+			category3 = "안심";
+		}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
+			category3 = "등심";
+		}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
+			category3 = "앞다리살";
+		}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
+			category3 = "갈매기살";
+		}
+		
+		if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
+			category3 = "특수부위";
+		} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
+			category3 = "등심";
+		}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
+			category3 = "안심";
+		}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
+			category3 = "갈비";
+		}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
+			category3 = "채끝";
+		}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
+			category3 = "목심";
+		}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
+			category3 = "부채살";
+		}
 
-   @Override
-   public double reviewStar(int p_num) {
-      double result=0;
-      double sum =0.0;
-      int count = mapper.reviewAllCNT(p_num);
-      if(count > 0) {
-         sum = mapper.reviewSum(p_num);
-         result = sum / (double)count;
-         result = Double.parseDouble(String.format("%.1f", result));
-      }
-      return result;
-   }
+		model.addAttribute("category1", category1);
+		model.addAttribute("category2", category2);
+		model.addAttribute("category3", category3);
 
-   @Override
-   public int star1(int r_p_num) {
-      return mapper.star1(r_p_num);
-   }
-   
-   @Override
-   public int star2(int r_p_num) {
-      return mapper.star2(r_p_num);
-   }
-   
-   @Override
-   public int star3(int r_p_num) {
-      return mapper.star3(r_p_num);
-   }
-   
-   @Override
-   public int star4(int r_p_num) {
-      return mapper.star4(r_p_num);
-   }
-   
-   @Override
-   public int star5(int r_p_num) {
-      return mapper.star5(r_p_num);
-   }
-
-   @Override
-   public int reviewAllCNT(int r_p_num) {
-      return mapper.reviewAllCNT(r_p_num);
-   }
-
-   @Override
-   public void reviewAllPaging(Model model, int p_num, int pageNum) {
-         int pageSize = 6; 
-          int startRow = (pageNum - 1) * pageSize + 1;
-          int endRow = pageNum * pageSize;
-          int count = mapper.reviewAllPagingCNT(p_num);
-          List<ReviewDTO> reviewAllPaging = Collections.EMPTY_LIST;
-          if(count > 0) {
-             searchMap.put("start", startRow);
-             searchMap.put("end", endRow);
-             searchMap.put("p_num", p_num);
-             reviewAllPaging = mapper.reviewAllPaging(searchMap);
-          }
-          model.addAttribute("reviewAllPaging", reviewAllPaging);
-          model.addAttribute("pageSize", pageSize);
-          model.addAttribute("pageNum", pageNum);
-          model.addAttribute("count", count);
-          model.addAttribute("p_num", p_num);
-          
-          //page
-           int pageCount = count / pageSize + ( count % pageSize == 0 ? 0 : 1);
-          
-           int startPage = (int)(pageNum/10)*10+1;
-           int pageBlock=10;
-           int endPage = startPage + pageBlock-1;
-           if (endPage > pageCount) {
-              endPage = pageCount;
-           } 
-          model.addAttribute("pageCount", pageCount);
-          model.addAttribute("startPage", startPage);
-          model.addAttribute("pageBlock", pageBlock);
-          model.addAttribute("endPage", endPage);
-      }
-
-   @Override
-   public double star1Per(int r_p_num) {
-      double reviewCnt=0.0;
-      double star1Per=0.0;
-      double result=0.0;
-      reviewCnt = mapper.reviewAllCNT(r_p_num);
-      star1Per = mapper.star1(r_p_num);
-      result = (star1Per*100)/reviewCnt;
-      return result;
-   }
-
-   @Override
-   public double star2Per(int r_p_num) {
-      double reviewCnt=0.0;
-      double star2Per=0.0;
-      double result=0.0;
-      reviewCnt = mapper.reviewAllCNT(r_p_num);
-      star2Per = mapper.star2(r_p_num);
-      result = (star2Per*100)/reviewCnt;
-      return result;
-   }
-
-   @Override
-   public double star3Per(int r_p_num) {
-      double reviewCnt=0.0;
-      double star3Per=0.0;
-      double result=0.0;
-      reviewCnt = mapper.reviewAllCNT(r_p_num);
-      star3Per = mapper.star3(r_p_num);
-      result = (star3Per*100)/reviewCnt;
-      return result;
-   }
-
-   @Override
-   public double star4Per(int r_p_num) {
-      double reviewCnt=0.0;
-      double star4Per=0.0;
-      double result=0.0;
-      reviewCnt = mapper.reviewAllCNT(r_p_num);
-      star4Per = mapper.star4(r_p_num);
-      result = (star4Per*100)/reviewCnt;
-      return result;
-   }
-
-   @Override
-   public double star5Per(int r_p_num) {
-      double reviewCnt=0.0;
-      double star5Per=0.0;
-      double result=0.0;
-      reviewCnt = mapper.reviewAllCNT(r_p_num);
-      star5Per = mapper.star5(r_p_num);
-      result = (star5Per*100)/reviewCnt;
-      return result;
-   }
-
-   @Override
-   public int ShoppingCartCNT2(String shop_m_id) {
-      return mapper.ShoppingCartCNT2(shop_m_id);
-   }
-   
-   @Override
-   public int ShoppingCartInsert(Model model, ShoppingCartDTO dto) {
-      int CartCNT = mapper.ShoppingCartCNT(dto);
-      mapper.ShoppingCartInsert(dto);
-      model.addAttribute("dto" , dto);
-      model.addAttribute("CartCNT" , CartCNT);
-      return CartCNT;
-   }
-
-   @Override
-   public void pickInsert(Model model, PPicDTO dto) {
-      mapper.pickInsert(dto);
-      model.addAttribute("dto" , dto);
-   }
-
-   @Override
-   public int pickCNT(String ppic_m_id) {
-      return mapper.pickCNT(ppic_m_id);
-   }
+		return mapper.otherProductDetail(dto);
+	}
 
 
+	@Override
+	public List<ReviewDTO> reviewAll(int p_num) {
+		return mapper.reviewAll(p_num);
+	}
 
+	@Override
+	public void reviewCNT(String mid, int p_num, Model model) {
+		int order = 0;
+		int review = 0;
+		int result = 0;
+		order = mapper.mOderCount(mid, p_num);
+		review = mapper.reviewCount(mid , p_num);
+		if(order >= 1) {
+			result = order - review;
+		} else {
+			result = -1;
+		}
+		model.addAttribute("result" , result);
+	}
+	
+	@Override
+	public void reviewInsert(ReviewDTO dto) {
+		mapper.reviewInsert(dto);
+	}
+
+	@Override
+	public double reviewStar(int p_num) {
+		double result=0;
+		double sum =0.0;
+		int count = mapper.reviewAllCNT(p_num);
+		if(count > 0) {
+			sum = mapper.reviewSum(p_num);
+			result = sum / (double)count;
+			result = Double.parseDouble(String.format("%.1f", result));
+		}
+		return result;
+	}
+
+	@Override
+	public int star1(int r_p_num) {
+		return mapper.star1(r_p_num);
+	}
+	
+	@Override
+	public int star2(int r_p_num) {
+		return mapper.star2(r_p_num);
+	}
+	
+	@Override
+	public int star3(int r_p_num) {
+		return mapper.star3(r_p_num);
+	}
+	
+	@Override
+	public int star4(int r_p_num) {
+		return mapper.star4(r_p_num);
+	}
+	
+	@Override
+	public int star5(int r_p_num) {
+		return mapper.star5(r_p_num);
+	}
+
+	@Override
+	public int reviewAllCNT(int r_p_num) {
+		return mapper.reviewAllCNT(r_p_num);
+	}
+
+	@Override
+	public void reviewAllPaging(Model model, int p_num, int pageNum) {
+	       int pageSize = 6; 
+	       int startRow = (pageNum - 1) * pageSize + 1;
+	       int endRow = pageNum * pageSize;
+	       int count = mapper.reviewAllPagingCNT(p_num);
+	       List<ReviewDTO> reviewAllPaging = Collections.EMPTY_LIST;
+	       if(count > 0) {
+	          searchMap.put("start", startRow);
+	          searchMap.put("end", endRow);
+	          searchMap.put("p_num", p_num);
+	          reviewAllPaging = mapper.reviewAllPaging(searchMap);
+	       }
+	       model.addAttribute("reviewAllPaging", reviewAllPaging);
+	       model.addAttribute("pageSize", pageSize);
+	       model.addAttribute("pageNum", pageNum);
+	       model.addAttribute("count", count);
+	       model.addAttribute("p_num", p_num);
+	       
+	       //page
+	        int pageCount = count / pageSize + ( count % pageSize == 0 ? 0 : 1);
+	       
+	        int startPage = (int)(pageNum/10)*10+1;
+	        int pageBlock=10;
+	        int endPage = startPage + pageBlock-1;
+	        if (endPage > pageCount) {
+	           endPage = pageCount;
+	        } 
+	       model.addAttribute("pageCount", pageCount);
+	       model.addAttribute("startPage", startPage);
+	       model.addAttribute("pageBlock", pageBlock);
+	       model.addAttribute("endPage", endPage);
+	   }
+
+	@Override
+	public double star1Per(int r_p_num) {
+		double reviewCnt=0.0;
+		double star1Per=0.0;
+		double result=0.0;
+		reviewCnt = mapper.reviewAllCNT(r_p_num);
+		star1Per = mapper.star1(r_p_num);
+		result = (star1Per*100)/reviewCnt;
+		return result;
+	}
+
+	@Override
+	public double star2Per(int r_p_num) {
+		double reviewCnt=0.0;
+		double star2Per=0.0;
+		double result=0.0;
+		reviewCnt = mapper.reviewAllCNT(r_p_num);
+		star2Per = mapper.star2(r_p_num);
+		result = (star2Per*100)/reviewCnt;
+		return result;
+	}
+
+	@Override
+	public double star3Per(int r_p_num) {
+		double reviewCnt=0.0;
+		double star3Per=0.0;
+		double result=0.0;
+		reviewCnt = mapper.reviewAllCNT(r_p_num);
+		star3Per = mapper.star3(r_p_num);
+		result = (star3Per*100)/reviewCnt;
+		return result;
+	}
+
+	@Override
+	public double star4Per(int r_p_num) {
+		double reviewCnt=0.0;
+		double star4Per=0.0;
+		double result=0.0;
+		reviewCnt = mapper.reviewAllCNT(r_p_num);
+		star4Per = mapper.star4(r_p_num);
+		result = (star4Per*100)/reviewCnt;
+		return result;
+	}
+
+	@Override
+	public double star5Per(int r_p_num) {
+		double reviewCnt=0.0;
+		double star5Per=0.0;
+		double result=0.0;
+		reviewCnt = mapper.reviewAllCNT(r_p_num);
+		star5Per = mapper.star5(r_p_num);
+		result = (star5Per*100)/reviewCnt;
+		return result;
+	}
+
+	@Override
+	public int ShoppingCartCNT2(String shop_m_id) {
+		return mapper.ShoppingCartCNT2(shop_m_id);
+	}
+	
+	@Override
+	public int ShoppingCartInsert(Model model, ShoppingCartDTO dto) {
+		int CartCNT = mapper.ShoppingCartCNT(dto);
+		mapper.ShoppingCartInsert(dto);
+		model.addAttribute("dto" , dto);
+		model.addAttribute("CartCNT" , CartCNT);
+		return CartCNT;
+	}
+
+	@Override
+	public void pickInsert(Model model, PPicDTO dto, String ppic_m_id, int ppic_p_num) {
+		int result;
+		result = mapper.pick_p_numCNT(ppic_m_id, ppic_p_num);
+		if(result == 0) {
+			mapper.pickInsert(dto);
+		} else {
+			mapper.pickDelete(dto);
+		}
+		model.addAttribute("dto" , dto);
+	}
+
+	@Override
+	public int pickCNT(String ppic_m_id) {
+		return mapper.pickCNT(ppic_m_id);
+	}
+
+	@Override
+	public int pick_p_numCNT(String ppic_m_id, int ppic_p_num) {
+		return mapper.pick_p_numCNT(ppic_m_id , ppic_p_num);
+	}
 
 
 

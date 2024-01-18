@@ -18,5 +18,9 @@ public class PPicDTO {
    private String startdate;
    private String enddate;
    private int p_status;
-    
+   private String cus_address1; 
+   private String cus_address2; 
+   private String  cus_m_id; 
+   private String  p_m_id; 
+   
 }

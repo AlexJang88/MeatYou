@@ -92,7 +92,7 @@
 	       <div class="form-group">
 	        <input type="text" class="form-control" name="cus_address2" placeholder="사업자 상세주소">
 	     </div>
- 	<td>
+	   </td>
   </tr>
   <tr>
   	<td>
@@ -100,6 +100,14 @@
 	  </td>
 	  <td>
 	        <input type="text" name="cus_pnum" placeholder="전화번호 ">
+ 	<td>
+  </tr>
+  <tr>
+  	<td>
+	    사업자 계좌번호 
+	  </td>
+	  <td>
+	        <input type="text" name="cus_accnum" placeholder="계좌번호 입력하세요  ">
  	<td>
   </tr>
   

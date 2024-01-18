@@ -35,14 +35,14 @@ $(document).on("click", ".delete_btn", function(e) {
 // 수량 변경 함수
 function update_click(button, operation, shop_num) {
     // 수량을 조절할 입력 요소 가져오기
-    var input_element = button.parentElement.querySelector('.quantity');
+    var input_element = button.parentElement.querySelector('.shop_quantity');
 
     // 현재 수량 가져오기
     var current_quantity = parseInt(input_element.value);
     console.log("기존값=" + current_quantity);
 
     // 버튼에서 가져온 데이터와 함께 현재 수량을 기반으로 새로운 수량 계산
-    var quantity = button.dataset.quantity;
+    var shop_quantity = button.dataset.shop_quantity;
     var new_quantity;
     if (operation == 'increase') {
         new_quantity = current_quantity + 1;
@@ -64,7 +64,7 @@ function updateQuantity(new_quantity, shop_num) {
         type: "POST",
         url: "/member/updateQuantity",
         data: {
-            quantity: new_quantity,
+        	shop_quantity: new_quantity,
             shop_num: shop_num
         },
         success: function(response) {
@@ -93,39 +93,38 @@ function updateQuantity(new_quantity, shop_num) {
           <table class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
-            <th>번호</th>
             <th>상품 내용</th>
             <th>상품 사진</th>
             <th>상품 수량</th>
             <th>금액</th>
-            <th>삭제</th>
             <td>판매자</td>
+            <th>삭제</th>
         </tr>
     </thead>
     <tbody>
         <c:forEach var="item" items="${shoppingCartList}">
             <tr>
-                <td><c:out value="${item.shop_num}"  /></td>
                 <td><c:out value="${item.p_name}" /></td>
                 <td><c:out value="${item.thumb}" /></td>
                 <td>
-                    <button type="button" class="quantity-up" data-quantity="${item.quantity}" onclick="update_click(this, 'increase','${item.shop_num}')">+</button>
-                    <input type="hidden" class="quantity" value="${item.quantity}" />
-                    <c:out value="${item.quantity}" />
-                    <button type="button" class="quantity-down" data-quantity="${item.quantity}" onclick="update_click(this, 'decrease','${item.shop_num}')">-</button>
+                    <button type="button" class="quantity-up" data-shop_quantity="${item.shop_quantity}" onclick="update_click(this, 'increase','${item.shop_num}')">+</button>
+                    <input type="hidden" class="shop_quantity" value="${item.shop_quantity}" />
+                    <c:out value="${item.shop_quantity}" />
+                    <button type="button" class="quantity-down" data-quantity="${item.shop_quantity}" onclick="update_click(this, 'decrease','${item.shop_num}')">-</button>
                 </td>				    
                 <td>
                     <b>총액  </b>
-                    <c:out value="${item.p_price * item.quantity}" />
+                    <c:out value="${item.p_price * item.shop_quantity}" />
                     <b> 원</b>
                 </td> 
+                <td><c:out value="${item.p_m_id}" /></td>
                 <td>
                     <form action="delete" method="post" class="quantity_delete_form">
+                        <input type="hidden" name="shop_num" value="${item.shop_num}" />
                         <input type="hidden" name="shop_num" value="${item.shop_num}" />
                         <button type="submit" class="delete_btn">삭제</button>
                     </form>
                 </td>
-                <td><c:out value="${item.shop_m_id}" /></td>
             </tr>
         </c:forEach>
     </tbody>

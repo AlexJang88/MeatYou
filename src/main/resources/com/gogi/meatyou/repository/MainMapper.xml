@@ -202,9 +202,9 @@
       <!-- 전체 리뷰 페이징 -->   
       <select id="reviewAllPaging" resultType="com.gogi.meatyou.bean.ReviewDTO" parameterType="hashmap">
          select * from
-      (select b.* , rownum r from
-      (select * from product, review where p_num=r_p_num order by r_reg_date desc) b) where 
-      <![CDATA[ p_num=#{p_num} and r >= #{start} and r <= #{end} ]]>
+         (select b.* , rownum r from
+         (select * from product, review where p_num=r_p_num and p_num=#{p_num} order by r_reg_date desc) b) where 
+      <![CDATA[ r >= #{start} and r <= #{end} ]]>
 
    </select>
    
@@ -277,11 +277,17 @@
       select count(*) from p_pick_${ppic_m_id}
    </select>
    
-   <insert id="pickInsert" parameterType="com.gogi.meatyou.bean.ShoppingCartDTO">
-      insert into p_pick_${ppic_m_id} values(p_pick_baba_seq.nextval, #{ppic_p_num}, #{ppic_m_id})
+   <select id="pick_p_numCNT" resultType="int" >
+      select count(*) from p_pick_${ppic_m_id} where ppic_p_num=#{ppic_p_num}
+   </select>
+   
+   <insert id="pickInsert" parameterType="com.gogi.meatyou.bean.PPicDTO">
+      insert into p_pick_${ppic_m_id} values(p_pick_${ppic_m_id}_seq.nextval, #{ppic_p_num}, #{ppic_m_id})
    </insert>   
    
-   
+   <delete id="pickDelete" parameterType="com.gogi.meatyou.bean.PPicDTO">
+      delete p_pick_${ppic_m_id} where ppic_p_num=#{ppic_p_num}
+   </delete>   
    
    
 

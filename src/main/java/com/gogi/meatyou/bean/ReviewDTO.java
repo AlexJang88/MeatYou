@@ -6,11 +6,11 @@ import lombok.Data;
 
 @Data
 public class ReviewDTO {
-	private int rNum;
-	private String mId;
-	private int pNum;
-	private String content;
+	private int r_num;
+	private String r_m_id;
+	private int r_p_num;
+	private String r_content;
 	private int star;
-	private String img;
-	private Date regDate;
+	private String r_img;
+	private Date r_reg_date; 
 }
