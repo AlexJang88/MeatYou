@@ -18,10 +18,12 @@ public class PickMeDTO {
    private String cus_pnum;
    private String cus_accnum;
    
+   private int ppic_p_num;
+   private String ppic_m_id;
+   private String p_m_id;
    
    
    
    
-   /* 상품 이미지 */
    
 }

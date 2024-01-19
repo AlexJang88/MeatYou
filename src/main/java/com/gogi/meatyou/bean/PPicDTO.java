@@ -22,5 +22,10 @@ public class PPicDTO {
    private String cus_address2; 
    private String  cus_m_id; 
    private String  p_m_id; 
+   private String  p_c_id; 
+   
+   private String pm_m_id;
+   private String pm_c_id;
+   private int pm_num;
    
 }
