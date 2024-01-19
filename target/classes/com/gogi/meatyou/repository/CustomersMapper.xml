@@ -261,18 +261,18 @@
 	      <choose>
 	         <when test="check==0">
 	         <![CDATA[
-	         select nvl(sum(order_totalprice),0) from product p, m_order m  where p.p_num = m.order_p_num and m.order_status > 0 and  p.p_m_id=#{id} and order_paydate>=trunc(sysdate,'MM') and order_paydate<sysdate
+select nvl(sum(order_totalprice),0) from product p, m_order m  where p.p_num = m.order_p_num and m.order_status > 0 and  p.p_m_id=#{id} and order_paydate>=trunc(sysdate,'MM') and order_paydate<sysdate
 	         ]]>
 	         </when>
 	         <when test="check==-1">
 	         <![CDATA[
-	         select nvl(sum(order_totalprice),0) from product p, m_order m  where p.p_num = m.order_p_num and m.order_status > 0 and p.p_m_id=#{id} and order_paydate>=add_months(trunc(sysdate,'mm'), ${check}) and order_paydate<=trunc(sysdate,'mm') ${check}
+ select nvl(sum(order_totalprice),0) from product p, m_order m  where p.p_num = m.order_p_num and m.order_status > 0 and p.p_m_id=#{id} and order_paydate>=add_months(trunc(sysdate,'mm'), ${check}) and order_paydate<=trunc(sysdate,'mm') ${check}
 	         ]]>
 	         </when>
 	         <!-- 4월 첫쩃날이랑  5월 1일에서 -1을 해서 4월 30일을 구하는 공식 -->
 	         <otherwise>
 	         <![CDATA[   
-	          select nvl(sum(order_totalprice),0) from product p, m_order m  where p.p_num = m.order_p_num and p.p_m_id=#{id} and m.order_status > 0 and order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=add_months(trunc(sysdate,'mm'), ${check}+1)${check}
+select nvl(sum(order_totalprice),0) from product p, m_order m  where p.p_num = m.order_p_num and p.p_m_id=#{id} and m.order_status > 0 and order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=add_months(trunc(sysdate,'mm'), ${check}+1)${check}
 	         ]]>
 	         </otherwise>
 	      </choose>
@@ -282,18 +282,18 @@
 	      <choose>
 	         <when test="check==0">
 	         <![CDATA[
-	         select nvl(sum(order_Quantity),0) from product p, m_order m  where p.p_num = m.order_p_num and p.p_m_id=#{id} and m.order_status > 0 and order_paydate>=trunc(sysdate,'MM') and order_paydate<sysdate
+select nvl(sum(order_Quantity),0) from product p, m_order m  where p.p_num = m.order_p_num and p.p_m_id=#{id} and m.order_status > 0 and order_paydate>=trunc(sysdate,'MM') and order_paydate<sysdate
 	         ]]>
 	         </when>
 	         <when test="check==-1">
 	         <![CDATA[
-	         select nvl(sum(order_Quantity),0)  from product p, m_order m  where p.p_num = m.order_p_num and p.p_m_id=#{id} and m.order_status > 0 and order_paydate>=add_months(trunc(sysdate,'mm'), ${check}) and order_paydate<=trunc(sysdate,'mm') ${check}
+select nvl(sum(order_Quantity),0)  from product p, m_order m  where p.p_num = m.order_p_num and p.p_m_id=#{id} and m.order_status > 0 and order_paydate>=add_months(trunc(sysdate,'mm'), ${check}) and order_paydate<=trunc(sysdate,'mm') ${check}
 	         ]]>
 	         </when>
 	         <!-- 4월 첫쩃날이랑  5월 1일에서 -1을 해서 4월 30일을 구하는 공식 -->
 	         <otherwise>
 	         <![CDATA[   
-	          select nvl(sum(order_Quantity),0) from product p, m_order m  where p.p_num = m.order_p_num and p.p_m_id=#{id} and m.order_status > 0 and order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=add_months(trunc(sysdate,'mm'), ${check}+1)${check}
+select nvl(sum(order_Quantity),0) from product p, m_order m  where p.p_num = m.order_p_num and p.p_m_id=#{id} and m.order_status > 0 and order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=add_months(trunc(sysdate,'mm'), ${check}+1)${check}
 	         ]]>
 	         </otherwise>
 	      </choose>

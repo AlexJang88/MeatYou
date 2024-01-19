@@ -177,6 +177,16 @@ public class AdminController {
 		adminServicImpl.noticedelete(n_num,req);
 		return "redirect:/admin/noticeList";
 	}
+	@RequestMapping(value = "/productList" ,produces = "application/json; charset=utf8")
+	public String productList(Model model,@RequestParam(value="pageNum" ,defaultValue="1")int pageNum, String keyword,@RequestParam(value = "searchOpt", defaultValue = "1")String searchOpt,@RequestParam(value = "cate1", defaultValue = "1")int cate1,@RequestParam(value = "cate2", defaultValue = "1")int cate2,@RequestParam(value = "cate3", defaultValue = "1")int cate3) {
+		adminServicImpl.getAdminProductList(pageNum, keyword, searchOpt, cate1, cate2,cate3, model);
+		return "admin/productList";
+	}
+	@RequestMapping(value = "/serchProductList" ,produces = "application/json; charset=utf8")
+	@ResponseBody
+	public String serchProductList(Model model,@RequestParam(value="pageNum" ,defaultValue="1")int pageNum, String keyword,@RequestParam(value = "searchOpt", defaultValue = "1")String searchOpt,@RequestParam(value = "cate1", defaultValue = "1")int cate1,@RequestParam(value = "cate2", defaultValue = "1")int cate2,@RequestParam(value = "cate3", defaultValue = "1")int cate3) {
+		return adminServicImpl.getSearchProductList(pageNum, keyword, searchOpt, cate1, cate2,cate3, model);
+	}
 
 
 }

@@ -282,4 +282,119 @@
 	<insert id="noticeUpdate" parameterType="com.gogi.meatyou.bean.NoticeDTO">
 		update notice set n_title=#{n_title},n_content=#{n_content} where n_num=#{n_num}
 	</insert>
+	<select id="adminProductList" parameterType="hashMap" resultType="com.gogi.meatyou.bean.AdminProductDTO">
+	select * from (select a.*,rownum r from (select p_num,thumb,p_name,p_m_id,nvl(totalsales,0) totalsales,p_price,nvl(count,0) report,p_rcount,p_reg_date from 
+(select * from (select * from product p left outer join (select order_p_num,nvl(sum(order_p_price*order_quantity),0) as totalsales from m_order group by order_p_num) ts on p.p_num=ts.order_p_num)) list left outer join (select ma_ref,count(ma_ref) count from (select * from qna where ma_status>1000) group by ma_ref) report on list.p_num=report.ma_ref 
+		  <trim prefix="WHERE" prefixOverrides="AND |OR ">
+        <if test="keyword != null and keyword != ''">
+            <choose>
+                <when test="searchOpt==1">
+                    (p_name like '%${keyword}%' or p_m_id like '%${keyword}%') AND
+                </when>
+                <when test="searchOpt==2">
+                    p_name like '%${keyword}%' AND
+                </when>
+                <when test="searchOpt==3">
+                    p_m_id like '%${keyword}%' AND
+                </when>
+            </choose>
+        </if>
+        <choose>
+        	<when test="cate1==1">
+        	(trunc(p_category/100) = 1 OR trunc(p_category/100) = 2) AND
+        	</when>
+        	<when test="cate1==2">
+        	trunc(p_category/100) = 1 AND
+        	</when>
+        	<when test="cate1==3">
+        	trunc(p_category/100) = 2 AND
+        	</when>
+        </choose>
+        <choose>
+        	<when test="cate2==1">
+        		(trunc(mod(p_category,100)/10)=1 OR trunc(mod(p_category,100)/10)=2)
+        	</when>
+        	<when test="cate2==2">
+        	trunc(mod(p_category,100)/10)=1
+        	</when>
+        	<when test="cate3==3">
+        	trunc(mod(p_category,100)/10)=2
+        	</when>
+        </choose>
+    </trim>
+    <choose>
+    	<when test="cate3 == 1">
+    		order by p_reg_date desc
+    	</when>
+    	<when test="cate3 == 2">
+    		order by totalsales desc nulls last
+    	</when>
+    	<when test="cate3 == 3">
+    		order by p_rcount desc
+    	</when>
+    	<when test="cate3 == 4">
+    		order by count desc nulls last
+    	</when>
+    </choose>
+    <![CDATA[
+    ) a) where r>=#{start} and r<=#{end}
+    ]]>
+</select>
+   
+	<select id="adminProductCount" parameterType="hashMap" resultType="int">
+select count(*) from 
+(select * from (select * from product p left outer join (select order_p_num,nvl(sum(order_p_price*order_quantity),0) as totalsales from m_order group by order_p_num) ts on p.p_num=ts.order_p_num)) list left outer join (select ma_ref,count(ma_ref) count from (select * from qna where ma_status>1000) group by ma_ref) report on list.p_num=report.ma_ref
+    <trim prefix="WHERE" prefixOverrides="AND |OR ">
+        <if test="keyword != null and keyword != ''">
+            <choose>
+                <when test="searchOpt==1">
+                    (p_name like '%${keyword}%' or p_m_id like '%${keyword}%') AND
+                </when>
+                <when test="searchOpt==2">
+                    p_name like '%${keyword}%' AND
+                </when>
+                <when test="searchOpt==3">
+                    p_m_id like '%${keyword}%' AND
+                </when>
+            </choose>
+        </if>
+        <choose>
+        	<when test="cate1==1">
+        	(trunc(p_category/100) = 1 OR trunc(p_category/100) = 2) AND
+        	</when>
+        	<when test="cate1==2">
+        	trunc(p_category/100) = 1 AND
+        	</when>
+        	<when test="cate1==3">
+        	trunc(p_category/100) = 2 AND
+        	</when>
+        </choose>
+        <choose>
+        	<when test="cate2==1">
+        		(trunc(mod(p_category,100)/10)=1 OR trunc(mod(p_category,100)/10)=2)
+        	</when>
+        	<when test="cate2==2">
+        	trunc(mod(p_category,100)/10)=1
+        	</when>
+        	<when test="cate3==3">
+        	trunc(mod(p_category,100)/10)=2
+        	</when>
+        </choose>
+    </trim>
+    <choose>
+    	<when test="cate3 == 1">
+    		order by p_reg_date desc
+    	</when>
+    	<when test="cate3 == 2">
+    		order by totalsales desc nulls last
+    	</when>
+    	<when test="cate3 == 3">
+    		order by p_rcount desc
+    	</when>
+    	<when test="cate3 == 4">
+    		order by count desc nulls last
+    	</when>
+    </choose>
+</select>
+
 </mapper>

@@ -270,7 +270,7 @@
       insert into shoppingcart_${shop_m_id} values(ShoppingCart_${shop_m_id}_seq.nextval, 
                            #{shop_m_id}, 
                            #{shop_p_num}, 
-                           #{quantity})
+                           #{shop_quantity})
    </insert>   
    
    <select id="pickCNT" resultType="int" >

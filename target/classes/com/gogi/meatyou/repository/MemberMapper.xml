@@ -135,7 +135,7 @@ WHERE rnum >= #{startRow, jdbcType=NUMERIC}
 </select>
 
 
-  <!-- 찜 확인  -->
+  <!-- 찜  업체  확인  -->
 
 <select id="pickMeCountPage"   resultType="com.gogi.meatyou.bean.PickMeDTO">
     <![CDATA[
@@ -181,15 +181,18 @@ WHERE rnum >= #{startRow, jdbcType=NUMERIC}
 
 <!-- 찜업체 추가   -->
 
- <insert id="pick_mem_Insert" parameterType="com.gogi.meatyou.bean.ShoppingCartDTO">
-      insert into pick_me_${p_m_id} values(p_pick_${p_m_id}_seq.nextval, #{p_m_id}, #{pm_c_id})
+   <select id="pick_me_p_numCNT" resultType="int" >
+      select count(*) from pick_me_${ppic_m_id}
+   </select>
+   
+   <insert id="pickMeInsert" parameterType="com.gogi.meatyou.bean.PickMeDTO">
+      insert into pick_me_${pm_m_id} values(p_pick_${ppic_m_id}_seq.nextval, ${ppic_m_id},${p_m_id})
    </insert>   
- <insert id="pick_saller_Insert" parameterType="com.gogi.meatyou.bean.ShoppingCartDTO">
-      insert into pick_me_${pm_c_id} values(p_pick_${pm_c_id}_seq.nextval,#{pm_m_id}, #{pm_c_id}, )
-   </insert>   
-
-
-
+   
+   <delete id="pick_me_delete" parameterType="com.gogi.meatyou.bean.PickMeDTO">
+      delete pick_me_${pm_m_id} where pm_num=${p_num}
+   </delete>   
+   
 
   <!-- 특정 찜목록 조회 (페이징 처리) -->
 
@@ -198,19 +201,19 @@ WHERE rnum >= #{startRow, jdbcType=NUMERIC}
 <select id="pPickCountPage" parameterType="map" resultType="com.gogi.meatyou.bean.PPicDTO">
   <![CDATA[
  SELECT
-  rnum, ppic_num, ppic_m_id, ppic_p_num,p_m_id, p_num, p_name, thumb, p_reg_date, startdate, enddate, p_status, p_price, cus_m_id, cus_address1, cus_address2
+  rnum, ppic_num, ppic_m_id, ppic_p_num,p_m_id, p_num, p_name, thumb , startdate, enddate, p_status, p_price, cus_m_id, cus_address1, cus_address2
 FROM (
   SELECT
     ROWNUM AS rnum, t.*
   FROM (
     SELECT
-      pp.ppic_num, pp.ppic_m_id, pp.ppic_p_num,p.p_m_id,p.p_num, p.p_name, p.thumb, p.p_reg_date, p.startdate, p.enddate, p.p_status, p.p_price,c.cus_m_id, c.cus_address1, c.cus_address2 
+      pp.ppic_num, pp.ppic_m_id, pp.ppic_p_num,p.p_m_id,p.p_num, p.p_name, p.thumb, p.startdate, p.enddate, p.p_status, p.p_price,c.cus_m_id, c.cus_address1, c.cus_address2 
     FROM
       p_pick_${ppic_m_id} pp
     INNER JOIN
       product p ON pp.ppic_p_num = p.p_num
     INNER JOIN
-    cus_detail c ON pp.ppic_m_id = c.cus_m_id
+    cus_detail c ON p.p_m_id = c.cus_m_id
     ORDER BY
       pp.ppic_num
   ) t

@@ -141,21 +141,7 @@ public class MemberController {
             return "errorPage"; // 실패에 대한 페이지로 리다이렉트 또는 처리
         }
     }
-    
-    public String insertPickMeandYou(Model model,PickMeDTO  pdto,ProductDTO ppdto) {
-    		int check=service.pick_saller_Insert(pdto);
-    		 if (check > 0) {
-    			 model.addAttribute("check", check);
-    	            
-    	        
-    	            
-    	            model.addAttribute("check", check);
-    	            return "member/inputPro";
-    	            }else {
-    		 
-    	            		return "errorPage";
-    }
-    }
+     
     
     
     
@@ -246,6 +232,8 @@ public class MemberController {
               ShoppingCartDTO sdto,
               ProductDTO pdto
       ) {
+    	  
+    	  int p_num=pdto.getP_num();
           String shop_m_id = (String) seid.getName();
           int totalPrice = sdto.getShop_quantity() * sdto.getP_price();
           System.out.print("�떆�걧由ы떚 �솗�씤======================================================"+shop_m_id);
@@ -288,6 +276,7 @@ public class MemberController {
       
       @PostMapping("delete")
       public String deleteItems(Principal seid,ShoppingCartDTO sdto) {
+    	  
     	// 기존 코드
     				// shop_m_id = sdto.getShop_m_id();
 
@@ -333,7 +322,9 @@ public class MemberController {
               Model model,
               @RequestParam(defaultValue = "1") int page,  // 현재 페이지 번호, 기본값 1
               @RequestParam(defaultValue = "7") int pageSize,  // 페이지당 보여질 항목 수, 기본값 7
-              PickMeDTO pdto, CusDetailDTO cdto   ) {
+              PickMeDTO pdto, CusDetailDTO cdto   
+              ,int p_num
+    		  ) {
           String pm_m_id = (String) seid.getName();
         //  int totalPrice = sdto.getQuantity() * sdto.getP_price();
           System.out.print("현재 로그인한 사용자 아이디======================================================"+pm_m_id);
@@ -341,7 +332,7 @@ public class MemberController {
           // 서비스에서 가져온 고객의 픽미 목록을 페이징하여 가져옵니다.
           List<PickMeDTO> pickMekList = service.pickMeCountPage(pm_m_id, page, pageSize, pdto, cdto);
           // 서비스에서 가져온 고객의 픽미 목록의 총 아이템 수를 가져옵니다.
-          int totalItemCount = service.pickMeCount(pm_m_id);
+          int totalItemCount = service.pickMeCount(pm_m_id, p_num);
 
           // 총 페이지 수를 계산합니다.
           int totalPage = (int) Math.ceil((double) totalItemCount / pageSize);
@@ -389,9 +380,10 @@ public class MemberController {
             ProductDTO pdto,      
             Map<String, Object> params, 
             MemberDTO mdto,
-            	CusDetailDTO cdto
+            	CusDetailDTO cdto 
+           
       ) {
-
+    	  int p_num=pdto.getP_num();
          // 로그인한 사용자의 아이디를 가져옵니다.
          String ppic_m_id = (String) seid.getName();
          System.out.print("현재 로그인한 사용자 아이디======================================================" + ppic_m_id);
@@ -399,10 +391,10 @@ public class MemberController {
          // 올바른 주석
          // 올바른 주석 내용을 여기에 작성합니다.
          // 맵 형태의 파라미터, 사용자 아이디, 페이지 번호, 페이지 크기, PPicDTO, ProductDTO, MemberDTO, PPic 번호
-         List<PPicDTO> pPickList = service.pPickCountPages(ppic_m_id, params, page, pageSize, ppdto, pdto,mdto, ppic_num,cdto);
+         List<PPicDTO> pPickList = service.pPickCountPages(ppic_m_id, params, page, pageSize, ppdto, pdto,mdto, ppic_num,cdto,p_num );
          
          // 서비스를 통해 가져온 픽 리스트의 총 아이템 수를 계산합니다.
-         int totalItemCount = service.pPickCount(ppic_m_id, ppic_num);
+         int totalItemCount = service.pPickCount(ppic_m_id, ppic_num );
 
          // 페이지 수를 계산합니다.
          int totalPage = (int) Math.ceil((double) totalItemCount / pageSize);
@@ -443,9 +435,16 @@ public class MemberController {
     }
 
    
+    
+	   @RequestMapping("pickInsert")		
+	   public String pickInsert(Principal seid, Model model,PickMeDTO pdto ,String ppic_m_id ,String pm_c_id,ProductDTO ppdto ) {
+		   String p_m_id=ppdto.getP_m_id();
+		   String   pm_m_id   = (String) seid.getName();
+	      service.pickMeInsert( model,pdto, pm_c_id ,ppic_m_id ,pm_m_id,p_m_id );
+	      	return "redirect:/member/pickMe"; // 성공 시 반환할 문자열
+	   }
    
-   
-   
+    
    
     
 }
