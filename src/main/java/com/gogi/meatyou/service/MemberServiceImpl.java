@@ -15,6 +15,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -27,15 +28,22 @@ public class MemberServiceImpl implements MemberService {
         return mapper.insertMember(dto);
     }
        
-    @Override
-    public int pick_mem_Insert(PickMeDTO pdto) {
-    	return mapper.pick_mem_Insert(pdto);
-    }
+    public void pickMeInsert(Model model, PickMeDTO pdto, String pm_m_id,String pm_c_id ,String ppic_m_id,String p_m_id ) {
+    	int result;
+		result = mapper.pick_me_p_numCNT(pm_m_id,pm_c_id ,ppic_m_id );
+		if(result == 0) {
+			mapper.pickMeInsert(pdto,pm_m_id,pm_c_id ,ppic_m_id,p_m_id );   
+		} else {
+			mapper.pick_me_delete(pdto,pm_m_id,pm_c_id ,ppic_m_id );
+		}
+		model.addAttribute("pdto" , pdto);
+    	
+    };
+	   public int pick_me_p_numCNT(@Param("pm_m_id")String pm_m_id,@Param("pm_c_id") String pm_c_id, @Param("pm_num")int pm_num,@Param("ppic_m_id") String ppic_m_id ,@Param("p_num") int p_num) {
+		   return mapper.pick_me_p_numCNT(pm_m_id,pm_c_id, ppic_m_id );
+	   };  
+	   
     
-    @Override
-    public int pick_saller_Insert(PickMeDTO pdto) {
-    	return mapper.pick_saller_Insert(pdto);
-    }
     
        @Override
        public void userUpdate(MemberDTO dto) {
@@ -119,7 +127,7 @@ public class MemberServiceImpl implements MemberService {
          
 
          
-         // 諛섑솚 ���엯�쓣 List<ShoppingCartDTO>濡� �닔�젙
+         // 獄쏆꼹�넎 占쏙옙占쎌뿯占쎌뱽 List<ShoppingCartDTO>嚥∽옙 占쎈땾占쎌젟
          @Override
          public List<ShoppingCartDTO> ShoppingCartAndProduct(String shop_m_id,ShoppingCartDTO sdto,ProductDTO pdto) {
              return mapper.ShoppingCartAndProduct(shop_m_id);
@@ -136,7 +144,7 @@ public class MemberServiceImpl implements MemberService {
           }
          
          
-         //�옣諛붽뎄�땲 由ъ뒪�듃 
+         //占쎌삢獄쏅떽�럡占쎈빍 �뵳�딅뮞占쎈뱜 
          
          public List<ShoppingCartDTO> getShoppingCartItemsPaged(String shop_m_id, int page, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto) {
              int startRow = (page - 1) * pageSize + 1;
@@ -149,7 +157,7 @@ public class MemberServiceImpl implements MemberService {
 
           //   return mapper.getShoppingCartItemsPaged(parameters);
              List<ShoppingCartDTO> result = mapper.getShoppingCartItemsPaged(parameters);
-             System.out.println("�꽌鍮꾩뒪 �샇異� - �럹�씠吏�: " + page + ", 寃곌낵 媛쒖닔: " + result.size());
+             System.out.println("占쎄퐣�뜮袁⑸뮞 占쎌깈�빊占� - 占쎈읂占쎌뵠筌욑옙: " + page + ", 野껉퀗�궢 揶쏆뮇�땾: " + result.size());
              return result;
          }
 
@@ -174,7 +182,7 @@ public class MemberServiceImpl implements MemberService {
              
              
              
-           //李� �뾽泥� 愿��젴 .
+           //筌∽옙 占쎈씜筌ｏ옙 �꽴占쏙옙�졃 .
             @Override
             public   List<PickMeDTO> pickMeCountPage(String pm_m_id, int page, int pageSize, PickMeDTO pdto, CusDetailDTO cdto){
                 int startRow = (page  - 1) * pageSize + 1;
@@ -187,15 +195,15 @@ public class MemberServiceImpl implements MemberService {
 
              //   return mapper.getShoppingCartItemsPaged(parameters);
                 List<PickMeDTO> result = mapper.pickMeCountPage(parameters);
-                System.out.println("�꽌鍮꾩뒪 �샇異� - �럹�씠吏�: " + page + ", 寃곌낵 媛쒖닔: " + result.size());
+                System.out.println("占쎄퐣�뜮袁⑸뮞 占쎌깈�빊占� - 占쎈읂占쎌뵠筌욑옙: " + page + ", 野껉퀗�궢 揶쏆뮇�땾: " + result.size());
                 return result;
             }
        
             
             
              @Override
-             public int pickMeCount(String pm_m_id) {
-                 return mapper.pickMeCount(pm_m_id);
+             public int pickMeCount(String pm_m_id,int p_num) {
+                 return mapper.pickMeCount(pm_m_id,p_num);
              }             
              @Override
             public int deleteHim(@Param("pm_num")int pm_num,@Param("pm_m_id")String pm_m_id){
@@ -204,13 +212,8 @@ public class MemberServiceImpl implements MemberService {
 
                }
                       
-             
-            
-            
-          // �꽌鍮꾩뒪�쓽 pPickCountPages 硫붿꽌�뱶 �닔�젙
             @Override
-            public List<PPicDTO> pPickCountPages( @Param("ppic_m_id")String ppic_m_id,Map<String, Object> params, int page,
-                  int pageSize, PPicDTO ppdto, ProductDTO pdto, MemberDTO mdto,@Param("ppic_num") int ppic_num,CusDetailDTO cdto) {
+            public List<PPicDTO> pPickCountPages(@Param("ppic_m_id")String ppic_m_id,Map<String, Object> params,int page, int pageSize, PPicDTO ppdto, ProductDTO pdto,MemberDTO mdto,@Param("ppic_num")int ppic_num,CusDetailDTO cdto,@Param("p_num") int p_num ){
                 int startRow = (page - 1) * pageSize + 1;
                     int endRow = startRow + pageSize - 1;
                     Map<String, Object> parameters = new HashMap<>();
@@ -223,13 +226,13 @@ public class MemberServiceImpl implements MemberService {
                   // parameters.put("ppic_m_id",mdto.getM_id());
                    
                    
-                   System.out.println(("id�뒗 臾댁뾿�씤媛��슂 ~~~=-============================")+parameters.get("ppic_m_id"));
+                   System.out.println(("id占쎈뮉 �눧�똻毓울옙�뵥揶쏉옙占쎌뒄 ~~~=-============================")+parameters.get("ppic_m_id"));
                   
                    
-                   List<PPicDTO> result = mapper.pPickCountPage(parameters); // 留ㅺ컻蹂��닔 �쟾�떖
+                   List<PPicDTO> result = mapper.pPickCountPage(parameters); // 筌띲끆而삭퉪占쏙옙�땾 占쎌읈占쎈뼎
                    
                     
-                    System.out.println("�꽌鍮꾩뒪 �샇異� - �럹�씠吏�: " + page + ", 寃곌낵 媛쒖닔: " + result.size());
+                    System.out.println("占쎄퐣�뜮袁⑸뮞 占쎌깈�빊占� - 占쎈읂占쎌뵠筌욑옙: " + page + ", 野껉퀗�궢 揶쏆뮇�땾: " + result.size());
                    
                     return result;                              
             }
@@ -240,7 +243,7 @@ public class MemberServiceImpl implements MemberService {
             
              
              @Override
-             public int pPickCount( @Param("ppic_m_id")String ppic_m_id,@Param("ppic_num")int ppic_num) {
+             public int pPickCount( @Param("ppic_m_id")String ppic_m_id,@Param("ppic_num")int ppic_num ) {
                 return mapper.pPickCount(ppic_m_id,ppic_num);
              }
              @Override
@@ -248,10 +251,7 @@ public class MemberServiceImpl implements MemberService {
                 
                 return mapper.deleteP_item(ppic_num,ppic_m_id);
                 
-             }
-
-
-         
+             } 
              
              
              

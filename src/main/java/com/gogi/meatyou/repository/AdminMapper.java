@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.gogi.meatyou.bean.AdminProductDTO;
 import com.gogi.meatyou.bean.MemberDTO;
 import com.gogi.meatyou.bean.NoticeDTO;
 import com.gogi.meatyou.bean.NoticeFileDTO;
@@ -49,5 +50,7 @@ public interface AdminMapper {
    public void noticedelete(int n_num);
    public int getNoticeNum();
    public void noticeUpdate(NoticeDTO dto);
+   public List<AdminProductDTO> adminProductList(HashMap hashmap);
+   public int adminProductCount(HashMap hashmap);
    
 }

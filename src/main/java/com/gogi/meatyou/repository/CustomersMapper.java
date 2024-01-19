@@ -6,11 +6,13 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.ui.Model;
 
+import com.gogi.meatyou.bean.CouponDTO;
 import com.gogi.meatyou.bean.CusOrderDTO;
 import com.gogi.meatyou.bean.MOrderDTO;
 import com.gogi.meatyou.bean.PDetailDTO;
 import com.gogi.meatyou.bean.ProductDTO;
 import com.gogi.meatyou.bean.ProductMorderDTO;
+import com.gogi.meatyou.bean.PurchaseMemberListDTO;
 
 
 public interface CustomersMapper {
@@ -75,5 +77,13 @@ public interface CustomersMapper {
     //판매된 상품 리스트 뽑기  
     public List<ProductMorderDTO> ProfitItemlist(HashMap map);  // 판매된 상품 날짜 미선택 확인
     public int ProfitItemcount(@Param ("check") int check, @Param ("id") String id); //월별 구매 진행 횟수 
+    
+    
+    //월별 구매회원보기
+    public int getConsumerCount (@Param ("check") int check, @Param ("id") String id); //월별 구매한 회원 카운트
+    public List<PurchaseMemberListDTO> memberlist(HashMap map); //구매한 회원의 정보를 보는곳
+    public int companynum(String id); //사업자 실별번호받는곳
+    public List<ProductDTO> itemList(String id); //판매자 판매목록 보기
+    public void cusCouponPro(CouponDTO coupondto); //쿠폰제공하는 곳
     
 }

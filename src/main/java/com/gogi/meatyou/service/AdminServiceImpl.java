@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gogi.meatyou.bean.AdminProductDTO;
 import com.gogi.meatyou.bean.MemberDTO;
 import com.gogi.meatyou.bean.NoticeDTO;
 import com.gogi.meatyou.bean.NoticeFileDTO;
@@ -37,6 +38,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
 import com.gogi.meatyou.repository.AdminMapper;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 @Service
@@ -576,6 +579,96 @@ public NoticeDTO getNotice() {
 	return null;
 }
 
+@Override
+public void getAdminProductList(int pageNum,String keyword,String searchOpt,int cate1,int cate2,int cate3,Model model) {
+	adminMap.clear();
+	adminMap.put("keyword", keyword);
+	adminMap.put("searchOpt", searchOpt);
+	adminMap.put("cate1", cate1);
+	adminMap.put("cate2", cate2);
+	adminMap.put("cate3", cate3);
+	 int count=0;
+	    int pageSize = 10;
+	    int startRow = (pageNum - 1) * pageSize + 1;
+	    int endRow = pageNum * pageSize;
+	    List<AdminProductDTO> list = Collections.EMPTY_LIST;
+	       count = mapper.adminProductCount(adminMap);
+	       if (count > 0) {
+	          adminMap.put("start", startRow);
+	          adminMap.put("end", endRow);
+	          list = mapper.adminProductList(adminMap);
+	       }
+	       model.addAttribute("count", count);
+	       model.addAttribute("pageNum", pageNum);
+	       model.addAttribute("pageSize", pageSize);
+
+	       // page
+	       int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+	       int startPage = (int) (pageNum / 10) * 10 + 1;
+	       int pageBlock = 10;
+	       int endPage = startPage + pageBlock - 1;
+	       if (endPage > pageCount) {
+	          endPage = pageCount;
+	       }
+	       model.addAttribute("keyword", keyword);
+	       model.addAttribute("searchOpt", searchOpt);
+	       model.addAttribute("cate1", cate1);
+	       model.addAttribute("cate2", cate2);
+	       model.addAttribute("cate3", cate3);
+	       model.addAttribute("list", list);
+	       model.addAttribute("pageCount", pageCount);
+	       model.addAttribute("startPage", startPage);
+	       model.addAttribute("pageBlock", pageBlock);
+	       model.addAttribute("endPage", endPage);
+	       
+	}
+
+		
+@Override
+public String getSearchProductList(int pageNum, String keyword, String searchOpt, int cate1, int cate2,int cate3,Model model) {
+	JsonObject jsonObject = new JsonObject();
+	adminMap.clear();
+	adminMap.put("keyword", keyword);
+	adminMap.put("searchOpt", searchOpt);
+	adminMap.put("cate1", cate1);
+	adminMap.put("cate2", cate2);
+	adminMap.put("cate3", cate3);
+	 int count=0;
+	    int pageSize = 10;
+	    int startRow = (pageNum - 1) * pageSize + 1;
+	    int endRow = pageNum * pageSize;
+	    List<AdminProductDTO> list = Collections.EMPTY_LIST;
+	       count = mapper.adminProductCount(adminMap);
+	       if (count > 0) {
+	          adminMap.put("start", startRow);
+	          adminMap.put("end", endRow);
+	          
+	          list = mapper.adminProductList(adminMap);
+	       }
+	       model.addAttribute("count", count);
+	       model.addAttribute("pageNum", pageNum);
+	       model.addAttribute("pageSize", pageSize);
+
+	       // page
+	       int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+	       int startPage = (int) (pageNum / 10) * 10 + 1;
+	       int pageBlock = 10;
+	       int endPage = startPage + pageBlock - 1;
+	       if (endPage > pageCount) {
+	          endPage = pageCount;
+	       }
+	       model.addAttribute("keyword", keyword);
+	       model.addAttribute("searchOpt", searchOpt);
+	       model.addAttribute("cate1", cate1);
+	       model.addAttribute("cate2", cate2);
+	       model.addAttribute("cate3", cate3);
+	       model.addAttribute("pageCount", pageCount);
+	       model.addAttribute("startPage", startPage);
+	       model.addAttribute("pageBlock", pageBlock);
+	       model.addAttribute("endPage", endPage);
+	       String json = new Gson().toJson(list);
+	       return json.toString();
+}
 	
 
 

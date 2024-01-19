@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.ui.Model;
 
 import com.gogi.meatyou.bean.CusDetailDTO;
 import com.gogi.meatyou.bean.MemberDTO;
@@ -16,24 +17,18 @@ import com.gogi.meatyou.bean.ShoppingCartDTO;
 public interface MemberService  {
     int insertMember(MemberDTO dto);
     
-    int pick_mem_Insert(PickMeDTO pdto);
-    int pick_saller_Insert(PickMeDTO pdto);
-    
     
     
     
     public MemberDTO member(String m_id);   
     public List<ShoppingCartDTO> shoppingCartCheck(String m_id);
- // 諛섑솚 ���엯�쓣 List<ShoppingCartDTO>濡� �닔�젙
    public List<ShoppingCartDTO> ShoppingCartAndProduct(String shop_m_id,ShoppingCartDTO sdto,ProductDTO pdto) ;
    public void userUpdate(MemberDTO dto);
    
    public MemberDTO getUser(String m_id);
    
    public int userDelete(MemberDTO dto);
-   //�쉶�썝 �깉�눜
    public int statusChange(MemberDTO dto);
-   //�깉�눜�븯硫� 泥댁씤吏��릺�뼱�빞 �븯�땲源� 
    
    public int updateMemberStatus  (MemberDTO dto);
    
@@ -52,44 +47,33 @@ public interface MemberService  {
        public void p_pick_seq(String m_id);
        public void prefer(String m_id);
 
-          // �닔�웾蹂�寃�
-       
-
-          //�옣諛붽뎄�땲 愿��젴
       public void updateQuantity(int  shop_num,int  shop_quantity, String shop_m_id) ;
       
       List<ShoppingCartDTO> getShoppingCartItemsPaged(String shop_m_id, int startRow, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto);
 
        int getTotalShoppingCartItems(String shop_m_id);
-      /* 移댄듃 �궘�젣 */
       public int deleteCart(int shop_num,String shop_m_id);
 
       
       
       
-      //李� �뾽泥� 愿��젴 
       List<PickMeDTO> pickMeCountPage(String pm_m_id, int startRow, int pageSize, PickMeDTO pdto, CusDetailDTO cdto);
       
-      int pickMeCount(String pm_m_id);
-      /* 移댄듃 �궘�젣 */
+      int pickMeCount(String pm_m_id,int p_num);
          public int deleteHim(int pm_num,String pm_m_id);
       
          
          
-      //李�  愿��젴 
-         List<PPicDTO> pPickCountPages(@Param("ppic_m_id")String ppic_m_id,Map<String, Object> params,int page, int pageSize, PPicDTO ppdto, ProductDTO pdto,MemberDTO mdto,@Param("ppic_num")int ppic_num,CusDetailDTO cdto) ;
+      //筌∽옙  �꽴占쏙옙�졃 
+         List<PPicDTO> pPickCountPages(@Param("ppic_m_id")String ppic_m_id,Map<String, Object> params,int page, int pageSize, PPicDTO ppdto, ProductDTO pdto,MemberDTO mdto,@Param("ppic_num")int ppic_num,CusDetailDTO cdto,@Param("p_num") int p_num ) ;
        
-         int pPickCount(@Param("ppic_m_id")String ppic_m_id,@Param("ppic_num")int ppic_num) ;
-      /* 移댄듃 �궘�젣 */
+         int pPickCount(@Param("ppic_m_id")String ppic_m_id,@Param("ppic_num")int ppic_num ) ;
+      /* 燁삳똾�뱜 占쎄텣占쎌젫 */
       public int deleteP_item(int ppic_num,String ppic_m_id);
    
-
+      										
       
-      
-      
-      
-      
-      
-      
-      
+      public void pickMeInsert(Model model, PickMeDTO pdto, String pm_m_id,String pm_c_id,String ppic_m_id,String p_m_id); 
+	   public int pick_me_p_numCNT(@Param("pm_m_id")String pm_m_id,@Param("pm_c_id") String pm_c_id, @Param("pm_num")int pm_num,@Param("ppic_m_id") String ppic_m_id ,@Param("p_num") int p_num) ;
+		      
 }
