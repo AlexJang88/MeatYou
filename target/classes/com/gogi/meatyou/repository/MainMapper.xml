@@ -116,6 +116,17 @@
    </select>
 
 
+	<!-- 서칭 카운트(판매량순) -->
+   <select id="searchSaleCNT"  resultType="int">
+      	select count(*) from 
+		(select * from 
+		(select order_p_num,count(*) count from m_order group by order_p_num) ck ,product p, p_detail d
+		where ck.order_p_num=p.p_num and p.p_num=d.pd_p_num order by count desc)
+		<if test="searchOption == 'title'"> where p_name like '%' || #{search} || '%' </if>
+		<if test="searchOption == 'total'"> where p_name like '%' || #{search} || '%' or pd_P_DESC like '%' || #{search} || '%' </if> 
+   </select>
+
+
    <!-- 서칭 리스트(판매량순) -->
    <select id="searchSale" resultType="com.gogi.meatyou.bean.ProductDTO" parameterType="hashmap">
       select * from 
@@ -201,9 +212,9 @@
    
       <!-- 전체 리뷰 페이징 -->   
       <select id="reviewAllPaging" resultType="com.gogi.meatyou.bean.ReviewDTO" parameterType="hashmap">
-         select * from
-         (select b.* , rownum r from
-         (select * from product, review where p_num=r_p_num and p_num=#{p_num} order by r_reg_date desc) b) where 
+      	select * from
+      	(select b.* , rownum r from
+      	(select * from product, review where p_num=r_p_num and p_num=#{p_num} order by r_reg_date desc) b) where 
       <![CDATA[ r >= #{start} and r <= #{end} ]]>
 
    </select>
@@ -212,7 +223,7 @@
       select count(*) from  review where r_p_num=#{r_p_num}
    </select>
 
-      <select id="reviewSum" resultType="double">
+	<select id="reviewSum" resultType="double">
       select sum(star) from review where r_p_num=#{p_num}
    </select>
 
@@ -267,6 +278,13 @@
    </select>
    
    <insert id="ShoppingCartInsert" parameterType="com.gogi.meatyou.bean.ShoppingCartDTO">
+      insert into shoppingcart_${shop_m_id} values(ShoppingCart_${shop_m_id}_seq.nextval, 
+                           #{shop_m_id}, 
+                           #{shop_p_num}, 
+                           #{shop_quantity})
+   </insert>   
+   
+   <insert id="ShoppingCartInsert2" parameterType="com.gogi.meatyou.bean.ShoppingCartDTO">
       insert into shoppingcart_${shop_m_id} values(ShoppingCart_${shop_m_id}_seq.nextval, 
                            #{shop_m_id}, 
                            #{shop_p_num}, 

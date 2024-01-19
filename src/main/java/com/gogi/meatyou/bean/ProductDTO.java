@@ -34,5 +34,6 @@ public class ProductDTO {
 		private String pd_duedate;  //유통기한
 		private int pd_p_status;  // 노출상태
 		private PDetailDTO pdetaildto;  // 디테일 축약
+		private double star;
       
    }

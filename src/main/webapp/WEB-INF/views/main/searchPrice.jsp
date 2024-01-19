@@ -45,13 +45,62 @@
 										<p class="product-category">Category</p>
 										<h3 class="product-name"><a href="../main/product?p_num=${sear.p_num}">${sear.p_name}</a></h3>
 										<h4 class="product-price">${sear.p_price}</h4>
-										<div class="product-rating">
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-										</div>
+										<div class="rating-avg">${sear.star}
+														<c:if test="${sear.star == 5.0 && sear.star > 4.6}">
+															<div class="rating-stars">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+															</div>
+														</c:if>
+														<c:if test="${sear.star >= 4.0 && sear.star < 4.6}">
+															<div class="rating-stars">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o"></i>
+															</div>
+														</c:if>
+														<c:if test="${sear.star >= 3.0 && sear.star < 3.9}">
+															<div class="rating-stars">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+															</div>
+														</c:if>
+														<c:if test="${sear.star >= 2.0 && sear.star < 2.9}">
+															<div class="rating-stars">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+															</div>
+														</c:if>
+														<c:if test="${sear.star > 1.0 && sear.star < 1.9}">
+															<div class="rating-stars">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+															</div>
+														</c:if>
+														<c:if test="${sear.star >= 0.0 && sear.star < 0.9}">
+															<div class="rating-stars">
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+															</div>
+														</c:if>
+													</div>
 										<div class="product-btns">
 											<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
 											<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
@@ -72,11 +121,18 @@
 						<div class="store-filter clearfix">
 							<span class="store-qty">Showing 20-100 products</span>
 							<ul class="store-pagination">
-								<li class="active">1</li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
+								<c:if test="${count > 0}"> 
+									<c:if test="${startPage > 10}">
+										<li><a href="/main/searchPrice?searchOption=total&search=${search}&pageNum${startPage-10}">[이전]</a></li>
+									</c:if>
+									<c:forEach var="i" begin="${startPage}" end="${endPage}">
+										<li><a href="/main/searchPrice?searchOption=total&search=${search}&pageNum=${i}">${i}</a></li>
+									</c:forEach>
+									<c:if test="${endPage < pageCount}">
+										<li><a href="/main/searchPrice?searchOption=total&search=${search}&pageNum${startPage+10}">[다음]</a></li>
+									</c:if>	
 								<li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+								</c:if>
 							</ul>
 						</div>
 						<!-- /store bottom filter -->

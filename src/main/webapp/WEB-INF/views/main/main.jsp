@@ -44,23 +44,75 @@
 											<div class="product-body">
 												<p class="product-category">Category1 , Category2</p>
 												<h3 class="product-name"><a href="../main/product?p_num=${cus.p_num}&p_m_id=${cus.p_m_id}">${cus.p_name}</a></h3>
-												<h4 class="product-price">${cus.p_price}</h4>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
+												<h4 class="product-price">${cus.p_price}원</h4>
+													<div class="rating-avg">${cus.star}
+														<c:if test="${cus.star == 5.0 && cus.star > 4.6}">
+															<div class="rating-stars">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+															</div>
+														</c:if>
+														<c:if test="${cus.star >= 4.0 && cus.star < 4.6}">
+															<div class="rating-stars">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o"></i>
+															</div>
+														</c:if>
+														<c:if test="${cus.star >= 3.0 && cus.star < 3.9}">
+															<div class="rating-stars">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+															</div>
+														</c:if>
+														<c:if test="${cus.star >= 2.0 && cus.star < 2.9}">
+															<div class="rating-stars">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+															</div>
+														</c:if>
+														<c:if test="${cus.star >= 1.0 && cus.star < 1.9}">
+															<div class="rating-stars">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+															</div>
+														</c:if>
+														<c:if test="${cus.star >= 0.0 && cus.star < 0.9}">
+															<div class="rating-stars">
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+															</div>
+														</c:if>
+													</div>
 												<div class="product-btns">
 													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
 													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
 													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
 												</div>
 											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>장바구니 담기</button>
-											</div>
+												<div class="add-to-cart">
+													<input type="hidden" name="shop_m_id" value="${mid}">
+													<input type="hidden" name="shop_p_num" value="${p_num}">
+													<input type="hidden" name="shop_quantity" value="1">
+													<button class="add-to-cart-btn" onclick="location.href='ShoppingCartInsert2?p_num=${p_num}&p_m_id=${mid}&shop_quantity=1'"><i class="fa fa-shopping-cart"></i>장바구니 담기</button>
+												</div>
 										</div>
 										</c:forEach>
 										<!-- /product -->
@@ -202,14 +254,63 @@
 											<div class="product-body">
 												<p class="product-category">Category</p>
 												<h3 class="product-name"><a href="../main/product?p_num=${meat.p_num}&p_m_id=${meat.p_m_id}">${meat.p_name}</a></h3>
-												<h4 class="product-price">${meat.p_price}</h4>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
+												<h4 class="product-price">${meat.p_price}원</h4>
+													<div class="rating-avg">${meat.star}
+														<c:if test="${meat.star == 5.0 && meat.star > 4.6}">
+															<div class="rating-stars">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+															</div>
+														</c:if>
+														<c:if test="${meat.star >= 4.0 && meat.star < 4.6}">
+															<div class="rating-stars">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o"></i>
+															</div>
+														</c:if>
+														<c:if test="${meat.star >= 3.0 && meat.star < 3.9}">
+															<div class="rating-stars">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+															</div>
+														</c:if>
+														<c:if test="${meat.star >= 2.0 && meat.star < 2.9}">
+															<div class="rating-stars">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+															</div>
+														</c:if>
+														<c:if test="${meat.star >= 1.0 && meat.star < 1.9}">
+															<div class="rating-stars">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+															</div>
+														</c:if>
+														<c:if test="${meat.star >= 0.0 && meat.star < 0.9}">
+															<div class="rating-stars">
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+															</div>
+														</c:if>
+													</div>
 												<div class="product-btns">
 													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
 													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
@@ -282,14 +383,63 @@
 											<div class="product-body">
 												<p class="product-category">Category</p>
 												<h3 class="product-name"><a href="../main/product?p_num=${fork.p_num}&p_m_id=${fork.p_m_id}">${fork.p_name}</a></h3>
-												<h4 class="product-price">${fork.p_price}</del></h4>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
+												<h4 class="product-price">${fork.p_price}원</del></h4>
+													<div class="rating-avg">${fork.star}
+														<c:if test="${fork.star == 5.0 && fork.star > 4.6}">
+															<div class="rating-stars">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+															</div>
+														</c:if>
+														<c:if test="${fork.star >= 4.0 && fork.star < 4.6}">
+															<div class="rating-stars">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o"></i>
+															</div>
+														</c:if>
+														<c:if test="${fork.star >= 3.0 && fork.star < 3.9}">
+															<div class="rating-stars">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+															</div>
+														</c:if>
+														<c:if test="${fork.star >= 2.0 && fork.star < 2.9}">
+															<div class="rating-stars">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+															</div>
+														</c:if>
+														<c:if test="${fork.star > 1.0 && fork.star < 1.9}">
+															<div class="rating-stars">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+															</div>
+														</c:if>
+														<c:if test="${fork.star >= 0.0 && fork.star < 0.9}">
+															<div class="rating-stars">
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+															</div>
+														</c:if>
+													</div>
 												<div class="product-btns">
 													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
 													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
@@ -364,14 +514,63 @@
 											<div class="product-body">
 												<p class="product-category">Category</p>
 												<h3 class="product-name"><a href="../main/product?p_num=${newList.p_num}&p_m_id=${newList.p_m_id}">${newList.p_name}</a></h3>
-												<h4 class="product-price">${newList.p_price}</h4>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
+												<h4 class="product-price">${newList.p_price}원</h4>
+													<div class="rating-avg">${newList.star}
+														<c:if test="${newList.star == 5.0 && newList.star > 4.6}">
+															<div class="rating-stars">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+															</div>
+														</c:if>
+														<c:if test="${newList.star >= 4.0 && newList.star < 4.6}">
+															<div class="rating-stars">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o"></i>
+															</div>
+														</c:if>
+														<c:if test="${newList.star >= 3.0 && newList.star < 3.9}">
+															<div class="rating-stars">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+															</div>
+														</c:if>
+														<c:if test="${newList.star >= 2.0 && newList.star < 2.9}">
+															<div class="rating-stars">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+															</div>
+														</c:if>
+														<c:if test="${newList.star > 1.0 && newList.star < 1.9}">
+															<div class="rating-stars">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+															</div>
+														</c:if>
+														<c:if test="${newList.star >= 0.0 && newList.star < 0.9}">
+															<div class="rating-stars">
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+															</div>
+														</c:if>
+													</div>
 												<div class="product-btns">
 													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
 													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
