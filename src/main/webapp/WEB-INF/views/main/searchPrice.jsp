@@ -107,9 +107,25 @@
 											<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
 										</div>
 									</div>
-									<div class="add-to-cart">
-										<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-									</div>
+									<c:if test="${m_id != null}">
+										<div class="add-to-cart">
+										<form action="ShoppingCartInsertSearchPrice" method="post">
+											<input type="hidden" name="m_id" value="${m_id}">
+											<input type="hidden" name="p_num" value="${sear.p_num}">
+											<input type="hidden" name="shop_quantity" value="1">
+											<input type="hidden" name="searchOption" value="${searchOption}">
+											<input type="hidden" name="search" value="${search}">
+											<input type="hidden" name="price" value="${price}">
+											<button class="add-to-cart-btn" ><i class="fa fa-shopping-cart"></i>장바구니 담기</button>
+										</form>
+										</div>
+										
+									</c:if>
+									<c:if test="${m_id == null}">
+										<div class="add-to-cart">
+											<button class="add-to-cart-btn" onclick="location.href='/member/customLogin'"><i class="fa fa-shopping-cart"></i>장바구니 담기</button>
+										</div>
+									</c:if>
 								</div>
 							</div>
 							</c:forEach>

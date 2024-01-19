@@ -52,7 +52,7 @@
 									<li ><a href="/main/mainMeat?category=${category}&sale=desc">판매량 높은순</a></li>
 									<li ><a href="#tab1">평점순</a></li>
 									<li ><a href="#tab1">댓글순</a></li>
-									<li ><a href="/main/mainMeat?category=${category}&reg=desc" >신상품순</a></li>
+									<li ><a href="/main/mainMeat?category=${category}&news=news" >신상품순</a></li>
 								</ul>
 							</div>
 						</div>

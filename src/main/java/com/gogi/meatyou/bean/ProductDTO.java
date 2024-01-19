@@ -35,5 +35,6 @@ public class ProductDTO {
 		private int pd_p_status;  // 노출상태
 		private PDetailDTO pdetaildto;  // 디테일 축약
 		private double star;
+		private int count;	// 판매량
       
    }

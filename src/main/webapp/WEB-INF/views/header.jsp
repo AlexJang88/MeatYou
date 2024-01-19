@@ -170,8 +170,8 @@
 					<!-- NAV -->
 					<ul class="main-nav nav navbar-nav">
 						<li class="active"><a href="/main/main">홈</a></li>
-						<li><a href="./mainMeat?category=2&price=desc">소고기</a></li>
-						<li><a href="./mainMeat?category=1&price=desc">돼지고기</a></li>
+						<li><a href="/main/mainMeat?category=2&price=desc">소고기</a></li>
+						<li><a href="/main/mainMeat?category=1&price=desc">돼지고기</a></li>
 						<li><a href="#">1~2인</a></li>
 						<li><a href="#">3~4인</a></li>
 						<li><a href="#">세트/선물세트</a></li>

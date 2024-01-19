@@ -27,7 +27,7 @@
 						<!-- /store top filter -->
 						
 						
-											<!-- section title -->
+					<!-- section title -->
 					<c:if test="${category == 1}">
 					<div class="col-md-12">
 						<div class="section-title">
@@ -67,22 +67,83 @@
 										<p class="product-category">Category</p>
 										<h3 class="product-name"><a href="../main/product?p_num=${meat.p_num}">${meat.p_name}</a></h3>
 										<h4 class="product-price">${meat.p_price}</h4>
-										<div class="product-rating">
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-										</div>
+										<div class="rating-avg">${meat.star}
+														<c:if test="${meat.star == 5.0 && meat.star > 4.6}">
+															<div class="rating-stars">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+															</div>
+														</c:if>
+														<c:if test="${meat.star >= 4.0 && meat.star < 4.6}">
+															<div class="rating-stars">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o"></i>
+															</div>
+														</c:if>
+														<c:if test="${meat.star >= 3.0 && meat.star < 3.9}">
+															<div class="rating-stars">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+															</div>
+														</c:if>
+														<c:if test="${meat.star >= 2.0 && meat.star < 2.9}">
+															<div class="rating-stars">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+															</div>
+														</c:if>
+														<c:if test="${meat.star > 1.0 && meat.star < 1.9}">
+															<div class="rating-stars">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+															</div>
+														</c:if>
+														<c:if test="${meat.star >= 0.0 && meat.star < 0.9}">
+															<div class="rating-stars">
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+															</div>
+														</c:if>
+													</div>
 										<div class="product-btns">
 											<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
 											<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
 											<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
 										</div>
 									</div>
-									<div class="add-to-cart">
-										<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-									</div>
+									<c:if test="${m_id != null}">
+										<div class="add-to-cart">
+											<input type="hidden" name="shop_m_id" value="${m_id}">
+											<input type="hidden" name="shop_p_num" value="${p_num}">
+											<input type="hidden" name="shop_quantity" value="1">
+											<input type="hidden" name="category" value="${category}">
+											<input type="hidden" name="price" value="desc">
+											<button class="add-to-cart-btn" onclick="location.href='ShoppingCartInsertMainMeat?p_num=${p_num}&m_id=${m_id}&shop_quantity=1&category=${category}&price=desc'"><i class="fa fa-shopping-cart"></i>장바구니 담기</button>
+										</div>
+									</c:if>
+									<c:if test="${m_id == null}">
+										<div class="add-to-cart">
+											<button class="add-to-cart-btn" onclick="location.href='/member/customLogin'"><i class="fa fa-shopping-cart"></i>장바구니 담기</button>
+										</div>
+									</c:if>
 								</div>
 							</div>
 							</c:forEach>

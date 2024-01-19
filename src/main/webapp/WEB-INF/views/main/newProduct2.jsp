@@ -1,19 +1,20 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ include file="../header.jsp" %>
- 
+<%@ include file="../header.jsp" %> 
+<%@ include file="../newSort.jsp" %>
+
 		<!-- SECTION -->
 		<div class="section">
 			<!-- container -->
-			<div class="container">
+			<div class="container"> 
 				<!-- row -->
 				<div class="row">
 
 					<!-- section title -->
 					<div class="col-md-12">
 						<div class="section-title">
-							<h3 class="title">돼지고기 목록</h3>
+							<h3 class="title">신상품 목록</h3>
 							<div class="section-nav">
 							</div>
 						</div>
@@ -28,20 +29,20 @@
 								<div id="tab1" class="tab-pane active">
 									<div class="products-slick" data-nav="#slick-nav-1">
 										<!-- product -->
-										<c:forEach var="fork" items="${mainFork}">
+										<c:forEach var="newList" items="${newProduct}">
 										<div class="product">
 											<div class="product-img">
 												<img src="../resources/img/product01.png" alt="">
 												<div class="product-label">
 													<span class="sale" ><a>목록확인</a></span>
-													<span class="sale" ><a>상품설명</a></span>
+				 									<span class="sale" ><a>상품설명</a></span>
 													<span class="sale" ><a>상품평/평점</a></span>
 												</div>
 											</div>
 											<div class="product-body">
 												<p class="product-category">Category1 , Category2</p>
-												<h3 class="product-name"><a href="#">${fork.p_name}</a></h3>
-												<h4 class="product-price">${fork.p_price}</h4>
+												<h3 class="product-name"><a href="../main/product?p_num=${newList.p_num}">${newList.p_name}</a></h3>
+												<h4 class="product-price">${newList.p_price}</h4>
 												<div class="product-rating">
 													<i class="fa fa-star"></i>
 													<i class="fa fa-star"></i>
@@ -85,7 +86,6 @@
 			<!-- /container -->
 		</div>
 		<!-- /SECTION -->
-
 
 
 		<h1></h1><br /><br /><br /><br /><br /><br /><br />
