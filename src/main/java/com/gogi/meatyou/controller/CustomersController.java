@@ -1,3 +1,4 @@
+
 package com.gogi.meatyou.controller;
 
 import java.security.Principal;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gogi.meatyou.bean.CouponDTO;
 import com.gogi.meatyou.bean.CusOrderDTO;
 import com.gogi.meatyou.bean.PDetailDTO;
 import com.gogi.meatyou.bean.ProductDTO;
@@ -297,10 +299,60 @@ public class CustomersController {
  		
 
 		@RequestMapping("consumerList") //구매회원
- 		public String consumerList() {
+ 		public String consumerList(Model model,@RequestParam(value="check",defaultValue="0")int check, @RequestParam(value="pageNum", defaultValue = "1") int pageNum, Principal pc) {
+			String id = pc.getName();
+			
+			// 현재 날짜
+ 	        Date currentDate = new Date();
+ 	        // check에 따라서 날짜를 계산
+ 	        Date targetDate = service.calculateTargetDate(currentDate, check);
+ 	        // SimpleDateFormat을 사용하여 원하는 형식으로 날짜를 문자열로 변환
+ 	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월");
+ 	        String formattedDate = sdf.format(targetDate);
+ 	        model.addAttribute("currentMonth", targetDate.getMonth() + 1);
+ 	        model.addAttribute("currentYear", targetDate.getYear() + 1900);
+			
+			service.consumerList(model, check, pageNum, id);
  			return "customer/consumerList";
  		}
  		
+		
+		@RequestMapping("cusCoupon") //쿠폰제공하는 페이지
+ 		public String cusCoupon(Model model, String p_m_id, Principal pc) {
+			String id = pc.getName();
+			
+			service.companynum(model, id);
+			service.itemList(model, id);
+			
+			model.addAttribute("p_m_id", p_m_id);
+			model.addAttribute("id", id);
+ 			return "customer/cusCoupon";
+ 		}
+		
+		
+		@RequestMapping("cusCouponPro") //쿠폰제공하는 페이지
+ 		public String cusCouponPro(Model model, String p_m_id, Principal pc, int point, CouponDTO coupondto, int companynum, int p_status,int couponUse) {
+			String id = pc.getName();
+			
+			service.cusCouponPro(model, p_m_id, id, point,companynum, coupondto, p_status, couponUse);					
+ 			return "redirect:/customers/CouponList";
+ 		}
+		
+		
+		
+		
+		
+		@RequestMapping("CouponList") //쿠폰제공한 페이지
+ 		public String CouponList(Principal pc) {
+			String id = pc.getName();
+	
+ 			return "customer/CouponList";
+ 		}
+		
+		
+		
+		
+		
  		
  		
  		@RequestMapping("deliver") //배송현황
@@ -333,9 +385,6 @@ public class CustomersController {
  			return "customer/cusQna";
  		}
  		
- 		@RequestMapping("cusCoupon") //쿠폰제공리스트
- 		public String cusCoupon() {
- 			return "customer/cusCoupon";
- 		}
+ 	
    
 }

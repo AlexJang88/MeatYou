@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.springframework.ui.Model;
 
+import com.gogi.meatyou.bean.CouponDTO;
 import com.gogi.meatyou.bean.CusOrderDTO;
 import com.gogi.meatyou.bean.PDetailDTO;
 import com.gogi.meatyou.bean.ProductDTO;
@@ -46,6 +47,21 @@ public interface CustomersService {
     public void  getProfitItem(Model model,int check, String id, int pageNum); //체크를 안했을때
     //날짜 계산
     Date calculateTargetDate(Date currentDate, int check);
+    
+    //상품구매회원 및 쿠폰 주기
+    public void consumerList(Model model, int check, int pageNum, String id); //상품 구매리스트회원
+    public void cusCouponPro(Model model, String p_m_id, String  id, int point, int companynum, CouponDTO coupondto, int p_status, int couponUse);  //쿠폰을 제공했을때 넘어가는값
+    public void companynum(Model model, String id);//사업자번호받기
+    public void itemList(Model model, String id);//상품리스트 받기
    
-   
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
