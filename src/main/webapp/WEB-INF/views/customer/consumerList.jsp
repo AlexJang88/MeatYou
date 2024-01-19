@@ -12,6 +12,11 @@
     <title>구매 회원 고객리스트</title>
 </head>
 <body>
+
+
+    <a href="/customers/customer">홈으로</a>
+    <a href="/customers/CouponList">쿠폰제공리스트</a>
+
 	<c:choose>
 	    <c:when test="${not empty currentMonth and currentMonth <= 0}">
 	        <h2><c:out value="${currentYear - 1}"/>년 <c:out value="${currentMonth + 12}"/>월 구매 회원 확인</h2>
@@ -32,10 +37,6 @@
 	</c:if>
 	<br />
 
-
-    <h2>고객리스트 구매회원, 단골회원, 쿠폰리스트, 쿠폰 주기 기능 추가 </h2>
-    <a href="/customers/customer">홈으로</a>
-    <a href="/customers/CouponList">쿠폰제공리스트</a>
 
     
     <c:if test="${count==0}">
@@ -79,7 +80,8 @@
 							<c:when test="${mber.order_status == 0}">결제취소</c:when>
 							<c:when test="${mber.order_status == 1}">결제완료</c:when>							       
 							<c:when test="${mber.order_status == 2}">배송중</c:when>
-							<c:when test="${mber.order_status == 3}">구매확정</c:when>							       
+							<c:when test="${mber.order_status == 3}">배송완료</c:when>							       
+							<c:when test="${mber.order_status == 4}">구매확정</c:when>							       
 						</c:choose>				 	
 				 	</td>
 				 	<td>${mber.mstat_detail}</td>

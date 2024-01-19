@@ -343,9 +343,10 @@ public class CustomersController {
 		
 		
 		@RequestMapping("CouponList") //쿠폰제공한 페이지
- 		public String CouponList(Principal pc) {
+ 		public String CouponList(Model model, Principal pc, @RequestParam(value="pageNum", defaultValue = "1") int pageNum) {
 			String id = pc.getName();
-	
+			
+			service.couponList(model, id, pageNum); //쿠폰 제공한 리스트
  			return "customer/CouponList";
  		}
 		
@@ -355,21 +356,49 @@ public class CustomersController {
 		
  		
  		
- 		@RequestMapping("deliver") //배송현황
- 		public String deliver() {
- 			return "customer/deliver";
+ 		@RequestMapping("deliverout") // 구매취소
+ 		public String deliver(Model model,@RequestParam(value="check",defaultValue="0")int check,@RequestParam(value="pageNum", defaultValue = "1") int pageNum, Principal pc) {
+ 			String id = pc.getName();
+ 			
+ 			//현재 날짜
+ 	        Date currentDate = new Date();
+ 	        // check에 따라서 날짜를 계산
+ 	        Date targetDate = service.calculateTargetDate(currentDate, check);
+ 	        // SimpleDateFormat을 사용하여 원하는 형식으로 날짜를 문자열로 변환
+ 	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월");
+ 	        String formattedDate = sdf.format(targetDate);
+ 	        model.addAttribute("currentMonth", targetDate.getMonth() + 1);
+ 	        model.addAttribute("currentYear", targetDate.getYear() + 1900);
+		
+ 	        service.deliverout(model, check, pageNum, id);
+		
+ 			return "customer/deliverout";
  		}
+ 			
  		
- 		@RequestMapping("delivered") //배송완료
- 		public String delivered() {
- 			return "customer/delivered";
- 		}
- 		
- 		@RequestMapping("delivering") //배송예정
+ 		@RequestMapping("delivering") //결제완료, 배송중, 배송완료 , 
  		public String delivering() {
  			return "customer/delivering";
  		}
  		
+ 		@RequestMapping("delivered") //구매확정
+ 		public String delivered(Model model,@RequestParam(value="check",defaultValue="0")int check,@RequestParam(value="pageNum", defaultValue = "1") int pageNum, Principal pc) {
+ 			String id = pc.getName();
+ 			
+ 			//현재 날짜
+ 	        Date currentDate = new Date();
+ 	        // check에 따라서 날짜를 계산
+ 	        Date targetDate = service.calculateTargetDate(currentDate, check);
+ 	        // SimpleDateFormat을 사용하여 원하는 형식으로 날짜를 문자열로 변환
+ 	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월");
+ 	        String formattedDate = sdf.format(targetDate);
+ 	        model.addAttribute("currentMonth", targetDate.getMonth() + 1);
+ 	        model.addAttribute("currentYear", targetDate.getYear() + 1900);
+ 			
+ 			
+ 	        
+ 			return "customer/delivered";
+ 		}
  		
  		
  		

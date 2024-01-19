@@ -68,17 +68,16 @@
 		<tr>
 			<td align="center">${ptm}</td>
 			<td align="center">${totalCount}</td>
-			<td align="center">아직 쿠폰 없음</td>
+			<td align="center">${coponPay}</td>
 			<td align="center">${deliveryPay}</td>
-			<td align="center">${(ptm - deliveryPay)*0.9}</td>
+			<td align="center">${(ptm * 0.9) - deliveryPay - coponPay}</td>
 			<td align="center">${HOT}</td>
 			<td align="center"><a href="/customers/pay">파워링크 결제하기</a></td>
 			
 		</tr>
 	</table>
-	
-	* 나중에 순수익에서 쿠폰비랑 차감필요</br>
-	* 정산예정금액은 총 매출액에서 배송비, 쿠폰사용료를 제외한후 수수료 10%를 차감한 금액입니다.
+
+	* 정산예정금액은 총 매출액에서 수수료 10% 제외한 후 배송비, 쿠폰사용료를 제외하고 정산됩니다.
 	</c:if>
 <script>
 $(function() {
