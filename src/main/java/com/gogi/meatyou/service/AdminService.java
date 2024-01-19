@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.gogi.meatyou.bean.AdminProductDTO;
 import com.gogi.meatyou.bean.MemberDTO;
 import com.gogi.meatyou.bean.NoticeDTO;
 import com.gogi.meatyou.bean.NoticeFileDTO;
@@ -41,5 +42,6 @@ public interface AdminService {
    public int noticeupdate(HttpServletRequest req, HttpServletResponse resp, Model model, NoticeDTO dto);
    public void noticedelete(int n_num,HttpServletRequest req);
    public int getNoticeNum();
-   
+   public void getAdminProductList(int pageNum,String keyword,String searchOpt,int cate1,int cate2,int cate3,Model model);
+   public String getSearchProductList(int pageNum,String keyword,String searchOpt,int cate1,int cate2,int cate3,Model model);
 }
