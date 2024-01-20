@@ -8,8 +8,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
+import java.text.SimpleDateFormat;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -95,6 +97,15 @@ public class AdminController {
 
 	@RequestMapping("/sales")
 	public String sales(Model model, @RequestParam(value = "check", defaultValue = "0") int check, String daterange) {
+		//현재 날짜
+        Date currentDate = new Date();
+        // check에 따라서 날짜를 계산
+        Date targetDate = adminServicImpl.calculateTargetDate(currentDate, check);
+        // SimpleDateFormat을 사용하여 원하는 형식으로 날짜를 문자열로 변환
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월");
+        String formattedDate = sdf.format(targetDate);
+        model.addAttribute("currentMonth", targetDate.getMonth() + 1);
+        model.addAttribute("currentYear", targetDate.getYear() + 1900);
 		if (check <= 0) {
 			adminServicImpl.getSales(model, check);
 		} else {

@@ -13,6 +13,10 @@ public class ReckonDTO {
 	private int totalprice;
 	private int p_price;
 	private int dere_pay;
+	private String p_m_id;
+	private int cp_price;
+	private int order_dere_pay;
+	private int deposit;
 	
 	
 }
