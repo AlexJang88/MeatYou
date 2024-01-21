@@ -349,6 +349,45 @@ public class MemberController {
           return "member/pickMe/pickMe";
       }
       
+      // 픽미 목록 가져오기~~~~~~~~~~
+      
+      @RequestMapping("SallerPickMe")
+      public String SallerPickMeList(
+    		  Principal seid,
+    		  Model model,
+    		  @RequestParam(defaultValue = "1") int page,  // 현재 페이지 번호, 기본값 1
+    		  @RequestParam(defaultValue = "7") int pageSize,  // 페이지당 보여질 항목 수, 기본값 7
+    		  PickMeDTO pdto
+    		  ) {
+    	  
+    	  String pm_c_id = (String) seid.getName();
+    	  String pm_m_id=pdto.getPm_m_id();
+    	  //  int totalPrice = sdto.getQuantity() * sdto.getP_price();
+    	  System.out.print("현재 로그인한 판매자 아이디======================================================"+pm_c_id);
+    	  System.out.print("나를 찜한 회원  아이디======================================================"+pm_m_id);
+    	  
+       
+    	  // 서비스에서 가져온 고객의 픽미 목록을 페이징하여 가져옵니다.
+    	  List<PickMeDTO> SallerPickMeList = service.SallerpickMeCountPage(pm_m_id,pm_c_id, page, pageSize, pdto );
+    	  // 서비스에서 가져온 고객의 픽미 목록의 총 아이템 수를 가져옵니다.
+    	  int totalItemCount = service.SallerpickMeCount(pm_m_id,pm_c_id);
+    	  // 총 페이지 수를 계산합니다.
+    	  int totalPage = (int) Math.ceil((double) totalItemCount / pageSize);
+    	  
+    	  System.out.println("페이지 크기  ============= ="+pageSize);
+    	  System.out.println("현재 페이지 ============ ="+page);
+    	  System.out.println("총 페이지수 ============= ="+totalPage);
+    	  System.out.println("총 아이템 수   =================="+totalItemCount);
+    	  // 뷰 페이지로 전달할 모델에 데이터를 추가합니다.
+    	  model.addAttribute("SallerPickMeList", SallerPickMeList);
+    	  //model.addAttribute("totalPrice", totalPrice);
+    	  model.addAttribute("page", page);
+    	  model.addAttribute("pageSize", pageSize);
+    	  model.addAttribute("totalPage", totalPage);
+    	  
+    	  return "member/SallerPickMe/SallerPickMe";
+      }
+      
       
 
       @PostMapping("deleteHim")  

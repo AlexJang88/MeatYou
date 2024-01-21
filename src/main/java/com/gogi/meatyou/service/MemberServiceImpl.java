@@ -177,7 +177,6 @@ public class MemberServiceImpl implements MemberService {
          
 
          
-         // 獄쏆꼹�넎 占쏙옙占쎌뿯占쎌뱽 List<ShoppingCartDTO>嚥∽옙 占쎈땾占쎌젟
          @Override
          public List<ShoppingCartDTO> ShoppingCartAndProduct(String shop_m_id,ShoppingCartDTO sdto,ProductDTO pdto) {
              return mapper.ShoppingCartAndProduct(shop_m_id);
@@ -194,7 +193,6 @@ public class MemberServiceImpl implements MemberService {
           }
          
          
-         //占쎌삢獄쏅떽�럡占쎈빍 �뵳�딅뮞占쎈뱜 
          
          public List<ShoppingCartDTO> getShoppingCartItemsPaged(String shop_m_id, int page, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto) {
              int startRow = (page - 1) * pageSize + 1;
@@ -232,7 +230,6 @@ public class MemberServiceImpl implements MemberService {
              
              
              
-           //筌∽옙 占쎈씜筌ｏ옙 �꽴占쏙옙�졃 .
             @Override
             public   List<PickMeDTO> pickMeCountPage(String pm_m_id, int page, int pageSize, PickMeDTO pdto, CusDetailDTO cdto){
                 int startRow = (page  - 1) * pageSize + 1;
@@ -249,18 +246,51 @@ public class MemberServiceImpl implements MemberService {
                 return result;
             }
        
-            
-            			
+			
              @Override
              public int pickMeCount( @Param("pm_m_id")String pm_m_id,@Param("p_m_id")String p_m_id   ) {
                  return mapper.pickMeCount(pm_m_id,p_m_id  );
              }             
              @Override
             public int deleteHim(@Param("pm_num")int pm_num,@Param("pm_m_id")String pm_m_id){
-
                 return mapper.deleteHim(pm_num,pm_m_id);
-
                }
+             
+             
+               
+             
+             @Override
+             public   List<PickMeDTO> SallerpickMeCountPage(@Param("pm_m_id")String pm_m_id,@Param("pm_c_id")String pm_c_id, int page, int pageSize, PickMeDTO pdto ) {
+            	 int startRow = (page  - 1) * pageSize + 1;
+            	 int endRow = startRow + pageSize - 1;
+            	 
+            	 Map<String, Object> parameters = new HashMap<>();
+            	 parameters.put("pm_m_id", pm_m_id);
+            	 parameters.put("pm_c_id", pm_c_id);
+            	 parameters.put("startRow", startRow);
+            	 parameters.put("endRow", endRow);
+            	 
+            	 //   return mapper.getShoppingCartItemsPaged(parameters);
+            	 List<PickMeDTO> result = mapper.SallerpickMeCountPage(parameters);
+            	 System.out.println("占쎄퐣�뜮袁⑸뮞 占쎌깈�빊占� - 占쎈읂占쎌뵠筌욑옙: " + page + ", 野껉퀗�궢 揶쏆뮇�땾: " + result.size());
+            	 return result;
+             }
+             
+             
+             @Override
+             public int SallerpickMeCount( @Param("pm_m_id")String pm_m_id,@Param("pm_c_id")String pm_c_id) {
+            	 Map<String, Object> parameters = new HashMap<>();
+            	 parameters.put("pm_m_id", pm_m_id);
+            	 parameters.put("pm_c_id", pm_c_id);
+            	 return mapper.SallerpickMeCount(parameters);
+             }             
+             @Override
+             public int SallerdeleteHim(@Param("pm_num")int pm_num,@Param("pm_m_id")String pm_m_id,@Param("pm_c_id")String pm_c_id){
+            	 return mapper.SallerdeleteHim(pm_num,pm_m_id,pm_c_id);
+             }
+             
+             
+             
             @Override
             public   List<PPicDTO> pPickCountPages(@Param("ppic_m_id")String ppic_m_id,Map<String, Object> params,int page, int pageSize, PPicDTO ppdto, ProductDTO pdto,MemberDTO mdto,@Param("ppic_num")int ppic_num,CusDetailDTO cdto ){
                 int startRow = (page - 1) * pageSize + 1;

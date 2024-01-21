@@ -148,10 +148,8 @@ FROM (
   FROM (
     SELECT
     pm.pm_num,pm.pm_m_id,pm.pm_c_id,cu.ceoname,cu.cus_address1,cu.cus_address2,cu.company,cu.cus_pnum,cu.cus_accnum
-  
     FROM
       pick_me_${pm_m_id} pm
- 
     INNER JOIN
     cus_detail cu ON pm.pm_c_id = cu.cus_m_id
     ORDER BY
@@ -162,14 +160,49 @@ FROM (
 )
 WHERE
   rnum >= #{startRow, jdbcType=NUMERIC}
-
     ]]>
 </select>
-
 <!-- 
 찜 업체  선택 삭제  -->
    <delete id="deleteHim" parameterType="map">  
       delete from pick_me_${pm_m_id} where pm_num = #{pm_num}
+   </delete>
+   
+   <!--판매자 찜-->
+<select id="SallerpickMeCount" parameterType="map">  
+    SELECT COUNT(*)   FROM pick_me_${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")}
+</select>
+ 
+  <!-- 찜  업체  확인  -->
+
+<select id="SallerpickMeCountPage"   parameterType="map">
+    <![CDATA[
+ SELECT
+  rnum, pm_num,pm_m_id, pm_c_id,m_name,email,telep,phone,m_status
+FROM (
+  SELECT
+    ROWNUM AS rnum, t.*
+  FROM (
+    SELECT
+    pm.pm_num,pm.pm_m_id,pm.pm_c_id,m.m_name,m.email,m.telep,m.phone,m.m_status 
+    FROM
+      pick_me_${pm_c_id} pm
+    INNER JOIN
+    member m ON pm.pm_m_id = m.m_id
+    ORDER BY
+      pm.pm_num
+  ) t
+  WHERE
+    ROWNUM <= #{endRow, jdbcType=NUMERIC}
+)
+WHERE
+  rnum >= #{startRow, jdbcType=NUMERIC}
+    ]]>
+</select>
+<!-- 
+찜 업체  선택 삭제  -->
+   <delete id="SallerdeleteHim" parameterType="map">  
+      delete from pick_me_${pm_c_id} where pm_num = #{pm_num}
    </delete>
 
 

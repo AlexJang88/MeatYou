@@ -3,46 +3,18 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ include file="../../header.jsp" %>
 <head>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script>
-// 삭제 메서드
-/* 장바구니 삭제 버튼 */
-// JavaScript 코드 (페이지 내에 추가)
-$(document).on("click", ".delete_btn", function(e) {
-;
-    console.log();
-    const pm_num = $(this).data("pm_num");
-    $(".quantity_delete_form").submit();
-    e.preventDefault(pm_num);
-    // AJAX를 사용하여 삭제 요청 보내기
-    $.ajax({
-        type: "POST",
-        url: "/member/deleteHim",
-        data: {
-            pm_num: pm_num
-        },
-        success: function(response) {
-            // 성공적으로 삭제된 경우 페이지 새로고침
-            location.reload();
-        },
-        error: function(error) {
-            console.log("Error:", error);
-            // 오류가 발생한 경우 적절히 처리
-        }
-    });
-});
- 
-</script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> 
 </head>
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">나를 관심있어하는사람들</h1>
+        <h1 class="page-header"> 
+나를 찜한 회원 </h1>
     </div>
 </div>
 
 <div class="panel panel-default">
     <div class="panel-heading">
-내가 관심있는 판매자  
+나를 찜한 회원  
     </div>
 
     <div class="panel-body">
@@ -51,27 +23,48 @@ $(document).on("click", ".delete_btn", function(e) {
           <table class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
-            <th>나를 관심있어하는사람들</th>
-            <th>매장 위치</th>
-            <th>업체 전화번호</th>
-            <th>대표자 성함</th>
-            <th>판매자아이디</th>
-            <th>입금계좌</th>
-            <th>삭제</th>
+            <th>나를 찜한 회원</th>
+            <th>내아이디(히든처리)</th>
+            <th>회원이름</th>
+            <th>회원이메일</th>
+            <th>회원 전화번호</th>
+            <th>회원등급</th>
         </tr>
     </thead>
     <tbody>
     
-        <c:forEach var="item" items="${pickMekList}">
+        <c:forEach var="item" items="${SallerPickMeList}">
             <tr>
-                <td><c:out value="${item.company}"  /></td>
-                <td><c:out value="${item.cus_address1}"/><c:out value="${item.cus_address2}" /></td>
-                <td><c:out value="${item.cus_pnum}" /></td>
-                <td><c:out value="${item.ceoname}" /></td>
-                <td><c:out value="${item.pm_c_id}" /></td>
-                  <td><c:out value="${item.cus_accnum}" /></td>
+                <td><c:out value="${item.pm_m_id}"  /></td>
+                <td><c:out value="${item.pm_c_id}"/></td>
+                <td><c:out value="${item.m_name}" /></td>
+                <td><c:out value="${item.email}" /></td>
+                <td><c:out value="${item.telep}" />-<c:out value="${item.phone}" /></td>
+                  <td><c:out value="${item.m_status}" />
+                   <c:if test="${dto.m_status eq 1000}">
+							탈퇴회원
+						</c:if>
+					<c:if test="${dto.m_status eq 1050}">
+							판매자승인대기자  
+					</c:if>
+				
+				<c:if test="${dto.m_status eq 1001}">
+				일반회원
+				</c:if>
+				
+				<c:if test="${dto.m_status eq 1002}">
+					우수회원
+				</c:if>
+				
+				<c:if test="${dto.m_status eq 1003}">
+						단골회원 
+				</c:if>
+                  
+                  
+                  
+                  </td>
                 <td>
-                    <form action="deleteHim" method="post" class="quantity_delete_form">
+                    <form action="SallerdeleteHim" method="post" class="quantity_delete_form">
                         <input type="hidden" name="pm_num" value="${item.pm_num}" />
                         
                         <input type="hidden" name="pm_m_id" value="${item.pm_m_id}" />

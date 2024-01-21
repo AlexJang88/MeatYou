@@ -57,6 +57,9 @@ table  a{
 				<c:if test="${dto.m_status eq 2003}">
 						단골 판매자님 환영합니다 !
 				</c:if>
+				<c:if test="${dto.m_status eq 2004}">
+						vvip 판매자님 환영합니다 !
+				</c:if>
 				
 				<c:if test="${dto.m_status eq 7999}">
 				관리자님 환영합니다 
@@ -64,38 +67,31 @@ table  a{
 				</th>
 				 <th  colspan="8">
 				 
-			 
 					 <c:if test="${dto.m_status eq 1050 }">
 						 <a href="/member/sallerDelete" style="color:green;">판매자 신청 취소</a> 
 							 <a href="../member/pickMe"  style="color:blue;">내가 마음에드는 업체</a>
 							 	<a href="#" style="color:sky;">결제페이지</a>
 							<a href="../member/pPickList" style="color:red;">찜 상품 목록</a>
 					</c:if>
-						<c:if test="${dto.m_status ge 2000 and dto.m_status le 2003}">
-						 <a href="/member/sallerDelete" style="color:green;">판매자 취소</a> 
-						 	<a href="../member/pickYou" style="color:blue;">나를 찜한사람들</a>
+						<c:if test="${dto.m_status ge 2000 and dto.m_status le 2004}">
+							 <a href="/member/sallerDelete" style="color:green;">판매자 취소</a> 
+						 	<a href="../member/SallerPickMe" style="color:blue;">나를 찜한사람들</a>
 						 	<a href="#" style="color:sky;">유료상품 구매</a> 
 					</c:if>
 				<c:if test="${dto.m_status eq 1001 and dto.m_status le 1003}">
 					  <a href="/member/deleteForm" style="color:green;">회원탈퇴</a> 
-					<a href="#" style="color:blue;">내가 마음에드는 업체</a>
-					<a href="#s" style="color:sky;">결제페이지</a>
+					<a href="/member/pickMe" style="color:blue;">내가 마음에드는 업체</a>
+					<a href="#" style="color:sky;">결제페이지</a>
 					<a href="../member/pPickList" style="color:red;">찜 상품 목록</a>
 					<a href="../member/shoppingCartForm" style="color:orange;">장바구니</a>
 				</c:if>
-				
-					
-					
+		
 					
 				</th>
 				</tr> 
-				
-				
-
 
 	        	<tr>
-	           
-	           
+
 	            <th>아이디</th>
 	            <th>성함</th>
 	     		  <th>생년월일</th>	    

@@ -62,7 +62,12 @@ public interface MemberService  {
       
       int pickMeCount( String pm_m_id,@Param("p_m_id")String p_m_id );
          public int deleteHim(int pm_num,String pm_m_id);
-      
+         
+         
+         List<PickMeDTO> SallerpickMeCountPage(@Param("pm_c_id") String pm_c_id,@Param("pm_m_id")String pm_m_id, int page, int pageSize, PickMeDTO pdto);
+         int SallerpickMeCount(@Param("pm_m_id") String pm_m_id ,@Param("pm_c_id")String pm_c_id );
+         public int SallerdeleteHim(int pm_num,String pm_m_id, String pm_c_id);
+         
          
       
          List<PPicDTO> pPickCountPages(@Param("ppic_m_id")String ppic_m_id,Map<String, Object> params,int page, int pageSize, PPicDTO ppdto, ProductDTO pdto,MemberDTO mdto,@Param("ppic_num")int ppic_num,CusDetailDTO cdto ) ;
