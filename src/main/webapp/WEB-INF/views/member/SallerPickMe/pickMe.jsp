@@ -36,7 +36,7 @@ $(document).on("click", ".delete_btn", function(e) {
 </head>
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">내가 관심있는 업체</h1>
+        <h1 class="page-header">나를 관심있어하는사람들</h1>
     </div>
 </div>
 
@@ -51,7 +51,7 @@ $(document).on("click", ".delete_btn", function(e) {
           <table class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
-            <th>내가 찜한 업체</th>
+            <th>나를 관심있어하는사람들</th>
             <th>매장 위치</th>
             <th>업체 전화번호</th>
             <th>대표자 성함</th>

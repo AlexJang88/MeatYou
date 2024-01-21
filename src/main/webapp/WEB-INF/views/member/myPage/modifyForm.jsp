@@ -34,7 +34,7 @@
   <table width="600" border="1"  align="center">
     <tr > 
       <td  colspan="2" height="39"align="center">
-	     <font size="+1" ><b>회원 정보수정[${dto.m_reg_date}]</b></font></td>
+	     <font size="+1" ><b>회원 정보수정[${dto.m_reg_date.substring(0, 10)}]</b></font></td>
     </tr>
     <tr>
       <td colspan="2" class="normal" align="center">회원의 정보를 수정합니다.</td>
@@ -68,17 +68,7 @@
       </td>
     </tr>
 <tr>     
-   <!--  <td width="200">생년월일</td>
-            <td width="400">
-                <div class="form-group">
-                    <label for="birthdate">생년월일</label>
-                    <input type="date" class="form-control" name="birth" id="birth" value="${dto.birth}">
-                </div>
-            </td>
-        </tr>
-     <tr> --> 
-     
-  
+ 
      <tr>  
       <td> 
           <label for="address">주소</label>
@@ -129,7 +119,12 @@
       <td colspan="2" align="center"> 
        <input type="submit" name="modify" value="수   정" >
        <input type="button" value="취  소" onclick="javascript:window.location='/main/main'">      
-       <input type="button" name="modify" value="판매자 신청"  onclick="javascript:window.location='/member/sallerInputForm'" style="background-color:orange; ">
+      
+      
+      
+ 			<c:if test="${dto.m_status eq 1001 and dto.m_status le 1003}">
+				 <input type="button" name="modify" value="판매자 신청"  onclick="javascript:window.location='/member/sallerInputForm'" style="background-color:orange; ">
+						</c:if>
       </td>
     </tr>
   </table>

@@ -14,6 +14,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -27,23 +28,74 @@ public class MemberServiceImpl implements MemberService {
     public int insertMember(MemberDTO dto) {
         return mapper.insertMember(dto);
     }
-       
-    public void pickMeInsert(Model model, PickMeDTO pdto, String pm_m_id,String pm_c_id ,String ppic_m_id,String p_m_id ) {
-    	int result;
-		result = mapper.pick_me_p_numCNT(pm_m_id,pm_c_id ,ppic_m_id );
-		if(result == 0) {
-			mapper.pickMeInsert(pdto,pm_m_id,pm_c_id ,ppic_m_id,p_m_id );   
-		} else {
-			mapper.pick_me_delete(pdto,pm_m_id,pm_c_id ,ppic_m_id );
-		}
-		model.addAttribute("pdto" , pdto);
-    	
-    };
-	   public int pick_me_p_numCNT(@Param("pm_m_id")String pm_m_id,@Param("pm_c_id") String pm_c_id, @Param("pm_num")int pm_num,@Param("ppic_m_id") String ppic_m_id ,@Param("p_num") int p_num) {
-		   return mapper.pick_me_p_numCNT(pm_m_id,pm_c_id, ppic_m_id );
-	   };  
-	   
+  
+    //체크 후
+    @Override
+    public int ppickAndpickMeCount(@Param("pm_m_id")String pm_m_id,@Param("pm_c_id")String pm_c_id, @Param("pm_num") int pm_num) {
+        return mapper.ppickAndpickMeCount( pm_m_id, pm_c_id ,pm_num);
+    }
     
+    public void pick_me_delete(Model model,PickMeDTO pdto,ProductDTO ppdto,@Param("pm_m_id")String pm_m_id,
+ 			@Param("pm_c_id") String pm_c_id
+		 ,@Param("pm_num") int pm_num ){
+    	//   return mapper.pick_me_delete(  pdto,  pm_m_id, pm_c_id,   p_m_id, int pm_num);
+    }
+ 
+    
+    //회원테이블 찝 추가 및 삭제 
+    @Override
+    public void pickMeInsert(Model model, PickMeDTO pdto, ProductDTO ppdto, String pm_m_id, String pm_c_id, int pm_num) {
+        // 이미 찜이 되어 있는지 확인
+        int pickCount = mapper.ppickAndpickMeCount(pm_m_id, pm_c_id, pm_num);
+
+        if (pickCount > 0) {
+            // 이미 찜이 되어 있다면 찜을 해제
+            int deleteResult = mapper.deletePickMeByCId(pm_m_id, pm_c_id);
+            if (deleteResult > 0) {
+                model.addAttribute("message", "이미 선택된 상품을 취소했습니다.");
+            }
+        } else {
+            // 찜이 되어 있지 않다면 찜을 추가
+            int insertResult = mapper.pickMeInsert(pdto, pm_m_id, pm_c_id, pm_num);
+            if (insertResult > 0) {
+                model.addAttribute("message", "상품을 선택했습니다.");
+            }
+        }
+    }
+    
+    //판매자 테이블 찜 추가 및 삭제 
+    @Override
+    public void pickMeInsert2(Model model, PickMeDTO pdto, ProductDTO ppdto, String pm_m_id, String pm_c_id, int pm_num) {
+    	// 이미 찜이 되어 있는지 확인
+    	int pickCount = mapper.ppickAndpickMeCount(pm_m_id, pm_c_id, pm_num);
+    	
+    	if (pickCount > 0) {
+    		// 이미 찜이 되어 있다면 찜을 해제
+    		int deleteResult = mapper.deletePickMeByCId2(pm_m_id, pm_c_id);
+    		if (deleteResult > 0) {
+    			model.addAttribute("message", "이미 선택된 상품을 취소했습니다.");
+    		}
+    	} else {
+    		// 찜이 되어 있지 않다면 찜을 추가
+    		int insertResult = mapper.pickMeInsert2(pdto, pm_m_id, pm_c_id, pm_num);
+    		if (insertResult > 0) {
+    			model.addAttribute("message", "상품을 선택했습니다.");
+    		}
+    	}
+    }
+    
+    
+    
+    
+ // pm_c_id만으로 삭제
+    @Override
+    public void deletePickMeByCId(String pm_m_id, String pm_c_id) {
+        mapper.deletePickMeByCId(pm_m_id, pm_c_id);
+    }
+    @Override
+    public void deletePickMeByCId2(String pm_m_id, String pm_c_id) {
+    	mapper.deletePickMeByCId2(pm_m_id, pm_c_id);
+    }
     
        @Override
        public void userUpdate(MemberDTO dto) {
@@ -55,6 +107,10 @@ public class MemberServiceImpl implements MemberService {
        public int userDelete(MemberDTO dto) {
           return mapper.statusChange(dto);
        }
+        @Override
+        public int sallerDelete(MemberDTO dto) {
+        	return mapper.statusChange2(dto);
+        }
 
     
        @Override
@@ -68,13 +124,7 @@ public class MemberServiceImpl implements MemberService {
           return mapper.member(m_id);
        }
 
-
-      @Override
-      public MemberDTO member(String m_id) {
-         // TODO Auto-generated method stub
-         return null;
-      }
-            
+ 
       
       
       
@@ -200,10 +250,10 @@ public class MemberServiceImpl implements MemberService {
             }
        
             
-            
+            			
              @Override
-             public int pickMeCount(String pm_m_id,int p_num) {
-                 return mapper.pickMeCount(pm_m_id,p_num);
+             public int pickMeCount( @Param("pm_m_id")String pm_m_id,@Param("p_m_id")String p_m_id   ) {
+                 return mapper.pickMeCount(pm_m_id,p_m_id  );
              }             
              @Override
             public int deleteHim(@Param("pm_num")int pm_num,@Param("pm_m_id")String pm_m_id){
@@ -211,9 +261,8 @@ public class MemberServiceImpl implements MemberService {
                 return mapper.deleteHim(pm_num,pm_m_id);
 
                }
-                      
             @Override
-            public List<PPicDTO> pPickCountPages(@Param("ppic_m_id")String ppic_m_id,Map<String, Object> params,int page, int pageSize, PPicDTO ppdto, ProductDTO pdto,MemberDTO mdto,@Param("ppic_num")int ppic_num,CusDetailDTO cdto,@Param("p_num") int p_num ){
+            public   List<PPicDTO> pPickCountPages(@Param("ppic_m_id")String ppic_m_id,Map<String, Object> params,int page, int pageSize, PPicDTO ppdto, ProductDTO pdto,MemberDTO mdto,@Param("ppic_num")int ppic_num,CusDetailDTO cdto ){
                 int startRow = (page - 1) * pageSize + 1;
                     int endRow = startRow + pageSize - 1;
                     Map<String, Object> parameters = new HashMap<>();
@@ -251,8 +300,15 @@ public class MemberServiceImpl implements MemberService {
                 
                 return mapper.deleteP_item(ppic_num,ppic_m_id);
                 
-             } 
-             
+             }
+			@Override
+			public MemberDTO member(String m_id) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		 
+	 
+			 
              
              
              

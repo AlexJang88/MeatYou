@@ -51,42 +51,49 @@ $(document).on("click", ".delete_btn", function(e) {
         }
     });
 });
- 
-
+/* 
 $(document).on("click", ".heartHim", function(e) {
     e.preventDefault();
 
-    // 현재 클릭된 버튼이 속한 행에서 ppic_num 값을 가져옴
-    const ppic_num = $(this).closest("tr").find(".ppic_p_num").val();
+    // 클릭된 버튼에 대한 정보 가져오기
+    const button = $(this);
+    const ppic_num = button.closest("tr").find(".ppic_num").val();
+    const pm_c_id = button.closest("tr").find(".pm_c_id").val();
+    const pm_m_id = button.closest("tr").find(".pm_m_id").val();
+    const ppic_m_id = button.closest("tr").find(".ppic_m_id").val();
+    const ppic_p_num = button.closest("tr").find(".ppic_p_num").val();
+    const p_num = button.closest("tr").find(".p_num").val();
+    const pm_num = button.closest("tr").find(".pm_num").val();
+    const p_m_id = button.closest("tr").find(".p_m_id").val();
 
-    // AJAX를 사용하여 삭제 요청 보내기
+    // AJAX를 사용하여 서버에 요청 보내기
     $.ajax({
         type: "POST",
-        url: "/member/pickInsert",
+        url: "/member/pickInsert",  // 새로운 엔드포인트로 변경
         data: {
-            ppic_num:ppic_num
-      //   	p_m_id:p_m_id,
-        //    p_num: p_num,
-         //   pm_num:pm_num,
-        //    pm_c_id:pm_c_id,
-     //       pm_m_id:pm_m_id,
-   //         ppic_m_id:ppic_m_id,
-     //       ppic_p_num:ppic_p_num
-
-            
+        	   ppic_num: ppic_num,
+        	      pm_c_id: pm_c_id,
+        	      pm_m_id: pm_m_id,
+        	      ppic_m_id: ppic_m_id,
+        	      ppic_p_num: ppic_p_num,
+        	      p_num: p_num,
+        	      pm_num: pm_num,
+        	      p_m_id: p_m_id
         },
         success: function(response) {
-            // 성공적으로 삭제된 경우 페이지 새로고침
-            location.reload();
+            // 성공적으로 토글된 경우 버튼의 텍스트 변경
+            if (response === "inserted") {
+                button.text("삭제");
+            } else if (response === "deleted") {
+                button.text("인서트");
+            }
         },
         error: function(error) {
             console.log("Error:", error);
             // 오류가 발생한 경우 적절히 처리
         }
     });
-});
- 
-
+});   */
 </script>
 </head>
 <div class="row">
@@ -147,16 +154,18 @@ $(document).on("click", ".heartHim", function(e) {
 				    </c:choose>
 				</td>
                   <td>
-  				  <form action="pickInsert" method="post" class="pick_mem_Insert">
+  				  <form action="/member/pickInsert" method="post" class="pick_mem_Insert">
 		                    <input type="hidden" name="ppic_num" value="${item.ppic_num}" />
-		                        <input type="hidden" name="pm_num" value="${item.pm_num}" />
-		                        <input type="hidden" name="pm_c_id" value="${item.pm_c_id}" /> 
-		                        <input type="hidden" name="pm_m_id" value="${item.pm_m_id}" /> 
-		                           <input type="hidden"  class="ppic_m_id"  value="${item.ppic_m_id}"/> 
-		               			<input type="hidden"  class="ppic_p_num"  value="${item.ppic_p_num}"/> 
-             		<%-- 	  	  <input type="hidden"  class="p_num"  value="${item.p_num}"/>    --%>
-                   
-                        <button type="submit"  class="heartHim">${item.p_m_id}</button>
+			                        <input type="hidden" name="pm_m_id" value="${item.pm_m_id}" /> 
+			                           <input type="hidden"  name="ppic_m_id"  value="${item.ppic_m_id}"/> 
+		               					<input type="hidden"  name="ppic_p_num"  value="${item.ppic_p_num}"/> 
+             	  	  	  <input type="hidden"  name="p_num"  value="${item.p_num}"/>   
+             	  	  	  <input type="hidden"  name="pm_num"  value="${item.pm_num}"/>   
+             	  	  	  
+                   		          <input type="hidden"  name="pm_m_id"  value="${item.ppic_m_id}"/> 
+                      <input type="hidden"  name="pm_c_id"  value="${item.p_m_id}"/>  
+                      <input type="hidden"  name="p_m_id"  value="${item.p_m_id}"/>  
+                        <button type="submit"  name="pm_c_id" class="heartHim">${item.p_m_id}</button>
                     </form>
   							
   					
@@ -173,10 +182,8 @@ $(document).on("click", ".heartHim", function(e) {
              			  	  <input type="hidden"  class="p_num"  value="${item.p_num}"/>  
                    
                         <button type="submit" class="delete_btn">삭제</button>
-                    
                     </form>
                 </td>
-              
             </tr>
         </c:forEach>
     </tbody>

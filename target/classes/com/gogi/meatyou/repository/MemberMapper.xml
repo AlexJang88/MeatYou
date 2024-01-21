@@ -130,73 +130,76 @@ WHERE rnum >= #{startRow, jdbcType=NUMERIC}
 
 
 <!-- 찜 업체  리스트   -->
-<select id="pickMeCheck" resultType="com.gogi.meatyou.bean.PickMeDTO">
-    select * from pick_me_${m_id} where pm_m_id=#{m_id}
+<!-- 총 카운트 보기 -->
+
+<select id="pickMeCount" parameterType="int">  
+    SELECT COUNT(*)   FROM pick_me_${pm_m_id}
 </select>
-
-
+ 
   <!-- 찜  업체  확인  -->
 
 <select id="pickMeCountPage"   resultType="com.gogi.meatyou.bean.PickMeDTO">
     <![CDATA[
-SELECT rnum, pm_num,pm_m_id, pm_c_id,ceoname,cus_address1,cus_address2,company,cus_pnum 
+   SELECT
+  rnum, pm_num,pm_m_id, pm_c_id,ceoname,cus_address1,cus_address2,company,cus_pnum,cus_accnum
 FROM (
-    SELECT ROWNUM AS rnum, t.*
-    FROM (
-        SELECT
-            pp.pm_num,
-            pp.pm_m_id,
-          pp.pm_c_id,
-          cu.ceoname,
-          cu.cus_address1,
-          cu.cus_address2,
-          cu.company,
-          cu.cus_pnum
-        FROM
-           pick_me_${pm_m_id} pp
-        INNER JOIN
-           cus_detail cu ON pp.pm_c_id = cu.cus_m_id
-      ORDER BY  pp.pm_num 
-   ) t
-    WHERE ROWNUM <= #{endRow, jdbcType=NUMERIC}
+  SELECT
+    ROWNUM AS rnum, t.*
+  FROM (
+    SELECT
+    pm.pm_num,pm.pm_m_id,pm.pm_c_id,cu.ceoname,cu.cus_address1,cu.cus_address2,cu.company,cu.cus_pnum,cu.cus_accnum
+  
+    FROM
+      pick_me_${pm_m_id} pm
+ 
+    INNER JOIN
+    cus_detail cu ON pm.pm_c_id = cu.cus_m_id
+    ORDER BY
+      pm.pm_num
+  ) t
+  WHERE
+    ROWNUM <= #{endRow, jdbcType=NUMERIC}
 )
-WHERE rnum >= #{startRow, jdbcType=NUMERIC}
+WHERE
+  rnum >= #{startRow, jdbcType=NUMERIC}
 
     ]]>
 </select>
 
-
-<!-- 총 카운트 보기 -->
-
-<select id="pickMeCount" resultType="int">
-    SELECT COUNT(*)
-    FROM pick_me_${pm_m_id}
-</select>
-    
-<!-- 찜 업체  선택 삭제  -->
+<!-- 
+찜 업체  선택 삭제  -->
    <delete id="deleteHim" parameterType="map">  
       delete from pick_me_${pm_m_id} where pm_num = #{pm_num}
    </delete>
 
 
-<!-- 찜업체 추가   -->
 
-   <select id="pick_me_p_numCNT" resultType="int" >
-      select count(*) from pick_me_${ppic_m_id}
-   </select>
-   
-   <insert id="pickMeInsert" parameterType="com.gogi.meatyou.bean.PickMeDTO">
-      insert into pick_me_${pm_m_id} values(p_pick_${ppic_m_id}_seq.nextval, ${ppic_m_id},${p_m_id})
-   </insert>   
-   
-   <delete id="pick_me_delete" parameterType="com.gogi.meatyou.bean.PickMeDTO">
-      delete pick_me_${pm_m_id} where pm_num=${p_num}
-   </delete>   
-   
+ 
+<select id="ppickAndpickMeCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+    SELECT COUNT(*) FROM pick_me_${pm_m_id} WHERE   pm_c_id ='${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")}'
+</select>
 
+ 
+<insert id="pickMeInsert" parameterType="java.util.Map">
+    INSERT INTO pick_me_${pm_m_id}(pm_num, pm_m_id, pm_c_id) VALUES
+   (pick_me_${pm_m_id}_seq.nextval, ${pm_m_id}, '${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")}')
+</insert>
+ <insert id="pickMeInsert2" parameterType="java.util.Map">
+  INSERT INTO pick_me_${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")}(pm_num, pm_m_id, pm_c_id) VALUES
+   (pick_me_${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")}_seq.nextval, ${pm_m_id}, '${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")}')  
+  </insert>
+  
+  
+<!-- pm_c_id만으로 삭제하는 DELETE 쿼리 -->
+<delete id="deletePickMeByCId" >
+    DELETE FROM pick_me_${pm_m_id}    WHERE pm_c_id ='${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")}'
+</delete>
+<delete id="deletePickMeByCId2" >
+    DELETE FROM pick_me_${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")}    WHERE pm_m_id ='${pm_m_id.replace("'", "''").replaceAll(",\\s*$", "")}'
+</delete>
+
+ 
   <!-- 특정 찜목록 조회 (페이징 처리) -->
-
-
 <!-- 상품 찜 -->
 <select id="pPickCountPage" parameterType="map" resultType="com.gogi.meatyou.bean.PPicDTO">
   <![CDATA[
@@ -237,15 +240,7 @@ WHERE
       delete from p_pick_${ppic_m_id} where ppic_num = #{ppic_num}
    </delete>
 
-
-
-
-
-
-
-
-
-
+ 
       <insert id="insertMember" parameterType="com.gogi.meatyou.bean.MemberDTO">
     <![CDATA[
     INSERT INTO member(m_id, passwd, m_name, birth, m_addr1, m_addr2, email, telep, phone, m_reg_date, m_status)
@@ -369,6 +364,9 @@ WHERE
    
    <update id="statusChange" parameterType="com.gogi.meatyou.bean.MemberDTO" >
       update member set m_status = 1000 where  passwd = #{passwd}      
+   </update>
+   <update id="statusChange2" parameterType="com.gogi.meatyou.bean.MemberDTO" >
+      update member set m_status = 1001 where  passwd = #{passwd}      
    </update>
    
 

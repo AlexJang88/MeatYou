@@ -20,28 +20,8 @@ public interface MemberMapper {
    
     public int insertMember(MemberDTO dto);
 
-    public int pick_me_p_numCNT(@Param("pm_m_id")String pm_m_id,
-    							@Param("pm_c_id") String pm_c_id,
-    							@Param("ppic_m_id")String ppic_m_id
-    							 
-    							);
-	   public void pick_me_delete(PickMeDTO pdto,
-			   			@Param("pm_m_id")String pm_m_id,
-						@Param("pm_c_id") String pm_c_id,
-						@Param("ppic_m_id")String ppic_m_id 
-	 
-			   
-			   			);
+   
 
-	   	public void pickMeInsert(PickMeDTO pdto,
-	   			@Param("pm_m_id")String pm_m_id,
-				@Param("pm_c_id") String pm_c_id,
-				@Param("ppic_m_id")String ppic_m_id 
-				 ,String p_m_id
-	   			);
-	   
-	   	
-	   	
 	   	
        public MemberDTO loadUserByUsername(String username);
       
@@ -57,6 +37,7 @@ public interface MemberMapper {
       public int statusAdminChange(MemberDTO dto);
       
       public int statusChange(MemberDTO dto);
+      public int statusChange2(MemberDTO dto);
       
       
       
@@ -72,39 +53,22 @@ public interface MemberMapper {
        public void prefer(String m_id);
 
 
-
+//장바구니 수량 조절 
        List<ShoppingCartDTO> ShoppingCartAndProduct(String shop_m_id);
-       
-       public int upquantity(ShoppingCartDTO sdto);
-       public  int downquantity(ShoppingCartDTO sdto);
-      
        public void updateQuantity(@Param("shop_num") int shop_num, @Param("shop_quantity") int shop_quantity,@Param("shop_m_id")   String shop_m_id);
      
 
        
-   
+//장바구니 보이기
        List<ShoppingCartDTO> getPaginatedShoppingCart(
                @Param("shop_m_id") String shop_m_id,
                @Param("startRow") int startRow,
                @Param("pageSize") int pageSize,
                @Param("sdto") ShoppingCartDTO sdto,
                @Param("pdto") ProductDTO pdto);
-       
        List<ShoppingCartDTO> getShoppingCartItemsPaged(Map<String, Object> params);
-
        int getTotalShoppingCartItems(String shop_m_id);
-
-      
        public  int deleteCart(@Param("shop_num") int shop_num, @Param("shop_m_id") String shop_m_id);
-         
-       
-       
-       
-       
-       
-       
-       
-       
           List<PickMeDTO> pickMeCountPages(
                   @Param("pm_m_id") String pm_m_id,
                   @Param("startRow") int startRow,
@@ -113,38 +77,28 @@ public interface MemberMapper {
                   @Param("cdto") CusDetailDTO cdto);
           
       
-          
+          //찜업체 보이기 
           List<PickMeDTO> pickMeCountPage(Map<String, Object> params);
-
-          int pickMeCount(String pm_m_id,int p_num);
-
-         
+          int pickMeCount(@Param("pm_m_id")String pm_m_id,@Param("p_m_id")String p_m_id  );       
           public  int deleteHim(@Param("pm_num") int shop_num, @Param("pm_m_id") String pm_m_id);
        
        
           
-          
-    List<PPicDTO> pPickCountPage(Map<String, Object> params);
-
-          
-          
-          
-          
+          //찜상품 보이기 
+          List<PPicDTO> pPickCountPage(Map<String, Object> params);
              int pPickCount(@Param("ppic_m_id") String ppic_m_id, @Param("ppic_num") int ppic_num );
-
-            
              public  int deleteP_item(@Param("ppic_num") int ppic_num, @Param("ppic_m_id") String ppic_m_id);
 
 
-                         
-             
-             
+//찜업체 추가 
+             int ppickAndpickMeCount( @Param("pm_m_id")String pm_m_id,@Param("pm_c_id")String pm_c_id ,@Param("pm_num") int pm_num );
+      	   public void pick_me_delete(PickMeDTO pdto,@Param("pm_m_id")String pm_m_id,@Param("pm_c_id") String pm_c_id,  @Param("pm_num") int pm_num );
+      
+      	   int deletePickMeByCId(@Param("pm_m_id") String pm_m_id,      @Param("pm_c_id") String pm_c_id);
+      	   int pickMeInsert(PickMeDTO pdto, @Param("pm_m_id") String pm_m_id , @Param("pm_c_id")String pm_c_id,@Param("pm_num") int pm_num );
+   		   int deletePickMeByCId2(@Param("pm_m_id") String pm_m_id,      @Param("pm_c_id") String pm_c_id);
+      	   int pickMeInsert2(PickMeDTO pdto, @Param("pm_m_id") String pm_m_id , @Param("pm_c_id")String pm_c_id,@Param("pm_num") int pm_num );
+      	   
              
              
    }
-
-
-
-
-
-
