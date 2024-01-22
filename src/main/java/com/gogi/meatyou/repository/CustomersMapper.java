@@ -73,7 +73,10 @@ public interface CustomersMapper {
     public int getProductTotalmoney(@Param ("check") int check, @Param ("id") String id); // 총 매출액 월별로 넘기기
     public int getTotalCount(@Param ("check") int check, @Param ("id") String id); // 총구매수량 넘기기
     public int getDeliveryPay(@Param ("check") int check, @Param ("id") String id); // 총배송비 구하기
+    public int getCoponPay(@Param ("check") int check, @Param ("id") String id); // 총 쿠폰 사용비용 구하기 (이때, 관리자가 준 쿠폰은 비용에서 제외)
     public Integer getHOT(@Param ("check") int check, @Param ("id") String id); // 판매량 높은 것 구하기
+    
+    
     //판매된 상품 리스트 뽑기  
     public List<ProductMorderDTO> ProfitItemlist(HashMap map);  // 판매된 상품 날짜 미선택 확인
     public int ProfitItemcount(@Param ("check") int check, @Param ("id") String id); //월별 구매 진행 횟수 
@@ -85,5 +88,10 @@ public interface CustomersMapper {
     public int companynum(String id); //사업자 실별번호받는곳
     public List<ProductDTO> itemList(String id); //판매자 판매목록 보기
     public void cusCouponPro(CouponDTO coupondto); //쿠폰제공하는 곳
+    public int userCouponCount(int companynum);  //쿠폰 제공한 갯수
+    public List<CouponDTO> couponList(HashMap map); //쿠폰을 제공한 리스트
     
+    // 배송현황 분류
+    public int deliverOutCount(@Param ("check") int check, @Param ("id") String id);//취소건 카운트
+    public List<PurchaseMemberListDTO> deliverOutList(HashMap map); // 취소된건들의 리스트를 가져옴
 }

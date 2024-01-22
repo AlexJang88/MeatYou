@@ -53,8 +53,10 @@ public interface CustomersService {
     public void cusCouponPro(Model model, String p_m_id, String  id, int point, int companynum, CouponDTO coupondto, int p_status, int couponUse);  //쿠폰을 제공했을때 넘어가는값
     public void companynum(Model model, String id);//사업자번호받기
     public void itemList(Model model, String id);//상품리스트 받기
-   
+    public void couponList(Model model, String id, int pageNum);//쿠폰 제공 리스트
     
+    //주문 및 취소현황
+    public void deliverout(Model model, int check, int pageNum, String id); //취소현황
     
     
     

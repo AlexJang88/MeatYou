@@ -319,6 +319,27 @@
 	         </otherwise>
 	      </choose>
    	 </select>   
+      
+       <select id="getCoponPay" resultType="int">
+	      <choose>
+	         <when test="check==0">
+	         <![CDATA[
+	         select nvl(sum(order_DISCOUNT),0) from product p, m_order m, coupon  c  where (p.p_num = m.order_p_num and m.order_cp_num = c.cp_num) and  c.c_type > 3 and p.p_m_id= #{id} and m.order_status > 0 and order_paydate>=trunc(sysdate,'MM') and order_paydate<sysdate
+	         ]]>
+	         </when>
+	         <when test="check==-1">
+	         <![CDATA[
+	         select nvl(sum(order_DISCOUNT),0) from product p, m_order m, coupon  c  where (p.p_num = m.order_p_num and m.order_cp_num = c.cp_num) and  c.c_type > 3 and p.p_m_id= #{id} and m.order_status > 0 and order_paydate>=add_months(trunc(sysdate,'mm'), ${check}) and order_paydate<=trunc(sysdate,'mm') ${check}
+	         ]]>
+	         </when>
+	         <otherwise>
+	         <![CDATA[   
+	         select nvl(sum(order_DISCOUNT),0) from product p, m_order m, coupon  c  where (p.p_num = m.order_p_num and m.order_cp_num = c.cp_num) and  c.c_type > 3 and p.p_m_id= #{id} and m.order_status > 0 and order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=add_months(trunc(sysdate,'mm'), ${check}+1) -1
+	         ]]>
+	         </otherwise>
+	      </choose>
+   	 </select> 
+       
        
      <select id="getHOT" resultType="int">
 	      <choose>
@@ -336,7 +357,6 @@
 	         <otherwise>
 	         <![CDATA[   
 	         SELECT nvl(order_p_num, 0)  FROM ( SELECT p.*, m.* FROM product p JOIN m_order m ON p.p_num = m.order_p_num WHERE p.p_m_id = #{id} and m.order_status > 0  and order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=add_months(trunc(sysdate,'mm'),${check}+1)-1 ORDER BY m.order_Quantity DESC) WHERE ROWNUM = 1
-	         
 	         ]]>
 	         </otherwise>
 	      </choose>
@@ -346,17 +366,17 @@
       <choose>
 	         <when test="check==0">
 	         <![CDATA[
-	         SELECT * FROM ( SELECT b.*, rownum r FROM ( select *  from product p, m_order m  where p.p_num = m.order_p_num and p.p_m_id=#{id} and m.order_status > 0 and order_paydate>=trunc(sysdate,'MM') and order_paydate<sysdate order by order_paydate asc) b) WHERE r>=#{start} and r<=#{end}
+	         SELECT * FROM ( SELECT b.*, rownum r FROM ( select *  from product p, m_order m  where p.p_num = m.order_p_num and p.p_m_id=#{id} and m.order_status > 0 and order_paydate>=trunc(sysdate,'MM') and order_paydate<sysdate order by order_paydate desc) b) WHERE r>=#{start} and r<=#{end}
 	         ]]>
 	         </when>
 	         <when test="check==-1">
 	         <![CDATA[
-	         SELECT * FROM ( SELECT b.*, rownum r FROM ( select *  from product p, m_order m  where p.p_num = m.order_p_num and p.p_m_id=#{id} and m.order_status > 0 and order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=trunc(sysdate,'mm') ${check} order by order_paydate asc) b) WHERE r>=#{start} and r<=#{end}
+	         SELECT * FROM ( SELECT b.*, rownum r FROM ( select *  from product p, m_order m  where p.p_num = m.order_p_num and p.p_m_id=#{id} and m.order_status > 0 and order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=trunc(sysdate,'mm') ${check} order by order_paydate desc) b) WHERE r>=#{start} and r<=#{end}
 	         ]]>
 	         </when>
 	         <otherwise>
 	         <![CDATA[   
-			 SELECT * FROM ( SELECT b.*, rownum r FROM ( select *  from product p, m_order m  where p.p_num = m.order_p_num and p.p_m_id=#{id} and m.order_status > 0 and order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=add_months(trunc(sysdate,'mm'),${check}+1)-1 order by order_paydate asc ) b) WHERE r>=#{start} and r<=#{end}        
+			 SELECT * FROM ( SELECT b.*, rownum r FROM ( select *  from product p, m_order m  where p.p_num = m.order_p_num and p.p_m_id=#{id} and m.order_status > 0 and order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=add_months(trunc(sysdate,'mm'),${check}+1)-1 order by order_paydate desc ) b) WHERE r>=#{start} and r<=#{end}        
 	         ]]>
 	         </otherwise>
 	      </choose>
@@ -407,17 +427,17 @@
       <choose>
 	         <when test="check==0">
 	         <![CDATA[
-	         SELECT * FROM ( SELECT b.*, rownum r FROM ( select *  from product p, m_order m, member mb, MemStatus ms where (m.order_m_id = mb.m_id and p.p_num = m.order_p_num and mb.m_status= ms.mstat_m_status) and p.p_m_id=#{id} and m.order_status > 0 and order_paydate>=trunc(sysdate,'MM') and order_paydate<sysdate order by order_p_num asc) b) WHERE r>=#{start} and r<=#{end}
+	         SELECT * FROM ( SELECT b.*, rownum r FROM ( select *  from product p, m_order m, member mb, MemStatus ms where (m.order_m_id = mb.m_id and p.p_num = m.order_p_num and mb.m_status= ms.mstat_m_status) and p.p_m_id=#{id} and m.order_status > 0 and order_paydate>=trunc(sysdate,'MM') and order_paydate<sysdate order by order_paydate desc) b) WHERE r>=#{start} and r<=#{end}
 	         ]]>
 	         </when>
 	         <when test="check==-1">
 	         <![CDATA[
-	         SELECT * FROM ( SELECT b.*, rownum r FROM ( select *  from product p, m_order m, member mb, MemStatus ms where (m.order_m_id = mb.m_id and p.p_num = m.order_p_num and mb.m_status= ms.mstat_m_status) and p.p_m_id=#{id} and m.order_status > 0 and order_paydate>=add_months(trunc(sysdate,'mm'), ${check}) and order_paydate<=trunc(sysdate,'mm') ${check} order by order_paydate asc) b) WHERE r>=#{start} and r<=#{end}
+	         SELECT * FROM ( SELECT b.*, rownum r FROM ( select *  from product p, m_order m, member mb, MemStatus ms where (m.order_m_id = mb.m_id and p.p_num = m.order_p_num and mb.m_status= ms.mstat_m_status) and p.p_m_id=#{id} and m.order_status > 0 and order_paydate>=add_months(trunc(sysdate,'mm'), ${check}) and order_paydate<=trunc(sysdate,'mm') ${check} order by order_paydate desc) b) WHERE r>=#{start} and r<=#{end}
 	         ]]>
 	         </when>
 	         <otherwise>
 	         <![CDATA[   
-			 SELECT * FROM ( SELECT b.*, rownum r FROM ( select *  from product p, m_order m, member mb, MemStatus ms where (m.order_m_id = mb.m_id and p.p_num = m.order_p_num and mb.m_status= ms.mstat_m_status) and p.p_m_id=#{id} and m.order_status > 0 and order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=add_months(trunc(sysdate,'mm'),${check}+1)-1 order by order_paydate asc ) b) WHERE r>=#{start} and r<=#{end}        
+			 SELECT * FROM ( SELECT b.*, rownum r FROM ( select *  from product p, m_order m, member mb, MemStatus ms where (m.order_m_id = mb.m_id and p.p_num = m.order_p_num and mb.m_status= ms.mstat_m_status) and p.p_m_id=#{id} and m.order_status > 0 and order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=add_months(trunc(sysdate,'mm'),${check}+1)-1 order by order_paydate desc ) b) WHERE r>=#{start} and r<=#{end}        
 	         ]]>
 	         </otherwise>
 	      </choose>
@@ -469,7 +489,58 @@
            	</otherwise>       	
         </choose>
        </insert>
-
+	
+		<select id="userCouponCount" resultType="int">
+			select  count(*) from coupon where cp_cus_num = #{companynum}
+		</select>
+		
+		<select id="couponList" parameterType="hashmap" resultType="com.gogi.meatyou.bean.CouponDTO">
+			<![CDATA[
+			select * FROM ( SELECT b.*, rownum r FROM (select * from coupon where cp_cus_num = #{companynum} order by publishdate desc ) b) WHERE r>=#{start} and r<=#{end}
+			]]>
+		</select>
+		
+		
+		<select id="deliverOutCount" resultType="int">
+      		<choose>
+		         <when test="check==0">
+		         <![CDATA[
+		         select count(*) from product p, m_order m where (p.p_num = m.order_p_num) and m.order_status=0 and p.p_m_id = #{id} and order_paydate>=trunc(sysdate,'MM') and order_paydate<sysdate order by order_p_num desc 
+		         ]]>
+		         </when>
+		         <when test="check==-1">
+		         <![CDATA[
+		         select count(*) from product p, m_order m where (p.p_num = m.order_p_num) and m.order_status=0 and p.p_m_id = #{id} and order_paydate>=add_months(trunc(sysdate,'mm'), ${check}) and order_paydate<=trunc(sysdate,'mm') ${check}
+		         ]]>
+		         </when>	     
+		         <otherwise>
+		         <![CDATA[
+		         select count(*) from product p, m_order m where (p.p_num = m.order_p_num) and m.order_status=0 and p.p_m_id = #{id} and order_paydate>=add_months(trunc(sysdate,'mm'), ${check}) and order_paydate<=add_months(trunc(sysdate,'mm'),${check}+1)-1           
+		         ]]>
+		         </otherwise>
+	      	</choose>
+   	 	 </select>  
+		
+		 <select id="deliverOutList"  parameterType="hashmap" resultType="com.gogi.meatyou.bean.PurchaseMemberListDTO">
+      		<choose>
+		         <when test="check==0">
+		         <![CDATA[
+		         select * FROM ( SELECT b.*, rownum r FROM ( select * from product p, m_order m where (p.p_num = m.order_p_num) and m.order_status=0 and p.p_m_id = #{id} and order_paydate>=trunc(sysdate,'MM') and order_paydate<sysdate order by order_paydate desc ) b) WHERE r>=#{start} and r<=#{end}   
+		         ]]>
+		         </when>
+		         <when test="check==-1">
+		         <![CDATA[
+		         select * FROM ( SELECT b.*, rownum r FROM ( select * from product p, m_order m where (p.p_num = m.order_p_num) and m.order_status=0 and p.p_m_id = #{id} and order_paydate>=add_months(trunc(sysdate,'mm'), ${check}) and order_paydate<=trunc(sysdate,'mm') ${check} order by order_paydate desc ) b) WHERE r>=#{start} and r<=#{end}	         
+		         ]]>
+		         </when>	     
+		         <otherwise>
+		         <![CDATA[
+		         select * FROM ( SELECT b.*, rownum r FROM ( select * from product p, m_order m where (p.p_num = m.order_p_num) and m.order_status=0 and p.p_m_id = #{id} and order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=add_months(trunc(sysdate,'mm'),${check}+1)-1  order by order_paydate desc ) b) WHERE r>=#{start} and r<=#{end}	         
+		         ]]>
+		         </otherwise>
+	      	</choose>
+   	 	 </select> 
+		
 		
 
 </mapper>
