@@ -356,7 +356,7 @@
 	         <!-- 4월 첫쩃날이랑  5월 1일에서 -1을 해서 4월 30일을 구하는 공식 -->
 	         <otherwise>
 	         <![CDATA[   
-	         SELECT nvl(order_p_num, 0)  FROM ( SELECT p.*, m.* FROM product p JOIN m_order m ON p.p_num = m.order_p_num WHERE p.p_m_id = #{id} and m.order_status > 0  and order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=add_months(trunc(sysdate,'mm'),${check}+1)-1 ORDER BY m.order_Quantity DESC) WHERE ROWNUM = 1	       
+	         SELECT nvl(order_p_num, 0)  FROM ( SELECT p.*, m.* FROM product p JOIN m_order m ON p.p_num = m.order_p_num WHERE p.p_m_id = #{id} and m.order_status > 0  and order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=add_months(trunc(sysdate,'mm'),${check}+1)-1 ORDER BY m.order_Quantity DESC) WHERE ROWNUM = 1
 	         ]]>
 	         </otherwise>
 	      </choose>

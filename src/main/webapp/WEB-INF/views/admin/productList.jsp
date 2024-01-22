@@ -4,8 +4,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>   
     <h1>상품목록</h1>
+    <input type="hidden" id="pageNum" name="pageNum" value="pageNum">
    	<input type="text" name="keyword" id="keyword">
-    	<select name="serchOpt" id="serchOpt">
+    	<select name="searchOpt" id="serchOpt">
     		<option value="1">전체</option>
     		<option value="2">제목</option>
     		<option value="3">판매자</option>
@@ -29,7 +30,7 @@
     	<option value="4">신고순</option>
     </select>
 
-    <table id="tb">
+    <table>
     	<tr>
     		<td>썸네일</td>
     		<td>상품이름</td>
@@ -43,7 +44,7 @@
     	<tbody id="productBody">
     		
     	</tbody>
-    <c:forEach var="product" items="${list}">
+     <%-- <c:forEach var="product" items="${list}">
     	<tr>
 			<td>${product.thumb}</td>
 			<td>${product.p_name}</td>
@@ -54,9 +55,14 @@
 			<td>${product.report}</td>
 			<td><fmt:formatDate pattern="yyyy-MM-dd" value="${product.p_reg_date}"/></td>    		
     	</tr>
-    </c:forEach>
+    </c:forEach> --%>
     </table>
-    <c:if test="${count>0}">
+    <div id="pageContent">
+    
+    </div>
+    
+    
+    <%-- <c:if test="${count>0}">
 			<c:if test="${startPage>10}">
 	        	<a href="/admin/productList?pageNum=${startPage-10}&keyword=${keyword}&searchOpt=${searchOpt}&cate1=${cate1}&cate2=${cate2}">[이전]</a>
 			</c:if>
@@ -66,50 +72,74 @@
 				<c:if test="${endPage<pageCount}">
 	        	<a href="/admin/productList?pageNum=${startPage+10}&keyword=${keyword}&searchOpt=${searchOpt}&cate1=${cate1}&cate2=${cate2}">[다음]</a>
 			</c:if>
-		</c:if>
+		</c:if> --%>
 
 <script>
-$(document).ready(function () {
-    // 검색 버튼 클릭 이벤트
+// 데이터 가져오는 함수
+function fetchData(keyword, searchOpt, cate1, cate2, cate3,pageNum) {
+    $.ajax({
+        url: '/admin/serchProductList', // 서버의 URL을 입력하세요.
+        type: 'GET',
+        dataType: 'json',
+        data: {
+            keyword: keyword,
+            searchOpt: searchOpt,
+            cate1: cate1,
+            cate2: cate2,
+            cate3: cate3,
+            pageNum: pageNum
+        },
+        success: function(response) {
+           	console.log(response);
+        	updateTable(response.products);
+        	updatePage(response.pageData);
+        },
+        error: function(xhr, status, error) {
+            alert("An error occurred: " + error);
+        }
+    });
+}
+    
+	// 초기 검색 조건 설정
+    var initialKeyword = '550e8400-e29b-41d4-a716-446655440000'; // 초기 키워드는 빈 문자열
+    var initialSearchOpt = '1'; // 초기 검색 옵션
+    var initialCate1 = '1'; // 초기 카테고리 1
+    var initialCate2 = '1'; // 초기 카테고리 2
+    var initialCate3 = '1'; // 초기 카테고리 3
+    var initialpageNum='1'
+
+    // 페이지 로드 시 초기 상품 목록 가져오기
+    fetchData(initialKeyword, initialSearchOpt, initialCate1, initialCate2, initialCate3,initialpageNum);
+
+	
+	// 검색 버튼 클릭 이벤트
     $("#serch").click(function() {
         var keyword = $('#keyword').val();
+        if(!keyword){
+        	keyword='550e8400-e29b-41d4-a716-446655440000';
+        }
         var searchOpt = $('#serchOpt').val();
-        fetchData(keyword, searchOpt, $('#cate1').val(), $('#cate2').val(),$('#cate3').val());
+        var pageNum ='1'
+        fetchData(keyword, searchOpt, $('#cate1').val(), $('#cate2').val(),$('#cate3').val(),pageNum);
     });
 
     // 카테고리 변경 이벤트
     $("#cate1, #cate2, #cate3").change(function() {
         var keyword = $('#keyword').val();
+        if(!keyword){
+        	keyword='550e8400-e29b-41d4-a716-446655440000';
+        }
         var searchOpt = $('#serchOpt').val();
-        fetchData(keyword, searchOpt, $('#cate1').val(), $('#cate2').val(),$('#cate3').val());
+        var pageNum ='1'
+        fetchData(keyword, searchOpt, $('#cate1').val(), $('#cate2').val(),$('#cate3').val(),pageNum);
     });
 
-    // 데이터 가져오는 함수
-    function fetchData(keyword, searchOpt, cate1, cate2, cate3) {
-        $.ajax({
-            url: '/admin/serchProductList', // 서버의 URL을 입력하세요.
-            type: 'GET',
-            dataType: 'json',
-            data: {
-                keyword: keyword,
-                searchOpt: searchOpt,
-                cate1: cate1,
-                cate2: cate2,
-                cate3: cate3
-            },
-            success: function(response) {
-                updateTable(response.list);
-            },
-            error: function(xhr, status, error) {
-                alert("An error occurred: " + error);
-            }
-        });
-    }
+   
 
     // 테이블 업데이트 함수
     function updateTable(products) {
-    	console.log(products);
         var tableContent = "";
+        if(products.length>0){
         $.each(products, function(index, product) {
             tableContent += "<tr>" +
                 "<td>" + product.thumb + "</td>" +
@@ -122,12 +152,14 @@ $(document).ready(function () {
                 "<td>" + formatDate(product.p_reg_date) + "</td>" +
                 "</tr>";
         });
-        $('#productBody').append(tableContent);
+        }else{
+        	tableContent += "검색결과가 없습니다.";	
+        }
+        $('#productBody').html(tableContent);
     }
 
     // 날짜 포맷 함수
     function formatDate(date) {
-    	console.log(dae)
         var d = new Date(date),
             month = '' + (d.getMonth() + 1),
             day = '' + d.getDate(),
@@ -138,7 +170,22 @@ $(document).ready(function () {
 
         return [year, month, day].join('-');
     }
-});
+    
+    function updatePage(pageData){
+    	console.log(pageData)
+    	var pageContent = '';
+        if (pageData.startPage > 1) {
+        	pageContent += '<a href="#" onclick="fetchData(\'' + pageData.keyword + '\', \'' + pageData.searchOpt + '\', \'' + pageData.cate1 + '\', \'' + pageData.cate2 + '\', \'' + pageData.cate3 + '\', ' + (pageData.startPage - 1) + '); return false;">[이전]</a> ';
+        }
+        for (var i = pageData.startPage; i <= pageData.endPage; i++) {
+        	pageContent += '<a href="#" onclick="fetchData(\'' + pageData.keyword + '\', \'' + pageData.searchOpt + '\', \'' + pageData.cate1 + '\', \'' + pageData.cate2 + '\', \'' + pageData.cate3 + '\', ' + i + '); return false;">[' + i + ']</a> ';
+        }
+        if (pageData.endPage < pageData.totalPages) {
+        	pageContent += '<a href="#" onclick="fetchData(\''+pageData.keyword+'\',\''+pageData.searchOpt+'\',\'' +pageData.cate1+'\',\''+pageData.cate2+'\',\''+pageData.cate3+'\',\'' + (pageData.endPage + 1) + '); return false;">[다음]</a> ';
+        }
+        // 여기서 "#pagination"은 페이징 링크를 담을 HTML 요소의 ID
+        $('#pageContent').html(pageContent);
+    }
 </script>
     
     

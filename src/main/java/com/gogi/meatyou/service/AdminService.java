@@ -1,5 +1,6 @@
 package com.gogi.meatyou.service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -44,4 +45,5 @@ public interface AdminService {
    public int getNoticeNum();
    public void getAdminProductList(int pageNum,String keyword,String searchOpt,int cate1,int cate2,int cate3,Model model);
    public String getSearchProductList(int pageNum,String keyword,String searchOpt,int cate1,int cate2,int cate3,Model model);
+   Date calculateTargetDate(Date currentDate, int check);
 }

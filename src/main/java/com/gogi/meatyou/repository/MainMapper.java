@@ -48,7 +48,7 @@ public interface MainMapper {
    public int mainMeatCount(@Param("category") int category);
    
    public List<ProductDTO> mainMeat(HashMap map);
-   
+
    
 //   public List<ProductDTO> mainMeat(@Param("start")int startRow, @Param("end")int endRow, @Param("category")int category, 
 //         @Param("price")String price, @Param("sale")String sale, @Param("reg")String reg);

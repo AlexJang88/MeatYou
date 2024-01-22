@@ -23,7 +23,7 @@
             data: { // Data for our dataset
                 labels: ['January', 'February', 'March', 'April', 'May', 'June'], // Example labels
                 datasets: [{
-                    label: 'Sales', // Name of the data
+                    label: '총 판매 금액', // Name of the data
                     backgroundColor: 'rgb(255, 99, 132)', // Color of the dots
                     borderColor: 'rgb(255, 99, 132)', // Color of the line
                     data: [0, 10000, 5000, 15000, 20000, 30000], // Example sales data
@@ -35,14 +35,14 @@
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: 'Amount in USD'
+                            text: '단위(원)'
                         }
                     }
                 },
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Monthly Sales Data'
+                        text: '월별 매출통계'
                     },
                     legend: {
                         display: true
