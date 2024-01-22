@@ -36,7 +36,7 @@
   <table width="600" border="1"  align="center">
     <tr > 
       <td  colspan="2" height="39"align="center">
-	     <font size="+1" ><b>판매자 신청날짜[${dto.m_reg_date}]</b></font></td>
+	     <font size="+1" ><b>판매자 신청날짜[${dto.m_reg_date.substring(0, 10)}]</b></font></td>
     </tr>
 	
     <tr> 
@@ -107,6 +107,13 @@
 	    사업자 계좌번호 
 	  </td>
 	  <td>
+	  
+	  
+	  
+	  
+	  
+	  
+	  
 	        <input type="text" name="cus_accnum" placeholder="계좌번호 입력하세요  ">
  	<td>
   </tr>

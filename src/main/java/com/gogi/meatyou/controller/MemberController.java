@@ -52,7 +52,7 @@ import com.gogi.meatyou.service.MemberService;
 public class MemberController {
    @Autowired
    private MemberService service;
- //로그인  20231225 이도준
+ //濡쒓렇�씤  20231225 �씠�룄以�
    
    
    @RequestMapping("all")
@@ -100,7 +100,7 @@ public class MemberController {
    }
    
 
-	//로그아웃
+	//濡쒓렇�븘�썐
    @RequestMapping("customLogout")
    public String doLogout(HttpSession session) {
          session.invalidate();
@@ -109,7 +109,7 @@ public class MemberController {
    }
    
 	
-	//회원가입 
+	//�쉶�썝媛��엯 
     @RequestMapping("inputForm")
     public String inputForm(Model model, HttpSession session) {
         return "member/inputForm";
@@ -117,37 +117,37 @@ public class MemberController {
     }
     
     
-    //회원가입 
+    //�쉶�썝媛��엯 
     @RequestMapping("inputPro")
     public String inputPro(Model model, MemberDTO dto, HttpSession session) {
         int check = service.insertMember(dto);
         
         if (check > 0) {
-            // insertMember가 정상적으로 실행되었다면 다른 서비스 메소드들을 호출
-            service.shoppingCart(dto.getM_id()); // 예시: insertShoppingCart 메소드 호출
-            service.shoppingCart_seq(dto.getM_id()); // 예시: insertShoppingCart 메소드 호출
+            // insertMember媛� �젙�긽�쟻�쑝濡� �떎�뻾�릺�뿀�떎硫� �떎瑜� �꽌鍮꾩뒪 硫붿냼�뱶�뱾�쓣 �샇異�
+            service.shoppingCart(dto.getM_id()); // �삁�떆: insertShoppingCart 硫붿냼�뱶 �샇異�
+            service.shoppingCart_seq(dto.getM_id()); // �삁�떆: insertShoppingCart 硫붿냼�뱶 �샇異�
             
-            service.pick_me(dto.getM_id()); // 예시: insertPickMe 메소드 호출
+            service.pick_me(dto.getM_id()); // �삁�떆: insertPickMe 硫붿냼�뱶 �샇異�
             service.pick_me_seq(dto.getM_id()); 
             
-            service.p_pick(dto.getM_id()); // 예시: insertPPick 메소드 호출
+            service.p_pick(dto.getM_id()); // �삁�떆: insertPPick 硫붿냼�뱶 �샇異�
             service.p_pick_seq(dto.getM_id());
             service.prefer(dto.getM_id());
-            // 다른 서비스 메소드들도 유사하게 호출
+            // �떎瑜� �꽌鍮꾩뒪 硫붿냼�뱶�뱾�룄 �쑀�궗�븯寃� �샇異�
             
             model.addAttribute("check", check);
             return "member/inputPro";
         } else {
-            // insertMember가 실패했을 경우 처리
-            // 실패에 대한 로직 구현
-            return "errorPage"; // 실패에 대한 페이지로 리다이렉트 또는 처리
+            // insertMember媛� �떎�뙣�뻽�쓣 寃쎌슦 泥섎━
+            // �떎�뙣�뿉 ���븳 濡쒖쭅 援ы쁽
+            return "errorPage"; // �떎�뙣�뿉 ���븳 �럹�씠吏�濡� 由щ떎�씠�젆�듃 �삉�뒗 泥섎━
         }
     }
      
     
     
     
-  //판매자 신청  1050으로 스테이터스변경 
+  //�뙋留ㅼ옄 �떊泥�  1050�쑝濡� �뒪�뀒�씠�꽣�뒪蹂�寃� 
     @RequestMapping("sallerInputForm")
     public String sallerInputForm(Model model, Authentication authentication,CusDetailDTO cdto) {
     	
@@ -158,26 +158,26 @@ public class MemberController {
     	return "member/saller/sallerInputForm";
     	
     }
-    //판매자 신청  1050으로 스테이터스변경 
+    //�뙋留ㅼ옄 �떊泥�  1050�쑝濡� �뒪�뀒�씠�꽣�뒪蹂�寃� 
     @RequestMapping("sallerInputPro")
     public String sallerInputPro(MemberDTO dto,CusDetailDTO cdto, Authentication authentication) {
         String m_id = authentication.getName();
-        // 사용자 정보 업데이트
+        // �궗�슜�옄 �젙蹂� �뾽�뜲�씠�듃
         dto.setM_id(m_id);
 
-        // 회원 상태 업데이트
+        // �쉶�썝 �긽�깭 �뾽�뜲�씠�듃
         Map<String, Object> statusParamMap = new HashMap<>();
         statusParamMap.put("m_id", m_id);
         service.updateMemberStatus(dto);
         service.insertIntoCusDetail(cdto);
-    	return "member/saller/sallerInputPro"; // 이 부분이 정상적으로 실행되고 있는지 확인
+    	return "member/saller/sallerInputPro"; // �씠 遺�遺꾩씠 �젙�긽�쟻�쑝濡� �떎�뻾�릺怨� �엳�뒗吏� �솗�씤
     }
     
     
     
     
     
-    //회원정보수정 
+    //�쉶�썝�젙蹂댁닔�젙 
     @RequestMapping("/modify")
     public String modify(Model model, Authentication authentication) {
         String username = authentication.getName();
@@ -185,7 +185,7 @@ public class MemberController {
         model.addAttribute("dto", dto);
         return "member/myPage/modify";
     }
-  //정보확인 
+  //�젙蹂댄솗�씤 
     @RequestMapping("/modifyForm")
     public String modifyForm(Model model, Authentication authentication) {
         String username = authentication.getName();
@@ -194,7 +194,7 @@ public class MemberController {
         return "member/myPage/modifyForm";
     }
     
-    //정보확인 
+    //�젙蹂댄솗�씤 
     @RequestMapping("/modifyPro")
     public String modifyPro(MemberDTO dto, Authentication authentication) {
         String m_id = authentication.getName();
@@ -202,13 +202,13 @@ public class MemberController {
         service.userUpdate(dto);
         return "member/myPage/modifyPro";
     }
-  //회원탈퇴  (사실상 status 변경)
+  //�쉶�썝�깉�눜  (�궗�떎�긽 status 蹂�寃�)
    @RequestMapping("deleteForm")
    public String deleteForm() {
       return "member/delete/deleteForm";
    }
    
- //회원 탈퇴  : 스테이터스 1000으로 변경
+ //�쉶�썝 �깉�눜  : �뒪�뀒�씠�꽣�뒪 1000�쑝濡� 蹂�寃�
    @RequestMapping("deletePro")
    public String deletePro(Model model , String passwd , HttpSession session,MemberDTO dto) {
       String m_id =(String)session.getAttribute("m_id");
@@ -220,21 +220,23 @@ public class MemberController {
       return "redirect:/member/customLogout";
    } 
    
-   //회원탈퇴  (사실상 status 변경)
+   //�쉶�썝�깉�눜  (�궗�떎�긽 status 蹂�寃�)
    @RequestMapping("sallerDelete")
    public String sallerDelete() {
       return "member/deleteSaller/sallerDelete";
    }
    
-   //회원 탈퇴  : 스테이터스 1001으로 변경
+   //�쉶�썝 �깉�눜  : �뒪�뀒�씠�꽣�뒪 1001�쑝濡� 蹂�寃�
    @RequestMapping("sallerDeletePro")
-   public String sallerDeletePro(Model model , String passwd , HttpSession session,MemberDTO dto) {
-	   String m_id =(String)session.getAttribute("m_id");
+   public String sallerDeletePro(Principal seid,Model model , String passwd , HttpSession session,MemberDTO dto,CusDetailDTO cdto) {
+	   String m_id =(String) seid.getName();
 	   int check = service.sallerDelete(dto);
+	    	service.cusDelete(cdto,dto,m_id);
 	   if(check == 1) {
 		   session.invalidate();
 	   }
 	   model.addAttribute("check",check);
+	   model.addAttribute("m_id",m_id);
 	   return "redirect:/member/customLogout";
    } 
    
@@ -242,7 +244,7 @@ public class MemberController {
    
 
    
- //장바구니 보이기 + 페이징 처리 
+ //�옣諛붽뎄�땲 蹂댁씠湲� + �럹�씠吏� 泥섎━ 
       @RequestMapping("shoppingCartForm")
       public String shoppingCartForm(
               Principal seid,
@@ -256,22 +258,22 @@ public class MemberController {
     	  int p_num=pdto.getP_num();
           String shop_m_id = (String) seid.getName();
           int totalPrice = sdto.getShop_quantity() * sdto.getP_price();
-          System.out.print("�떆�걧由ы떚 �솗�씤======================================================"+shop_m_id);
+          System.out.print("占쎈뻻占쎄괠�뵳�뗫뼒 占쎌넇占쎌뵥======================================================"+shop_m_id);
 
-          // 여기서 service를 통해 해당 회원의 특정 범위의 장바구니 정보를 가져옵니다.
+          // �뿬湲곗꽌 service瑜� �넻�빐 �빐�떦 �쉶�썝�쓽 �듅�젙 踰붿쐞�쓽 �옣諛붽뎄�땲 �젙蹂대�� 媛��졇�샃�땲�떎.
           List<ShoppingCartDTO> shoppingCartList = service.getShoppingCartItemsPaged(shop_m_id, page, pageSize, sdto, pdto);
 
-          // 여기서 service를 통해 해당 회원의 장바구니 총 상품 개수를 가져옵니다.
+          // �뿬湲곗꽌 service瑜� �넻�빐 �빐�떦 �쉶�썝�쓽 �옣諛붽뎄�땲 珥� �긽�뭹 媛쒖닔瑜� 媛��졇�샃�땲�떎.
           int totalItemCount = service.getTotalShoppingCartItems(shop_m_id);
 
-          // 페이징 처리를 위한 계산
+          // �럹�씠吏� 泥섎━瑜� �쐞�븳 怨꾩궛
           int totalPage = (int) Math.ceil((double) totalItemCount / pageSize);
           
-          System.out.println("페이지 크기  ============= ="+pageSize);
-	    	System.out.println("페이지 ============ ="+page);
-	    	System.out.println("총페이지는 ============= ="+totalPage);
-	    	System.out.println("총 카운트   =================="+totalItemCount);
-	    // 모델에 장바구니 정보 및 페이징 관련 정보를 추가합니다.
+          System.out.println("�럹�씠吏� �겕湲�  ============= ="+pageSize);
+	    	System.out.println("�럹�씠吏� ============ ="+page);
+	    	System.out.println("珥앺럹�씠吏��뒗 ============= ="+totalPage);
+	    	System.out.println("珥� 移댁슫�듃   =================="+totalItemCount);
+	    // 紐⑤뜽�뿉 �옣諛붽뎄�땲 �젙蹂� 諛� �럹�씠吏� 愿��젴 �젙蹂대�� 異붽��빀�땲�떎.
           model.addAttribute("shoppingCartList", shoppingCartList);
           model.addAttribute("totalPrice", totalPrice);
           model.addAttribute("page", page);
@@ -281,65 +283,65 @@ public class MemberController {
           return "member/shoppingCart/shoppingCartForm";
       }
       
-    //수량변경 
+    //�닔�웾蹂�寃� 
       @RequestMapping("updateQuantity")
       public @ResponseBody String updateQuantity(Principal seid,int shop_num,int shop_quantity) {
            String shop_m_id = (String) seid.getName();
          
-           // 여기에서 수량 업데이트 로직을 수행합니다.
-		    // 실제로는 이 부분을 비즈니스 로직에 맞게 수정해야 합니다.
+           // �뿬湲곗뿉�꽌 �닔�웾 �뾽�뜲�씠�듃 濡쒖쭅�쓣 �닔�뻾�빀�땲�떎.
+		    // �떎�젣濡쒕뒗 �씠 遺�遺꾩쓣 鍮꾩쫰�땲�뒪 濡쒖쭅�뿉 留욊쾶 �닔�젙�빐�빞 �빀�땲�떎.
           service.updateQuantity(shop_num, shop_quantity, shop_m_id);
              
-          return "success";  // 또는 업데이트가 성공했을 때의 응답 메시지
+          return "success";  // �삉�뒗 �뾽�뜲�씠�듃媛� �꽦怨듯뻽�쓣 �븣�쓽 �쓳�떟 硫붿떆吏�
       }   
       
       
       @PostMapping("delete")
       public String deleteItems(Principal seid,ShoppingCartDTO sdto) {
     	  
-    	// 기존 코드
+    	// 湲곗〈 肄붾뱶
     				// shop_m_id = sdto.getShop_m_id();
 
-    				// 수정 후 코드
+    				// �닔�젙 �썑 肄붾뱶
     				  String shop_m_id = (String) seid.getName();
 
     				int check = service.deleteCart(sdto.getShop_num(), shop_m_id);
     				if (check == 1) {
     				   	
-    					  return "redirect:/member/shoppingCartForm"; // 또는 업데이트가 성공했을 때의 응답 메시지
+    					  return "redirect:/member/shoppingCartForm"; // �삉�뒗 �뾽�뜲�씠�듃媛� �꽦怨듯뻽�쓣 �븣�쓽 �쓳�떟 硫붿떆吏�
     				} else {
     					return "error";
     				}	
     			}
    
-      // 픽미 목록 가져오기~~~~~~~~~~
+      // �뵿誘� 紐⑸줉 媛��졇�삤湲�~~~~~~~~~~
       
       @RequestMapping("pickMe")
       public String pickMekList(
               Principal seid,
               Model model,
-              @RequestParam(defaultValue = "1") int page,  // 현재 페이지 번호, 기본값 1
-              @RequestParam(defaultValue = "7") int pageSize,  // 페이지당 보여질 항목 수, 기본값 7
+              @RequestParam(defaultValue = "1") int page,  // �쁽�옱 �럹�씠吏� 踰덊샇, 湲곕낯媛� 1
+              @RequestParam(defaultValue = "7") int pageSize,  // �럹�씠吏��떦 蹂댁뿬吏� �빆紐� �닔, 湲곕낯媛� 7
               PickMeDTO pdto, CusDetailDTO cdto   
               ,@Param("p_m_id")String p_m_id
     		  ) {
 
     	  String pm_m_id = (String) seid.getName();
         //  int totalPrice = sdto.getQuantity() * sdto.getP_price();
-          System.out.print("현재 로그인한 사용자 아이디======================================================"+pm_m_id);
+          System.out.print("�쁽�옱 濡쒓렇�씤�븳 �궗�슜�옄 �븘�씠�뵒======================================================"+pm_m_id);
 
-          // 서비스에서 가져온 고객의 픽미 목록을 페이징하여 가져옵니다.
+          // �꽌鍮꾩뒪�뿉�꽌 媛��졇�삩 怨좉컼�쓽 �뵿誘� 紐⑸줉�쓣 �럹�씠吏뺥븯�뿬 媛��졇�샃�땲�떎.
           List<PickMeDTO> pickMekList = service.pickMeCountPage(pm_m_id, page, pageSize, pdto, cdto);
-          // 서비스에서 가져온 고객의 픽미 목록의 총 아이템 수를 가져옵니다.
+          // �꽌鍮꾩뒪�뿉�꽌 媛��졇�삩 怨좉컼�쓽 �뵿誘� 紐⑸줉�쓽 珥� �븘�씠�뀥 �닔瑜� 媛��졇�샃�땲�떎.
           int totalItemCount = service.pickMeCount(pm_m_id,p_m_id );
-          // 총 페이지 수를 계산합니다.
+          // 珥� �럹�씠吏� �닔瑜� 怨꾩궛�빀�땲�떎.
           int totalPage = (int) Math.ceil((double) totalItemCount / pageSize);
           
-             System.out.println("페이지 크기  ============= ="+pageSize);
-             System.out.println("현재 페이지 ============ ="+page);
-             System.out.println("총 페이지수 ============= ="+totalPage);
-             System.out.println("총 아이템 수   =================="+totalItemCount);
-          // 뷰 페이지로 전달할 모델에 데이터를 추가합니다.
+             System.out.println("�럹�씠吏� �겕湲�  ============= ="+pageSize);
+             System.out.println("�쁽�옱 �럹�씠吏� ============ ="+page);
+             System.out.println("珥� �럹�씠吏��닔 ============= ="+totalPage);
+             System.out.println("珥� �븘�씠�뀥 �닔   =================="+totalItemCount);
+          // 酉� �럹�씠吏�濡� �쟾�떖�븷 紐⑤뜽�뿉 �뜲�씠�꽣瑜� 異붽��빀�땲�떎.
           model.addAttribute("pickMekList", pickMekList);
           //model.addAttribute("totalPrice", totalPrice);
           model.addAttribute("page", page);
@@ -349,36 +351,36 @@ public class MemberController {
           return "member/pickMe/pickMe";
       }
       
-      // 픽미 목록 가져오기~~~~~~~~~~
+      // �뵿誘� 紐⑸줉 媛��졇�삤湲�~~~~~~~~~~
       
       @RequestMapping("SallerPickMe")
       public String SallerPickMeList(
     		  Principal seid,
     		  Model model,
-    		  @RequestParam(defaultValue = "1") int page,  // 현재 페이지 번호, 기본값 1
-    		  @RequestParam(defaultValue = "7") int pageSize,  // 페이지당 보여질 항목 수, 기본값 7
+    		  @RequestParam(defaultValue = "1") int page,  // �쁽�옱 �럹�씠吏� 踰덊샇, 湲곕낯媛� 1
+    		  @RequestParam(defaultValue = "7") int pageSize,  // �럹�씠吏��떦 蹂댁뿬吏� �빆紐� �닔, 湲곕낯媛� 7
     		  PickMeDTO pdto
     		  ) {
     	  
     	  String pm_c_id = (String) seid.getName();
     	  String pm_m_id=pdto.getPm_m_id();
     	  //  int totalPrice = sdto.getQuantity() * sdto.getP_price();
-    	  System.out.print("현재 로그인한 판매자 아이디======================================================"+pm_c_id);
-    	  System.out.print("나를 찜한 회원  아이디======================================================"+pm_m_id);
+    	  System.out.print("�쁽�옱 濡쒓렇�씤�븳 �뙋留ㅼ옄 �븘�씠�뵒======================================================"+pm_c_id);
+    	  System.out.print("�굹瑜� 李쒗븳 �쉶�썝  �븘�씠�뵒======================================================"+pm_m_id);
     	  
        
-    	  // 서비스에서 가져온 고객의 픽미 목록을 페이징하여 가져옵니다.
+    	  // �꽌鍮꾩뒪�뿉�꽌 媛��졇�삩 怨좉컼�쓽 �뵿誘� 紐⑸줉�쓣 �럹�씠吏뺥븯�뿬 媛��졇�샃�땲�떎.
     	  List<PickMeDTO> SallerPickMeList = service.SallerpickMeCountPage(pm_m_id,pm_c_id, page, pageSize, pdto );
-    	  // 서비스에서 가져온 고객의 픽미 목록의 총 아이템 수를 가져옵니다.
+    	  // �꽌鍮꾩뒪�뿉�꽌 媛��졇�삩 怨좉컼�쓽 �뵿誘� 紐⑸줉�쓽 珥� �븘�씠�뀥 �닔瑜� 媛��졇�샃�땲�떎.
     	  int totalItemCount = service.SallerpickMeCount(pm_m_id,pm_c_id);
-    	  // 총 페이지 수를 계산합니다.
+    	  // 珥� �럹�씠吏� �닔瑜� 怨꾩궛�빀�땲�떎.
     	  int totalPage = (int) Math.ceil((double) totalItemCount / pageSize);
     	  
-    	  System.out.println("페이지 크기  ============= ="+pageSize);
-    	  System.out.println("현재 페이지 ============ ="+page);
-    	  System.out.println("총 페이지수 ============= ="+totalPage);
-    	  System.out.println("총 아이템 수   =================="+totalItemCount);
-    	  // 뷰 페이지로 전달할 모델에 데이터를 추가합니다.
+    	  System.out.println("�럹�씠吏� �겕湲�  ============= ="+pageSize);
+    	  System.out.println("�쁽�옱 �럹�씠吏� ============ ="+page);
+    	  System.out.println("珥� �럹�씠吏��닔 ============= ="+totalPage);
+    	  System.out.println("珥� �븘�씠�뀥 �닔   =================="+totalItemCount);
+    	  // 酉� �럹�씠吏�濡� �쟾�떖�븷 紐⑤뜽�뿉 �뜲�씠�꽣瑜� 異붽��빀�땲�떎.
     	  model.addAttribute("SallerPickMeList", SallerPickMeList);
     	  //model.addAttribute("totalPrice", totalPrice);
     	  model.addAttribute("page", page);
@@ -392,15 +394,15 @@ public class MemberController {
 
       @PostMapping("deleteHim")  
       public String deleteHim(Principal seid, PickMeDTO pdto) {
-         // 이전 주석 내용
+         // �씠�쟾 二쇱꽍 �궡�슜
          // shop_m_id = sdto.getShop_m_id();
 
-         // 수정 후 주석
+         // �닔�젙 �썑 二쇱꽍
          String pm_m_id = (String) seid.getName();
 
          int check = service.deleteHim(pdto.getPm_num(), pm_m_id);
          if (check == 1) {
-        	  return "redirect:/member/pickMe"; // 성공 시 반환할 문자열
+        	  return "redirect:/member/pickMe"; // �꽦怨� �떆 諛섑솚�븷 臾몄옄�뿴
          } else {
             return "error";
          }   
@@ -423,29 +425,29 @@ public class MemberController {
            
       ) {
     	  int p_num=pdto.getP_num();
-         // 로그인한 사용자의 아이디를 가져옵니다.
+         // 濡쒓렇�씤�븳 �궗�슜�옄�쓽 �븘�씠�뵒瑜� 媛��졇�샃�땲�떎.
          String ppic_m_id = (String) seid.getName();
          pppdto.setPm_m_id(ppic_m_id);
-         System.out.print("현재 로그인한 사용자 아이디======================================================" + ppic_m_id);
+         System.out.print("�쁽�옱 濡쒓렇�씤�븳 �궗�슜�옄 �븘�씠�뵒======================================================" + ppic_m_id);
 
-         // 올바른 주석
-         // 올바른 주석 내용을 여기에 작성합니다.
-         // 맵 형태의 파라미터, 사용자 아이디, 페이지 번호, 페이지 크기, PPicDTO, ProductDTO, MemberDTO, PPic 번호
+         // �삱諛붾Ⅸ 二쇱꽍
+         // �삱諛붾Ⅸ 二쇱꽍 �궡�슜�쓣 �뿬湲곗뿉 �옉�꽦�빀�땲�떎.
+         // 留� �삎�깭�쓽 �뙆�씪誘명꽣, �궗�슜�옄 �븘�씠�뵒, �럹�씠吏� 踰덊샇, �럹�씠吏� �겕湲�, PPicDTO, ProductDTO, MemberDTO, PPic 踰덊샇
          List<PPicDTO> pPickList = service.pPickCountPages(ppic_m_id, params, page, pageSize, ppdto, pdto,mdto, ppic_num,cdto  );
          
-         // 서비스를 통해 가져온 픽 리스트의 총 아이템 수를 계산합니다.
+         // �꽌鍮꾩뒪瑜� �넻�빐 媛��졇�삩 �뵿 由ъ뒪�듃�쓽 珥� �븘�씠�뀥 �닔瑜� 怨꾩궛�빀�땲�떎.
          int totalItemCount = service.pPickCount(ppic_m_id, ppic_num );
 
-         // 페이지 수를 계산합니다.
+         // �럹�씠吏� �닔瑜� 怨꾩궛�빀�땲�떎.
          int totalPage = (int) Math.ceil((double) totalItemCount / pageSize);
          
-         // 디버깅용 출력문
-         System.out.println("페이지 크기  ============= =" + pageSize);
-         System.out.println("현재 페이지 ============ =" + page);
-         System.out.println("총 페이지수 ============= =" + totalPage);
-         System.out.println("총 아이템 수   ==================" + totalItemCount);
+         // �뵒踰꾧퉭�슜 異쒕젰臾�
+         System.out.println("�럹�씠吏� �겕湲�  ============= =" + pageSize);
+         System.out.println("�쁽�옱 �럹�씠吏� ============ =" + page);
+         System.out.println("珥� �럹�씠吏��닔 ============= =" + totalPage);
+         System.out.println("珥� �븘�씠�뀥 �닔   ==================" + totalItemCount);
 
-         // 모델에 데이터를 추가합니다.
+         // 紐⑤뜽�뿉 �뜲�씠�꽣瑜� 異붽��빀�땲�떎.
          model.addAttribute("pPickList", pPickList);
          model.addAttribute("page", page);
          model.addAttribute("pageSize", pageSize);
@@ -453,22 +455,22 @@ public class MemberController {
          model.addAttribute("ppic_num", ppic_num);
          model.addAttribute("ppic_m_id", ppic_m_id);
 
-         // 뷰 페이지로 이동합니다.
+         // 酉� �럹�씠吏�濡� �씠�룞�빀�땲�떎.
          return "member/ppick/pPickList";
       }
 
    
     @PostMapping("deletePick")  
     public String deletePick(Principal seid, PPicDTO ppdto) {
-       // 이전 주석 내용
+       // �씠�쟾 二쇱꽍 �궡�슜
        // shop_m_id = sdto.getShop_m_id();
 
-       // 수정 후 주석
+       // �닔�젙 �썑 二쇱꽍
        String ppic_m_id = (String) seid.getName();
 
        int check = service.deleteP_item(ppdto.getPpic_num(), ppic_m_id);
        if (check == 1) {
-          return "redirect:/member/pPickList"; // 성공 시 반환할 문자열
+          return "redirect:/member/pPickList"; // �꽦怨� �떆 諛섑솚�븷 臾몄옄�뿴
        } else {
           return "error";
        }   
@@ -490,5 +492,12 @@ public class MemberController {
         System.out.println("pm_m_id=================================" + pm_m_id);
         return "redirect:/member/pPickList";
     }
+    @RequestMapping("memberForm")
+    public String memberForm() {
+    	return "member/memberForm";
+    }
+     
     
+    
+    	
 }

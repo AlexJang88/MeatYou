@@ -29,7 +29,7 @@ public class MemberServiceImpl implements MemberService {
         return mapper.insertMember(dto);
     }
   
-    //체크 후
+    //泥댄겕 �썑
     @Override
     public int ppickAndpickMeCount(@Param("pm_m_id")String pm_m_id,@Param("pm_c_id")String pm_c_id, @Param("pm_num") int pm_num) {
         return mapper.ppickAndpickMeCount( pm_m_id, pm_c_id ,pm_num);
@@ -42,44 +42,44 @@ public class MemberServiceImpl implements MemberService {
     }
  
     
-    //회원테이블 찝 추가 및 삭제 
+    //�쉶�썝�뀒�씠釉� 李� 異붽� 諛� �궘�젣 
     @Override
     public void pickMeInsert(Model model, PickMeDTO pdto, ProductDTO ppdto, String pm_m_id, String pm_c_id, int pm_num) {
-        // 이미 찜이 되어 있는지 확인
+        // �씠誘� 李쒖씠 �릺�뼱 �엳�뒗吏� �솗�씤
         int pickCount = mapper.ppickAndpickMeCount(pm_m_id, pm_c_id, pm_num);
 
         if (pickCount > 0) {
-            // 이미 찜이 되어 있다면 찜을 해제
+            // �씠誘� 李쒖씠 �릺�뼱 �엳�떎硫� 李쒖쓣 �빐�젣
             int deleteResult = mapper.deletePickMeByCId(pm_m_id, pm_c_id);
             if (deleteResult > 0) {
-                model.addAttribute("message", "이미 선택된 상품을 취소했습니다.");
+                model.addAttribute("message", "�씠誘� �꽑�깮�맂 �긽�뭹�쓣 痍⑥냼�뻽�뒿�땲�떎.");
             }
         } else {
-            // 찜이 되어 있지 않다면 찜을 추가
+            // 李쒖씠 �릺�뼱 �엳吏� �븡�떎硫� 李쒖쓣 異붽�
             int insertResult = mapper.pickMeInsert(pdto, pm_m_id, pm_c_id, pm_num);
             if (insertResult > 0) {
-                model.addAttribute("message", "상품을 선택했습니다.");
+                model.addAttribute("message", "�긽�뭹�쓣 �꽑�깮�뻽�뒿�땲�떎.");
             }
         }
     }
     
-    //판매자 테이블 찜 추가 및 삭제 
+    //�뙋留ㅼ옄 �뀒�씠釉� 李� 異붽� 諛� �궘�젣 
     @Override
     public void pickMeInsert2(Model model, PickMeDTO pdto, ProductDTO ppdto, String pm_m_id, String pm_c_id, int pm_num) {
-    	// 이미 찜이 되어 있는지 확인
-    	int pickCount = mapper.ppickAndpickMeCount(pm_m_id, pm_c_id, pm_num);
+    	// �씠誘� 李쒖씠 �릺�뼱 �엳�뒗吏� �솗�씤
+    	int pickCount = mapper.ppickAndpickMeCount2(pm_m_id, pm_c_id, pm_num);
     	
     	if (pickCount > 0) {
-    		// 이미 찜이 되어 있다면 찜을 해제
+    		// �씠誘� 李쒖씠 �릺�뼱 �엳�떎硫� 李쒖쓣 �빐�젣
     		int deleteResult = mapper.deletePickMeByCId2(pm_m_id, pm_c_id);
     		if (deleteResult > 0) {
-    			model.addAttribute("message", "이미 선택된 상품을 취소했습니다.");
+    			model.addAttribute("message", "�씠誘� �꽑�깮�맂 �긽�뭹�쓣 痍⑥냼�뻽�뒿�땲�떎.");
     		}
     	} else {
-    		// 찜이 되어 있지 않다면 찜을 추가
+    		// 李쒖씠 �릺�뼱 �엳吏� �븡�떎硫� 李쒖쓣 異붽�
     		int insertResult = mapper.pickMeInsert2(pdto, pm_m_id, pm_c_id, pm_num);
     		if (insertResult > 0) {
-    			model.addAttribute("message", "상품을 선택했습니다.");
+    			model.addAttribute("message", "�긽�뭹�쓣 �꽑�깮�뻽�뒿�땲�떎.");
     		}
     	}
     }
@@ -87,7 +87,7 @@ public class MemberServiceImpl implements MemberService {
     
     
     
- // pm_c_id만으로 삭제
+ // pm_c_id留뚯쑝濡� �궘�젣
     @Override
     public void deletePickMeByCId(String pm_m_id, String pm_c_id) {
         mapper.deletePickMeByCId(pm_m_id, pm_c_id);
@@ -112,7 +112,9 @@ public class MemberServiceImpl implements MemberService {
         	return mapper.statusChange2(dto);
         }
 
-    
+        public int cusDelete(CusDetailDTO cdto,MemberDTO dto,@Param("m_id") String m_id) {
+        	return mapper.cusDelete(cdto,dto,m_id);
+        }
        @Override
        public int statusChange(MemberDTO dto) {
           return mapper.statusAdminChange(dto);      
@@ -205,7 +207,7 @@ public class MemberServiceImpl implements MemberService {
 
           //   return mapper.getShoppingCartItemsPaged(parameters);
              List<ShoppingCartDTO> result = mapper.getShoppingCartItemsPaged(parameters);
-             System.out.println("占쎄퐣�뜮袁⑸뮞 占쎌깈�빊占� - 占쎈읂占쎌뵠筌욑옙: " + page + ", 野껉퀗�궢 揶쏆뮇�땾: " + result.size());
+             System.out.println("�뜝�럡�맋占쎈쑏熬곣뫖裕� �뜝�럩源덌옙鍮듿뜝占� - �뜝�럥�쓡�뜝�럩逾좂춯�쉻�삕: " + page + ", �뇦猿됲�쀯옙沅� �뤆�룇裕뉛옙�빢: " + result.size());
              return result;
          }
 
@@ -242,7 +244,7 @@ public class MemberServiceImpl implements MemberService {
 
              //   return mapper.getShoppingCartItemsPaged(parameters);
                 List<PickMeDTO> result = mapper.pickMeCountPage(parameters);
-                System.out.println("占쎄퐣�뜮袁⑸뮞 占쎌깈�빊占� - 占쎈읂占쎌뵠筌욑옙: " + page + ", 野껉퀗�궢 揶쏆뮇�땾: " + result.size());
+                System.out.println("�뜝�럡�맋占쎈쑏熬곣뫖裕� �뜝�럩源덌옙鍮듿뜝占� - �뜝�럥�쓡�뜝�럩逾좂춯�쉻�삕: " + page + ", �뇦猿됲�쀯옙沅� �뤆�룇裕뉛옙�빢: " + result.size());
                 return result;
             }
        
@@ -272,7 +274,7 @@ public class MemberServiceImpl implements MemberService {
             	 
             	 //   return mapper.getShoppingCartItemsPaged(parameters);
             	 List<PickMeDTO> result = mapper.SallerpickMeCountPage(parameters);
-            	 System.out.println("占쎄퐣�뜮袁⑸뮞 占쎌깈�빊占� - 占쎈읂占쎌뵠筌욑옙: " + page + ", 野껉퀗�궢 揶쏆뮇�땾: " + result.size());
+            	 System.out.println("�뜝�럡�맋占쎈쑏熬곣뫖裕� �뜝�럩源덌옙鍮듿뜝占� - �뜝�럥�쓡�뜝�럩逾좂춯�쉻�삕: " + page + ", �뇦猿됲�쀯옙沅� �뤆�룇裕뉛옙�빢: " + result.size());
             	 return result;
              }
              
@@ -305,13 +307,13 @@ public class MemberServiceImpl implements MemberService {
                   // parameters.put("ppic_m_id",mdto.getM_id());
                    
                    
-                   System.out.println(("id占쎈뮉 �눧�똻毓울옙�뵥揶쏉옙占쎌뒄 ~~~=-============================")+parameters.get("ppic_m_id"));
+                   System.out.println(("id�뜝�럥裕� 占쎈닱占쎈샍驪볦슱�삕占쎈데�뤆�룊�삕�뜝�럩�뭵 ~~~=-============================")+parameters.get("ppic_m_id"));
                   
                    
-                   List<PPicDTO> result = mapper.pPickCountPage(parameters); // 筌띲끆而삭퉪占쏙옙�땾 占쎌읈占쎈뼎
+                   List<PPicDTO> result = mapper.pPickCountPage(parameters); // 嶺뚮씞�걝�뚯궘�돦�뜝�룞�삕占쎈빢 �뜝�럩�쓧�뜝�럥堉�
                    
                     
-                    System.out.println("占쎄퐣�뜮袁⑸뮞 占쎌깈�빊占� - 占쎈읂占쎌뵠筌욑옙: " + page + ", 野껉퀗�궢 揶쏆뮇�땾: " + result.size());
+                    System.out.println("�뜝�럡�맋占쎈쑏熬곣뫖裕� �뜝�럩源덌옙鍮듿뜝占� - �뜝�럥�쓡�뜝�럩逾좂춯�쉻�삕: " + page + ", �뇦猿됲�쀯옙沅� �뤆�룇裕뉛옙�빢: " + result.size());
                    
                     return result;                              
             }

@@ -211,6 +211,11 @@ WHERE
 <select id="ppickAndpickMeCount" parameterType="java.util.Map" resultType="java.lang.Integer">
     SELECT COUNT(*) FROM pick_me_${pm_m_id} WHERE   pm_c_id ='${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")}'
 </select>
+ 
+ 
+<select id="ppickAndpickMeCount2" parameterType="java.util.Map" resultType="java.lang.Integer">
+    SELECT COUNT(*) FROM pick_me_${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")} WHERE  pm_m_id ='${pm_m_id.replace("'", "''").replaceAll(",\\s*$", "")}'
+</select>
 
  
 <insert id="pickMeInsert" parameterType="java.util.Map">
@@ -401,7 +406,9 @@ WHERE
    <update id="statusChange2" parameterType="com.gogi.meatyou.bean.MemberDTO" >
       update member set m_status = 1001 where  passwd = #{passwd}      
    </update>
-   
+   <delete id="cusDelete" parameterType="com.gogi.meatyou.bean.CusDetailDTO" >
+    DELETE FROM cus_detail    WHERE cus_m_id ='${m_id.replace("'", "''").replaceAll(",\\s*$", "")}'
+</delete>
 
    
    <update id="statusAdminChange" parameterType="com.gogi.meatyou.bean.MemberDTO">

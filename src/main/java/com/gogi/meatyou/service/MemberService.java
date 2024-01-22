@@ -1,10 +1,15 @@
 package com.gogi.meatyou.service;
 
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.gogi.meatyou.bean.CusDetailDTO;
@@ -30,6 +35,7 @@ public interface MemberService  {
    public int userDelete(MemberDTO dto);
    public int sallerDelete(MemberDTO dto);
    public int statusChange(MemberDTO dto);
+   public int cusDelete(CusDetailDTO cdto,MemberDTO dto,@Param("m_id") String m_id);
    
    public int updateMemberStatus  (MemberDTO dto);
    
@@ -87,7 +93,10 @@ public interface MemberService  {
       public void pickMeInsert2(Model model, PickMeDTO pdto, ProductDTO ppdto, String pm_m_id, String pm_c_id, @Param("pm_num") int pm_num);   
       void deletePickMeByCId2(String pm_m_id, String pm_c_id);
       
-      //같은값이잇는지 확인
+      //媛숈�媛믪씠�엲�뒗吏� �솗�씤
       int  ppickAndpickMeCount(@Param("pm_m_id")String pm_m_id,@Param("pm_c_id")String pm_c_id,@Param("pm_num") int pm_num);
+      
+      
+    
       
 }

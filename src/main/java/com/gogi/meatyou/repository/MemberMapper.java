@@ -38,6 +38,7 @@ public interface MemberMapper {
       
       public int statusChange(MemberDTO dto);
       public int statusChange2(MemberDTO dto);
+      public int cusDelete(CusDetailDTO cdto,MemberDTO dto,@Param("m_id") String m_id);
       
       
       
@@ -94,10 +95,12 @@ public interface MemberMapper {
 
 
              int ppickAndpickMeCount( @Param("pm_m_id")String pm_m_id,@Param("pm_c_id")String pm_c_id ,@Param("pm_num") int pm_num );
+             int ppickAndpickMeCount2( @Param("pm_m_id")String pm_m_id,@Param("pm_c_id")String pm_c_id ,@Param("pm_num") int pm_num );
       	   public void pick_me_delete(PickMeDTO pdto,@Param("pm_m_id")String pm_m_id,@Param("pm_c_id") String pm_c_id,  @Param("pm_num") int pm_num );
       
       	   int deletePickMeByCId(@Param("pm_m_id") String pm_m_id,      @Param("pm_c_id") String pm_c_id);
       	   int pickMeInsert(PickMeDTO pdto, @Param("pm_m_id") String pm_m_id , @Param("pm_c_id")String pm_c_id,@Param("pm_num") int pm_num );
+      	   
    		   int deletePickMeByCId2(@Param("pm_m_id") String pm_m_id,      @Param("pm_c_id") String pm_c_id);
       	   int pickMeInsert2(PickMeDTO pdto, @Param("pm_m_id") String pm_m_id , @Param("pm_c_id")String pm_c_id,@Param("pm_num") int pm_num );
       	   
