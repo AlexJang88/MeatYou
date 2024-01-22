@@ -36,6 +36,7 @@ public class MainController {
       for(ProductDTO mdto : meatList) {
     	  double mstar = service.reviewStar(mdto.getP_num());
     	  mdto.setStar(mstar);
+    	  model.addAttribute("p_num", mdto.getP_num());
       }
       model.addAttribute("meatList", meatList);
       
@@ -43,6 +44,7 @@ public class MainController {
       for(ProductDTO fdto : forkList) {
     	  double fstar = service.reviewStar(fdto.getP_num());
     	  fdto.setStar(fstar);
+    	  model.addAttribute("p_num", fdto.getP_num());
       }
       model.addAttribute("forkList", forkList);
       
@@ -50,14 +52,14 @@ public class MainController {
       for(ProductDTO ndto : newProduct) {
     	  double nstar = service.reviewStar(ndto.getP_num());
     	  ndto.setStar(nstar);
+    	  model.addAttribute("p_num", ndto.getP_num());
       }
       model.addAttribute("newProduct", newProduct);
       
+      
       if(seid != null) {
           String m_id = (String)seid.getName(); 
-          int p_num = dto.getP_num();
           model.addAttribute("m_id", m_id);
-          model.addAttribute("p_num", p_num);
        }
       
       int CartCNT=0;
@@ -88,9 +90,11 @@ public class MainController {
    public String searchList(Principal seid, Model model, @RequestParam(value="pageNum", defaultValue = "1") 
       int pageNum , String desc, String searchOption, String search) {
       service.searchList(pageNum, model , desc ,searchOption ,search);
-      
+
       int CartCNT=0;
       if(seid != null) {
+    	 String m_id = (String)seid.getName(); 
+         model.addAttribute("m_id", m_id);
          String shop_m_id = (String)seid.getName();
          CartCNT = service.ShoppingCartCNT2(shop_m_id);
         model.addAttribute("CartCNT", CartCNT);
@@ -103,7 +107,7 @@ public class MainController {
       if(seid != null) {
          String ppic_m_id = (String)seid.getName();
          pickCNT = service.pickCNT(ppic_m_id);
-        model.addAttribute("pickCNT", pickCNT);
+         model.addAttribute("pickCNT", pickCNT);
       } else {
          pickCNT=0;
          model.addAttribute("pickCNT", pickCNT);
@@ -120,6 +124,7 @@ public class MainController {
          String shop_m_id = (String)seid.getName();
          CartCNT = service.ShoppingCartCNT2(shop_m_id);
         model.addAttribute("CartCNT", CartCNT);
+        model.addAttribute("m_id", shop_m_id);
       } else {
          CartCNT=0;
          model.addAttribute("CartCNT", CartCNT);
@@ -146,6 +151,7 @@ public class MainController {
          String ppic_m_id = (String)seid.getName();
          pickCNT = service.pickCNT(ppic_m_id);
         model.addAttribute("pickCNT", pickCNT);
+        model.addAttribute("m_id", ppic_m_id);
       } else {
          pickCNT=0;
          model.addAttribute("pickCNT", pickCNT);
@@ -155,14 +161,15 @@ public class MainController {
    
    @RequestMapping("mainMeat")
    public String mainMeat(Principal seid, Model model, String price , int category, String sale, String reg, 
-                        @RequestParam(value="pageNum", defaultValue = "1") int pageNum) {
-      service.mainMeat(pageNum, model, price , category, sale, reg);
+                        @RequestParam(value="pageNum", defaultValue = "1") int pageNum, String news) {
+      service.mainMeat(pageNum, model, price , category, sale, reg, news);
       model.addAttribute("category", category);
       int CartCNT=0;
-      if(seid != null) {
-         String shop_m_id = (String)seid.getName();
-         CartCNT = service.ShoppingCartCNT2(shop_m_id);
-        model.addAttribute("CartCNT", CartCNT);
+      if(seid != null) { 
+    	 String shop_m_id = (String)seid.getName();
+    	 model.addAttribute("m_id", shop_m_id);
+    	 CartCNT = service.ShoppingCartCNT2(shop_m_id);
+         model.addAttribute("CartCNT", CartCNT);
       } else {
          CartCNT=0;
          model.addAttribute("CartCNT", CartCNT);
@@ -185,6 +192,7 @@ public class MainController {
       int CartCNT=0;
       if(seid != null) {
          String shop_m_id = (String)seid.getName();
+         model.addAttribute("m_id", shop_m_id);
          CartCNT = service.ShoppingCartCNT2(shop_m_id);
         model.addAttribute("CartCNT", CartCNT);
       } else {
@@ -204,12 +212,13 @@ public class MainController {
    }
    
    @RequestMapping("meatBest")
-   public String meatBest(Principal seid, Model model, String price , int category, String sale, String reg, @RequestParam(value="pageNum", defaultValue = "1") int pageNum) {
-      service.mainMeat(pageNum, model, price , category, sale, reg);
+   public String meatBest(Principal seid, Model model, String price , int category, String sale, String reg, @RequestParam(value="pageNum", defaultValue = "1") int pageNum, String news) {
+      service.mainMeat(pageNum, model, price , category, sale, reg, news);
       model.addAttribute("category", category);
       int CartCNT=0;
       if(seid != null) {
          String shop_m_id = (String)seid.getName();
+         model.addAttribute("m_id", shop_m_id);
          CartCNT = service.ShoppingCartCNT2(shop_m_id);
         model.addAttribute("CartCNT", CartCNT);
       } else {
@@ -229,12 +238,13 @@ public class MainController {
    }
    
    @RequestMapping("forkBest")
-   public String forkBest(Principal seid, Model model, String price , int category, String sale, String reg, @RequestParam(value="pageNum", defaultValue = "1") int pageNum) {
-      service.mainMeat(pageNum, model, price , category, sale, reg);
+   public String forkBest(Principal seid, Model model, String price , int category, String sale, String reg, @RequestParam(value="pageNum", defaultValue = "1") int pageNum, String news) {
+      service.mainMeat(pageNum, model, price , category, sale, reg, news);
       model.addAttribute("category", category);
       int CartCNT=0;
       if(seid != null) {
          String shop_m_id = (String)seid.getName();
+         model.addAttribute("m_id", shop_m_id);
          CartCNT = service.ShoppingCartCNT2(shop_m_id);
         model.addAttribute("CartCNT", CartCNT);
       } else {
@@ -259,6 +269,7 @@ public class MainController {
       int CartCNT=0;
       if(seid != null) {
          String shop_m_id = (String)seid.getName();
+         model.addAttribute("m_id", shop_m_id);
          CartCNT = service.ShoppingCartCNT2(shop_m_id);
         model.addAttribute("CartCNT", CartCNT);
       } else {
@@ -278,8 +289,33 @@ public class MainController {
    }
    
    @RequestMapping("newProduct")
-   public String newProduct(Model model, @RequestParam(value="pageNum", defaultValue = "1") int pageNum) {
+   public String newProduct(Principal seid, Model model, @RequestParam(value="pageNum", defaultValue = "1") int pageNum) {
       service.newProduct(pageNum, model);
+      if(seid != null) {
+    	  String m_id = (String)seid.getName();
+          model.addAttribute("m_id", m_id);
+      }
+      
+      int CartCNT=0;
+      if(seid != null) {
+         String shop_m_id = (String)seid.getName();
+         CartCNT = service.ShoppingCartCNT2(shop_m_id);
+        model.addAttribute("CartCNT", CartCNT);
+      } else {
+         CartCNT=0;
+         model.addAttribute("CartCNT", CartCNT);
+      }
+      
+      int pickCNT=0;
+      if(seid != null) {
+         String ppic_m_id = (String)seid.getName();
+         pickCNT = service.pickCNT(ppic_m_id);
+        model.addAttribute("pickCNT", pickCNT);
+      } else {
+         pickCNT=0;
+         model.addAttribute("pickCNT", pickCNT);
+      }
+      
       return "main/newProduct";
    }
 
@@ -387,9 +423,50 @@ public class MainController {
    @RequestMapping("ShoppingCartInsert2")
    public String ShoppingCartInsert2(Principal seid, Model model, String m_id, int p_num, int shop_quantity) {
       int CartCNT = 0;
-      p_num = 0;
       CartCNT = service.ShoppingCartInsert2(model, m_id, p_num, shop_quantity);
-      return "redirect:/main/product?p_num="+p_num+"&p_m_id="+m_id+"&CartCNT="+CartCNT;
+      return "redirect:/main/main";
+   }
+   
+   @RequestMapping("ShoppingCartInsertMainMeat")
+   public String ShoppingCartInsertMainMeat(Principal seid, Model model, String m_id, int p_num, int shop_quantity, String price , int category) {
+	   int CartCNT = 0;
+	   CartCNT = service.ShoppingCartInsert2(model, m_id, p_num, shop_quantity);
+      return "redirect:/main/mainMeat?category="+category+"&price=desc";
+   }
+   
+   @RequestMapping("ShoppingCartInsertSearchList")
+   public String ShoppingCartInsertSearchList(Principal seid, Model model, String m_id, int p_num, int shop_quantity, String searchOption , String search) {
+	   int CartCNT = 0;
+	   CartCNT = service.ShoppingCartInsert2(model, m_id, p_num, shop_quantity);
+      return "forward:/main/search";
+   }
+   
+   @RequestMapping("ShoppingCartInsertSearchSale")
+   public String ShoppingCartInsertSearchSale(Principal seid, Model model, String m_id, int p_num, int shop_quantity, String searchOption , String search) {
+	   int CartCNT = 0;
+	   CartCNT = service.ShoppingCartInsert2(model, m_id, p_num, shop_quantity);
+      return "forward:/main/search";
+   }
+   
+   @RequestMapping("ShoppingCartInsertSearchPrice")
+   public String ShoppingCartInsertSearchPrice(Principal seid, Model model, String m_id, int p_num, int shop_quantity, String searchOption , String search) {
+	   int CartCNT = 0;
+	   CartCNT = service.ShoppingCartInsert2(model, m_id, p_num, shop_quantity);
+      return "forward:/main/searchPrice";
+   }
+   
+   @RequestMapping("ShoppingCartInsertPowerLink")
+   public String ShoppingCartInsertPowerLink(Principal seid, Model model, String m_id, int p_num, int shop_quantity) {
+	   int CartCNT = 0;
+	   CartCNT = service.ShoppingCartInsert2(model, m_id, p_num, shop_quantity);
+      return "forward:/main/powerLink";
+   }
+   
+   @RequestMapping("ShoppingCartInsertnewProduct")
+   public String ShoppingCartInsertnewProduct(Principal seid, Model model, String m_id, int p_num, int shop_quantity) {
+	   int CartCNT = 0;
+	   CartCNT = service.ShoppingCartInsert2(model, m_id, p_num, shop_quantity);
+      return "forward:/main/newProduct";
    }
 
    @RequestMapping("reviewAllPaging")
@@ -405,8 +482,6 @@ public class MainController {
       service.pickInsert(model, dto, ppic_m_id, ppic_p_num);
       p_num = dto.getPpic_p_num();
       m_id = dto.getPpic_m_id();  
-      System.out.println("p_num : "+p_num);
-      System.out.println("m_id : "+m_id);
       return "redirect:/main/product?p_num="+p_num+"&p_m_id="+m_id;
    }
 

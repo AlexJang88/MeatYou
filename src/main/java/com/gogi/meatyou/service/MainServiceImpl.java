@@ -50,7 +50,7 @@ public class MainServiceImpl implements MainService {
 
    @Override
    public void searchList(int pageNum, Model model, String desc, String searchOption, String search) {
-      int pageSize = 6; 
+	   int pageSize = 6; 
        int startRow = (pageNum - 1) * pageSize + 1;
        int endRow = pageNum * pageSize;
        int count = mapper.searchCount(searchOption, search);
@@ -63,13 +63,6 @@ public class MainServiceImpl implements MainService {
           searchMap.put("searchOption", searchOption);
           searchMap.put("search", search);
           searchList = mapper.searchList(searchMap);
-          System.out.println("pageSize : "+pageSize);
-          System.out.println("pageNum : "+pageNum);
-          System.out.println("count : "+count);
-          System.out.println("startRow : "+startRow);
-          System.out.println("endRow : "+endRow);
-          System.out.println("searchOption : "+searchOption);
-          System.out.println("search : "+search);
        }
        model.addAttribute("searchList", searchList);
        model.addAttribute("pageSize", pageSize);
@@ -91,8 +84,8 @@ public class MainServiceImpl implements MainService {
       model.addAttribute("startPage", startPage);
       model.addAttribute("pageBlock", pageBlock);
       model.addAttribute("endPage", endPage);
-       
-       
+
+      
        for(ProductDTO rdto : searchList) {
     	   int p_num = rdto.getP_num();
     	   double result=0;
@@ -103,6 +96,7 @@ public class MainServiceImpl implements MainService {
    			result = sum / (double)recount;
    			result = Double.parseDouble(String.format("%.1f", result));
    			rdto.setStar(result);
+   			model.addAttribute("p_num",p_num);
    			}
        }
        
@@ -211,7 +205,7 @@ public class MainServiceImpl implements MainService {
    }
 
    @Override
-   public void mainMeat(int pageNum, Model model, String price , int category, String sale, String reg) {
+   public void mainMeat(int pageNum, Model model, String price , int category, String sale, String reg, String news) {
       int pageSize = 6; 
        int startRow = (pageNum - 1) * pageSize + 1;
        int endRow = pageNum * pageSize;
@@ -224,6 +218,7 @@ public class MainServiceImpl implements MainService {
           searchMap.put("price", price);
           searchMap.put("sale", sale);
           searchMap.put("reg", reg);
+          searchMap.put("news", news);
           mainMeat = mapper.mainMeat(searchMap);
        }
        model.addAttribute("mainMeat", mainMeat);
@@ -231,11 +226,27 @@ public class MainServiceImpl implements MainService {
        model.addAttribute("pageNum", pageNum);
        model.addAttribute("count", count);
        
+       for(ProductDTO rdto : mainMeat) {
+    	   int p_num = rdto.getP_num();
+    	   double result=0;
+    	   double sum =0.0;
+   		  	int recount = mapper.reviewAllCNT(p_num);
+   			if(recount > 0) {
+   			sum = mapper.reviewSum(p_num);
+   			result = sum / (double)recount;
+   			result = Double.parseDouble(String.format("%.1f", result));
+   			rdto.setStar(result);
+   			model.addAttribute("p_num", p_num);
+   			}
+       }
+       
+       
+       
        //page
         int pageCount = count / pageSize + ( count % pageSize == 0 ? 0 : 1);
        
         int startPage = (int)(pageNum/10)*10+1;
-      int pageBlock=10;
+        int pageBlock=10;
         int endPage = startPage + pageBlock-1;
         if (endPage > pageCount) {
            endPage = pageCount;
@@ -244,40 +255,25 @@ public class MainServiceImpl implements MainService {
        model.addAttribute("startPage", startPage);
        model.addAttribute("pageBlock", pageBlock);
        model.addAttribute("endPage", endPage);
+       
+       for(ProductDTO rdto : mainMeat) {
+    	   int p_num = rdto.getP_num();
+    	   double result=0;
+    	   double sum =0.0;
+   		  	int recount = mapper.reviewAllCNT(p_num);
+   			if(recount > 0) {
+   			sum = mapper.reviewSum(p_num);
+   			result = sum / (double)recount;
+   			result = Double.parseDouble(String.format("%.1f", result));
+   			rdto.setStar(result);
+   			model.addAttribute("p_num",p_num);
+   			}
+       }
    }
-   
-//   @Override
-//   public void mainMeat(int pageNum, Model model, String price , int category, String sale, String reg) {
-//      int pageSize = 6; 
-//       int startRow = (pageNum - 1) * pageSize + 1;
-//       int endRow = pageNum * pageSize;
-//       int count = mapper.mainMeatCount(category);
-//       List<ProductDTO> mainMeat = Collections.EMPTY_LIST;
-//       if(count > 0) {
-//          mainMeat = mapper.mainMeat(startRow, endRow, category, price, sale, reg);
-//       }
-//       model.addAttribute("mainMeat", mainMeat);
-//       model.addAttribute("pageSize", pageSize);
-//       model.addAttribute("pageNum", pageNum);
-//       model.addAttribute("count", count);
-//       
-//       
-//       //page
-//        int pageCount = count / pageSize + ( count % pageSize == 0 ? 0 : 1);
-//       
-//        int startPage = (int)(pageNum/10)*10+1;
-//      int pageBlock=10;
-//        int endPage = startPage + pageBlock-1;
-//        if (endPage > pageCount) {
-//           endPage = pageCount;
-//        }
-//       model.addAttribute("pageCount", pageCount);
-//       model.addAttribute("startPage", startPage);
-//       model.addAttribute("pageBlock", pageBlock);
-//       model.addAttribute("endPage", endPage);
-//   }
-   
 
+   
+   
+   
    @Override
    public List<ProductDTO> newProductBest() {
       return mapper.newProductBest();
@@ -301,11 +297,25 @@ public class MainServiceImpl implements MainService {
        model.addAttribute("pageNum", pageNum);
        model.addAttribute("count", count);
        
+       for(ProductDTO rdto : poLinkList) {
+    	   int p_num = rdto.getP_num();
+    	   double result=0;
+    	   double sum =0.0;
+   		  	int recount = mapper.reviewAllCNT(p_num);
+   			if(recount > 0) {
+   			sum = mapper.reviewSum(p_num);
+   			result = sum / (double)recount;
+   			result = Double.parseDouble(String.format("%.1f", result));
+   			rdto.setStar(result);
+   			model.addAttribute("p_num",p_num);
+   			}
+       }
+       
        //page
         int pageCount = count / pageSize + ( count % pageSize == 0 ? 0 : 1);
        
         int startPage = (int)(pageNum/10)*10+1;
-      int pageBlock=10;
+        int pageBlock=10;
         int endPage = startPage + pageBlock-1;
         if (endPage > pageCount) {
            endPage = pageCount;
@@ -333,6 +343,20 @@ public class MainServiceImpl implements MainService {
        model.addAttribute("pageSize", pageSize);
        model.addAttribute("pageNum", pageNum);
        model.addAttribute("count", count);
+       
+       for(ProductDTO rdto : newProduct) {
+    	   int p_num = rdto.getP_num();
+    	   model.addAttribute("p_num", p_num);
+    	   double result=0;
+    	   double sum =0.0;
+   		  	int recount = mapper.reviewAllCNT(p_num);
+   			if(recount > 0) {
+   			sum = mapper.reviewSum(p_num);
+   			result = sum / (double)recount;
+   			result = Double.parseDouble(String.format("%.1f", result));
+   			rdto.setStar(result);
+   			}
+       }
        
        //page
         int pageCount = count / pageSize + ( count % pageSize == 0 ? 0 : 1);
@@ -644,9 +668,6 @@ public ProductDetailDTO productDetail(ProductDetailDTO dto, Model model) {
 	
 	@Override
 	public int ShoppingCartInsert2(Model model, String m_id, int p_num, int shop_quantity) {
-		System.out.println("mid : "+m_id);
-		System.out.println("p_num : "+p_num);
-		System.out.println("shop_quantity : "+shop_quantity);
 		int CartCNT = mapper.ShoppingCartCNT2(m_id);
 		mapper.ShoppingCartInsert2(m_id , p_num, shop_quantity);
 		model.addAttribute("m_id" , m_id);
@@ -666,6 +687,8 @@ public ProductDetailDTO productDetail(ProductDetailDTO dto, Model model) {
 			mapper.pickDelete(dto);
 		}
 		model.addAttribute("dto" , dto);
+		model.addAttribute("pResult" , result);
+		System.out.println("pResult : "+result);
 	}
 
 	@Override

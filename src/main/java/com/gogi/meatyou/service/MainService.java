@@ -29,7 +29,7 @@ public interface MainService {
    public List<ProductDTO> newProductBest();
    
    //public void mainMeat(int pageNum, Model model, String price , int category, String sale, String reg);
-   public void mainMeat(int pageNum, Model model, String price , int category, String sale, String reg);
+   public void mainMeat(int pageNum, Model model, String price , int category, String sale, String reg, String news);
 
    void poLinkList(int pageNum, Model model);
    

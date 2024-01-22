@@ -179,6 +179,16 @@
 									</div>
 								</form>
 							</c:if>
+							
+							<c:if test="${pResult >= 1 && mid != null}">
+								<form action="/main/pickInsert">
+									<div class="add-to-cart">
+										<input type="hidden" name="ppic_m_id" value="${mid}">
+										<input type="hidden" name="ppic_p_num" value="${p_num}">
+										<button class="add-to-cart-btn" type="submit"><i class="fa fa-shopping-cart"></i> 찜취소</button>
+									</div>
+								</form>
+							</c:if>
 
 							<c:if test="${mid == null}">
 								<form action="/member/customLogin">
@@ -520,7 +530,7 @@
 					<!-- section title -->
 					<div class="col-md-12">
 						<div class="section-title">
-							<h3 class="title">판매자의 다른상품 더보기</h3>
+							<h3 class="title">판매자의 다른상품</h3>
 							<div class="section-nav">
 							</div>
 						</div>
@@ -562,9 +572,19 @@
 													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
 												</div>
 											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>장바구니 담기</button>
-											</div>
+											<c:if test="${m_id != null}">
+												<div class="add-to-cart">
+													<input type="hidden" name="shop_m_id" value="${m_id}">
+													<input type="hidden" name="shop_p_num" value="${p_num}">
+													<input type="hidden" name="shop_quantity" value="1">
+													<button class="add-to-cart-btn" onclick="location.href='ShoppingCartInsert2?p_num=${p_num}&m_id=${m_id}&shop_quantity=1'"><i class="fa fa-shopping-cart"></i>장바구니 담기</button>
+												</div>
+											</c:if>
+											<c:if test="${m_id == null}">
+												<div class="add-to-cart">
+													<button class="add-to-cart-btn" onclick="location.href='/member/customLogin'"><i class="fa fa-shopping-cart"></i>장바구니 담기</button>
+												</div>
+											</c:if>
 										</div>
 										</c:forEach>
 										<!-- /product -->
