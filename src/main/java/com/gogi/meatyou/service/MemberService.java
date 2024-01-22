@@ -28,6 +28,7 @@ public interface MemberService  {
    public MemberDTO getUser(String m_id);
    
    public int userDelete(MemberDTO dto);
+   public int sallerDelete(MemberDTO dto);
    public int statusChange(MemberDTO dto);
    
    public int updateMemberStatus  (MemberDTO dto);
@@ -57,23 +58,36 @@ public interface MemberService  {
       
       
       
-      List<PickMeDTO> pickMeCountPage(String pm_m_id, int startRow, int pageSize, PickMeDTO pdto, CusDetailDTO cdto);
+      List<PickMeDTO> pickMeCountPage(String pm_m_id, int page, int pageSize, PickMeDTO pdto, CusDetailDTO cdto);
       
-      int pickMeCount(String pm_m_id,int p_num);
+      int pickMeCount( String pm_m_id,@Param("p_m_id")String p_m_id );
          public int deleteHim(int pm_num,String pm_m_id);
+         
+         
+         List<PickMeDTO> SallerpickMeCountPage(@Param("pm_c_id") String pm_c_id,@Param("pm_m_id")String pm_m_id, int page, int pageSize, PickMeDTO pdto);
+         int SallerpickMeCount(@Param("pm_m_id") String pm_m_id ,@Param("pm_c_id")String pm_c_id );
+         public int SallerdeleteHim(int pm_num,String pm_m_id, String pm_c_id);
+         
+         
       
-         
-         
-      //筌∽옙  �꽴占쏙옙�졃 
-         List<PPicDTO> pPickCountPages(@Param("ppic_m_id")String ppic_m_id,Map<String, Object> params,int page, int pageSize, PPicDTO ppdto, ProductDTO pdto,MemberDTO mdto,@Param("ppic_num")int ppic_num,CusDetailDTO cdto,@Param("p_num") int p_num ) ;
+         List<PPicDTO> pPickCountPages(@Param("ppic_m_id")String ppic_m_id,Map<String, Object> params,int page, int pageSize, PPicDTO ppdto, ProductDTO pdto,MemberDTO mdto,@Param("ppic_num")int ppic_num,CusDetailDTO cdto ) ;
        
          int pPickCount(@Param("ppic_m_id")String ppic_m_id,@Param("ppic_num")int ppic_num ) ;
-      /* 燁삳똾�뱜 占쎄텣占쎌젫 */
       public int deleteP_item(int ppic_num,String ppic_m_id);
    
-      										
       
-      public void pickMeInsert(Model model, PickMeDTO pdto, String pm_m_id,String pm_c_id,String ppic_m_id,String p_m_id); 
-	   public int pick_me_p_numCNT(@Param("pm_m_id")String pm_m_id,@Param("pm_c_id") String pm_c_id, @Param("pm_num")int pm_num,@Param("ppic_m_id") String ppic_m_id ,@Param("p_num") int p_num) ;
-		      
+      										
+      void pick_me_delete(Model model,PickMeDTO pdto,ProductDTO ppdto,@Param("pm_m_id")String pm_m_id,
+     			@Param("pm_c_id") String pm_c_id
+    			,@Param("pm_num") int pm_num );   
+      
+      public void pickMeInsert(Model model, PickMeDTO pdto, ProductDTO ppdto, String pm_m_id, String pm_c_id, @Param("pm_num") int pm_num);   
+      void deletePickMeByCId(String pm_m_id, String pm_c_id);
+      
+      public void pickMeInsert2(Model model, PickMeDTO pdto, ProductDTO ppdto, String pm_m_id, String pm_c_id, @Param("pm_num") int pm_num);   
+      void deletePickMeByCId2(String pm_m_id, String pm_c_id);
+      
+      //같은값이잇는지 확인
+      int  ppickAndpickMeCount(@Param("pm_m_id")String pm_m_id,@Param("pm_c_id")String pm_c_id,@Param("pm_num") int pm_num);
+      
 }

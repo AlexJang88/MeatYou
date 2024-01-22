@@ -25,11 +25,13 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gogi.meatyou.bean.CusDetailDTO;
 import com.gogi.meatyou.bean.MemStatusDTO;
@@ -218,6 +220,24 @@ public class MemberController {
       return "redirect:/member/customLogout";
    } 
    
+   //회원탈퇴  (사실상 status 변경)
+   @RequestMapping("sallerDelete")
+   public String sallerDelete() {
+      return "member/deleteSaller/sallerDelete";
+   }
+   
+   //회원 탈퇴  : 스테이터스 1001으로 변경
+   @RequestMapping("sallerDeletePro")
+   public String sallerDeletePro(Model model , String passwd , HttpSession session,MemberDTO dto) {
+	   String m_id =(String)session.getAttribute("m_id");
+	   int check = service.sallerDelete(dto);
+	   if(check == 1) {
+		   session.invalidate();
+	   }
+	   model.addAttribute("check",check);
+	   return "redirect:/member/customLogout";
+   } 
+   
  
    
 
@@ -227,8 +247,8 @@ public class MemberController {
       public String shoppingCartForm(
               Principal seid,
               Model model,
-              @RequestParam(defaultValue = "1") int page,  // �쁽�옱 �럹�씠吏� 踰덊샇, 湲곕낯媛� 1
-              @RequestParam(defaultValue = "10") int pageSize,  // �럹�씠吏��떦 �몴�떆�븷 �빆紐� �닔, 湲곕낯媛� 7
+              @RequestParam(defaultValue = "1") int page,  
+              @RequestParam(defaultValue = "10") int pageSize,  
               ShoppingCartDTO sdto,
               ProductDTO pdto
       ) {
@@ -291,28 +311,6 @@ public class MemberController {
     					return "error";
     				}	
     			}
-    			
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
    
       // 픽미 목록 가져오기~~~~~~~~~~
       
@@ -323,17 +321,17 @@ public class MemberController {
               @RequestParam(defaultValue = "1") int page,  // 현재 페이지 번호, 기본값 1
               @RequestParam(defaultValue = "7") int pageSize,  // 페이지당 보여질 항목 수, 기본값 7
               PickMeDTO pdto, CusDetailDTO cdto   
-              ,int p_num
+              ,@Param("p_m_id")String p_m_id
     		  ) {
-          String pm_m_id = (String) seid.getName();
+
+    	  String pm_m_id = (String) seid.getName();
         //  int totalPrice = sdto.getQuantity() * sdto.getP_price();
           System.out.print("현재 로그인한 사용자 아이디======================================================"+pm_m_id);
 
           // 서비스에서 가져온 고객의 픽미 목록을 페이징하여 가져옵니다.
           List<PickMeDTO> pickMekList = service.pickMeCountPage(pm_m_id, page, pageSize, pdto, cdto);
           // 서비스에서 가져온 고객의 픽미 목록의 총 아이템 수를 가져옵니다.
-          int totalItemCount = service.pickMeCount(pm_m_id, p_num);
-
+          int totalItemCount = service.pickMeCount(pm_m_id,p_m_id );
           // 총 페이지 수를 계산합니다.
           int totalPage = (int) Math.ceil((double) totalItemCount / pageSize);
           
@@ -350,6 +348,47 @@ public class MemberController {
 
           return "member/pickMe/pickMe";
       }
+      
+      // 픽미 목록 가져오기~~~~~~~~~~
+      
+      @RequestMapping("SallerPickMe")
+      public String SallerPickMeList(
+    		  Principal seid,
+    		  Model model,
+    		  @RequestParam(defaultValue = "1") int page,  // 현재 페이지 번호, 기본값 1
+    		  @RequestParam(defaultValue = "7") int pageSize,  // 페이지당 보여질 항목 수, 기본값 7
+    		  PickMeDTO pdto
+    		  ) {
+    	  
+    	  String pm_c_id = (String) seid.getName();
+    	  String pm_m_id=pdto.getPm_m_id();
+    	  //  int totalPrice = sdto.getQuantity() * sdto.getP_price();
+    	  System.out.print("현재 로그인한 판매자 아이디======================================================"+pm_c_id);
+    	  System.out.print("나를 찜한 회원  아이디======================================================"+pm_m_id);
+    	  
+       
+    	  // 서비스에서 가져온 고객의 픽미 목록을 페이징하여 가져옵니다.
+    	  List<PickMeDTO> SallerPickMeList = service.SallerpickMeCountPage(pm_m_id,pm_c_id, page, pageSize, pdto );
+    	  // 서비스에서 가져온 고객의 픽미 목록의 총 아이템 수를 가져옵니다.
+    	  int totalItemCount = service.SallerpickMeCount(pm_m_id,pm_c_id);
+    	  // 총 페이지 수를 계산합니다.
+    	  int totalPage = (int) Math.ceil((double) totalItemCount / pageSize);
+    	  
+    	  System.out.println("페이지 크기  ============= ="+pageSize);
+    	  System.out.println("현재 페이지 ============ ="+page);
+    	  System.out.println("총 페이지수 ============= ="+totalPage);
+    	  System.out.println("총 아이템 수   =================="+totalItemCount);
+    	  // 뷰 페이지로 전달할 모델에 데이터를 추가합니다.
+    	  model.addAttribute("SallerPickMeList", SallerPickMeList);
+    	  //model.addAttribute("totalPrice", totalPrice);
+    	  model.addAttribute("page", page);
+    	  model.addAttribute("pageSize", pageSize);
+    	  model.addAttribute("totalPage", totalPage);
+    	  
+    	  return "member/SallerPickMe/SallerPickMe";
+      }
+      
+      
 
       @PostMapping("deleteHim")  
       public String deleteHim(Principal seid, PickMeDTO pdto) {
@@ -379,19 +418,20 @@ public class MemberController {
             PPicDTO ppdto, 
             ProductDTO pdto,      
             Map<String, Object> params, 
-            MemberDTO mdto,
+            MemberDTO mdto,PickMeDTO pppdto,
             	CusDetailDTO cdto 
            
       ) {
     	  int p_num=pdto.getP_num();
          // 로그인한 사용자의 아이디를 가져옵니다.
          String ppic_m_id = (String) seid.getName();
+         pppdto.setPm_m_id(ppic_m_id);
          System.out.print("현재 로그인한 사용자 아이디======================================================" + ppic_m_id);
 
          // 올바른 주석
          // 올바른 주석 내용을 여기에 작성합니다.
          // 맵 형태의 파라미터, 사용자 아이디, 페이지 번호, 페이지 크기, PPicDTO, ProductDTO, MemberDTO, PPic 번호
-         List<PPicDTO> pPickList = service.pPickCountPages(ppic_m_id, params, page, pageSize, ppdto, pdto,mdto, ppic_num,cdto,p_num );
+         List<PPicDTO> pPickList = service.pPickCountPages(ppic_m_id, params, page, pageSize, ppdto, pdto,mdto, ppic_num,cdto  );
          
          // 서비스를 통해 가져온 픽 리스트의 총 아이템 수를 계산합니다.
          int totalItemCount = service.pPickCount(ppic_m_id, ppic_num );
@@ -434,17 +474,21 @@ public class MemberController {
        }   
     }
 
-   
-    
-	   @RequestMapping("pickInsert")		
-	   public String pickInsert(Principal seid, Model model,PickMeDTO pdto ,String ppic_m_id ,String pm_c_id,ProductDTO ppdto ) {
-		   String p_m_id=ppdto.getP_m_id();
-		   String   pm_m_id   = (String) seid.getName();
-	      service.pickMeInsert( model,pdto, pm_c_id ,ppic_m_id ,pm_m_id,p_m_id );
-	      	return "redirect:/member/pickMe"; // 성공 시 반환할 문자열
-	   }
-   
-    
-   
+ 
+    @RequestMapping("pickInsert")
+    public String pickInsert(Principal seid, RedirectAttributes redirectAttributes, PickMeDTO pdto,
+          ProductDTO ppdto, Model model) {
+        int pm_num = pdto.getPm_num();
+        String pm_c_id = pdto.getPm_c_id();
+        String pm_m_id = (String) seid.getName();
+
+        service.pickMeInsert(model, pdto, ppdto, pm_m_id, pm_c_id, pm_num);
+        service.pickMeInsert2(model, pdto, ppdto, pm_m_id, pm_c_id, pm_num);
+
+        System.out.println("pm_num=================================" + pm_num);
+        System.out.println("pm_c_id=================================" + pm_c_id);
+        System.out.println("pm_m_id=================================" + pm_m_id);
+        return "redirect:/member/pPickList";
+    }
     
 }

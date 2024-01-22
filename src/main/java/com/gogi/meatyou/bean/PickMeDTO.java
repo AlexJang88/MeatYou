@@ -6,8 +6,7 @@ import lombok.Data;
 public class PickMeDTO {
    private int pm_num;
    private String pm_m_id;
-   private String pm_c_id;
-   
+   private String pm_c_id  ; 
 
    private int cus_num ;
    private String ceoname;

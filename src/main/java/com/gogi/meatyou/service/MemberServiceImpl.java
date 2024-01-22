@@ -14,6 +14,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -27,23 +28,74 @@ public class MemberServiceImpl implements MemberService {
     public int insertMember(MemberDTO dto) {
         return mapper.insertMember(dto);
     }
-       
-    public void pickMeInsert(Model model, PickMeDTO pdto, String pm_m_id,String pm_c_id ,String ppic_m_id,String p_m_id ) {
-    	int result;
-		result = mapper.pick_me_p_numCNT(pm_m_id,pm_c_id ,ppic_m_id );
-		if(result == 0) {
-			mapper.pickMeInsert(pdto,pm_m_id,pm_c_id ,ppic_m_id,p_m_id );   
-		} else {
-			mapper.pick_me_delete(pdto,pm_m_id,pm_c_id ,ppic_m_id );
-		}
-		model.addAttribute("pdto" , pdto);
-    	
-    };
-	   public int pick_me_p_numCNT(@Param("pm_m_id")String pm_m_id,@Param("pm_c_id") String pm_c_id, @Param("pm_num")int pm_num,@Param("ppic_m_id") String ppic_m_id ,@Param("p_num") int p_num) {
-		   return mapper.pick_me_p_numCNT(pm_m_id,pm_c_id, ppic_m_id );
-	   };  
-	   
+  
+    //체크 후
+    @Override
+    public int ppickAndpickMeCount(@Param("pm_m_id")String pm_m_id,@Param("pm_c_id")String pm_c_id, @Param("pm_num") int pm_num) {
+        return mapper.ppickAndpickMeCount( pm_m_id, pm_c_id ,pm_num);
+    }
     
+    public void pick_me_delete(Model model,PickMeDTO pdto,ProductDTO ppdto,@Param("pm_m_id")String pm_m_id,
+ 			@Param("pm_c_id") String pm_c_id
+		 ,@Param("pm_num") int pm_num ){
+    	//   return mapper.pick_me_delete(  pdto,  pm_m_id, pm_c_id,   p_m_id, int pm_num);
+    }
+ 
+    
+    //회원테이블 찝 추가 및 삭제 
+    @Override
+    public void pickMeInsert(Model model, PickMeDTO pdto, ProductDTO ppdto, String pm_m_id, String pm_c_id, int pm_num) {
+        // 이미 찜이 되어 있는지 확인
+        int pickCount = mapper.ppickAndpickMeCount(pm_m_id, pm_c_id, pm_num);
+
+        if (pickCount > 0) {
+            // 이미 찜이 되어 있다면 찜을 해제
+            int deleteResult = mapper.deletePickMeByCId(pm_m_id, pm_c_id);
+            if (deleteResult > 0) {
+                model.addAttribute("message", "이미 선택된 상품을 취소했습니다.");
+            }
+        } else {
+            // 찜이 되어 있지 않다면 찜을 추가
+            int insertResult = mapper.pickMeInsert(pdto, pm_m_id, pm_c_id, pm_num);
+            if (insertResult > 0) {
+                model.addAttribute("message", "상품을 선택했습니다.");
+            }
+        }
+    }
+    
+    //판매자 테이블 찜 추가 및 삭제 
+    @Override
+    public void pickMeInsert2(Model model, PickMeDTO pdto, ProductDTO ppdto, String pm_m_id, String pm_c_id, int pm_num) {
+    	// 이미 찜이 되어 있는지 확인
+    	int pickCount = mapper.ppickAndpickMeCount(pm_m_id, pm_c_id, pm_num);
+    	
+    	if (pickCount > 0) {
+    		// 이미 찜이 되어 있다면 찜을 해제
+    		int deleteResult = mapper.deletePickMeByCId2(pm_m_id, pm_c_id);
+    		if (deleteResult > 0) {
+    			model.addAttribute("message", "이미 선택된 상품을 취소했습니다.");
+    		}
+    	} else {
+    		// 찜이 되어 있지 않다면 찜을 추가
+    		int insertResult = mapper.pickMeInsert2(pdto, pm_m_id, pm_c_id, pm_num);
+    		if (insertResult > 0) {
+    			model.addAttribute("message", "상품을 선택했습니다.");
+    		}
+    	}
+    }
+    
+    
+    
+    
+ // pm_c_id만으로 삭제
+    @Override
+    public void deletePickMeByCId(String pm_m_id, String pm_c_id) {
+        mapper.deletePickMeByCId(pm_m_id, pm_c_id);
+    }
+    @Override
+    public void deletePickMeByCId2(String pm_m_id, String pm_c_id) {
+    	mapper.deletePickMeByCId2(pm_m_id, pm_c_id);
+    }
     
        @Override
        public void userUpdate(MemberDTO dto) {
@@ -55,6 +107,10 @@ public class MemberServiceImpl implements MemberService {
        public int userDelete(MemberDTO dto) {
           return mapper.statusChange(dto);
        }
+        @Override
+        public int sallerDelete(MemberDTO dto) {
+        	return mapper.statusChange2(dto);
+        }
 
     
        @Override
@@ -68,13 +124,7 @@ public class MemberServiceImpl implements MemberService {
           return mapper.member(m_id);
        }
 
-
-      @Override
-      public MemberDTO member(String m_id) {
-         // TODO Auto-generated method stub
-         return null;
-      }
-            
+ 
       
       
       
@@ -127,7 +177,6 @@ public class MemberServiceImpl implements MemberService {
          
 
          
-         // 獄쏆꼹�넎 占쏙옙占쎌뿯占쎌뱽 List<ShoppingCartDTO>嚥∽옙 占쎈땾占쎌젟
          @Override
          public List<ShoppingCartDTO> ShoppingCartAndProduct(String shop_m_id,ShoppingCartDTO sdto,ProductDTO pdto) {
              return mapper.ShoppingCartAndProduct(shop_m_id);
@@ -144,7 +193,6 @@ public class MemberServiceImpl implements MemberService {
           }
          
          
-         //占쎌삢獄쏅떽�럡占쎈빍 �뵳�딅뮞占쎈뱜 
          
          public List<ShoppingCartDTO> getShoppingCartItemsPaged(String shop_m_id, int page, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto) {
              int startRow = (page - 1) * pageSize + 1;
@@ -182,7 +230,6 @@ public class MemberServiceImpl implements MemberService {
              
              
              
-           //筌∽옙 占쎈씜筌ｏ옙 �꽴占쏙옙�졃 .
             @Override
             public   List<PickMeDTO> pickMeCountPage(String pm_m_id, int page, int pageSize, PickMeDTO pdto, CusDetailDTO cdto){
                 int startRow = (page  - 1) * pageSize + 1;
@@ -199,21 +246,53 @@ public class MemberServiceImpl implements MemberService {
                 return result;
             }
        
-            
-            
+			
              @Override
-             public int pickMeCount(String pm_m_id,int p_num) {
-                 return mapper.pickMeCount(pm_m_id,p_num);
+             public int pickMeCount( @Param("pm_m_id")String pm_m_id,@Param("p_m_id")String p_m_id   ) {
+                 return mapper.pickMeCount(pm_m_id,p_m_id  );
              }             
              @Override
             public int deleteHim(@Param("pm_num")int pm_num,@Param("pm_m_id")String pm_m_id){
-
                 return mapper.deleteHim(pm_num,pm_m_id);
-
                }
-                      
+             
+             
+               
+             
+             @Override
+             public   List<PickMeDTO> SallerpickMeCountPage(@Param("pm_m_id")String pm_m_id,@Param("pm_c_id")String pm_c_id, int page, int pageSize, PickMeDTO pdto ) {
+            	 int startRow = (page  - 1) * pageSize + 1;
+            	 int endRow = startRow + pageSize - 1;
+            	 
+            	 Map<String, Object> parameters = new HashMap<>();
+            	 parameters.put("pm_m_id", pm_m_id);
+            	 parameters.put("pm_c_id", pm_c_id);
+            	 parameters.put("startRow", startRow);
+            	 parameters.put("endRow", endRow);
+            	 
+            	 //   return mapper.getShoppingCartItemsPaged(parameters);
+            	 List<PickMeDTO> result = mapper.SallerpickMeCountPage(parameters);
+            	 System.out.println("占쎄퐣�뜮袁⑸뮞 占쎌깈�빊占� - 占쎈읂占쎌뵠筌욑옙: " + page + ", 野껉퀗�궢 揶쏆뮇�땾: " + result.size());
+            	 return result;
+             }
+             
+             
+             @Override
+             public int SallerpickMeCount( @Param("pm_m_id")String pm_m_id,@Param("pm_c_id")String pm_c_id) {
+            	 Map<String, Object> parameters = new HashMap<>();
+            	 parameters.put("pm_m_id", pm_m_id);
+            	 parameters.put("pm_c_id", pm_c_id);
+            	 return mapper.SallerpickMeCount(parameters);
+             }             
+             @Override
+             public int SallerdeleteHim(@Param("pm_num")int pm_num,@Param("pm_m_id")String pm_m_id,@Param("pm_c_id")String pm_c_id){
+            	 return mapper.SallerdeleteHim(pm_num,pm_m_id,pm_c_id);
+             }
+             
+             
+             
             @Override
-            public List<PPicDTO> pPickCountPages(@Param("ppic_m_id")String ppic_m_id,Map<String, Object> params,int page, int pageSize, PPicDTO ppdto, ProductDTO pdto,MemberDTO mdto,@Param("ppic_num")int ppic_num,CusDetailDTO cdto,@Param("p_num") int p_num ){
+            public   List<PPicDTO> pPickCountPages(@Param("ppic_m_id")String ppic_m_id,Map<String, Object> params,int page, int pageSize, PPicDTO ppdto, ProductDTO pdto,MemberDTO mdto,@Param("ppic_num")int ppic_num,CusDetailDTO cdto ){
                 int startRow = (page - 1) * pageSize + 1;
                     int endRow = startRow + pageSize - 1;
                     Map<String, Object> parameters = new HashMap<>();
@@ -251,8 +330,15 @@ public class MemberServiceImpl implements MemberService {
                 
                 return mapper.deleteP_item(ppic_num,ppic_m_id);
                 
-             } 
-             
+             }
+			@Override
+			public MemberDTO member(String m_id) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		 
+	 
+			 
              
              
              
