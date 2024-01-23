@@ -70,7 +70,7 @@ table  a{
 					 <c:if test="${dto.m_status eq 1050 }">
 						 <a href="/member/sallerDelete" style="color:green;">판매자 신청 취소</a> 
 							 <a href="../member/pickMe"  style="color:blue;">내가 마음에드는 업체</a>
-							 	<a href="#" style="color:sky;">결제페이지</a>
+							 	<a href="#" style="color:sky;">결제내역</a>
 							<a href="../member/pPickList" style="color:red;">찜 상품 목록</a>
 					</c:if>
 						<c:if test="${dto.m_status ge 2000 and dto.m_status le 2004}">
@@ -81,7 +81,7 @@ table  a{
 				<c:if test="${dto.m_status eq 1001 and dto.m_status le 1003}">
 					  <a href="/member/deleteForm" style="color:green;">회원탈퇴</a> 
 					<a href="/member/pickMe" style="color:blue;">내가 마음에드는 업체</a>
-					<a href="#" style="color:sky;">결제페이지</a>
+					<a href="#" style="color:sky;">결제내역</a>
 					<a href="../member/pPickList" style="color:red;">찜 상품 목록</a>
 					<a href="../member/shoppingCartForm" style="color:orange;">장바구니</a>
 				</c:if>

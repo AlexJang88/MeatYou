@@ -65,9 +65,18 @@ public interface MemberMapper {
                @Param("pageSize") int pageSize,
                @Param("sdto") ShoppingCartDTO sdto,
                @Param("pdto") ProductDTO pdto);
+       
        List<ShoppingCartDTO> getShoppingCartItemsPaged(Map<String, Object> params);
+       
+       List<ShoppingCartDTO> orderpage(Map<String, Object> params);
+       
        int getTotalShoppingCartItems(String shop_m_id);
+       
+       int orderpageCartItems(String shop_m_id);
+       
+       
        public  int deleteCart(@Param("shop_num") int shop_num, @Param("shop_m_id") String shop_m_id);
+       public  int deleteCart2(@Param("shop_num") int[] shop_num, @Param("shop_m_id") String shop_m_id);
           List<PickMeDTO> pickMeCountPages(
                   @Param("pm_m_id") String pm_m_id,
                   @Param("startRow") int startRow,

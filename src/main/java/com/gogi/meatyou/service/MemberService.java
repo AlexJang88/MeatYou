@@ -59,8 +59,14 @@ public interface MemberService  {
       List<ShoppingCartDTO> getShoppingCartItemsPaged(String shop_m_id, int startRow, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto);
 
        int getTotalShoppingCartItems(String shop_m_id);
+       
       public int deleteCart(int shop_num,String shop_m_id);
 
+       int deleteSelectedProducts(int shop_num[],@Param("shop_m_id")String shop_m_id);
+      List<ShoppingCartDTO> orderpage(String shop_m_id, int startRow, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto);
+      
+      
+      int orderpageCartItems(String shop_m_id);
       
       
       

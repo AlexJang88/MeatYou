@@ -5,75 +5,107 @@
 <head>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
-// 삭제 메서드
+//삭제 메서드
 /* 장바구니 삭제 버튼 */
 // JavaScript 코드 (페이지 내에 추가)
-$(document).on("click", ".delete_btn", function(e) {
-;
-    console.log();
-    const shop_num = $(this).data("shop_num");
-    $(".quantity_delete_form").submit();
-    e.preventDefault(shop_num);
-    // AJAX를 사용하여 삭제 요청 보내기
+
+// 기존의 ".delete_btn" 클릭 이벤트
+$(document).on("click", "#deleteSelectedBtn", function(e) {
+    var selectedCheckboxes = $('input[name="product"]:checked');
+
+    if (selectedCheckboxes.length === 0) {
+        alert("선택된 상품이 없습니다.");
+        return;
+    }
+
+    var selectedShopNums = [];
+    selectedCheckboxes.each(function() {
+        var shop_num = $(this).closest('tr').find('.delete_btn').data('shop_num');
+        selectedShopNums.push(shop_num);
+    });
+
+    // AJAX를 사용하여 선택된 상품 삭제 요청 보내기
+    sendDeleteRequest(selectedShopNums);
+
+    e.preventDefault();
+});
+// 새로운 함수: 상품 삭제 요청을 보내는 함수
+function sendDeleteRequest(selectedShopNums) {
     $.ajax({
         type: "POST",
-        url: "/member/delete",
+        url: "/member/deleteSelected",
         data: {
-            shop_num: shop_num
+            shop_num: selectedShopNums
         },
+        // traditional: true,  // traditional 옵션 제거
         success: function(response) {
-            // 성공적으로 삭제된 경우 페이지 새로고침
             location.reload();
         },
         error: function(error) {
             console.log("Error:", error);
-            // 오류가 발생한 경우 적절히 처리
         }
     });
-});
+}
 
-// 수량 변경 함수
+// 새로운 함수: 상품 수량 업데이트 요청을 보내는 함수
+function sendUpdateQuantityRequest(new_quantity, shop_num) {
+    var requestData = {
+        shop_quantity: new_quantity,
+        shop_num: shop_num
+    };
+    $.ajax({
+        type: "POST",
+        url: "/member/updateQuantity",
+        data: requestData,
+        success: function(response) {
+            console.log(response);
+            location.reload();
+        },
+    });
+}
+
+// 기존의 "update_click" 함수 수정
 function update_click(button, operation, shop_num) {
-    // 수량을 조절할 입력 요소 가져오기
     var input_element = button.parentElement.querySelector('.shop_quantity');
-
-    // 현재 수량 가져오기
     var current_quantity = parseInt(input_element.value);
-    console.log("기존값=" + current_quantity);
 
-    // 버튼에서 가져온 데이터와 함께 현재 수량을 기반으로 새로운 수량 계산
     var shop_quantity = button.dataset.shop_quantity;
     var new_quantity;
+
     if (operation == 'increase') {
         new_quantity = current_quantity + 1;
     } else if (operation == 'decrease' && current_quantity > 1) {
         new_quantity = current_quantity - 1;
     } else {
-        return; // 작업이 유효하지 않으면 아무 작업도 수행하지 않음
+        return;
     }
 
     // 서버로 업데이트된 수량 정보를 전송
     console.log(new_quantity);
-    updateQuantity(new_quantity, shop_num);
+    sendUpdateQuantityRequest(new_quantity, shop_num);
 }
 
-// 서버에 수량 업데이트 요청을 보내는 함수
-function updateQuantity(new_quantity, shop_num) {
-    // 서버 측 컨트롤러 메서드에 대한 AJAX 요청 보내기
-    $.ajax({
-        type: "POST",
-        url: "/member/updateQuantity",
-        data: {
-        	shop_quantity: new_quantity,
-            shop_num: shop_num
-        },
-        success: function(response) {
-            console.log(response);
-            // updateUIWithData(response);
-            location.reload(); // 또는 location.href = location.href;
-        },
+// 기존의 "#deleteSelectedBtn" 클릭 이벤트 수정
+$(document).on("click", "#deleteSelectedBtn", function(e) {
+    var selectedCheckboxes = $('input[name="product"]:checked');
+
+    if (selectedCheckboxes.length === 0) {
+        alert("선택된 상품이 없습니다.");
+        return;
+    }
+
+    var selectedShopNums = [];
+    selectedCheckboxes.each(function() {
+        var shop_num = $(this).closest('tr').find('.delete_btn').data('shop_num');
+        selectedShopNums.push(shop_num);
     });
-}
+
+    // AJAX를 사용하여 선택된 상품 삭제 요청 보내기
+    sendDeleteRequest({ shop_num: selectedShopNums });
+    
+    e.preventDefault();
+});
+
 </script>
 </head>
 <div class="row">
@@ -84,15 +116,21 @@ function updateQuantity(new_quantity, shop_num) {
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        장바구니 
+   
     </div>
 
     <div class="panel-body">
         <!-- 수량 조절 폼 -->
- <!--        <form action="/updateQuantity" method="post" onsubmit="submitForm();"> -->
-          <table class="table table-striped table-bordered table-hover">
+        상품목록 
+<button id="toggleButton" onclick="toggleTableVisibility()">숨기기</button>
+
+      <table id="productTable" class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
+        	<th>
+		<input type='checkbox'
+       value='selectall'
+       onclick='selectAll(this)'/></th>
             <th>상품 내용</th>
             <th>상품 사진</th>
             <th>상품 수량</th>
@@ -103,7 +141,9 @@ function updateQuantity(new_quantity, shop_num) {
     </thead>
     <tbody>
         <c:forEach var="item" items="${shoppingCartList}">
-            <tr>
+            	<tr><td>
+            	<input type="checkbox" name="product"/>
+            </td>
                 <td><c:out value="${item.p_name}" /></td>
                 <td><c:out value="${item.thumb}" /></td>
                 <td>
@@ -121,17 +161,18 @@ function updateQuantity(new_quantity, shop_num) {
                 <td>
                     <form action="delete" method="post" class="quantity_delete_form">
                         <input type="hidden" name="shop_num" value="${item.shop_num}" />
-                        <input type="hidden" name="shop_num" value="${item.shop_num}" />
+                        <input type="hidden" name="p_num" value="${item.p_num}" />
                         <button type="submit" class="delete_btn">삭제</button>
                     </form>
                 </td>
             </tr>
         </c:forEach>
-    </tbody>
-</table>
-
-<!-- 페이징 -->
-<div class="pagination">
+        <tr>
+        	<td></td>
+        	<td></td>
+        	<td></td>
+        	<td style="height: 10px;">
+<div class="pagination" style="height: 10px;">
     <c:if test="${page > 1}">
         <a href="?page=${page - 1}&pageSize=${pageSize}">&laquo; 이전</a>
     </c:if>
@@ -151,6 +192,37 @@ function updateQuantity(new_quantity, shop_num) {
         <a href="?page=${page + 1}&pageSize=${pageSize}">다음 &raquo;</a>
     </c:if>
 </div>
+        	</td>
+        	<td></td>
+        	<td></td>
+        </tr>
+    </tbody>
+    
+</table>
+			<table>
+					<tbody>
+							<tr>
+							<td>선택한 상품</td><td><a href="#">주문하기</a></td>
+							
+  <td><a href="#" id="deleteSelectedBtn">선택된 상품 삭제하기</a></td>
+							</tr>	
+					</tbody>
+			</table>
+			
+			
+			<table>
+					<tbody>
+					
+						<tr>
+							<td>
+							<input type="submit" value="결제하기"> 
+							</td>
+							<td></td>
+						</tr>	
+					</tbody>
+					
+					
+			</table>
     </div>
 </div>
 <%@ include file="../../footer.jsp" %>

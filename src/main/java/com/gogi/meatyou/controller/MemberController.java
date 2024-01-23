@@ -16,6 +16,7 @@ import java.util.Set;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.annotations.Param;
+import org.junit.experimental.theories.PotentialAssignment.CouldNotGenerateValueException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -33,7 +34,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.gogi.meatyou.bean.CouponDTO;
 import com.gogi.meatyou.bean.CusDetailDTO;
+import com.gogi.meatyou.bean.MOrderDTO;
 import com.gogi.meatyou.bean.MemStatusDTO;
 import com.gogi.meatyou.bean.MemberDTO;
 import com.gogi.meatyou.bean.PPicDTO;
@@ -252,8 +255,9 @@ public class MemberController {
               @RequestParam(defaultValue = "1") int page,  
               @RequestParam(defaultValue = "10") int pageSize,  
               ShoppingCartDTO sdto,
-              ProductDTO pdto
-      ) {
+              ProductDTO pdto,
+              @RequestParam(value = "selectedProducts", required = false) List<String> selectedProducts)
+    	  {
     	  
     	  int p_num=pdto.getP_num();
           String shop_m_id = (String) seid.getName();
@@ -279,7 +283,8 @@ public class MemberController {
           model.addAttribute("page", page);
           model.addAttribute("pageSize", pageSize);
           model.addAttribute("totalPage", totalPage);
-
+          // 선택된 상품 목록을 모델에 추가하여 클라이언트에 다시 전달
+          model.addAttribute("selectedProducts", selectedProducts);
           return "member/shoppingCart/shoppingCartForm";
       }
       
@@ -313,6 +318,19 @@ public class MemberController {
     					return "error";
     				}	
     			}
+      
+      
+      // 선택된 상품들 삭제 요청 처리
+      @RequestMapping("deleteSelected") 
+      public String deleteSelectedProducts(Principal seid, int[] shop_num) {
+          String shop_m_id = (String) seid.getName();
+          int check = service.deleteSelectedProducts(shop_num, shop_m_id);
+          if (check == 1) {
+              return "redirect:/member/shoppingCartForm";
+          } else {
+              return "error";
+          }   
+      }
    
       // �뵿誘� 紐⑸줉 媛��졇�삤湲�~~~~~~~~~~
       
@@ -497,6 +515,47 @@ public class MemberController {
     	return "member/memberForm";
     }
      
+    
+    
+    @RequestMapping("m_order")
+    public String orderPage(
+            Principal seid,
+            Model model,
+            @RequestParam(defaultValue = "1") int page,  
+            @RequestParam(defaultValue = "10") int pageSize,  
+            ShoppingCartDTO sdto,
+            ProductDTO pdto
+    ) {
+  	  
+  	  int p_num=pdto.getP_num();
+        String shop_m_id = (String) seid.getName();
+        int totalPrice = sdto.getShop_quantity() * sdto.getP_price();
+        System.out.print("占쎈뻻占쎄괠�뵳�뗫뼒 占쎌넇占쎌뵥======================================================"+shop_m_id);
+
+        // �뿬湲곗꽌 service瑜� �넻�빐 �빐�떦 �쉶�썝�쓽 �듅�젙 踰붿쐞�쓽 �옣諛붽뎄�땲 �젙蹂대�� 媛��졇�샃�땲�떎.
+        List<ShoppingCartDTO> orderList = service.getShoppingCartItemsPaged(shop_m_id, page, pageSize, sdto, pdto);
+
+        // �뿬湲곗꽌 service瑜� �넻�빐 �빐�떦 �쉶�썝�쓽 �옣諛붽뎄�땲 珥� �긽�뭹 媛쒖닔瑜� 媛��졇�샃�땲�떎.
+        int totalItemCount = service.getTotalShoppingCartItems(shop_m_id);
+
+        // �럹�씠吏� 泥섎━瑜� �쐞�븳 怨꾩궛
+        int totalPage = (int) Math.ceil((double) totalItemCount / pageSize);
+        
+        System.out.println("�럹�씠吏� �겕湲�  ============= ="+pageSize);
+	    	System.out.println("�럹�씠吏� ============ ="+page);
+	    	System.out.println("珥앺럹�씠吏��뒗 ============= ="+totalPage);
+	    	System.out.println("珥� 移댁슫�듃   =================="+totalItemCount);
+	    // 紐⑤뜽�뿉 �옣諛붽뎄�땲 �젙蹂� 諛� �럹�씠吏� 愿��젴 �젙蹂대�� 異붽��빀�땲�떎.
+        model.addAttribute("orderList", orderList);
+        model.addAttribute("totalPrice", totalPrice);
+        model.addAttribute("page", page);
+        model.addAttribute("pageSize", pageSize);
+        model.addAttribute("totalPage", totalPage);
+
+        return "member/order/m_order";
+    }
+    
+ 
     
     
     	

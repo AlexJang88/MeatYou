@@ -210,12 +210,35 @@ public class MemberServiceImpl implements MemberService {
              System.out.println("�뜝�럡�맋占쎈쑏熬곣뫖裕� �뜝�럩源덌옙鍮듿뜝占� - �뜝�럥�쓡�뜝�럩逾좂춯�쉻�삕: " + page + ", �뇦猿됲�쀯옙沅� �뤆�룇裕뉛옙�빢: " + result.size());
              return result;
          }
-
+          
+         
+         
+         public List<ShoppingCartDTO> orderpage(String shop_m_id, int page, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto) {
+        	 int startRow = (page - 1) * pageSize + 1;
+        	 int endRow = startRow + pageSize - 1;
+        	 
+        	 Map<String, Object> parameters = new HashMap<>();
+        	 parameters.put("shop_m_id", shop_m_id);
+        	 parameters.put("startRow", startRow);
+        	 parameters.put("endRow", endRow);
+        	 
+        	 //   return mapper.getShoppingCartItemsPaged(parameters);
+        	 List<ShoppingCartDTO> result = mapper.orderpage(parameters);
+        	 System.out.println("�뜝�럡�맋占쎈쑏熬곣뫖裕� �뜝�럩源덌옙鍮듿뜝占� - �뜝�럥�쓡�뜝�럩逾좂춯�쉻�삕: " + page + ", �뇦猿됲�쀯옙沅� �뤆�룇裕뉛옙�빢: " + result.size());
+        	 return result;
+         }
+         
          
          
              @Override
              public int getTotalShoppingCartItems(String shop_m_id) {
                  return mapper.getTotalShoppingCartItems(shop_m_id);
+             }
+             
+             
+             @Override
+             public int orderpageCartItems(String shop_m_id) {
+            	 return mapper.orderpageCartItems(shop_m_id);
              }
              
                           
@@ -227,7 +250,10 @@ public class MemberServiceImpl implements MemberService {
 
             }
       
-             
+             // 선택된 상품들 삭제
+             public int deleteSelectedProducts(int shop_num[],@Param("shop_m_id")String shop_m_id) {
+            	  return  mapper.deleteCart2(shop_num,shop_m_id);
+             }
  
              
              
