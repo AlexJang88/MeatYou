@@ -17,7 +17,7 @@
 <a href="/customers/consumerList">구매회원</a>
 <a href="/customers/pay">유료결제</a>
 <a href="/customers/delivering">주문접수 및 배송현황</a>
-<a href="/customers/total">정산하기</a>
+
 <a href="/customers/cusQna">문의게시판</a>
 
 
