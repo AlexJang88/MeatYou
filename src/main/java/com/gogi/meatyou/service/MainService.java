@@ -2,8 +2,10 @@ package com.gogi.meatyou.service;
  
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.ui.Model;
 
+import com.gogi.meatyou.bean.OtherProductDetailDTO;
 import com.gogi.meatyou.bean.PPicDTO;
 import com.gogi.meatyou.bean.ProductDTO;
 import com.gogi.meatyou.bean.ProductDetailDTO;
@@ -16,27 +18,29 @@ public interface MainService {
    
    public List<ProductDTO> mainCUS();
    
-   public void searchList(int pageNum, Model model , String desc, String searchOption, String search);
-   
-   public void searchPrice(int pageNum, Model model , String price, String searchOption, String search);
-   
-   public void searchSale(int pageNum, Model model , String searchOption, String search);
-   
+   public List<ProductDTO> searchList(int pageNum, Model model , String desc, String searchOption, String search);
+   public List<ProductDTO> searchPrice(int pageNum, Model model , String price, String searchOption, String search);
+   public List<ProductDTO> searchSale(int pageNum, Model model , String searchOption, String search);
+   public List<ProductDTO> searchListStar(ProductDTO dto, int pageNum, Model model , String searchOption, String search);
+   public List<ProductDTO> searchListReview(ProductDTO dto, int pageNum, Model model , String searchOption, String search);
+    
    public List<ProductDTO> meatBest();
-   
    public List<ProductDTO> forkBest();
-   
    public List<ProductDTO> newProductBest();
    
    //public void mainMeat(int pageNum, Model model, String price , int category, String sale, String reg);
-   public void mainMeat(int pageNum, Model model, String price , int category, String sale, String reg, String news);
-
+   public void mainMeat(int pageNum, Model model, String price , int category, String sale, String reg, String news, String star);
+   public void mainMeatSort(int pageNum, Model model, int category, String star);
+   public void mainMeatReview(int pageNum, Model model, int category, String star);
+   
    void poLinkList(int pageNum, Model model);
    
    public void newProduct(int pageNum, Model model);
 
    public ProductDetailDTO productDetail(ProductDetailDTO dto, Model model);
-   public List<ProductDetailDTO> otherProductDetail(ProductDetailDTO odto, Model model);
+   
+   public int otherProductCount(String p_m_id);
+   public List<OtherProductDetailDTO> otherProductDetail(OtherProductDetailDTO odto, Model model);
    
    public List<ReviewDTO> reviewAll(int p_num);
    public double reviewStar(int r_p_num);
@@ -65,5 +69,6 @@ public interface MainService {
    public int pickCNT(String ppic_m_id);
    public int pick_p_numCNT(String ppic_m_id, int ppic_p_num);
    public void pickInsert(Model model, PPicDTO dto, String ppic_m_id, int ppic_p_num);
-   
+   public void pickInsertMain(Model model, String ppic_m_id, int ppic_p_num);
+   public int pCategory(int p_num);
 }

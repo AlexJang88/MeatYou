@@ -64,9 +64,11 @@
 										</div>
 									</div>
 									<div class="product-body">
-										<p class="product-category">Category</p>
 										<h3 class="product-name"><a href="../main/product?p_num=${meat.p_num}">${meat.p_name}</a></h3>
 										<h4 class="product-price">${meat.p_price}</h4>
+										<ul class="product-links">
+											<li><h6>${meat.category1} / ${meat.category2} / ${meat.category3}</h6></li>
+										</ul>
 										<div class="rating-avg">${meat.star}
 														<c:if test="${meat.star == 5.0 && meat.star > 4.6}">
 															<div class="rating-stars">

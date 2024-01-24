@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../header.jsp" %>
-<%@ include file="../searchSort.jsp" %> 
+<%@ include file="../searchSort.jsp" %>
 
 <!DOCTYPE html>
 
@@ -12,8 +12,8 @@
 			<div class="container">
 				<!-- row -->
 				<div class="row">
-					<!-- ASIDE -->
-					<div id="aside" class="col-md-2"> 
+					<!-- ASIDE --> 
+					<div id="aside" class="col-md-2">
 					</div>
 					<!-- /ASIDE -->
 
@@ -30,7 +30,7 @@
 						<!-- store products -->
 						<div class="row">
 							<!-- product -->
-							<c:forEach var="sear" items="${searchPrice}">
+							<c:forEach var="sear" items="${searchListStar}">
 							<div class="col-md-4 col-xs-6">
 								<div class="product">
 									<div class="product-img">
@@ -43,7 +43,7 @@
 									</div>
 									<div class="product-body">
 										<h3 class="product-name"><a href="../main/product?p_num=${sear.p_num}">${sear.p_name}</a></h3>
-										<h4 class="product-price">${sear.p_price}</h4>
+										<h4 class="product-price">${sear.p_price}원</h4>
 										<ul class="product-links">
 											<li><h6>${sear.category1} / ${sear.category2} / ${sear.category3}</h6></li>
 										</ul>
@@ -103,29 +103,28 @@
 															</div>
 														</c:if>
 													</div>
-												<c:if test="${m_id == null}">
-													<div class="product-btns">
-														찜하기<button class="add-to-wishlist" onclick="location.href='/member/customLogin'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-														리뷰 : ${sear.reviewAllCNT}개
-													</div>
-												</c:if>
+										<c:if test="${m_id == null}">
+											<div class="product-btns">
+												찜하기<button class="add-to-wishlist" onclick="location.href='/member/customLogin'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+												리뷰 : ${sear.reviewAllCNT}개
+											</div>
+										</c:if>
 
-												<c:if test="${m_id != null}">
-													<div class="product-btns">
-														찜하기<button class="add-to-wishlist" onclick="location.href='pickInsertMain?ppic_m_id=${m_id}&ppic_p_num=${p_num}'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-														리뷰 : ${sear.reviewAllCNT}개
-													</div>
-												</c:if>
+										<c:if test="${m_id != null}">
+											<div class="product-btns">
+												찜하기<button class="add-to-wishlist" onclick="location.href='pickInsertMain?ppic_m_id=${m_id}&ppic_p_num=${p_num}'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+												리뷰 : ${sear.reviewAllCNT}개
+											</div>
+										</c:if>
 									</div>
 									<c:if test="${m_id != null}">
 										<div class="add-to-cart">
-										<form action="ShoppingCartInsertSearchPrice" method="post">
+										<form action="ShoppingCartInsertSearchSale" method="post">
 											<input type="hidden" name="m_id" value="${m_id}">
 											<input type="hidden" name="p_num" value="${sear.p_num}">
 											<input type="hidden" name="shop_quantity" value="1">
 											<input type="hidden" name="searchOption" value="${searchOption}">
 											<input type="hidden" name="search" value="${search}">
-											<input type="hidden" name="price" value="${price}">
 											<button class="add-to-cart-btn" ><i class="fa fa-shopping-cart"></i>장바구니 담기</button>
 										</form>
 										</div>
@@ -149,13 +148,13 @@
 							<ul class="store-pagination">
 								<c:if test="${count > 0}"> 
 									<c:if test="${startPage > 10}">
-										<li><a href="/main/searchPrice?searchOption=total&search=${search}&pageNum${startPage-10}">[이전]</a></li>
+										<li><a href="/main/searchStar?searchOption=total&search=${search}&pageNum${startPage-10}">[이전]</a></li>
 									</c:if>
 									<c:forEach var="i" begin="${startPage}" end="${endPage}">
-										<li><a href="/main/searchPrice?searchOption=total&search=${search}&pageNum=${i}">${i}</a></li>
+										<li><a href="/main/searchStar?searchOption=total&search=${search}&pageNum=${i}">${i}</a></li>
 									</c:forEach>
 									<c:if test="${endPage < pageCount}">
-										<li><a href="/main/searchPrice?searchOption=total&search=${search}&pageNum${startPage+10}">[다음]</a></li>
+										<li><a href="/main/searchStar?searchOption=total&search=${search}&pageNum${startPage+10}">[다음]</a></li>
 									</c:if>	
 								<li><a href="#"><i class="fa fa-angle-right"></i></a></li>
 								</c:if>

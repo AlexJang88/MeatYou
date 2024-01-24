@@ -42,10 +42,12 @@
 												</div>
 											</div>
 											<div class="product-body">
-												<p class="product-category">Category1 , Category2</p>
 												<h3 class="product-name"><a href="../main/product?p_num=${cus.p_num}&p_m_id=${cus.p_m_id}">${cus.p_name}</a></h3>
-												<h4 class="product-price">${cus.p_price}원</h4>
-													<div class="rating-avg">${cus.star}
+												<a href="../main/product?p_num=${cus.p_num}&p_m_id=${cus.p_m_id}"><h4 class="product-price">${cus.p_price}원</h4></a>
+												<ul class="product-links">
+													<li><h6>${cus.category1} / ${cus.category2} / ${cus.category3}</h6></li>
+												</ul>
+													<a href="../main/product?p_num=${cus.p_num}&p_m_id=${cus.p_m_id}"><div class="rating-avg">${cus.star}
 														<c:if test="${cus.star == 5.0 && cus.star > 4.6}">
 															<div class="rating-stars">
 																<i class="fa fa-star"></i>
@@ -100,12 +102,21 @@
 																<i class="fa fa-star-o"></i>
 															</div>
 														</c:if>
+													</div></a>
+													
+												<c:if test="${m_id == null}">
+													<div class="product-btns">
+														찜하기<button class="add-to-wishlist" onclick="location.href='/member/customLogin'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+														리뷰 : ${cus.reviewAllCNT}개
 													</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-												</div>
+												</c:if>
+
+												<c:if test="${m_id != null}">
+													<div class="product-btns">
+														찜하기<button class="add-to-wishlist" onclick="location.href='pickInsertMain?ppic_m_id=${cus.ppic_m_id}&ppic_p_num=${cus.ppic_p_num}'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+														리뷰 : ${cus.reviewAllCNT}개
+													</div>
+												</c:if>
 											</div>
 												<c:if test="${m_id != null}">
 													<div class="add-to-cart">
@@ -141,7 +152,7 @@
 
 
 
-
+		<c:if test="${m_id != null}">
 		<!-- SECTION -->
 		<div class="section">
 			<!-- container -->
@@ -225,7 +236,7 @@
 			<!-- /container -->
 		</div>
 		<!-- /SECTION -->
-
+		</c:if>
 
 
 
@@ -269,9 +280,11 @@
 												</div>
 											</div>
 											<div class="product-body">
-												<p class="product-category">Category</p>
 												<h3 class="product-name"><a href="../main/product?p_num=${meat.p_num}&p_m_id=${meat.p_m_id}">${meat.p_name}</a></h3>
 												<h4 class="product-price">${meat.p_price}원</h4>
+												<ul class="product-links">
+													<li><h6>${meat.category1} /${meat.category2}/${meat.category3}</h6></li>
+												</ul>
 													<div class="rating-avg">${meat.star}
 														<c:if test="${meat.star == 5.0 && meat.star > 4.6}">
 															<div class="rating-stars">
@@ -328,11 +341,19 @@
 															</div>
 														</c:if>
 													</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-												</div>
+												<c:if test="${m_id == null}">
+													<div class="product-btns">
+														찜하기<button class="add-to-wishlist" onclick="location.href='/member/customLogin'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+														리뷰 : ${meat.reviewAllCNT}개
+													</div>
+												</c:if>
+
+												<c:if test="${m_id != null}">
+													<div class="product-btns">
+														찜하기<button class="add-to-wishlist" onclick="location.href='pickInsertMain?ppic_m_id=${meat.ppic_m_id}&ppic_p_num=${meat.ppic_p_num}'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+														리뷰 : ${meat.reviewAllCNT}개
+													</div>
+												</c:if>
 											</div>
 											<c:if test="${m_id != null}">
 													<div class="add-to-cart">
@@ -408,10 +429,12 @@
 												</div>
 											</div>
 											<div class="product-body">
-												<p class="product-category">Category</p>
 												<h3 class="product-name"><a href="../main/product?p_num=${fork.p_num}&p_m_id=${fork.p_m_id}">${fork.p_name}</a></h3>
 												<h4 class="product-price">${fork.p_price}원</del></h4>
 													<div class="rating-avg">${fork.star}
+													<ul class="product-links">
+														<li><h6>${fork.category1} /${fork.category2}/${fork.category3}</h6></li>
+													</ul>
 														<c:if test="${fork.star == 5.0 && fork.star > 4.6}">
 															<div class="rating-stars">
 																<i class="fa fa-star"></i>
@@ -467,11 +490,19 @@
 															</div>
 														</c:if>
 													</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-												</div>
+												<c:if test="${m_id == null}">
+													<div class="product-btns">
+														찜하기<button class="add-to-wishlist" onclick="location.href='/member/customLogin'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+														리뷰 : ${fork.reviewAllCNT}개
+													</div>
+												</c:if>
+
+												<c:if test="${m_id != null}">
+													<div class="product-btns">
+														찜하기<button class="add-to-wishlist" onclick="location.href='pickInsertMain?ppic_m_id=${m_id}&ppic_p_num=${p_num}'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+														리뷰 : ${fork.reviewAllCNT}개
+													</div>
+												</c:if>
 											</div>
 											<c:if test="${m_id != null}">
 													<div class="add-to-cart">
@@ -552,6 +583,9 @@
 												<p class="product-category">Category</p>
 												<h3 class="product-name"><a href="../main/product?p_num=${newList.p_num}&p_m_id=${newList.p_m_id}">${newList.p_name}</a></h3>
 												<h4 class="product-price">${newList.p_price}원</h4>
+													<ul class="product-links">
+														<li><h6>${newList.category1} /${newList.category2}/${newList.category3}</h6></li>
+													</ul>
 													<div class="rating-avg">${newList.star}
 														<c:if test="${newList.star == 5.0 && newList.star > 4.6}">
 															<div class="rating-stars">
@@ -608,11 +642,19 @@
 															</div>
 														</c:if>
 													</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-												</div>
+												<c:if test="${m_id == null}">
+													<div class="product-btns">
+														찜하기<button class="add-to-wishlist" onclick="location.href='/member/customLogin'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+														리뷰 : ${newList.reviewAllCNT}개
+													</div>
+												</c:if>
+
+												<c:if test="${m_id != null}">
+													<div class="product-btns">
+														찜하기<button class="add-to-wishlist" onclick="location.href='pickInsertMain?ppic_m_id=${m_id}&ppic_p_num=${p_num}'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+														리뷰 : ${newList.reviewAllCNT}개
+													</div>
+												</c:if>
 											</div>
 												<c:if test="${m_id != null}">
 													<div class="add-to-cart">

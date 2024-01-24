@@ -9,106 +9,108 @@
    </select>
 
 
-   <!-- 파워링크 카운트 -->
-   <select id="M_statusCount" resultType="com.gogi.meatyou.bean.ProductDTO" >
-      select count(*) from member where M_status=2002
-   </select>
+   	<!-- 파워링크 카운트 -->
+   	<select id="M_statusCount" resultType="com.gogi.meatyou.bean.ProductDTO" >
+      	select count(*) from 
+		(select * from product p ,CUS_ORDER c , member m, p_detail d
+		where p.p_num=d.pd_p_num and p.p_num = c.co_p_num and m.m_id = p.p_m_id and m.m_id = c.co_m_ID and M_status like '%' || 2002 || '%' and p_status!=3 and d.pd_p_status=0)
+   	</select>
     
-   <!-- 메인 파워링크 BEST -->
-   <select id="mainCUS" resultType="com.gogi.meatyou.bean.ProductDTO" >
-      select * from 
-      (select * from product p ,CUS_ORDER c , member m
-      where p.p_num = c.co_p_num and m.m_id = p.p_m_id and m.m_id = c.co_m_ID and M_status like '%' || 2002 || '%')
-   </select>
+   	<!-- 메인 파워링크 BEST -->
+	<select id="mainCUS" resultType="com.gogi.meatyou.bean.ProductDTO" >
+      	select * from 
+		(select * from product p ,CUS_ORDER c , member m, p_detail d
+		where p.p_num=d.pd_p_num and p.p_num = c.co_p_num and m.m_id = p.p_m_id and m.m_id = c.co_m_ID and M_status like '%' || 2002 || '%' and p_status!=3 and d.pd_p_status=0)
+	</select>
    
    
-   <!-- 전체 파워링크 카운트 -->
-   <select id="powCount" resultType="int" >
-      select * from 
-      (select count(*) from product p ,CUS_ORDER c , member m
-      where p.p_num = c.co_p_num and m.m_id = p.p_m_id and m.m_id = c.co_m_ID and M_status like '%' || 2002 || '%')
-   </select>
-   
-   
-   <!-- 파워링크 전체 List -->
-   <select id="poLinkList" resultType="com.gogi.meatyou.bean.ProductDTO" parameterType="hashmap">
-      select * from 
-       (select b.* , rownum r from
-        (select * from product p ,CUS_ORDER c , member m
-        where p.p_num = c.co_p_num and m.m_id = p.p_m_id and m.m_id = c.co_m_ID and M_status like '%' || 2002 || '%') b )
-      <![CDATA[ where r >= #{start} and r <= #{end} ]]>
-   </select>
-   
-   <!-- 메인 소고기 베스트 -->
-   <select id="meatBest" resultType="com.gogi.meatyou.bean.ProductDTO" >
-      select * from 
-      (select b.* , rownum r from
-      ((select * from 
-      (select order_p_num,count(*) count from m_order group by order_p_num) 
-      ck ,product p,meat_category mc where ck.order_p_num=p.p_num and mc.meat_p_category=p.p_category order by count desc) b)
-      <![CDATA[ where mod((meat_p_category),100)>=20) where r >= 1 and r <= 4 ]]>
-   </select>
+   	<!-- 전체 파워링크 카운트 -->
+   	<select id="powCount" resultType="int" >
+		select * from 
+		(select count(*) from product p ,CUS_ORDER c , member m, p_detail d
+		where p.p_num=d.pd_p_num and p.p_num = c.co_p_num and m.m_id = p.p_m_id and m.m_id = c.co_m_ID and M_status like '%' || 2002 || '%' and p_status!=3 and d.pd_p_status=0)
+   	</select>
 
-   <!-- 메인 돼지고기 베스트 -->
-   <select id="forkBest" resultType="com.gogi.meatyou.bean.ProductDTO" >
-      select * from 
-      (select b.* , rownum r from
-      ((select * from 
-      (select order_p_num,count(*) count from m_order group by order_p_num) 
-      ck ,product p,meat_category mc where ck.order_p_num=p.p_num and mc.meat_p_category=p.p_category order by count desc) b)
-      <![CDATA[ where mod((meat_p_category),100)<20) where r >= 1 and r <= 4 ]]>
-   </select>
+   	<!-- 파워링크 전체 List -->
+   	<select id="poLinkList" resultType="com.gogi.meatyou.bean.ProductDTO" parameterType="hashmap">
+		select * from 
+		(select b.* , rownum r from
+		(select * from product p ,CUS_ORDER c , member m, p_detail d
+		where p.p_num=d.pd_p_num and p.p_num = c.co_p_num and m.m_id = p.p_m_id and m.m_id = c.co_m_ID and M_status like '%2002%' and p_status!=3 and d.pd_p_status=0) b )
+		<![CDATA[ where r >= #{start} and r <= #{end} ]]>
+   	</select>
+   
+   	<!-- 메인 소고기 베스트 -->
+   	<select id="meatBest" resultType="com.gogi.meatyou.bean.ProductDTO" >
+		select * from 
+		(select b.* , rownum r from
+		((select * from 
+		(select order_p_num,count(*) count from m_order group by order_p_num) 
+		ck ,product p, meat_category mc, p_detail d where p.p_num=d.pd_p_num and ck.order_p_num=p.p_num and mc.meat_p_category=p.p_category and p_status!=3 and d.pd_p_status=0 order by count desc) b)
+      	<![CDATA[ where mod((meat_p_category),100)>=20) where r >= 1 and r <= 10 ]]>
+   	</select>
+
+   	<!-- 메인 돼지고기 베스트 -->
+   	<select id="forkBest" resultType="com.gogi.meatyou.bean.ProductDTO" >
+		select * from 
+		(select b.* , rownum r from
+		((select * from 
+		(select order_p_num,count(*) count from m_order group by order_p_num) 
+		ck ,product p,meat_category mc, p_detail d where p.p_num=d.pd_p_num and ck.order_p_num=p.p_num and mc.meat_p_category=p.p_category and p_status!=3 and d.pd_p_status=0 order by count desc) b)
+      	<![CDATA[ where mod((meat_p_category),100)<20) where r >= 1 and r <= 10 ]]>
+   	</select>
    
    
-   <!-- 메인 신상품 카운트 -->
-   <select id="newProductCNT" resultType="int" >
-      select count(*) from product order by p_reg_date desc
-   </select>
+   	<!-- 메인 신상품 카운트 -->
+   	<select id="newProductCNT" resultType="int" >
+      select count(*) from product p , p_detail d where p.p_num=d.pd_p_num and p_status!=3 and d.pd_p_status=0 order by p_reg_date desc
+   	</select>
    
-   <!-- 메인 신상품 BEST -->
-   <select id="newProductBest" resultType="com.gogi.meatyou.bean.ProductDTO" >
-      select * from product order by p_reg_date desc
-   </select>
+   	<!-- 메인 신상품 BEST -->
+   	<select id="newProductBest" resultType="com.gogi.meatyou.bean.ProductDTO" >
+      select * from product p, p_detail d where p.p_num=d.pd_p_num and p_status!=3 and d.pd_p_status=0 order by p_reg_date desc
+   	</select>
    
-   <!-- 메인 신상품 최신순 -->
-   <select id="newProduct" resultType="com.gogi.meatyou.bean.ProductDTO" parameterType="hashmap">
-      select * from 
-      (select b.* , rownum r from
-      (select * from  product order by p_reg_date desc) b)
-      <![CDATA[ where r >= #{start} and r <= #{end} ]]>
-   </select>
+   	<!-- 메인 신상품 최신순 -->
+   	<select id="newProduct" resultType="com.gogi.meatyou.bean.ProductDTO" parameterType="hashmap">
+		select * from 
+		(select b.* , rownum r from
+		(select * from  product p, p_detail d where p.p_num=d.pd_p_num and p_status!=3 and d.pd_p_status=0 order by p_reg_date desc) b)
+      	<![CDATA[ where r >= #{start} and r <= #{end} ]]>
+   	</select>
    
-      <!-- 메인 신상품 가격순 -->
-   <select id="newProductPrice" resultType="com.gogi.meatyou.bean.ProductDTO" parameterType="hashmap">
-      select * from 
-      (select b.* , rownum r from
-      <if test="value == 'new'"> (select * from  product order by p_reg_date desc) b) </if> 
-      <if test="value == 'price'"> (select * from  product order by (p_price/weight)*100 desc) b) </if> 
-      <![CDATA[ where r >= #{start} and r <= #{end} ]]>
-   </select>
+	<!-- 메인 신상품 가격순 -->
+   	<select id="newProductPrice" resultType="com.gogi.meatyou.bean.ProductDTO" parameterType="hashmap">
+      	select * from 
+      	(select b.* , rownum r from
+      	<if test="value == 'new'"> (select * from product p, p_detail d where p.p_num=d.pd_p_num and p_status!=3 and d.pd_p_status=0 order by p_reg_date desc) b) </if> 
+      	<if test="value == 'price'"> (select * from  product p, p_detail d where p.p_num=d.pd_p_num and p_status!=3 and d.pd_p_status=0 order by (p_price/weight)*100 desc) b) </if> 
+      	<![CDATA[ where r >= #{start} and r <= #{end} ]]>
+   	</select>
    
 	<!-- 메인 신상품 판매량순 -->
    	<select id="newProductSale" resultType="com.gogi.meatyou.bean.ProductDTO" parameterType="hashmap">
       	select * from 
       	(select b.* , rownum r from
-      	<if test="value == 'new'"> (select * from  product order by p_reg_date desc) b) </if> 
-      	<if test="value == 'price'"> (select * from  product order by (p_price/weight)*100 desc) b) </if> 
+      	<if test="value == 'new'"> (select * from  product p, p_detail d where p.p_num=d.pd_p_num and p_status!=3 and d.pd_p_status=0 order by p_reg_date desc) b) </if> 
+      	<if test="value == 'price'"> (select * from  product p, p_detail d where p.p_num=d.pd_p_num and p_status!=3 and d.pd_p_status=0 order by (p_price/weight)*100 desc) b) </if> 
       	<![CDATA[ where r >= #{start} and r <= #{end} ]]>
+	</select>
+   	
+	<!-- 서칭 카운트 -->
+   	<select id="searchCount" resultType="int">
+      	select count(*) from 
+      	(select * from product p, p_detail d where  p.p_num = d.pd_p_num and p_status!=3 and d.pd_p_status=0 and 
+      	<if test="searchOption == 'title'"> (p_name like '%' || #{search} || '%')) </if> 
+      	<if test="searchOption == 'total'"> (p_name like '%' || #{search} || '%' or pd_P_DESC like '%' || #{search} || '%')) </if>
    	</select>
-   
-   <select id="searchCount" resultType="int">
-      select count(*) from 
-      (select * from product p, p_detail d where  p.p_num = d.pd_p_num and 
-      <if test="searchOption == 'title'"> (p_name like '%' || #{search} || '%')) </if> 
-      <if test="searchOption == 'total'"> (p_name like '%' || #{search} || '%' or pd_P_DESC like '%' || #{search} || '%')) </if>
-   </select>
    
    <!-- 서칭 리스트(최신순) -->
    <select id="searchList" resultType="com.gogi.meatyou.bean.ProductDTO" parameterType="hashmap">
       select * from
       (select b.* , rownum r from
       (select * from product p, p_detail d
-      where  p.p_num = d.pd_p_num and 
+      where  p.p_num = d.pd_p_num and p_status!=3 and d.pd_p_status=0 and 
       <if test="searchOption == 'title'"> p_name like '%' || #{search} || '%'  </if> 
       <if test="searchOption == 'total'"> (p_name like '%' || #{search} || '%' or pd_P_DESC like '%' || #{search} || '%') </if> 
       order by p_reg_date
@@ -123,7 +125,7 @@
       (select b.* , rownum r from
       (select *
       from product p, p_detail d
-      where  p.p_num = d.pd_p_num and 
+      where  p.p_num = d.pd_p_num and p_status!=3 and d.pd_p_status=0 and 
       <if test="searchOption == 'title'"> p_name like '%' || #{search} || '%'  </if> 
       <if test="searchOption == 'total'"> (p_name like '%' || #{search} || '%' or pd_P_DESC like '%' || #{search} || '%') </if> 
       order by (p_price/weight)*100
@@ -134,14 +136,14 @@
 
 
 	<!-- 서칭 카운트(판매량순) -->
-   <select id="searchSaleCNT"  resultType="int">
+   	<select id="searchSaleCNT"  resultType="int">
       	select count(*) from 
 		(select * from 
 		(select order_p_num,count(*) count from m_order group by order_p_num) ck ,product p, p_detail d
-		where ck.order_p_num=p.p_num and p.p_num=d.pd_p_num order by count desc)
+		where ck.order_p_num=p.p_num and p.p_num=d.pd_p_num and p_status!=3 and d.pd_p_status=0 order by count desc)
 		<if test="searchOption == 'title'"> where p_name like '%' || #{search} || '%' </if>
 		<if test="searchOption == 'total'"> where p_name like '%' || #{search} || '%' or pd_P_DESC like '%' || #{search} || '%' </if> 
-   </select>
+   	</select>
 
 
    <!-- 서칭 리스트(판매량순) -->
@@ -150,80 +152,148 @@
       (select b.* , rownum r from
       ((select * from 
       (select order_p_num,count(*) count from m_order group by order_p_num) ck ,product p, p_detail d
-      where ck.order_p_num=p.p_num and p.p_num=d.pd_p_num order by count desc) b)
+      where ck.order_p_num=p.p_num and p.p_num=d.pd_p_num and p_status!=3 and d.pd_p_status=0 order by count desc) b)
       <if test="searchOption == 'title'"> where p_name like '%' || #{search} || '%' ) </if> 
       <if test="searchOption == 'total'"> where p_name like '%' || #{search} || '%' or pd_P_DESC like '%' || #{search} || '%' ) </if> 
    <![CDATA[ where r >= #{start} and r <= #{end} ]]>
    </select>
    
+	<!-- 서칭 카운트 (별점) -->
+   	<select id="searchStarCount" resultType="int">
+		select count(*) from 
+		(select * from 
+		(select avg(star), r_p_num from review group by r_p_num  order by avg(star) desc) st  ,product p, p_detail d
+		where st.r_p_num(+)=p.p_num and p.p_num=d.pd_p_num and d.pd_p_num=st.r_p_num(+) and p_status!=3 and d.pd_p_status=0)
+		<if test="searchOption == 'title'"> where p_name like '%' || #{search} || '%'  </if>
+		<if test="searchOption == 'total'"> where p_name like '%' || #{search} || '%' or pd_P_DESC like '%' || #{search} || '%' </if>
+   	</select>
+
+	<!-- 서칭 리스트(별점순) -->
+	<select id="searchListStar" resultType="com.gogi.meatyou.bean.ProductDTO" parameterType="hashmap">
+      	select * from 
+		(select b.* , rownum r from
+		((select * from 
+		(select avg(star) as star, r_p_num from review group by r_p_num  order by star desc) st  ,product p, p_detail d
+		where st.r_p_num(+)=p.p_num and p.p_num=d.pd_p_num and d.pd_p_num=st.r_p_num(+) and p_status!=3 and d.pd_p_status=0) b)
+		<if test="searchOption == 'title'"> where p_name like '%' || #{search} || '%')</if>
+		<if test="searchOption == 'total'"> where p_name like '%' || #{search} || '%' or pd_P_DESC like '%' || #{search} || '%')</if>
+		<![CDATA[ where r >= #{start} and r <= #{end} ]]>
+	</select>
+   
+      <!-- 서칭 카운트(리뷰순) -->
+	<select id="searchReviewCount" resultType="int">
+      	select count(*) from 
+		(select * from 
+		(select count(*) r_cnt, r_p_num from review group by r_p_num  order by r_cnt desc) st, product p, p_detail d
+		where st.r_p_num(+)=p.p_num and p.p_num=d.pd_p_num and p_status!=3 and d.pd_p_status=0)
+		<if test="searchOption == 'title'"> where p_name like '%' || #{search} || '%' </if>
+		<if test="searchOption == 'total'"> where p_name like '%' || #{search} || '%' or pd_P_DESC like '%' || #{search} || '%' </if>
+   </select>
+   
+   <!-- 서칭 리스트(리뷰순) -->
+	<select id="searchListReview" resultType="com.gogi.meatyou.bean.ProductDTO" parameterType="hashmap">
+      	select * from 
+		(select b.* , rownum r from
+		((select * from 
+		(select count(*) r_cnt, r_p_num from review group by r_p_num  order by r_cnt desc) st, product p, p_detail d
+		where st.r_p_num(+)=p.p_num and p.p_num=d.pd_p_num and p_status!=3 and d.pd_p_status=0) b)
+		<if test="searchOption == 'title'"> where p_name like '%' || #{search} || '%')</if>
+		<if test="searchOption == 'total'"> where p_name like '%' || #{search} || '%' or pd_P_DESC like '%' || #{search} || '%')</if>
+		<![CDATA[ where r >= #{start} and r <= #{end} ]]>
+   </select>
    
    <!-- 메인 메뉴 소고기, 돼지고기 카운트 -->
-   <select id="mainMeatCount" resultType="int" >
-      select count(*) from 
-      (select * from product p, p_detail d 
-      where p.p_num=d.pd_p_num and p_category like '%_' || #{category} || '_%')
-   </select>
+	<select id="mainMeatCount" resultType="int" >
+		select count(*) from 
+      	(select * from product p, p_detail d 
+      	where p.p_num=d.pd_p_num and p_status!=3 and d.pd_p_status=0 and p_category like '%_' || #{category} || '_%')
+	</select>
 
-      <!-- 메인 메뉴 소고기, 돼지고기 , 해당 육류에 대한 가격 높은순 낮은순 -->
-<!--    <select id="mainMeat" resultType="com.gogi.meatyou.bean.ProductDTO" parameterType="hashmap">
-
-      <if test="price != null"> select * from 
-      (select b.* , rownum r from
-      (select * from product p, p_detail d 
-      where p.p_num=d.pd_p_num and p_category like '%_' || #{category} || '_%' order by (p_price/weight)*100 ${price}) b)
-      <![CDATA[ where r >= #{start} and r <= #{end} ]]> </if>
+	<!-- 소고기,돼지고기(신상품, 가격, 판매량 정렬) -->
+	<select id="mainMeat" resultType="com.gogi.meatyou.bean.ProductDTO" parameterType="hashmap">
+      	<if test="news != null"> 
+      		select * from 
+			(select b.* , rownum r from
+			(select * from product p, p_detail d 
+			where p.p_num=d.pd_p_num and p_status!=3 and d.pd_p_status=0 and p_category like '%_' || #{category} || '_%' order by p_reg_date desc ) b)
+      	<![CDATA[ where r >= #{start} and r <= #{end} ]]> </if>
    
-      <if test="reg != null"> select * from 
-      (select b.* , rownum r from
-      (select * from product p, p_detail d 
-      where p.p_num=d.pd_p_num and p_category like '%_' || #{category} || '_%' order by p_reg_date ${reg} ) b)
-      <![CDATA[ where r >= #{start} and r <= #{end} ]]>  </if>
+      	<if test="price != null"> 
+      		select * from 
+			(select b.* , rownum r from
+			(select * from product p, p_detail d 
+			where p.p_num=d.pd_p_num and p_status!=3 and d.pd_p_status=0 and p_category like '%_' || #{category} || '_%' order by (p_price/weight)*100 desc ) b)
+      	<![CDATA[ where r >= #{start} and r <= #{end} ]]>  </if>
    
-      <if test="sale != null"> select * from 
-      (select b.* , rownum r from
-      ((select * from 
-      (select order_p_num,count(*) count from m_order group by order_p_num) ck ,product p,meat_category mc  , p_detail d 
-      <if test="sale != null"> where ck.order_p_num=p.p_num and mc.meat_p_category=p.p_category and p.p_num=d.pd_p_num order by count ${sale} ) b ) </if> 
-      where meat_p_category like '%_' || #{category} || '_%')
-      <![CDATA[ where r >= #{start} and r <= #{end} ]]>   </if> 
-      
-   </select> -->
-   
-      <select id="mainMeat" resultType="com.gogi.meatyou.bean.ProductDTO" parameterType="hashmap">
-
-      <if test="news != null"> select * from 
-      	(select b.* , rownum r from
-		(select * from product p, p_detail d 
-		where p.p_num=d.pd_p_num  order by p_reg_date desc ) b)
-      <![CDATA[ where r >= #{start} and r <= #{end} ]]> </if>
-   
-      <if test="price != null"> select * from 
-		(select b.* , rownum r from
-		(select * from product p, p_detail d 
-		where p.p_num=d.pd_p_num  order by (p_price/weight)*100 desc ) b)
-      <![CDATA[ where r >= #{start} and r <= #{end} ]]>  </if>
-   
-      <if test="sale != null"> select * from 
-      	(select b.* , rownum r from
-		(select * from 
-		(select order_p_num,count(*) count from m_order group by order_p_num) ck ,product p,meat_category mc  , p_detail d 
-		where ck.order_p_num=p.p_num and mc.meat_p_category=p.p_category and p.p_num=d.pd_p_num order by count desc ) b 
-		where meat_p_category like '%_%')
-      <![CDATA[ where r >= #{start} and r <= #{end} ]]>   </if> 
+      	<if test="sale != null"> 
+      		select * from 
+      		(select b.* , rownum r from
+			(select * from 
+			(select order_p_num,count(*) count from m_order group by order_p_num) ck ,product p,meat_category mc  , p_detail d 
+			where ck.order_p_num=p.p_num and mc.meat_p_category=p.p_category and p.p_num=d.pd_p_num and p_status!=3 and d.pd_p_status=0 order by count desc ) b 
+			where meat_p_category like '%_' || #{category} || '_%')
+      	<![CDATA[ where r >= #{start} and r <= #{end} ]]>   </if> 
    </select>
    
-   <!-- 제품 상세정보 -->
-   <select id="productDetail" resultType="com.gogi.meatyou.bean.ProductDetailDTO" >
+	<!-- 소고기,돼지고기(별점 정렬) -->
+   	<select id="mainMeatSort" resultType="com.gogi.meatyou.bean.ProductDTO" parameterType="hashmap">
+   		<if test="category == 1"> select * from 
+      		(select b.* , rownum r from
+			((select * from 
+			(select avg(star) as star, r_p_num from review group by r_p_num  order by star desc) st, product p, p_detail d, meat_category m
+			where st.r_p_num(+)=p.p_num and p.p_num=d.pd_p_num  and p.p_category=m.meat_p_category and d.pd_p_num=st.r_p_num(+) and p_status!=3 and d.pd_p_status=0) b)
+			where p_category like '%_' || #{category} || '_%')
+		<![CDATA[ where r >= #{start} and r <= #{end} ]]>   </if> 
+		
+		<if test="category == 2"> select * from 
+      		(select b.* , rownum r from
+			((select * from 
+			(select avg(star) as star, r_p_num from review group by r_p_num  order by star desc) st, product p, p_detail d, meat_category m
+			where st.r_p_num(+)=p.p_num and p.p_num=d.pd_p_num  and p.p_category=m.meat_p_category and d.pd_p_num=st.r_p_num(+) and p_status!=3 and d.pd_p_status=0) b)
+			where p_category like '%_' || #{category} || '_%')
+		<![CDATA[ where r >= #{start} and r <= #{end} ]]>   </if> 
+	</select>
+	
+	<!-- 소고기,돼지고기(리뷰수 정렬) -->
+	<select id="mainMeatReview" resultType="com.gogi.meatyou.bean.ProductDTO" parameterType="hashmap">
+	   	<if test="category == 1">
+	      	select * from 
+			(select b.* , rownum r from
+			(select * from 
+			(select count(*) r_cnt, r_p_num from review group by r_p_num  order by r_cnt desc) st, product p, p_detail d, meat_category m
+			where st.r_p_num(+)=p.p_num and p.p_num=d.pd_p_num  and p.p_category=m.meat_p_category and d.pd_p_num=st.r_p_num(+) 
+			and st.r_p_num(+)=d.pd_p_num and p_status!=3 and d.pd_p_status=0 and p_category like '%_' || #{category} || '_%') b)
+			<![CDATA[ where r >= #{start} and r <= #{end} ]]> </if> 
+						
+		<if test="category == 2">
+	      	select * from 
+			(select b.* , rownum r from
+			(select * from 
+			(select count(*) r_cnt, r_p_num from review group by r_p_num  order by r_cnt desc) st, product p, p_detail d, meat_category m
+			where st.r_p_num(+)=p.p_num and p.p_num=d.pd_p_num  and p.p_category=m.meat_p_category and d.pd_p_num=st.r_p_num(+) 
+			and st.r_p_num(+)=d.pd_p_num and p_status!=3 and d.pd_p_status=0 and p_category like '%_' || #{category} || '_%') b)
+			<![CDATA[ where r >= #{start} and r <= #{end} ]]> </if> 
+	</select>
+   
+   	<!-- 제품 상세정보 -->
+	<select id="productDetail" resultType="com.gogi.meatyou.bean.ProductDetailDTO" >
          select * from 
          (select * from product, p_detail
          where p_num = pd_p_num) where p_num=#{p_num}
-   </select>
+   	</select>
+   
+	<!-- 판매자의 다른 상품 정보 -->
+   	<select id="otherProductCount"  resultType="int" >
+      	select count(*) from 
+      	(select * from product p, p_detail d
+      	where p_num = pd_p_num and p_status!=3 and d.pd_p_status=0) where p_m_id=#{p_m_id}
+   	</select>
    
       <!-- 판매자의 다른 상품 정보 -->
    <select id="otherProductDetail" resultType="com.gogi.meatyou.bean.OtherProductDetailDTO" >
-      select * from 
-      (select * from product, p_detail
-      where p_num = pd_p_num) where p_m_id=#{p_m_id}
+      	select * from 
+      	(select * from product p, p_detail d
+      	where p_num = pd_p_num and p_status!=3 and d.pd_p_status=0) where p_m_id=#{p_m_id}
    </select>
 
       <!-- 전체 리뷰 -->   
@@ -324,12 +394,16 @@
    <select id="pickCNT" resultType="int" >
       select count(*) from p_pick_${ppic_m_id}
    </select>
-   
+
    <select id="pick_p_numCNT" resultType="int" >
       select count(*) from p_pick_${ppic_m_id} where ppic_p_num=#{ppic_p_num}
    </select>
-   
+
    <insert id="pickInsert" parameterType="com.gogi.meatyou.bean.PPicDTO">
+      insert into p_pick_${ppic_m_id} values(p_pick_${ppic_m_id}_seq.nextval, #{ppic_p_num}, #{ppic_m_id})
+   </insert>
+   
+   <insert id="pickInsertMain" parameterType="String">
       insert into p_pick_${ppic_m_id} values(p_pick_${ppic_m_id}_seq.nextval, #{ppic_p_num}, #{ppic_m_id})
    </insert>   
    
@@ -337,6 +411,12 @@
       delete p_pick_${ppic_m_id} where ppic_p_num=#{ppic_p_num}
    </delete>   
    
+   <delete id="pickDeleteMain" parameterType="com.gogi.meatyou.bean.PPicDTO">
+      delete p_pick_${ppic_m_id} where ppic_p_num=#{ppic_p_num}
+   </delete>   
    
+   <select id="pCategory" parameterType="com.gogi.meatyou.bean.ProductDTO">
+      select p_category from product, p_detail where p_num=pd_p_num and p_num=#{p_num}
+   </select>   
 
 </mapper>

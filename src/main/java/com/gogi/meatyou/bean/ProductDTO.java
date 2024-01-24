@@ -6,23 +6,23 @@ import lombok.Data;
 
 @Data
 public class ProductDTO {
-	   private int p_num;  //상품아이디
-	   private String p_m_id;  //판매자아이디
-	   private String p_name; //상품명
-	   private int p_category; // 카테고리선택 111 삼겹살
-	   private int p_s_category;  // 단품세트
-	   private String thumb;  // 썸네일 사진
-	   private int p_price;  // 가격
-	   private int p_rcount;  // 조회수 
-	   private Date p_reg_date;  // 등록일
-	   private String startdate;  // 판매시작일
-	   private String enddate;  // 판매종료일	  
+	   	private int p_num;  //상품아이디
+	   	private String p_m_id;  //판매자아이디
+	   	private String p_name; //상품명
+	   	private int p_category; // 카테고리선택 111 삼겹살
+	   	private int p_s_category;  // 단품세트
+	   	private String thumb;  // 썸네일 사진
+	   	private int p_price;  // 가격
+	   	private int p_rcount;  // 조회수 
+	   	private Date p_reg_date;  // 등록일
+	   	private String startdate;  // 판매시작일
+	   	private String enddate;  // 판매종료일	  
 	   
-	   private int co_num; // 유료결제 코드번호
-	   private int co_p_num; // 유료결제 상품번호
+	   	private int co_num; // 유료결제 코드번호
+	   	private int co_p_num; // 유료결제 상품번호
  
-	   private int p_status; // 판매상태   
-	   private int pd_p_num;  //상품id
+	   	private int p_status; // 판매상태   
+	   	private int pd_p_num;  //상품id
 		private String pd_p_desc;  //상품설명	
 		private String origin; // 원산진
 		private String local;  // 농장주소
@@ -34,7 +34,14 @@ public class ProductDTO {
 		private String pd_duedate;  //유통기한
 		private int pd_p_status;  // 노출상태
 		private PDetailDTO pdetaildto;  // 디테일 축약
-		private double star;
+		private double star;	//별점평균
 		private int count;	// 판매량
-      
+		private int r_cnt;	// 리뷰 수
+		private String category1;	// 카테고리1(국내/수입)
+		private String category2;	// 카테고리2(돼지/소)
+		private String category3;	// 카테고리3(각 부위)
+		private String ppic_m_id;
+		private int ppic_p_num;
+		private int reviewAllCNT;
+		private int r_p_num;  //상품아이디
    }

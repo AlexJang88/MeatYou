@@ -42,9 +42,11 @@
 										</div>
 									</div>
 									<div class="product-body">
-										<p class="product-category">Category</p>
 										<h3 class="product-name"><a href="../main/product?p_num=${newp.p_num}">${newp.p_name}</a></h3>
 										<h4 class="product-price">${newp.p_price}</h4>
+										<ul class="product-links">
+											<li><h6>${newp.category1} / ${newp.category2} / ${newp.category3}</h6></li>
+										</ul>
 										<div class="rating-avg">${newp.star}
 														<c:if test="${newp.star == 5.0 && newp.star > 4.6}">
 															<div class="rating-stars">

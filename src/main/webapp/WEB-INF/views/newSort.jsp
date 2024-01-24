@@ -50,8 +50,9 @@
 								<ul class="section-tab-nav tab-nav">
 									<li ><a href="/main/newProduct?price=price">가격 낮은순</a></li>
 									<li ><a href="/main/newProduct?searchOption=${searchOption}&search=${search}">판매량 높은순</a></li>
-									<li ><a href="#tab1">평점순</a></li>
-									<li ><a href="#tab1">댓글순</a></li>
+									<li ><a href="#tab1">평점 좋은순</a></li>
+									<li ><a href="#tab1">댓글 많은순</a></li>
+									<li ><a href="#tab1">댓글 좋은순</a></li>
 									<li ><a href="/main/newProduct?desc=desc&searchOption=${searchOption}&search=${search}" >신상품순</a></li>
 								</ul>
 							</div>
