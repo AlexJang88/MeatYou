@@ -25,20 +25,21 @@ public class TestService {
     
     
     public KakaoReadyResponse kakaoPayReady(ProductDTO dto) {
-
-         // 카카오페이 요청 양식
+    	 System.out.println("======== kakaoReadyservice"); 
+    	// 카카오페이 요청 양식
         MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
+       
         parameters.add("cid", cid);
-        parameters.add("partner_order_id", "가맹점 주문 번호");
-        parameters.add("partner_user_id", "가맹점 회원 ID");
-        parameters.add("item_name", "상품명");
-        parameters.add("quantity", "1");
-        parameters.add("total_amount", "50000");
-        parameters.add("vat_amount", "5000");
-        parameters.add("tax_free_amount", "45000");
-        parameters.add("approval_url", "http://192.168.219.182:8080/test/success"); // 성공 시 redirect url
-        parameters.add("cancel_url", "http://192.168.219.182:8080/test/cancel"); // 취소 시 redirect url
-        parameters.add("fail_url", "http://192.168.219.182:8080/test/fail"); // 실패 시 redirect url
+        parameters.add("partner_order_id", String.valueOf(dto.getCo_num()));
+        parameters.add("partner_user_id", dto.getP_m_id());
+        parameters.add("item_name", dto.getCo_name());
+        parameters.add("quantity", String.valueOf(dto.getCo_quantity()));
+        parameters.add("total_amount", String.valueOf(dto.getClickpay()));
+        parameters.add("tax_free_amount", String.valueOf((dto.getClickpay()*0.9)));
+        parameters.add("vat_amount", String.valueOf((dto.getClickpay()*0.1)));
+        parameters.add("approval_url", "http://192.168.219.184:8080/test/success"); // 성공 시 redirect url
+        parameters.add("cancel_url", "http://192.168.219.184:8080/test/cancel"); 	// 취소 시 redirect url
+        parameters.add("fail_url", "http://192.168.219.184:8080/test/fail"); 		// 실패 시 redirect url
         
         
         // 파라미터, 헤더
@@ -59,7 +60,8 @@ public class TestService {
      * 카카오 요구 헤더값
      */
     private HttpHeaders getHeaders() {
-        HttpHeaders httpHeaders = new HttpHeaders();
+        System.out.println("======kakaoheader");
+    	HttpHeaders httpHeaders = new HttpHeaders();
 
         String auth = "KakaoAK " + admin_Key;
 
@@ -68,14 +70,14 @@ public class TestService {
 
         return httpHeaders;
     }
-    public KakaoApproveResponse ApproveResponse(String pgToken) {
-        
+    public KakaoApproveResponse ApproveResponse(String pgToken,ProductDTO dto) {
+        System.out.println("======kakaoApproveResponse");
         // 카카오 요청
         MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
         parameters.add("cid", cid);
         parameters.add("tid", kakaoReady.getTid());
-        parameters.add("partner_order_id", "가맹점 주문 번호");
-        parameters.add("partner_user_id", "가맹점 회원 ID");
+        parameters.add("partner_order_id", String.valueOf(dto.getCo_num()));
+        parameters.add("partner_user_id", dto.getP_m_id());
         parameters.add("pg_token", pgToken);
 
         // 파라미터, 헤더
