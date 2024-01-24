@@ -5,34 +5,37 @@ import java.util.Date;
 import lombok.Data;
 @Data
 public class PurchaseMemberListDTO {
-	   private int p_num;  //»óÇ°¾ÆÀÌµð
-	   private String p_m_id;  //ÆÇ¸ÅÀÚ¾ÆÀÌµð
-	   private String p_name; //»óÇ°¸í
-	   private int p_category; // Ä«Å×°í¸®¼±ÅÃ 111 »ï°ã»ì
-	   private int p_s_category;  // ´ÜÇ°¼¼Æ®
-	   private String thumb;  // ½æ³×ÀÏ »çÁø
-	   private int p_price;  // °¡°Ý
-	   private int p_rcount;  // Á¶È¸¼ö 
-	   private Date p_reg_date;  // µî·ÏÀÏ
-	   private String startdate;  // ÆÇ¸Å½ÃÀÛÀÏ
-	   private String enddate;  // ÆÇ¸ÅÁ¾·áÀÏ	 
+	   private int p_num;  //ï¿½ï¿½Ç°ï¿½ï¿½ï¿½Ìµï¿½
+	   private String p_m_id;  //ï¿½Ç¸ï¿½ï¿½Ú¾ï¿½ï¿½Ìµï¿½
+	   private String p_name; //ï¿½ï¿½Ç°ï¿½ï¿½
+	   private int p_category; // Ä«ï¿½×°ï¿½ï¿½ï¿½ï¿½ï¿½ 111 ï¿½ï¿½ï¿½ï¿½
+	   private int p_s_category;  // ï¿½ï¿½Ç°ï¿½ï¿½Æ®
+	   private String thumb;  // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	   private int p_price;  // ï¿½ï¿½ï¿½ï¿½
+	   private int p_rcount;  // ï¿½ï¿½È¸ï¿½ï¿½ 
+	   private Date p_reg_date;  // ï¿½ï¿½ï¿½ï¿½ï¿½
+	   private String startdate;  // ï¿½Ç¸Å½ï¿½ï¿½ï¿½ï¿½ï¿½
+	   private String enddate;  // ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	 
 	   
-	   private int order_num;  // µî·Ï¹øÈ£
-		private String order_m_id;  // ÆÇ¸ÅÀÚ
-		private int order_cp_num; // ÄíÆù¹øÈ£
-		private int order_p_num; //»óÇ°¹øÈ£
-		private int order_p_price;  //»óÇ°°¡°Ý
-		private int order_dere_num;  // ¼ÛÀå¹øÈ£
-		private int order_dere_pay;  // ¹è¼Ûºñ
-		private String order_addr;  //¹è¼ÛÁÖ¼Ò
-		private int order_quantity;  //¼ö·®
-		private String order_paytype;  // °áÀç¹æ¹ý
-		private int order_status;   //±¸¸ÅÇöÈ²
-		private int order_discount;  //ÇÒÀÎ±Ý¾×
-		private int order_totalprice;  //ÃÑ °áÁ¦±Ý¾×
-		private String order_memo;  // ¹è¼Û ¸Þ¸ð
-		private Date order_paydate;  //°áÁ¦ÀÏ
-		private Date order_canceldate;  //°áÁ¦ Ãë¼ÒÀÏ
+	   private int order_num;  // ï¿½ï¿½Ï¹ï¿½È£
+		private String order_m_id;  // ï¿½Ç¸ï¿½ï¿½ï¿½
+		private int order_cp_num; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
+		private int order_p_num; //ï¿½ï¿½Ç°ï¿½ï¿½È£
+		private int order_p_price;  //ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½
+		private int order_dere_num;  // ï¿½ï¿½ï¿½ï¿½ï¿½È£
+		private int order_dere_pay;  // ï¿½ï¿½Ûºï¿½
+		private String order_addr;  //ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½
+		private int order_quantity;  //ï¿½ï¿½ï¿½ï¿½
+		private String order_paytype;  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		private int order_status;   //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È²
+		private int order_discount;  //ï¿½ï¿½ï¿½Î±Ý¾ï¿½
+		private int order_totalprice;  //ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ý¾ï¿½
+		private String order_memo;  // ï¿½ï¿½ï¿½ ï¿½Þ¸ï¿½
+		private Date order_paydate;  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		private Date order_canceldate;  //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
+		
+		private Date order_dere_start;
+		private Date order_dere_end;
 		
 		private int mstat_m_status;
 		private String mstat_detail;

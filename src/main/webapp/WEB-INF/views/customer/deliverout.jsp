@@ -9,7 +9,7 @@
 </head>
 <body>
 <a href="/customers/customer">홈으로</a>
-<a href="/customers/delivered">구매확정</a>
+
 <a href="/customers/delivering">주문 접수 및 배송중</a>
 
 

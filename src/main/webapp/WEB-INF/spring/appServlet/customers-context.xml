@@ -10,6 +10,6 @@
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
 	<beans:bean id="boardMap" class="java.util.HashMap" />
-	
+	<beans:bean id="productoldname" class="java.util.ArrayList" />
 	
 </beans:beans>
