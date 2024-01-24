@@ -22,10 +22,25 @@
 	</select>
 	<input type="submit" value="조회">
 </form>
-<c:forEach var="dto" items="${list}">
-		${dto.rk_num} / ${dto.rk_status} / ${dto.rk_deposit_date} / ${dto.totalprice} /${dto.p_price} / ${dto.dere_pay}<br />
-</c:forEach>
-
+		<table border="1">
+		<tr>
+			<td>판매자</td>
+			<td>총매출</td>
+			<td>배송비</td>
+			<td>정산금액</td>
+			<td>쿠폰할인금액</td>
+		</tr>
+			<c:forEach var="dto" items="${list}">
+			<tr>		
+				<td>${dto.p_m_id}</td>
+				<td>${dto.totalprice} </td>
+				<td>${dto.order_dere_pay}</td>
+				<td>/${dto.deposit}</td>
+				<td>${dto.cp_price}</td>
+			</tr>	
+			</c:forEach>
+		</table>
+		${month}
 <c:if test="${count>0}">
 			<c:if test="${startPage>10}">
 	        	<a href="/admin/memberlist?pageNum=${startPage-10}&check=${check}">[이전]</a>

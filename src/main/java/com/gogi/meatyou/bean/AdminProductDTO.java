@@ -14,6 +14,8 @@ public class AdminProductDTO {
 	private int p_price;
 	private int report;
 	private int p_rcount;
+	private int p_status;
+	private int pd_p_status;
 	private Date p_reg_date;
 	
 }
