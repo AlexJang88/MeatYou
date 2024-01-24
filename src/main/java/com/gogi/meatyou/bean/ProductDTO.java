@@ -6,35 +6,45 @@ import lombok.Data;
 
 @Data
 public class ProductDTO {
-	   private int p_num;  //상품아이디
-	   private String p_m_id;  //판매자아이디
-	   private String p_name; //상품명
-	   private int p_category; // 카테고리선택 111 삼겹살
-	   private int p_s_category;  // 단품세트
-	   private String thumb;  // 썸네일 사진
-	   private int p_price;  // 가격
-	   private int p_rcount;  // 조회수 
-	   private Date p_reg_date;  // 등록일
-	   private String startdate;  // 판매시작일
-	   private String enddate;  // 판매종료일	  
-	   
-	   private int co_num; // 유료결제 코드번호
-	   private int co_p_num; // 유료결제 상품번호
- 
-	   private int p_status; // 판매상태   
-	   private int pd_p_num;  //상품id
-		private String pd_p_desc;  //상품설명	
-		private String origin; // 원산진
-		private String local;  // 농장주소
-		private int weight;  // 중량
-		private String butchery;  // 도축장
-		private int serialNum;  // 이력 번호
-		private String retain; // 보관방법
-		private int stock;  //재고수
-		private String pd_duedate;  //유통기한
-		private int pd_p_status;  // 노출상태
-		private PDetailDTO pdetaildto;  // 디테일 축약
-		private double star;
-		private int count;	// 판매량
+      private int p_num;  //  품   絹 
+      private String p_m_id;  // 퓔  岷  絹 
+      private String p_name; //  품  
+      private int p_category; // 카 陋      111     
+      private int p_s_category;  //   품  트
+      private String thumb;  //           
+      private int p_price;  //     
+      private int p_rcount;  //   회   
+      private Date p_reg_date;  //      
+      private String startdate;  //  퓔탐     
+      private String enddate;  //  퓔            
+      private String co_name;
+      private int co_num; //          湄  호
+      private int co_p_num; //           품  호
+      private int clickpay;
+      private int co_quantity;
+      
+      
+      
+      private int p_status; //  퓔탈      
+      private int pd_p_num;  //  품id
+      private String pd_p_desc;  //  품       
+      private String origin; //       
+      private String local;  //      玲 
+      private int weight;  //  芟 
+      private String butchery;  //       
+      private int serialNum;  //  肩    호
+      private String retain; //        
+      private int stock;  //    
+      private String pd_duedate;  //       
+      private int pd_p_status;  //        
+      private PDetailDTO pdetaildto;  //           
+      private double star;
+      private int count;   //  퓔킹 
+      
+      private int add_num;
+      private String add_m_id;
+      private String add_mem_address1;
+      private String add_mem_address2;
+      private int add_type;
       
    }

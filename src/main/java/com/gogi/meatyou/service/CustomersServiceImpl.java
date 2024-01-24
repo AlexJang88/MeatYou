@@ -620,6 +620,36 @@ public  class CustomersServiceImpl implements CustomersService {
 			model.addAttribute("endPage", endPage);		
 		}
 
+		@Override
+		public void powerlink(Model model, int p_num, int clickpay) {
+			int co_quantity = 0;
+		      if (clickpay == 10000) {
+		         co_quantity = 110;
+		      } else if (clickpay == 30000) {
+		         co_quantity = 330;
+		      } else if (clickpay == 50000) {
+		         co_quantity = 565;
+		      } else if (clickpay == 100000) {
+		         co_quantity = 1160;
+		      } else {
+		         co_quantity = 2400;
+		      }
+		      int co_num=mapper.getco_num();
+		      System.out.println("powerlink======"+co_num);
+		      ProductDTO productdto = new ProductDTO();
+		      productdto.setP_num(p_num); // 상품번호값
+		      productdto.setClickpay(clickpay);
+		      productdto.setCo_quantity(co_quantity);
+		      productdto.setCo_name("파워링크(" + co_quantity + "회)");
+		      productdto.setCo_num(mapper.getco_num());// co넘버값
+
+		      model.addAttribute("co_num", co_num);
+		      model.addAttribute("clickpay", clickpay);
+		      model.addAttribute("quantity", co_quantity);
+		      model.addAttribute("payMentItem", productdto); // 결제하는곳으로 상품 번호넘기기
+
+		}
+
 		
 
 		

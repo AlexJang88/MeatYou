@@ -276,14 +276,15 @@
 		delete from notice where n_num=#{n_num}
 	</delete>
 	<select id="getNoticeNum" parameterType="int">
-		 select last_number from user_sequences where sequence_name=upper('notice_seq')
+		 select notice_seq.nextval from dual
 	</select>
 	<insert id="noticeUpdate" parameterType="com.gogi.meatyou.bean.NoticeDTO">
 		update notice set n_title=#{n_title},n_content=#{n_content} where n_num=#{n_num}
 	</insert>
 	<select id="adminProductList" parameterType="hashMap" resultType="com.gogi.meatyou.bean.AdminProductDTO">
-	select * from (select a.*,rownum r from (select p_num,thumb,p_name,p_m_id,nvl(totalsales,0) totalsales,p_price,nvl(count,0) report,p_rcount,p_reg_date from 
-(select * from (select * from product p left outer join (select order_p_num,nvl(sum(order_p_price*order_quantity),0) as totalsales from m_order group by order_p_num) ts on p.p_num=ts.order_p_num)) list left outer join (select ma_ref,count(ma_ref) count from (select * from qna where ma_status>1000) group by ma_ref) report on list.p_num=report.ma_ref 
+	select * from (select a.*,rownum r from (select p_category,pd_p_status,p_num,thumb,p_name,p_m_id,nvl(totalsales,0) totalsales,p_price,nvl(count,0) report,p_rcount,p_status,p_reg_date from (select * from 
+(select * from (select * from product p left outer join (select order_p_num,nvl(sum(order_p_price*order_quantity),0) as totalsales from m_order group by order_p_num) ts on p.p_num=ts.order_p_num)) list left outer join (select ma_ref,count(ma_ref) count from (select * from qna where ma_status>1000) group by ma_ref) report on list.p_num=report.ma_ref) pro,p_detail pd where pro.p_num=pd.pd_p_num) a
+	
 		  <trim prefix="WHERE" prefixOverrides="AND |OR ">
         <if test="keyword != null and keyword != ''">
             <choose>
@@ -311,13 +312,24 @@
         </choose>
         <choose>
         	<when test="cate2==1">
-        		(trunc(mod(p_category,100)/10)=1 OR trunc(mod(p_category,100)/10)=2)
+        		(trunc(mod(p_category,100)/10)=1 OR trunc(mod(p_category,100)/10)=2) AND
         	</when>
         	<when test="cate2==2">
-        	trunc(mod(p_category,100)/10)=1
+        	trunc(mod(p_category,100)/10)=1 AND
         	</when>
         	<when test="cate2==3">
-        	trunc(mod(p_category,100)/10)=2
+        	trunc(mod(p_category,100)/10)=2 AND
+        	</when>
+        </choose>
+        <choose>
+        	<when test="pstatus==1">
+        		pd_p_status >=0 
+        	</when>
+        	<when test="pstatus==2">
+        		pd_p_status = 0 
+        	</when>
+        	<when test="pstatus==3">
+        		mod((pd_p_status/10),10) > 0 
         	</when>
         </choose>
     </trim>
@@ -336,13 +348,14 @@
     	</when>
     </choose>
     <![CDATA[
-    ) a) where r>=#{start} and r<=#{end}
+    ) where r>=#{start} and r<=#{end}
     ]]>
 </select>
    
 	<select id="adminProductCount" parameterType="hashMap" resultType="int">
-select count(*) from 
-(select * from (select * from product p left outer join (select order_p_num,nvl(sum(order_p_price*order_quantity),0) as totalsales from m_order group by order_p_num) ts on p.p_num=ts.order_p_num)) list left outer join (select ma_ref,count(ma_ref) count from (select * from qna where ma_status>1000) group by ma_ref) report on list.p_num=report.ma_ref
+	select count(*) from (select a.*,rownum r from (select p_category,pd_p_status,p_num,thumb,p_name,p_m_id,nvl(totalsales,0) totalsales,p_price,nvl(count,0) report,p_rcount,p_status,p_reg_date from (select * from 
+(select * from (select * from product p left outer join (select order_p_num,nvl(sum(order_p_price*order_quantity),0) as totalsales from m_order group by order_p_num) ts on p.p_num=ts.order_p_num)) list left outer join (select ma_ref,count(ma_ref) count from (select * from qna where ma_status>1000) group by ma_ref) report on list.p_num=report.ma_ref) pro,p_detail pd where pro.p_num=pd.pd_p_num) a)
+	
     <trim prefix="WHERE" prefixOverrides="AND |OR " suffixOverrides="AND |OR ">
         <if test="keyword != null and keyword != ''">
             <choose>
@@ -370,22 +383,33 @@ select count(*) from
         </choose>
         <choose>
         	<when test="cate2==1">
-        		(trunc(mod(p_category,100)/10)=1 OR trunc(mod(p_category,100)/10)=2)
+        		(trunc(mod(p_category,100)/10)=1 OR trunc(mod(p_category,100)/10)=2) AND
         	</when>
         	<when test="cate2==2">
-        	trunc(mod(p_category,100)/10)=1
+        	trunc(mod(p_category,100)/10)=1 AND
         	</when>
         	<when test="cate2==3">
-        	trunc(mod(p_category,100)/10)=2
+        	trunc(mod(p_category,100)/10)=2 AND
+        	</when>
+        </choose>
+        <choose>
+        	<when test="pstatus==1">
+        		pd_p_status >=0 
+        	</when>
+        	<when test="pstatus==2">
+        		pd_p_status = 0 
+        	</when>
+        	<when test="pstatus==3">
+        		mod((pd_p_status/10),10) > 0 
         	</when>
         </choose>
     </trim>
     <choose>
     	<when test="cate3 == 1">
-    		order by p_reg_date desc
+    		order by p_reg_date desc 
     	</when>
     	<when test="cate3 == 2">
-    		order by totalsales desc nulls last
+    		order by totalsales desc nulls last 
     	</when>
     	<when test="cate3 == 3">
     		order by p_rcount desc
@@ -396,8 +420,36 @@ select count(*) from
     </choose>
 </select>
 
-<select id="reckonList" >
-	
-</select>
+<update id="pdstatChange" parameterType="hashMap">
+	update p_detail set pd_p_status=+10,memo=#{memo} where pd_p_num=#{pd_p_num}
+</update>
+<update id="releaseIssue">
+	update p_detail set pd_p_status=-10,memo=null where pd_p_num=#{pd_p_num}
+</update>
 
+<select id="getQnAnumber" resultType="int">
+	select last_number from user_sequences where sequence_name=upper('qna_seq')
+</select>
+<select id="QnAnextval">
+	select qna_seq.nextval from dual;
+</select>
+<insert id="reportReg" parameterType="com.gogi.meatyou.bean.QnADTO">
+	insert into QnA values(
+			#{ma_num},
+			#{ma_m_id},
+			#{ma_title},
+			#{ma_content},
+			1000,
+			sysdate,
+			#{ma_ref}
+		)
+</insert>
+	<insert id="ReportFileUpload" parameterType="com.gogi.meatyou.bean.NoticeFileDTO">
+		insert into noticefile values(
+		noticefile_seq.nextval,
+		#{nf_n_num},
+		#{nf_filename},
+		20
+		)
+	</insert>
 </mapper>

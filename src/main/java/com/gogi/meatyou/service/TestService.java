@@ -8,6 +8,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import com.gogi.meatyou.bean.ProductDTO;
 import com.gogi.meatyou.test.KakaoApproveResponse;
 import com.gogi.meatyou.test.KakaoReadyResponse;
 
@@ -23,7 +24,7 @@ public class TestService {
     private KakaoReadyResponse kakaoReady;
     
     
-    public KakaoReadyResponse kakaoPayReady() {
+    public KakaoReadyResponse kakaoPayReady(ProductDTO dto) {
 
          // 카카오페이 요청 양식
         MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();

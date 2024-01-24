@@ -36,13 +36,13 @@ public class CustomersController {
       return "customer/customer";
    }
    
-   @RequestMapping("itemUpdate") //»óÇ°µî·Ï
+   @RequestMapping("itemUpdate") //ï¿½ï¿½Ç°ï¿½ï¿½ï¿½
    public String update(Principal pc) {
 	   String id = pc.getName();
       return "customer/itemUpdate";
    }
 
-   @RequestMapping("itemUpdatePro") //»óÇ°µî·ÏÈ®ÀÎ
+   @RequestMapping("itemUpdatePro") //ï¿½ï¿½Ç°ï¿½ï¿½ï¿½È®ï¿½ï¿½
    public String itemUpdatePro( Principal pc, ProductDTO productdto, PDetailDTO pdetaildto) {
 	   productdto.setP_m_id(pc.getName());
       service.itemUpdate(productdto,pdetaildto);      
@@ -52,14 +52,14 @@ public class CustomersController {
 
   
       
-   @RequestMapping("itemList") //µî·ÏÇÑ »óÇ°¸ñ·Ï
+   @RequestMapping("itemList") //ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç°ï¿½ï¿½ï¿½
 	public String itemList(Model model, Principal pc, @RequestParam(value="pageNum", defaultValue = "1") int pageNum) { 
 			String id = pc.getName();
-		service.list(model, id, pageNum);  // ¾ÆÀÌµð°ª ³Ñ±â±â		
+		service.list(model, id, pageNum);  // ï¿½ï¿½ï¿½Ìµï¿½ ï¿½Ñ±ï¿½ï¿½		
 		return "customer/itemList";
 	}
    
-   @RequestMapping("/statusChange") //»óÇ°¸ñ·ÏÆäÀÌÁö¿¡¼­ º¯°æÇÏ¸é µ¹¾Æ¿À´Â°÷¼³Á¤
+   @RequestMapping("/statusChange") //ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½Æ¿ï¿½ï¿½Â°ï¿½ï¿½ï¿½ï¿½ï¿½
    public String statusChange(Model model, Principal pc, int p_status, int p_num, int pageNum, ProductDTO productdto) {	   
 	   model.addAttribute("pageNum", pageNum);
 	   String id = pc.getName();
@@ -69,10 +69,10 @@ public class CustomersController {
 	    	co_num=p_status;
 	    	p_status=1;     	   
 	   }      
-       productdto.setP_m_id(id);    // ¾ÆÀÌµð°ª
-       productdto.setP_status(p_status); // º¯°æµÈ »óÇ° »óÅÂ°ª
-       productdto.setP_num(p_num); //»óÇ°¹øÈ£°ª
-       productdto.setCo_num(co_num); //»óÇ°¹øÈ£°ª 1¹øÀÏ‹š¸¸¾¸
+       productdto.setP_m_id(id);    // ï¿½ï¿½ï¿½Ìµï¿½
+       productdto.setP_status(p_status); // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½ï¿½Â°ï¿½
+       productdto.setP_num(p_num); //ï¿½ï¿½Ç°ï¿½ï¿½È£ï¿½ï¿½
+       productdto.setCo_num(co_num); //ï¿½ï¿½Ç°ï¿½ï¿½È£ï¿½ï¿½ 1ï¿½ï¿½ï¿½Ï‹ï¿½ï¿½ï¿½ï¿½ï¿½
         
        System.out.println("===++"+id);
        System.out.println("===++"+p_status);
@@ -80,75 +80,75 @@ public class CustomersController {
        System.out.println("===++"+co_num);
        
        
-       service.statusChange(productdto); // È¸¿øÀÇ ÆÇ¸Å»óÅÂ¸¦ º¯°æ
+       service.statusChange(productdto); // È¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¸Å»ï¿½ï¿½Â¸ï¿½ ï¿½ï¿½ï¿½ï¿½
        return "redirect:/customers/itemList?pageNum="+pageNum;
    }
    
-   @RequestMapping("itemListOut") //ÆÇ¸ÅÁ¾·áµÈ »óÇ°¸ñ·Ï
+   @RequestMapping("itemListOut") //ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç°ï¿½ï¿½ï¿½
  	public String itemListOut(Model model, Principal pc, @RequestParam(value="pageNum", defaultValue = "1") int pageNum ) {
 	    String id= pc.getName();		
- 		service.listout(model, id, pageNum); // ¾ÆÀÌµð°ª ³Ñ±â±â			
+ 		service.listout(model, id, pageNum); // ï¿½ï¿½ï¿½Ìµï¿½ ï¿½Ñ±ï¿½ï¿½			
  		return "customer/itemListOut";
  	}
    
    
    
-   @RequestMapping("/statusChangeout") //ÆÇ¸ÅÁ¾·áµÈ »óÇ°¸ñ·Ï ÆäÀÌÁö¿¡¼­ º¯°æÇÏ¸é µ¹¾Æ¿À´Â°÷¼³Á¤
+   @RequestMapping("/statusChangeout") //ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½Æ¿ï¿½ï¿½Â°ï¿½ï¿½ï¿½ï¿½ï¿½
 	public String statusChangeout(Principal pc,  int p_status, int p_num,  ProductDTO productdto, int pageNum) {	   
 	   String id= pc.getName();
-	   productdto.setP_m_id(id); // º¯°æµÈ »óÇ° »óÅÂ°ª	
-	   productdto.setP_num(p_num); // º¯°æµÈ »óÇ° »óÅÂ°ª	
-		productdto.setP_status(p_status); // º¯°æµÈ »óÇ° »óÅÂ°ª	
+	   productdto.setP_m_id(id); // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½ï¿½Â°ï¿½	
+	   productdto.setP_num(p_num); // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½ï¿½Â°ï¿½	
+		productdto.setP_status(p_status); // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½ï¿½Â°ï¿½	
 		
-		service.statusChangeouut(productdto); // È¸¿øÀÇ ÆÇ¸Å»óÅÂ¸¦ º¯°æ	
+		service.statusChangeouut(productdto); // È¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¸Å»ï¿½ï¿½Â¸ï¿½ ï¿½ï¿½ï¿½ï¿½	
 		return "redirect:/customers/itemListOut?pageNum="+pageNum;
 	}
    
-   @RequestMapping("content") //»óÇ° Á¤º¸º¸±â
+   @RequestMapping("content") //ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public String content(Model model, int p_num ) {
 		model.addAttribute("p_num",p_num);		
 		return "customer/content";
 	}
    
    
- //¿©±â´Â Á¤º¸¼öÁ¤	
- 	@RequestMapping("itemRevise") //»óÇ° Á¤º¸¼öÁ¤ (°ª È®ÀÎÇÏ±â
+ //ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	
+ 	@RequestMapping("itemRevise") //ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï±ï¿½
  	public String itemRevise(Model model, int p_num ) {
  		model.addAttribute("p_num",p_num);
  		service.lister(model, p_num);			
  		return "customer/itemRevise";
  	}
       
- 	@RequestMapping("itemRevisePro") //»óÇ° Á¤º¸¼öÁ¤ ÇÁ·ÎÆäÀÌÁö
+ 	@RequestMapping("itemRevisePro") //ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public String itemRevisePro( ProductDTO productdto, PDetailDTO pdetaildto) {					
 		service.updateitemPro(productdto,pdetaildto);			
 		return "redirect:/customers/itemList";
 	}
    
    
- 	//¿©±â´Â Àç°íÇöÈ²ÆÄ¾Ç
+ 	//ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½È²ï¿½Ä¾ï¿½
 	
- 		@RequestMapping("stock") //ÀüÃ¼ »óÇ° Àç°íÇöÈ²
+ 		@RequestMapping("stock") //ï¿½ï¿½Ã¼ ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½ï¿½È²
  		public String stock(Model model, Principal pc, @RequestParam(value="pageNum", defaultValue = "1") int pageNum) {
  		    String id= pc.getName();		
- 			service.stocklist(model, id, pageNum);  // ¾ÆÀÌµð°ª ³Ñ±â±â		
+ 			service.stocklist(model, id, pageNum);  // ï¿½ï¿½ï¿½Ìµï¿½ ï¿½Ñ±ï¿½ï¿½		
  			return "customer/stock";
  		}
    
- 		@RequestMapping("onStock") //ÆÇ¸ÅÁßÀÎ »óÇ° Àç°íÇöÈ²
+ 		@RequestMapping("onStock") //ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½ï¿½È²
  		public String onStock(Model model, Principal pc, @RequestParam(value="pageNum", defaultValue = "1") int pageNum) {
  		    String id= pc.getName();
  			service.onStock(model, id, pageNum);		
  			return "customer/onStock";
  		}
  		
- 		@RequestMapping("stockPro") //»óÇ° ÀüÃ¼¸ñ·Ï Áß Àç°í º¯°æ
+ 		@RequestMapping("stockPro") //ï¿½ï¿½Ç° ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
  		public String stockPro(PDetailDTO pdetaildto) {		
  			service.stockPro(pdetaildto);		
  			return "redirect:/customers/stock";
  		}
  		
- 		@RequestMapping("stockOnPro") //ÆÇ¸ÅÁßÀÎ »óÇ°Áß Áß Àç°í º¯°æ
+ 		@RequestMapping("stockOnPro") //ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç°ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
  		public String stockOnPro(PDetailDTO pdetaildto) {		
  			service.stockOnPro(pdetaildto);		
  			return "redirect:/customers/onStock";
@@ -160,8 +160,8 @@ public class CustomersController {
  		
    
    
- 		//À¯·á°áÁ¦¶õ
- 		@RequestMapping("pay") //À¯·á°áÁ¦
+ 		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ 		@RequestMapping("pay") //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  		public String pay(Model model, Principal pc, @RequestParam(value="pageNum", defaultValue = "1") int pageNum ) {
  		    String id= pc.getName();
  		   model.addAttribute("pageNum",pageNum);
@@ -171,7 +171,7 @@ public class CustomersController {
  		}
  		
 		
- 		@RequestMapping("payOne") //À¯·á°áÁ¦
+ 		@RequestMapping("payOne") //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  		public String payOne(Model model, Principal pc, @RequestParam(value="pageNum", defaultValue = "1") int pageNum ) {
  		    String id= pc.getName();
  		   model.addAttribute("pageNum",pageNum);
@@ -180,7 +180,7 @@ public class CustomersController {
  			return "customer/payOne";
  		}
  		
- 		@RequestMapping("payTwo") //À¯·á°áÁ¦
+ 		@RequestMapping("payTwo") //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  		public String payTwo(Model model, Principal pc, @RequestParam(value="pageNum", defaultValue = "1") int pageNum ) {
  		    String id= pc.getName();
  		   model.addAttribute("pageNum",pageNum);
@@ -190,33 +190,27 @@ public class CustomersController {
  		}
  		
  		
- 		@RequestMapping("powerlink") //ÆÄ¿ö¸µÅ© À¯·á°áÁ¦ ÆäÀÌÁö
+ 		@RequestMapping("powerlink") //ï¿½Ä¿ï¿½ï¿½ï¿½Å© ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  		public String powerlink(Model model, Principal pc ) {
  		    String id= pc.getName();
- 			service.powerlist(model, id);  // ¾ÆÀÌµð°ª ³Ñ±â±â			
+ 			service.powerlist(model, id);  // ï¿½ï¿½ï¿½Ìµï¿½ ï¿½Ñ±ï¿½ï¿½			
  			return "customer/powerlink";
  		}
  		
- 		@RequestMapping("itemplus") //Ç°¸ñÈ®Àå À¯·á°áÁ¦ ÆäÀÌÁö
+ 		@RequestMapping("itemplus") //Ç°ï¿½ï¿½È®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  		public String itemplus(Model model, Principal pc) { 		
  			String id = pc.getName();
  			model.addAttribute("id",id);
  			return "customer/itemplus";
  		}
  		
- 		@RequestMapping("powerlinkpay") //ÆÄ¿ö¸µÅ© °áÁ¦ Ã¢  // ÀÌ°Å ¾ÆÁ÷ ¾ÈµÊ
+ 		@RequestMapping("powerlinkpay") //ï¿½Ä¿ï¿½ï¿½ï¿½Å© ï¿½ï¿½ï¿½ï¿½ Ã¢  // ï¿½Ì°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Èµï¿½
  		public String powerlinkpay(Model model, int p_num, Principal pc, int co_num, int clickpay) { 
- 			String id = pc.getName();
- 			ProductDTO productdto = new ProductDTO();  			 			
- 			productdto.setP_m_id(id);	// ¾ÆÀÌµð°ª		
- 			productdto.setP_num(p_num); //»óÇ°¹øÈ£°ª
- 			service.payment(model,productdto); // °áÁ¦ÇÏ´Â°÷À¸·Î »óÇ° ¹øÈ£³Ñ±â±â
- 			model.addAttribute("co_num",co_num);
- 			model.addAttribute("clickpay",clickpay);			
+ 			service.powerlink(model, p_num, clickpay);
  			return "customer/powerlinkpay";
  		}
  		
- 		@RequestMapping("powerlinkpayPro") //ÆÄ¿ö¸µÅ© °áÁ¦ Ã¢  // ÀÌ°Å ¾ÆÁ÷ ¾ÈµÊ
+ 		@RequestMapping("powerlinkpayPro") //ï¿½Ä¿ï¿½ï¿½ï¿½Å© ï¿½ï¿½ï¿½ï¿½ Ã¢  // ï¿½Ì°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Èµï¿½
  		public String powerlinkpayPro(int clickcount,int clickpay, CusOrderDTO cusorderDTO, Principal pc, int p_num) { 
  			String id = pc.getName();		
  			cusorderDTO.setCo_m_id(id);
@@ -230,7 +224,7 @@ public class CustomersController {
  		}
  		
  		
- 		@RequestMapping("itemplusPro") //Ç°¸ñ°áÀç ¿Ï·á
+ 		@RequestMapping("itemplusPro") //Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½
  		public String itemplusPro(CusOrderDTO cusorderDTO, Principal pc) { 					
  			cusorderDTO.setCo_m_id(pc.getName());
  			
@@ -243,16 +237,16 @@ public class CustomersController {
  		
  		
    
- 		@RequestMapping("profit") //¸ÅÃâÇöÈ²
+ 		@RequestMapping("profit") //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È²
  		public String profit(Model model,@RequestParam(value="check",defaultValue="0")int check,String daterange, Principal pc) {
  			String id = pc.getName();
  			
- 		// ÇöÀç ³¯Â¥
+ 		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥
  	        Date currentDate = new Date();
- 	        // check¿¡ µû¶ó¼­ ³¯Â¥¸¦ °è»ê
+ 	        // checkï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ï¿½ï¿½ ï¿½ï¿½ï¿½
  	        Date targetDate = service.calculateTargetDate(currentDate, check);
- 	        // SimpleDateFormatÀ» »ç¿ëÇÏ¿© ¿øÇÏ´Â Çü½ÄÀ¸·Î ³¯Â¥¸¦ ¹®ÀÚ¿­·Î º¯È¯
- 	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy³â MM¿ù");
+ 	        // SimpleDateFormatï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
+ 	        SimpleDateFormat sdf = new SimpleDateFormat("yyyyï¿½ï¿½ MMï¿½ï¿½");
  	        String formattedDate = sdf.format(targetDate);
  	        model.addAttribute("currentMonth", targetDate.getMonth() + 1);
  	        model.addAttribute("currentYear", targetDate.getYear() + 1900);
@@ -262,21 +256,21 @@ public class CustomersController {
  			}else {
  				String start = daterange.substring(0,10);
  				String end = daterange.substring(13, 23);
- 				//service.getCheckprofit(model,check,start,end,id); ¾ÆÁ÷ ¾ÈÇÔ
+ 				//service.getCheckprofit(model,check,start,end,id); ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
  			}			
  			return "customer/profit";
  		}	
  		
- 		@RequestMapping("profitItem") //ÆÇ¸Å»óÇ°ÇöÈ²
+ 		@RequestMapping("profitItem") //ï¿½Ç¸Å»ï¿½Ç°ï¿½ï¿½È²
  		public String profitItem(Model model,@RequestParam(value="check",defaultValue="0")int check,String daterange, Principal pc, @RequestParam(value="pageNum", defaultValue = "1") int pageNum) {
  			String id = pc.getName();
  			
- 		// ÇöÀç ³¯Â¥
+ 		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥
  	        Date currentDate = new Date();
- 	        // check¿¡ µû¶ó¼­ ³¯Â¥¸¦ °è»ê
+ 	        // checkï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ï¿½ï¿½ ï¿½ï¿½ï¿½
  	        Date targetDate = service.calculateTargetDate(currentDate, check);
- 	        // SimpleDateFormatÀ» »ç¿ëÇÏ¿© ¿øÇÏ´Â Çü½ÄÀ¸·Î ³¯Â¥¸¦ ¹®ÀÚ¿­·Î º¯È¯
- 	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy³â MM¿ù");
+ 	        // SimpleDateFormatï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
+ 	        SimpleDateFormat sdf = new SimpleDateFormat("yyyyï¿½ï¿½ MMï¿½ï¿½");
  	        String formattedDate = sdf.format(targetDate);
  	        model.addAttribute("currentMonth", targetDate.getMonth() + 1);
  	        model.addAttribute("currentYear", targetDate.getYear() + 1900);
@@ -287,7 +281,7 @@ public class CustomersController {
  			}else {
  				String start = daterange.substring(0,10);
  				String end = daterange.substring(13, 23);
- 				//service.getCheckProfitItem(model,check,start,end,id); ¾ÆÁ÷¾ÈÇÔ
+ 				//service.getCheckProfitItem(model,check,start,end,id); ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  			}			
  			return "customer/profitItem";
  		}
@@ -298,16 +292,16 @@ public class CustomersController {
  		
  		
 
-		@RequestMapping("consumerList") //±¸¸ÅÈ¸¿ø
+		@RequestMapping("consumerList") //ï¿½ï¿½ï¿½ï¿½È¸ï¿½ï¿½
  		public String consumerList(Model model,@RequestParam(value="check",defaultValue="0")int check, @RequestParam(value="pageNum", defaultValue = "1") int pageNum, Principal pc) {
 			String id = pc.getName();
 			
-			// ÇöÀç ³¯Â¥
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥
  	        Date currentDate = new Date();
- 	        // check¿¡ µû¶ó¼­ ³¯Â¥¸¦ °è»ê
+ 	        // checkï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ï¿½ï¿½ ï¿½ï¿½ï¿½
  	        Date targetDate = service.calculateTargetDate(currentDate, check);
- 	        // SimpleDateFormatÀ» »ç¿ëÇÏ¿© ¿øÇÏ´Â Çü½ÄÀ¸·Î ³¯Â¥¸¦ ¹®ÀÚ¿­·Î º¯È¯
- 	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy³â MM¿ù");
+ 	        // SimpleDateFormatï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
+ 	        SimpleDateFormat sdf = new SimpleDateFormat("yyyyï¿½ï¿½ MMï¿½ï¿½");
  	        String formattedDate = sdf.format(targetDate);
  	        model.addAttribute("currentMonth", targetDate.getMonth() + 1);
  	        model.addAttribute("currentYear", targetDate.getYear() + 1900);
@@ -317,7 +311,7 @@ public class CustomersController {
  		}
  		
 		
-		@RequestMapping("cusCoupon") //ÄíÆùÁ¦°øÇÏ´Â ÆäÀÌÁö
+		@RequestMapping("cusCoupon") //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  		public String cusCoupon(Model model, String p_m_id, Principal pc) {
 			String id = pc.getName();
 			
@@ -330,7 +324,7 @@ public class CustomersController {
  		}
 		
 		
-		@RequestMapping("cusCouponPro") //ÄíÆùÁ¦°øÇÏ´Â ÆäÀÌÁö
+		@RequestMapping("cusCouponPro") //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  		public String cusCouponPro(Model model, String p_m_id, Principal pc, int point, CouponDTO coupondto, int companynum, int p_status,int couponUse) {
 			String id = pc.getName();
 			
@@ -342,11 +336,11 @@ public class CustomersController {
 		
 		
 		
-		@RequestMapping("CouponList") //ÄíÆùÁ¦°øÇÑ ÆäÀÌÁö
+		@RequestMapping("CouponList") //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  		public String CouponList(Model model, Principal pc, @RequestParam(value="pageNum", defaultValue = "1") int pageNum) {
 			String id = pc.getName();
 			
-			service.couponList(model, id, pageNum); //ÄíÆù Á¦°øÇÑ ¸®½ºÆ®
+			service.couponList(model, id, pageNum); //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
  			return "customer/CouponList";
  		}
 		
@@ -356,16 +350,16 @@ public class CustomersController {
 		
  		
  		
- 		@RequestMapping("deliverout") // ±¸¸ÅÃë¼Ò
+ 		@RequestMapping("deliverout") // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  		public String deliver(Model model,@RequestParam(value="check",defaultValue="0")int check,@RequestParam(value="pageNum", defaultValue = "1") int pageNum, Principal pc) {
  			String id = pc.getName();
  			
- 			//ÇöÀç ³¯Â¥
+ 			//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥
  	        Date currentDate = new Date();
- 	        // check¿¡ µû¶ó¼­ ³¯Â¥¸¦ °è»ê
+ 	        // checkï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ï¿½ï¿½ ï¿½ï¿½ï¿½
  	        Date targetDate = service.calculateTargetDate(currentDate, check);
- 	        // SimpleDateFormatÀ» »ç¿ëÇÏ¿© ¿øÇÏ´Â Çü½ÄÀ¸·Î ³¯Â¥¸¦ ¹®ÀÚ¿­·Î º¯È¯
- 	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy³â MM¿ù");
+ 	        // SimpleDateFormatï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
+ 	        SimpleDateFormat sdf = new SimpleDateFormat("yyyyï¿½ï¿½ MMï¿½ï¿½");
  	        String formattedDate = sdf.format(targetDate);
  	        model.addAttribute("currentMonth", targetDate.getMonth() + 1);
  	        model.addAttribute("currentYear", targetDate.getYear() + 1900);
@@ -376,21 +370,21 @@ public class CustomersController {
  		}
  			
  		
- 		@RequestMapping("delivering") //°áÁ¦¿Ï·á, ¹è¼ÛÁß, ¹è¼Û¿Ï·á , 
+ 		@RequestMapping("delivering") //ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½Û¿Ï·ï¿½ , 
  		public String delivering() {
  			return "customer/delivering";
  		}
  		
- 		@RequestMapping("delivered") //±¸¸ÅÈ®Á¤
+ 		@RequestMapping("delivered") //ï¿½ï¿½ï¿½ï¿½È®ï¿½ï¿½
  		public String delivered(Model model,@RequestParam(value="check",defaultValue="0")int check,@RequestParam(value="pageNum", defaultValue = "1") int pageNum, Principal pc) {
  			String id = pc.getName();
  			
- 			//ÇöÀç ³¯Â¥
+ 			//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥
  	        Date currentDate = new Date();
- 	        // check¿¡ µû¶ó¼­ ³¯Â¥¸¦ °è»ê
+ 	        // checkï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ï¿½ï¿½ ï¿½ï¿½ï¿½
  	        Date targetDate = service.calculateTargetDate(currentDate, check);
- 	        // SimpleDateFormatÀ» »ç¿ëÇÏ¿© ¿øÇÏ´Â Çü½ÄÀ¸·Î ³¯Â¥¸¦ ¹®ÀÚ¿­·Î º¯È¯
- 	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy³â MM¿ù");
+ 	        // SimpleDateFormatï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
+ 	        SimpleDateFormat sdf = new SimpleDateFormat("yyyyï¿½ï¿½ MMï¿½ï¿½");
  	        String formattedDate = sdf.format(targetDate);
  	        model.addAttribute("currentMonth", targetDate.getMonth() + 1);
  	        model.addAttribute("currentYear", targetDate.getYear() + 1900);
@@ -404,12 +398,12 @@ public class CustomersController {
  		
  		
  		
- 		@RequestMapping("total") //Á¤»ê¾È³»
+ 		@RequestMapping("total") //ï¿½ï¿½ï¿½ï¿½È³ï¿½
  		public String total() {
  			return "customer/total";
  		}
  		
- 		@RequestMapping("cusQna") //¹®ÀÇÇÏ±â
+ 		@RequestMapping("cusQna") //ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
  		public String cusQna() {
  			return "customer/cusQna";
  		}

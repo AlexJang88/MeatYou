@@ -17,81 +17,83 @@ import com.gogi.meatyou.bean.PurchaseMemberListDTO;
 
 public interface CustomersMapper {
 
-	public void productUp(ProductDTO productdto); //»óÇ°µî·Ï
-	public int productCurrval();//µî·ÏµÈ »óÇ°¹øÈ£ °¡Á®¿À±â
-	public void P_DETAILUp(PDetailDTO pdetaildto);  // »óÇ°»ó¼¼µî·Ï
+	public void productUp(ProductDTO productdto); //ï¿½ï¿½Ç°ï¿½ï¿½ï¿½
+	public int productCurrval();//ï¿½ï¿½Ïµï¿½ ï¿½ï¿½Ç°ï¿½ï¿½È£ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	public void P_DETAILUp(PDetailDTO pdetaildto);  // ï¿½ï¿½Ç°ï¿½ó¼¼µï¿½ï¿½
 	
-	public int itemcount(String id); // »óÇ°¸ñ·ÏÆäÀÌÁöÀÇ  ÃÑ µî·Ï °¹¼ö
-	public int paycount(String id); // Ç°¸ñ À¯·á°áÁ¦ÇÑ °¹¼ö	
-	public int itemcounting(String id); // ÆÇ¸ÅÁßÀÎ »óÇ° ÆäÀÌÁö¿¡¼­ ÆÇ¸ÅÁßÀÎ °¹¼ö
-	public int itemcountout(String id); // ÆÇ¸ÅÁßÀÎ »óÇ° ÆäÀÌÁö¿¡¼­ ÆÇ¸ÅÁßÀÎ °¹¼ö
+	public int itemcount(String id); // ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	public int paycount(String id); // Ç°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½	
+	public int itemcounting(String id); // ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	public int itemcountout(String id); // ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	
-	public List<ProductDTO> list(HashMap map); // »óÇ°¸ñ·Ï ÀüÃ¼ ÆäÀÌÁö
-	public List<ProductDTO> listout(HashMap map); // ÆÇ¸ÅÁßÀÎ »óÇ°µéÀÌ º¸ÀÌ´Â ÆäÀÌÁö 
-	public List<CusOrderDTO> cus_order (String id); // À¯·á°áÁ¦ ÄÚµå °¡Á®¿À±â
-	public int member_status(String id); // »óÇ°¸ñ·Ï¿¡¼­ ³ëÃâºñ³ëÃâ Ç¥±â½Ã µî±Þ¿¡µû¶ó ³ª¿À°Ô ( 2001 2002 2003 2004 ÀÌ³ª¿Â´Ù)
+	public List<ProductDTO> list(HashMap map); // ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	public List<ProductDTO> listout(HashMap map); // ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+	public List<CusOrderDTO> cus_order (String id); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	public int member_status(String id); // ï¿½ï¿½Ç°ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½ ï¿½ï¿½Þ¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ( 2001 2002 2003 2004 ï¿½Ì³ï¿½ï¿½Â´ï¿½)
 	
-	//È¸¿ø µî±ÞÀ» ¹Ù²Ù´Â ÄÚµå
-	public int cuscheck(ProductDTO productdto);//¿ì¼± ±âÁ¸¿¡ °ªÀÌ ÀÖ´ÂÁö Ã£´Â´Ù ÀÖÀ¸¸é 1¹ø  ¾øÀ¸¸é 0	
-	public void gijon(ProductDTO productdto); // ±âÁ¸ÀÇ °ªÀÌ ÀÖ¾î¼­ 1ÀÌ ³ª¿À¸é ±âÁ¸ÀÇ °ªÀ» status 2(ÆÇ¸Å´ë±â)·Î ¹Ù²Û´Ù
-	public void gijonCoNum(ProductDTO productdto); // ±âÁ¸¿¡ °¡Áö°í ÀÖ´ø cus_orderÀÇ co_p_numÀ»  null·Î ¹Ù²Û´Ù
-	public void conumchange(ProductDTO productdto); // À¯·á°áÁ¦, ´ë±âÁß µî¿¡¼­  ÆÇ¸ÅÁßÀ¸·Î º¯°æ½Ã  CUS_ORDER ¹øÈ£°ªÀ» null·Î	
-	public void statusChange(ProductDTO productdto); //productÀÇ 0, 1, 2, 3 À¸·Î »óÅÂº¯°æ	½ºÅ×ÀÌÅÍ½º °ª º¯°æ
-	public void cus_num(ProductDTO productdto); //cus oder À¯·á°áÁ¦ ÄÚµå ¹øÈ£¸¦ ¼³Á¤ÇÏ´Â°÷
-	public void cus_numdelete(ProductDTO productdto); //cus oder À¯·á°áÁ¦ ÄÚµå ¹øÈ£¸¦ ¼³Á¤ÇÏ´Â°÷
+	//È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²Ù´ï¿½ ï¿½Úµï¿½
+	public int cuscheck(ProductDTO productdto);//ï¿½ì¼± ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ Ã£ï¿½Â´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1ï¿½ï¿½  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0	
+	public void gijon(ProductDTO productdto); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¾î¼­ 1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ status 2(ï¿½Ç¸Å´ï¿½ï¿½)ï¿½ï¿½ ï¿½Ù²Û´ï¿½
+	public void gijonCoNum(ProductDTO productdto); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ cus_orderï¿½ï¿½ co_p_numï¿½ï¿½  nullï¿½ï¿½ ï¿½Ù²Û´ï¿½
+	public void conumchange(ProductDTO productdto); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½î¿¡ï¿½ï¿½  ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½  CUS_ORDER ï¿½ï¿½È£ï¿½ï¿½ï¿½ï¿½ nullï¿½ï¿½	
+	public void statusChange(ProductDTO productdto); //productï¿½ï¿½ 0, 1, 2, 3 ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Âºï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	public void cus_num(ProductDTO productdto); //cus oder ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´Â°ï¿½
+	public void cus_numdelete(ProductDTO productdto); //cus oder ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´Â°ï¿½
 	
-	//¾Æ·¡·Î´Â »óÇ° ¼öÁ¤
-	public ProductDTO lister(int p_num); // ¹øÈ£¿¡ ¸Â´Â »óÇ° Á¤º¸ °¡Á®¿À±â
-	public PDetailDTO listerPD(int p_num); // ¹øÈ£¿¡ ¸Â´Â »óÇ°»ó¼¼ Á¤º¸ °¡Á®¿À±â
-	public void itemUP(ProductDTO productdto); //»óÇ° Á¤º¸¼öÁ¤
-	public void itemDpUP(PDetailDTO pdetaildto); //»óÇ°»ó¼¼ Á¤º¸¼öÁ¤
+	//ï¿½Æ·ï¿½ï¿½Î´ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½
+	public ProductDTO lister(int p_num); // ï¿½ï¿½È£ï¿½ï¿½ ï¿½Â´ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	public PDetailDTO listerPD(int p_num); // ï¿½ï¿½È£ï¿½ï¿½ ï¿½Â´ï¿½ ï¿½ï¿½Ç°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	public void itemUP(ProductDTO productdto); //ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	public void itemDpUP(PDetailDTO pdetaildto); //ï¿½ï¿½Ç°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	
-	//Àç°íÇöÈ²	
-	public List<ProductDTO> stocklist(HashMap map);  // ¾ÆÀÌµð¿¡ ¸Â´Â »óÇ° Á¦°í ¹× ¸ñ·Ï °¡Á®¿À±â
-	public List<ProductDTO> stockonlist(HashMap map);  // id¿¡ ¸Â´Â»óÇ° Á¦°í Áß ÆÇ¸ÅÁßÀÎ ¸®½ºÆ® °¡Á®¿À±â
-	public void stockPro (PDetailDTO pdetaildto); // ¹øÈ£¿¡ ¸Â´Â »óÇ° Àç°í º¯°æ
-	public int stockcount (String id); // º¸À¯ÇÑ ÀüÃ¼»óÇ° 
+	//ï¿½ï¿½ï¿½ï¿½ï¿½È²	
+	public List<ProductDTO> stocklist(HashMap map);  // ï¿½ï¿½ï¿½Ìµï¿½ ï¿½Â´ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	public List<ProductDTO> stockonlist(HashMap map);  // idï¿½ï¿½ ï¿½Â´Â»ï¿½Ç° ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	public void stockPro (PDetailDTO pdetaildto); // ï¿½ï¿½È£ï¿½ï¿½ ï¿½Â´ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	public int stockcount (String id); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½Ç° 
 	public int stocklistcount(HashMap map);
 	
-	//À¯·á°áÁ¦
-	public int listPayCount (String id); // Ç°¸ñÈ®Àå À¯·á°áÁ¦ °¹¼ö 
-	public int listpaynowcount (String id); // Ç°¸ñÈ®Àå À¯·á°áÁ¦ °¹¼ö 
-	public int powerPayCount (String id); // ÆÄ¿ö¸µÅ© À¯·á°áÁ¦ È½¼ö	
-	public List<CusOrderDTO> powerlist (String id); // »óÀ§³ëÃâ ¸ñ·Ï ¸®½ºÆ®·Î Á¤º¸ °¡Á®¿À±â
-	public List<CusOrderDTO> powerlistOne (HashMap map); // »óÀ§³ëÃâ ¸ñ·Ï ¸®½ºÆ®·Î Á¤º¸ °¡Á®¿À±â
-	public List<CusOrderDTO> paylist (String id); // »óÀ§³ëÃâ ¸ñ·Ï ¸®½ºÆ®·Î Á¤º¸ °¡Á®¿À±â
-	public List<CusOrderDTO> paylistTwo (HashMap map); // »óÀ§³ëÃâ ¸ñ·Ï ¸®½ºÆ®·Î Á¤º¸ °¡Á®¿À±â
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	public int listPayCount (String id); // Ç°ï¿½ï¿½È®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+	public int listpaynowcount (String id); // Ç°ï¿½ï¿½È®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+	public int powerPayCount (String id); // ï¿½Ä¿ï¿½ï¿½ï¿½Å© ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È½ï¿½ï¿½	
+	public List<CusOrderDTO> powerlist (String id); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	public List<CusOrderDTO> powerlistOne (HashMap map); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	public List<CusOrderDTO> paylist (String id); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	public List<CusOrderDTO> paylistTwo (HashMap map); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	
-	//»óÀ§³ëÃâ
-	public int countter (String id); // ÆÇ¸ÅÁßÀÌ³ª ¾ÆÁ÷ »óÀ§³ëÃâ ¾ÈÇÏ°í ÀÖ´Â »óÇ° °¹¼ö
-    public List<ProductDTO> poweredlist(String id); // ÆÇ¸ÅÁßÀÌ³ª ¾ÆÁ÷ »óÀ§³ëÃâ ¾ÈÇÏ°í ÀÖ´Â »óÇ° 
-    public ProductDTO payMentItem(ProductDTO productdto); // °áÁ¦ ¹øÈ£¿¡ ¸Â´Â »óÇ° Á¤º¸ °¡Á®¿À±â
-    public void payFinish(CusOrderDTO cusorderDTO); //ÆÄ¿ö¸µÅ© °áÁ¦ ÆäÀÌÁö¿¡¼­ °áÁ¦ÇÒ¸ñ·Ï º¸¿©ÁÖ±â
-    public void itempayFinish(CusOrderDTO cusorderDTO);//Ç°¸ñ È®Àå °áÁ¦ ¿Ï·á
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	public int countter (String id); // ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½Ì³ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½
+    public List<ProductDTO> poweredlist(String id); // ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½Ì³ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½Ç° 
+    public ProductDTO payMentItem(ProductDTO productdto); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½Â´ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public void payFinish(CusOrderDTO cusorderDTO); //ï¿½Ä¿ï¿½ï¿½ï¿½Å© ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ò¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½
+    public void itempayFinish(CusOrderDTO cusorderDTO);//Ç°ï¿½ï¿½ È®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½
     
-    // ¸ÅÃâ¾× º¸´Â È­¸é
-    public int getProductTotalmoney(@Param ("check") int check, @Param ("id") String id); // ÃÑ ¸ÅÃâ¾× ¿ùº°·Î ³Ñ±â±â
-    public int getTotalCount(@Param ("check") int check, @Param ("id") String id); // ÃÑ±¸¸Å¼ö·® ³Ñ±â±â
-    public int getDeliveryPay(@Param ("check") int check, @Param ("id") String id); // ÃÑ¹è¼Ûºñ ±¸ÇÏ±â
-    public int getCoponPay(@Param ("check") int check, @Param ("id") String id); // ÃÑ ÄíÆù »ç¿ëºñ¿ë ±¸ÇÏ±â (ÀÌ¶§, °ü¸®ÀÚ°¡ ÁØ ÄíÆùÀº ºñ¿ë¿¡¼­ Á¦¿Ü)
-    public Integer getHOT(@Param ("check") int check, @Param ("id") String id); // ÆÇ¸Å·® ³ôÀº °Í ±¸ÇÏ±â
-    
-    
-    //ÆÇ¸ÅµÈ »óÇ° ¸®½ºÆ® »Ì±â  
-    public List<ProductMorderDTO> ProfitItemlist(HashMap map);  // ÆÇ¸ÅµÈ »óÇ° ³¯Â¥ ¹Ì¼±ÅÃ È®ÀÎ
-    public int ProfitItemcount(@Param ("check") int check, @Param ("id") String id); //¿ùº° ±¸¸Å ÁøÇà È½¼ö 
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È­ï¿½ï¿½
+    public int getProductTotalmoney(@Param ("check") int check, @Param ("id") String id); // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ±ï¿½ï¿½
+    public int getTotalCount(@Param ("check") int check, @Param ("id") String id); // ï¿½Ñ±ï¿½ï¿½Å¼ï¿½ï¿½ï¿½ ï¿½Ñ±ï¿½ï¿½
+    public int getDeliveryPay(@Param ("check") int check, @Param ("id") String id); // ï¿½Ñ¹ï¿½Ûºï¿½ ï¿½ï¿½ï¿½Ï±ï¿½
+    public int getCoponPay(@Param ("check") int check, @Param ("id") String id); // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½ (ï¿½Ì¶ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ë¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
+    public Integer getHOT(@Param ("check") int check, @Param ("id") String id); // ï¿½Ç¸Å·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½
     
     
-    //¿ùº° ±¸¸ÅÈ¸¿øº¸±â
-    public int getConsumerCount (@Param ("check") int check, @Param ("id") String id); //¿ùº° ±¸¸ÅÇÑ È¸¿ø Ä«¿îÆ®
-    public List<PurchaseMemberListDTO> memberlist(HashMap map); //±¸¸ÅÇÑ È¸¿øÀÇ Á¤º¸¸¦ º¸´Â°÷
-    public int companynum(String id); //»ç¾÷ÀÚ ½Çº°¹øÈ£¹Þ´Â°÷
-    public List<ProductDTO> itemList(String id); //ÆÇ¸ÅÀÚ ÆÇ¸Å¸ñ·Ï º¸±â
-    public void cusCouponPro(CouponDTO coupondto); //ÄíÆùÁ¦°øÇÏ´Â °÷
-    public int userCouponCount(int companynum);  //ÄíÆù Á¦°øÇÑ °¹¼ö
-    public List<CouponDTO> couponList(HashMap map); //ÄíÆùÀ» Á¦°øÇÑ ¸®½ºÆ®
+    //ï¿½Ç¸Åµï¿½ ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ì±ï¿½  
+    public List<ProductMorderDTO> ProfitItemlist(HashMap map);  // ï¿½Ç¸Åµï¿½ ï¿½ï¿½Ç° ï¿½ï¿½Â¥ ï¿½Ì¼ï¿½ï¿½ï¿½ È®ï¿½ï¿½
+    public int ProfitItemcount(@Param ("check") int check, @Param ("id") String id); //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È½ï¿½ï¿½ 
     
-    // ¹è¼ÛÇöÈ² ºÐ·ù
-    public int deliverOutCount(@Param ("check") int check, @Param ("id") String id);//Ãë¼Ò°Ç Ä«¿îÆ®
-    public List<PurchaseMemberListDTO> deliverOutList(HashMap map); // Ãë¼ÒµÈ°ÇµéÀÇ ¸®½ºÆ®¸¦ °¡Á®¿È
+    
+    //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public int getConsumerCount (@Param ("check") int check, @Param ("id") String id); //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ Ä«ï¿½ï¿½Æ®
+    public List<PurchaseMemberListDTO> memberlist(HashMap map); //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â°ï¿½
+    public int companynum(String id); //ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Çºï¿½ï¿½ï¿½È£ï¿½Þ´Â°ï¿½
+    public List<ProductDTO> itemList(String id); //ï¿½Ç¸ï¿½ï¿½ï¿½ ï¿½Ç¸Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    public void cusCouponPro(CouponDTO coupondto); //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½
+    public int userCouponCount(int companynum);  //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    public List<CouponDTO> couponList(HashMap map); //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
+    
+    // ï¿½ï¿½ï¿½ï¿½ï¿½È² ï¿½Ð·ï¿½
+    public int deliverOutCount(@Param ("check") int check, @Param ("id") String id);//ï¿½ï¿½Ò°ï¿½ Ä«ï¿½ï¿½Æ®
+    public List<PurchaseMemberListDTO> deliverOutList(HashMap map); // ï¿½ï¿½ÒµÈ°Çµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public int getco_num();
+    
 }

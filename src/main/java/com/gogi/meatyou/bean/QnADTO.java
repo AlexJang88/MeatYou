@@ -7,11 +7,11 @@ import lombok.Data;
 @Data
 public class QnADTO {
 
-	private int maNum;
-	private String mId;
-	private String title;
-	private String content;
-	private int status;
-	private Date regDate;
-	private int ref;
+	private int ma_num;
+	private String ma_m_id;
+	private String ma_title;
+	private String ma_content;
+	private int ma_status;
+	private Date ma_regdate;
+	private int ma_ref;
 }

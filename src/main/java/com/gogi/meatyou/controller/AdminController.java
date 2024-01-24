@@ -28,6 +28,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -37,8 +38,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gogi.meatyou.bean.MemberDTO;
 import com.gogi.meatyou.bean.NoticeDTO;
 import com.gogi.meatyou.bean.NoticeFileDTO;
+import com.gogi.meatyou.bean.QnADTO;
 import com.gogi.meatyou.repository.AdminMapper;
 import com.gogi.meatyou.service.AdminService;
+import com.gogi.meatyou.service.AdminServiceImpl;
 import com.google.gson.JsonObject;
 
 import lombok.AllArgsConstructor;
@@ -89,11 +92,11 @@ public class AdminController {
 		return "redirect:/admin/memberlist?check=" + check + "&pageNum=" + pageNum;
 	}
 
-	@RequestMapping("/apiTest")
-	public String apiTest(Model model) {
-		adminServicImpl.apiTest(model);
-		return "admin/apiTest";
-	}
+//	@RequestMapping("/apiTest")
+//	public String apiTest(Model model) {
+//		adminServicImpl.apiTest(model);
+//		return "admin/apiTest";
+//	}
 
 	@RequestMapping("/sales")
 	public String sales(Model model, @RequestParam(value = "check", defaultValue = "0") int check, String daterange) {
@@ -156,7 +159,6 @@ public class AdminController {
 	@RequestMapping("/reg")
 	public String reg(HttpServletRequest req, HttpServletResponse resp, NoticeDTO dto, Model model) {
 		adminServicImpl.noticeReg(req, resp, model, dto);
-		
 		return "redirect:/admin/noticeList";
 	}
 	
@@ -189,15 +191,38 @@ public class AdminController {
 		return "redirect:/admin/noticeList";
 	}
 	@RequestMapping(value = "/productList" ,produces = "application/json; charset=utf8")
-	public String productList(Model model,@RequestParam(value="pageNum" ,defaultValue="1")int pageNum, String keyword,@RequestParam(value = "searchOpt", defaultValue = "1")String searchOpt,@RequestParam(value = "cate1", defaultValue = "1")int cate1,@RequestParam(value = "cate2", defaultValue = "1")int cate2,@RequestParam(value = "cate3", defaultValue = "1")int cate3) {
-		adminServicImpl.getAdminProductList(pageNum, keyword, searchOpt, cate1, cate2,cate3, model);
+	public String productList() {
 		return "admin/productList";
 	}
 	@RequestMapping(value = "/serchProductList" ,produces = "application/json; charset=utf8")
 	@ResponseBody
-	public String serchProductList(Model model,@RequestParam(value="pageNum" ,defaultValue="1")int pageNum, String keyword,@RequestParam(value = "searchOpt", defaultValue = "1")String searchOpt,@RequestParam(value = "cate1", defaultValue = "1")int cate1,@RequestParam(value = "cate2", defaultValue = "1")int cate2,@RequestParam(value = "cate3", defaultValue = "1")int cate3) {
-		return adminServicImpl.getSearchProductList(pageNum, keyword, searchOpt, cate1, cate2,cate3, model);
+	public String serchProductList(Model model,@RequestParam(value="pageNum" ,defaultValue="1")int pageNum, String keyword,@RequestParam(value = "searchOpt", defaultValue = "1")String searchOpt,@RequestParam(value = "cate1", defaultValue = "1")int cate1,@RequestParam(value = "cate2", defaultValue = "1")int cate2,@RequestParam(value = "cate3", defaultValue = "1")int cate3,@RequestParam(value = "pstatus", defaultValue = "1")int pstatus) {
+		return adminServicImpl.getSearchProductList(pageNum, keyword, searchOpt, cate1, cate2,cate3,pstatus, model);
 	}
-
-
+	@RequestMapping("/memo")
+	public String memo(Model model,int p_num,@RequestParam(value="check" , defaultValue="1") int check) {
+		model.addAttribute("p_num", p_num);
+		model.addAttribute("check", check);
+		return "admin/memo";
+	}
+	@RequestMapping("/pschange")
+	public String pschange(int p_num,String memo,int check) {
+		if(check==1) {
+		adminServicImpl.StopProduct(p_num, memo);
+		}else if(check!=1) {
+		adminServicImpl.ReleaseIssue(p_num);	
+		}
+		return "admin/productList";
+	}
+	@RequestMapping("/report")
+	public String report (HttpServletRequest req, HttpServletResponse resp,Model model,QnADTO dto) {
+		adminServicImpl.reportReg(req, resp, model, dto);
+		return "admin/productDetail";
+	}
+	@RequestMapping(value = "/uploadReportImageFile", produces="application/json; charset=utf8")
+	@ResponseBody
+	public String uploadReportImageFile(@RequestParam("file") MultipartFile multipartFile,
+			HttpServletRequest request) {
+		return adminServicImpl.uploadReportImageFile(multipartFile, request);
+	}
 }
