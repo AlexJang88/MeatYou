@@ -223,36 +223,11 @@ public class CustomersController {
 		return "customer/powerlink";
 	}
 
-	@RequestMapping("powerlinkpay") // 파워링크 결제 창 // 이거 아직 안됨
-	public String powerlinkpay(HttpSession session, Model model, int p_num, Principal pc, int co_num, int clickpay) {
-		int co_quantity = 0;
-		if (clickpay == 10000) {
-			co_quantity = 110;
-		} else if (clickpay == 30000) {
-			co_quantity = 330;
-		} else if (clickpay == 50000) {
-			co_quantity = 565;
-		} else if (clickpay == 100000) {
-			co_quantity = 1160;
-		} else {
-			co_quantity = 2400;
+	@RequestMapping("powerlinkpay") 
+		public String powerlinkpay(Model model, int p_num, Principal pc, int co_num, int clickpay) { 
+			service.powerlink(model, p_num, clickpay);
+			return "customer/powerlinkpay";
 		}
-		String id = pc.getName();
-		ProductDTO productdto = new ProductDTO();
-		productdto.setP_m_id(id); // 아이디값
-		productdto.setP_num(p_num); // 상품번호값
-		productdto.setClickpay(clickpay);
-		productdto.setCo_quantity(co_quantity);
-		productdto.setCo_name("파워링크(" + co_quantity + "회)");
-		productdto.setCo_num(service.getco_num());// co넘버값
-
-		model.addAttribute("co_num", service.getco_num());
-		model.addAttribute("clickpay", clickpay);
-		model.addAttribute("co_quantity", co_quantity);
-		service.payment(model, productdto); // 결제하는곳으로 상품 번호넘기기
-
-		return "customer/powerlinkpay";
-	}
 
 	
 	

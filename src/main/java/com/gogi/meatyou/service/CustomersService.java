@@ -46,6 +46,9 @@ public interface CustomersService {
 	public void payFinish(CusOrderDTO cusorderDTO); //파워링크 결제 페이지에서 결제할목록 보여주기
     public void itempayFinish(CusOrderDTO cusorderDTO);//품목 확장 결제 완료
     
+    public void powerlink(Model model,int p_num,int clickpay); // 의석
+    
+    
     //매출액
     public void getprofit(Model model,int check, String id); //체크를 안했을때
     public void getCheckprofit(Model model,int check,String start,String end, String id); //체크를했을때
