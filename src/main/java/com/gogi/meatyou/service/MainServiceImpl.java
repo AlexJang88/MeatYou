@@ -1,5 +1,6 @@
 package com.gogi.meatyou.service;
 
+import java.security.Principal;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.gogi.meatyou.bean.OtherProductDetailDTO;
 import com.gogi.meatyou.bean.PPicDTO;
 import com.gogi.meatyou.bean.ProductDTO;
 import com.gogi.meatyou.bean.ProductDetailDTO;
@@ -49,22 +51,151 @@ public class MainServiceImpl implements MainService {
    }
 
    @Override
-   public void searchList(int pageNum, Model model, String desc, String searchOption, String search) {
+   public List<ProductDTO> searchList(Principal seid, int pageNum, Model model, String desc, String searchOption, String search) {
+	   String m_id = "";
+	   if(seid != null) {
+		   	m_id = (String)seid.getName(); 
+		   	model.addAttribute("m_id", m_id);
+	   }
+	   
 	   int pageSize = 6; 
-       int startRow = (pageNum - 1) * pageSize + 1;
-       int endRow = pageNum * pageSize;
-       int count = mapper.searchCount(searchOption, search);
+       	int startRow = (pageNum - 1) * pageSize + 1;
+       	int endRow = pageNum * pageSize;
+       	int count = mapper.searchCount(searchOption, search);
        
-       List<ProductDTO> searchList = Collections.EMPTY_LIST;
-       if(count > 0) {
+       	List<ProductDTO> searchList = Collections.EMPTY_LIST;
+       	if(count > 0) {
           searchMap.put("start", startRow);
           searchMap.put("end", endRow);
           searchMap.put("desc", desc);
           searchMap.put("searchOption", searchOption);
           searchMap.put("search", search);
           searchList = mapper.searchList(searchMap);
+       	}
+       	model.addAttribute("searchList", searchList);
+       	model.addAttribute("pageSize", pageSize);
+       	model.addAttribute("pageNum", pageNum);
+       	model.addAttribute("count", count);
+       	model.addAttribute("searchOption", searchOption);
+       	model.addAttribute("search", search);
+       
+     //page
+       	int pageCount = count / pageSize + ( count % pageSize == 0 ? 0 : 1);
+      
+       	int startPage = (int)(pageNum/10)*10+1;
+       	int pageBlock=10;
+       	int endPage = startPage + pageBlock-1;
+       	if (endPage > pageCount) {
+       		endPage = pageCount;
+       	}
+       	model.addAttribute("pageCount", pageCount);
+       	model.addAttribute("startPage", startPage);
+       	model.addAttribute("pageBlock", pageBlock);
+       	model.addAttribute("endPage", endPage);
+
+      
+       	for(ProductDTO rdto : searchList) {
+       		int p_num = rdto.getP_num();
+       		double result=0;
+       		double sum =0.0;
+   		  	int recount = mapper.reviewAllCNT(p_num);
+   			if(recount > 0) {
+   			sum = mapper.reviewSum(p_num);
+   			result = sum / (double)recount;
+   			result = Double.parseDouble(String.format("%.1f", result));
+   			rdto.setStar(result);
+   			model.addAttribute("p_num",p_num);
+   			
+    	  	String category1="";
+    		String category2="";
+    		String category3="";
+    	
+	      	String cate = rdto.getP_category()+"";
+	
+	      	if((cate.charAt(0)-48) == 1) {
+	      		category1 = "국내산";
+	      	} else{
+	      		category1 = "수입산";
+	      	}
+	      	
+	      	if((cate.charAt(1)-48) == 1) {
+	      		category2 = "돼지고기";
+	      	} else{
+	      		category2 = "소고기";
+	      	}
+	      	
+	      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
+	      		category3 = "특수부위";
+	      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
+	      		category3 = "삼겹살";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
+	      		category3 = "목살";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
+	      		category3 = "안심";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
+	      		category3 = "등심";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
+	      		category3 = "앞다리살";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
+	      		category3 = "갈매기살";
+	      	}
+	      	
+	      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
+	      		category3 = "특수부위";
+	      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
+	      		category3 = "등심";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
+	      		category3 = "안심";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
+	      		category3 = "갈비";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
+	      		category3 = "채끝";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
+	      		category3 = "목심";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
+	      		category3 = "부채살";
+	      	}
+	      	rdto.setCategory1(category1);
+	      	rdto.setCategory2(category2);
+	      	rdto.setCategory3(category3);
+
+	      	String ppic_m_id = m_id;
+	      	int ppic_p_num = rdto.getP_num();
+	      	rdto.setPpic_m_id(ppic_m_id);
+	      	rdto.setPpic_p_num(ppic_p_num);
+	      	
+	      	int r_p_num = mapper.reviewAllCNT(rdto.getP_num());
+	      	rdto.setReviewAllCNT(r_p_num);
+   			}
+	}
+	return mapper.searchList(searchMap);
+       
+      
+   }
+   
+   
+   @Override
+   public List<ProductDTO> searchListStar(Principal seid, ProductDTO dto, int pageNum, Model model , String searchOption, String search) {
+	   String m_id = "";
+	   if(seid != null) {
+		   	m_id = (String)seid.getName(); 
+		   	model.addAttribute("m_id", m_id);
+	   }
+	   int pageSize = 6; 
+       int startRow = (pageNum - 1) * pageSize + 1;
+       int endRow = pageNum * pageSize;
+       int count = mapper.searchStarCount(searchOption, search);
+       
+       List<ProductDTO> searchListStar = Collections.EMPTY_LIST;
+       if(count > 0) {
+          searchMap.put("start", startRow);
+          searchMap.put("end", endRow);
+          searchMap.put("searchOption", searchOption);
+          searchMap.put("search", search);
+          searchListStar = mapper.searchListStar(searchMap);
        }
-       model.addAttribute("searchList", searchList);
+
+       model.addAttribute("searchListStar", searchListStar);
        model.addAttribute("pageSize", pageSize);
        model.addAttribute("pageNum", pageNum);
        model.addAttribute("count", count);
@@ -86,7 +217,7 @@ public class MainServiceImpl implements MainService {
       model.addAttribute("endPage", endPage);
 
       
-       for(ProductDTO rdto : searchList) {
+       for(ProductDTO rdto : searchListStar) {
     	   int p_num = rdto.getP_num();
     	   double result=0;
     	   double sum =0.0;
@@ -97,16 +228,198 @@ public class MainServiceImpl implements MainService {
    			result = Double.parseDouble(String.format("%.1f", result));
    			rdto.setStar(result);
    			model.addAttribute("p_num",p_num);
-   			}
+   			String category1="";
+    		String category2="";
+    		String category3="";
+    	
+	      	String cate = rdto.getP_category()+"";
+	
+	      	if((cate.charAt(0)-48) == 1) {
+	      		category1 = "국내산";
+	      	} else{
+	      		category1 = "수입산";
+	      	}
+	      	
+	      	if((cate.charAt(1)-48) == 1) {
+	      		category2 = "돼지고기";
+	      	} else{
+	      		category2 = "소고기";
+	      	}
+	      	
+	      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
+	      		category3 = "특수부위";
+	      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
+	      		category3 = "삼겹살";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
+	      		category3 = "목살";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
+	      		category3 = "안심";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
+	      		category3 = "등심";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
+	      		category3 = "앞다리살";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
+	      		category3 = "갈매기살";
+	      	}
+	      	
+	      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
+	      		category3 = "특수부위";
+	      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
+	      		category3 = "등심";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
+	      		category3 = "안심";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
+	      		category3 = "갈비";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
+	      		category3 = "채끝";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
+	      		category3 = "목심";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
+	      		category3 = "부채살";
+	      	}
+	      	rdto.setCategory1(category1);
+	      	rdto.setCategory2(category2);
+	      	rdto.setCategory3(category3);
+	      	
+	      	String ppic_m_id = m_id;
+	      	int ppic_p_num = rdto.getP_num();
+	      	rdto.setPpic_m_id(ppic_m_id);
+	      	rdto.setPpic_p_num(ppic_p_num);
+	      	
+	      	int r_p_num = mapper.reviewAllCNT(rdto.getP_num());
+	      	rdto.setReviewAllCNT(r_p_num);
+	      }
        }
-       
-      
+	return mapper.searchListStar(searchMap);
    }
    
+   @Override
+   public List<ProductDTO> searchListReview(Principal seid, ProductDTO dto, int pageNum, Model model , String searchOption, String search) {
+	   String m_id = "";
+	   if(seid != null) {
+		   	m_id = (String)seid.getName(); 
+		   	model.addAttribute("m_id", m_id);
+	   }
+	   int pageSize = 6; 
+       int startRow = (pageNum - 1) * pageSize + 1;
+       int endRow = pageNum * pageSize;
+       int count = mapper.searchReviewCount(searchOption, search);
+       
+       List<ProductDTO> searchListReview = Collections.EMPTY_LIST;
+       if(count > 0) {
+          searchMap.put("start", startRow);
+          searchMap.put("end", endRow);
+          searchMap.put("searchOption", searchOption);
+          searchMap.put("search", search);
+          searchListReview = mapper.searchListReview(searchMap);
+       }
+
+       model.addAttribute("searchListReview", searchListReview);
+       model.addAttribute("pageSize", pageSize);
+       model.addAttribute("pageNum", pageNum);
+       model.addAttribute("count", count);
+       model.addAttribute("searchOption", searchOption);
+       model.addAttribute("search", search);
+       
+     //page
+       int pageCount = count / pageSize + ( count % pageSize == 0 ? 0 : 1);
+      
+       int startPage = (int)(pageNum/10)*10+1;
+       int pageBlock=10;
+       int endPage = startPage + pageBlock-1;
+       if (endPage > pageCount) {
+          endPage = pageCount;
+       }
+      model.addAttribute("pageCount", pageCount);
+      model.addAttribute("startPage", startPage);
+      model.addAttribute("pageBlock", pageBlock);
+      model.addAttribute("endPage", endPage);
+
+      
+       for(ProductDTO rdto : searchListReview) {
+    	   int p_num = rdto.getP_num();
+    	   double result=0;
+    	   double sum =0.0;
+   		  	int recount = mapper.reviewAllCNT(p_num);
+   			if(recount > 0) {
+   			sum = mapper.reviewSum(p_num);
+   			result = sum / (double)recount;
+   			result = Double.parseDouble(String.format("%.1f", result));
+   			rdto.setStar(result);
+   			model.addAttribute("p_num",p_num);
+   			String category1="";
+    		String category2="";
+    		String category3="";
+    	
+	      	String cate = rdto.getP_category()+"";
+	
+	      	if((cate.charAt(0)-48) == 1) {
+	      		category1 = "국내산";
+	      	} else{
+	      		category1 = "수입산";
+	      	}
+	      	
+	      	if((cate.charAt(1)-48) == 1) {
+	      		category2 = "돼지고기";
+	      	} else{
+	      		category2 = "소고기";
+	      	}
+	      	
+	      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
+	      		category3 = "특수부위";
+	      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
+	      		category3 = "삼겹살";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
+	      		category3 = "목살";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
+	      		category3 = "안심";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
+	      		category3 = "등심";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
+	      		category3 = "앞다리살";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
+	      		category3 = "갈매기살";
+	      	}
+	      	
+	      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
+	      		category3 = "특수부위";
+	      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
+	      		category3 = "등심";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
+	      		category3 = "안심";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
+	      		category3 = "갈비";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
+	      		category3 = "채끝";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
+	      		category3 = "목심";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
+	      		category3 = "부채살";
+	      	}
+	      	rdto.setCategory1(category1);
+	      	rdto.setCategory2(category2);
+	      	rdto.setCategory3(category3);
+	      	
+	      	String ppic_m_id = m_id;
+	      	int ppic_p_num = rdto.getP_num();
+	      	rdto.setPpic_m_id(ppic_m_id);
+	      	rdto.setPpic_p_num(ppic_p_num);
+	      	
+	      	int r_p_num = mapper.reviewAllCNT(rdto.getP_num());
+	      	rdto.setReviewAllCNT(r_p_num);
+	      }
+       }
+	return mapper.searchListReview(searchMap);
+   }
    
    @Override
-   public void searchPrice(int pageNum, Model model, String price, String searchOption, String search) {
-      int pageSize = 6; 
+   public List<ProductDTO> searchPrice(Principal seid, int pageNum, Model model, String price, String searchOption, String search) {
+	   String m_id = "";
+	   if(seid != null) {
+		   	m_id = (String)seid.getName(); 
+		   	model.addAttribute("m_id", m_id);
+	   }
+	   int pageSize = 6; 
        int startRow = (pageNum - 1) * pageSize + 1;
        int endRow = pageNum * pageSize;
        int count = mapper.searchCount(searchOption, search);
@@ -136,14 +449,74 @@ public class MainServiceImpl implements MainService {
    			result = sum / (double)recount;
    			result = Double.parseDouble(String.format("%.1f", result));
    			rdto.setStar(result);
-   			}
+   			String category1="";
+    		String category2="";
+    		String category3="";
+    	
+	      	String cate = rdto.getP_category()+"";
+	
+	      	if((cate.charAt(0)-48) == 1) {
+	      		category1 = "국내산";
+	      	} else{
+	      		category1 = "수입산";
+	      	}
+	      	
+	      	if((cate.charAt(1)-48) == 1) {
+	      		category2 = "돼지고기";
+	      	} else{
+	      		category2 = "소고기";
+	      	}
+	      	
+	      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
+	      		category3 = "특수부위";
+	      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
+	      		category3 = "삼겹살";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
+	      		category3 = "목살";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
+	      		category3 = "안심";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
+	      		category3 = "등심";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
+	      		category3 = "앞다리살";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
+	      		category3 = "갈매기살";
+	      	}
+	      	
+	      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
+	      		category3 = "특수부위";
+	      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
+	      		category3 = "등심";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
+	      		category3 = "안심";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
+	      		category3 = "갈비";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
+	      		category3 = "채끝";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
+	      		category3 = "목심";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
+	      		category3 = "부채살";
+	      	}
+	      	rdto.setCategory1(category1);
+	      	rdto.setCategory2(category2);
+	      	rdto.setCategory3(category3);
+
+	      	String ppic_m_id = m_id;
+	      	int ppic_p_num = rdto.getP_num();
+	      	rdto.setPpic_m_id(ppic_m_id);
+	      	rdto.setPpic_p_num(ppic_p_num);
+	      	
+	      	int r_p_num = mapper.reviewAllCNT(rdto.getP_num());
+	      	rdto.setReviewAllCNT(r_p_num);
+	      }
        }
        
        //page
         int pageCount = count / pageSize + ( count % pageSize == 0 ? 0 : 1);
        
         int startPage = (int)(pageNum/10)*10+1;
-      int pageBlock=10;
+        int pageBlock=10;
         int endPage = startPage + pageBlock-1;
         if (endPage > pageCount) {
            endPage = pageCount;
@@ -152,11 +525,17 @@ public class MainServiceImpl implements MainService {
        model.addAttribute("startPage", startPage);
        model.addAttribute("pageBlock", pageBlock);
        model.addAttribute("endPage", endPage);
+	return searchPrice;
    }
    
    @Override
-   public void searchSale(int pageNum, Model model, String searchOption, String search) {
-      int pageSize = 6; 
+   public List<ProductDTO> searchSale(Principal seid, int pageNum, Model model, String searchOption, String search) {
+	   String m_id = "";
+	   if(seid != null) {
+		   	m_id = (String)seid.getName(); 
+		   	model.addAttribute("m_id", m_id);
+	   }
+	   int pageSize = 6; 
        int startRow = (pageNum - 1) * pageSize + 1;
        int endRow = pageNum * pageSize;
        int count = mapper.searchSaleCNT(searchOption, search);
@@ -186,7 +565,68 @@ public class MainServiceImpl implements MainService {
    			result = sum / (double)recount;
    			result = Double.parseDouble(String.format("%.1f", result));
    			rdto.setStar(result);
-   			}
+   			
+   			String category1="";
+    		String category2="";
+    		String category3="";
+    	
+	      	String cate = rdto.getP_category()+"";
+	
+	      	if((cate.charAt(0)-48) == 1) {
+	      		category1 = "국내산";
+	      	} else{
+	      		category1 = "수입산";
+	      	}
+	      	
+	      	if((cate.charAt(1)-48) == 1) {
+	      		category2 = "돼지고기";
+	      	} else{
+	      		category2 = "소고기";
+	      	}
+	      	
+	      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
+	      		category3 = "특수부위";
+	      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
+	      		category3 = "삼겹살";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
+	      		category3 = "목살";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
+	      		category3 = "안심";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
+	      		category3 = "등심";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
+	      		category3 = "앞다리살";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
+	      		category3 = "갈매기살";
+	      	}
+	      	
+	      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
+	      		category3 = "특수부위";
+	      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
+	      		category3 = "등심";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
+	      		category3 = "안심";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
+	      		category3 = "갈비";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
+	      		category3 = "채끝";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
+	      		category3 = "목심";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
+	      		category3 = "부채살";
+	      	}
+	      	rdto.setCategory1(category1);
+	      	rdto.setCategory2(category2);
+	      	rdto.setCategory3(category3);
+   			
+	      	String ppic_m_id = m_id;
+	      	int ppic_p_num = rdto.getP_num();
+	      	rdto.setPpic_m_id(ppic_m_id);
+	      	rdto.setPpic_p_num(ppic_p_num);
+	      	
+	      	int r_p_num = mapper.reviewAllCNT(rdto.getP_num());
+	      	rdto.setReviewAllCNT(r_p_num);
+	      }
        }
        
        //page
@@ -202,11 +642,17 @@ public class MainServiceImpl implements MainService {
        model.addAttribute("startPage", startPage);
        model.addAttribute("pageBlock", pageBlock);
        model.addAttribute("endPage", endPage);
+	return mapper.searchSale(searchMap);
    }
 
    @Override
-   public void mainMeat(int pageNum, Model model, String price , int category, String sale, String reg, String news) {
-      int pageSize = 6; 
+   public void mainMeat(Principal seid, int pageNum, Model model, String price , int category, String sale, String reg, String news, String star) {
+	   String m_id = "";
+	   if(seid != null) {
+		   	m_id = (String)seid.getName(); 
+		   	model.addAttribute("m_id", m_id);
+	   }
+	   int pageSize = 6; 
        int startRow = (pageNum - 1) * pageSize + 1;
        int endRow = pageNum * pageSize;
        int count = mapper.mainMeatCount(category);
@@ -237,6 +683,67 @@ public class MainServiceImpl implements MainService {
    			result = Double.parseDouble(String.format("%.1f", result));
    			rdto.setStar(result);
    			model.addAttribute("p_num", p_num);
+   			
+   			String category1="";
+    		String category2="";
+    		String category3="";
+    	
+	      	String cate = rdto.getP_category()+"";
+	
+	      	if((cate.charAt(0)-48) == 1) {
+	      		category1 = "국내산";
+	      	} else{
+	      		category1 = "수입산";
+	      	}
+	      	
+	      	if((cate.charAt(1)-48) == 1) {
+	      		category2 = "돼지고기";
+	      	} else{
+	      		category2 = "소고기";
+	      	}
+	      	
+	      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
+	      		category3 = "특수부위";
+	      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
+	      		category3 = "삼겹살";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
+	      		category3 = "목살";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
+	      		category3 = "안심";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
+	      		category3 = "등심";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
+	      		category3 = "앞다리살";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
+	      		category3 = "갈매기살";
+	      	}
+	      	
+	      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
+	      		category3 = "특수부위";
+	      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
+	      		category3 = "등심";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
+	      		category3 = "안심";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
+	      		category3 = "갈비";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
+	      		category3 = "채끝";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
+	      		category3 = "목심";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
+	      		category3 = "부채살";
+	      	}
+	      	rdto.setCategory1(category1);
+	      	rdto.setCategory2(category2);
+	      	rdto.setCategory3(category3);
+	      	
+	      	String ppic_m_id = m_id;
+	      	int ppic_p_num = rdto.getP_num();
+	      	rdto.setPpic_m_id(ppic_m_id);
+	      	rdto.setPpic_p_num(ppic_p_num);
+	      	
+	      	int r_p_num = mapper.reviewAllCNT(rdto.getP_num());
+	      	rdto.setReviewAllCNT(r_p_num);
    			}
        }
        
@@ -271,7 +778,263 @@ public class MainServiceImpl implements MainService {
        }
    }
 
+
+   @Override
+   public void mainMeatSort(Principal seid, int pageNum, Model model, int category, String star) {
+	   String m_id = "";
+	   if(seid != null) {
+		   	m_id = (String)seid.getName(); 
+		   	model.addAttribute("m_id", m_id);
+	   }
+	   int pageSize = 6; 
+       int startRow = (pageNum - 1) * pageSize + 1;
+       int endRow = pageNum * pageSize;
+       int count = mapper.mainMeatCount(category);
+       List<ProductDTO> mainMeatSort = Collections.EMPTY_LIST;
+       if(count > 0) {
+          searchMap.put("start", startRow);
+          searchMap.put("end", endRow);
+          searchMap.put("category", category);
+          searchMap.put("star", star);
+          mainMeatSort = mapper.mainMeatSort(searchMap);
+       }
+       model.addAttribute("pageSize", pageSize);
+       model.addAttribute("pageNum", pageNum);
+       model.addAttribute("count", count);
+       
+       for(ProductDTO rdto : mainMeatSort) {
+    	   int p_num = rdto.getP_num();
+    	   double result=0;
+    	   double sum =0.0;
+   		  	int recount = mapper.reviewAllCNT(p_num);
+   			if(recount > 0) {
+   			sum = mapper.reviewSum(p_num);
+   			result = sum / (double)recount;
+   			result = Double.parseDouble(String.format("%.1f", result));
+   			rdto.setStar(result);
+   			model.addAttribute("p_num", p_num);
+   			
+   			String category1="";
+    		String category2="";
+    		String category3="";
+    	
+	      	String cate = rdto.getP_category()+"";
+	
+	      	if((cate.charAt(0)-48) == 1) {
+	      		category1 = "국내산";
+	      	} else{
+	      		category1 = "수입산";
+	      	}
+	      	
+	      	if((cate.charAt(1)-48) == 1) {
+	      		category2 = "돼지고기";
+	      	} else{
+	      		category2 = "소고기";
+	      	}
+	      	
+	      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
+	      		category3 = "특수부위";
+	      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
+	      		category3 = "삼겹살";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
+	      		category3 = "목살";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
+	      		category3 = "안심";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
+	      		category3 = "등심";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
+	      		category3 = "앞다리살";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
+	      		category3 = "갈매기살";
+	      	}
+	      	
+	      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
+	      		category3 = "특수부위";
+	      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
+	      		category3 = "등심";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
+	      		category3 = "안심";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
+	      		category3 = "갈비";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
+	      		category3 = "채끝";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
+	      		category3 = "목심";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
+	      		category3 = "부채살";
+	      	}
+	      	rdto.setCategory1(category1);
+	      	rdto.setCategory2(category2);
+	      	rdto.setCategory3(category3);
+	      	
+	      	String ppic_m_id = m_id;
+	      	int ppic_p_num = rdto.getP_num();
+	      	rdto.setPpic_m_id(ppic_m_id);
+	      	rdto.setPpic_p_num(ppic_p_num);
+	      	
+	      	int r_p_num = mapper.reviewAllCNT(rdto.getP_num());
+	      	rdto.setReviewAllCNT(r_p_num);
+   			}
+       }
+       
+       
+       
+       //page
+        int pageCount = count / pageSize + ( count % pageSize == 0 ? 0 : 1);
+       
+        int startPage = (int)(pageNum/10)*10+1;
+        int pageBlock=10;
+        int endPage = startPage + pageBlock-1;
+        if (endPage > pageCount) {
+           endPage = pageCount;
+        }
+       model.addAttribute("pageCount", pageCount);
+       model.addAttribute("startPage", startPage);
+       model.addAttribute("pageBlock", pageBlock);
+       model.addAttribute("endPage", endPage);
+       
+       for(ProductDTO rdto : mainMeatSort) {
+    	   int p_num = rdto.getP_num();
+    	   double result=0;
+    	   double sum =0.0;
+   		  	int recount = mapper.reviewAllCNT(p_num);
+   			if(recount > 0) {
+   			sum = mapper.reviewSum(p_num);
+   			result = sum / (double)recount;
+   			result = Double.parseDouble(String.format("%.1f", result));
+   			rdto.setStar(result);
+   			model.addAttribute("p_num",p_num);
+   			}
+       }
+       model.addAttribute("mainMeatSort", mainMeatSort);
+   }
    
+   @Override
+   public void mainMeatReview(Principal seid, int pageNum, Model model, int category, String star) {
+	   String m_id = "";
+	   if(seid != null) {
+		   	m_id = (String)seid.getName(); 
+		   	model.addAttribute("m_id", m_id);
+	   }
+	   int pageSize = 6; 
+       int startRow = (pageNum - 1) * pageSize + 1;
+       int endRow = pageNum * pageSize;
+       int count = mapper.mainMeatCount(category);
+       List<ProductDTO> mainMeatReview = Collections.EMPTY_LIST;
+       if(count > 0) {
+          searchMap.put("start", startRow);
+          searchMap.put("end", endRow);
+          searchMap.put("category", category);
+          searchMap.put("star", star);
+          mainMeatReview = mapper.mainMeatReview(searchMap);
+       }
+       model.addAttribute("pageSize", pageSize);
+       model.addAttribute("pageNum", pageNum);
+       model.addAttribute("count", count);
+       
+       for(ProductDTO rdto : mainMeatReview) {
+    	   	int p_num = rdto.getP_num();
+    	   	double result=0;
+    	   	double sum =0.0;
+   		  	int recount = mapper.reviewAllCNT(p_num);
+   			if(recount > 0) {
+   			sum = mapper.reviewSum(p_num);
+   			result = sum / (double)recount;
+   			result = Double.parseDouble(String.format("%.1f", result));
+   			rdto.setStar(result);
+   			model.addAttribute("p_num", p_num);
+   			
+   			String category1="";
+    		String category2="";
+    		String category3="";
+    	
+	      	String cate = rdto.getP_category()+"";
+	
+	      	if((cate.charAt(0)-48) == 1) {
+	      		category1 = "국내산";
+	      	} else{
+	      		category1 = "수입산";
+	      	}
+	      	
+	      	if((cate.charAt(1)-48) == 1) {
+	      		category2 = "돼지고기";
+	      	} else{
+	      		category2 = "소고기";
+	      	}
+	      	
+	      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
+	      		category3 = "특수부위";
+	      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
+	      		category3 = "삼겹살";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
+	      		category3 = "목살";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
+	      		category3 = "안심";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
+	      		category3 = "등심";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
+	      		category3 = "앞다리살";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
+	      		category3 = "갈매기살";
+	      	}
+	      	
+	      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
+	      		category3 = "특수부위";
+	      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
+	      		category3 = "등심";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
+	      		category3 = "안심";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
+	      		category3 = "갈비";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
+	      		category3 = "채끝";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
+	      		category3 = "목심";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
+	      		category3 = "부채살";
+	      	}
+	      	rdto.setCategory1(category1);
+	      	rdto.setCategory2(category2);
+	      	rdto.setCategory3(category3);
+	      	
+	      	String ppic_m_id = m_id;
+	      	int ppic_p_num = rdto.getP_num();
+	      	rdto.setPpic_m_id(ppic_m_id);
+	      	rdto.setPpic_p_num(ppic_p_num);
+	      	
+	      	int r_p_num = mapper.reviewAllCNT(rdto.getP_num());
+	      	rdto.setReviewAllCNT(r_p_num);
+   			}
+       }
+       //page
+        int pageCount = count / pageSize + ( count % pageSize == 0 ? 0 : 1);
+       
+        int startPage = (int)(pageNum/10)*10+1;
+        int pageBlock=10;
+        int endPage = startPage + pageBlock-1;
+        if (endPage > pageCount) {
+           endPage = pageCount;
+        }
+       model.addAttribute("pageCount", pageCount);
+       model.addAttribute("startPage", startPage);
+       model.addAttribute("pageBlock", pageBlock);
+       model.addAttribute("endPage", endPage);
+       
+       for(ProductDTO rdto : mainMeatReview) {
+    	   int p_num = rdto.getP_num();
+    	   double result=0;
+    	   double sum =0.0;
+   		  	int recount = mapper.reviewAllCNT(p_num);
+   			if(recount > 0) {
+   			sum = mapper.reviewSum(p_num);
+   			result = sum / (double)recount;
+   			result = Double.parseDouble(String.format("%.1f", result));
+   			rdto.setStar(result);
+   			model.addAttribute("p_num",p_num);
+   			}
+       }
+       model.addAttribute("mainMeatReview", mainMeatReview);
+   }
    
    
    @Override
@@ -281,7 +1044,12 @@ public class MainServiceImpl implements MainService {
    
 
    @Override
-   public void poLinkList(int pageNum, Model model) {
+   public void poLinkList(Principal seid, int pageNum, Model model) {
+	   String m_id = "";
+	   if(seid != null) {
+		   	m_id = (String)seid.getName(); 
+		   	model.addAttribute("m_id", m_id);
+	   }
       int pageSize = 6; 
        int startRow = (pageNum - 1) * pageSize + 1;
        int endRow = pageNum * pageSize;
@@ -308,6 +1076,67 @@ public class MainServiceImpl implements MainService {
    			result = Double.parseDouble(String.format("%.1f", result));
    			rdto.setStar(result);
    			model.addAttribute("p_num",p_num);
+   			
+   			String category1="";
+    		String category2="";
+    		String category3="";
+    	
+	      	String cate = rdto.getP_category()+"";
+	
+	      	if((cate.charAt(0)-48) == 1) {
+	      		category1 = "국내산";
+	      	} else{
+	      		category1 = "수입산";
+	      	}
+	      	
+	      	if((cate.charAt(1)-48) == 1) {
+	      		category2 = "돼지고기";
+	      	} else{
+	      		category2 = "소고기";
+	      	}
+	      	
+	      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
+	      		category3 = "특수부위";
+	      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
+	      		category3 = "삼겹살";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
+	      		category3 = "목살";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
+	      		category3 = "안심";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
+	      		category3 = "등심";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
+	      		category3 = "앞다리살";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
+	      		category3 = "갈매기살";
+	      	}
+	      	
+	      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
+	      		category3 = "특수부위";
+	      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
+	      		category3 = "등심";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
+	      		category3 = "안심";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
+	      		category3 = "갈비";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
+	      		category3 = "채끝";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
+	      		category3 = "목심";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
+	      		category3 = "부채살";
+	      	}
+	      	rdto.setCategory1(category1);
+	      	rdto.setCategory2(category2);
+	      	rdto.setCategory3(category3);
+	      	
+	      	String ppic_m_id = m_id;
+	      	int ppic_p_num = rdto.getP_num();
+	      	rdto.setPpic_m_id(ppic_m_id);
+	      	rdto.setPpic_p_num(ppic_p_num);
+	      	
+	      	int r_p_num = mapper.reviewAllCNT(rdto.getP_num());
+	      	rdto.setReviewAllCNT(r_p_num);
    			}
        }
        
@@ -328,7 +1157,12 @@ public class MainServiceImpl implements MainService {
 
 
    @Override
-   public void newProduct(int pageNum, Model model) {
+   public void newProduct(Principal seid, int pageNum, Model model) {
+	   String m_id = "";
+	   if(seid != null) {
+		   	m_id = (String)seid.getName(); 
+		   	model.addAttribute("m_id", m_id);
+	   }
       int pageSize = 6; 
        int startRow = (pageNum - 1) * pageSize + 1;
        int endRow = pageNum * pageSize;
@@ -355,6 +1189,67 @@ public class MainServiceImpl implements MainService {
    			result = sum / (double)recount;
    			result = Double.parseDouble(String.format("%.1f", result));
    			rdto.setStar(result);
+   			
+   			String category1="";
+    		String category2="";
+    		String category3="";
+    	
+	      	String cate = rdto.getP_category()+"";
+	
+	      	if((cate.charAt(0)-48) == 1) {
+	      		category1 = "국내산";
+	      	} else{
+	      		category1 = "수입산";
+	      	}
+	      	
+	      	if((cate.charAt(1)-48) == 1) {
+	      		category2 = "돼지고기";
+	      	} else{
+	      		category2 = "소고기";
+	      	}
+	      	
+	      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
+	      		category3 = "특수부위";
+	      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
+	      		category3 = "삼겹살";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
+	      		category3 = "목살";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
+	      		category3 = "안심";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
+	      		category3 = "등심";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
+	      		category3 = "앞다리살";
+	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
+	      		category3 = "갈매기살";
+	      	}
+	      	
+	      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
+	      		category3 = "특수부위";
+	      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
+	      		category3 = "등심";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
+	      		category3 = "안심";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
+	      		category3 = "갈비";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
+	      		category3 = "채끝";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
+	      		category3 = "목심";
+	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
+	      		category3 = "부채살";
+	      	}
+	      	rdto.setCategory1(category1);
+	      	rdto.setCategory2(category2);
+	      	rdto.setCategory3(category3);
+	      	
+	      	String ppic_m_id = m_id;
+	      	int ppic_p_num = rdto.getP_num();
+	      	rdto.setPpic_m_id(ppic_m_id);
+	      	rdto.setPpic_p_num(ppic_p_num);
+
+	      	int r_p_num = mapper.reviewAllCNT(rdto.getP_num());
+	      	rdto.setReviewAllCNT(r_p_num);
    			}
        }
        
@@ -371,129 +1266,22 @@ public class MainServiceImpl implements MainService {
        model.addAttribute("startPage", startPage);
        model.addAttribute("pageBlock", pageBlock);
        model.addAttribute("endPage", endPage);
-   }
+   } 
 
 @Override
 public ProductDetailDTO productDetail(ProductDetailDTO dto, Model model) {
-	dto = mapper.productDetail(dto);
-	
-	String category1="";
-	String category2="";
-	String category3="";
-	
-	String cate = dto.getP_category()+"";
-
-	if((cate.charAt(0)-48) == 1) {
-		category1 = "국내산";
-	} else{
-		category1 = "수입산";
-	}
-	
-	if((cate.charAt(1)-48) == 1) {
-		category2 = "돼지고기";
-	} else{
-		category2 = "소고기";
-	}
-	
-	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-		category3 = "특수부위";
-	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-		category3 = "삼겹살";
-	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-		category3 = "목살";
-	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-		category3 = "안심";
-	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-		category3 = "등심";
-	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-		category3 = "앞다리살";
-	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-		category3 = "갈매기살";
-	}
-	
-	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-		category3 = "특수부위";
-	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-		category3 = "등심";
-	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-		category3 = "안심";
-	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-		category3 = "갈비";
-	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-		category3 = "채끝";
-	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-		category3 = "목심";
-	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-		category3 = "부채살";
-	}
-
-	model.addAttribute("category1", category1);
-	model.addAttribute("category2", category2);
-	model.addAttribute("category3", category3);
-
 	return mapper.productDetail(dto);
 	}
 
-
 	@Override
-	public List<ProductDetailDTO> otherProductDetail(ProductDetailDTO dto, Model model) {
-		String category1="";
-		String category2="";
-		String category3="";
-		
-		String cate = dto.getP_category()+"";
-
-		if((cate.charAt(0)-48) == 1) {
-			category1 = "국내산";
-		} else{
-			category1 = "수입산";
-		}
-		
-		if((cate.charAt(1)-48) == 1) {
-			category2 = "돼지고기";
-		} else{
-			category2 = "소고기";
-		}
-		
-		if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-			category3 = "특수부위";
-		} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-			category3 = "삼겹살";
-		}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-			category3 = "목살";
-		}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-			category3 = "안심";
-		}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-			category3 = "등심";
-		}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-			category3 = "앞다리살";
-		}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-			category3 = "갈매기살";
-		}
-		
-		if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-			category3 = "특수부위";
-		} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-			category3 = "등심";
-		}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-			category3 = "안심";
-		}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-			category3 = "갈비";
-		}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-			category3 = "채끝";
-		}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-			category3 = "목심";
-		}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-			category3 = "부채살";
-		}
-
-		model.addAttribute("category1", category1);
-		model.addAttribute("category2", category2);
-		model.addAttribute("category3", category3);
-
-		return mapper.otherProductDetail(dto);
+	public int otherProductCount(String p_m_id) {
+		return mapper.otherProductCount(p_m_id);
 	}
 
+	@Override
+	public List<OtherProductDetailDTO> otherProductDetail(OtherProductDetailDTO dto, Model model) {
+		return mapper.otherProductDetail(dto);
+	}
 
 	@Override
 	public List<ReviewDTO> reviewAll(int p_num) {
@@ -688,7 +1476,18 @@ public ProductDetailDTO productDetail(ProductDetailDTO dto, Model model) {
 		}
 		model.addAttribute("dto" , dto);
 		model.addAttribute("pResult" , result);
-		System.out.println("pResult : "+result);
+	}
+	
+	@Override
+	public void pickInsertMain(Model model, String ppic_m_id, int ppic_p_num) {
+		int result;
+		result = mapper.pick_p_numCNT(ppic_m_id, ppic_p_num);
+		if(result == 0) {
+			mapper.pickInsertMain(ppic_m_id, ppic_p_num);
+		} else {
+			mapper.pickDeleteMain(ppic_m_id, ppic_p_num);
+		}
+		model.addAttribute("mainResult" , result);
 	}
 
 	@Override
@@ -700,6 +1499,16 @@ public ProductDetailDTO productDetail(ProductDetailDTO dto, Model model) {
 	public int pick_p_numCNT(String ppic_m_id, int ppic_p_num) {
 		return mapper.pick_p_numCNT(ppic_m_id , ppic_p_num);
 	}
+
+	@Override
+	public int pCategory(int p_num) {
+		return mapper.pCategory(p_num);
+	}
+
+
+	
+
+
 
 
 

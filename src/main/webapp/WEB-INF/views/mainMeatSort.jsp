@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
 <!DOCTYPE html>
 <html lang="en"> 
-	<head>
+	<head> 
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -50,8 +50,8 @@
 								<ul class="section-tab-nav tab-nav">
 									<li ><a href="/main/mainMeat?category=${category}&price=desc">가격 낮은순</a></li>
 									<li ><a href="/main/mainMeat?category=${category}&sale=desc">판매량 높은순</a></li>
-									<li ><a href="#tab1">평점순</a></li>
-									<li ><a href="#tab1">댓글순</a></li>
+									<li ><a href="/main/mainMeatSort?category=${category}">평점 좋은순</a></li>
+									<li ><a href="/main/mainMeatReview?category=${category}">댓글 많은순</a></li>
 									<li ><a href="/main/mainMeat?category=${category}&news=news" >신상품순</a></li>
 								</ul>
 							</div>

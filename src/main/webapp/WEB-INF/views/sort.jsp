@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html> 
+<!DOCTYPE html>  
 <html lang="en"> 
 	<head>
 		<meta charset="utf-8">
@@ -51,8 +51,8 @@
 									<li ><a href="/main/searchPrice?price=price&searchOption=${searchOption}&search=${search}">가격 낮은순</a></li>
 									<li ><a href="/main/searchPrice?searchOption=${searchOption}&search=${search}">가격 높은순</a></li>
 									<li ><a href="/main/searchSale?searchOption=${searchOption}&search=${search}">판매량 높은순</a></li>
-									<li ><a href="#tab1">평점순</a></li>
-									<li ><a href="#tab1">댓글순</a></li>
+									<li ><a href="#tab1">평점 좋은순</a></li>
+									<li ><a href="#tab1">댓글 많은순</a></li>
 									<li ><a href="/main/search?desc=desc&searchOption=${searchOption}&search=${search}" >신상품순</a></li>
 								</ul>
 							</div>

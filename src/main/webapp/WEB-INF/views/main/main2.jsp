@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ include file="../header.jsp" %> 
+<%@ include file="../header.jsp" %>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
 
 		<!-- SECTION -->
 		<div class="section">
@@ -35,6 +38,11 @@
 										<div class="product">
 											<div class="product-img">
 												<img src="../resources/img/product01.png" alt="">
+												
+												<div class="modal-dialog modal-dialog-scrollable">
+  ...
+</div>
+												
 												<div class="product-label">
 													<span class="sale" ><a href="boot">목록확인</a></span>
 													<span class="sale" ><a>상품설명</a></span>
@@ -198,6 +206,12 @@
 										<div class="product">
 											<div class="product-img">
 												<img src="../resources/img/product06.png" alt="">
+												
+												<a>
+												<div class="modal-dialog modal-dialog-scrollable">
+												  ...
+												</div></a>
+												
 												<div class="product-label">
 													<span class="sale" ><a>목록확인</a></span>
 													<span class="sale" ><a>상품설명</a></span>

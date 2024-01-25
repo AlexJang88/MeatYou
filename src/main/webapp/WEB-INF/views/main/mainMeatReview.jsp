@@ -52,7 +52,7 @@
 						<!-- store products -->
 						<div class="row">
 							<!-- product -->
-							<c:forEach var="meat" items="${mainMeat}">
+							<c:forEach var="meats" items="${mainMeatReview}">
 							<div class="col-md-4 col-xs-6">
 								<div class="product">
 									<div class="product-img">
@@ -64,13 +64,13 @@
 										</div>
 									</div>
 									<div class="product-body">
-										<a href="../main/product?p_num=${meat.p_num}&p_m_id=${meat.p_m_id}"><h3 class="product-name">${meat.p_name}</h3></a>
-										<a href="../main/product?p_num=${meat.p_num}&p_m_id=${meat.p_m_id}"><h4 class="product-price">${meat.p_price}</h4></a>
+										<a href="../main/product?p_num=${meats.p_num}&p_m_id=${meats.p_m_id}"><h3 class="product-name">${meats.p_name}</h3></a>
+										<a href="../main/product?p_num=${meats.p_num}&p_m_id=${meats.p_m_id}"><h4 class="product-price">${meats.p_price}</h4></a>
 										<ul class="product-links">
-											<a href="../main/product?p_num=${meat.p_num}&p_m_id=${meat.p_m_id}"><li><h6>${meat.category1} / ${meat.category2} / ${meat.category3}</h6></li></a>
+											<a href="../main/product?p_num=${meats.p_num}&p_m_id=${meats.p_m_id}"><li><h6>${meats.category1} / ${meats.category2} / ${meats.category3}</h6></li></a>
 										</ul>
-										<div class="rating-avg">${meat.star}
-														<c:if test="${meat.star == 5.0 && meat.star > 4.6}">
+										<div class="rating-avg">${meats.star}
+														<c:if test="${meats.star == 5.0 && meats.star > 4.6}">
 															<div class="rating-stars">
 																<i class="fa fa-star"></i>
 																<i class="fa fa-star"></i>
@@ -79,7 +79,7 @@
 																<i class="fa fa-star"></i>
 															</div>
 														</c:if>
-														<c:if test="${meat.star >= 4.0 && meat.star < 4.6}">
+														<c:if test="${meats.star >= 4.0 && meats.star < 4.6}">
 															<div class="rating-stars">
 																<i class="fa fa-star"></i>
 																<i class="fa fa-star"></i>
@@ -88,7 +88,7 @@
 																<i class="fa fa-star-o"></i>
 															</div>
 														</c:if>
-														<c:if test="${meat.star >= 3.0 && meat.star < 3.9}">
+														<c:if test="${meats.star >= 3.0 && meats.star < 3.9}">
 															<div class="rating-stars">
 																<i class="fa fa-star"></i>
 																<i class="fa fa-star"></i>
@@ -97,7 +97,7 @@
 																<i class="fa fa-star-o"></i>
 															</div>
 														</c:if>
-														<c:if test="${meat.star >= 2.0 && meat.star < 2.9}">
+														<c:if test="${meats.star >= 2.0 && meats.star < 2.9}">
 															<div class="rating-stars">
 																<i class="fa fa-star"></i>
 																<i class="fa fa-star"></i>
@@ -106,7 +106,7 @@
 																<i class="fa fa-star-o"></i>
 															</div>
 														</c:if>
-														<c:if test="${meat.star > 1.0 && meat.star < 1.9}">
+														<c:if test="${meats.star > 1.0 && meats.star < 1.9}">
 															<div class="rating-stars">
 																<i class="fa fa-star"></i>
 																<i class="fa fa-star-o"></i>
@@ -115,7 +115,7 @@
 																<i class="fa fa-star-o"></i>
 															</div>
 														</c:if>
-														<c:if test="${meat.star >= 0.0 && meat.star < 0.9}">
+														<c:if test="${meats.star >= 0.0 && meats.star < 0.9}">
 															<div class="rating-stars">
 																<i class="fa fa-star-o"></i>
 																<i class="fa fa-star-o"></i>
@@ -125,25 +125,25 @@
 															</div>
 														</c:if>
 													</div>
-												<c:if test="${m_id == null}">
-													<div class="product-btns">
-														찜하기<button class="add-to-wishlist" onclick="location.href='/member/customLogin'"><i class="fa fa-heart-o"></i><span class="tooltipp">찜하기</span></button>
-														리뷰 : ${meat.reviewAllCNT}개
-													</div>
-												</c:if>
-
-												<c:if test="${m_id != null}">
-													<div class="product-btns">
-														<form class="product-btns" action="pickInsertMainMeat" method="post">
-															<input type="hidden" name="ppic_m_id" value="${meat.ppic_m_id}">
-															<input type="hidden" name="ppic_p_num" value="${meat.ppic_p_num}">
-															<input type="hidden" name="category" value="${category}">
-															<input type="hidden" name="price" value="desc">
-															찜하기<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">찜하기</span></button>
-															리뷰 : ${meat.reviewAllCNT}개
-														</form>
-													</div>
-												</c:if>
+													
+									<c:if test="${m_id == null}">
+										<div class="product-btns">
+											찜하기<button class="add-to-wishlist" onclick="location.href='/member/customLogin'"><i class="fa fa-heart-o"></i><span class="tooltipp">찜하기</span></button>
+											리뷰 : ${meats.reviewAllCNT}개
+										</div>
+									</c:if>
+									<c:if test="${m_id != null}">
+										<div class="product-btns">
+											<form class="product-btns" action="pickInsertMainReview" method="post">
+												<input type="hidden" name="ppic_m_id" value="${meats.ppic_m_id}">
+												<input type="hidden" name="ppic_p_num" value="${meats.ppic_p_num}">
+												<input type="hidden" name="category" value="${category}">
+												<input type="hidden" name="price" value="desc">
+												찜하기<button class="add-to-wishlist" ><i class="fa fa-heart-o"></i><span class="tooltipp">찜하기</span></button>
+												리뷰 : ${meats.reviewAllCNT}개
+											</form>
+										</div>
+									</c:if>
 									</div>
 									<c:if test="${m_id != null}">
 										<div class="add-to-cart">
@@ -173,13 +173,13 @@
 							<ul class="store-pagination">
 							<c:if test="${count > 0}">
 								<c:if test="${startPage > 10}">
-									<li><a href="/main/mainMeat?category=${category}&price=desc&pageNum=${startPage-10}">[이전]</a></li>
+									<li><a href="/main/mainMeatReview?category=${category}&price=desc&pageNum=${startPage-10}">[이전]</a></li>
 								</c:if>
 								<c:forEach var="i" begin="${startPage}" end="${endPage}">
-									<li><a href="/main/mainMeat?category=${category}&price=desc&pageNum=${i}">${i}</a></li>
+									<li><a href="/main/mainMeatReview?category=${category}&price=desc&pageNum=${i}">${i}</a></li>
 								</c:forEach>
 								<c:if test="${endPage > pageCount}">
-									<li><a href="/main/mainMeat?category=${category}&price=desc&pageNum=${startPage+10}">[다음]</a></li>
+									<li><a href="/main/mainMeatReview?category=${category}&price=desc&pageNum=${startPage+10}">[다음]</a></li>
 								</c:if>	
 
 								</c:if>

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-
+ 
 <!DOCTYPE html>
 <html lang="en"> 
 	<head>
@@ -172,9 +172,8 @@
 						<li class="active"><a href="/main/main">홈</a></li>
 						<li><a href="/main/mainMeat?category=2&price=desc">소고기</a></li>
 						<li><a href="/main/mainMeat?category=1&price=desc">돼지고기</a></li>
-						<li><a href="#">1~2인</a></li>
-						<li><a href="#">3~4인</a></li>
-						<li><a href="#">세트/선물세트</a></li>
+						<li><a href="#">세트</a></li>
+						<li><a href="#">선물세트</a></li>
 						<li><a href="#">특수부위</a></li>
 					</ul>
 					<!-- /NAV -->
