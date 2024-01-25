@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 
 import com.gogi.meatyou.bean.CusDetailDTO;
+import com.gogi.meatyou.bean.MemAddressDTO;
 import com.gogi.meatyou.bean.MemberDTO;
 import com.gogi.meatyou.bean.PPicDTO;
 import com.gogi.meatyou.bean.PickMeDTO;
@@ -28,6 +29,21 @@ public interface MemberMapper {
        public List<MemberDTO> memberList();
     
       public MemberDTO member(String m_id);
+      
+      
+      
+      
+      List<MemAddressDTO> addressCheck(Map<String, Object> parameters);
+    //  int pPickCount(@Param("ppic_m_id") String ppic_m_id, @Param("ppic_num") int ppic_num );
+    //  public  int deleteP_item(@Param("ppic_num") int ppic_num, @Param("ppic_m_id") String ppic_m_id);
+   
+      
+      
+      
+      
+  //    public MemAddressDTO addressCheck(String add_m_id);
+      public int deleteAddr(int add_num,String add_m_id);
+      public void  updateAddr(MemAddressDTO  adto);
       
       
       public List<ShoppingCartDTO> shoppingcartCheck(String m_id);
@@ -76,7 +92,11 @@ public interface MemberMapper {
        
        
        public  int deleteCart(@Param("shop_num") int shop_num, @Param("shop_m_id") String shop_m_id);
-       public  int deleteCart2(@Param("shop_num") int[] shop_num, @Param("shop_m_id") String shop_m_id);
+
+       // 선택한 상품 삭제를 위한 메서드
+      // void deleteSelectedItems(  @Param("selectedShopNums")List<Long> selectedShopNums,@Param("shop_m_id") String shop_m_id);
+       void deleteSelectedItems(Map<String, Object> paramMap);
+       
           List<PickMeDTO> pickMeCountPages(
                   @Param("pm_m_id") String pm_m_id,
                   @Param("startRow") int startRow,
@@ -96,8 +116,7 @@ public interface MemberMapper {
           int pickMeCount(@Param("pm_m_id")String pm_m_id,@Param("p_m_id")String p_m_id  );       
           public  int deleteHim(@Param("pm_num") int shop_num, @Param("pm_m_id") String pm_m_id);
        
-       
-          
+         
           List<PPicDTO> pPickCountPage(Map<String, Object> params);
              int pPickCount(@Param("ppic_m_id") String ppic_m_id, @Param("ppic_num") int ppic_num );
              public  int deleteP_item(@Param("ppic_num") int ppic_num, @Param("ppic_m_id") String ppic_m_id);

@@ -1,7 +1,9 @@
 package com.gogi.meatyou.service;
 
 import com.gogi.meatyou.bean.CusDetailDTO;
+import com.gogi.meatyou.bean.MemAddressDTO;
 import com.gogi.meatyou.bean.MemberDTO;
+import com.gogi.meatyou.bean.PDetailDTO;
 import com.gogi.meatyou.bean.PPicDTO;
 import com.gogi.meatyou.bean.PickMeDTO;
 import com.gogi.meatyou.bean.ProductDTO;
@@ -16,6 +18,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 @Service
@@ -125,8 +128,27 @@ public class MemberServiceImpl implements MemberService {
        public MemberDTO getUser(String m_id) {
           return mapper.member(m_id);
        }
+       
+       @Override			 
+       public List<MemAddressDTO>addressCheck(String add_m_id,MemberDTO mdto,MemAddressDTO adto) {
+        	 
+        	 Map<String, Object> parameters = new HashMap<>();
+        	 parameters.put("add_m_id", add_m_id);
+        	 
+        	 //   return mapper.getShoppingCartItemsPaged(parameters);
+        	 List<MemAddressDTO> result = mapper.addressCheck(parameters);
+			return result;
 
- 
+       }
+       @Override
+       public int deleteAddr(int add_num ,String add_m_id) {
+    	return mapper.deleteAddr(add_num,add_m_id);   
+       }
+       
+       @Override
+       public void  updateAddr(MemAddressDTO  adto) {
+    	  mapper.updateAddr(adto);   
+       }
       
       
       
@@ -196,7 +218,7 @@ public class MemberServiceImpl implements MemberService {
          
          
          
-         public List<ShoppingCartDTO> getShoppingCartItemsPaged(String shop_m_id, int page, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto) {
+         public List<ShoppingCartDTO> getShoppingCartItemsPaged(String shop_m_id, int page, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto,PDetailDTO pddto) {
              int startRow = (page - 1) * pageSize + 1;
              int endRow = startRow + pageSize - 1;
 
@@ -250,11 +272,18 @@ public class MemberServiceImpl implements MemberService {
 
             }
       
-             // 선택된 상품들 삭제
-             public int deleteSelectedProducts(int shop_num[],@Param("shop_m_id")String shop_m_id) {
-            	  return  mapper.deleteCart2(shop_num,shop_m_id);
+             @Transactional
+             @Override
+             public void deleteSelectedItems(List<Long> selectedShopNums, String shop_m_id) {
+                 Map<String, Object> paramMap = new HashMap<>();
+                 paramMap.put("selectedShopNums", selectedShopNums);
+                 paramMap.put("shop_m_id", shop_m_id);
+
+                 System.out.print("list =======================" + selectedShopNums);
+                 System.out.print("shop_m_id =======================" + shop_m_id);
+                 
+                 mapper.deleteSelectedItems(paramMap);
              }
- 
              
              
              

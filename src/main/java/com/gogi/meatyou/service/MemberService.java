@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.gogi.meatyou.bean.CusDetailDTO;
+import com.gogi.meatyou.bean.MemAddressDTO;
 import com.gogi.meatyou.bean.MemberDTO;
+import com.gogi.meatyou.bean.PDetailDTO;
 import com.gogi.meatyou.bean.PPicDTO;
 import com.gogi.meatyou.bean.PickMeDTO;
 import com.gogi.meatyou.bean.ProductDTO;
@@ -31,6 +33,13 @@ public interface MemberService  {
    public void userUpdate(MemberDTO dto);
    
    public MemberDTO getUser(String m_id);
+   
+   
+   List<MemAddressDTO>addressCheck(String add_m_id,MemberDTO mdto,MemAddressDTO adto) ; 
+   	
+   public int deleteAddr(@Param("add_num")  int add_num,@Param("add_m_id") String add_m_id);
+   
+   public void  updateAddr(MemAddressDTO  adto);
    
    public int userDelete(MemberDTO dto);
    public int sallerDelete(MemberDTO dto);
@@ -53,25 +62,14 @@ public interface MemberService  {
        public void p_pick(String m_id);
        public void p_pick_seq(String m_id);
        public void prefer(String m_id);
-
       public void updateQuantity(int  shop_num,int  shop_quantity, String shop_m_id) ;
-      
-      List<ShoppingCartDTO> getShoppingCartItemsPaged(String shop_m_id, int startRow, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto);
-
+      List<ShoppingCartDTO> getShoppingCartItemsPaged(String shop_m_id, int startRow, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto,PDetailDTO pddto);
        int getTotalShoppingCartItems(String shop_m_id);
-       
       public int deleteCart(int shop_num,String shop_m_id);
-
-       int deleteSelectedProducts(int shop_num[],@Param("shop_m_id")String shop_m_id);
+      public void deleteSelectedItems(List<Long> selectedShopNums ,String shop_m_id);
       List<ShoppingCartDTO> orderpage(String shop_m_id, int startRow, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto);
-      
-      
       int orderpageCartItems(String shop_m_id);
-      
-      
-      
       List<PickMeDTO> pickMeCountPage(String pm_m_id, int page, int pageSize, PickMeDTO pdto, CusDetailDTO cdto);
-      
       int pickMeCount( String pm_m_id,@Param("p_m_id")String p_m_id );
          public int deleteHim(int pm_num,String pm_m_id);
          

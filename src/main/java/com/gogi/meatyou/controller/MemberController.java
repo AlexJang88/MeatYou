@@ -29,6 +29,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -37,8 +38,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.gogi.meatyou.bean.CouponDTO;
 import com.gogi.meatyou.bean.CusDetailDTO;
 import com.gogi.meatyou.bean.MOrderDTO;
+import com.gogi.meatyou.bean.MemAddressDTO;
 import com.gogi.meatyou.bean.MemStatusDTO;
 import com.gogi.meatyou.bean.MemberDTO;
+import com.gogi.meatyou.bean.PDetailDTO;
 import com.gogi.meatyou.bean.PPicDTO;
 import com.gogi.meatyou.bean.PickMeDTO;
 import com.gogi.meatyou.bean.ProductDTO;
@@ -126,31 +129,26 @@ public class MemberController {
         int check = service.insertMember(dto);
         
         if (check > 0) {
-            // insertMember媛� �젙�긽�쟻�쑝濡� �떎�뻾�릺�뿀�떎硫� �떎瑜� �꽌鍮꾩뒪 硫붿냼�뱶�뱾�쓣 �샇異�
-            service.shoppingCart(dto.getM_id()); // �삁�떆: insertShoppingCart 硫붿냼�뱶 �샇異�
-            service.shoppingCart_seq(dto.getM_id()); // �삁�떆: insertShoppingCart 硫붿냼�뱶 �샇異�
+            service.shoppingCart(dto.getM_id());  
+            service.shoppingCart_seq(dto.getM_id());  
             
-            service.pick_me(dto.getM_id()); // �삁�떆: insertPickMe 硫붿냼�뱶 �샇異�
+            service.pick_me(dto.getM_id()); 
             service.pick_me_seq(dto.getM_id()); 
             
-            service.p_pick(dto.getM_id()); // �삁�떆: insertPPick 硫붿냼�뱶 �샇異�
+            service.p_pick(dto.getM_id());  
             service.p_pick_seq(dto.getM_id());
             service.prefer(dto.getM_id());
-            // �떎瑜� �꽌鍮꾩뒪 硫붿냼�뱶�뱾�룄 �쑀�궗�븯寃� �샇異�
             
             model.addAttribute("check", check);
             return "member/inputPro";
         } else {
-            // insertMember媛� �떎�뙣�뻽�쓣 寃쎌슦 泥섎━
-            // �떎�뙣�뿉 ���븳 濡쒖쭅 援ы쁽
-            return "errorPage"; // �떎�뙣�뿉 ���븳 �럹�씠吏�濡� 由щ떎�씠�젆�듃 �삉�뒗 泥섎━
+            return "errorPage";  
         }
     }
      
     
     
     
-  //�뙋留ㅼ옄 �떊泥�  1050�쑝濡� �뒪�뀒�씠�꽣�뒪蹂�寃� 
     @RequestMapping("sallerInputForm")
     public String sallerInputForm(Model model, Authentication authentication,CusDetailDTO cdto) {
     	
@@ -161,7 +159,6 @@ public class MemberController {
     	return "member/saller/sallerInputForm";
     	
     }
-    //�뙋留ㅼ옄 �떊泥�  1050�쑝濡� �뒪�뀒�씠�꽣�뒪蹂�寃� 
     @RequestMapping("sallerInputPro")
     public String sallerInputPro(MemberDTO dto,CusDetailDTO cdto, Authentication authentication) {
         String m_id = authentication.getName();
@@ -256,6 +253,7 @@ public class MemberController {
               @RequestParam(defaultValue = "10") int pageSize,  
               ShoppingCartDTO sdto,
               ProductDTO pdto,
+              PDetailDTO pddto,
               @RequestParam(value = "selectedProducts", required = false) List<String> selectedProducts)
     	  {
     	  
@@ -264,20 +262,16 @@ public class MemberController {
           int totalPrice = sdto.getShop_quantity() * sdto.getP_price();
           System.out.print("占쎈뻻占쎄괠�뵳�뗫뼒 占쎌넇占쎌뵥======================================================"+shop_m_id);
 
-          // �뿬湲곗꽌 service瑜� �넻�빐 �빐�떦 �쉶�썝�쓽 �듅�젙 踰붿쐞�쓽 �옣諛붽뎄�땲 �젙蹂대�� 媛��졇�샃�땲�떎.
-          List<ShoppingCartDTO> shoppingCartList = service.getShoppingCartItemsPaged(shop_m_id, page, pageSize, sdto, pdto);
+          List<ShoppingCartDTO> shoppingCartList = service.getShoppingCartItemsPaged(shop_m_id, page, pageSize, sdto, pdto,pddto);
 
-          // �뿬湲곗꽌 service瑜� �넻�빐 �빐�떦 �쉶�썝�쓽 �옣諛붽뎄�땲 珥� �긽�뭹 媛쒖닔瑜� 媛��졇�샃�땲�떎.
           int totalItemCount = service.getTotalShoppingCartItems(shop_m_id);
 
-          // �럹�씠吏� 泥섎━瑜� �쐞�븳 怨꾩궛
           int totalPage = (int) Math.ceil((double) totalItemCount / pageSize);
           
           System.out.println("�럹�씠吏� �겕湲�  ============= ="+pageSize);
 	    	System.out.println("�럹�씠吏� ============ ="+page);
 	    	System.out.println("珥앺럹�씠吏��뒗 ============= ="+totalPage);
 	    	System.out.println("珥� 移댁슫�듃   =================="+totalItemCount);
-	    // 紐⑤뜽�뿉 �옣諛붽뎄�땲 �젙蹂� 諛� �럹�씠吏� 愿��젴 �젙蹂대�� 異붽��빀�땲�떎.
           model.addAttribute("shoppingCartList", shoppingCartList);
           model.addAttribute("totalPrice", totalPrice);
           model.addAttribute("page", page);
@@ -307,7 +301,6 @@ public class MemberController {
     	// 湲곗〈 肄붾뱶
     				// shop_m_id = sdto.getShop_m_id();
 
-    				// �닔�젙 �썑 肄붾뱶
     				  String shop_m_id = (String) seid.getName();
 
     				int check = service.deleteCart(sdto.getShop_num(), shop_m_id);
@@ -320,26 +313,37 @@ public class MemberController {
     			}
       
       
-      // 선택된 상품들 삭제 요청 처리
-      @RequestMapping("deleteSelected") 
-      public String deleteSelectedProducts(Principal seid, int[] shop_num) {
+      //선택 삭제
+      @PostMapping("/deleteSelectedItems")
+      @ResponseBody
+      public ResponseEntity<String> deleteSelectedItems(Principal seid, @RequestParam("selectedShopNums") List<Long> selectedShopNums ) {
           String shop_m_id = (String) seid.getName();
-          int check = service.deleteSelectedProducts(shop_num, shop_m_id);
-          if (check == 1) {
-              return "redirect:/member/shoppingCartForm";
-          } else {
-              return "error";
-          }   
+
+          try {
+              service.deleteSelectedItems(selectedShopNums , shop_m_id);
+              return ResponseEntity.ok("Selected items deleted successfully");
+          } catch (Exception e) {
+              e.printStackTrace();
+              return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting selected items");
+          }
       }
-   
-      // �뵿誘� 紐⑸줉 媛��졇�삤湲�~~~~~~~~~~
+
+      //선택 주문
+      @PostMapping("/orderSelectedItems")
+      public void orderSelectedItems(@RequestBody List<String> selectedShopNums, HttpSession session) {
+          // 세션에 선택한 상품 정보 저장
+          session.setAttribute("selectedShopNums",selectedShopNums);
+          System.out.println("selectedShopNums================================"+selectedShopNums);
+          // 처리 완료 후 리로드 또는 다른 동작 수행
+      }
+      	
       
       @RequestMapping("pickMe")
       public String pickMekList(
               Principal seid,
               Model model,
-              @RequestParam(defaultValue = "1") int page,  // �쁽�옱 �럹�씠吏� 踰덊샇, 湲곕낯媛� 1
-              @RequestParam(defaultValue = "7") int pageSize,  // �럹�씠吏��떦 蹂댁뿬吏� �빆紐� �닔, 湲곕낯媛� 7
+              @RequestParam(defaultValue = "1") int page,  
+              @RequestParam(defaultValue = "7") int pageSize,  
               PickMeDTO pdto, CusDetailDTO cdto   
               ,@Param("p_m_id")String p_m_id
     		  ) {
@@ -514,49 +518,64 @@ public class MemberController {
     public String memberForm() {
     	return "member/memberForm";
     }
-     
     
     
-    @RequestMapping("m_order")
-    public String orderPage(
-            Principal seid,
-            Model model,
-            @RequestParam(defaultValue = "1") int page,  
-            @RequestParam(defaultValue = "10") int pageSize,  
-            ShoppingCartDTO sdto,
-            ProductDTO pdto
-    ) {
+    
+    
+    
+    
+    @RequestMapping("addressForm")
+    public String addressForm(
+  		  Principal seid,
+  		  Model model,
+  		  MemberDTO mdto,
+  		MemAddressDTO adto
+  		  ) {
   	  
-  	  int p_num=pdto.getP_num();
-        String shop_m_id = (String) seid.getName();
-        int totalPrice = sdto.getShop_quantity() * sdto.getP_price();
-        System.out.print("占쎈뻻占쎄괠�뵳�뗫뼒 占쎌넇占쎌뵥======================================================"+shop_m_id);
-
-        // �뿬湲곗꽌 service瑜� �넻�빐 �빐�떦 �쉶�썝�쓽 �듅�젙 踰붿쐞�쓽 �옣諛붽뎄�땲 �젙蹂대�� 媛��졇�샃�땲�떎.
-        List<ShoppingCartDTO> orderList = service.getShoppingCartItemsPaged(shop_m_id, page, pageSize, sdto, pdto);
-
-        // �뿬湲곗꽌 service瑜� �넻�빐 �빐�떦 �쉶�썝�쓽 �옣諛붽뎄�땲 珥� �긽�뭹 媛쒖닔瑜� 媛��졇�샃�땲�떎.
-        int totalItemCount = service.getTotalShoppingCartItems(shop_m_id);
-
-        // �럹�씠吏� 泥섎━瑜� �쐞�븳 怨꾩궛
-        int totalPage = (int) Math.ceil((double) totalItemCount / pageSize);
-        
-        System.out.println("�럹�씠吏� �겕湲�  ============= ="+pageSize);
-	    	System.out.println("�럹�씠吏� ============ ="+page);
-	    	System.out.println("珥앺럹�씠吏��뒗 ============= ="+totalPage);
-	    	System.out.println("珥� 移댁슫�듃   =================="+totalItemCount);
-	    // 紐⑤뜽�뿉 �옣諛붽뎄�땲 �젙蹂� 諛� �럹�씠吏� 愿��젴 �젙蹂대�� 異붽��빀�땲�떎.
-        model.addAttribute("orderList", orderList);
-        model.addAttribute("totalPrice", totalPrice);
-        model.addAttribute("page", page);
-        model.addAttribute("pageSize", pageSize);
-        model.addAttribute("totalPage", totalPage);
-
-        return "member/order/m_order";
+  	  String add_m_id = (String) seid.getName();
+  	  System.out.print("�굹瑜� 李쒗븳 �쉶�썝  �븘�씠�뵒======================================================"+add_m_id);
+  	  
+  	  List<MemAddressDTO> AddrList = service.addressCheck(add_m_id,mdto,adto );
+  	  model.addAttribute("add_m_id", add_m_id);
+  	  //model.addAttribute("totalPrice", totalPrice);
+  	  model.addAttribute("mdto", mdto);
+  	  model.addAttribute("adto", adto);
+  	  
+  	  return "member/address/addressForm";
     }
     
- 
     
+    /*
+     
+    @RequestMapping("/addressForm")
+    public String addressForm(Model model, Authentication authentication) {
+        String username = authentication.getName();
+        MemAddressDTO adto = service.addressCheck(username);
+        model.addAttribute("dto", adto);
+        return "member/address/addressForm";
+    }
+    */
+    @RequestMapping("/updateAddr")
+    public String updateAddr(MemAddressDTO adto, Authentication authentication) {
+        String add_m_id = authentication.getName();
+        adto.setAdd_m_id(add_m_id);
+        service.updateAddr(adto);
+        return "redirect:/member/addressForm";	
+    }
     
-    	
+    @RequestMapping("/deleteAddr")
+    public String deleteAddr(MemAddressDTO adto, Authentication authentication) {
+    	String add_m_id = authentication.getName();
+    	adto.setAdd_m_id(add_m_id);
+    	int check = service.deleteAddr(adto.getAdd_num(),add_m_id);
+    if (check == 1) {
+        return "redirect:/member/addressForm";		
+     } else {
+        return "error";
+     }   
+    
+    }
+    
+
+
 }
