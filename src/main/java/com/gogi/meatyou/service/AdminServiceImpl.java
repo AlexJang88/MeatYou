@@ -7,6 +7,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ScheduledExecutorService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,19 +54,18 @@ import com.google.gson.JsonObject;
 
 @Service
 public class AdminServiceImpl implements AdminService {
-   
-	private int imgcnt=0;
-	private int check=0;
-	
-   @Autowired
-   private HashMap adminMap;
-   
-   @Autowired
-   private ArrayList<String> adminoldname;
-   
-   @Autowired
-   private NoticeFileDTO noticefiledto;
-   
+
+	private int imgcnt = 0;
+	private int check = 0;
+
+	@Autowired
+	private HashMap adminMap;
+
+	@Autowired
+	private ArrayList<String> adminoldname;
+
+	@Autowired
+	private NoticeFileDTO noticefiledto;
 
 //   @Override
 //   public void list(int pageNum, Model model) {
@@ -70,119 +73,118 @@ public class AdminServiceImpl implements AdminService {
 //
 //   }
 
-   @Autowired
-   private AdminMapper mapper;
+	@Autowired
+	private AdminMapper mapper;
 
-   private HttpURLConnection conn;
+	private HttpURLConnection conn;
 
-   public void memberList(int check, Model model, int pageNum) {
-      int count=0;
-      int pageSize = 10;
-      int startRow = (pageNum - 1) * pageSize + 1;
-      int endRow = pageNum * pageSize;
-      List<MemberDTO> list = Collections.EMPTY_LIST;
-      if (check == 1) {
-         count = mapper.memCount();
-         if (count > 0) {
-            adminMap.put("start", startRow);
-            adminMap.put("end", endRow);
-            list = mapper.memberList(adminMap);
-         }
+	public void memberList(int check, Model model, int pageNum) {
+		int count = 0;
+		int pageSize = 10;
+		int startRow = (pageNum - 1) * pageSize + 1;
+		int endRow = pageNum * pageSize;
+		List<MemberDTO> list = Collections.EMPTY_LIST;
+		if (check == 1) {
+			count = mapper.memCount();
+			if (count > 0) {
+				adminMap.put("start", startRow);
+				adminMap.put("end", endRow);
+				list = mapper.memberList(adminMap);
+			}
 
-         
-      } else if (check == 2) {
-         count = mapper.cusCount();
+		} else if (check == 2) {
+			count = mapper.cusCount();
 
-         if (count > 0) {
-            adminMap.put("start", startRow);
-            adminMap.put("end", endRow);
-            list = mapper.customList(adminMap);
-         }
+			if (count > 0) {
+				adminMap.put("start", startRow);
+				adminMap.put("end", endRow);
+				list = mapper.customList(adminMap);
+			}
 
-      }else if(check==3) {
-         count = mapper.cusWaitCount();
-         
-         if (count > 0) {
-            adminMap.put("start", startRow);
-            adminMap.put("end", endRow);
-            list = mapper.cusWaitList(adminMap);
-         }
+		} else if (check == 3) {
+			count = mapper.cusWaitCount();
 
-      }else if(check==4) {
-         count = mapper.cusPaidCount();
-         
-         if (count > 0) {
-            adminMap.put("start", startRow);
-            adminMap.put("end", endRow);
-            list = mapper.cusPaidList(adminMap);
-         }
-      }
-      model.addAttribute("list", list);
-      model.addAttribute("count", count);
-      model.addAttribute("pageNum", pageNum);
-      model.addAttribute("pageSize", pageSize);
+			if (count > 0) {
+				adminMap.put("start", startRow);
+				adminMap.put("end", endRow);
+				list = mapper.cusWaitList(adminMap);
+			}
 
-      // page
-      int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
-      int startPage = (int) (pageNum / 10) * 10 + 1;
-      int pageBlock = 10;
-      int endPage = startPage + pageBlock - 1;
-      if (endPage > pageCount) {
-         endPage = pageCount;
-      }
-      model.addAttribute("pageCount", pageCount);
-      model.addAttribute("startPage", startPage);
-      model.addAttribute("pageBlock", pageBlock);
-      model.addAttribute("endPage", endPage);
-      model.addAttribute("check", check);
-   }
+		} else if (check == 4) {
+			count = mapper.cusPaidCount();
 
-   @Override
-   public List<MemberDTO> customList(HashMap hashmap) {
-      return mapper.customList(hashmap);
-   }
+			if (count > 0) {
+				adminMap.put("start", startRow);
+				adminMap.put("end", endRow);
+				list = mapper.cusPaidList(adminMap);
+			}
+		}
+		model.addAttribute("list", list);
+		model.addAttribute("count", count);
+		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("pageSize", pageSize);
 
-   @Override
-   public List<MemberDTO> memberList(HashMap hashmap) {
-      return mapper.memberList(hashmap);
-   }
+		// page
+		int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+		int startPage = (int) (pageNum / 10) * 10 + 1;
+		int pageBlock = 10;
+		int endPage = startPage + pageBlock - 1;
+		if (endPage > pageCount) {
+			endPage = pageCount;
+		}
+		model.addAttribute("pageCount", pageCount);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("pageBlock", pageBlock);
+		model.addAttribute("endPage", endPage);
+		model.addAttribute("check", check);
+	}
 
-   @Override
-   public int cusCount() {
-      // TODO Auto-generated method stub
-      return mapper.cusCount();
-   }
+	@Override
+	public List<MemberDTO> customList(HashMap hashmap) {
+		return mapper.customList(hashmap);
+	}
 
-   @Override
-   public int memCount() {
-      // TODO Auto-generated method stub
-      return mapper.memCount();
-   }
+	@Override
+	public List<MemberDTO> memberList(HashMap hashmap) {
+		return mapper.memberList(hashmap);
+	}
 
-   @Override
-   public List<String> goodMember() {
-      // TODO Auto-generated method stub
-      return mapper.goodMember();
-   }
+	@Override
+	public int cusCount() {
+		// TODO Auto-generated method stub
+		return mapper.cusCount();
+	}
 
-   @Override
-   public List<String> bestMember() {
-      return mapper.bestMember();
-   }
+	@Override
+	public int memCount() {
+		// TODO Auto-generated method stub
+		return mapper.memCount();
+	}
 
-   @Override
-   public void goodMemberUpdate(List<String> id) {
-      if (goodMember().size() > 0) {
-         mapper.goodMemberUpdate(mapper.goodMember());
-      }
-   }
+	@Override
+	public List<String> goodMember() {
+		// TODO Auto-generated method stub
+		return mapper.goodMember();
+	}
 
-   @Override
-   public void bestMemberUpdate(List<String> id) {
-      if (bestMember().size() > 0) {
-         mapper.bestMemberUpdate(mapper.bestMember());
-      }
-   }
+	@Override
+	public List<String> bestMember() {
+		return mapper.bestMember();
+	}
+
+	@Override
+	public void goodMemberUpdate(List<String> id) {
+		if (goodMember().size() > 0) {
+			mapper.goodMemberUpdate(mapper.goodMember());
+		}
+	}
+
+	@Override
+	public void bestMemberUpdate(List<String> id) {
+		if (bestMember().size() > 0) {
+			mapper.bestMemberUpdate(mapper.bestMember());
+		}
+	}
 
 //   @Override
 //   public MemberDTO test(String m_id) {
@@ -190,611 +192,545 @@ public class AdminServiceImpl implements AdminService {
 //      return mapper.test(m_id);
 //   }
 
-   /*
-    * @Scheduled(cron="* * * * * *") �뜝�룞�삕 �뜝�룞�삕 �뜝�떆怨ㅼ삕 �뜝�룞�삕 �뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕
-    */
+	/*
+	 * @Scheduled(cron="* * * * * *") �뜝�룞�삕 �뜝�룞�삕 �뜝�떆怨ㅼ삕 �뜝�룞�삕 �뜝�룞�삕
+	 * �뜝�룞�삕�뜝�룞�삕
+	 */
 
-   @Scheduled(cron = "0 0 0 1 * *")
-   public void autoMemberUpdate() {
-      if (goodMember().size() > 0) {
-         mapper.goodMemberUpdate(mapper.goodMember());
-      }
-      if (bestMember().size() > 0) {
-         mapper.bestMemberUpdate(mapper.bestMember());
-      }
-   }
-
-//   @Override
-//   public void apiTest(Model model){
-//      StringBuilder urlBuilder = new StringBuilder("http://211.237.50.150:7080/openapi"); 
-//      //StringBuilder urlBuilder = new StringBuilder("http://211.237.50.150:7080/openapi/sample/xml/Grid_20151204000000000316_1/1/5");
-//       urlBuilder.append("/1c9a14382163bb7dc822492a3dca9b9a8841b3782755afedd33d3b5879c98e94");
-//       urlBuilder.append("/xml");   
-//       urlBuilder.append("/Grid_20151204000000000316_1/1/5");   
-//      // urlBuilder.append("?API-KEY="); // API  沅롧몴   釉� �읈 釉� �⑤끃肉� 苑� �겫�뜄�쑎 �궎 猷꾣에   �땾 �젟 釉� 苑� �뒄.
-//        //  urlBuilder.append("&START_INDEX=1");
-//        //  urlBuilder.append("&END_INDEX=10");
-//        //  urlBuilder.append("&TYPE=json");
-//
-//          HttpURLConnection conn = null;
-//          try {
-//              URL url = new URL(urlBuilder.toString());
-//              conn = (HttpURLConnection) url.openConnection();
-//              //  肉겼칰   苑� �젟 (簾ル뗄苑� 諭�,  肉� �쐭,  踰�)
-//              conn.setRequestMethod("GET");
-//              conn.setRequestProperty("Content-type","application/json");
-//              //  肉겼칰怨좊릭��   �쑓 �뵠 苑ｇ몴   �뵭 �뮸 �빍 �뼄.
-//              //  �굙: int responseCode = conn.getResponseCode();
-//              BufferedReader rd;
-//              if(conn.getResponseCode()>=200 && conn.getResponseCode()<=300) {
-//                 rd=new BufferedReader(new InputStreamReader(conn.getInputStream()));
-//              }else {
-//                 rd=new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-//              }
-//              StringBuilder sb = new StringBuilder();
-//              String line;
-//              while((line=rd.readLine())!=null) {
-//                 sb.append(line);
-//              }
-//              model.addAttribute("test", sb);
-//              rd.close();
-//              // �빊遺�  �읅 �몵嚥�   �벓 �뼗 �뱽 力μ꼶�봺 釉� �뮉 �굜遺얜굡�몴   肉ф묾怨쀫퓠 �빊遺�  釉� 苑� �뒄.
-//          } catch (MalformedURLException e) {
-//              // URL  �굨 �뻼 �뵠  �삋榮먯궠留� 野껋럩�뒭 �벥  �굙 �뇚 力μ꼶�봺
-//              e.printStackTrace();
-//          } catch (IOException e) {
-//              //  肉겼칰怨쀬뱽  肉� �뮉 �⑥눘�젟 肉� 苑� I/O  �굙 �뇚 力μ꼶�봺
-//              e.printStackTrace();
-//          } finally {
-//              if (conn != null) {
-//                  conn.disconnect();
-//              }
-//          }
-      //HttpURLConnection�샍conn�샍=�샍(HttpURLConnection)url.openConnection();�샍�샍�샍�샍�샍
-      //   �샍�샍�샍conn.setRequestMethod("GET");�샍�샍�샍�샍�샍
-      //   �샍�샍�샍conn.setRequestProperty("Content-type","application/json");�샍�샍�샍�샍�샍�샍
-      //   �샍�샍System.out.println("Response�샍code:�샍"�샍+�샍conn.getResponseCode());�샍�샍�샍�샍
-      //   �샍�샍�샍�샍BufferedReader�샍rd;�샍�샍�샍
-      //   �샍�샍�샍�샍�샍if(conn.getResponseCode()�샍>=�샍200�샍&&�샍conn.getResponseCode()�샍<=�샍300)�샍{�샍�샍�샍�샍�샍�샍
-      //      �샍�샍�샍�샍�샍�샍rd�샍=�샍new�샍BufferedReader(new�샍InputStreamReader(conn.getInputStream()));�샍�샍�샍�샍�샍�샍
-      //      �샍�샍}�샍else�샍{�샍�샍�샍�샍�샍�샍�샍�샍
-      //         �샍�샍�샍�샍rd�샍=�샍new�샍BufferedReader(new�샍InputStreamReader(conn.getErrorStream()));�샍�샍�샍�샍
-      //         �샍�샍�샍�샍}�샍�샍�샍�샍
-      //   �샍�샍�샍�샍StringBuilder�샍sb�샍=�샍new�샍StringBuilder();�샍�샍�샍�샍�샍�샍
-      //   �샍�샍String�샍line;�샍�샍�샍�샍�샍�샍�샍
-      //   �샍while�샍((line�샍=�샍rd.readLine())�샍!=�샍null)�샍{�샍�샍�샍�샍�샍
-      //      �샍�샍�샍�샍�샍�샍�샍sb.append(line);�샍�샍�샍�샍�샍�샍�샍
-      //      �샍}�샍�샍�샍�샍�샍�샍�샍
-      //   �샍rd.close();�샍�샍�샍�샍�샍�샍
-      //   �샍�샍conn.disconnect();�샍�샍�샍�샍�샍�샍
-      //   �샍�샍System.out.println(sb.toString());
-      
-      
-   //   StringBuilder�샍urlBuilder�샍=�샍new�샍StringBuilder("http://211.237.50.150:7080/openapi/sample/xml/Grid_20220823000000000636_1/1/5");�샍/*URL*/�샍�샍�샍�샍�샍�샍�샍�샍
-   //   urlBuilder.append("?"�샍+�샍URLEncoder.encode("API-KEY","UTF-8")�샍+�샍"=1c9a14382163bb7dc822492a3dca9b9a8841b3782755afedd33d3b5879c98e94");�샍/*Service�샍Key*/�샍
-   //   �샍�샍�샍�샍�샍�샍�샍urlBuilder.append("&"�샍+�샍URLEncoder.encode("START_INDEX","UTF-8")�샍+�샍"="�샍+�샍URLEncoder.encode("1",�샍"UTF-8"));�샍/* 釉논샍 �읂 �뵠�릯 �샍野껉퀗�궢�샍 �땾*/�샍�샍�샍�샍�샍�샍
-   //   �샍�샍urlBuilder.append("&"�샍+�샍URLEncoder.encode("END_INDEX","UTF-8")�샍+�샍"="�샍+�샍URLEncoder.encode("10",�샍"UTF-8"));�샍/* �읂 �뵠�릯 �샍甕곕뜇�깈*/�샍�샍�샍
-   //   �샍�샍�샍�샍�샍urlBuilder.append("&"�샍+�샍URLEncoder.encode("TYPE","UTF-8")�샍+�샍"="�샍+�샍URLEncoder.encode("json",�샍"UTF-8"));�샍/*�뿢�돦�젟 �꺖�샍 �뵠�뵳 */�샍�샍�샍�샍�샍�샍
-   //   �샍�샍HttpURLConnection�샍conn�샍=�샍(HttpURLConnection)�샍url.openConnection();�샍�샍�샍�샍�샍
-   //   �샍�샍�샍conn.setRequestMethod("GET");�샍�샍�샍�샍�샍
-   //   �샍�샍�샍conn.setRequestProperty("Content-type",�샍"application/json");�샍�샍�샍�샍�샍�샍
-   //   �샍�샍System.out.println("Response�샍code:�샍"�샍+�샍conn.getResponseCode());�샍�샍�샍�샍
-   //   �샍�샍�샍�샍BufferedReader�샍rd;�샍�샍�샍
-   //   �샍�샍�샍�샍�샍if(conn.getResponseCode()�샍>=�샍200�샍&&�샍conn.getResponseCode()�샍<=�샍300)�샍{�샍�샍�샍�샍�샍�샍
-   //      �샍�샍�샍�샍�샍�샍rd�샍=�샍new�샍BufferedReader(new�샍InputStreamReader(conn.getInputStream()));�샍�샍�샍�샍�샍�샍
-   //      �샍�샍}�샍else�샍{�샍�샍�샍�샍�샍�샍�샍�샍
-   //         �샍�샍�샍�샍rd�샍=�샍new�샍BufferedReader(new�샍InputStreamReader(conn.getErrorStream()));�샍�샍�샍�샍
-   //         �샍�샍�샍�샍}�샍�샍�샍�샍
-   //   �샍�샍�샍�샍StringBuilder�샍sb�샍=�샍new�샍StringBuilder();�샍�샍�샍�샍�샍�샍
-   //   �샍�샍String�샍line;�샍�샍�샍�샍�샍�샍�샍
-   //   �샍while�샍((line�샍=�샍rd.readLine())�샍!=�샍null)�샍{�샍�샍�샍�샍�샍
-   //      �샍�샍�샍�샍�샍�샍�샍sb.append(line);�샍�샍�샍�샍�샍�샍�샍
-   //      �샍}�샍�샍�샍�샍�샍�샍�샍
-   //   �샍rd.close();�샍�샍�샍�샍�샍�샍
-   //   �샍�샍conn.disconnect();�샍�샍�샍�샍�샍�샍
-   //   �샍�샍System.out.println(sb.toString());
-//   }
-
-   @Override
-   public void statChange(MemberDTO dto) {
-      mapper.statChange(dto);
-   }
-
-   @Override
-   public void getSales(Model model,int check) {
-      model.addAttribute("ps", mapper.getProductSalse(check));
-      model.addAttribute("pc", mapper.getProductComm(check));
-      model.addAttribute("pi", mapper.getPaidItem(check));
-      model.addAttribute("pa", mapper.getPaidAdv(check));
-      model.addAttribute("uc", mapper.getUsedCoupon(check));
-      model.addAttribute("pt", mapper.getPaidAdv(check)+mapper.getPaidItem(check)+mapper.getProductSalse(check)+mapper.getProductComm(check)-mapper.getUsedCoupon(check));
-      model.addAttribute("check",check);
-   }
-
-   @Override
-   public void getCheckSalse(Model model,int check,String start,String end) {
-      String[] startarr = start.split("/");
-      String[] endarr=end.split("/");
-      start = startarr[2]+"-"+startarr[0]+"-"+startarr[1];
-      end = endarr[2]+"-"+endarr[0]+"-"+endarr[1];
-      adminMap.put("start", start);
-      adminMap.put("end",end);
-      model.addAttribute("ps", mapper.getCheckProductSalse(adminMap));
-      model.addAttribute("pc", mapper.getCheckProductComm(adminMap));
-      model.addAttribute("pi", mapper.getCheckPaidItem(adminMap));
-      model.addAttribute("pa", mapper.getCheckPaidAdv(adminMap));
-      model.addAttribute("uc", mapper.getCheckUsedCoupon(adminMap));
-      model.addAttribute("pt", mapper.getCheckPaidAdv(adminMap)+mapper.getCheckPaidItem(adminMap)+mapper.getCheckProductSalse(adminMap)+mapper.getCheckProductComm(adminMap)-mapper.getCheckUsedCoupon(adminMap));
-      model.addAttribute("check",check);
-   }
-
-   @Override
-   public void getReckon(Model model, int pageNum, String year, String month) {
-	   try {
-			SimpleDateFormat sf = new SimpleDateFormat("yyyyMM",Locale.KOREAN);
-			Calendar cal = Calendar.getInstance();
-			Date sMonth = sf.parse("yyyyMM");
-			cal.setTime(sMonth);
-			cal.add(Calendar.MONTH,-1);
-			String beforeMonth = sf.format(cal.getTime());
-			 model.addAttribute("month",beforeMonth);
-			}catch (ParseException e) {
-				e.printStackTrace();
-			}
-      String CheckMonth = year+"-"+month;
-      int count=0;
-      int pageSize = 10;
-      int startRow = (pageNum - 1) * pageSize + 1;
-      int endRow = pageNum * pageSize;
-      List<ReckonDTO> list = Collections.EMPTY_LIST;
-         adminMap.put("CheckMonth",CheckMonth);
-         count = mapper.getReckCount(adminMap);
-         if (count > 0) {
-            adminMap.put("start", startRow);
-            adminMap.put("end", endRow);
-            
-            list = mapper.getReckon(adminMap);
-         }
-        
-         model.addAttribute("list", list);
-         model.addAttribute("count", count);
-         model.addAttribute("pageNum", pageNum);
-         model.addAttribute("pageSize", pageSize);
-
-         // page
-         int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
-         int startPage = (int) (pageNum / 10) * 10 + 1;
-         int pageBlock = 10;
-         int endPage = startPage + pageBlock - 1;
-         if (endPage > pageCount) {
-            endPage = pageCount;
-         }
-         model.addAttribute("pageCount", pageCount);
-         model.addAttribute("startPage", startPage);
-         model.addAttribute("pageBlock", pageBlock);
-         model.addAttribute("endPage", endPage);
-   }
-
-
-
-
-@Override
-public int noticeReg(HttpServletRequest req, HttpServletResponse resp, Model model, NoticeDTO dto) {
-	 HttpSession session = req.getSession();
-     // 占쌜쇽옙占쏙옙 占쌉시뱄옙 占쏙옙 占쏙옙占쏙옙 占쌍깍옙 占쌉시뱄옙 占쏙옙占쏙옙占쏙옙占쏙옙
-	 int num=mapper.getNoticeNum();
-	 String realpath = req.getServletContext().getRealPath("/resources/file/notice/"+num+"/");
-     for(int i=0;i<adminoldname.size();i++) {
-    	 if(!dto.getN_content().contains(adminoldname.get(i))) {
-    		 File f = new File(realpath+adminoldname.get(i));
-    		 if(f.exists()) {
-    			 f.delete();
-    		 }
-    	 }else {
-    		 noticefiledto.setNf_filename(adminoldname.get(i));
-    		 noticefiledto.setNf_n_num(num);
-    		 mapper.noticeFileUpload(noticefiledto);
-    	 }
-     }
-     mapper.noticeReg(dto);
-     imgcnt=0;
-    adminoldname.clear();
-	return 0;
-}
-
-@Override
-public String uploadSummerImgFile(MultipartFile multipartFile, HttpServletRequest request) {
-			JsonObject jsonObject = new JsonObject();
-			
-			int n_num = mapper.getNoticeNum();
-			String path = request.getServletContext().getRealPath("/resources/file/notice/"+n_num+"/");
-			
-			String originalFileName = multipartFile.getOriginalFilename();
-			String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
-			
-			imgcnt+=1;
-			String savedFileName = "notice_"+n_num+"_"+imgcnt+extension;
-			
-			adminoldname.add(savedFileName);
-
-			File targetFile = new File(path + savedFileName);
-			
-			try {
-				if(!targetFile.exists()) {
-					targetFile.mkdir();
-				}
-				java.io.InputStream fileStream = multipartFile.getInputStream();
-
-				FileUtils.copyInputStreamToFile(fileStream, targetFile);
-
-				jsonObject.addProperty("url", "/resources/file/notice/"+n_num+"/"+ savedFileName);
-				jsonObject.addProperty("responseCode", "success");
-			} catch (IOException e) {
-				FileUtils.deleteQuietly(targetFile);
-				jsonObject.addProperty("responseCode", "error");
-				e.printStackTrace();
-			}
-			String a = jsonObject.toString();
-	return a;
-}
-
-@Override
-public void noticeList(Model model,int pageNum) {
-    int count=0;
-    int pageSize = 10;
-    int startRow = (pageNum - 1) * pageSize + 1;
-    int endRow = pageNum * pageSize;
-    List<NoticeDTO> list = Collections.EMPTY_LIST;
-       count = mapper.getNoticeCount();
-       if (count > 0) {
-          adminMap.put("start", startRow);
-          adminMap.put("end", endRow);
-          
-          list = mapper.noticeList(adminMap);
-       }
-       System.out.println("====title"+list.get(0).getN_title());
-       model.addAttribute("list", list);
-       model.addAttribute("count", count);
-       model.addAttribute("pageNum", pageNum);
-       model.addAttribute("pageSize", pageSize);
-
-       // page
-       int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
-       int startPage = (int) (pageNum / 10) * 10 + 1;
-       int pageBlock = 10;
-       int endPage = startPage + pageBlock - 1;
-       if (endPage > pageCount) {
-          endPage = pageCount;
-       }
-       model.addAttribute("pageCount", pageCount);
-       model.addAttribute("startPage", startPage);
-       model.addAttribute("pageBlock", pageBlock);
-       model.addAttribute("endPage", endPage);
-       
-}
-
-@Override
-public void getNoticeContent(Model model,NoticeDTO dto) {
-	 imgcnt=0;
-	 adminoldname.clear();
-	 dto = mapper.noticeContent(dto);
-	 model.addAttribute("dto", dto);
-	 List<NoticeFileDTO> olddto= mapper.getNoticeFiles(dto.getN_num());
-		for(NoticeFileDTO ndto : olddto) {
-			adminoldname.add(ndto.getNf_filename());
-			}
-		int temp=0;
-		for(int i=0; i<adminoldname.size(); i++ ) {
-			int start= adminoldname.get(i).lastIndexOf("_")+1;
-			int end = adminoldname.get(i).lastIndexOf(".");
-			int result = Integer.parseInt(adminoldname.get(i).substring(start,end));
-			System.out.println("substring ====== " + result);
-			if(result>temp) {
-				temp = result;
-			}
-			
+	@Scheduled(cron = "0 0 0 1 * *")
+	public void autoMemberUpdate() {
+		if (goodMember().size() > 0) {
+			mapper.goodMemberUpdate(mapper.goodMember());
 		}
-		imgcnt=temp+1;
+		if (bestMember().size() > 0) {
+			mapper.bestMemberUpdate(mapper.bestMember());
 		}
-
-@Override
-public String updateSummerImgFile(MultipartFile multipartFile, HttpServletRequest request,int n_num) {
-				JsonObject jsonObject = new JsonObject();
-				ArrayList<String> fname=new ArrayList<String>();
-				System.out.println("imgcnt=====updateimg lastnum" + imgcnt);
-				
-				String path = request.getServletContext().getRealPath("/resources/file/notice/"+n_num+"/");
-				
-				String originalFileName = multipartFile.getOriginalFilename();
-				String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
-				
-				String savedFileName = "notice_"+n_num+"_"+imgcnt+extension;
-				
-				adminoldname.add(savedFileName);
-
-				File targetFile = new File(path + savedFileName);
-				
-				try {
-					if(!targetFile.exists()) {
-						targetFile.mkdir();
-					}
-					multipartFile.transferTo(targetFile);
-					
-
-					jsonObject.addProperty("url", "/resources/file/notice/"+n_num+"/"+ savedFileName);
-					jsonObject.addProperty("responseCode", "success");
-				} catch (IOException e) {
-					jsonObject.addProperty("responseCode", "error");
-					e.printStackTrace();
-				}
-		 		String a = jsonObject.toString();
-	return a;
-}
-
-@Override
-public int noticeupdate(HttpServletRequest req, HttpServletResponse resp, Model model, NoticeDTO dto) {
-	 HttpSession session = req.getSession();
-     
-    
-     String realpath = req.getServletContext().getRealPath("/resources/file/notice/"+dto.getN_num()+"/");
-     mapper.noticeFileDelete(dto.getN_num());
-     for(int i=0;i<adminoldname.size();i++) {
-    	 if(!dto.getN_content().contains(adminoldname.get(i))) {
-    		 File f = new File(realpath+adminoldname.get(i));
-    		 if(f.exists()) {
-    			 f.delete();
-    		 }
-    	 }else {
-    		 noticefiledto.setNf_filename(adminoldname.get(i));
-    		 noticefiledto.setNf_n_num(dto.getN_num());
-    		 mapper.noticeFileUpload(noticefiledto);
-    	 }
-     }
-     mapper.noticeUpdate(dto);
-     imgcnt=0;
-    adminoldname.clear();
-	return 0;
-}
-@Override
-public void noticedelete(int n_num,HttpServletRequest req) {
-	mapper.noticedelete(n_num);
-	String path = req.getServletContext().getRealPath("/resources/file/notice/"+n_num);
-	File folder = new File(path);
-	try {
-	    while(folder.exists()) {
-		File[] folder_list = folder.listFiles(); //파일리스트 얻어오기
-				
-		for (int j = 0; j < folder_list.length; j++) {
-			folder_list[j].delete(); //파일 삭제 
-			System.out.println("파일이 삭제되었습니다.");
-		}
-		if(folder_list.length == 0 && folder.isDirectory()){ 
-			folder.delete(); //대상폴더 삭제
-			System.out.println("폴더가 삭제되었습니다.");
-		}
-            }
-	 } catch (Exception e) {
-		e.getStackTrace();
 	}
-	mapper.noticeFileDelete(n_num);
-}
-@Override
-public int getNoticeNum() {
-	return mapper.getNoticeNum();
-}
 
-@Override
-public int noticeMaxnum() {
-	// TODO Auto-generated method stub
-	return 0;
-}
-
-@Override
-public NoticeDTO getNotice() {
-	// TODO Auto-generated method stub
-	return null;
-}
-
-//@Override
-//public void getAdminProductList(int pageNum,String keyword,String searchOpt,int cate1,int cate2,int cate3,int pstatus,Model model) {
-//	adminMap.clear();
-//	adminMap.put("keyword", keyword);
-//	adminMap.put("searchOpt", searchOpt);
-//	adminMap.put("cate1", cate1);
-//	adminMap.put("cate2", cate2);
-//	adminMap.put("cate3", cate3);
-//	 int count=0;
-//	    int pageSize = 10;
-//	    int startRow = (pageNum - 1) * pageSize + 1;
-//	    int endRow = pageNum * pageSize;
-//	    List<AdminProductDTO> list = Collections.EMPTY_LIST;
-//	       count = mapper.adminProductCount(adminMap);
-//	       if (count > 0) {
-//	          adminMap.put("start", startRow);
-//	          adminMap.put("end", endRow);
-//	          list = mapper.adminProductList(adminMap);
-//	       }
-//	       model.addAttribute("count", count);
-//	       model.addAttribute("pageNum", pageNum);
-//	       model.addAttribute("pageSize", pageSize);
-//
-//	       // page
-//	       int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
-//	       int startPage = (int) (pageNum / 10) * 10 + 1;
-//	       int pageBlock = 10;
-//	       int endPage = startPage + pageBlock - 1;
-//	       if (endPage > pageCount) {
-//	          endPage = pageCount;
-//	       }
-//	       model.addAttribute("keyword", keyword);
-//	       model.addAttribute("searchOpt", searchOpt);
-//	       model.addAttribute("cate1", cate1);
-//	       model.addAttribute("cate2", cate2);
-//	       model.addAttribute("cate3", cate3);
-//	       model.addAttribute("list", list);
-//	       model.addAttribute("pageCount", pageCount);
-//	       model.addAttribute("startPage", startPage);
-//	       model.addAttribute("pageBlock", pageBlock);
-//	       model.addAttribute("endPage", endPage);
-//	       
-//	}
-
-		
-@Override
-public String getSearchProductList(int pageNum, String keyword, String searchOpt, int cate1, int cate2,int cate3,int pstatus,Model model) {
-	JsonObject jsonObject = new JsonObject();
-	adminMap.clear();
-	if(keyword.equals("550e8400-e29b-41d4-a716-446655440000")) {
-		keyword="";
+	@Override
+	public void statChange(MemberDTO dto) {
+		mapper.statChange(dto);
 	}
-	adminMap.put("keyword", keyword);
-	adminMap.put("searchOpt", searchOpt);
-	adminMap.put("cate1", cate1);
-	adminMap.put("cate2", cate2);
-	adminMap.put("cate3", cate3);
-	adminMap.put("pstatus", pstatus);
-	 int count=0;
-	    int pageSize = 10;
-	    int startRow = (pageNum - 1) * pageSize + 1;
-	    int endRow = pageNum * pageSize;
-	    List<AdminProductDTO> list = Collections.EMPTY_LIST;
-	       count = mapper.adminProductCount(adminMap);
-	       if (count > 0) {
-	          adminMap.put("start", startRow);
-	          adminMap.put("end", endRow);
-	          list = mapper.adminProductList(adminMap);
-	       }
-	       if(keyword.length()<1) {
-	    	   keyword="550e8400-e29b-41d4-a716-446655440000";
-	       }
-	       model.addAttribute("count", count);
-	       model.addAttribute("pageNum", pageNum);
-	       model.addAttribute("pageSize", pageSize);
 
-	       // page
-	       int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
-	       int startPage = (int) (pageNum / 10) * 10 + 1;
-	       int pageBlock = 10;
-	       int endPage = startPage + pageBlock - 1;
-	       if (endPage > pageCount) {
-	          endPage = pageCount;
-	       }
-	       JsonObject pageData = new JsonObject();
-	       pageData.addProperty("pageNum", pageNum);
-	       pageData.addProperty("pageCount", pageCount);
-	       pageData.addProperty("startPage", startPage);
-	       pageData.addProperty("endPage", endPage);
-	       pageData.addProperty("keyword", keyword);
-	       pageData.addProperty("searchOpt", searchOpt);
-	       pageData.addProperty("cate1", cate1);
-	       pageData.addProperty("cate2", cate2);
-	       pageData.addProperty("cate3", cate3);
-	       pageData.addProperty("pstatus", pstatus);
-	       jsonObject.add("pageData", pageData);
-	       jsonObject.add("products", new Gson().toJsonTree(list));
-	       return jsonObject.toString();
-}
-@Override
-public Date calculateTargetDate(Date currentDate, int check) {
-    Calendar cal = Calendar.getInstance();
-    cal.setTime(currentDate);
-    cal.add(Calendar.MONTH, check);
-    return cal.getTime();
-}
-
-@Override
-public void StopProduct(int p_num, String memo) {
-	adminMap.clear();
-	adminMap.put("memo", memo);
-	adminMap.put("pd_p_num", p_num);
-	mapper.pdstatChange(adminMap);
-}
-
-@Override
-public void ReleaseIssue(int p_num) {
-	mapper.releaseIssue(p_num);
-}
-
-@Override
-public String uploadReportImageFile(MultipartFile multipartFile, HttpServletRequest request) {
-	
-	JsonObject jsonObject = new JsonObject();
-	ArrayList<String> fname=new ArrayList<String>();
-	
-	System.out.println("imgcnt=====updateimg lastnum" + imgcnt);
-	if(imgcnt==0) {
-		mapper.QnAnextval();
+	@Override
+	public void getSales(Model model, int check) {
+		model.addAttribute("ps", mapper.getProductSalse(check));
+		model.addAttribute("pc", mapper.getProductComm(check));
+		model.addAttribute("pi", mapper.getPaidItem(check));
+		model.addAttribute("pa", mapper.getPaidAdv(check));
+		model.addAttribute("uc", mapper.getUsedCoupon(check));
+		model.addAttribute("pt", mapper.getPaidAdv(check) + mapper.getPaidItem(check) + mapper.getProductSalse(check)
+				+ mapper.getProductComm(check) - mapper.getUsedCoupon(check));
+		model.addAttribute("check", check);
 	}
-	int ma_num = mapper.getQnAnumber();
-	adminMap.put("ma_num", ma_num);
-	
-	String path = request.getServletContext().getRealPath("/resources/file/QnA/"+ma_num+"/");
-	
-	String originalFileName = multipartFile.getOriginalFilename();
-	String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
-	
-	String savedFileName = "notice_"+ma_num+"_"+(++imgcnt)+extension;
-	
-	adminoldname.add(savedFileName);
 
-	File targetFile = new File(path + savedFileName);
-	
-	try {
-		if(!targetFile.exists()) {
-			targetFile.mkdir();
+	@Override
+	public void getCheckSalse(Model model, int check, String start, String end) {
+		String[] startarr = start.split("/");
+		String[] endarr = end.split("/");
+		start = startarr[2] + "-" + startarr[0] + "-" + startarr[1];
+		end = endarr[2] + "-" + endarr[0] + "-" + endarr[1];
+		adminMap.put("start", start);
+		adminMap.put("end", end);
+		model.addAttribute("ps", mapper.getCheckProductSalse(adminMap));
+		model.addAttribute("pc", mapper.getCheckProductComm(adminMap));
+		model.addAttribute("pi", mapper.getCheckPaidItem(adminMap));
+		model.addAttribute("pa", mapper.getCheckPaidAdv(adminMap));
+		model.addAttribute("uc", mapper.getCheckUsedCoupon(adminMap));
+		model.addAttribute("pt",
+				mapper.getCheckPaidAdv(adminMap) + mapper.getCheckPaidItem(adminMap)
+						+ mapper.getCheckProductSalse(adminMap) + mapper.getCheckProductComm(adminMap)
+						- mapper.getCheckUsedCoupon(adminMap));
+		model.addAttribute("check", check);
+	}
+
+	@Override
+	public void getReckon(Model model, int pageNum, String year, String month) {
+		String CheckMonth = year + "-" + month;
+		int count = 0;
+		int pageSize = 10;
+		int startRow = (pageNum - 1) * pageSize + 1;
+		int endRow = pageNum * pageSize;
+		List<ReckonDTO> list = Collections.EMPTY_LIST;
+		adminMap.put("CheckMonth", CheckMonth);
+		count = mapper.getReckCount(adminMap);
+		if (count > 0) {
+			adminMap.put("start", startRow);
+			adminMap.put("end", endRow);
+
+			list = mapper.getReckon(adminMap);
 		}
-		multipartFile.transferTo(targetFile);
-		jsonObject.addProperty("url", "/resources/file/notice/"+ma_num+"/"+ savedFileName);
-		jsonObject.addProperty("responseCode", "success");
-	} catch (IOException e) {
-		jsonObject.addProperty("responseCode", "error");
-		e.printStackTrace();
+
+		model.addAttribute("list", list);
+		model.addAttribute("count", count);
+		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("pageSize", pageSize);
+
+		// page
+		int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+		int startPage = (int) (pageNum / 10) * 10 + 1;
+		int pageBlock = 10;
+		int endPage = startPage + pageBlock - 1;
+		if (endPage > pageCount) {
+			endPage = pageCount;
+		}
+		model.addAttribute("pageCount", pageCount);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("pageBlock", pageBlock);
+		model.addAttribute("endPage", endPage);
 	}
+
+	@Override
+	public void noticeList(Model model, int pageNum) {
+		int count = 0;
+		int pageSize = 10;
+		int startRow = (pageNum - 1) * pageSize + 1;
+		int endRow = pageNum * pageSize;
+		List<NoticeDTO> list = Collections.EMPTY_LIST;
+		count = mapper.getNoticeCount();
+		if (count > 0) {
+			adminMap.put("start", startRow);
+			adminMap.put("end", endRow);
+
+			list = mapper.noticeList(adminMap);
+		}
+		System.out.println("====title" + list.get(0).getN_title());
+		model.addAttribute("list", list);
+		model.addAttribute("count", count);
+		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("pageSize", pageSize);
+
+		// page
+		int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+		int startPage = (int) (pageNum / 10) * 10 + 1;
+		int pageBlock = 10;
+		int endPage = startPage + pageBlock - 1;
+		if (endPage > pageCount) {
+			endPage = pageCount;
+		}
+		model.addAttribute("pageCount", pageCount);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("pageBlock", pageBlock);
+		model.addAttribute("endPage", endPage);
+
+	}
+
+	@Override
+	public int noticeMaxnum() {
+// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public String getSearchProductList(int pageNum, String keyword, String searchOpt, int cate1, int cate2, int cate3,
+			int pstatus, Model model) {
+		JsonObject jsonObject = new JsonObject();
+		adminMap.clear();
+		if (keyword.equals("550e8400-e29b-41d4-a716-446655440000")) {
+			keyword = "";
+		}
+		adminMap.put("keyword", keyword);
+		adminMap.put("searchOpt", searchOpt);
+		adminMap.put("cate1", cate1);
+		adminMap.put("cate2", cate2);
+		adminMap.put("cate3", cate3);
+		adminMap.put("pstatus", pstatus);
+		int count = 0;
+		int pageSize = 10;
+		int startRow = (pageNum - 1) * pageSize + 1;
+		int endRow = pageNum * pageSize;
+		List<AdminProductDTO> list = Collections.EMPTY_LIST;
+		count = mapper.adminProductCount(adminMap);
+		if (count > 0) {
+			adminMap.put("start", startRow);
+			adminMap.put("end", endRow);
+			list = mapper.adminProductList(adminMap);
+		}
+		if (keyword.length() < 1) {
+			keyword = "550e8400-e29b-41d4-a716-446655440000";
+		}
+		model.addAttribute("count", count);
+		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("pageSize", pageSize);
+
+		// page
+		int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+		int startPage = (int) (pageNum / 10) * 10 + 1;
+		int pageBlock = 10;
+		int endPage = startPage + pageBlock - 1;
+		if (endPage > pageCount) {
+			endPage = pageCount;
+		}
+		JsonObject pageData = new JsonObject();
+		pageData.addProperty("pageNum", pageNum);
+		pageData.addProperty("pageCount", pageCount);
+		pageData.addProperty("startPage", startPage);
+		pageData.addProperty("endPage", endPage);
+		pageData.addProperty("keyword", keyword);
+		pageData.addProperty("searchOpt", searchOpt);
+		pageData.addProperty("cate1", cate1);
+		pageData.addProperty("cate2", cate2);
+		pageData.addProperty("cate3", cate3);
+		pageData.addProperty("pstatus", pstatus);
+		jsonObject.add("pageData", pageData);
+		jsonObject.add("products", new Gson().toJsonTree(list));
+		return jsonObject.toString();
+	}
+
+	@Override
+	public Date calculateTargetDate(Date currentDate, int check) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(currentDate);
+		cal.add(Calendar.MONTH, check);
+		return cal.getTime();
+	}
+
+	@Override
+	public void StopProduct(int p_num, String memo) {
+		adminMap.clear();
+		adminMap.put("memo", memo);
+		adminMap.put("pd_p_num", p_num);
+		mapper.pdstatChange(adminMap);
+	}
+
+	@Override
+	public void ReleaseIssue(int p_num) {
+		mapper.releaseIssue(p_num);
+	}
+
+	@Override
+	public String uploadReportImageFile(MultipartFile multipartFile, String realPath) {
+
+		JsonObject jsonObject = new JsonObject();
+
+		// 이미지 파일이 저장될 경로 설정
+		String contextRoot = realPath + "temporary/";
+		String fileRoot = contextRoot;
+
+		// 업로드된 파일의 원본 파일명과 확장자 추출
+		String originalFileName = multipartFile.getOriginalFilename();
+		String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+
+		// 새로운 파일명 생성 (고유한 식별자 + 확장자)
+		String savedFileName = UUID.randomUUID() + extension;
+
+		// 저장될 파일의 경로와 파일명을 나타내는 File 객체 생성
+		File targetFile = new File(fileRoot + savedFileName);
+
+		try {
+			// 업로드된 파일의 InputStream 얻기
+			java.io.InputStream fileStream = multipartFile.getInputStream();
+
+			// 업로드된 파일을 지정된 경로에 저장
+			FileUtils.copyInputStreamToFile(fileStream, targetFile);
+
+			// JSON 객체에 이미지 URL과 응답 코드 추가
+			jsonObject.addProperty("url", "/resources/file/report/temporary/" + savedFileName);
+			jsonObject.addProperty("responseCode", "success");
+		} catch (IOException e) {
+			// 파일 저장 중 오류가 발생한 경우 해당 파일 삭제 및 에러 응답 코드 추가
+			FileUtils.deleteQuietly(targetFile);
+			jsonObject.addProperty("responseCode", "error");
+			e.printStackTrace();
+		}
+
+		// JSON 객체를 문자열로 변환하여 반환
 		String a = jsonObject.toString();
-	return a;
-}
-
-@Override
-public int reportReg(HttpServletRequest req, HttpServletResponse resp, Model model, QnADTO dto) {
-	HttpSession session = req.getSession();
-    // 占쌜쇽옙占쏙옙 占쌉시뱄옙 占쏙옙 占쏙옙占쏙옙 占쌍깍옙 占쌉시뱄옙 占쏙옙占쏙옙占쏙옙占쏙옙
-	 int ma_num=(Integer)(adminMap.get("ma_num"));
-	 String realpath = req.getServletContext().getRealPath("/resources/file/QnA/"+ma_num+"/");
-    for(int i=0;i<adminoldname.size();i++) {
-   	 if(!dto.getMa_content().contains(adminoldname.get(i))) {
-   		 File f = new File(realpath+adminoldname.get(i));
-   		 if(f.exists()) {
-   			 f.delete();
-   		 }
-   	 }else {
-   		 noticefiledto.setNf_filename(adminoldname.get(i));
-   		 noticefiledto.setNf_n_num(ma_num);
-   		 mapper.ReportFileUpload(noticefiledto);
-   	 }
-    }
-    dto.setMa_num(ma_num);
-    mapper.reportReg(dto);
-    imgcnt=0;
-   adminoldname.clear();
-   adminMap.clear();
-	return 0;
-}
-@Scheduled(cron = "0 0 0 1 * *")
-public void autoReckonUpdate() {
-	try {
-	SimpleDateFormat sf = new SimpleDateFormat("yyyyMM",Locale.KOREAN);
-	Calendar cal = Calendar.getInstance();
-	Date sMonth = sf.parse("yyyyMM");
-	cal.setTime(sMonth);
-	cal.add(Calendar.MONTH,-1);
-	String beforeMonth = sf.format(cal.getTime());
-	}catch (ParseException e) {
-		e.printStackTrace();
+		return a;
 	}
-	
-}
 
-	
+	@Override
+	public int reportReg(String realPath, Model model, QnADTO dto) {
+// 기존 temp폴더에 저장된 이미지 표시를 위해 에디터에는 /temp로 경로가 지정되어 있다
+		// 이를 마지막 게시글 다음 번호로 설정한다.
+		int board_num = mapper.QnAnextval();
+		System.out.println("===board_num");
+		dto.setMa_content(dto.getMa_content().replaceAll("/temporary", "/" + board_num));
 
+		// temp 폴더 안의 이미지를 게시글 저장소로 이동
+		String path_folder1 = realPath + "/temporary/";
+		String path_folder2 = realPath + "/" + board_num + "/";
+
+		// 폴더 복사 함수
+		fileUpload(path_folder1, path_folder2, board_num);
+		deleteFolder(path_folder1);
+		dto.setMa_num(board_num);
+		mapper.reportReg(dto);
+		return 0;
+	}
+
+	@Scheduled(cron = "0 0 0 1 * *")
+	public void autoReckonUpdate() {
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.MONTH, -1);
+		String beforeMonth = sf.format(cal.getTime());
+		beforeMonth = beforeMonth.substring(0, beforeMonth.lastIndexOf("-"));
+		adminMap.put("CheckMonth", beforeMonth);
+		List<ReckonDTO> dto = mapper.getReckon(adminMap);
+
+	}
+
+	private void fileUpload(String path_folder1, String path_folder2, int num) {
+		// path_folder1에서 path_folder2로 파일을 복사하는 함수입니다.
+		System.out.println("fileUpload====");
+		File folder1;
+		File folder2;
+		folder1 = new File(path_folder1);
+		folder2 = new File(path_folder2);
+
+		// 복사할 폴더들이 존재하지 않으면 생성합니다.
+		if (!folder1.exists())
+			folder1.mkdirs();
+		if (!folder2.exists())
+			folder2.mkdirs();
+
+		// 폴더1에서 파일 목록을 가져옵니다.
+		File[] target_file = folder1.listFiles();
+		for (File file : target_file) {
+			// 복사 대상 파일의 경로와 이름을 설정합니다.
+			File temp = new File(folder2.getAbsolutePath() + File.separator + file.getName());
+
+			if (file.isDirectory()) {
+				// 대상이 폴더인 경우, 해당 폴더를 생성합니다.
+				temp.mkdir();
+			} else {
+				FileInputStream fis = null;
+				FileOutputStream fos = null;
+				try {
+					// 파일 복사를 위해 FileInputStream과 FileOutputStream을 생성합니다.
+					fis = new FileInputStream(file);
+					fos = new FileOutputStream(temp);
+
+					byte[] b = new byte[4096];
+					int cnt = 0;
+					while ((cnt = fis.read(b)) != -1) {
+						// 버퍼를 사용하여 파일 내용을 읽고 복사합니다.
+						fos.write(b, 0, cnt);
+					}
+					noticefiledto = new NoticeFileDTO();
+					if (num != 0) {
+						noticefiledto.setNf_n_num(num);
+						noticefiledto.setNf_filename(file.getName());
+						mapper.noticeFileUpload(noticefiledto);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					// FileInputStream과 FileOutputStream을 닫습니다.
+					try {
+						fis.close();
+						fos.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+	}
+
+// 하위 폴더 삭제
+	private void deleteFolder(String path) {
+		// 주어진 경로에 있는 폴더와 파일을 재귀적으로 삭제하는 함수입니다.
+
+		File folder = new File(path);
+		try {
+			if (folder.exists()) {
+				File[] folder_list = folder.listFiles();
+				for (int i = 0; i < folder_list.length; i++) {
+					if (folder_list[i].isFile())
+						// 파일인 경우, 파일을 삭제합니다.
+						folder_list[i].delete();
+					else
+						// 폴더인 경우, 재귀적으로 폴더 내부의 파일 및 폴더를 삭제합니다.
+						deleteFolder(folder_list[i].getPath());
+					// 파일이나 폴더를 삭제합니다.
+					folder_list[i].delete();
+				}
+				// 폴더를 삭제합니다.
+				folder.delete();
+			}
+		} catch (Exception e) {
+			e.getStackTrace();
+		}
+	}
+
+// 위치값으로 내부 파일 이름 가져오기
+	private List<String> getFileNamesFromFolder(String folderName) {
+		// 파일 이름을 저장할 리스트 생성
+		List<String> fileNames = new ArrayList<>();
+
+		// 주어진 폴더 경로를 기반으로 폴더 객체 생성
+		File folder = new File(folderName);
+		// 폴더 내의 파일들을 가져옴
+		File[] files = folder.listFiles();
+		if (files != null) {
+			// 파일인 경우 파일 이름을 리스트에 추가
+			for (File file : files) {
+				if (file.isFile()) {
+					fileNames.add(file.getName());
+				}
+			}
+		}
+		// 파일 이름을 담은 리스트 반환
+		return fileNames;
+	}
+
+// 더미 파일 삭제
+	private void removeDummyFiles(List<String> fileNames, String filePath, String contents) {
+		// 주어진 파일 이름 리스트를 기반으로 파일을 삭제
+		for (String fileName : fileNames) {
+			// contents 문자열에 파일 이름이 포함되어 있지 않은 경우 파일 삭제
+			if (!contents.contains(fileName)) {
+				deleteFile(filePath, fileName);
+				mapper.noticeUnitFileDelete(fileName);
+			}
+		}
+	}
+
+// 파일 하나 삭제
+	private void deleteFile(String filePath, String fileName) {
+		// 주어진 파일 경로와 이름을 기반으로 파일 경로 객체 생성
+		Path path = Paths.get(filePath, fileName);
+		try {
+			// 파일 삭제
+			Files.delete(path);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public int noticeReg(String realPath, NoticeDTO dto) {
+// 기존 temp폴더에 저장된 이미지 표시를 위해 에디터에는 /temp로 경로가 지정되어 있다
+		// 이를 마지막 게시글 다음 번호로 설정한다.
+		int board_num = mapper.getNoticeNum();
+		System.out.println("===board_num");
+		dto.setN_content(dto.getN_content().replaceAll("/temporary", "/" + board_num));
+
+		// temp 폴더 안의 이미지를 게시글 저장소로 이동
+		String path_folder1 = realPath + "/temporary/";
+		String path_folder2 = realPath + "/" + board_num + "/";
+
+		// 폴더 복사 함수
+		fileUpload(path_folder1, path_folder2, board_num);
+		deleteFolder(path_folder1);
+		dto.setN_num(board_num);
+		mapper.noticeReg(dto);
+		return 0;
+	}
+
+	@Override
+	public void noticeUpdate(String realPath, int num, Model model) {
+
+		// 폴더 내부 파일 삭제 함수
+		deleteFolder(realPath + "temporary/");
+
+		// 게시글 저장소에 있는 파일들을 temp 파일로 업로드
+		// 게시글 수정중 변심으로 페이지 벗어놔도 원본 게시글의 이미지는 보존된다.
+		String path_folder1 = realPath + num + "/";
+		String path_folder2 = realPath + "temporary/";
+
+		// temp로 임시저장
+		fileUpload(path_folder1, path_folder2, 0);
+		NoticeDTO board = mapper.noticeContent(num);
+		// 본글에있던 이미지 경로를 temp로 바꿔준다
+		board.setN_content(board.getN_content().replaceAll(num + "/", "temporary/"));
+		model.addAttribute("dto", board);
+		// ...
+	}
+
+	@Override
+	public void noticeUpdateReg(String realPath, NoticeDTO dto) {
+		dto.setN_content(dto.getN_content().replaceAll("temporary/", dto.getN_num() + "/"));
+
+		// 본문에 안들어간 파일들 삭제(temp 폴더)
+		String filePath = realPath + "temporary/";
+
+		// 더미 파일 삭제함수 매개변수 : 파일 목록, 파일 경로, 검사할 본문
+		removeDummyFiles(getFileNamesFromFolder(filePath), filePath, dto.getN_content());
+
+		// 본글의 폴더 비우기
+		filePath = realPath + dto.getN_num() + "/";
+		for (String fileName : getFileNamesFromFolder(filePath)) {
+			deleteFile(filePath, fileName);
+
+			mapper.noticeFileDelete(dto.getN_num());
+		}
+
+		// temp 에서 저장된 데이터들 업로드
+		String path_folder1 = realPath + "temporary/";
+		String path_folder2 = realPath + dto.getN_num() + "/";
+
+		fileUpload(path_folder1, path_folder2, dto.getN_num());
+		mapper.noticeUpdate(dto);
+		deleteFolder(path_folder1);
+
+	}
+
+	@Override
+	public String noticeImgUpload(MultipartFile multipartFile, String realPath) {
+		JsonObject jsonObject = new JsonObject();
+
+		// 이미지 파일이 저장될 경로 설정
+		String contextRoot = realPath + "temporary/";
+		String fileRoot = contextRoot;
+
+		// 업로드된 파일의 원본 파일명과 확장자 추출
+		String originalFileName = multipartFile.getOriginalFilename();
+		String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+
+		// 새로운 파일명 생성 (고유한 식별자 + 확장자)
+		String savedFileName = UUID.randomUUID() + extension;
+
+		// 저장될 파일의 경로와 파일명을 나타내는 File 객체 생성
+		File targetFile = new File(fileRoot + savedFileName);
+
+		try {
+			// 업로드된 파일의 InputStream 얻기
+			java.io.InputStream fileStream = multipartFile.getInputStream();
+
+			// 업로드된 파일을 지정된 경로에 저장
+			FileUtils.copyInputStreamToFile(fileStream, targetFile);
+
+			// JSON 객체에 이미지 URL과 응답 코드 추가
+			jsonObject.addProperty("url", "/resources/file/notice/temporary/" + savedFileName);
+			jsonObject.addProperty("responseCode", "success");
+		} catch (IOException e) {
+			// 파일 저장 중 오류가 발생한 경우 해당 파일 삭제 및 에러 응답 코드 추가
+			FileUtils.deleteQuietly(targetFile);
+			jsonObject.addProperty("responseCode", "error");
+			e.printStackTrace();
+		}
+
+		// JSON 객체를 문자열로 변환하여 반환
+		String a = jsonObject.toString();
+		return a;
+	}
+
+	@Override
+	public void noticeImgDel(String fileName, String realPath) {
+
+		// 폴더 위치
+		String filePath = realPath + "temporary/";
+
+		// 해당 파일 삭제
+		deleteFile(filePath, fileName);
+	}
+
+	@Override
+	public void noticeContent(Model model, int num) {
+		NoticeDTO dto = mapper.noticeContent(num);
+		model.addAttribute("dto", dto);
+
+	}
+
+	@Override
+	public void noticeDelete(int num, String realPath) {
+		mapper.noticeFileDelete(num);
+		mapper.noticedelete(num);
+		deleteFolder(realPath);
+
+	}
 
 }

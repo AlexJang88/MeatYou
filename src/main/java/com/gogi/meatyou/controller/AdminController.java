@@ -56,7 +56,7 @@ public class AdminController {
 	private HashMap adminMap;
 
 	@RequestMapping("/chart")
-	public String chart(Principal pc,Model model) {
+	public String chart(Principal pc, Model model) {
 		String sid = pc.getName();
 		model.addAttribute("sid", sid);
 		return "admin/chart";
@@ -92,23 +92,23 @@ public class AdminController {
 		return "redirect:/admin/memberlist?check=" + check + "&pageNum=" + pageNum;
 	}
 
-//	@RequestMapping("/apiTest")
-//	public String apiTest(Model model) {
-//		adminServicImpl.apiTest(model);
-//		return "admin/apiTest";
-//	}
+// @RequestMapping("/apiTest")
+// public String apiTest(Model model) {
+// adminServicImpl.apiTest(model);
+// return "admin/apiTest";
+// }
 
 	@RequestMapping("/sales")
 	public String sales(Model model, @RequestParam(value = "check", defaultValue = "0") int check, String daterange) {
-		//í˜„ì¬ ë‚ ì§œ
-        Date currentDate = new Date();
-        // checkì— ë”°ë¼ì„œ ë‚ ì§œë¥¼ ê³„ì‚°
-        Date targetDate = adminServicImpl.calculateTargetDate(currentDate, check);
-        // SimpleDateFormatì„ ì‚¬ìš©í•˜ì—¬ ì›í•˜ëŠ” í˜•ì‹ìœ¼ë¡œ ë‚ ì§œë¥¼ ë¬¸ìì—´ë¡œ ë³€í™˜
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyë…„ MMì›”");
-        String formattedDate = sdf.format(targetDate);
-        model.addAttribute("currentMonth", targetDate.getMonth() + 1);
-        model.addAttribute("currentYear", targetDate.getYear() + 1900);
+//ÇöÀç ³¯Â¥
+		Date currentDate = new Date();
+		// check¿¡ µû¶ó¼­ ³¯Â¥¸¦ °è»ê
+		Date targetDate = adminServicImpl.calculateTargetDate(currentDate, check);
+		// SimpleDateFormatÀ» »ç¿ëÇÏ¿© ¿øÇÏ´Â Çü½ÄÀ¸·Î ³¯Â¥¸¦ ¹®ÀÚ¿­·Î º¯È¯
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy³â MM¿ù");
+		String formattedDate = sdf.format(targetDate);
+		model.addAttribute("currentMonth", targetDate.getMonth() + 1);
+		model.addAttribute("currentYear", targetDate.getYear() + 1900);
 		if (check <= 0) {
 			adminServicImpl.getSales(model, check);
 		} else {
@@ -129,100 +129,111 @@ public class AdminController {
 		return "admin/reckon";
 	}
 
-	@RequestMapping("/noticeList")
-	public String notice(Model model, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum) {
-			adminServicImpl.noticeList(model, pageNum);
-		return "admin/noticeList";
-	};
-
-	@PreAuthorize("hasRole('ADMIN')")
-	@RequestMapping("/noticeForm")
-	public String noticeForm() {
-		return "admin/noticeForm";
-	}
-
-	@RequestMapping("/noticePro")
-	public String noticePro(@RequestParam("file") MultipartFile multipartFile, HttpServletRequest request,
-			String content) {
-		String name = multipartFile.getOriginalFilename();
-
-		return "admin/noticeForm";
-	}
-
-	@RequestMapping(value = "/uploadSummernoteImageFile", produces = "application/json; charset=utf8")
-	@ResponseBody
-	public String uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile,
-			HttpServletRequest request) {
-		return adminServicImpl.uploadSummerImgFile(multipartFile, request);
-	}
-
-	@RequestMapping("/reg")
-	public String reg(HttpServletRequest req, HttpServletResponse resp, NoticeDTO dto, Model model) {
-		adminServicImpl.noticeReg(req, resp, model, dto);
-		return "redirect:/admin/noticeList";
-	}
-	
-	@RequestMapping("/noticeContent")
-	public String noticeContent(Model model,NoticeDTO dto,NoticeFileDTO fdto) {
-		adminServicImpl.getNoticeContent(model,dto);
-		
-		return "admin/noticeContent";
-	}
-	@RequestMapping("/noticeupdateForm")
-	public String noticeupdateForm(Model model,NoticeDTO dto,NoticeFileDTO fdto) {
-		adminServicImpl.getNoticeContent(model,dto);
-		return "admin/noticeupdateForm";
-	}
-	@RequestMapping("/noticeupdate")
-	public String noticeupdate(HttpServletRequest req, HttpServletResponse resp, Model model, NoticeDTO dto) {
-		adminServicImpl.noticeupdate(req, resp, model, dto);
-		return "redirect:/admin/noticeContent?n_num="+dto.getN_num();
-	}
-	@RequestMapping(value = "/updateSummernoteImageFile", produces = "application/json; charset=utf8")
-	@ResponseBody
-	public String updateSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile,
-			HttpServletRequest request,int n_num) {
-		System.out.println("controller update img num : "+n_num);
-		return adminServicImpl.updateSummerImgFile(multipartFile, request,n_num);
-	}
-	@RequestMapping("/noticedelete")
-	public String noticedelete(int n_num,HttpServletRequest req) {
-		adminServicImpl.noticedelete(n_num,req);
-		return "redirect:/admin/noticeList";
-	}
-	@RequestMapping(value = "/productList" ,produces = "application/json; charset=utf8")
+	@RequestMapping(value = "/productList", produces = "application/json; charset=utf8")
 	public String productList() {
 		return "admin/productList";
 	}
-	@RequestMapping(value = "/serchProductList" ,produces = "application/json; charset=utf8")
+
+	@RequestMapping(value = "/serchProductList", produces = "application/json; charset=utf8")
 	@ResponseBody
-	public String serchProductList(Model model,@RequestParam(value="pageNum" ,defaultValue="1")int pageNum, String keyword,@RequestParam(value = "searchOpt", defaultValue = "1")String searchOpt,@RequestParam(value = "cate1", defaultValue = "1")int cate1,@RequestParam(value = "cate2", defaultValue = "1")int cate2,@RequestParam(value = "cate3", defaultValue = "1")int cate3,@RequestParam(value = "pstatus", defaultValue = "1")int pstatus) {
-		return adminServicImpl.getSearchProductList(pageNum, keyword, searchOpt, cate1, cate2,cate3,pstatus, model);
+	public String serchProductList(Model model, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+			String keyword, @RequestParam(value = "searchOpt", defaultValue = "1") String searchOpt,
+			@RequestParam(value = "cate1", defaultValue = "1") int cate1,
+			@RequestParam(value = "cate2", defaultValue = "1") int cate2,
+			@RequestParam(value = "cate3", defaultValue = "1") int cate3,
+			@RequestParam(value = "pstatus", defaultValue = "1") int pstatus) {
+		return adminServicImpl.getSearchProductList(pageNum, keyword, searchOpt, cate1, cate2, cate3, pstatus, model);
 	}
+
 	@RequestMapping("/memo")
-	public String memo(Model model,int p_num,@RequestParam(value="check" , defaultValue="1") int check) {
+	public String memo(Model model, int p_num, @RequestParam(value = "check", defaultValue = "1") int check) {
 		model.addAttribute("p_num", p_num);
 		model.addAttribute("check", check);
 		return "admin/memo";
 	}
+
 	@RequestMapping("/pschange")
-	public String pschange(int p_num,String memo,int check) {
-		if(check==1) {
-		adminServicImpl.StopProduct(p_num, memo);
-		}else if(check!=1) {
-		adminServicImpl.ReleaseIssue(p_num);	
+	public String pschange(int p_num, String memo, int check) {
+		if (check == 1) {
+			adminServicImpl.StopProduct(p_num, memo);
+		} else if (check != 1) {
+			adminServicImpl.ReleaseIssue(p_num);
 		}
 		return "admin/productList";
 	}
+
 	@RequestMapping("/report")
-	public String report (HttpServletRequest req, HttpServletResponse resp,Model model,QnADTO dto) {
-		adminServicImpl.reportReg(req, resp, model, dto);
+	public String report(HttpServletRequest req, HttpServletResponse resp, Model model, QnADTO dto) {
+		String realPath = req.getServletContext().getRealPath("/resources/file/report/");
+		adminServicImpl.reportReg(realPath, model, dto);
 		return "admin/productDetail";
 	}
-	@RequestMapping(value = "/uploadReportImageFile", produces="application/json; charset=utf8")
+
+	@RequestMapping(value = "/uploadReportImageFile", produces = "application/json; charset=utf8")
 	@ResponseBody
-	public String uploadReportImageFile(@RequestParam("file") MultipartFile multipartFile,
-			HttpServletRequest request) {
-		return adminServicImpl.uploadReportImageFile(multipartFile, request);
+	public String uploadReportImageFile(@RequestParam("file") MultipartFile multipartFile, HttpServletRequest request) {
+		String realPath = request.getServletContext().getRealPath("/resources/file/report/");
+
+		return adminServicImpl.uploadReportImageFile(multipartFile, realPath);
 	}
+
+	@RequestMapping("/noticeForm")
+	public String boardform() {
+		return "admin/noticeForm";
+	}
+
+	@RequestMapping("/noticeList")
+	public String boardList(Model model, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum) {
+		adminServicImpl.noticeList(model, pageNum);
+		return "admin/noticeList";
+	}
+
+	@RequestMapping("/noticeReg")
+	public String boardReg(HttpServletRequest req, NoticeDTO dto, Model model) {
+		String realPath = req.getServletContext().getRealPath("/resources/file/notice/");
+		adminServicImpl.noticeReg(realPath, dto);
+		return "redirect:/admin/noticeList";
+	}
+
+	@RequestMapping("/noticeUpdate")
+	public String boardUpdate(HttpServletRequest req, Model model, int num) {
+		String realPath = req.getServletContext().getRealPath("/resources/file/notice/");
+		adminServicImpl.noticeUpdate(realPath, num, model);
+		return "admin/noticeupdateForm";
+	}
+
+	@RequestMapping("/noticeUpdateReg")
+	public String boardDelUpdate(HttpServletRequest req, NoticeDTO dto, MultipartFile thumbnail) {
+		String realPath = req.getServletContext().getRealPath("/resources/file/notice/");
+		adminServicImpl.noticeUpdateReg(realPath, dto);
+		return "redirect:/admin/noticeContent?num=" + dto.getN_num();
+	}
+
+	@RequestMapping(value = "/uploadImageFile", produces = "application/json; charset=utf8")
+	@ResponseBody
+	public String uploadImageFile(@RequestParam("file") MultipartFile multipartFile, HttpServletRequest req) {
+		String realPath = req.getServletContext().getRealPath("/resources/file/notice/");
+		return adminServicImpl.noticeImgUpload(multipartFile, realPath);
+	}
+
+	@RequestMapping(value = "/deleteImageFile", produces = "application/json; charset=utf8")
+	public String deleteSummernoteImageFile(@RequestParam("file") String fileName, HttpServletRequest req) {
+		String realPath = req.getServletContext().getRealPath("/resources/file/notice/");
+		adminServicImpl.noticeImgDel(fileName, realPath);
+		return "redirect:/admin/noticeList";
+	}
+
+	@RequestMapping("/noticeContent")
+	public String aprvContent(int num, Model model) {
+		adminServicImpl.noticeContent(model, num);
+		return "admin/noticeContent";
+	}
+
+	@RequestMapping("/noticeDelete")
+	public String boardDelete(int num, HttpServletRequest req) {
+		String realPath = req.getServletContext().getRealPath("/resourecs/file/notice/" + num + "/");
+		adminServicImpl.noticeDelete(num, realPath);
+		return "redirect:/admin/noticeList";
+	}
+
 }
