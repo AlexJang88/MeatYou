@@ -102,6 +102,34 @@ WHERE rnum >= #{startRow, jdbcType=NUMERIC}
     ]]>
 </select>
 
+<select id="orderpage" parameterType="map" resultType="com.gogi.meatyou.bean.ShoppingCartDTO">
+    <![CDATA[
+SELECT rnum, shop_num, shop_m_id,shop_quantity, p_num, p_name, thumb, p_price,p_m_id
+FROM (
+    SELECT ROWNUM AS rnum, t.*
+    FROM (
+        SELECT
+            sc.shop_num,
+            sc.shop_m_id,
+            sc.shop_quantity,
+            p.p_num,
+            p.p_name,
+            p.thumb,
+            p.p_price,
+            p.p_m_id
+        FROM
+            shoppingcart_${shop_m_id} sc
+        INNER JOIN
+            product p ON sc.shop_p_num = p.p_num
+        ORDER BY sc.shop_num
+    ) t
+    WHERE ROWNUM <= #{endRow, jdbcType=NUMERIC}
+)
+WHERE rnum >= #{startRow, jdbcType=NUMERIC}
+
+    ]]>
+</select>
+
 
 <!-- 총 카운트 보기 -->
 
@@ -124,7 +152,7 @@ WHERE rnum >= #{startRow, jdbcType=NUMERIC}
 <!-- 카트 삭제 -->
    <delete id="deleteCart">
                                    
-      delete from shoppingcart_${shop_m_id} where shop_num = #{shop_num}
+      delete from shoppingcart_${shop_m_id} where shop_num = ${shop_num}
    
    </delete>
 
@@ -210,6 +238,11 @@ WHERE
  
 <select id="ppickAndpickMeCount" parameterType="java.util.Map" resultType="java.lang.Integer">
     SELECT COUNT(*) FROM pick_me_${pm_m_id} WHERE   pm_c_id ='${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")}'
+</select>
+ 
+ 
+<select id="ppickAndpickMeCount2" parameterType="java.util.Map" resultType="java.lang.Integer">
+    SELECT COUNT(*) FROM pick_me_${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")} WHERE  pm_m_id ='${pm_m_id.replace("'", "''").replaceAll(",\\s*$", "")}'
 </select>
 
  
@@ -401,7 +434,9 @@ WHERE
    <update id="statusChange2" parameterType="com.gogi.meatyou.bean.MemberDTO" >
       update member set m_status = 1001 where  passwd = #{passwd}      
    </update>
-   
+   <delete id="cusDelete" parameterType="com.gogi.meatyou.bean.CusDetailDTO" >
+    DELETE FROM cus_detail    WHERE cus_m_id ='${m_id.replace("'", "''").replaceAll(",\\s*$", "")}'
+</delete>
 
    
    <update id="statusAdminChange" parameterType="com.gogi.meatyou.bean.MemberDTO">

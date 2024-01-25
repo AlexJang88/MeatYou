@@ -1,14 +1,21 @@
 package com.gogi.meatyou.service;
 
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.gogi.meatyou.bean.CusDetailDTO;
+import com.gogi.meatyou.bean.MemAddressDTO;
 import com.gogi.meatyou.bean.MemberDTO;
+import com.gogi.meatyou.bean.PDetailDTO;
 import com.gogi.meatyou.bean.PPicDTO;
 import com.gogi.meatyou.bean.PickMeDTO;
 import com.gogi.meatyou.bean.ProductDTO;
@@ -27,9 +34,17 @@ public interface MemberService  {
    
    public MemberDTO getUser(String m_id);
    
+   
+   List<MemAddressDTO>addressCheck(String add_m_id,MemberDTO mdto,MemAddressDTO adto) ; 
+   	
+   public int deleteAddr(@Param("add_num")  int add_num,@Param("add_m_id") String add_m_id);
+   
+   public void  updateAddr(MemAddressDTO  adto);
+   
    public int userDelete(MemberDTO dto);
    public int sallerDelete(MemberDTO dto);
    public int statusChange(MemberDTO dto);
+   public int cusDelete(CusDetailDTO cdto,MemberDTO dto,@Param("m_id") String m_id);
    
    public int updateMemberStatus  (MemberDTO dto);
    
@@ -47,19 +62,14 @@ public interface MemberService  {
        public void p_pick(String m_id);
        public void p_pick_seq(String m_id);
        public void prefer(String m_id);
-
       public void updateQuantity(int  shop_num,int  shop_quantity, String shop_m_id) ;
-      
-      List<ShoppingCartDTO> getShoppingCartItemsPaged(String shop_m_id, int startRow, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto);
-
+      List<ShoppingCartDTO> getShoppingCartItemsPaged(String shop_m_id, int startRow, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto,PDetailDTO pddto);
        int getTotalShoppingCartItems(String shop_m_id);
       public int deleteCart(int shop_num,String shop_m_id);
-
-      
-      
-      
+      public void deleteSelectedItems(List<Long> selectedShopNums ,String shop_m_id);
+      List<ShoppingCartDTO> orderpage(String shop_m_id, int startRow, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto);
+      int orderpageCartItems(String shop_m_id);
       List<PickMeDTO> pickMeCountPage(String pm_m_id, int page, int pageSize, PickMeDTO pdto, CusDetailDTO cdto);
-      
       int pickMeCount( String pm_m_id,@Param("p_m_id")String p_m_id );
          public int deleteHim(int pm_num,String pm_m_id);
          
@@ -87,7 +97,10 @@ public interface MemberService  {
       public void pickMeInsert2(Model model, PickMeDTO pdto, ProductDTO ppdto, String pm_m_id, String pm_c_id, @Param("pm_num") int pm_num);   
       void deletePickMeByCId2(String pm_m_id, String pm_c_id);
       
-      //같은값이잇는지 확인
+      //媛숈�媛믪씠�엲�뒗吏� �솗�씤
       int  ppickAndpickMeCount(@Param("pm_m_id")String pm_m_id,@Param("pm_c_id")String pm_c_id,@Param("pm_num") int pm_num);
+      
+      
+    
       
 }

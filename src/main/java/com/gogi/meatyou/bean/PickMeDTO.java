@@ -22,7 +22,15 @@ public class PickMeDTO {
    private String p_m_id;
    
    
+   private String email;
+   private String m_name;
+   private String telep;
+   private String phone;
+   private String m_status;
    
    
    
-}
+   
+   
+   
+} 

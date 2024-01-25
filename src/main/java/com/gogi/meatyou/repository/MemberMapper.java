@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 
 import com.gogi.meatyou.bean.CusDetailDTO;
+import com.gogi.meatyou.bean.MemAddressDTO;
 import com.gogi.meatyou.bean.MemberDTO;
 import com.gogi.meatyou.bean.PPicDTO;
 import com.gogi.meatyou.bean.PickMeDTO;
@@ -30,6 +31,13 @@ public interface MemberMapper {
       public MemberDTO member(String m_id);
       
       
+      
+      
+      List<MemAddressDTO> addressCheck(Map<String, Object> parameters);
+      
+      public void  updateAddr(MemAddressDTO  adto);
+      
+      
       public List<ShoppingCartDTO> shoppingcartCheck(String m_id);
       public void memberUpdate(MemberDTO dto);
       
@@ -38,6 +46,7 @@ public interface MemberMapper {
       
       public int statusChange(MemberDTO dto);
       public int statusChange2(MemberDTO dto);
+      public int cusDelete(CusDetailDTO cdto,MemberDTO dto,@Param("m_id") String m_id);
       
       
       
@@ -64,9 +73,24 @@ public interface MemberMapper {
                @Param("pageSize") int pageSize,
                @Param("sdto") ShoppingCartDTO sdto,
                @Param("pdto") ProductDTO pdto);
+       
        List<ShoppingCartDTO> getShoppingCartItemsPaged(Map<String, Object> params);
+       
+       List<ShoppingCartDTO> orderpage(Map<String, Object> params);
+       
        int getTotalShoppingCartItems(String shop_m_id);
+       
+       int orderpageCartItems(String shop_m_id);
+       
+       
        public  int deleteCart(@Param("shop_num") int shop_num, @Param("shop_m_id") String shop_m_id);
+       
+       
+       public int deleteAddr(@Param("add_num") int add_num,@Param("add_m_id") String add_m_id);
+       // 선택한 상품 삭제를 위한 메서드
+      // void deleteSelectedItems(  @Param("selectedShopNums")List<Long> selectedShopNums,@Param("shop_m_id") String shop_m_id);
+       void deleteSelectedItems(Map<String, Object> paramMap);
+       
           List<PickMeDTO> pickMeCountPages(
                   @Param("pm_m_id") String pm_m_id,
                   @Param("startRow") int startRow,
@@ -86,18 +110,19 @@ public interface MemberMapper {
           int pickMeCount(@Param("pm_m_id")String pm_m_id,@Param("p_m_id")String p_m_id  );       
           public  int deleteHim(@Param("pm_num") int shop_num, @Param("pm_m_id") String pm_m_id);
        
-       
-          
+         
           List<PPicDTO> pPickCountPage(Map<String, Object> params);
              int pPickCount(@Param("ppic_m_id") String ppic_m_id, @Param("ppic_num") int ppic_num );
              public  int deleteP_item(@Param("ppic_num") int ppic_num, @Param("ppic_m_id") String ppic_m_id);
 
 
              int ppickAndpickMeCount( @Param("pm_m_id")String pm_m_id,@Param("pm_c_id")String pm_c_id ,@Param("pm_num") int pm_num );
+             int ppickAndpickMeCount2( @Param("pm_m_id")String pm_m_id,@Param("pm_c_id")String pm_c_id ,@Param("pm_num") int pm_num );
       	   public void pick_me_delete(PickMeDTO pdto,@Param("pm_m_id")String pm_m_id,@Param("pm_c_id") String pm_c_id,  @Param("pm_num") int pm_num );
       
       	   int deletePickMeByCId(@Param("pm_m_id") String pm_m_id,      @Param("pm_c_id") String pm_c_id);
       	   int pickMeInsert(PickMeDTO pdto, @Param("pm_m_id") String pm_m_id , @Param("pm_c_id")String pm_c_id,@Param("pm_num") int pm_num );
+      	   
    		   int deletePickMeByCId2(@Param("pm_m_id") String pm_m_id,      @Param("pm_c_id") String pm_c_id);
       	   int pickMeInsert2(PickMeDTO pdto, @Param("pm_m_id") String pm_m_id , @Param("pm_c_id")String pm_c_id,@Param("pm_num") int pm_num );
       	   
