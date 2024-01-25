@@ -22,7 +22,7 @@
 	</c:if>
 
 	<c:if test="${powerPayCount > 0 }">
-		<h3 align="center">현재 판매중인 상품목록 : ${counting} / 파워링크 등록 가능 상품 : ${countter} </h3>
+		<h3 align="center">현재 판매중인 상품목록 : ${counting} </h3>
 		<table border="1" width="1000" cellpadding="0" cellspacing="0" align="center">	
 			
 				<tr height="30"> 
@@ -38,6 +38,7 @@
             		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">           		
             		<input type="hidden" name="p_num" value="${power.p_num}">	
             		<input type="hidden" name="co_num" value="${power.co_num}">	            			
+            		<input type="hidden" name="p_name" value="${power.p_name}">	            			
 					<tr align="center">
 		              <td>${power.thumb}</td>
 		              <td>${power.p_num} </td>
@@ -45,7 +46,7 @@
 		              <td>
 						<c:choose>
 						   <c:when test="${power.p_status == 0}">판매중</c:when>
-						   <c:when test="${power.p_status == 1}">판매중(유료결제 ${power.co_num})</c:when>							       
+						   <c:when test="${power.p_status == 1}">판매중(품목결제 상품)</c:when>							       
 						   <c:when test="${power.p_status == 2}">판매대기</c:when>
 						   <c:when test="${power.p_status == 3}">판매종료</c:when>							       
 					    </c:choose>

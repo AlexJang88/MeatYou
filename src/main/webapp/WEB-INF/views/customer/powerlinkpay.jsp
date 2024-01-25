@@ -34,7 +34,7 @@
          <tr align="center">
               <td>${payMentItem.thumb}</td>
               <td>${payMentItem.p_num} </td>
-              <td>${payMentItem.p_name}</a></td>
+              <td>${p_name}</a></td>
               <td>
               <c:choose>
                <c:when test="${payMentItem.p_status == 0}">판매중</c:when>
@@ -70,12 +70,7 @@
       var quantity=$('#quantity').val();
       var co_num=$('#co_num').val();
       var co_name = '파워링크('+quantity+'회)';
-      
-      console.log('totalpay:'+totalpay);
-      console.log('p_num:'+p_num);
-      console.log('quantity:'+quantity);
-      console.log('co_num:'+co_num);
-      console.log('co_name:'+co_name);
+       
       kakao(totalpay,p_num,quantity,co_num,co_name);
    });  
       function kakao(totalpay,p_num,quantity,co_num,co_name){

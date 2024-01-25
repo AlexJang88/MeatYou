@@ -12,6 +12,7 @@ import java.util.Date;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ import com.gogi.meatyou.bean.CusOrderDTO;
 import com.gogi.meatyou.bean.PDetailDTO;
 import com.gogi.meatyou.bean.ProductDTO;
 import com.gogi.meatyou.service.CustomersService;
+import com.gogi.meatyou.test.KakaoApproveResponse;
 
 
 @Controller
@@ -39,53 +41,17 @@ public class CustomersController {
 
 	@RequestMapping("customer") // 홈
 	public String home(Principal pc) {
-		String id = pc.getName();
+		
 		return "customer/customer";
 	}
 
 	@RequestMapping("itemUpdate") // 상품등록
-	public String update(Principal pc, HttpSession session) {
+	public String update(Principal pc) {
 
 		return "customer/itemUpdate";
 	}
 
-	@RequestMapping("itemUpdateDetail") // 상품 디테일 등록 // 객체로 못넘겨서 세션으로 넘김
-	public String itemUpdateDetail(HttpSession session, ProductDTO productdto, MultipartFile thumbs) {
-		System.out.println("=============controller");
-		session.setAttribute("thumb", thumbs);
-		session.setAttribute("productdto", productdto);
-
-		return "customer/itemUpdateDetail";
-	}
-
-	/*
-	 * 이거는 일단 대기
-	 * 
-	 * @RequestMapping(value = "/uploadProductImageFile",
-	 * produces="application/json; charset=utf8")
-	 * 
-	 * @RequestBody public String uploadProductImageFile(@RequestParam("file")
-	 * MultipartFile multipartFile, HttpServletRequest request) { return ""; }
-	 */
-
-	@RequestMapping("itemUpdatePro") // 상품등록확인
-	public String itemUpdatePro(HttpServletRequest request, HttpSession session, Principal pc, PDetailDTO pdetaildto,
-			MultipartFile files) {
-		String id = pc.getName();
-		ProductDTO productdto = (ProductDTO) session.getAttribute("productdto");
-		MultipartFile thumb = (MultipartFile) session.getAttribute("thumb");
-
-		
-		 
-
-		// service.itemUpdate(productdto,pdetaildto, id); //각각의 테이블에 값을 넣어줌
-		// 사진 경로에 사진을 넣음
-
-		// session.removeAttribute("productdto"); //세션끈김
-		// session.removeAttribute("thumb"); // 세션끈김
-
-		return "redirect:/customers/customer";
-	}
+	
 
 	@RequestMapping("itemList") // 등록한 상품목록
 	public String itemList(Model model, Principal pc,
@@ -133,25 +99,10 @@ public class CustomersController {
 		return "redirect:/customers/itemListOut?pageNum=" + pageNum;
 	}
 
-	@RequestMapping("content") // 상품 정보보기
-	public String content(Model model, int p_num) {
-		model.addAttribute("p_num", p_num);
-		return "customer/content";
-	}
 
-	// 여기는 정보수정
-	@RequestMapping("itemRevise") // 상품 정보수정 (값 확인하기
-	public String itemRevise(Model model, int p_num) {
-		model.addAttribute("p_num", p_num);
-		service.lister(model, p_num);
-		return "customer/itemRevise";
-	}
 
-	@RequestMapping("itemRevisePro") // 상품 정보수정 프로페이지
-	public String itemRevisePro(ProductDTO productdto, PDetailDTO pdetaildto) {
-		service.updateitemPro(productdto, pdetaildto);
-		return "redirect:/customers/itemList";
-	}
+
+
 
 	// 여기는 재고현황파악
 
@@ -211,8 +162,12 @@ public class CustomersController {
 
 	@RequestMapping("itemplus") // 품목확장 유료결제 페이지
 	public String itemplus(Model model, Principal pc) {
+		service.geterco_num(model);
+		
+		String quantity = "1";
 		String id = pc.getName();
-		model.addAttribute("id", id);
+		model.addAttribute("id", id);		
+		model.addAttribute("quantity", quantity);
 		return "customer/itemplus";
 	}
 
@@ -224,8 +179,10 @@ public class CustomersController {
 	}
 
 	@RequestMapping("powerlinkpay") 
-		public String powerlinkpay(Model model, int p_num, Principal pc, int co_num, int clickpay) { 
+		public String powerlinkpay(Model model, int p_num, Principal pc, int co_num, int clickpay, String p_name) { 
 			service.powerlink(model, p_num, clickpay);
+			
+			model.addAttribute("p_name", p_name);
 			return "customer/powerlinkpay";
 		}
 
@@ -235,14 +192,6 @@ public class CustomersController {
 	
 	
 	
-	@RequestMapping("itemplusPro") // 품목결재 완료
-	public String itemplusPro(CusOrderDTO cusorderDTO, Principal pc) {
-		cusorderDTO.setCo_m_id(pc.getName());
-
-		service.itempayFinish(cusorderDTO);
-		return "customer/itemplusPro";
-	}
-
 	@RequestMapping("profit") // 매출현황
 	public String profit(Model model, @RequestParam(value = "check", defaultValue = "0") int check, String daterange,
 			Principal pc) {
@@ -391,9 +340,14 @@ public class CustomersController {
 
 	
 	@RequestMapping("sajin") // 사진
-	public String sajin(Model model, ProductDTO productdto, MultipartFile thumbs, HttpServletRequest request) {
+	public String sajin(Model model, ProductDTO productdto, MultipartFile thumbs,  HttpServletRequest request, Principal pc) {
+		String id = pc.getName();
+		productdto.setP_m_id(id);
 		 String filePath = request.getServletContext().getRealPath("/resources/file/product/");
-		 service.fileUpload(model, thumbs, filePath);
+		 service.fileUpload(model, thumbs, filePath, productdto);
+
+		 String s = "cuser24.png";
+		 model.addAttribute("s",s);
 		return "customer/sajin";
 	}
 	
@@ -401,5 +355,71 @@ public class CustomersController {
 	public String cusQna() {
 		return "customer/cusQna";
 	}
+	
+	
+	//아래 에디터
+	
+	
+	
+	@RequestMapping("/productReg")
+	public String productReg(HttpServletRequest req,  Principal pc, ProductDTO productdto,MultipartFile thumbs) {
+		String realPath = req.getServletContext().getRealPath("/resources/file/product/");
+		String id = pc.getName();
+		productdto.setP_m_id(id);
+		System.out.println("====++"+productdto.getP_num());
+		System.out.println(productdto.getP_m_id());
+		System.out.println(productdto.getP_name());
+		System.out.println(productdto.getP_category());
+		System.out.println(productdto.getP_s_category());
+		System.out.println(thumbs.getOriginalFilename());
+		System.out.println(productdto.getP_price());
+		System.out.println(productdto.getStartdate());
+		System.out.println(productdto.getEnddate());
+		service.productReg(productdto,realPath,thumbs);
+		
+		return "redirect:/customers/itemList";
+	}
+	@RequestMapping("/productUpdate")
+	public String productUpdate(HttpServletRequest req,Model model, int num) {
+		String realPath = req.getServletContext().getRealPath("/resources/file/product/");
+		service.productUpdate(realPath, num, model);
+		return "customer/itemRevise";
+	}
+	@RequestMapping("/productUpdateReg")
+	public String productUpdateReg(HttpServletRequest req, ProductDTO productdto) {
+		String realPath=req.getServletContext().getRealPath("/resources/file/product/");
+		service.productUpdateReg(realPath,productdto);
+		return "redirect:/customers/itemList";
+	}
+	
+
+	
+	@RequestMapping(value="/uploadImageFile", produces = "application/json; charset=utf8")
+    @ResponseBody
+    public String uploadImageFile(@RequestParam("file") MultipartFile multipartFile,
+            HttpServletRequest req) {
+		String realPath=req.getServletContext().getRealPath("/resources/file/product/");
+		return service.productImgUpload(multipartFile, realPath);
+	}
+	@RequestMapping(value = "/deleteImageFile", produces = "application/json; charset=utf8")
+    public String deleteImageFile(@RequestParam("file") String fileName,HttpServletRequest req) {
+		String realPath=req.getServletContext().getRealPath("/resources/file/product/");
+		service.productImgDel(fileName, realPath);
+		return "redirect:/customers/itemList";
+	}
+	@RequestMapping("/productContent")
+	public String productContent(int num,Model model) {
+		service.productContent(model, num);
+		return "customer/content";
+	}
+	@RequestMapping("/productDelete")
+	public String productDelete(int num) {
+		service.productDelete(num);
+		return "redirect:/customers/itemList";
+	}
+	
+	
+	
+	
 
 }

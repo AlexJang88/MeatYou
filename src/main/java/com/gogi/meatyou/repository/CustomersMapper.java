@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.ui.Model;
 
 import com.gogi.meatyou.bean.CouponDTO;
+import com.gogi.meatyou.bean.CusFileDTO;
 import com.gogi.meatyou.bean.CusOrderDTO;
 import com.gogi.meatyou.bean.MOrderDTO;
 import com.gogi.meatyou.bean.PDetailDTO;
@@ -19,7 +20,7 @@ public interface CustomersMapper {
 
 	public void productUp(ProductDTO productdto); //상품등록
 	public int productCurrval();//등록된 상품번호 가져오기
-	public void P_DETAILUp(PDetailDTO pdetaildto);  // 상품상세등록
+	public void P_DETAILUp(ProductDTO pdetaildto);  // 상품상세등록
 	public void mem_addressUp(ProductDTO productdto);//반품주소
 	public int productNextval();//에디터 관련
 	public int getco_num();
@@ -45,12 +46,16 @@ public interface CustomersMapper {
 	public void statusChange(ProductDTO productdto); //product의 0, 1, 2, 3 으로 상태변경	스테이터스 값 변경
 	public void cus_num(ProductDTO productdto); //cus oder 유료결제 코드 번호를 설정하는곳
 	public void cus_numdelete(ProductDTO productdto); //cus oder 유료결제 코드 번호를 설정하는곳
+	public void productUnitDelete(String filename);
+	//파일업로드
+	public void ProductFileReg(CusFileDTO dto);
 	
 	//아래로는 상품 수정
 	public ProductDTO lister(int p_num); // 번호에 맞는 상품 정보 가져오기
 	public PDetailDTO listerPD(int p_num); // 번호에 맞는 상품상세 정보 가져오기
 	public void itemUP(ProductDTO productdto); //상품 정보수정
-	public void itemDpUP(PDetailDTO pdetaildto); //상품상세 정보수정
+	public void itemDpUP(ProductDTO productdto); //상품상세 정보수정
+	public void productAllFileDelete(int num);
 	
 	//재고현황	
 	public List<ProductDTO> stocklist(HashMap map);  // 아이디에 맞는 상품 제고 및 목록 가져오기
@@ -70,7 +75,7 @@ public interface CustomersMapper {
 	public List<CusOrderDTO> paylistTwo (HashMap map); // 상위노출 목록 리스트로 정보 가져오기
 	
 	//상위노출
-	public int countter (String id); // 판매중이나 아직 상위노출 안하고 있는 상품 갯수
+	
     public List<ProductDTO> poweredlist(String id); // 판매중이나 아직 상위노출 안하고 있는 상품 
     public ProductDTO payMentItem(ProductDTO productdto); // 결제 번호에 맞는 상품 정보 가져오기
     public void payFinish(CusOrderDTO cusorderDTO); //파워링크 결제 페이지에서 결제할목록 보여주기
@@ -108,6 +113,10 @@ public interface CustomersMapper {
     public void statusOut(@Param ("num") int num, @Param ("status") int status); //1일때 배송일, 배송완료일  null
     public void statusing(@Param ("num") int num, @Param ("status") int status); //2일때 배송일 up, 배송완룡일 null
     public void statused(@Param ("num") int num, @Param ("status") int status); //3일때 배송완료일 up
+	public void insert_cusorder(CusOrderDTO cusorderdto); // 카카오톡 인서트
+	public void insert_cusordertwo(CusOrderDTO cusorderdto); // 카카오톡 인서트
+	
+	public int getProductNEXTNum();  //상품등록시 다음번호
     
     
 }

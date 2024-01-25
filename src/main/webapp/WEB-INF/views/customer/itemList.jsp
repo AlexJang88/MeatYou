@@ -49,7 +49,7 @@
 	            		 		<td>${product.thumb}</td>
 	            		 		 <td>${product.p_num}				               				                
 					            </td>
-	            		 		<td><a href="/customers/content?p_num=${product.p_num}">${product.p_name}</a></td>
+	            		 		<td><a href="/customers/productContent?num=${product.p_num}">${product.p_name}</a></td>
 	            		 		<td>${product.p_price}</td>            		 		
 	            		 		<td>
 								    <c:choose>
