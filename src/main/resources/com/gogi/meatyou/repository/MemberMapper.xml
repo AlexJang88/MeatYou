@@ -50,12 +50,12 @@
       
    
 <select id="addressCheck" resultType="com.gogi.meatyou.bean.MemAddressDTO">
-    select * from MEM_ADDRESS
+    select * from MEM_ADDRESS where add_m_id='${add_m_id.replace("'", "''").replaceAll(",\\s*$", "")}'
 </select>
 
  <!--판매자 찜-->
 <select id="addressCount" parameterType="map">  
-    SELECT COUNT(*)   FROM  MEM_ADDRESS
+    SELECT COUNT(*)   FROM  MEM_ADDRESS where add_m_id='${add_m_id.replace("'", "''").replaceAll(",\\s*$", "")}'
 </select>
 
  <!--주소 목록출력 -->
@@ -73,25 +73,40 @@ WHERE
 
    <!-- 주소 삭제 -->
    <delete id="deleteAddr">
-      delete from MEM_ADDRESS  where shop_num = ${ADD_NUM}
+      delete from mem_address  where add_num = ${add_num}
    </delete>
     
    
-     <update id="UpdateAddr" parameterType="com.gogi.meatyou.bean.MemAddressDTO">
-    
-		    UPDATE MEM_ADDRESS
+<update id="updateAddr" parameterType="com.gogi.meatyou.bean.MemAddressDTO">
+    update mem_address
+    <set>
+        <if test="add_mem_address1 != null and add_mem_address1 != '' ">add_mem_address1=#{add_mem_address1},</if>
+        <if test="add_mem_address2 != null and add_mem_address2 != '' ">
+            <if test="add_mem_address1 == null or add_mem_address1 == ''">add_mem_address2=#{add_mem_address2}</if>
+            <if test="add_mem_address1 != null and add_mem_address1 != ''">, add_mem_address2=#{add_mem_address2}</if>
+        </if>
+    </set> 
+    where add_m_id='${add_m_id.replace("'", "''").replaceAll(",\\s*$", "")}'
+</update>
+   
+   <!-- 
+ 
+<update id="updateAddr" parameterType="com.gogi.meatyou.bean.MemAddressDTO">
+    update mem_address
          <set>
-            <if test="add_MEM_ADDRESS1 != null and add_MEM_ADDRESS1 != '' ">add_MEM_ADDRESS1=#{add_MEM_ADDRESS1},</if>
-            <if test="add_MEM_ADDRESS2 != null and add_MEM_ADDRESS2 != '' ">add_MEM_ADDRESS2=#{add_MEM_ADDRESS2},</if>
-            <if test="add_type != null and add_type != '' ">add_type=#{add_type},</if>
-            <if test="ADD_NUM != null and ADD_NUM != '' ">email=#{ADD_NUM}</if>
+            <if test="add_mem_address1 != null and add_mem_address1 != '' ">add_mem_address1=#{add_mem_address1},</if>
+            <if test="m_name != null and m_name != '' ">m_name=#{m_name},</if>
+            <if test="birth != null and birth != '' "> birth = TO_DATE(#{birth}, 'YYYY-MM-DD HH24:MI:SS.FF'),,</if>
+            <if test="m_addr1 != null and m_addr1 != '' ">m_addr1=#{m_addr1},</if>
+            <if test="m_addr2 != null and m_addr2 != '' ">m_addr2=#{m_addr2},</if>
+            <if test="email != null and email != '' ">email=#{email},</if>
+            <if test="telep != null and telep != '' ">telep=#{telep},</if>
+            <if test="phone != null and phone != '' ">phone=#{phone}</if>
          </set> 
-      where add_m_id=#{add_m_id}
+     where add_m_id='${add_m_id.replace("'", "''").replaceAll(",\\s*$", "")}'
    </update>
    
-   
-   
-   
+    -->
    
    
    
@@ -490,14 +505,7 @@ WHERE
          </set> 
       where m_id=#{m_id}
    </update>
-   <!-- 
-   
-      <update id="statusChange" parameterType="com.gogi.meatyou.bean.MemberDTO" >
-      update member set m_status = 1001 where m_id=#{m_id} and passwd = #{passwd}      
-   </update>
-   
-   
-    -->
+  
    
    <update id="statusChange" parameterType="com.gogi.meatyou.bean.MemberDTO" >
       update member set m_status = 1000 where  passwd = #{passwd}      

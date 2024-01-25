@@ -32,7 +32,7 @@ public class MemberServiceImpl implements MemberService {
         return mapper.insertMember(dto);
     }
   
-    //泥댄겕 �썑
+    //筌ｋ똾寃� 占쎌뜎
     @Override
     public int ppickAndpickMeCount(@Param("pm_m_id")String pm_m_id,@Param("pm_c_id")String pm_c_id, @Param("pm_num") int pm_num) {
         return mapper.ppickAndpickMeCount( pm_m_id, pm_c_id ,pm_num);
@@ -41,48 +41,45 @@ public class MemberServiceImpl implements MemberService {
     public void pick_me_delete(Model model,PickMeDTO pdto,ProductDTO ppdto,@Param("pm_m_id")String pm_m_id,
  			@Param("pm_c_id") String pm_c_id
 		 ,@Param("pm_num") int pm_num ){
-    	//   return mapper.pick_me_delete(  pdto,  pm_m_id, pm_c_id,   p_m_id, int pm_num);
     }
  
     
-    //�쉶�썝�뀒�씠釉� 李� 異붽� 諛� �궘�젣 
+    //占쎌돳占쎌뜚占쎈�믭옙�뵠�뇡占� 筌∽옙 �빊遺쏙옙 獄쏉옙 占쎄텣占쎌젫 
     @Override
     public void pickMeInsert(Model model, PickMeDTO pdto, ProductDTO ppdto, String pm_m_id, String pm_c_id, int pm_num) {
-        // �씠誘� 李쒖씠 �릺�뼱 �엳�뒗吏� �솗�씤
+        // 占쎌뵠沃섓옙 筌≪뮇�뵠 占쎈┷占쎈선 占쎌뿳占쎈뮉筌욑옙 占쎌넇占쎌뵥
         int pickCount = mapper.ppickAndpickMeCount(pm_m_id, pm_c_id, pm_num);
 
         if (pickCount > 0) {
-            // �씠誘� 李쒖씠 �릺�뼱 �엳�떎硫� 李쒖쓣 �빐�젣
+            // 占쎌뵠沃섓옙 筌≪뮇�뵠 占쎈┷占쎈선 占쎌뿳占쎈뼄筌롳옙 筌≪뮇�뱽 占쎈퉸占쎌젫
             int deleteResult = mapper.deletePickMeByCId(pm_m_id, pm_c_id);
             if (deleteResult > 0) {
-                model.addAttribute("message", "�씠誘� �꽑�깮�맂 �긽�뭹�쓣 痍⑥냼�뻽�뒿�땲�떎.");
+                model.addAttribute("message", "占쎌뵠沃섓옙 占쎄퐨占쎄문占쎈쭆 占쎄맒占쎈�뱄옙�뱽 �뿆�뫁�꺖占쎈뻥占쎈뮸占쎈빍占쎈뼄.");
             }
         } else {
-            // 李쒖씠 �릺�뼱 �엳吏� �븡�떎硫� 李쒖쓣 異붽�
+            // 筌≪뮇�뵠 占쎈┷占쎈선 占쎌뿳筌욑옙 占쎈륫占쎈뼄筌롳옙 筌≪뮇�뱽 �빊遺쏙옙
             int insertResult = mapper.pickMeInsert(pdto, pm_m_id, pm_c_id, pm_num);
             if (insertResult > 0) {
-                model.addAttribute("message", "�긽�뭹�쓣 �꽑�깮�뻽�뒿�땲�떎.");
+                model.addAttribute("message", "占쎄맒占쎈�뱄옙�뱽 占쎄퐨占쎄문占쎈뻥占쎈뮸占쎈빍占쎈뼄.");
             }
         }
     }
     
-    //�뙋留ㅼ옄 �뀒�씠釉� 李� 異붽� 諛� �궘�젣 
     @Override
     public void pickMeInsert2(Model model, PickMeDTO pdto, ProductDTO ppdto, String pm_m_id, String pm_c_id, int pm_num) {
-    	// �씠誘� 李쒖씠 �릺�뼱 �엳�뒗吏� �솗�씤
     	int pickCount = mapper.ppickAndpickMeCount2(pm_m_id, pm_c_id, pm_num);
     	
     	if (pickCount > 0) {
-    		// �씠誘� 李쒖씠 �릺�뼱 �엳�떎硫� 李쒖쓣 �빐�젣
+    		// 占쎌뵠沃섓옙 筌≪뮇�뵠 占쎈┷占쎈선 占쎌뿳占쎈뼄筌롳옙 筌≪뮇�뱽 占쎈퉸占쎌젫
     		int deleteResult = mapper.deletePickMeByCId2(pm_m_id, pm_c_id);
     		if (deleteResult > 0) {
-    			model.addAttribute("message", "�씠誘� �꽑�깮�맂 �긽�뭹�쓣 痍⑥냼�뻽�뒿�땲�떎.");
+    			model.addAttribute("message", "占쎌뵠沃섓옙 占쎄퐨占쎄문占쎈쭆 占쎄맒占쎈�뱄옙�뱽 �뿆�뫁�꺖占쎈뻥占쎈뮸占쎈빍占쎈뼄.");
     		}
     	} else {
-    		// 李쒖씠 �릺�뼱 �엳吏� �븡�떎硫� 李쒖쓣 異붽�
+    		// 筌≪뮇�뵠 占쎈┷占쎈선 占쎌뿳筌욑옙 占쎈륫占쎈뼄筌롳옙 筌≪뮇�뱽 �빊遺쏙옙
     		int insertResult = mapper.pickMeInsert2(pdto, pm_m_id, pm_c_id, pm_num);
     		if (insertResult > 0) {
-    			model.addAttribute("message", "�긽�뭹�쓣 �꽑�깮�뻽�뒿�땲�떎.");
+    			model.addAttribute("message", "占쎄맒占쎈�뱄옙�뱽 占쎄퐨占쎄문占쎈뻥占쎈뮸占쎈빍占쎈뼄.");
     		}
     	}
     }
@@ -90,7 +87,7 @@ public class MemberServiceImpl implements MemberService {
     
     
     
- // pm_c_id留뚯쑝濡� �궘�젣
+ // pm_c_id筌띾슣�몵嚥∽옙 占쎄텣占쎌젫
     @Override
     public void deletePickMeByCId(String pm_m_id, String pm_c_id) {
         mapper.deletePickMeByCId(pm_m_id, pm_c_id);
@@ -134,14 +131,12 @@ public class MemberServiceImpl implements MemberService {
         	 
         	 Map<String, Object> parameters = new HashMap<>();
         	 parameters.put("add_m_id", add_m_id);
-        	 
-        	 //   return mapper.getShoppingCartItemsPaged(parameters);
         	 List<MemAddressDTO> result = mapper.addressCheck(parameters);
 			return result;
 
        }
        @Override
-       public int deleteAddr(int add_num ,String add_m_id) {
+       public int deleteAddr(@Param("add_num") int add_num ,String add_m_id) {
     	return mapper.deleteAddr(add_num,add_m_id);   
        }
        
@@ -229,7 +224,7 @@ public class MemberServiceImpl implements MemberService {
 
           //   return mapper.getShoppingCartItemsPaged(parameters);
              List<ShoppingCartDTO> result = mapper.getShoppingCartItemsPaged(parameters);
-             System.out.println("�뜝�럡�맋占쎈쑏熬곣뫖裕� �뜝�럩源덌옙鍮듿뜝占� - �뜝�럥�쓡�뜝�럩逾좂춯�쉻�삕: " + page + ", �뇦猿됲�쀯옙沅� �뤆�룇裕뉛옙�빢: " + result.size());
+             System.out.println("占쎈쐻占쎈윞占쎈쭓�뜝�럥�몡�넭怨ｋ쳳獒뺧옙 占쎈쐻占쎈윪繹먮뜉�삕�뜮�벩�쐻�뜝占� - 占쎈쐻占쎈윥占쎌뱻占쎈쐻占쎈윪�얠쥉異�占쎌돸占쎌굲: " + page + ", 占쎈눇�뙼�맪占쎌���삕亦낉옙 占쎈쨬占쎈즵獒뺣돍�삕占쎈묄: " + result.size());
              return result;
          }
           
@@ -246,7 +241,7 @@ public class MemberServiceImpl implements MemberService {
         	 
         	 //   return mapper.getShoppingCartItemsPaged(parameters);
         	 List<ShoppingCartDTO> result = mapper.orderpage(parameters);
-        	 System.out.println("�뜝�럡�맋占쎈쑏熬곣뫖裕� �뜝�럩源덌옙鍮듿뜝占� - �뜝�럥�쓡�뜝�럩逾좂춯�쉻�삕: " + page + ", �뇦猿됲�쀯옙沅� �뤆�룇裕뉛옙�빢: " + result.size());
+        	 System.out.println("占쎈쐻占쎈윞占쎈쭓�뜝�럥�몡�넭怨ｋ쳳獒뺧옙 占쎈쐻占쎈윪繹먮뜉�삕�뜮�벩�쐻�뜝占� - 占쎈쐻占쎈윥占쎌뱻占쎈쐻占쎈윪�얠쥉異�占쎌돸占쎌굲: " + page + ", 占쎈눇�뙼�맪占쎌���삕亦낉옙 占쎈쨬占쎈즵獒뺣돍�삕占쎈묄: " + result.size());
         	 return result;
          }
          
@@ -299,7 +294,7 @@ public class MemberServiceImpl implements MemberService {
 
              //   return mapper.getShoppingCartItemsPaged(parameters);
                 List<PickMeDTO> result = mapper.pickMeCountPage(parameters);
-                System.out.println("�뜝�럡�맋占쎈쑏熬곣뫖裕� �뜝�럩源덌옙鍮듿뜝占� - �뜝�럥�쓡�뜝�럩逾좂춯�쉻�삕: " + page + ", �뇦猿됲�쀯옙沅� �뤆�룇裕뉛옙�빢: " + result.size());
+                System.out.println("占쎈쐻占쎈윞占쎈쭓�뜝�럥�몡�넭怨ｋ쳳獒뺧옙 占쎈쐻占쎈윪繹먮뜉�삕�뜮�벩�쐻�뜝占� - 占쎈쐻占쎈윥占쎌뱻占쎈쐻占쎈윪�얠쥉異�占쎌돸占쎌굲: " + page + ", 占쎈눇�뙼�맪占쎌���삕亦낉옙 占쎈쨬占쎈즵獒뺣돍�삕占쎈묄: " + result.size());
                 return result;
             }
        
@@ -329,7 +324,7 @@ public class MemberServiceImpl implements MemberService {
             	 
             	 //   return mapper.getShoppingCartItemsPaged(parameters);
             	 List<PickMeDTO> result = mapper.SallerpickMeCountPage(parameters);
-            	 System.out.println("�뜝�럡�맋占쎈쑏熬곣뫖裕� �뜝�럩源덌옙鍮듿뜝占� - �뜝�럥�쓡�뜝�럩逾좂춯�쉻�삕: " + page + ", �뇦猿됲�쀯옙沅� �뤆�룇裕뉛옙�빢: " + result.size());
+            	 System.out.println("占쎈쐻占쎈윞占쎈쭓�뜝�럥�몡�넭怨ｋ쳳獒뺧옙 占쎈쐻占쎈윪繹먮뜉�삕�뜮�벩�쐻�뜝占� - 占쎈쐻占쎈윥占쎌뱻占쎈쐻占쎈윪�얠쥉異�占쎌돸占쎌굲: " + page + ", 占쎈눇�뙼�맪占쎌���삕亦낉옙 占쎈쨬占쎈즵獒뺣돍�삕占쎈묄: " + result.size());
             	 return result;
              }
              
@@ -362,13 +357,13 @@ public class MemberServiceImpl implements MemberService {
                   // parameters.put("ppic_m_id",mdto.getM_id());
                    
                    
-                   System.out.println(("id�뜝�럥裕� 占쎈닱占쎈샍驪볦슱�삕占쎈데�뤆�룊�삕�뜝�럩�뭵 ~~~=-============================")+parameters.get("ppic_m_id"));
+                   System.out.println(("id占쎈쐻占쎈윥獒뺧옙 �뜝�럥�떛�뜝�럥�깓癲뉖낌�뒻占쎌굲�뜝�럥�뜲占쎈쨬占쎈즸占쎌굲占쎈쐻占쎈윪占쎈�� ~~~=-============================")+parameters.get("ppic_m_id"));
                   
                    
-                   List<PPicDTO> result = mapper.pPickCountPage(parameters); // 嶺뚮씞�걝�뚯궘�돦�뜝�룞�삕占쎈빢 �뜝�럩�쓧�뜝�럥堉�
+                   List<PPicDTO> result = mapper.pPickCountPage(parameters); // 癲ル슢�뵞占쎄콨占쎈슣沅섓옙�룱占쎈쐻占쎈짗占쎌굲�뜝�럥鍮� 占쎈쐻占쎈윪占쎌벁占쎈쐻占쎈윥�젆占�
                    
                     
-                    System.out.println("�뜝�럡�맋占쎈쑏熬곣뫖裕� �뜝�럩源덌옙鍮듿뜝占� - �뜝�럥�쓡�뜝�럩逾좂춯�쉻�삕: " + page + ", �뇦猿됲�쀯옙沅� �뤆�룇裕뉛옙�빢: " + result.size());
+                    System.out.println("占쎈쐻占쎈윞占쎈쭓�뜝�럥�몡�넭怨ｋ쳳獒뺧옙 占쎈쐻占쎈윪繹먮뜉�삕�뜮�벩�쐻�뜝占� - 占쎈쐻占쎈윥占쎌뱻占쎈쐻占쎈윪�얠쥉異�占쎌돸占쎌굲: " + page + ", 占쎈눇�뙼�맪占쎌���삕亦낉옙 占쎈쨬占쎈즵獒뺣돍�삕占쎈묄: " + result.size());
                    
                     return result;                              
             }

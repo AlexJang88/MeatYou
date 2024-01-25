@@ -34,15 +34,7 @@ public interface MemberMapper {
       
       
       List<MemAddressDTO> addressCheck(Map<String, Object> parameters);
-    //  int pPickCount(@Param("ppic_m_id") String ppic_m_id, @Param("ppic_num") int ppic_num );
-    //  public  int deleteP_item(@Param("ppic_num") int ppic_num, @Param("ppic_m_id") String ppic_m_id);
-   
       
-      
-      
-      
-  //    public MemAddressDTO addressCheck(String add_m_id);
-      public int deleteAddr(int add_num,String add_m_id);
       public void  updateAddr(MemAddressDTO  adto);
       
       
@@ -92,7 +84,9 @@ public interface MemberMapper {
        
        
        public  int deleteCart(@Param("shop_num") int shop_num, @Param("shop_m_id") String shop_m_id);
-
+       
+       
+       public int deleteAddr(@Param("add_num") int add_num,@Param("add_m_id") String add_m_id);
        // 선택한 상품 삭제를 위한 메서드
       // void deleteSelectedItems(  @Param("selectedShopNums")List<Long> selectedShopNums,@Param("shop_m_id") String shop_m_id);
        void deleteSelectedItems(Map<String, Object> paramMap);
