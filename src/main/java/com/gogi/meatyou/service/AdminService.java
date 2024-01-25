@@ -15,9 +15,11 @@ import com.gogi.meatyou.bean.AdminProductDTO;
 import com.gogi.meatyou.bean.MemberDTO;
 import com.gogi.meatyou.bean.NoticeDTO;
 import com.gogi.meatyou.bean.NoticeFileDTO;
+import com.gogi.meatyou.bean.QnADTO;
 import com.gogi.meatyou.bean.ReckonDTO;
 
 public interface AdminService {
+   
    public void memberList(int check,Model model,int pageNum);
    public List<MemberDTO>  customList(HashMap hashmap);
    public List<MemberDTO> memberList(HashMap hashmap);
@@ -27,12 +29,15 @@ public interface AdminService {
    public List<String> bestMember();
    public void goodMemberUpdate(List<String> id);
    public void bestMemberUpdate(List<String> id);
-   public MemberDTO test(String m_id);
-   public void apiTest(Model model);
+   //public MemberDTO test(String m_id);
+   //public void apiTest(Model model);
    public void statChange(MemberDTO dto);
    public void getSales(Model model,int check);
    public void getCheckSalse(Model model,int check,String start,String end);
+   //
    public void getReckon(Model model,int pageNum,String year,String month);
+   public void autoReckonUpdate();
+   
    public int noticeMaxnum();
    public NoticeDTO getNotice();
    public int noticeReg(HttpServletRequest req, HttpServletResponse resp,Model model,NoticeDTO dto);
@@ -43,7 +48,13 @@ public interface AdminService {
    public int noticeupdate(HttpServletRequest req, HttpServletResponse resp, Model model, NoticeDTO dto);
    public void noticedelete(int n_num,HttpServletRequest req);
    public int getNoticeNum();
-   public void getAdminProductList(int pageNum,String keyword,String searchOpt,int cate1,int cate2,int cate3,Model model);
-   public String getSearchProductList(int pageNum,String keyword,String searchOpt,int cate1,int cate2,int cate3,Model model);
+  
+   //public void getAdminProductList(int pageNum,String keyword,String searchOpt,int cate1,int cate2,int cate3,int pstatus,Model model);
+   public String getSearchProductList(int pageNum,String keyword,String searchOpt,int cate1,int cate2,int cate3,int pstatus,Model model);
    Date calculateTargetDate(Date currentDate, int check);
+   public void StopProduct(int p_num,String memo);
+   public void ReleaseIssue(int p_num);
+  
+   public String uploadReportImageFile(@RequestParam("file") MultipartFile multipartFile,HttpServletRequest request);
+   public int reportReg(HttpServletRequest req, HttpServletResponse resp,Model model,QnADTO dto);
 }

@@ -6,13 +6,13 @@ import lombok.Data;
 
 @Data
 public class CusOrderDTO {
-	 private int co_num;  //ÄÚµå¹øÈ£
-	   private int co_category;  // Ä«Å×°í¸®
-	   private int co_quantity; // °¹¼ö
-	   private int co_pay;  // ±İ¾×
-	   private String co_m_id;  //ÆÇ¸ÅÀÚ ¾ÆÀÌµğ
-	   private int autoPay;  // ÀÚµ¿°áÁ¦
-	   private int co_p_num; // »óÇ°¾ÆÀÌµğ
-	   private Date co_paydate;  //°áÁ¦ÀÏ
-	   private Date co_payenddate; //Á¾·áÀÏ
+	 private int co_num;  //ë²ˆí˜¸
+	   private int co_category;  // ì¢…ë¥˜
+	   private int co_quantity; // í´ë¦­ ë˜ëŠ” ê²°ì¬ ê°¯ìˆ˜
+	   private int co_pay;  // ê²°ì¬ ê¸ˆì•¡
+	   private String co_m_id;  //ê²°ì¬ì ì•„ì´ë””
+	   private int autoPay;  // ìë™ê²°ì œ 0, 1
+	   private int co_p_num; //ìƒí’ˆ ë²ˆí˜¸
+	   private Date co_paydate;  // ê²°ì¬ ë‚ ì§œ
+	   private Date co_payenddate; //ê²°ì œ ì¢…ë£Œë‚ ì§œ
 	}

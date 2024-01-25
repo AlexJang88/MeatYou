@@ -6,42 +6,49 @@ import lombok.Data;
 
 @Data
 public class ProductDTO {
-	   	private int p_num;  //»óÇ°¾ÆÀÌµð
-	   	private String p_m_id;  //ÆÇ¸ÅÀÚ¾ÆÀÌµð
-	   	private String p_name; //»óÇ°¸í
-	   	private int p_category; // Ä«Å×°í¸®¼±ÅÃ 111 »ï°ã»ì
-	   	private int p_s_category;  // ´ÜÇ°¼¼Æ®
-	   	private String thumb;  // ½æ³×ÀÏ »çÁø
-	   	private int p_price;  // °¡°Ý
-	   	private int p_rcount;  // Á¶È¸¼ö 
-	   	private Date p_reg_date;  // µî·ÏÀÏ
-	   	private String startdate;  // ÆÇ¸Å½ÃÀÛÀÏ
-	   	private String enddate;  // ÆÇ¸ÅÁ¾·áÀÏ	  
-	   
-	   	private int co_num; // À¯·á°áÁ¦ ÄÚµå¹øÈ£
-	   	private int co_p_num; // À¯·á°áÁ¦ »óÇ°¹øÈ£
- 
-	   	private int p_status; // ÆÇ¸Å»óÅÂ   
-	   	private int pd_p_num;  //»óÇ°id
-		private String pd_p_desc;  //»óÇ°¼³¸í	
-		private String origin; // ¿ø»êÁø
-		private String local;  // ³óÀåÁÖ¼Ò
-		private int weight;  // Áß·®
-		private String butchery;  // µµÃàÀå
-		private int serialNum;  // ÀÌ·Â ¹øÈ£
-		private String retain; // º¸°ü¹æ¹ý
-		private int stock;  //Àç°í¼ö
-		private String pd_duedate;  //À¯Åë±âÇÑ
-		private int pd_p_status;  // ³ëÃâ»óÅÂ
-		private PDetailDTO pdetaildto;  // µðÅ×ÀÏ Ãà¾à
-		private double star;	//º°Á¡Æò±Õ
-		private int count;	// ÆÇ¸Å·®
-		private int r_cnt;	// ¸®ºä ¼ö
-		private String category1;	// Ä«Å×°í¸®1(±¹³»/¼öÀÔ)
-		private String category2;	// Ä«Å×°í¸®2(µÅÁö/¼Ò)
-		private String category3;	// Ä«Å×°í¸®3(°¢ ºÎÀ§)
+ 	private int p_num;  //ï¿½ï¿½Ç°ï¿½ï¿½ï¿½Ìµï¿½
+	  private String p_m_id;  //ï¿½Ç¸ï¿½ï¿½Ú¾ï¿½ï¿½Ìµï¿½
+	 	private String p_name; //ï¿½ï¿½Ç°ï¿½ï¿½
+		private int p_category; // Ä«ï¿½×°ï¿½ï¿½ï¿½ï¿½ï¿½ 111 ï¿½ï¿½ï¿½ï¿½
+		private int p_s_category;  // ï¿½ï¿½Ç°ï¿½ï¿½Æ®
+		private String thumb;  
+		private int p_price;  // ï¿½ï¿½ï¿½ï¿½
+		private int p_rcount;  // ï¿½ï¿½È¸ï¿½ï¿½ 
+		private Date p_reg_date;  // ï¿½ï¿½ï¿½ï¿½ï¿½
+		private String startdate;  // ï¿½Ç¸Å½ï¿½ï¿½ï¿½ï¿½ï¿½
+		private String enddate;  // ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	  
+		private String co_name;
+		private int co_num; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ï¿½È£
+		private int co_p_num; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç°ï¿½ï¿½È£
+		private int clickpay;
+		private int co_quantity;
+	   	
+	  private int p_status; // ï¿½Ç¸Å»ï¿½ï¿½ï¿½   
+	  private int pd_p_num;  //ï¿½ï¿½Ç°id
+		private String pd_p_desc;  //ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½	
+		private String origin; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		private String local;  // ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½
+		private int weight;  // ï¿½ß·ï¿½
+		private String butchery;  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		private int serialNum;  // ï¿½Ì·ï¿½ ï¿½ï¿½È£
+		private String retain; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		private int stock;  //ï¿½ï¿½ï¿½ï¿½ï¿½
+		private String pd_duedate;  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		private int pd_p_status;  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		private PDetailDTO pdetaildto;  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+		private double star;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		private int count;	// ï¿½Ç¸Å·ï¿½
+		private int r_cnt;	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+		private String category1;	// Ä«ï¿½×°ï¿½ï¿½ï¿½1(ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½)
+		private String category2;	// Ä«ï¿½×°ï¿½ï¿½ï¿½2(ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½)
+		private String category3;	// Ä«ï¿½×°ï¿½ï¿½ï¿½3(ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
 		private String ppic_m_id;
 		private int ppic_p_num;
 		private int reviewAllCNT;
-		private int r_p_num;  //»óÇ°¾ÆÀÌµð
+		private int r_p_num;  //ï¿½ï¿½Ç°ï¿½ï¿½ï¿½Ìµï¿½
+		private int add_num;
+		private String add_m_id;
+		private String add_mem_address1;
+		private String add_mem_address2;
+		private int add_type;
    }

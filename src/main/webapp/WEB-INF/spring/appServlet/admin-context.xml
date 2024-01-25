@@ -12,9 +12,10 @@
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
 	<beans:bean id="adminMap" class="java.util.HashMap" />
-	<beans:bean id="oldname" class="java.util.ArrayList"/>
-	<beans:bean id="newname" class="java.util.ArrayList"/>
+	<beans:bean id="adminoldname" class="java.util.ArrayList"/>
+	<beans:bean id="adminnewname" class="java.util.ArrayList"/>
 	<beans:bean id="noticefiledto" class="com.gogi.meatyou.bean.NoticeFileDTO"/>
+	<beans:bean id="QnADTO" class="com.gogi.meatyou.bean.QnADTO"/>
 	<beans:bean id="adminServiceImpl" class="com.gogi.meatyou.service.AdminServiceImpl"/>
 	<task:annotation-driven/>
 </beans:beans>

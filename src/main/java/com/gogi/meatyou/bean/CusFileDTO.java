@@ -4,7 +4,8 @@ import lombok.Data;
 
 @Data
 public class CusFileDTO {
-	private int cfNum;
-	private String pNum;
-	private String fineName;
+	private int cf_num;
+	private int cf_p_num;
+	private String cf_filename;
+
 }

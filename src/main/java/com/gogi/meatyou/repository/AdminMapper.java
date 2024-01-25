@@ -9,6 +9,7 @@ import com.gogi.meatyou.bean.AdminProductDTO;
 import com.gogi.meatyou.bean.MemberDTO;
 import com.gogi.meatyou.bean.NoticeDTO;
 import com.gogi.meatyou.bean.NoticeFileDTO;
+import com.gogi.meatyou.bean.QnADTO;
 import com.gogi.meatyou.bean.ReckonDTO;
 
 public interface AdminMapper {
@@ -52,5 +53,10 @@ public interface AdminMapper {
    public void noticeUpdate(NoticeDTO dto);
    public List<AdminProductDTO> adminProductList(HashMap hashmap);
    public int adminProductCount(HashMap hashmap);
-   
+   public void pdstatChange(HashMap hashmap);
+   public void releaseIssue(int pd_p_num);
+   public int getQnAnumber();
+   public int QnAnextval();
+   public void ReportFileUpload(NoticeFileDTO dto);
+   public void reportReg(QnADTO dto);
 }

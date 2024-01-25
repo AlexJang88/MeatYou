@@ -2,7 +2,12 @@ package com.gogi.meatyou.service;
 
 import java.util.Date;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gogi.meatyou.bean.CouponDTO;
 import com.gogi.meatyou.bean.CusOrderDTO;
@@ -11,57 +16,77 @@ import com.gogi.meatyou.bean.ProductDTO;
 
 public interface CustomersService {
 
-	public void itemUpdate(ProductDTO productdto, PDetailDTO pdetaildto); //»óÇ°µî·Ï
 	
-	public int itemcount(String id); // ¾ÆÀÌµğ¿¡ ¸Â´Â »óÇ° µî·Ï °¹¼ö ºÒ·¯¿À±â
+	public int itemcount(String id); // ì•„ì´ë””ì— ë§ëŠ” ìƒí’ˆ ë“±ë¡ ê°¯ìˆ˜ ë¶ˆëŸ¬ì˜¤ê¸°
 	
-	public void list(Model model, String id, int pageNum); // ¾ÆÀÌµğ¿¡ ¸Â´Â »óÇ°°¹¼ö ¹× Á¤º¸µé ¸ğµ¨¿¡ ´ã¾Æ¼­ ºÒ·¯¿À±â
-	public void listout(Model model, String id, int pageNum);  //ÆÇ¸ÅÁ¾·áµÈ »óÇ° ¸ğµ¨¿¡ ´ã¾Æ¼­ ºÒ·¯¿À±â
-	public void statusChange(ProductDTO productdto); //È¸¿øÀÇ ÆÇ¸Å»óÅÂ¸¦ º¯°æ
-	public void statusChangeouut(ProductDTO productdto); //È¸¿øÀÇ ÆÇ¸Å»óÅÂ¸¦ º¯°æ
+	public void list(Model model, String id, int pageNum); // ì•„ì´ë””ì— ë§ëŠ” ìƒí’ˆê°¯ìˆ˜ ë° ì •ë³´ë“¤ ëª¨ë¸ì— ë‹´ì•„ì„œ ë¶ˆëŸ¬ì˜¤ê¸°
+	public void listout(Model model, String id, int pageNum);  //íŒë§¤ì¢…ë£Œëœ ìƒí’ˆ ëª¨ë¸ì— ë‹´ì•„ì„œ ë¶ˆëŸ¬ì˜¤ê¸°
+	public void statusChange(Model model, ProductDTO productdto); //íšŒì›ì˜ íŒë§¤ìƒíƒœë¥¼ ë³€ê²½
+	public void statusChangeouut(ProductDTO productdto); //íšŒì›ì˜ íŒë§¤ìƒíƒœë¥¼ ë³€ê²½
+	public String uploadProductImageFile(@RequestParam("file") MultipartFile multipartFile, HttpServletRequest request);//ì—ë””í„° ë§Œë“¤ê¸°
+	public int getco_num();
+	public void geterco_num(Model model);
 	
-	//¾Æ·¡·Î´Â »óÇ° ¼öÁ¤
-	public void lister(Model model, int p_num); // ¹øÈ£¿¡ ¸Â´Â »óÇ° Á¤º¸ °¡Á®¿À±â	
-	public void updateitemPro(ProductDTO productdto, PDetailDTO pdetaildto); //»óÇ°Á¤º¸¼öÁ¤
+	//ì•„ë˜ë¡œëŠ” ìƒí’ˆ ìˆ˜ì •
+	public void lister(Model model, int p_num); // ë²ˆí˜¸ì— ë§ëŠ” ìƒí’ˆ ì •ë³´ ê°€ì ¸ì˜¤ê¸°	
 	
-	//Àç°í ÇöÈ²
-	public void stocklist(Model model, String id, int pageNum); //¾ÆÀÌµğ¿Í ¸ğµ¨ ³Ñ±â±â/ ÀüÃ¼ Àç°í ¸ñ·Ï 
-	public void onStock(Model model, String id, int pageNum); //¾ÆÀÌµğ¿Í ¸ğµ¨ ³Ñ±â±â // ÆÇ¸ÅÁßÀÎ Á¦°í ¸ñ·Ï
-	public void stockPro (PDetailDTO pdetaildto); // ¹øÈ£¿¡ ¸Â´Â »óÇ° Àç°í º¯°æ (ÀüÃ¼)
-	public void stockOnPro (PDetailDTO pdetaildto); // ¹øÈ£¿¡ ¸Â´Â »óÇ° Àç°í º¯°æ(ÆÇ¸ÅÁß)
+	
+	//ì¬ê³  í˜„í™©
+	public void stocklist(Model model, String id, int pageNum); //ì•„ì´ë””ì™€ ëª¨ë¸ ë„˜ê¸°ê¸°/ ì „ì²´ ì¬ê³  ëª©ë¡ 
+	public void onStock(Model model, String id, int pageNum); //ì•„ì´ë””ì™€ ëª¨ë¸ ë„˜ê¸°ê¸° // íŒë§¤ì¤‘ì¸ ì œê³  ëª©ë¡
+	public void stockPro (PDetailDTO pdetaildto); // ë²ˆí˜¸ì— ë§ëŠ” ìƒí’ˆ ì¬ê³  ë³€ê²½ (ì „ì²´)
+	public void stockOnPro (PDetailDTO pdetaildto); // ë²ˆí˜¸ì— ë§ëŠ” ìƒí’ˆ ì¬ê³  ë³€ê²½(íŒë§¤ì¤‘)
 
 	
-	//À¯·á°áÁ¦¶õ
-	public void pay(Model model, String id); //»óÇ° À¯·á°áÁ¦ ¸ñ·Ï ºÒ·¯¿À±â
-	public void payOne(Model model, String id, int pageNum); //»óÇ° ÆÄ¿ö¸µÅ© ±¸¸Å¸ñ·Ï »ó¼¼º¸±â
-	public void payTwo(Model model, String id, int pageNum); //»óÇ° ÆÄ¿ö¸µÅ© ±¸¸Å¸ñ·Ï »ó¼¼º¸±â
-	public void powerlist(Model model, String id); //»óÇ° À¯·á°áÁ¦ ¸ñ·Ï ºÒ·¯¿À±â
-	public void payment(Model model, ProductDTO productdto); //ÆÄ¿ö¸µÅ© °áÁ¦ ÆäÀÌÁö¿¡¼­ °áÁ¦ÇÒ¸ñ·Ï º¸¿©ÁÖ±â
-	public void payFinish(CusOrderDTO cusorderDTO); //ÆÄ¿ö¸µÅ© °áÁ¦ ÆäÀÌÁö¿¡¼­ °áÁ¦ÇÒ¸ñ·Ï º¸¿©ÁÖ±â
-    public void itempayFinish(CusOrderDTO cusorderDTO);//Ç°¸ñ È®Àå °áÁ¦ ¿Ï·á
+	//ìœ ë£Œê²°ì œë€
+	public void pay(Model model, String id); //ìƒí’ˆ ìœ ë£Œê²°ì œ ëª©ë¡ ë¶ˆëŸ¬ì˜¤ê¸°
+	public void payOne(Model model, String id, int pageNum); //ìƒí’ˆ íŒŒì›Œë§í¬ êµ¬ë§¤ëª©ë¡ ìƒì„¸ë³´ê¸°
+	public void payTwo(Model model, String id, int pageNum); //ìƒí’ˆ íŒŒì›Œë§í¬ êµ¬ë§¤ëª©ë¡ ìƒì„¸ë³´ê¸°
+	public void powerlist(Model model, String id); //ìƒí’ˆ ìœ ë£Œê²°ì œ ëª©ë¡ ë¶ˆëŸ¬ì˜¤ê¸°
+	public void payment(Model model, ProductDTO productdto); //íŒŒì›Œë§í¬ ê²°ì œ í˜ì´ì§€ì—ì„œ ê²°ì œí• ëª©ë¡ ë³´ì—¬ì£¼ê¸°
+	public void payFinish(CusOrderDTO cusorderDTO); //íŒŒì›Œë§í¬ ê²°ì œ í˜ì´ì§€ì—ì„œ ê²°ì œí• ëª©ë¡ ë³´ì—¬ì£¼ê¸°
+    public void itempayFinish(CusOrderDTO cusorderDTO);//í’ˆëª© í™•ì¥ ê²°ì œ ì™„ë£Œ
     
-    //¸ÅÃâ¾×
-    public void getprofit(Model model,int check, String id); //Ã¼Å©¸¦ ¾ÈÇßÀ»¶§
-    public void getCheckprofit(Model model,int check,String start,String end, String id); //Ã¼Å©¸¦ÇßÀ»¶§
-    //¿ùº° ÆÇ¸Å»óÇ°
-    public void  getProfitItem(Model model,int check, String id, int pageNum); //Ã¼Å©¸¦ ¾ÈÇßÀ»¶§
-    //³¯Â¥ °è»ê
+    public void powerlink(Model model,int p_num,int clickpay); // ì˜ì„
+    
+    
+    //ë§¤ì¶œì•¡
+    public void getprofit(Model model,int check, String id); //ì²´í¬ë¥¼ ì•ˆí–ˆì„ë•Œ
+    public void getCheckprofit(Model model,int check,String start,String end, String id); //ì²´í¬ë¥¼í–ˆì„ë•Œ
+    //ì›”ë³„ íŒë§¤ìƒí’ˆ
+    public void  getProfitItem(Model model,int check, String id, int pageNum); //ì²´í¬ë¥¼ ì•ˆí–ˆì„ë•Œ
+    //ë‚ ì§œ ê³„ì‚°
     Date calculateTargetDate(Date currentDate, int check);
     
-    //»óÇ°±¸¸ÅÈ¸¿ø ¹× ÄíÆù ÁÖ±â
-    public void consumerList(Model model, int check, int pageNum, String id); //»óÇ° ±¸¸Å¸®½ºÆ®È¸¿ø
-    public void cusCouponPro(Model model, String p_m_id, String  id, int point, int companynum, CouponDTO coupondto, int p_status, int couponUse);  //ÄíÆùÀ» Á¦°øÇßÀ»¶§ ³Ñ¾î°¡´Â°ª
-    public void companynum(Model model, String id);//»ç¾÷ÀÚ¹øÈ£¹Ş±â
-    public void itemList(Model model, String id);//»óÇ°¸®½ºÆ® ¹Ş±â
-    public void couponList(Model model, String id, int pageNum);//ÄíÆù Á¦°ø ¸®½ºÆ®
+    //ìƒí’ˆêµ¬ë§¤íšŒì› ë° ì¿ í° ì£¼ê¸°
+    public void consumerList(Model model, int check, int pageNum, String id); //ìƒí’ˆ êµ¬ë§¤ë¦¬ìŠ¤íŠ¸íšŒì›
+    public void cusCouponPro(Model model, String p_m_id, String  id, int point, int companynum, CouponDTO coupondto, int p_status, int couponUse);  //ì¿ í°ì„ ì œê³µí–ˆì„ë•Œ ë„˜ì–´ê°€ëŠ”ê°’
+    public void companynum(Model model, String id);//ì‚¬ì—…ìë²ˆí˜¸ë°›ê¸°
+    public void itemList(Model model, String id);//ìƒí’ˆë¦¬ìŠ¤íŠ¸ ë°›ê¸°
+    public void couponList(Model model, String id, int pageNum);//ì¿ í° ì œê³µ ë¦¬ìŠ¤íŠ¸
     
-    //ÁÖ¹® ¹× Ãë¼ÒÇöÈ²
-    public void deliverout(Model model, int check, int pageNum, String id); //Ãë¼ÒÇöÈ²
+    //ì£¼ë¬¸ ë° ì·¨ì†Œí˜„í™©
+    public void deliverout(Model model, int check, int pageNum, String id); //ì·¨ì†Œí˜„í™©
+    public void delivering(Model model, int check, int pageNum, String id); //ë°°ì†¡í˜„í™©
+    //ë°°ì†¡ í˜„í™© ë³€ê²½
+    public void deliverStatus(int order_num, int order_status); //ë°°ì†¡í˜„í™©ë³€ê²½
     
     
     
+    //ì‚¬ì§„ì‹¤í—˜
+    public void fileUpload(Model model, MultipartFile thumbs, String filePath, ProductDTO productdto);
+
+	public void insert_cusorder(CusOrderDTO cusorderdto);
+	public void insert_cusorderTwo(CusOrderDTO cusorderdto);
     
-    
+	//ì•„ë˜ ì—ë””í„°
+	public void productReg(ProductDTO productdto, String realPath,MultipartFile file);
+	public void productUpdate(String realPath,int num,Model model);
+	public void productUpdateReg(String realPath, ProductDTO productdto);
+	public String productImgUpload(MultipartFile multipartFile, String realPath);
+	public void productImgDel(String fileName, String realPath);
+	public void productContent(Model model,int num);
+	public void productDelete(int num);
     
     
     

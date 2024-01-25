@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>  
 <meta charset="UTF-8">
 <title>여기는 품목확장</title>
 </head>
@@ -23,22 +24,56 @@
 		<td width="200" align="center">환불여부</td>				
 		<td width="100" align="center">결제하기</td>			
 	</tr>
-	<form action="/customers/itemplusPro" method="post" >
+	
 	 <tr height="30"> 
       <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-      <input type="hidden" name="p_m_id" value="${id}">	
+      <input type="hidden" id="id" name="p_m_id" value="${id}">	
+      <input type="hidden" id="co_num" name="co_num" value="${co_num}">	
+      <input type="hidden"id="quantity" name="quantity" value="${quantity}">	
 		<td width="300" align="center">${id}</td>
 		<td width="200" align="center">품목확장 1건</td>
 		<td width="300" align="center">50,000</td>
-		<td width="200" align="center">1개월</td>				
-		<td width="200" align="center">불가</td>					
+		<td width="200" align="center">1개월 ${co_num}</td>				
+		<td width="200" align="center">불가${co_num}</td>					
 		<td align="center" >   
-			<input type="submit" value="결제">
+			<input type="button" id="btn_kakao-paytwo" value="결제하기">
 		 </td> 
-	 </tr>
-	</form>	
+	 </tr>	
 </table>	
 
+<script>
+   $("#btn_kakao-paytwo").click(function(){
+      var totalpay ="50000";  
+      var quantity="1";
+      var co_num=$('#co_num').val();
+      var co_name = '품목결제('+quantity+'건)';
+      
+      console.log('totalpay:'+totalpay);
+      console.log('quantity:'+quantity);
+      console.log('co_num:'+co_num);
+      console.log('co_name:'+co_name);
+      kakao(totalpay,quantity,co_num,co_name);
+   });  
+      function kakao(totalpay,quantity,co_num,co_name){
+      // 카카오페이 결제전송
+      $.ajax({
+         type:'POST'
+         ,url:'/kakaopay/readytwo'
+         ,data: {
+          totalpay:totalpay,
+          quantity:quantity,
+          co_num:co_num,
+          co_name:co_name
+         }
+         ,success:function(response){
+             alert(response.next_redirect_pc_url);
+            location.href = response.next_redirect_pc_url;         
+         }
+      })
+      }
+      // 버튼 클릭이벤트 해제
+   
+</script>
 
 </body>
 </html>

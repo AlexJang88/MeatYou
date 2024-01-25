@@ -1,11 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-
 
 <!DOCTYPE html>
 <html>
@@ -28,12 +23,7 @@
 </c:choose>
 	
 	
-	<form method="post" action="/customers/profit">
-	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-	<input type="text" name="daterange">
-	<input type="hidden" name="check" value="1">
-	<input type="submit" value="검색">	
-	</form>		
+		
 	
 	<c:if test="${check==1}">
 		<a href="/customers/profit">이번달 매출보기 </a>
@@ -61,7 +51,7 @@
 			<td width="200" align="center">전체판매수량</td>
 			<td width="200" align="center">쿠폰사용료</td>
 			<td width="200" align="center">배송비</td>
-			<td width="200" align="center">정산 예정 금액</td>				
+			<td width="200" align="center">정산 금액</td>				
 			<td width="200" align="center">이번달 판매 HOT </td>				
 			<td width="200" align="center">파워링크</td>					
 		</tr>
@@ -70,7 +60,13 @@
 			<td align="center">${totalCount}</td>
 			<td align="center">${coponPay}</td>
 			<td align="center">${deliveryPay}</td>
-			<td align="center">${(ptm * 0.9) - deliveryPay - coponPay}</td>
+			<c:if test="${check == 0}">
+				<td align="center">정산 진행 중</td>
+			</c:if>
+			<c:if test="${check < 0}">
+				<td align="center">${(ptm * 0.9) - deliveryPay - coponPay}</td>
+			</c:if>
+			
 			<td align="center">${HOT}</td>
 			<td align="center"><a href="/customers/pay">파워링크 결제하기</a></td>
 			

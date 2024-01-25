@@ -26,22 +26,20 @@
 		 </table>
 	</c:if>
 	
-	<c:if test="${powerPayCount >= 0 }">		
+	<c:if test="${powerPayCount > 0 }">		
 		<h3 align="center">총 결제 진행 횟수 : ${powerPayCount}  </h3> 
 		<table border="1" width="900" cellpadding="0" cellspacing="0" align="center">		
 			<tr height="30">				
 				<td width="150" align="center">구매자아이디</td>
-				<td width="150" align="center">사용중인코드</td>
-				<td width="150" align="center">등록된 상품 번호</td>
-				<td width="200" align="center">클릭당 금액</td>
+				<td width="150" align="center">등록된 상품번호</td>
+				<td width="200" align="center">결제 금액</td>
 				<td width="200" align="center">남은 클릭 갯수</td>				
 				<td width="200" align="center">결제일</td>				
 			</tr> 
 			<c:forEach var="pay" items="${powerlist}" varStatus="loop">
 			 	<c:if test="${loop.index lt 5}">
 					  <tr align="center">
-						 <td>${pay.co_m_id}</td>
-						 <td>${pay.co_num}</td>
+						 <td>${pay.co_m_id}</td>			
 						 <td>${pay.co_p_num}</td>
 						 <td>${pay.co_pay}</td>
 						 <td>${pay.co_quantity}</td>
@@ -68,13 +66,12 @@
 		 </table>
 	</c:if>
 	
-  	<c:if test="${listPayCount >= 0}">
+  	<c:if test="${listPayCount > 0}"> 
 		<h3 align="center">총 결제 진행 횟수 : ${listPayCount}  / 현재 사용가능한 유료 품목 수 : ${listpaynowcount} </h3> 
 		<table border="1" width="900" cellpadding="0" cellspacing="0" align="center">		
 			<tr height="30">				
 				<td width="150" align="center">구매자아이디</td>
-				<td width="150" align="center">사용중인코드</td>
-				<td width="150" align="center">사용중인 상품번호</td>
+				<td width="150" align="center">등록된 상품번호</td>
 				<td width="200" align="center">사용한 금액</td>
 				<td width="200" align="center">결제일</td>				
 				<td width="200" align="center">종료일</td>				
@@ -83,7 +80,6 @@
 			 	<c:if test="${loop.index lt 5}">
 				  <tr align="center">
 					 <td>${pay.co_m_id}</td>
-					 <td>${pay.co_num}</td>
 					 <td>${pay.co_p_num}</td>
 					 <td>${pay.co_pay}</td>
 					 <td>
