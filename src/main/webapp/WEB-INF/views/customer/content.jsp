@@ -14,7 +14,7 @@
 	${p_num} 번 글입니다 <br/>
 	
 	<input type="button" value="글수정" 
-	 onclick="document.location.href='/customers/itemRevise?p_num=${p_num}'">
+	 onclick="document.location.href='/customers/productUpdate?num=${p_num}'">
 </center>
 </body>
 </html>

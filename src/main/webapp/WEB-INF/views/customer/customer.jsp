@@ -2,6 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 
+ <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <title>판매자 페이지</title>
 
 <html> 
@@ -22,18 +24,52 @@
 
 
 <h1>판매자 페이지 업무</h1>
-홈 -> 화면에서는 판매중인 상품 및 매출 현황만 나오게<br>
-상품등록 -> 상품등록페이지 <br>
-상품 목록 페이지 -> 판매중인 상품 목록<br>
-매출현황 -> 현재 매출 현황 및 지난 매출현황 안내<br>
-재고현황 -> 재고 확인<br>
-구매 회원 ->구매회원 리스트 , 단골회원 확인, 쿠폰리스트 -> 단골 쿠폰 주기 기능<br>
-유료결제 -> 유료결제 진행중인 종류 -> 추가)상위 노출 및 상품 확장 선택 및 결제<br>
-배송현황 -> 배송 진행 상태- > 배송예정 / 배송중 / 배송 완료 구분<br>
-정산하기 -> 지난 정산금액, 현재 정산 받을 금액안내<br>
-문의게시판-> 상품별 문의게시글 확인<br>
+
+<div style="width: 600px; height: 400px;">
+    <canvas id="sales-chart"></canvas>
+</div>
+
+
+
+
 
 
 </body>
+
+<script>
+        var ctx = document.getElementById('sales-chart').getContext('2d');
+        var salesChart = new Chart(ctx, {
+            type: 'line', // The type of chart we want to create
+            data: { // Data for our dataset
+                labels: ['January', 'February', 'March', 'April', 'May', 'June'], // Example labels
+                datasets: [{
+                    label: '총 판매 금액', // Name of the data
+                    backgroundColor: 'rgb(255, 99, 132)', // Color of the dots
+                    borderColor: 'rgb(255, 99, 132)', // Color of the line
+                    data: [0, 10000, 5000, 15000, 20000, 30000], // Example sales data
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: '단위(원)'
+                        }
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: '월별 매출통계'
+                    },
+                    legend: {
+                        display: true
+                    }
+                }
+            }
+        });
+    </script>
 </html>
 

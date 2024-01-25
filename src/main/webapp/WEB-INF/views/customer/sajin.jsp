@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<img src="<%= request.getContextPath() %>/resources/file/product/file_11_.png" alt="이미지">
+<img src="<%= request.getContextPath() %>/resources/file/product/${s}" alt="이미지">
 
 
 
