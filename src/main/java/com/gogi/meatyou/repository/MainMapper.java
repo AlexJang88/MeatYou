@@ -77,7 +77,7 @@ public interface MainMapper {
    public int star3(int r_p_num);
    public int star4(int r_p_num);
    public int star5(int r_p_num);
-   
+    
    public double star1Per(int r_p_num);
    public double star2Per(int r_p_num);
    public double star3Per(int r_p_num);
@@ -100,7 +100,6 @@ public interface MainMapper {
    public int pickCNTMain(PPicDTO dto);
    public int pick_p_numCNT(@Param("ppic_m_id")String ppic_m_id, @Param("ppic_p_num")int ppic_p_num);
    public int pick_p_numCNTMain(@Param("ppic_m_id")String ppic_m_id, @Param("ppic_p_num")int ppic_p_num);
-   public int pick_p_numCNTJJIM(PPicDTO dto);
    public void pickInsert(PPicDTO dto);
    public void pickInsertMain(@Param("ppic_m_id")String ppic_m_id, @Param("ppic_p_num")int ppic_p_num);
    public void pickDelete(PPicDTO dto);

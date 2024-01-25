@@ -202,13 +202,13 @@
 <!-- 							<ul class="product-btns">
 								<li><a href="#"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
 								<li><a href="#"><i class="fa fa-exchange"></i> add to compare</a></li>
-							</ul> --> 
- 
+							</ul> -->
+
 							<ul class="product-links">
 								<li><h5>고기 정보 : </h5></li>
-								<li><h5>${PDcategory1}/</h5></li>
-								<li><h5>${PDcategory2}/</h5></li>
-								<li><h5>${PDcategory3}</h5></li>
+								<li><h5>${category1} /</h5></li>
+								<li><h5>${category2} /</h5></li>
+								<li><h5>${category3}</h5></li>
 							</ul>
 
 							<ul class="product-links">

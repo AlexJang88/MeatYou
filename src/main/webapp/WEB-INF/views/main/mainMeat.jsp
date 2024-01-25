@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../header.jsp" %>
-<%@ include file="../mainMeatSort.jsp" %>
+<%@ include file="../mainMeatSort.jsp" %> 
 
 <!DOCTYPE html> 
 
@@ -64,10 +64,10 @@
 										</div>
 									</div>
 									<div class="product-body">
-										<h3 class="product-name"><a href="../main/product?p_num=${meat.p_num}">${meat.p_name}</a></h3>
-										<h4 class="product-price">${meat.p_price}</h4>
+										<a href="../main/product?p_num=${meat.p_num}&p_m_id=${meat.p_m_id}"><h3 class="product-name">${meat.p_name}</h3></a>
+										<a href="../main/product?p_num=${meat.p_num}&p_m_id=${meat.p_m_id}"><h4 class="product-price">${meat.p_price}</h4></a>
 										<ul class="product-links">
-											<li><h6>${meat.category1} / ${meat.category2} / ${meat.category3}</h6></li>
+											<a href="../main/product?p_num=${meat.p_num}&p_m_id=${meat.p_m_id}"><li><h6>${meat.category1} / ${meat.category2} / ${meat.category3}</h6></li></a>
 										</ul>
 										<div class="rating-avg">${meat.star}
 														<c:if test="${meat.star == 5.0 && meat.star > 4.6}">
@@ -125,11 +125,25 @@
 															</div>
 														</c:if>
 													</div>
-										<div class="product-btns">
-											<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-											<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-											<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-										</div>
+												<c:if test="${m_id == null}">
+													<div class="product-btns">
+														찜하기<button class="add-to-wishlist" onclick="location.href='/member/customLogin'"><i class="fa fa-heart-o"></i><span class="tooltipp">찜하기</span></button>
+														리뷰 : ${meat.reviewAllCNT}개
+													</div>
+												</c:if>
+
+												<c:if test="${m_id != null}">
+													<div class="product-btns">
+														<form class="product-btns" action="pickInsertMainMeat" method="post">
+															<input type="hidden" name="ppic_m_id" value="${meat.ppic_m_id}">
+															<input type="hidden" name="ppic_p_num" value="${meat.ppic_p_num}">
+															<input type="hidden" name="category" value="${category}">
+															<input type="hidden" name="price" value="desc">
+															찜하기<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">찜하기</span></button>
+															리뷰 : ${meat.reviewAllCNT}개
+														</form>
+													</div>
+												</c:if>
 									</div>
 									<c:if test="${m_id != null}">
 										<div class="add-to-cart">

@@ -1,5 +1,6 @@
 package com.gogi.meatyou.service;
  
+import java.security.Principal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -18,24 +19,24 @@ public interface MainService {
    
    public List<ProductDTO> mainCUS();
    
-   public List<ProductDTO> searchList(int pageNum, Model model , String desc, String searchOption, String search);
-   public List<ProductDTO> searchPrice(int pageNum, Model model , String price, String searchOption, String search);
-   public List<ProductDTO> searchSale(int pageNum, Model model , String searchOption, String search);
-   public List<ProductDTO> searchListStar(ProductDTO dto, int pageNum, Model model , String searchOption, String search);
-   public List<ProductDTO> searchListReview(ProductDTO dto, int pageNum, Model model , String searchOption, String search);
+   public List<ProductDTO> searchList(Principal seid, int pageNum, Model model , String desc, String searchOption, String search);
+   public List<ProductDTO> searchPrice(Principal seid, int pageNum, Model model , String price, String searchOption, String search);
+   public List<ProductDTO> searchSale(Principal seid, int pageNum, Model model , String searchOption, String search);
+   public List<ProductDTO> searchListStar(Principal seid, ProductDTO dto, int pageNum, Model model , String searchOption, String search);
+   public List<ProductDTO> searchListReview(Principal seid, ProductDTO dto, int pageNum, Model model , String searchOption, String search);
     
    public List<ProductDTO> meatBest();
    public List<ProductDTO> forkBest();
    public List<ProductDTO> newProductBest();
-   
+    
    //public void mainMeat(int pageNum, Model model, String price , int category, String sale, String reg);
-   public void mainMeat(int pageNum, Model model, String price , int category, String sale, String reg, String news, String star);
-   public void mainMeatSort(int pageNum, Model model, int category, String star);
-   public void mainMeatReview(int pageNum, Model model, int category, String star);
+   public void mainMeat(Principal seid, int pageNum, Model model, String price , int category, String sale, String reg, String news, String star);
+   public void mainMeatSort(Principal seid, int pageNum, Model model, int category, String star);
+   public void mainMeatReview(Principal seid, int pageNum, Model model, int category, String star);
    
-   void poLinkList(int pageNum, Model model);
+   void poLinkList(Principal seid, int pageNum, Model model);
    
-   public void newProduct(int pageNum, Model model);
+   public void newProduct(Principal seid, int pageNum, Model model);
 
    public ProductDetailDTO productDetail(ProductDetailDTO dto, Model model);
    

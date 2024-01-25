@@ -1,5 +1,6 @@
 package com.gogi.meatyou.service;
 
+import java.security.Principal;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -50,47 +51,53 @@ public class MainServiceImpl implements MainService {
    }
 
    @Override
-   public List<ProductDTO> searchList(int pageNum, Model model, String desc, String searchOption, String search) {
+   public List<ProductDTO> searchList(Principal seid, int pageNum, Model model, String desc, String searchOption, String search) {
+	   String m_id = "";
+	   if(seid != null) {
+		   	m_id = (String)seid.getName(); 
+		   	model.addAttribute("m_id", m_id);
+	   }
+	   
 	   int pageSize = 6; 
-       int startRow = (pageNum - 1) * pageSize + 1;
-       int endRow = pageNum * pageSize;
-       int count = mapper.searchCount(searchOption, search);
+       	int startRow = (pageNum - 1) * pageSize + 1;
+       	int endRow = pageNum * pageSize;
+       	int count = mapper.searchCount(searchOption, search);
        
-       List<ProductDTO> searchList = Collections.EMPTY_LIST;
-       if(count > 0) {
+       	List<ProductDTO> searchList = Collections.EMPTY_LIST;
+       	if(count > 0) {
           searchMap.put("start", startRow);
           searchMap.put("end", endRow);
           searchMap.put("desc", desc);
           searchMap.put("searchOption", searchOption);
           searchMap.put("search", search);
           searchList = mapper.searchList(searchMap);
-       }
-       model.addAttribute("searchList", searchList);
-       model.addAttribute("pageSize", pageSize);
-       model.addAttribute("pageNum", pageNum);
-       model.addAttribute("count", count);
-       model.addAttribute("searchOption", searchOption);
-       model.addAttribute("search", search);
+       	}
+       	model.addAttribute("searchList", searchList);
+       	model.addAttribute("pageSize", pageSize);
+       	model.addAttribute("pageNum", pageNum);
+       	model.addAttribute("count", count);
+       	model.addAttribute("searchOption", searchOption);
+       	model.addAttribute("search", search);
        
      //page
-       int pageCount = count / pageSize + ( count % pageSize == 0 ? 0 : 1);
+       	int pageCount = count / pageSize + ( count % pageSize == 0 ? 0 : 1);
       
-       int startPage = (int)(pageNum/10)*10+1;
-       int pageBlock=10;
-       int endPage = startPage + pageBlock-1;
-       if (endPage > pageCount) {
-          endPage = pageCount;
-       }
-      model.addAttribute("pageCount", pageCount);
-      model.addAttribute("startPage", startPage);
-      model.addAttribute("pageBlock", pageBlock);
-      model.addAttribute("endPage", endPage);
+       	int startPage = (int)(pageNum/10)*10+1;
+       	int pageBlock=10;
+       	int endPage = startPage + pageBlock-1;
+       	if (endPage > pageCount) {
+       		endPage = pageCount;
+       	}
+       	model.addAttribute("pageCount", pageCount);
+       	model.addAttribute("startPage", startPage);
+       	model.addAttribute("pageBlock", pageBlock);
+       	model.addAttribute("endPage", endPage);
 
       
-       for(ProductDTO rdto : searchList) {
-    	   int p_num = rdto.getP_num();
-    	   double result=0;
-    	   double sum =0.0;
+       	for(ProductDTO rdto : searchList) {
+       		int p_num = rdto.getP_num();
+       		double result=0;
+       		double sum =0.0;
    		  	int recount = mapper.reviewAllCNT(p_num);
    			if(recount > 0) {
    			sum = mapper.reviewSum(p_num);
@@ -152,12 +159,15 @@ public class MainServiceImpl implements MainService {
 	      	rdto.setCategory2(category2);
 	      	rdto.setCategory3(category3);
 
-	      	String ppic_m_id = rdto.getP_m_id();
+	      	String ppic_m_id = m_id;
 	      	int ppic_p_num = rdto.getP_num();
+	      	rdto.setPpic_m_id(ppic_m_id);
+	      	rdto.setPpic_p_num(ppic_p_num);
+	      	
 	      	int r_p_num = mapper.reviewAllCNT(rdto.getP_num());
 	      	rdto.setReviewAllCNT(r_p_num);
-	      }
-       }
+   			}
+	}
 	return mapper.searchList(searchMap);
        
       
@@ -165,7 +175,12 @@ public class MainServiceImpl implements MainService {
    
    
    @Override
-   public List<ProductDTO> searchListStar(ProductDTO dto, int pageNum, Model model , String searchOption, String search) {
+   public List<ProductDTO> searchListStar(Principal seid, ProductDTO dto, int pageNum, Model model , String searchOption, String search) {
+	   String m_id = "";
+	   if(seid != null) {
+		   	m_id = (String)seid.getName(); 
+		   	model.addAttribute("m_id", m_id);
+	   }
 	   int pageSize = 6; 
        int startRow = (pageNum - 1) * pageSize + 1;
        int endRow = pageNum * pageSize;
@@ -265,8 +280,12 @@ public class MainServiceImpl implements MainService {
 	      	rdto.setCategory1(category1);
 	      	rdto.setCategory2(category2);
 	      	rdto.setCategory3(category3);
-	      	String ppic_m_id = rdto.getP_m_id();
+	      	
+	      	String ppic_m_id = m_id;
 	      	int ppic_p_num = rdto.getP_num();
+	      	rdto.setPpic_m_id(ppic_m_id);
+	      	rdto.setPpic_p_num(ppic_p_num);
+	      	
 	      	int r_p_num = mapper.reviewAllCNT(rdto.getP_num());
 	      	rdto.setReviewAllCNT(r_p_num);
 	      }
@@ -275,7 +294,12 @@ public class MainServiceImpl implements MainService {
    }
    
    @Override
-   public List<ProductDTO> searchListReview(ProductDTO dto, int pageNum, Model model , String searchOption, String search) {
+   public List<ProductDTO> searchListReview(Principal seid, ProductDTO dto, int pageNum, Model model , String searchOption, String search) {
+	   String m_id = "";
+	   if(seid != null) {
+		   	m_id = (String)seid.getName(); 
+		   	model.addAttribute("m_id", m_id);
+	   }
 	   int pageSize = 6; 
        int startRow = (pageNum - 1) * pageSize + 1;
        int endRow = pageNum * pageSize;
@@ -376,8 +400,11 @@ public class MainServiceImpl implements MainService {
 	      	rdto.setCategory2(category2);
 	      	rdto.setCategory3(category3);
 	      	
-	      	String ppic_m_id = rdto.getP_m_id();
+	      	String ppic_m_id = m_id;
 	      	int ppic_p_num = rdto.getP_num();
+	      	rdto.setPpic_m_id(ppic_m_id);
+	      	rdto.setPpic_p_num(ppic_p_num);
+	      	
 	      	int r_p_num = mapper.reviewAllCNT(rdto.getP_num());
 	      	rdto.setReviewAllCNT(r_p_num);
 	      }
@@ -386,8 +413,13 @@ public class MainServiceImpl implements MainService {
    }
    
    @Override
-   public List<ProductDTO> searchPrice(int pageNum, Model model, String price, String searchOption, String search) {
-      int pageSize = 6; 
+   public List<ProductDTO> searchPrice(Principal seid, int pageNum, Model model, String price, String searchOption, String search) {
+	   String m_id = "";
+	   if(seid != null) {
+		   	m_id = (String)seid.getName(); 
+		   	model.addAttribute("m_id", m_id);
+	   }
+	   int pageSize = 6; 
        int startRow = (pageNum - 1) * pageSize + 1;
        int endRow = pageNum * pageSize;
        int count = mapper.searchCount(searchOption, search);
@@ -470,8 +502,11 @@ public class MainServiceImpl implements MainService {
 	      	rdto.setCategory2(category2);
 	      	rdto.setCategory3(category3);
 
-	      	String ppic_m_id = rdto.getP_m_id();
+	      	String ppic_m_id = m_id;
 	      	int ppic_p_num = rdto.getP_num();
+	      	rdto.setPpic_m_id(ppic_m_id);
+	      	rdto.setPpic_p_num(ppic_p_num);
+	      	
 	      	int r_p_num = mapper.reviewAllCNT(rdto.getP_num());
 	      	rdto.setReviewAllCNT(r_p_num);
 	      }
@@ -494,8 +529,13 @@ public class MainServiceImpl implements MainService {
    }
    
    @Override
-   public List<ProductDTO> searchSale(int pageNum, Model model, String searchOption, String search) {
-      int pageSize = 6; 
+   public List<ProductDTO> searchSale(Principal seid, int pageNum, Model model, String searchOption, String search) {
+	   String m_id = "";
+	   if(seid != null) {
+		   	m_id = (String)seid.getName(); 
+		   	model.addAttribute("m_id", m_id);
+	   }
+	   int pageSize = 6; 
        int startRow = (pageNum - 1) * pageSize + 1;
        int endRow = pageNum * pageSize;
        int count = mapper.searchSaleCNT(searchOption, search);
@@ -579,8 +619,11 @@ public class MainServiceImpl implements MainService {
 	      	rdto.setCategory2(category2);
 	      	rdto.setCategory3(category3);
    			
-	      	String ppic_m_id = rdto.getP_m_id();
+	      	String ppic_m_id = m_id;
 	      	int ppic_p_num = rdto.getP_num();
+	      	rdto.setPpic_m_id(ppic_m_id);
+	      	rdto.setPpic_p_num(ppic_p_num);
+	      	
 	      	int r_p_num = mapper.reviewAllCNT(rdto.getP_num());
 	      	rdto.setReviewAllCNT(r_p_num);
 	      }
@@ -603,8 +646,13 @@ public class MainServiceImpl implements MainService {
    }
 
    @Override
-   public void mainMeat(int pageNum, Model model, String price , int category, String sale, String reg, String news, String star) {
-      int pageSize = 6; 
+   public void mainMeat(Principal seid, int pageNum, Model model, String price , int category, String sale, String reg, String news, String star) {
+	   String m_id = "";
+	   if(seid != null) {
+		   	m_id = (String)seid.getName(); 
+		   	model.addAttribute("m_id", m_id);
+	   }
+	   int pageSize = 6; 
        int startRow = (pageNum - 1) * pageSize + 1;
        int endRow = pageNum * pageSize;
        int count = mapper.mainMeatCount(category);
@@ -688,6 +736,14 @@ public class MainServiceImpl implements MainService {
 	      	rdto.setCategory1(category1);
 	      	rdto.setCategory2(category2);
 	      	rdto.setCategory3(category3);
+	      	
+	      	String ppic_m_id = m_id;
+	      	int ppic_p_num = rdto.getP_num();
+	      	rdto.setPpic_m_id(ppic_m_id);
+	      	rdto.setPpic_p_num(ppic_p_num);
+	      	
+	      	int r_p_num = mapper.reviewAllCNT(rdto.getP_num());
+	      	rdto.setReviewAllCNT(r_p_num);
    			}
        }
        
@@ -724,7 +780,12 @@ public class MainServiceImpl implements MainService {
 
 
    @Override
-   public void mainMeatSort(int pageNum, Model model, int category, String star) {
+   public void mainMeatSort(Principal seid, int pageNum, Model model, int category, String star) {
+	   String m_id = "";
+	   if(seid != null) {
+		   	m_id = (String)seid.getName(); 
+		   	model.addAttribute("m_id", m_id);
+	   }
 	   int pageSize = 6; 
        int startRow = (pageNum - 1) * pageSize + 1;
        int endRow = pageNum * pageSize;
@@ -805,6 +866,14 @@ public class MainServiceImpl implements MainService {
 	      	rdto.setCategory1(category1);
 	      	rdto.setCategory2(category2);
 	      	rdto.setCategory3(category3);
+	      	
+	      	String ppic_m_id = m_id;
+	      	int ppic_p_num = rdto.getP_num();
+	      	rdto.setPpic_m_id(ppic_m_id);
+	      	rdto.setPpic_p_num(ppic_p_num);
+	      	
+	      	int r_p_num = mapper.reviewAllCNT(rdto.getP_num());
+	      	rdto.setReviewAllCNT(r_p_num);
    			}
        }
        
@@ -841,7 +910,12 @@ public class MainServiceImpl implements MainService {
    }
    
    @Override
-   public void mainMeatReview(int pageNum, Model model, int category, String star) {
+   public void mainMeatReview(Principal seid, int pageNum, Model model, int category, String star) {
+	   String m_id = "";
+	   if(seid != null) {
+		   	m_id = (String)seid.getName(); 
+		   	model.addAttribute("m_id", m_id);
+	   }
 	   int pageSize = 6; 
        int startRow = (pageNum - 1) * pageSize + 1;
        int endRow = pageNum * pageSize;
@@ -859,9 +933,9 @@ public class MainServiceImpl implements MainService {
        model.addAttribute("count", count);
        
        for(ProductDTO rdto : mainMeatReview) {
-    	   int p_num = rdto.getP_num();
-    	   double result=0;
-    	   double sum =0.0;
+    	   	int p_num = rdto.getP_num();
+    	   	double result=0;
+    	   	double sum =0.0;
    		  	int recount = mapper.reviewAllCNT(p_num);
    			if(recount > 0) {
    			sum = mapper.reviewSum(p_num);
@@ -922,6 +996,14 @@ public class MainServiceImpl implements MainService {
 	      	rdto.setCategory1(category1);
 	      	rdto.setCategory2(category2);
 	      	rdto.setCategory3(category3);
+	      	
+	      	String ppic_m_id = m_id;
+	      	int ppic_p_num = rdto.getP_num();
+	      	rdto.setPpic_m_id(ppic_m_id);
+	      	rdto.setPpic_p_num(ppic_p_num);
+	      	
+	      	int r_p_num = mapper.reviewAllCNT(rdto.getP_num());
+	      	rdto.setReviewAllCNT(r_p_num);
    			}
        }
        //page
@@ -962,7 +1044,12 @@ public class MainServiceImpl implements MainService {
    
 
    @Override
-   public void poLinkList(int pageNum, Model model) {
+   public void poLinkList(Principal seid, int pageNum, Model model) {
+	   String m_id = "";
+	   if(seid != null) {
+		   	m_id = (String)seid.getName(); 
+		   	model.addAttribute("m_id", m_id);
+	   }
       int pageSize = 6; 
        int startRow = (pageNum - 1) * pageSize + 1;
        int endRow = pageNum * pageSize;
@@ -1042,6 +1129,14 @@ public class MainServiceImpl implements MainService {
 	      	rdto.setCategory1(category1);
 	      	rdto.setCategory2(category2);
 	      	rdto.setCategory3(category3);
+	      	
+	      	String ppic_m_id = m_id;
+	      	int ppic_p_num = rdto.getP_num();
+	      	rdto.setPpic_m_id(ppic_m_id);
+	      	rdto.setPpic_p_num(ppic_p_num);
+	      	
+	      	int r_p_num = mapper.reviewAllCNT(rdto.getP_num());
+	      	rdto.setReviewAllCNT(r_p_num);
    			}
        }
        
@@ -1062,7 +1157,12 @@ public class MainServiceImpl implements MainService {
 
 
    @Override
-   public void newProduct(int pageNum, Model model) {
+   public void newProduct(Principal seid, int pageNum, Model model) {
+	   String m_id = "";
+	   if(seid != null) {
+		   	m_id = (String)seid.getName(); 
+		   	model.addAttribute("m_id", m_id);
+	   }
       int pageSize = 6; 
        int startRow = (pageNum - 1) * pageSize + 1;
        int endRow = pageNum * pageSize;
@@ -1142,6 +1242,14 @@ public class MainServiceImpl implements MainService {
 	      	rdto.setCategory1(category1);
 	      	rdto.setCategory2(category2);
 	      	rdto.setCategory3(category3);
+	      	
+	      	String ppic_m_id = m_id;
+	      	int ppic_p_num = rdto.getP_num();
+	      	rdto.setPpic_m_id(ppic_m_id);
+	      	rdto.setPpic_p_num(ppic_p_num);
+
+	      	int r_p_num = mapper.reviewAllCNT(rdto.getP_num());
+	      	rdto.setReviewAllCNT(r_p_num);
    			}
        }
        
@@ -1158,7 +1266,7 @@ public class MainServiceImpl implements MainService {
        model.addAttribute("startPage", startPage);
        model.addAttribute("pageBlock", pageBlock);
        model.addAttribute("endPage", endPage);
-   }
+   } 
 
 @Override
 public ProductDetailDTO productDetail(ProductDetailDTO dto, Model model) {
@@ -1372,8 +1480,6 @@ public ProductDetailDTO productDetail(ProductDetailDTO dto, Model model) {
 	
 	@Override
 	public void pickInsertMain(Model model, String ppic_m_id, int ppic_p_num) {
-		System.out.println("ppic_m_id : "+ppic_m_id);
-		System.out.println("ppic_p_num : "+ppic_p_num);
 		int result;
 		result = mapper.pick_p_numCNT(ppic_m_id, ppic_p_num);
 		if(result == 0) {

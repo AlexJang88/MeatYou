@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>  
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../header.jsp" %>
@@ -42,10 +42,10 @@
 										</div>
 									</div>
 									<div class="product-body">
-										<h3 class="product-name"><a href="../main/product?p_num=${sear.p_num}">${sear.p_name}</a></h3>
-										<h4 class="product-price">${sear.p_price}원</h4>
+										<a href="../main/product?p_num=${sear.p_num}&p_m_id=${sear.p_m_id}"><h3 class="product-name">${sear.p_name}</h3></a>
+										<a href="../main/product?p_num=${sear.p_num}&p_m_id=${sear.p_m_id}"><h4 class="product-price">${sear.p_price}원</h4></a>
 										<ul class="product-links">
-											<li><h6>${sear.category1} / ${sear.category2} / ${sear.category3}</h6></li>
+											<a href="../main/product?p_num=${sear.p_num}&p_m_id=${sear.p_m_id}"><li><h6>${sear.category1} / ${sear.category2} / ${sear.category3}</h6></li></a>
 										</ul>
 										<div class="rating-avg">${sear.star}
 														<c:if test="${sear.star == 5.0 && sear.star > 4.6}">
@@ -105,19 +105,20 @@
 													</div>
 												<c:if test="${m_id == null}">
 													<div class="product-btns">
-														<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">찜하기</span></button>
-														리뷰 : ${sear.reviewAllCNT}개
+														찜하기<button class="add-to-wishlist" onclick="location.href='/member/customLogin'"><i class="fa fa-heart-o"></i><span class="tooltipp">찜하기</span></button>
+														리뷰 : ${cus.reviewAllCNT}개
 													</div>
 												</c:if>
 
 												<c:if test="${m_id != null}">
 													<div class="product-btns">
-															<form action="pickInsertSearch" method="post">
+															<form class="product-btns" action="pickInsertSearch" method="post">
 																<input type="hidden" name="ppic_m_id" value="${sear.ppic_m_id}">
 																<input type="hidden" name="ppic_p_num" value="${sear.ppic_p_num}">
 																<input type="hidden" name="searchOption" value="${searchOption}">
 																<input type="hidden" name="search" value="${search}">
-																<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">찜하기</span></button>
+																<input type="hidden" name="desc" value="desc">
+																찜하기<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">찜하기</span></button>
 																리뷰 : ${sear.reviewAllCNT}개
 															</form>
 													</div>
@@ -134,7 +135,6 @@
 											<button class="add-to-cart-btn" ><i class="fa fa-shopping-cart"></i>장바구니 담기</button>
 										</form>
 										</div>
-										
 									</c:if>
 									<c:if test="${m_id == null}">
 										<div class="add-to-cart">

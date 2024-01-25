@@ -2,10 +2,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../header.jsp" %>
-<%@ include file="../mainMeatSort.jsp" %>
+<%@ include file="../mainMeatSort.jsp" %> 
 
 <!DOCTYPE html> 
-
+ 
 		<!-- SECTION -->
 		<div class="section">
 			<!-- container -->
