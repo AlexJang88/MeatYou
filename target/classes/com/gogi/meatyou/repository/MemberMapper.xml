@@ -46,6 +46,73 @@
    </select>
    
    
+   
+      
+   
+<select id="addressCheck" resultType="com.gogi.meatyou.bean.MemAddressDTO">
+    select * from MEM_ADDRESS where add_m_id='${add_m_id.replace("'", "''").replaceAll(",\\s*$", "")}'
+</select>
+
+ <!--판매자 찜-->
+<select id="addressCount" parameterType="map">  
+    SELECT COUNT(*)   FROM  MEM_ADDRESS where add_m_id='${add_m_id.replace("'", "''").replaceAll(",\\s*$", "")}'
+</select>
+
+ <!--주소 목록출력 -->
+<select id="addressCheckProduct" resultType="com.gogi.meatyou.bean.MemAddressDTO">
+ SELECT
+  m.m_id, m.m_addr1, m.m_addr2, addr.add_m_id, addr.add_mem_address1, addr.add_mem_address2, addr.add_type 
+FROM
+  member m
+INNER JOIN
+  mem_address addr ON m.m_id = addr.add_m_id
+WHERE
+  m.m_id = ${add_m_id}
+</select>
+
+
+   <!-- 주소 삭제 -->
+   <delete id="deleteAddr">
+      delete from mem_address  where add_num = ${add_num}
+   </delete>
+    
+   
+<update id="updateAddr" parameterType="com.gogi.meatyou.bean.MemAddressDTO">
+    update mem_address
+    <set>
+        <if test="add_mem_address1 != null and add_mem_address1 != '' ">add_mem_address1=#{add_mem_address1},</if>
+        <if test="add_mem_address2 != null and add_mem_address2 != '' ">
+            <if test="add_mem_address1 == null or add_mem_address1 == ''">add_mem_address2=#{add_mem_address2}</if>
+            <if test="add_mem_address1 != null and add_mem_address1 != ''">, add_mem_address2=#{add_mem_address2}</if>
+        </if>
+    </set> 
+    where add_m_id='${add_m_id.replace("'", "''").replaceAll(",\\s*$", "")}'
+</update>
+   
+   <!-- 
+ 
+<update id="updateAddr" parameterType="com.gogi.meatyou.bean.MemAddressDTO">
+    update mem_address
+         <set>
+            <if test="add_mem_address1 != null and add_mem_address1 != '' ">add_mem_address1=#{add_mem_address1},</if>
+            <if test="m_name != null and m_name != '' ">m_name=#{m_name},</if>
+            <if test="birth != null and birth != '' "> birth = TO_DATE(#{birth}, 'YYYY-MM-DD HH24:MI:SS.FF'),,</if>
+            <if test="m_addr1 != null and m_addr1 != '' ">m_addr1=#{m_addr1},</if>
+            <if test="m_addr2 != null and m_addr2 != '' ">m_addr2=#{m_addr2},</if>
+            <if test="email != null and email != '' ">email=#{email},</if>
+            <if test="telep != null and telep != '' ">telep=#{telep},</if>
+            <if test="phone != null and phone != '' ">phone=#{phone}</if>
+         </set> 
+     where add_m_id='${add_m_id.replace("'", "''").replaceAll(",\\s*$", "")}'
+   </update>
+   
+    -->
+   
+   
+   
+   
+   
+   
 <select id="shoppingcartCheck" resultType="com.gogi.meatyou.bean.ShoppingCartDTO">
     select * from shoppingcart_${m_id} where shop_m_id=#{m_id}
 </select>
@@ -67,6 +134,14 @@
         product p ON sc.shop_p_num = p.p_num
 </select>
 
+
+
+
+
+
+
+
+
 <!--장바구니 수량변경  -->
    <update id="updateQuantity"  >
         UPDATE shoppingcart_${shop_m_id} SET shop_quantity = #{shop_quantity} WHERE shop_num = #{shop_num}
@@ -76,7 +151,8 @@
 
 <select id="getShoppingCartItemsPaged" parameterType="map" resultType="com.gogi.meatyou.bean.ShoppingCartDTO">
     <![CDATA[
-SELECT rnum, shop_num, shop_m_id,shop_quantity, p_num, p_name, thumb, p_price,p_m_id
+
+SELECT rnum, shop_num, shop_m_id, shop_quantity,p_num,p_name,thumb,p_price,p_m_id,pd_p_num,pd_p_desc
 FROM (
     SELECT ROWNUM AS rnum, t.*
     FROM (
@@ -88,11 +164,15 @@ FROM (
             p.p_name,
             p.thumb,
             p.p_price,
-            p.p_m_id
+            p.p_m_id,
+            pd.pd_p_num,
+            pd.pd_p_desc
         FROM
             shoppingcart_${shop_m_id} sc
+         INNER JOIN
+            product p ON sc.shop_p_num = p.p_num 
         INNER JOIN
-            product p ON sc.shop_p_num = p.p_num
+            p_detail pd ON p.p_num = pd.pd_p_num
         ORDER BY sc.shop_num
     ) t
     WHERE ROWNUM <= #{endRow, jdbcType=NUMERIC}
@@ -141,20 +221,26 @@ WHERE rnum >= #{startRow, jdbcType=NUMERIC}
     <!-- 여기까지가 페이징 -->
     
 <!-- 게시물 선택 삭제  -->
-   <delete id="deleteSelectedItems" parameterType="map">
-       DELETE FROM shoppingcart_${shop_m_id}
-       WHERE shop_num IN
-       <foreach item="item" collection="selectedItems" open="(" separator="," close=")">
-           #{item}    
-       </foreach>
-       AND shop_m_id = #{shop_m_id}
-   </delete>
+ 
 <!-- 카트 삭제 -->
    <delete id="deleteCart">
-                                   
       delete from shoppingcart_${shop_m_id} where shop_num = ${shop_num}
-   
    </delete>
+
+    <!-- 상품 삭제를 위한 쿼리 -->
+<!-- MyBatis Mapper XML -->
+<delete id="deleteSelectedItems" parameterType="map">
+    DELETE FROM shoppingcart_${shop_m_id}
+    <where>
+        <if test="!selectedShopNums.isEmpty()">
+            AND shop_num IN
+            <foreach collection="selectedShopNums" item="shop_num" open="(" separator="," close=")">
+                #{shop_num}
+            </foreach>
+        </if>
+        AND shop_m_id = #{shop_m_id}
+    </where>
+</delete>
 
 
 <!-- 찜 업체  리스트   -->
@@ -419,14 +505,7 @@ WHERE
          </set> 
       where m_id=#{m_id}
    </update>
-   <!-- 
-   
-      <update id="statusChange" parameterType="com.gogi.meatyou.bean.MemberDTO" >
-      update member set m_status = 1001 where m_id=#{m_id} and passwd = #{passwd}      
-   </update>
-   
-   
-    -->
+  
    
    <update id="statusChange" parameterType="com.gogi.meatyou.bean.MemberDTO" >
       update member set m_status = 1000 where  passwd = #{passwd}      

@@ -38,6 +38,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gogi.meatyou.bean.AdminProductDTO;
+import com.gogi.meatyou.bean.ChartDTO;
 import com.gogi.meatyou.bean.MemberDTO;
 import com.gogi.meatyou.bean.NoticeDTO;
 import com.gogi.meatyou.bean.NoticeFileDTO;
@@ -731,6 +732,44 @@ public class AdminServiceImpl implements AdminService {
 		mapper.noticedelete(num);
 		deleteFolder(realPath);
 
+	}
+
+	@Override
+	public String getChartData(String period) {
+		JsonObject jsonObject = new JsonObject();
+		if(period==null || period.length()<1) {
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.YEAR, -1);
+			String beforeYear = sf.format(cal.getTime());
+			beforeYear = beforeYear.substring(0, beforeYear.indexOf("-"));
+			period=beforeYear;
+		}
+		period+="-01-01";	
+			List<ChartDTO> list=Collections.EMPTY_LIST;
+
+			ArrayList<Integer> net_profit = new ArrayList<Integer>();
+			ArrayList<Integer> total_profit = new ArrayList<Integer>();
+			ArrayList<Integer> co_pay = new ArrayList<Integer>();
+			ArrayList<Integer> cp_price = new ArrayList<Integer>();
+			 list= mapper.getChartData(period);
+			for(ChartDTO dto : list) {
+				net_profit.add(dto.getNet_profit());
+				total_profit.add(dto.getTotal_profit());
+				co_pay.add(dto.getCo_pay());
+				cp_price.add(dto.getCp_price());
+				
+			}
+			
+			jsonObject.addProperty("checkYear", period.substring(0,period.indexOf("-")));
+			jsonObject.add("net_profit", new Gson().toJsonTree(net_profit));
+			jsonObject.add("total_profit", new Gson().toJsonTree(total_profit));
+			jsonObject.add("co_pay", new Gson().toJsonTree(co_pay));
+			jsonObject.add("cp_price", new Gson().toJsonTree(cp_price));
+			
+		// JSON 객체를 문자열로 변환하여 반환
+		String a = jsonObject.toString();
+		return a;
 	}
 
 }

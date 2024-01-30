@@ -28,7 +28,7 @@
 		from member m,memStatus s where m.m_status=s.mstat_m_status and
 		m.m_id=#{m_id}
 	</select>
-
+	
 	<select id="read" resultType="com.gogi.meatyou.bean.MemberDTO"
 		parameterType="String">
 		select * from member m,memStatus s where
@@ -498,7 +498,23 @@
 		20
 		)
 	</insert>
-	<insert id="" parameterType="hashMap">
-
-	</insert>
+	<select id="getChartData" parameterType="hashMap" resultType="com.gogi.meatyou.bean.ChartDTO">
+		select a.MON,mon_sal,net_profit,(net_profit+co_pay) total_profit,co_pay,cp_price from (SELECT TO_CHAR(months.start_date, 'YYYY-MM') AS mon, -- 월별 날짜 형식으로 변환
+       COALESCE(SUM(mo.order_totalprice), 0) AS mon_sal,
+       COALESCE(SUM(mo.order_totalprice)*0.1-(nvl(sum(cp_price),0)), 0) AS net_profit,
+       nvl(sum(cp_price),0) cp_price FROM (
+        <![CDATA[
+       SELECT ADD_MONTHS(TO_DATE(#{period}, 'YYYY-MM-DD'), LEVEL - 1) AS start_date FROM DUAL CONNECT BY LEVEL <= 12
+      ]]>
+       ) months LEFT JOIN (select * from m_order mo left join (select * from coupon where cp_cus_id='admin') cp on mo.order_p_num=cp.cp_p_num ) mo ON TO_CHAR(months.start_date, 'YYYY-MM') = TO_CHAR(order_paydate, 'YYYY-MM')
+	   GROUP BY TO_CHAR(months.start_date, 'YYYY-MM') 
+       ORDER BY mon) a ,(SELECT TO_CHAR(months.start_date, 'YYYY-MM') AS mon, -- 월별 날짜 형식으로 변환
+        nvl(sum(co_pay),0) co_pay FROM (
+        <![CDATA[
+       SELECT ADD_MONTHS(TO_DATE(#{period}, 'YYYY-MM-DD'), LEVEL - 1) AS start_date FROM DUAL CONNECT BY LEVEL <= 12
+       ]]>
+       ) months LEFT JOIN cus_order ON TO_CHAR(months.start_date, 'YYYY-MM') = TO_CHAR(co_paydate, 'YYYY-MM')
+	   GROUP BY TO_CHAR(months.start_date, 'YYYY-MM') 
+       ORDER BY mon) b where a.mon=b.mon
+	</select>
 </mapper>

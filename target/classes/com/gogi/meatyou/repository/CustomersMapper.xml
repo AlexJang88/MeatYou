@@ -7,7 +7,7 @@
 
       <insert id="productUp" parameterType="com.gogi.meatyou.bean.ProductDTO">
           insert into product(p_num, p_m_id, p_name, p_category, p_s_category, thumb, p_price, p_rcount, p_reg_date, startdate, enddate, p_status) values (
-          product_seq.NEXTVAL,
+          #{p_num},
           #{p_m_id},
           #{p_name},
           #{p_category},
@@ -24,19 +24,22 @@
 			select product_seq.currval from dual
 		</select>
 		
+		<select id="getProductNEXTNum" resultType="int">
+			select product_seq.NEXTVAL from dual
+		</select>
 				
-      <insert id="P_DETAILUp" parameterType="com.gogi.meatyou.bean.ProductDTO">
+      <insert id="mem_addressUp" parameterType="com.gogi.meatyou.bean.ProductDTO">
           insert into MEM_ADDRESS(add_num, add_m_id, add_mem_address1, add_mem_address2, add_type) values (               
           MEM_ADDRESS_seq.NEXTVAL,
-          #{add_m_id},          
+          #{p_m_id},          
           #{add_mem_address1},
           #{add_mem_address2},       
           2)          
        </insert>         
-          
-       <insert id="mem_addressUp" parameterType="com.gogi.meatyou.bean.PDetailDTO">
+       
+       <insert id="P_DETAILUp" parameterType="com.gogi.meatyou.bean.ProductDTO">
           insert into P_DETAIL(pd_p_num, pd_p_desc, origin, local, weight, butchery, serialNum, retain, stock, pd_duedate, pd_p_status) values (
-          #{pd_p_num},
+          #{p_num},
           #{pd_p_desc},          
           #{origin},
           #{local},
@@ -87,6 +90,20 @@
            SELECT * FROM ( SELECT b.*, rownum r FROM ( SELECT * FROM product LEFT JOIN CUS_ORDER ON product.p_num = CUS_ORDER.co_p_num WHERE product.p_m_id = #{id} AND ((co_category = 2003 OR co_category IS NULL)   OR(co_category = 2002 AND (product.p_status = 0 OR product.p_status = 2)))    AND product.p_status < 3 AND (product.p_status < 3 OR co_num IS NOT NULL) ORDER BY product.p_num DESC)  b)  WHERE r>=#{start} and r<=#{end}
          ]]>
        </select>
+       <delete id="productAllFileDelete" >
+      	 delete from cusfile where cf_p_num=#{num}
+       </delete>
+       <delete id="productUnitDelete">
+       	delete from cusfile where cf_filename=#{filename}
+       </delete>
+       
+       <insert id="ProductFileReg" parameterType="com.gogi.meatyou.bean.CusFileDTO">
+         insert into cusfile values(
+         cusfile_seq.nextval,
+         #{cf_p_num},
+         #{cf_filename}
+         )     
+       </insert>
        
        
        
@@ -161,7 +178,7 @@
           where p_num=#{p_num} 
       </update>
       
-      <update id="itemDpUP" parameterType="com.gogi.meatyou.bean.PDetailDTO">
+      <update id="itemDpUP" parameterType="com.gogi.meatyou.bean.ProductDTO">
           update P_DETAIL
           <set>
               <if test="pd_p_desc != null and pd_p_desc != '' ">pd_p_desc=#{pd_p_desc},</if>
@@ -235,9 +252,7 @@
       </select> 
       
 
-      <select id="countter" resultType="int">
-       SELECT count(*) FROM product p LEFT JOIN cus_order c ON p.P_num = c.co_P_num where p.p_M_ID = #{id} and p.p_status in(0,1) and nvl(c.co_category,0) in (0,2003 )  ORDER BY p.P_num DESC
-       </select>
+      
 
        <select id="poweredlist" resultType="com.gogi.meatyou.bean.ProductDTO">
         SELECT * FROM product p LEFT JOIN cus_order c ON p.P_num = c.co_P_num where p.p_M_ID = #{id} and p.p_status in(0,1) and nvl(c.co_category,0) in (0,2003 )  ORDER BY p.P_num DESC
@@ -252,9 +267,9 @@
        </select>
        
       
-       <insert id="payFinish" parameterType="com.gogi.meatyou.bean.CusOrderDTO">
+       <insert id="insert_cusorder" parameterType="com.gogi.meatyou.bean.CusOrderDTO">
           insert into CUS_ORDER(co_num, co_category, co_quantity, co_pay, co_m_id, autoPay, co_p_num, co_paydate, co_payenddate) values (
-          CUS_ORDER_seq.NEXTVAL,
+          #{co_num},
           2002,          
           #{co_quantity},
           #{co_pay},
@@ -266,12 +281,12 @@
           )          
        </insert>
       
-      <insert id="itempayFinish" parameterType="com.gogi.meatyou.bean.CusOrderDTO">
+      <insert id="insert_cusordertwo" parameterType="com.gogi.meatyou.bean.CusOrderDTO">
           insert into CUS_ORDER(co_num, co_category, co_quantity, co_pay, co_m_id, autoPay, co_p_num, co_paydate, co_payenddate) values (
-          CUS_ORDER_seq.NEXTVAL,
+          #{co_num},
           2003,          
-          1,
-          50000,
+          #{co_quantity},
+          #{co_pay},
           #{co_m_id},                   
           0,
           null,

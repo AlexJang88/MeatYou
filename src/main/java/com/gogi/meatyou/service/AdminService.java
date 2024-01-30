@@ -81,4 +81,6 @@ public interface AdminService {
 	public String uploadReportImageFile(@RequestParam("file") MultipartFile multipartFile, String realPath);
 
 	public int reportReg(String realPath, Model model, QnADTO dto);
+	
+	public String getChartData(String period);
 }

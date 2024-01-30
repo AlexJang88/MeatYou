@@ -13,7 +13,7 @@ import org.apache.ibatis.annotations.Param;
 
 
 import com.gogi.meatyou.bean.AdminProductDTO;
-
+import com.gogi.meatyou.bean.ChartDTO;
 import com.gogi.meatyou.bean.MemberDTO;
 
 import com.gogi.meatyou.bean.NoticeDTO;
@@ -121,4 +121,6 @@ public interface AdminMapper {
    public void ReportFileUpload(NoticeFileDTO dto);
 
    public void reportReg(QnADTO dto);
+   
+   public List<ChartDTO> getChartData(String period); 
 }

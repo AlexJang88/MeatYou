@@ -11,6 +11,7 @@ import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -100,12 +101,12 @@ public class AdminController {
 
 	@RequestMapping("/sales")
 	public String sales(Model model, @RequestParam(value = "check", defaultValue = "0") int check, String daterange) {
-//ÇöÀç ³¯Â¥
+//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥
 		Date currentDate = new Date();
-		// check¿¡ µû¶ó¼­ ³¯Â¥¸¦ °è»ê
+		// checkï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ï¿½ï¿½ ï¿½ï¿½ï¿½
 		Date targetDate = adminServicImpl.calculateTargetDate(currentDate, check);
-		// SimpleDateFormatÀ» »ç¿ëÇÏ¿© ¿øÇÏ´Â Çü½ÄÀ¸·Î ³¯Â¥¸¦ ¹®ÀÚ¿­·Î º¯È¯
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy³â MM¿ù");
+		// SimpleDateFormatï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyï¿½ï¿½ MMï¿½ï¿½");
 		String formattedDate = sdf.format(targetDate);
 		model.addAttribute("currentMonth", targetDate.getMonth() + 1);
 		model.addAttribute("currentYear", targetDate.getYear() + 1900);
@@ -235,5 +236,10 @@ public class AdminController {
 		adminServicImpl.noticeDelete(num, realPath);
 		return "redirect:/admin/noticeList";
 	}
-
+	@RequestMapping("/getChartData")
+	@ResponseBody
+	public String getChartData(String period) {
+		
+		return adminServicImpl.getChartData(period);
+	}
 }
