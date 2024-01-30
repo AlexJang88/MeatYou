@@ -31,7 +31,7 @@
 					<c:if test="${category == 1}">
 					<div class="col-md-12">
 						<div class="section-title">
-							<h3 class="title">돼지고기 목록</h3>
+							<h3 class="title">돼지고기 목록 <a href="mainForkKOR?category=11&price=price" style="color:gray;" >국내산</a> <a href="/main/mainForkEX?category=21&price=price" style="color:gray;" >수입산</a></h3>
 							<div class="section-nav">
 							</div>
 						</div>
@@ -40,7 +40,7 @@
 					<c:if test="${category == 2}">
 					<div class="col-md-12">
 						<div class="section-title">
-							<h3 class="title">소고기 목록</h3>
+							<h3 class="title">소고기 목록 <a href="mainMeatKOR?category=12&price=price" style="color:gray;" >국내산</a> <a href="/main/mainMeatEX?category=22&price=price" style="color:gray;" >수입산</a></h3>
 							<div class="section-nav">
 							</div>
 						</div>

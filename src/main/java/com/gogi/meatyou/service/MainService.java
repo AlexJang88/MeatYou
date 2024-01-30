@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gogi.meatyou.bean.OtherProductDetailDTO;
 import com.gogi.meatyou.bean.PPicDTO;
@@ -28,14 +29,36 @@ public interface MainService {
    public List<ProductDTO> meatBest();
    public List<ProductDTO> forkBest();
    public List<ProductDTO> newProductBest();
-    
+
+   
    //public void mainMeat(int pageNum, Model model, String price , int category, String sale, String reg);
    public void mainMeat(Principal seid, int pageNum, Model model, String price , int category, String sale, String reg, String news, String star);
    public void mainMeatSort(Principal seid, int pageNum, Model model, int category, String star);
    public void mainMeatReview(Principal seid, int pageNum, Model model, int category, String star);
+   public void mainMeatKOR(Principal seid, int pageNum, Model model, String price , int category, String sale, String reg, String news, String star, String review);
+   public void mainMeatEX(Principal seid, int pageNum, Model model, String price , int category, String sale, String reg, String news, String star, String review);
+   public void mainForkKOR(Principal seid, int pageNum, Model model, String price , int category, String sale, String reg, String news, String star, String review);
+   public void mainForkEX(Principal seid, int pageNum, Model model, String price , int category, String sale, String reg, String news, String star, String review);
    
-   void poLinkList(Principal seid, int pageNum, Model model);
+   public void setMenu(Principal seid, Model model, int p_s_category,int pageNum);
    
+   public void setMenuPrice(Principal seid, Model model, int pageNum);
+   public void setMenuSales(Principal seid, Model model, int pageNum);
+   public void setMenuStars(Principal seid, Model model, int pageNum);
+   public void setMenuReviews(Principal seid, Model model, int pageNum);
+   public void setMenuNews(Principal seid, Model model, int pageNum);
+   
+   
+   public void giftSet(Principal seid, Model model, int pageNum);
+   public void giftSetPrice(Principal seid, Model model, int pageNum);
+   public void giftSetSales(Principal seid, Model model, int pageNum);
+   public void giftSetStars(Principal seid, Model model, int pageNum);
+   public void giftSetReviews(Principal seid, Model model, int pageNum);
+   public void giftSetNews(Principal seid, Model model, int pageNum);
+   
+   
+   void poLinkList(Principal seid, int pageNum, Model model, String price, String sale, String star, String review, String news);
+
    public void newProduct(Principal seid, int pageNum, Model model);
 
    public ProductDetailDTO productDetail(ProductDetailDTO dto, Model model);
@@ -66,7 +89,7 @@ public interface MainService {
    public int ShoppingCartCNT2(String shop_m_id);
    public int ShoppingCartInsert(Model model, ShoppingCartDTO dto);
    public int ShoppingCartInsert2(Model model, String m_id, int p_num, int shop_quantity);
-   
+
    public int pickCNT(String ppic_m_id);
    public int pick_p_numCNT(String ppic_m_id, int ppic_p_num);
    public void pickInsert(Model model, PPicDTO dto, String ppic_m_id, int ppic_p_num);

@@ -39,10 +39,11 @@
             		<input type="hidden" name="p_num" value="${power.p_num}">	
             		<input type="hidden" name="co_num" value="${power.co_num}">	            			
             		<input type="hidden" name="p_name" value="${power.p_name}">	            			
-					<tr align="center">
-		              <td>${power.thumb}</td>
-		              <td>${power.p_num} </td>
-		              <td><a href="/customers/content?p_num=${power.p_num}">${power.p_name}</a></td>
+            		<input type="hidden" name="thumb" value="${power.thumb}">	            			
+					<tr align="center">		             
+		              <td><img src="<%= request.getContextPath() %>/resources/file/product/${power.p_num}/${power.thumb}/" alt="썸네일"></td>
+		              <td>${power.p_num} </td>  
+		              <td><a href="/customers/productContent?num=${power.p_num}">${power.p_name}</a></td>
 		              <td>
 						<c:choose>
 						   <c:when test="${power.p_status == 0}">판매중</c:when>
@@ -51,9 +52,9 @@
 						   <c:when test="${power.p_status == 3}">판매종료</c:when>							       
 					    </c:choose>
 					   </td>
-					   <td valign="top">
+					   <td valign="top" >
 						    <select name="clickpay">
-						        <c:choose>
+						        <c:choose> 
 						            <c:when test="${power.p_num >0}" >
 						                <option value="10000">110회 & 1만원 (10% up)</option>				    
 						                <option value="30000">330회 & 3만원 (11% up)</option>				     

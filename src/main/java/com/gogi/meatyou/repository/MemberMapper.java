@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
+import org.junit.runners.Parameterized.Parameters;
 
 import com.gogi.meatyou.bean.CusDetailDTO;
 import com.gogi.meatyou.bean.MemAddressDTO;
@@ -23,7 +24,7 @@ public interface MemberMapper {
 
    
 
-	   	
+         
        public MemberDTO loadUserByUsername(String username);
       
        public List<MemberDTO> memberList();
@@ -34,8 +35,13 @@ public interface MemberMapper {
       
       
       List<MemAddressDTO> addressCheck(Map<String, Object> parameters);
+      List<MemAddressDTO> combined_address(Map<String, Object> parameters);
+      public int deleteAddr(@Param("add_num") int add_num,@Param("add_m_id") String add_m_id);
       
-      public void  updateAddr(MemAddressDTO  adto);
+     // public int  updateAddr(@Param("add_num") int add_num,@Param("add_m_id") String add_m_id ,@Param("add_mem_address1") String add_mem_address1,@Param("add_mem_address2") String add_mem_address2);
+      void updateAddr(@Param("adto") MemAddressDTO adto, @Param("add_m_id") String add_m_id,@Param("add_mem_address1") String add_mem_address1,@Param("add_mem_address2") String add_mem_address2,@Param("add_num")  int add_num);
+      
+      public void  insertAddr(MemAddressDTO  adto);
       
       
       public List<ShoppingCartDTO> shoppingcartCheck(String m_id);
@@ -86,8 +92,7 @@ public interface MemberMapper {
        public  int deleteCart(@Param("shop_num") int shop_num, @Param("shop_m_id") String shop_m_id);
        
        
-       public int deleteAddr(@Param("add_num") int add_num,@Param("add_m_id") String add_m_id);
-       // ¼±ÅÃÇÑ »óÇ° »èÁ¦¸¦ À§ÇÑ ¸Ş¼­µå
+       // ì„ íƒí•œ ìƒí’ˆ ì‚­ì œë¥¼ ìœ„í•œ ë©”ì„œë“œ
       // void deleteSelectedItems(  @Param("selectedShopNums")List<Long> selectedShopNums,@Param("shop_m_id") String shop_m_id);
        void deleteSelectedItems(Map<String, Object> paramMap);
        
@@ -108,6 +113,7 @@ public interface MemberMapper {
       
           List<PickMeDTO> pickMeCountPage(Map<String, Object> params);
           int pickMeCount(@Param("pm_m_id")String pm_m_id,@Param("p_m_id")String p_m_id  );       
+          int addressCount(@Param("add_m_id")String add_m_id,@Param("add_num")int add_num  );       
           public  int deleteHim(@Param("pm_num") int shop_num, @Param("pm_m_id") String pm_m_id);
        
          
@@ -118,14 +124,14 @@ public interface MemberMapper {
 
              int ppickAndpickMeCount( @Param("pm_m_id")String pm_m_id,@Param("pm_c_id")String pm_c_id ,@Param("pm_num") int pm_num );
              int ppickAndpickMeCount2( @Param("pm_m_id")String pm_m_id,@Param("pm_c_id")String pm_c_id ,@Param("pm_num") int pm_num );
-      	   public void pick_me_delete(PickMeDTO pdto,@Param("pm_m_id")String pm_m_id,@Param("pm_c_id") String pm_c_id,  @Param("pm_num") int pm_num );
+            public void pick_me_delete(PickMeDTO pdto,@Param("pm_m_id")String pm_m_id,@Param("pm_c_id") String pm_c_id,  @Param("pm_num") int pm_num );
       
-      	   int deletePickMeByCId(@Param("pm_m_id") String pm_m_id,      @Param("pm_c_id") String pm_c_id);
-      	   int pickMeInsert(PickMeDTO pdto, @Param("pm_m_id") String pm_m_id , @Param("pm_c_id")String pm_c_id,@Param("pm_num") int pm_num );
-      	   
-   		   int deletePickMeByCId2(@Param("pm_m_id") String pm_m_id,      @Param("pm_c_id") String pm_c_id);
-      	   int pickMeInsert2(PickMeDTO pdto, @Param("pm_m_id") String pm_m_id , @Param("pm_c_id")String pm_c_id,@Param("pm_num") int pm_num );
-      	   
+            int deletePickMeByCId(@Param("pm_m_id") String pm_m_id,      @Param("pm_c_id") String pm_c_id);
+            int pickMeInsert(PickMeDTO pdto, @Param("pm_m_id") String pm_m_id , @Param("pm_c_id")String pm_c_id,@Param("pm_num") int pm_num );
+            
+            int deletePickMeByCId2(@Param("pm_m_id") String pm_m_id,      @Param("pm_c_id") String pm_c_id);
+            int pickMeInsert2(PickMeDTO pdto, @Param("pm_m_id") String pm_m_id , @Param("pm_c_id")String pm_c_id,@Param("pm_num") int pm_num );
+            
              
              
    }

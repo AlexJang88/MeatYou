@@ -11,7 +11,7 @@
 <body>
 
 <a href="/customers/customer">홈으로</a>  <a href="/customers/pay">유료결재 목록보기</a> <br/>
-<a href="/customers/powerlink">파워링크 결제하기</a>  <a href="/customers/itemplus">품목확장 결제하기</a>
+ <a href="/customers/itemplus">품목확장 결제하기</a>
 
 <h2>여기는 품목확장</h2>
 

@@ -1,13 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"   pageEncoding="UTF-8"%>
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%> 
-
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <!DOCTYPE html>
 <html>
 <head>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<script>
+    function updateThumbnail(input) {
+        var thumbnailImage = document.getElementById('thumbnailImage');
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                thumbnailImage.src = e.target.result;
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
 
 <!-- include summernote css/js -->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
@@ -23,8 +36,8 @@
          
         <form method="post" name="productForm" action="/customers/productUpdateReg" enctype="multipart/form-data">
         	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-        	<input type="hidden" name="p_num" value="${p_num}">
-        	<input type="hidden" name="pd_p_num" value="${p_num}">
+        	<input type="hidden" name="p_num" value="${lister.p_num}">
+        	<input type="hidden" name="pd_p_num" value="${lister.p_num}">
         
             <table width="500" border="1" cellspacing="0" cellpadding="0" align="center">
             
@@ -70,11 +83,14 @@
 		        <!-- Hidden input으로 선택한 값을 전달할 변수 설정 -->
 		       	 <input type="hidden" name="p_category" id="hiddenCategory">
                 
-                <tr>		      		      
-			      <td width="70"  align="center">썸네일사진</td>
-			      <td width="330" id="thumbs">
-			        <input type="file" size="40" maxlength="30" name="thumbs" value="${lister.thumb}" placeholder="사진 나중에 추가할래"></td>
-			   </tr>
+                <tr>
+				    <td width="70" align="center">썸네일사진</td>
+				    <td width="330" id="thumbs">
+				        <img id="thumbnailImage" src="/resources/file/product/${lister.p_num}/${lister.thumb}/">
+				        변경시 아래 파일 선택 클릭
+				        <input type="file" size="40" maxlength="30" name="thumbs" onchange="updateThumbnail(this)" value="${lister.thumb}">
+				    </td>
+				</tr>
 			   
 			    <tr>
                     <td width="70" align="center">품목 단위</td>
@@ -87,41 +103,49 @@
                     </td>
                 </tr>
 			             
-                <tr>
-                    <td width="70" align="center">중량</td>
-                    <td width="330">
-                        <input type="number" size="40" maxlength="30" name="weight" value="${listerPD.weight}" required="required" placeholder="숫자를 입력하세요">g(그람)
-                    </td>
-                </tr>
-                
-                <tr>
+			     <tr>
                     <td width="70" align="center">가격</td>
                     <td width="330">
                         <input type="number" size="40" maxlength="30" name="p_price"  value="${lister.p_price}" required="required" placeholder="숫자를 입력하세요"> 원
                     </td>
                 </tr>
                 
+                
                 <tr>
                     <td width="70" align="center">원산지</td> 
                     <td width="330">
-                        <input type="text" size="40" maxlength="50" name="origin" value="${listerPD.origin}" required="required" placeholder="원산지를 입력하세요">
+                        <input type="text" size="40" maxlength="50"   name="origin"  value="${listerPD.origin}" required="required" placeholder="원산지를 입력하세요">
+                        
                     </td>
                 </tr>
+			             
+                <tr>
+                    <td width="70" align="center">중량</td>
+                    <td width="330">
+                        <input type="number" size="40" maxlength="30" name="weight" value="${listerPD.weight}" required="required" placeholder="숫자를 입력하세요">g(그람)
+                    </td>
+                </tr>
+                          
                 
                 <tr>
                     <td width="70" align="center">농장주소</td> 
                     <td width="330">
-                        <input type="text" size="40" maxlength="50" name="local"  value="${listerPD.local}" required="required" placeholder="농장주소를 입력하세요">
+                        <input type="text" size="40" maxlength="50" id="address2" name="local"  value="${listerPD.local}" required="required" placeholder="농장주소를 입력하세요">
+                        <button type="button" id="addressButton2" class="btn btn-primary btn-block">주소 검색</button>
+    					 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                     </td>
                 </tr>
+           
                 
-                <tr>
+                 <tr>
                     <td width="70" align="center">도축장</td> 
                     <td width="330">
-                        <input type="text" size="40" maxlength="50" name="butchery" value="${listerPD.butchery}" required="required" placeholder="도축장소를 입력하세요">
+                        <input type="text" size="40" maxlength="50" id="address3" name="butchery"  value="${listerPD.butchery}"required="required" placeholder="도축장소를 입력하세요">
+                        <button type="button" id="addressButton3" class="btn btn-primary btn-block">주소 검색</button>
+    					 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />	
                     </td>
                 </tr>
-                
+               
                 <tr>
                     <td width="70" align="center">이력(묶음)번호</td>
                     <td width="330">
@@ -151,7 +175,7 @@
 				    <td width="70" align="center">상품설명</td>
 				    <td width="330">
 				        <div id="temp" style="display: none">${listerPD.pd_p_desc}</div> 
-				        <textarea id="summernote" name="pd_p_desc" rows="13" cols="40" required="required" placeholder="상품설명"></textarea>
+				        <textarea id="summernote" name="pd_p_desc"></textarea>
 				    </td>
 				</tr>
                  
@@ -166,16 +190,34 @@
                 <tr>
                     <td width="70" align="center">판매시작 날짜</td>
                     <td width="330">
-                        <input type="date" size="40" maxlength="30" name="startdate" required="required" placeholder="YYYY-MM-DD">     ${lister.startdate} 
+                        <input type="date" size="40" maxlength="30" name="startdate" placeholder="YYYY-MM-DD">     ${lister.startdate} 
                     </td>
                 </tr>
                 
                 <tr>
                     <td width="70" align="center">판매종료 날짜</td>
                     <td width="330">
-                        <input type="date" size="40" maxlength="30" name="enddate"   required="required" placeholder="YYYY-MM-DD">   ${lister.enddate}         
+                        <input type="date" size="40" maxlength="30" name="enddate"   placeholder="YYYY-MM-DD">   ${lister.enddate}         
                     </td>
                 </tr>
+              	
+              	<tr>
+				   <td width="70" align="center"> 반품주소 </td>
+				   <td width="330">			   
+					   	<input type="text" size="40"  id="address" required="required" value="${listemd.add_mem_address1}" name="add_mem_address1" placeholder="주소">  
+						<button type="button" id="addressButton" class="btn btn-primary btn-block">주소 검색</button>
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />		   	
+				    </td> 	
+			   </tr> 
+			   
+			   
+			   <tr>		      		      
+			      <td width="70"  align="center">반품 상세주소</td>
+			      <td width="330" id="add_mem_address2">
+			        <input type="text" size="40" maxlength="30" name="add_mem_address2" value="${listemd.add_mem_address2}" placeholder="반품 상세주소">
+			      </td>
+			   </tr>
+              	
               	
  
                 <tr>
@@ -247,6 +289,52 @@
         }
     </script>
     <script>
+    
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('addressButton').addEventListener('click', function () {
+          new daum.Postcode({
+            oncomplete: function (data) {
+              // This function will be called when the user selects an address
+              var fullAddress = data.address; // Full address with postcode
+              document.getElementById('address').value = fullAddress; // Update the input field with the address
+            }
+          }).open();
+        });
+      });
+    
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('addressButton2').addEventListener('click', function () {
+          new daum.Postcode({
+            oncomplete: function (data) {
+              // This function will be called when the user selects an address
+              var fullAddress = data.address; // Full address with postcode
+              document.getElementById('address2').value = fullAddress; // Update the input field with the address
+            }
+          }).open();
+        });
+      });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('addressButton3').addEventListener('click', function () {
+          new daum.Postcode({
+            oncomplete: function (data) {
+              // This function will be called when the user selects an address
+              var fullAddress = data.address; // Full address with postcode
+              document.getElementById('address3').value = fullAddress; // Update the input field with the address
+            }
+          }).open();
+        });
+      });
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     // 수정페이지에서 원시 코드 보존을 통한 코드 깨짐 방지
    
 
@@ -320,7 +408,7 @@
                 }
             },
         })
-         $('#summernote').summernote('code', '${board.content}')
+         $('#summernote').summernote('code', '${listerPD.pd_p_desc}')
     })
 
     function uploadImageFile(file, el) {

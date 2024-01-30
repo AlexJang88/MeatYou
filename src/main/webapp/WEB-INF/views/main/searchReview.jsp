@@ -48,7 +48,7 @@
 											<a href="../main/product?p_num=${sear.p_num}&p_m_id=${sear.p_m_id}"><li><h6>${sear.category1} / ${sear.category2} / ${sear.category3}</h6></li></a>
 										</ul>
 										<div class="rating-avg">${sear.star}
-														<c:if test="${sear.star == 5.0 && sear.star > 4.6}">
+														<c:if test="${sear.star <= 5.0 && sear.star > 4.6}">
 															<div class="rating-stars">
 																<i class="fa fa-star"></i>
 																<i class="fa fa-star"></i>

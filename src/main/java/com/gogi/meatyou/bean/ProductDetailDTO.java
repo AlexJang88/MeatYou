@@ -35,9 +35,9 @@ public class ProductDetailDTO {
    private String category1;
    private String category2;
    private String category3;
-   private double star;	//º°Á¡Æò±Õ
+   private double star;   //ë³„ì í‰ê· 
    private String ppic_m_id;
    private int ppic_p_num;
-   
-   
+   private int reviewAllCNT;
+   private int r_p_num;  //ìƒí’ˆì•„ì´ë””
 }

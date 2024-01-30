@@ -116,6 +116,17 @@
                          <div class="qty">${CartCNT}</div>
                        </a>
                      </div>
+                          <div class="dropdown"  style="position:absolute; right:-80px; margin-top:0; float: left;   height: 150px; top:-2px;">
+                       <a href="/member/customLogin" class="login-required" onclick="checkLogin()" style=" height: 130px;" >
+                       <img src="/resources/member/img/customer.png"  style="width:40%; margin-top:0; ">
+                         <span style="position:absolute; top:39px; right: 28px;">내가 찜</span>
+                         </a>
+                     </div>
+ 
+                     
+                     
+                     
+                     
                         </sec:authorize>
 
                      <sec:authorize access="isAuthenticated()">
@@ -135,6 +146,23 @@
                                  <div class="qty">${CartCNT}</div>
                            </a>
                         </div>
+                        
+                                        
+                   <div class="dropdown"  style="position:absolute; right=0; margin-top:0; float: left;   height: 150px; top:-1.2px;">
+                       <a href="/member/pickMe" class="login-required" onclick="checkLogin()" style=" height: 130px;" >
+                       <img src="/resources/member/img/customer.png"  style="width:40%; margin-top:0; ">
+                         <div class="qty">${pickmecount}</div>                        
+                         <span style="position:absolute; top:39px; right: 28px;">찜업체</span>
+                         </a>
+                     </div>
+        
+                         <div class="dropdown"  style="position:absolute; right:-170px; margin-top:0; float: left;   height: 150px; top:-2px;">
+                        <a href="/member/SallerPickMe" class="login-required"  style=" height: 130px;" >
+                       <img src="/resources/member/img/guest.png"  style="width:40%; margin-top:0; ">
+                                  <div class="qty">${pickmecount}</div>          
+                         <span style="position:absolute; top:39px; right: 28px;">나를 찜</span>
+                         </a>
+                     </div>
                      </sec:authorize>
 
                         <!-- Wishlist -->
@@ -169,12 +197,11 @@
 				<div id="responsive-nav">
 					<!-- NAV -->
 					<ul class="main-nav nav navbar-nav">
-						<li class="active"><a href="/main/main">홈</a></li>
-						<li><a href="/main/mainMeat?category=2&price=desc">소고기</a></li>
-						<li><a href="/main/mainMeat?category=1&price=desc">돼지고기</a></li>
-						<li><a href="#">세트</a></li>
-						<li><a href="#">선물세트</a></li>
-						<li><a href="#">특수부위</a></li>
+						 <li class="active"><a href="/main/main">홈</a></li>
+                  <li><a href="/main/mainMeat?category=2&price=desc">소고기</a></li>
+                  <li><a href="/main/mainMeat?category=1&price=desc">돼지고기</a></li>
+                  <li><a href="/main/setMenu?p_s_category=1">세트</a></li>
+                  <li><a href="/main/giftSet">선물세트</a></li>
 					</ul>
 					<!-- /NAV -->
 				</div>

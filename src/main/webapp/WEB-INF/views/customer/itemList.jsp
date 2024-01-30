@@ -46,7 +46,9 @@
             		 <input type="hidden" name="pageNum" value="${pageNum}">	      		 
 						
             		 		<tr align="center">
-	            		 		<td>${product.thumb}</td>
+	            		 		<td>
+	            		 		<img src="<%= request.getContextPath() %>/resources/file/product/${product.p_num}/${product.thumb}/" alt="썸네일">
+	            		 		</td>
 	            		 		 <td>${product.p_num}				               				                
 					            </td>
 	            		 		<td><a href="/customers/productContent?num=${product.p_num}">${product.p_name}</a></td>

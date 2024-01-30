@@ -39,10 +39,10 @@
             		 <input type="hidden" name="p_num" value="${product.p_num}">
             		 <input type="hidden" name="pageNum" value="${pageNum}">		 			 			   			
             		 	<tr align="center">
-            		 		<td>${product.thumb}</td>
+            		 		<td><img src="<%= request.getContextPath() %>/resources/file/product/${product.p_num}/${product.thumb}/" alt="썸네일"></td>
             		 		<td>${product.p_num} </td>
-            		 		<td><a href="/customers/content?p_num=${product.p_num}">${product.p_name}</a></td>
-            		 		<td>${product.p_price}</td>
+            		 		<td><a href="/customers/productContent?num=${product.p_num}">${product.p_name}</a></td>
+            		 		<td>${product.p_price}</td> 
             		 		<td>
 							    <c:choose>
 							        <c:when test="${product.p_status == 3}">판매종료</c:when>							       

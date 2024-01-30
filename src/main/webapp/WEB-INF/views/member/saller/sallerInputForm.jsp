@@ -18,8 +18,35 @@
         }).open();
       });
     });
+    
+ // 계좌번호
+  function formatBankNumber(input) {
+    // 숫자만 남기고 다른 문자 제거
+    const value = input.value.replace(/[^0-9]/g, "");
+    // 현재 커서 위치
+    const cursorPos = input.selectionStart;
+    // 입력된 숫자 길이
+    const valueLength = value.length;
 
+    // 4-3-4-2-1 형식으로 하이픈 삽입
+    let formattedValue = "";
+    let hyphenCount = 0;
+    for (let i = 0; i < valueLength; i++) {
+      if (hyphenCount < 4) {
+        if (i === 4 || i === 7 || i === 11) {
+          hyphenCount++;
+          formattedValue += "-";
+        }
+      }
+      formattedValue += value[i];
+    }
 
+   
+
+    input.value = formattedValue;
+    input.selectionStart = newCursorPos;
+    input.selectionEnd = newCursorPos;
+  }
 </script>
 
 
@@ -108,13 +135,22 @@
 	  </td>
 	  <td>
 	  
+	      <input type="text" id="cus_accnum" name="cus_accnum" placeholder="계좌번호 입력하세요" oninput="formatBankNumber(this)"  maxlength="22">
+	  		   <select class="box"   name="cus_accnum" onchange="whereBank()">
+                        <option value="type">직접 입력</option>
+                        <option value="농협"></option>
+                        <option value="카카오뱅크">카카오뱅크</option>
+                        <option value="신한은행">신한은행</option>
+                        <option value="국민은행">국민은행</option>
+                        <option value="우리은행">우리은행</option>
+                        <option value="우체국">우체국</option>
+                      
+                    </select>
 	  
 	  
 	  
 	  
 	  
-	  
-	        <input type="text" name="cus_accnum" placeholder="계좌번호 입력하세요  ">
  	<td>
   </tr>
   

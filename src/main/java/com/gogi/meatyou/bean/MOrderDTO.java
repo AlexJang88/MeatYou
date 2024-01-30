@@ -6,25 +6,26 @@ import lombok.Data;
 
 @Data
 public class MOrderDTO {
-	private int order_num;  // µî·Ï¹øÈ£ 
-	private String order_id;// ÁÖ¹®¹øÈ£ 01-23 µµÁØÃß°¡
-	private int order_item_id;// vam_order_item ±âº»Å° 01-23 µµÁØÃß°¡       --db¾øÀ½
-	private double book_discount;//»óÇ° ÇÒÀÎÀ² ±âº»Å° 01-23 µµÁØÃß°¡           --db¾øÀ½
-	private int order_discount;  //ÇÒÀÎ Àû¿ë µÈ ±Ý¾×
-	private String order_m_id;  // ÆÇ¸ÅÀÚ
-	private int order_cp_num; // ÄíÆù¹øÈ£
-	private int order_p_num; //»óÇ°¹øÈ£
-	private int order_p_price;  //»óÇ°°¡°Ý
-	private int order_dere_num;  // ¼ÛÀå¹øÈ£
-	private int order_dere_pay;  // ¹è¼Ûºñ
-	private String order_Addr;  //¹è¼ÛÁÖ¼Ò
-	private int order_quantity;  //¼ö·®    o
-	private String order_paytype;  // °áÀç¹æ¹ý
-	private int order_status;   //±¸¸ÅÇöÈ²
-	private int order_totalprice;  //ÃÑ °áÁ¦±Ý¾×
-	private String order_memo;  // ¹è¼Û ¸Þ¸ð
-	private Date order_paydate;  //°áÁ¦ÀÏ
-	private Date order_canceldate;  //°áÁ¦ Ãë¼ÒÀÏ
+	private int order_num;  // ï¿½ï¿½Ï¹ï¿½È£ 
+	private String order_id;// ï¿½Ö¹ï¿½ï¿½ï¿½È£ 01-23 ï¿½ï¿½ï¿½ï¿½ï¿½ß°ï¿½
+	private int order_item_id;// vam_order_item ï¿½âº»Å° 01-23 ï¿½ï¿½ï¿½ï¿½ï¿½ß°ï¿½       --dbï¿½ï¿½ï¿½ï¿½
+	private double book_discount;//ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½âº»Å° 01-23 ï¿½ï¿½ï¿½ï¿½ï¿½ß°ï¿½           --dbï¿½ï¿½ï¿½ï¿½
+	private int order_discount;  //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ý¾ï¿½
+	private String order_m_id;  // ï¿½Ç¸ï¿½ï¿½ï¿½
+	private int order_cp_num; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
+	private int order_p_num; //ï¿½ï¿½Ç°ï¿½ï¿½È£
+	private int order_p_price;  //ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½
+	private int order_dere_num;  // ï¿½ï¿½ï¿½ï¿½ï¿½È£
+	private int order_dere_pay;  // ï¿½ï¿½Ûºï¿½
+	private String order_Addr;  //ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½
+	private int order_quantity;  //ï¿½ï¿½ï¿½ï¿½    o
+	private String order_paytype;  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private int order_status;   //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È²
+	private int order_totalprice;  //ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ý¾ï¿½
+	private String order_memo;  // ï¿½ï¿½ï¿½ ï¿½Þ¸ï¿½
+	private Date order_paydate;  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private Date order_canceldate;  //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
+	
 }	
 	
 /*  db	

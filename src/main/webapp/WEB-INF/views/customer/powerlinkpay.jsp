@@ -31,8 +31,8 @@
             <input type="hidden" id="id" name="id" value="${id}">                 
             <input type="hidden" id="quantity" name="quantity" value="${quantity}">                 
             <input type="hidden" id="co_num" name="co_num" value="${co_num}">                 
-         <tr align="center">
-              <td>${payMentItem.thumb}</td>
+         <tr align="center">         
+              <td><img src="<%= request.getContextPath() %>/resources/file/product/${payMentItem.p_num}/${thumb}/" alt="썸네일"></td>
               <td>${payMentItem.p_num} </td>
               <td>${p_name}</a></td>
               <td>

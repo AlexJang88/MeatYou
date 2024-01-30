@@ -34,12 +34,14 @@ public interface MemberService  {
    
    public MemberDTO getUser(String m_id);
    
-   
-   List<MemAddressDTO>addressCheck(String add_m_id,MemberDTO mdto,MemAddressDTO adto) ; 
-   	
+   List<MemAddressDTO>addressCheck(String add_m_id,MemberDTO mdto,MemAddressDTO adto,int add_num) ; 
+    List<MemAddressDTO> combined_address(String add_m_id,String combined_address ,MemAddressDTO adto )  ; 
    public int deleteAddr(@Param("add_num")  int add_num,@Param("add_m_id") String add_m_id);
+   public  int addressCount(@Param("add_m_id")String add_m_id,@Param("add_num")int add_num  ) ;       
+  // public int  updateAddr(@Param("add_num")  int add_num,@Param("add_m_id") String add_m_id,@Param("add_mem_address1")String add_mem_address1,@Param("add_mem_address2") String add_mem_address2);
+   public void  updateAddr(MemAddressDTO adto,@Param("add_m_id") String add_m_id,List<MemAddressDTO> AddrList,int add_num,@Param("add_mem_address1") String add_mem_address1,@Param("add_mem_address2") String add_mem_address2);
    
-   public void  updateAddr(MemAddressDTO  adto);
+   public void  insertAddr(MemAddressDTO  adto);
    
    public int userDelete(MemberDTO dto);
    public int sallerDelete(MemberDTO dto);
@@ -86,10 +88,10 @@ public interface MemberService  {
       public int deleteP_item(int ppic_num,String ppic_m_id);
    
       
-      										
+                                    
       void pick_me_delete(Model model,PickMeDTO pdto,ProductDTO ppdto,@Param("pm_m_id")String pm_m_id,
-     			@Param("pm_c_id") String pm_c_id
-    			,@Param("pm_num") int pm_num );   
+              @Param("pm_c_id") String pm_c_id
+             ,@Param("pm_num") int pm_num );   
       
       public void pickMeInsert(Model model, PickMeDTO pdto, ProductDTO ppdto, String pm_m_id, String pm_c_id, @Param("pm_num") int pm_num);   
       void deletePickMeByCId(String pm_m_id, String pm_c_id);
@@ -97,9 +99,9 @@ public interface MemberService  {
       public void pickMeInsert2(Model model, PickMeDTO pdto, ProductDTO ppdto, String pm_m_id, String pm_c_id, @Param("pm_num") int pm_num);   
       void deletePickMeByCId2(String pm_m_id, String pm_c_id);
       
-      //媛숈�媛믪씠�엲�뒗吏� �솗�씤
       int  ppickAndpickMeCount(@Param("pm_m_id")String pm_m_id,@Param("pm_c_id")String pm_c_id,@Param("pm_num") int pm_num);
-      
+
+ 
       
     
       

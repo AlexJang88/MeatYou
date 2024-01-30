@@ -44,7 +44,7 @@
 												<h3 class="product-name"><a href="../main/product?p_num=${sear.p_num}">${sear.p_name}</a></h3>
 												<h4 class="product-price">${sear.p_price}원</h4>
 												<div class="rating-avg">${sear.star}
-														<c:if test="${sear.star == 5.0 && sear.star > 4.6}">
+														<c:if test="${sear.star <= 5.0 && sear.star > 4.6}">
 															<div class="rating-stars">
 																<i class="fa fa-star"></i>
 																<i class="fa fa-star"></i>

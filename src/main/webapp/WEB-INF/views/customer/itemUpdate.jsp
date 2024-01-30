@@ -11,6 +11,8 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
+
+
 <!-- include summernote css/js -->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
@@ -23,13 +25,11 @@
     <center>
         <b>상품 등록하기</b><br> 
            
-         //sajin  itemUpdateDetail
+        
         <form method="post" name="productForm" action="/customers/productReg" enctype="multipart/form-data">
         	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-        	
-        
-            <table width="500" border="1" cellspacing="0" cellpadding="0" align="center">
-            
+     
+            <table width="500" border="1" cellspacing="0" cellpadding="0" align="center">           
                 <tr>
                     <td width="70" align="center">상품명</td> 
                     <td width="330">
@@ -73,7 +73,7 @@
                 <tr>		      		      
 			      <td width="70"  align="center">썸네일사진</td>
 			      <td width="330" id="thumbs">
-			        <input type="file" size="40" maxlength="30" name="thumbs"  placeholder="사진 나중에 추가할래"></td>
+			        <input type="file" size="40" maxlength="30" name="thumbs"  required="required" placeholder="사진 나중에 추가할래"></td>
 			   </tr>
 			   
 			
@@ -154,9 +154,10 @@
                 </tr>
               
                 <tr>
-			      <td width="70" align="center" >상품설명</td>
+			      <td width="70" align="center" >상품설명 필수 입력</td> 
 			      <td width="330" >
-			       <textarea id="summernote" name="pd_p_desc" required="required"></textarea> </td>
+			       <textarea id="summernote" name="pd_p_desc" required="required"  ></textarea>
+			       </td>
 			    </tr>
                  
                 <tr>
@@ -209,8 +210,7 @@
             </table>
         </form>
     </center>
-</body>
-</html>
+
 
 <script>
         function updateCategory() {
@@ -414,8 +414,11 @@ function uploadImageFile(file, el) {
         processData: false,
     })
 } 
+ 
+ 
 </script>
     
-
+</body>
+</html>
 
 

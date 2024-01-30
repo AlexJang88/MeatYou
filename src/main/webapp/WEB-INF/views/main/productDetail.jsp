@@ -179,16 +179,7 @@
 									</div>
 								</form>
 							</c:if>
-							
-							<c:if test="${pResult >= 1 && mid != null}">
-								<form action="/main/pickInsert">
-									<div class="add-to-cart">
-										<input type="hidden" name="ppic_m_id" value="${mid}">
-										<input type="hidden" name="ppic_p_num" value="${p_num}">
-										<button class="add-to-cart-btn" type="submit"><i class="fa fa-shopping-cart"></i> 찜취소</button>
-									</div>
-								</form>
-							</c:if>
+
 
 							<c:if test="${mid == null}">
 								<form action="/member/customLogin">
@@ -461,17 +452,17 @@
 												</c:forEach>
 												</ul>
 												<ul class="reviews-pagination">
-												<c:if test="${count > 0}">
+												<c:if test="${rcount > 0}">
 													<c:if test="${startPage > 10}">
-														<li><a href="/main/product?p_num=${p_num}&pageNum=${startPage-10}">[이전]</a></li>
+														<li><a href="/main/product?p_num=${p_num}&p_m_id=${op.p_m_id}&pageNum=${startPage-10}">[이전]</a></li>
 													</c:if>	
 													
 													<c:forEach var="i" begin="${startPage}" end="${endPage}">	
-														<li><a href="/main/product?p_num=${p_num}&pageNum=${i}">${i}</a></li>
+														<li><a href="/main/product?p_num=${p_num}&p_m_id=${op.p_m_id}&pageNum=${i}">${i}</a></li>
 													</c:forEach>	
 													
 													<c:if test="${endPage > pageCount}">
-														<li><a href="/main/product?p_num=${p_num}&pageNum=${startPage+10}">[다음]</a></li>
+														<li><a href="/main/product?p_num=${p_num}&p_m_id=${op.p_m_id}&pageNum=${startPage+10}">[다음]</a></li>
 													</c:if>		
 												</c:if>		
 												</ul>
@@ -556,10 +547,10 @@
 												</div>
 											</div>
 											<div class="product-body">
-												<h3 class="product-name"><a href="../main/product?p_num=${op.p_num}&p_m_id=${op.p_m_id}">${op.p_name}</a></h3>
-												<h4 class="product-price">${op.p_price}원</h4>
+												<a href="../main/product?p_num=${op.p_num}&p_m_id=${op.p_m_id}"><h3 class="product-name">${op.p_name}</h3></a>
+												<a href="../main/product?p_num=${op.p_num}&p_m_id=${op.p_m_id}"><h4 class="product-price">${op.p_price}원</h4></a>
 												<ul class="product-links">
-													<li><h6>${op.category1} / ${op.category2} / ${op.category3}</h6></li>
+													<a href="../main/product?p_num=${op.p_num}&p_m_id=${op.p_m_id}"><li><h6>${op.category1} / ${op.category2} / ${op.category3}</h6></li></a>
 												</ul>
 													<div class="rating-avg">${op.star}
 														<c:if test="${op.star == 5.0 && op.star > 4.6}">

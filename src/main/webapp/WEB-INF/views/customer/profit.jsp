@@ -56,15 +56,17 @@
 			<td width="200" align="center">파워링크</td>					
 		</tr>
 		<tr>
-			<td align="center">${ptm}</td>
-			<td align="center">${totalCount}</td>
-			<td align="center">${coponPay}</td>
-			<td align="center">${deliveryPay}</td>
+			<td align="center"><fmt:formatNumber value="${ptm}" type="number" pattern="#,##0"/> 원</td>
+			
+			<td align="center">${totalCount}</td> 
+			<td align="center"><fmt:formatNumber value="${coponPay}" type="number" pattern="#,##0"/> 원</td> 
+			<td align="center"><fmt:formatNumber value="${deliveryPay}" type="number" pattern="#,##0"/> 원</td>
 			<c:if test="${check == 0}">
 				<td align="center">정산 진행 중</td>
 			</c:if>
-			<c:if test="${check < 0}">
-				<td align="center">${(ptm * 0.9) - deliveryPay - coponPay}</td>
+			<c:if test="${check < 0}">				
+				<td align="center"><fmt:formatNumber value="${(ptm * 0.9) - deliveryPay - coponPay}" type="number" pattern="#,##0"/> 원</td>
+				</td>
 			</c:if>
 			
 			<td align="center">${HOT}</td>

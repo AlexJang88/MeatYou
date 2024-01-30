@@ -41,9 +41,9 @@
 					<c:set var="i" value="${loopStatus.index}" />			 			 			   				             		
 					<c:set var="nam" value="${product.stock - aree[i]}" />			 			 			   				             		
             		 <tr align="center">
-            		 	<td>${product.thumb}</td>
+            		 	<td><img src="<%= request.getContextPath() %>/resources/file/product/${product.p_num}/${product.thumb}/" alt="썸네일"></td>
             		 	<td>${product.p_num}</td>
-            		 	<td><a href="/customers/content?p_num=${product.p_num}">${product.p_name}</a></td>
+            		 	<td><a href="/customers/productContent?num=${product.p_num}">${product.p_name}</a></td>
             		 	<td>
 							 <c:choose>
 							   <c:when test="${product.p_status == 0}">판매중</c:when>

@@ -1,5 +1,6 @@
 package com.gogi.meatyou.repository;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 
@@ -51,10 +52,39 @@ public interface MainMapper {
    public List<ProductDTO> mainMeat(HashMap map);
    public List<ProductDTO> mainMeatSort(HashMap map);
    public List<ProductDTO> mainMeatReview(HashMap map);
-
+   
+   public int mainMeatKOR_CNT(@Param("category") int category);
+   public int mainMeatEX_CNT(@Param("category") int category);
+   public int mainForkKOR_CNT(@Param("category") int category);
+   public int mainForkEX_CNT(@Param("category") int category);
+   public List<ProductDTO> mainMeatKOR(HashMap map);
+   public List<ProductDTO> mainMeatEX(HashMap map);
+   public List<ProductDTO> mainForkKOR(HashMap map);
+   public List<ProductDTO> mainForkEX(HashMap map);
+   
+   public int setMenuCNT(int p_s_category);
+   public int setMenuSortCNT();
+   public int setMenuSalesCNT();
+   public List<ProductDetailDTO> setMenu(HashMap map);
+   public List<ProductDetailDTO> setMenuPrice(HashMap map);
+   public List<ProductDetailDTO> setMenuSales(HashMap map);
+   public List<ProductDetailDTO> setMenuStars(HashMap map);
+   public List<ProductDetailDTO> setMenuReviews(HashMap map);
+   public List<ProductDetailDTO> setMenuNews(HashMap map);
+   
+   public int giftSetCNT();
+   public int giftSetSalesCNT();
+   public List<ProductDetailDTO> giftSet(HashMap map);
+   public List<ProductDetailDTO> giftSetPrice(HashMap map);
+   public List<ProductDetailDTO> giftSetSales(HashMap map);
+   public List<ProductDetailDTO> giftSetStars(HashMap map);
+   public List<ProductDetailDTO> giftSetReviews(HashMap map);
+   public List<ProductDetailDTO> giftSetNews(HashMap map);
+   
    public int powCount();
    
    public List<ProductDTO> poLinkList(HashMap map);
+   public List<ProductDTO> poLinkSort(HashMap map);
 
 
    public List<ProductDTO> newProduct(HashMap map);
@@ -95,7 +125,7 @@ public interface MainMapper {
    
    public void ShoppingCartInsert(ShoppingCartDTO dto);
    public void ShoppingCartInsert2(@Param("shop_m_id")String m_id, @Param("shop_p_num")int p_num, @Param("shop_quantity")int shop_quantity);
-   
+
    public int pickCNT(String ppic_m_id);
    public int pickCNTMain(PPicDTO dto);
    public int pick_p_numCNT(@Param("ppic_m_id")String ppic_m_id, @Param("ppic_p_num")int ppic_p_num);

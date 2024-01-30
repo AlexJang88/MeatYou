@@ -7,32 +7,26 @@
 <script>
 //선택주문 
 function orderSelectedItems() {
-    // 선택한 상품들의 shop_num 배열을 문자열로 변환하여 hidden input에 설정
-    var selectedShopNumsInput = document.getElementById('selectedShopNums');
-    selectedShopNumsInput.value = selectedShopNums.join(',');
+    var selectedShopNums = getSelectedShopNums(); // 선택된 상품의 shop_num을 가져오는 함수
 
-    if (selectedShopNums.length === 0) {
-        // 선택된 상품이 없는 경우
-        alert('선택된 상품이 없습니다. 최소 1개 이상의 상품을 선택해주세요.');
-        return;
-    }
-    //페이지 이동 
-    var orderForm = document.getElementById('orderForm');
-    orderForm.action = "/member/addressForm";
-
-    // 선택한 상품들 주문을 위한 서버 요청
-    $.ajax({
-        type: "POST",
-        url: "/member/orderSelectedItems",
-        data: { selectedShopNums: selectedShopNums.join(',') },
-        success: function(response) {
-            console.log(response);
-            // 처리 완료 후 리로드 또는 다른 동작 수행
-        },
-    });
+    // 자바스크립트를 사용하여 선택한 상품의 shop_num을 URL 파라미터로 세 번째 페이지로 전달
+    window.location.href = "/member/order/orderPageTwo/?selectedShopNums=" + selectedShopNums.join(',');
 }
 
+function getSelectedShopNums() {
+    // 실제로 선택된 상품의 shop_num을 가져오는 로직을 여기에 구현
+    // 아래는 임의의 예시 코드
+    var selectedShopNums = [];
+    var checkboxes = document.getElementsByName('selectedShopNums');
 
+    for (var i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].checked) {
+            selectedShopNums.push(checkboxes[i].value);
+        }
+    }
+
+    return selectedShopNums;
+}
 
 
 //기존의 "update_click" 함수 수정
@@ -141,8 +135,7 @@ function deleteSelectedItems() {
       <table id="productTable" class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
-        	<th>
-				선택</th>
+        	<th>선택</th>
             <th>상품 내용</th>
             <th>상품 분류</th>
             <th>상품 사진</th>
@@ -154,11 +147,11 @@ function deleteSelectedItems() {
     </thead>
     <tbody>
         <c:forEach var="item" items="${shoppingCartList}">
-            	<tr><td>
+            	<tr>
+            	<td>
             	   <input type="checkbox" name="selectedShopNums" value="${item.shop_num}" 
                    onclick="toggleSelectedShopNum(this, '${item.shop_num}')"/>
-        </td>
-            </td>
+       			 </td>
                 <td><c:out value="${item.p_name}" /></td>
                 <td><c:out value="${item.pd_p_desc}" /></td>
                 <td><c:out value="${item.thumb}" /></td>
@@ -185,6 +178,10 @@ function deleteSelectedItems() {
                 </td>
             </tr>
         </c:forEach>
+       <form action="orderPageOne"  method="post"> 
+       
+      			<input type="submit" value="주문"  onclick="orderSelectedItems()">
+        </form>
         <tr>
         	<td></td>
         	<td></td>
@@ -228,10 +225,7 @@ function deleteSelectedItems() {
 							<tr>
 							<td>선택한 상품</td>
 							<td>
-								  <form id="orderForm" action="" method="post">
-				    <input type="hidden" id="selectedShopNums" name="selectedShopNums" />
-				    <button type="button" onclick="orderSelectedItems()">주문하기</button>
-				</form>
+			 
 				</td>
 									<td>
 							    <input type="hidden" id="selectedShopNums" name="selectedShopNums" />

@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class DeAddressDTO {
-	private int deNum;
-	private String company;
-	private int pNum;
-	private String delivery;
-	private String refund;
+   private int de_num;
+   private String de_company;
+   private int de_p_num;
+   private String de_delivery;
+   private String de_refund;
 }

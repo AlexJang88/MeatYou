@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../header.jsp" %> 
-
 		<!-- SECTION -->
 		<div class="section">
 			<!-- container -->
@@ -16,7 +15,7 @@
 							<h3 class="title">파워링크</h3>
 							<div class="section-nav">
 								<ul class="section-tab-nav tab-nav">
-									<li class="active"><a href="../main/powerLink">파워링크 상품 더보기</a></li>
+									<li class="active"><a href="../main/powerLink?price=price">파워링크 상품 더보기</a></li>
 								</ul>
 							</div>
 						</div>
@@ -36,7 +35,7 @@
 											<div class="product-img">
 												<img src="../resources/img/product01.png" alt="">
 												<div class="product-label">
-													<span class="sale" ><a href="boot">목록확인</a></span>
+													<span class="sale" ><a href="bootstrap" data-bs-toggle="modal" data-bs-target="#staticBackdrop">목록확인</a></span>
 													<span class="sale" ><a>상품설명</a></span>
 													<span class="sale" ><a>상품평/평점</a></span>
 												</div>
@@ -48,7 +47,7 @@
 													<a href="../main/product?p_num=${cus.p_num}&p_m_id=${cus.p_m_id}"><li><h6>${cus.category1} / ${cus.category2} / ${cus.category3}</h6></li></a>
 												</ul>
 													<div class="rating-avg">${cus.star}
-														<c:if test="${cus.star == 5.0 && cus.star > 4.6}">
+														<c:if test="${cus.star <= 5.0 && cus.star > 4.6}">
 														<a href="../main/product?p_num=${cus.p_num}&p_m_id=${cus.p_m_id}">
 															<div class="rating-stars">
 																<i class="fa fa-star"></i>
@@ -59,7 +58,7 @@
 															</div>
 														</a>
 														</c:if>
-														<c:if test="${cus.star >= 4.0 && cus.star < 4.6}">
+														<c:if test="${cus.star >= 4.0 && cus.star <= 4.6}">
 															<a href="../main/product?p_num=${cus.p_num}&p_m_id=${cus.p_m_id}">
 																<div class="rating-stars">
 																	<i class="fa fa-star"></i>
@@ -308,7 +307,7 @@
 													<li><h6><a href="../main/product?p_num=${meat.p_num}&p_m_id=${meat.p_m_id}">${meat.category1} /${meat.category2}/${meat.category3}</a></h6></li>
 												</ul>
 													<div class="rating-avg">${meat.star}
-														<c:if test="${meat.star == 5.0 && meat.star > 4.6}">
+														<c:if test="${meat.star <= 5.0 && meat.star > 4.6}">
 															<a href="../main/product?p_num=${meat.p_num}&p_m_id=${meat.p_m_id}">
 																<div class="rating-stars">
 																	<i class="fa fa-star"></i>
@@ -319,7 +318,7 @@
 																</div>
 															</a>
 														</c:if>
-														<c:if test="${meat.star >= 4.0 && meat.star < 4.6}">
+														<c:if test="${meat.star >= 4.0 && meat.star <= 4.6}">
 															<a href="../main/product?p_num=${meat.p_num}&p_m_id=${meat.p_m_id}">
 																<div class="rating-stars">
 																	<i class="fa fa-star"></i>
@@ -471,7 +470,7 @@
 													<ul class="product-links">
 														<li><h6><a href="../main/product?p_num=${fork.p_num}&p_m_id=${fork.p_m_id}">${fork.category1} /${fork.category2}/${fork.category3}</a></h6></li>
 													</ul>
-														<c:if test="${fork.star == 5.0 && fork.star > 4.6}">
+														<c:if test="${fork.star >= 4.6 && fork.star <= 5.0}">
 															<a href="../main/product?p_num=${fork.p_num}&p_m_id=${fork.p_m_id}">
 																<div class="rating-stars">
 																	<i class="fa fa-star"></i>
@@ -482,7 +481,7 @@
 																</div>
 															</a>
 														</c:if>
-														<c:if test="${fork.star >= 4.0 && fork.star < 4.6}">
+														<c:if test="${fork.star >= 4.0 && fork.star <= 4.6}">
 															<a href="../main/product?p_num=${fork.p_num}&p_m_id=${fork.p_m_id}">
 																<div class="rating-stars">
 																	<i class="fa fa-star"></i>
@@ -637,7 +636,7 @@
 														<li><h6><a href="../main/product?p_num=${newList.p_num}&p_m_id=${newList.p_m_id}">${newList.category1} /${newList.category2}/${newList.category3}</a></h6></li>
 													</ul>
 													<div class="rating-avg">${newList.star}
-														<c:if test="${newList.star == 5.0 && newList.star > 4.6}">
+														<c:if test="${newList.star <= 5.0 && newList.star > 4.6}">
 															<a href="../main/product?p_num=${newList.p_num}&p_m_id=${newList.p_m_id}">
 																<div class="rating-stars">
 																	<i class="fa fa-star"></i>
@@ -648,7 +647,7 @@
 																</div>
 															</a>
 														</c:if>
-														<c:if test="${newList.star >= 4.0 && newList.star < 4.6}">
+														<c:if test="${newList.star >= 4.0 && newList.star <= 4.6}">
 															<a href="../main/product?p_num=${newList.p_num}&p_m_id=${newList.p_m_id}">
 																<div class="rating-stars">
 																	<i class="fa fa-star"></i>
