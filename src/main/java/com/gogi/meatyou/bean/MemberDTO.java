@@ -21,7 +21,7 @@ public class MemberDTO {
     
 	private String mstat_detail;
 	private String mstat_auth;
-    private List<MemStatusDTO> mstatus_list; // ���Ѹ���Ʈ�� ���� ���Կ� 1226 �̵���
+    private List<MemStatusDTO> mstatus_list; 
 
 
 }

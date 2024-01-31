@@ -2,20 +2,48 @@ package com.gogi.meatyou.security;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-public class CustomLoginHandler implements AuthenticationSuccessHandler {
 
+
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+
+
+
+
+
+
+
+
+
+
+public class CustomLoginHandler implements AuthenticationSuccessHandler {
+	private static final Logger logger = LoggerFactory.getLogger(CustomLoginHandler.class);
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
+		//카카오로그인때매 넣은거  시작(1)
+		logger.info("=========CustomLoginHandler=========");
+		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+
+		logger.info("========="+authorities+"=========");
+		//카카오로그인때매 넣은거  끄읕 (1)
+		
 		List<String> roleNames = new ArrayList<String>();
 		authentication.getAuthorities().forEach(au ->{
 			roleNames.add(au.getAuthority());
