@@ -43,6 +43,7 @@ import com.gogi.meatyou.bean.PDetailDTO;
 import com.gogi.meatyou.bean.PPicDTO;
 import com.gogi.meatyou.bean.PickMeDTO;
 import com.gogi.meatyou.bean.ProductDTO;
+import com.gogi.meatyou.bean.SelectedProductDTO;
 import com.gogi.meatyou.bean.ShoppingCartDTO;
 import com.gogi.meatyou.service.MemberService;
 
@@ -56,17 +57,6 @@ import com.gogi.meatyou.service.MemberService;
 public class MemberController {
    @Autowired
    private MemberService service;
-   
-  // @Autowired
- //  private JavaMailSender javaMailSender;
-//    @Autowired 
-//    private MailSendService mailService;
-
-   // @Autowired
-   // private JavaMailSender  mailSender;
-//   @Autowired
-//   UsersRepository usersRepository;
-   
    //@Autowired
    @RequestMapping("all")
    public String doAll(Model model, MemberDTO dto,HttpSession  session,MemStatusDTO mdto) {return "member/loginSequrity/all"; }
@@ -105,10 +95,10 @@ public class MemberController {
         } else {
             return "errorPage";  
         }    }
-    @RequestMapping("sallerInputForm")
+   /* @RequestMapping("sallerInputForm")
     public String sallerInputForm(Model model, Authentication authentication,CusDetailDTO cdto) {  String username = authentication.getName(); MemberDTO dto = service.getUser(username); model.addAttribute("dto", dto);
        return "member/saller/sallerInputForm";
-    }
+    }*/
     @RequestMapping("sallerInputPro")
     public String sallerInputPro(MemberDTO dto,CusDetailDTO cdto, Authentication authentication) {  String m_id = authentication.getName(); dto.setM_id(m_id); Map<String, Object> statusParamMap = new HashMap<>();  statusParamMap.put("m_id", m_id);  service.updateMemberStatus(dto);  service.insertIntoCusDetail(cdto);
        return "member/saller/sallerInputPro"; 
@@ -116,15 +106,40 @@ public class MemberController {
     
     
     
-    
+    @RequestMapping("/sallerInputForm")
+	public String sallerInputForm(Model model, Authentication authentication,CusDetailDTO cdto) {
+		
+    	String username = authentication.getName(); MemberDTO dto = service.getUser(username); model.addAttribute("dto", dto);
+        
+    	model.addAttribute("apiKey","wBStzrx7b1p8B9XqfLWLBMa0q7HCWqRMC7%2F2o%2BG1CWfp2gW%2FffWQ8H81TDthbbN%2FU%2FqtGmiOtMUvFtzKeHPiuQ%3D%3D");
+	     return "member/saller/sallerInputForm";
+	}
     
     @RequestMapping("/modify")
-    public String modify(Model model, Authentication authentication) {
+    public String modify(Model model, Authentication authentication, CouponDTO cdto, @Param("cp_m_id") String cp_m_id) {
+        // 인증에서 사용자 이름을 가져옵니다.
         String username = authentication.getName();
+        
+        // 사용자 정보를 사용자 이름을 기반으로 가져옵니다.
         MemberDTO dto = service.getUser(username);
+        
+        // 지정된 cp_m_id에 대한 쿠폰 목록과 수를 가져옵니다.
+        List<CouponDTO> cList = service.howmuchCoupon(cp_m_id);
+        int count = service.couponCount(cp_m_id);
+        
+        // 뷰에서 사용할 모델에 속성을 추가합니다.
+        model.addAttribute("cList", cList);
+        model.addAttribute("count", count);
         model.addAttribute("dto", dto);
+        
+        // "member/myPage/modify" 뷰 이름을 반환합니다.
         return "member/myPage/modify";
     }
+    
+    
+    
+    
+    
     @RequestMapping("/modifyForm")
     public String modifyForm(Model model, Authentication authentication) {
         String username = authentication.getName();
@@ -179,33 +194,23 @@ public class MemberController {
 
    
       @RequestMapping("shoppingCartForm")
-      public String shoppingCartForm(
-              Principal seid,
-              Model model,
-              @RequestParam(defaultValue = "1") int page,  
-              @RequestParam(defaultValue = "10") int pageSize,  
-              ShoppingCartDTO sdto,
-              ProductDTO pdto,
-              PDetailDTO pddto,
-              @RequestParam(value = "selectedProducts", required = false) List<String> selectedProducts)
-         {
-         
+      public String shoppingCartForm( Principal seid, Model model, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int pageSize,     ShoppingCartDTO sdto, ProductDTO pdto,  PDetailDTO pddto, @RequestParam(value = "selectedProducts", required = false) List<String> selectedProducts,HttpSession session)    {
          int p_num=pdto.getP_num();
           String shop_m_id = (String) seid.getName();
           int totalPrice = sdto.getShop_quantity() * sdto.getP_price();
 
           List<ShoppingCartDTO> shoppingCartList = service.getShoppingCartItemsPaged(shop_m_id, page, pageSize, sdto, pdto,pddto);
-
+          // 선택된 상품을 세션에 저장
+          session.setAttribute("selectedProducts", selectedProducts);
           int totalItemCount = service.getTotalShoppingCartItems(shop_m_id);
 
           int totalPage = (int) Math.ceil((double) totalItemCount / pageSize);
-          
+          System.out.print("selectedProducts=============================="+selectedProducts);
           model.addAttribute("shoppingCartList", shoppingCartList);
           model.addAttribute("totalPrice", totalPrice);
           model.addAttribute("page", page);
           model.addAttribute("pageSize", pageSize);
           model.addAttribute("totalPage", totalPage);
-          // 占쎈쐻占쎈윞占쎈쭡占쎈쐻占쎈윞 눧硫⑤쐻占쎈윥壤쏉옙 占쎈쐻占쎈윞筌띾 ｋ쐻占쎈윥 뜝 룞 삕 癲ル슢 뀈泳 戮⑤뭄占쎈㎜占쎌굲 뜝 럥援  癲ル슢 뀈泳 占썲뜝 럩紐띰옙 쐻占쎈윥占쎈군  뜝 럥 돯占쎄껀占쎈짗占쎌굲占쎈쐻占쎈윥 뵳占쏙옙 쐻占쎈윥占쎈염 占쎈쐻占쎈윞繹먯궍 쐻占쎈윪 앗껊쐻占쎈윪 얠± 쐻占쎈윥占쎄퐯占쎈쐻占쎈윥獄  뭿 쐻占쎈윥占쎈군 占쎈쐻占쎈윥 젆袁  쐻占쎈윥筌묕옙 占쎈쐻占쎈윪占쎌벁占쎈쐻占쎈윥 젆占 
           model.addAttribute("selectedProducts", selectedProducts);
           return "member/shoppingCart/shoppingCartForm";
       }
@@ -215,7 +220,7 @@ public class MemberController {
            String shop_m_id = (String) seid.getName();
           service.updateQuantity(shop_num, shop_quantity, shop_m_id);
              
-          return "success";  //  뜝 럥 맶 뜝 럥 쑋占쎈쨨占쎄퐩占쎌맶 뜝 럥 쑅 뜏類㏃삕  뜝 럥 맶 뜝 럥 쑅 뜝 럥   뜝 럥 맶 뜝 럥 쑅 뜝 럥 걛 뜝 럥 맶 뜝 럥 쑋占쎌뼚짹占쎌맶 뜝 럥 쑅 뛾占쏙옙裕 筌뚮냵 삕 뙴 뵃 삕占쎄뎡  뜝 럥 맶 뜝 럥 쐾 뜝 럥 젾占쎈쐻占쎈쑆泳 占썹뵓怨뺤챾壤쏆룊 삕 뙴 쉻 삕占쎄뎡占쎈쐻占쎈윥 뤃占   뜝 럥 맶 뜝 럥 쑅占쎈ご占쎈뼠占쎌맶 뜝 럥 쑋 뵓怨ㅼ삕  뜝 럥 맶 뜝 럥 쑋 뵓怨뺥 ワ옙 맶 뜝 럥 쑅占쎌젂 뜝占   솾 꺂 뒧占쎈떔 뜝 럥 뵒占쎈쐻占쎈윥筌묕퐦 뵾占쎌뒩占쎈뤈 뜝 럩援 
+          return "success";  
       }   
       
       
@@ -227,7 +232,7 @@ public class MemberController {
                 int check = service.deleteCart(sdto.getShop_num(), shop_m_id);
                 if (check == 1) {
                       
-                     return "redirect:/member/shoppingCartForm"; //  뜝 럥 맶 뜝 럥 쑋占쎈쨨占쎄퐩占쎌맶 뜝 럥 쑅 뜏類㏃삕  뜝 럥 맶 뜝 럥 쑅 뜝 럥   뜝 럥 맶 뜝 럥 쑅 뜝 럥 걛 뜝 럥 맶 뜝 럥 쑋占쎌뼚짹占쎌맶 뜝 럥 쑅 뛾占쏙옙裕 筌뚮냵 삕 뙴 뵃 삕占쎄뎡  뜝 럥 맶 뜝 럥 쐾 뜝 럥 젾占쎈쐻占쎈쑆泳 占썹뵓怨뺤챾壤쏆룊 삕 뙴 쉻 삕占쎄뎡占쎈쐻占쎈윥 뤃占   뜝 럥 맶 뜝 럥 쑅占쎈ご占쎈뼠占쎌맶 뜝 럥 쑋 뵓怨ㅼ삕  뜝 럥 맶 뜝 럥 쑋 뵓怨뺥 ワ옙 맶 뜝 럥 쑅占쎌젂 뜝占   솾 꺂 뒧占쎈떔 뜝 럥 뵒占쎈쐻占쎈윥筌묕퐦 뵾占쎌뒩占쎈뤈 뜝 럩援 
+                     return "redirect:/member/shoppingCartForm";
                 } else {
                    return "error";
                 }   
@@ -468,7 +473,7 @@ public class MemberController {
      
      @GetMapping("/mailCheck")
      @ResponseBody public String mailCheck(String email) {
-     System.out.println("이메일 인증 요청이 들어옴!"); System.out.println("이메일 인증 이메일 : " +
+     System.out.println("�씠硫붿씪 �씤利� �슂泥��씠 �뱾�뼱�샂!"); System.out.println("�씠硫붿씪 �씤利� �씠硫붿씪 : " +
       email); return mailService.joinEmail(email); }
    
    @PostMapping("/checkSuccess")
@@ -493,36 +498,86 @@ public class MemberController {
 */
     @RequestMapping("orderPageOne")
     public String orderPageOne(Principal peid,Model model,MemAddressDTO adto,MemberDTO mdto,String combined_address) {
-        
        String add_m_id = peid.getName();   
           adto.setAdd_m_id(add_m_id);
-
           List<MemAddressDTO> AddrList = service.combined_address(add_m_id,combined_address, adto);
         MemberDTO dto = service.getUser(add_m_id);         
-        
-      
-      
-      
         model.addAttribute("adto", adto);
         model.addAttribute("add_m_id", add_m_id);
         model.addAttribute("AddrList", AddrList);
         model.addAttribute("dto", dto);
         return "member/order/orderPageOne";
     }
-    
+/*
     @RequestMapping("orderPageTwo")
-    public String orderPageTwo(Principal peid,Model model,MemAddressDTO adto,MemberDTO mdto,String combined_address) {
+    public String orderPageTwo(Principal peid,Model model,MemAddressDTO adto,MemberDTO mdto,String combined_address
+    		,@RequestParam(value = "selectedShopNums", required = false) String selectedShopNums) {
        
        String add_m_id = peid.getName();   
        adto.setAdd_m_id(add_m_id);
-       
-       List<MemAddressDTO> AddrList = service.combined_address(add_m_id,combined_address, adto);
+       // 상품 정보 가져오기
+       List<SelectedProductDTO> selectedItems = service.getSelectedProducts(selectedShopNums);
+
        MemberDTO dto = service.getUser(add_m_id);         
        model.addAttribute("adto", adto);
        model.addAttribute("add_m_id", add_m_id);
-       model.addAttribute("AddrList", AddrList);
        model.addAttribute("dto", dto);
        return "member/order/orderPageTwo";
+    }
+    */
+  /*
+    @RequestMapping("orderPageTwo")
+    public String orderPageTwo(Principal peid, Model model, MemAddressDTO adto, MemberDTO mdto,
+            @RequestParam(value = "selectedShopNums", required = false) String selectedShopNums,
+            HttpSession session) {
+
+        String add_m_id = peid.getName();
+        adto.setAdd_m_id(add_m_id);
+
+        // 세션에서 리스트 가져오기
+        List<String> selectedProducts = (List<String>) session.getAttribute("selectedProducts");
+
+        // 상품 정보 가져오기
+        List<SelectedProductDTO> selectedItems = service.getSelectedProducts(selectedShopNums);
+
+        // 세션에 저장
+        MemberDTO dto = service.getUser(add_m_id);
+        model.addAttribute("adto", adto);
+        model.addAttribute("add_m_id", add_m_id);
+        model.addAttribute("dto", dto);
+        model.addAttribute("selectedItems", selectedItems);
+        
+        // 기타 로직 수행
+
+        return "member/order/orderPageTwo";
+    }*/
+    
+    
+    
+    @RequestMapping("orderPageTwo")
+    public String orderPageTwo(Principal peid, Model model, MemAddressDTO adto, MemberDTO mdto,
+            @RequestParam(value = "selectedShopNums", required = false) List<String> selectedShopNums,
+            HttpSession session) {
+    	// 상품 정보 가져오기
+        String add_m_id = peid.getName();
+        adto.setAdd_m_id(add_m_id);
+
+        // selectedShopNums가 null이면 빈 리스트로 초기화
+        if (selectedShopNums == null) {
+            selectedShopNums = new ArrayList<>();
+        }
+
+     // 상품 정보 가져오기
+        //List<SelectedProductDTO> selectedItems = service.getSelectedProducts(selectedShopNums, add_m_id);
+       List<ShoppingCartDTO> selectedItems = service.getSelectedProducts(selectedShopNums,add_m_id);
+        
+        // 세션에 저장
+        MemberDTO dto = service.getUser(add_m_id);
+        model.addAttribute("adto", adto);
+        model.addAttribute("add_m_id", add_m_id);
+        model.addAttribute("dto", dto);
+        model.addAttribute("selectedItems", selectedItems);
+        return "member/order/orderPageTwo";
     }
     
     
@@ -533,33 +588,6 @@ public class MemberController {
     
     
     
-   /*
-    * //이메일 인증
-    * 
-    * @GetMapping("/mailCheck")
-    * 
-    * @ResponseBody public String mailCheck(String email) { return
-    * mailService.joinEmail(email); }
-    */
-
 
 }
-
-
-/*
- * @PostMapping("/renamePass") public String renamePass(Model model, String
- * username, Principal principal) { if(username == null) { username =
- * principal.getName(); } model.addAttribute("username", username); return
- * "user/renamePass"; }
- * 
- * @PostMapping("/passPro")
- * 
- * @ResponseBody public String passPro(String password, String username,
- * Principal principal) {
- * 
- * BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); password
- * = passwordEncoder.encode(password); usersRepository.changePass(password,
- * username); return "success"; }
- */
-
-
+ 

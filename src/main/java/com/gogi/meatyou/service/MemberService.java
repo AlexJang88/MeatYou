@@ -12,6 +12,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.gogi.meatyou.bean.CouponDTO;
 import com.gogi.meatyou.bean.CusDetailDTO;
 import com.gogi.meatyou.bean.MemAddressDTO;
 import com.gogi.meatyou.bean.MemberDTO;
@@ -19,6 +20,7 @@ import com.gogi.meatyou.bean.PDetailDTO;
 import com.gogi.meatyou.bean.PPicDTO;
 import com.gogi.meatyou.bean.PickMeDTO;
 import com.gogi.meatyou.bean.ProductDTO;
+import com.gogi.meatyou.bean.SelectedProductDTO;
 import com.gogi.meatyou.bean.ShoppingCartDTO;
 
 public interface MemberService  {
@@ -100,9 +102,11 @@ public interface MemberService  {
       void deletePickMeByCId2(String pm_m_id, String pm_c_id);
       
       int  ppickAndpickMeCount(@Param("pm_m_id")String pm_m_id,@Param("pm_c_id")String pm_c_id,@Param("pm_num") int pm_num);
-
+      int couponCount(@Param("cp_m_id") String cp_m_id);
+      List<CouponDTO>   howmuchCoupon(@Param("cp_m_id") String cp_m_id);
  
-      
+      // 다른 필요한 메서드들과 함께 추가
+      List<ShoppingCartDTO> getSelectedProducts(List<String> selectedShopNums, @Param("add_m_id") String add_m_id);
     
       
 }

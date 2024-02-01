@@ -5,6 +5,7 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>     
 <%@ include file="../../header.jsp" %>
 
+      
  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -47,6 +48,9 @@
     input.selectionStart = newCursorPos;
     input.selectionEnd = newCursorPos;
   }
+ 
+ 
+  
 </script>
 
 
@@ -92,11 +96,50 @@
       </td>
     </tr>
     
-       <tr>  
-      <td  width="200"> 사업자 번호 </td>    
-      <td  width="400">	 <input type="text" name="corpno" size="15" ></td>
-      
-    </tr>
+  <tr>  
+     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+     <input type="hidden" id="apiKey" value="${apiKey}">
+   <td width="200"> 사업자 번호 </td>   
+   <td width="400">	 
+   <input type="number" name="corpno" id="b_no" maxlength="15">
+			<button type="button" id="check">조회하기</button></td>
+		<script>
+$('#check').on('click',function(){
+	var b_no = $('#b_no').val();
+	var apiKey = $('#apiKey').val();
+	 console.log(b_no);
+	 var data = {
+		  "b_no": [b_no]
+		   
+		   
+		  }; 
+		  
+	$.ajax({
+	 url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey="+apiKey, // serviceKey 값을 xxxxxx에 입력
+	 type: "POST",
+	 data: JSON.stringify(data), // json 을 string으로 변환하여 전송
+	 dataType: "JSON",
+	 contentType: "application/json",
+	 accept: "application/json",
+	 success: function(result) {
+	   console.log(result);
+	   console.log(result.data[0].tax_type);
+	   console.log(result.utcc_yn);
+		if(result.data[0].utcc_yn == "N"){
+			$('#b_no').parent().append('<span class="error">신청 불가</span>');
+		}
+	 },
+	 error: function(result) {
+	   console.log(result.responseText); //responseText의 에러메세지 확인
+	
+	 }
+	});
+	});
+
+</script>
+
+
+  </tr>
    
    
    <tr>  

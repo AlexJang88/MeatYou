@@ -318,27 +318,48 @@
  <!-- 1001 ~ 1050 사이의 상태일 때 -->
     <c:if  test="${dto.m_status ge 1001 and dto.m_status le 1050}">
         <table border=2>
-            <tbody>
-                <tr>
-                    <td>일반인 쿠폰  몇개~</td>
-                     <td>결제한상품어떤거~</td>
+          <thead>
+         	 <tr>
+                    <th>쿠폰 갯수</th>
+                    <th>사업자 식별번호 </th>
+               		<th>쿠폰 번호</th>
+                    <th>쿠폰 가격</th>
+                    <th>상품 분류</th>
+                    <th>발행일</th>
+                    <th>만료일</th>
+                    <th></th>
                 </tr>
-             
-                <tr>
-                    <td>아직 모르지~</td>
-                       <td>몰라~</td>
-                </tr>
-                 
-            </tbody>
+            </thead>
+                
+                <tbody>
+                	 <c:forEach var="item" items="${cList}">
+				<tr>
+					<td>
+					<c:out value="${count}"/>					
+					</td>
+					<td>
+					<c:out value="${item.cp_cus_num}"/>					
+					</td>
+					<td>
+					<c:out value="${item.cp_num}"/>					
+					</td>
+					<td>
+					<c:out value="${item.cp_price}"/>					
+					</td>
+					<td>
+					<c:out value="${item.cp_price}"/>					
+					</td>
+					<td>
+					<c:out value="${item.exdate.publishdate(0, 10)}"/>					
+					</td>
+					<td>
+					<c:out value="${item.exdate.substring(0, 10)}"/>					
+					</td>
+				</tr>
+                		</c:forEach>
+                </tbody>
         </table>
    </c:if>
-
-   
-   
-   
-   
-   
-   
    
 				<div style="position:relative;">
 	   <!-- 2000 ~ 2003 사이의 상태일 때 -->

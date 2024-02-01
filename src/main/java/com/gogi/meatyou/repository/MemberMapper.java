@@ -7,13 +7,16 @@ import java.util.Optional;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 import org.junit.runners.Parameterized.Parameters;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.gogi.meatyou.bean.CouponDTO;
 import com.gogi.meatyou.bean.CusDetailDTO;
 import com.gogi.meatyou.bean.MemAddressDTO;
 import com.gogi.meatyou.bean.MemberDTO;
 import com.gogi.meatyou.bean.PPicDTO;
 import com.gogi.meatyou.bean.PickMeDTO;
 import com.gogi.meatyou.bean.ProductDTO;
+import com.gogi.meatyou.bean.SelectedProductDTO;
 import com.gogi.meatyou.bean.ShoppingCartDTO;
 
 public interface MemberMapper {
@@ -92,8 +95,6 @@ public interface MemberMapper {
        public  int deleteCart(@Param("shop_num") int shop_num, @Param("shop_m_id") String shop_m_id);
        
        
-       // 선택한 상품 삭제를 위한 메서드
-      // void deleteSelectedItems(  @Param("selectedShopNums")List<Long> selectedShopNums,@Param("shop_m_id") String shop_m_id);
        void deleteSelectedItems(Map<String, Object> paramMap);
        
           List<PickMeDTO> pickMeCountPages(
@@ -109,8 +110,9 @@ public interface MemberMapper {
           int SallerpickMeCount(Map<String, Object> params);       
           public  int SallerdeleteHim(@Param("pm_num") int shop_num, @Param("pm_m_id") String pm_m_id,@Param("pm_c_id")String pm_c_id);
           
-          
-      
+          int couponCount(@Param("cp_m_id") String cp_m_id);
+          List<CouponDTO> howmuchCoupon(@Param("cp_m_id") String cp_m_id);
+
           List<PickMeDTO> pickMeCountPage(Map<String, Object> params);
           int pickMeCount(@Param("pm_m_id")String pm_m_id,@Param("p_m_id")String p_m_id  );       
           int addressCount(@Param("add_m_id")String add_m_id,@Param("add_num")int add_num  );       
@@ -132,6 +134,5 @@ public interface MemberMapper {
             int deletePickMeByCId2(@Param("pm_m_id") String pm_m_id,      @Param("pm_c_id") String pm_c_id);
             int pickMeInsert2(PickMeDTO pdto, @Param("pm_m_id") String pm_m_id , @Param("pm_c_id")String pm_c_id,@Param("pm_num") int pm_num );
             
-             
-             
+            List<ShoppingCartDTO> getSelectedProducts(  @RequestParam  List<String> selectedShopNums, @Param("add_m_id") String add_m_id);
    }
