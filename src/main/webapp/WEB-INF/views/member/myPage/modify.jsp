@@ -1,9 +1,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-
 <%@ include file="../../header.jsp" %>
 <style>
 /* Reset some default table styles */
@@ -214,9 +213,6 @@
                          <a href="../member/pPickList" >찜 상품 목록</a>
                     </td>
                     
-                    <td>
-                            <a href="../member/shoppingCartForm">장바구니</a>
-                     </td>
                           </tr>	
                            
                        
@@ -316,27 +312,38 @@
 </table>
 
  <!-- 1001 ~ 1050 사이의 상태일 때 -->
+
+		
+		    <table style="border-collapse: collapse; width: 30%; margin: auto;">
+        <tbody>
+            <tr>
+                <th style="   padding: 15px; text-align: center;">
+                    <div>
+                        <b>
+                           		<div> 쿠폰 갯수  : <c:out value="${count}"/> 개 </div>
+                        </b>
+                    </div>
+                </th>
+            </tr>
+        </tbody>
+    </table>
     <c:if  test="${dto.m_status ge 1001 and dto.m_status le 1050}">
         <table border=2>
           <thead>
          	 <tr>
-                    <th>쿠폰 갯수</th>
-                    <th>사업자 식별번호 </th>
+
+                    <th>사업자 식별번호(제거대상) </th>
                		<th>쿠폰 번호</th>
                     <th>쿠폰 가격</th>
-                    <th>상품 분류</th>
-                    <th>발행일</th>
                     <th>만료일</th>
-                    <th></th>
+                    <th>발행일</th>
+                    <th>사용일</th>
                 </tr>
             </thead>
                 
                 <tbody>
                 	 <c:forEach var="item" items="${cList}">
 				<tr>
-					<td>
-					<c:out value="${count}"/>					
-					</td>
 					<td>
 					<c:out value="${item.cp_cus_num}"/>					
 					</td>
@@ -346,16 +353,16 @@
 					<td>
 					<c:out value="${item.cp_price}"/>					
 					</td>
-					<td>
-					<c:out value="${item.cp_price}"/>					
+				<td>
+					<fmt:formatDate value="${item.exdate}" pattern="yyyy/MM/dd"/>
 					</td>
 					<td>
-					<c:out value="${item.exdate.publishdate(0, 10)}"/>					
+					<fmt:formatDate value="${item.publishdate}" pattern="yyyy/MM/dd"/>
 					</td>
 					<td>
-					<c:out value="${item.exdate.substring(0, 10)}"/>					
+					<fmt:formatDate value="${item.usedate}" pattern="yyyy/MM/dd"/>
 					</td>
-				</tr>
+						</tr>
                 		</c:forEach>
                 </tbody>
         </table>
@@ -389,11 +396,15 @@
         <tbody>
             <tr>
                 <th style="  color: white; padding: 15px; text-align: center;">
-                    <div>
-                        <b>
-                            <a href="../member/modifyForm" style="color: gray; text-decoration: none;">정보수정</a>
-                        </b>
-                    </div>
+                  
+                       <td>
+                            <a href="../member/modifyForm" style="color: black; text-decoration: none;">정보수정</a>
+                         </td>
+                            <td>
+ 							<c:if test="${dto.m_status eq 1001 and dto.m_status le 1003}">
+						 <input type="button" name="modify" value="판매자 신청"  onclick="javascript:window.location='/member/sallerInputForm'" style="background-color:lightgray; border:none; color:black; ">
+							</c:if>
+								</td>
                 </th>
             </tr>
         </tbody>

@@ -3,138 +3,156 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ include file="../../header.jsp" %>
 <head>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script>
-function orderSelectedItems() {
-    var selectedShopNums = getSelectedShopNums();
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+    function orderSelectedItems() {
+    	  var selectedShopNums = getSelectedShopNums();
 
-    // 선택된 상품이 없을 경우 알림 표시 및 이동 막기
-    if (selectedShopNums.length === 0) {
-        alert("주문할 상품을 선택해주세요.");
-        return false; // 이동을 막기 위해 false 반환
-    }
+    	  // 선택된 상품이 없을 경우 알림 표시 및 이동 막기
+    	  if (selectedShopNums.length === 0) {
+    	    alert('선택된 상품이 없습니다.');
+    	    return;
+    	  }
 
-    // 선택한 상품의 shop_num을 서버로 전송
-    $.ajax({
-        type: "POST",
-        url: "/member/order/orderPageTwo",
-        data: { selectedShopNums: selectedShopNums.join(',') },
-        success: function(response) {
-            console.log(response);
-            // Ajax 성공 시 페이지 이동을 호출하지 않음
-        },
-        error: function(error) {
-            console.error("Ajax 요청 중 에러 발생:", error);
+    	  // 서버로 전송할 데이터
+    	  var data = {
+    	    selectedShopNums: selectedShopNums
+    	  };
+
+    	  // jQuery ajax 사용하여 서버로 요청 전송
+    	  $.ajax({
+    	    url: '/member/orderPageTwo',
+    	    type: 'POST',
+    	    data: JSON.stringify(data),
+    	    contentType: 'application/json',
+    	    success: function(response) {
+    	      // 요청 성공 시 알림 표시 및 페이지 새로고침
+    	      alert('주문이 완료되었습니다.');
+    	      location.href = '/member/orderPageOne';
+    	    //  location.reload();
+    	    },
+    	    error: function(xhr, status, error) {
+    	      // 요청 실패 시 에러 메시지 표시
+    	      alert('주문에 실패했습니다. 다시 시도해주세요.');
+    	    }
+    	  });
+    	}
+
+        // 주문하기 버튼 클릭 시 이벤트 추가
+        $(document).ready(function () {
+            $('#orderButton').click(function (event) {
+                // 폼 전송 막기
+                event.preventDefault();
+                orderSelectedItems();
+            });
+        });
+
+        function getSelectedShopNums() {
+        	  // 실제로 선택된 상품의 shop_num을 가져오는 로직을 구현
+        	  var selectedShopNums = [];
+        	  var checkboxes = document.getElementsByName('selectedShopNums');
+
+        	  for (var i = 0; i < checkboxes.length; i++) {
+        	    if (checkboxes[i].checked) {
+        	      selectedShopNums.push(checkboxes[i].value);
+        	    }
+        	  }
+
+        	  return selectedShopNums;
+        	}
+
+        // 기존의 "update_click" 함수 수정
+        function update_click(button, operation, shop_num) {
+            var input_element = button.parentElement.querySelector('.shop_quantity');
+            var current_quantity = parseInt(input_element.value);
+
+            var shop_quantity = button.dataset.shop_quantity;
+            var new_quantity;
+
+            if (operation == 'increase') {
+                new_quantity = current_quantity + 1;
+            } else if (operation == 'decrease' && current_quantity > 1) {
+                new_quantity = current_quantity - 1;
+            } else {
+                // 1 미만의 수량은 허용하지 않음
+                alert("상품 수량은 1보다 작을 수 없습니다.");
+                return;
+            }
+
+            // 서버로 업데이트된 수량 정보를 전송
+            console.log(new_quantity);
+            sendUpdateQuantityRequest(new_quantity, shop_num);
         }
-    });
 
-    return false; // 이동을 막기 위해 false 반환
-}
-// 주문하기 버튼 클릭 시 이벤트 추가
-document.getElementById('orderButton').addEventListener('click', function(event) {
-    // 폼 전송 막기
-    event.preventDefault();
-    orderSelectedItems();
-});
+        // 새로운 함수: 상품 수량 업데이트 요청을 보내는 함수
+        function sendUpdateQuantityRequest(new_quantity, shop_num) {
+            var requestData = {
+                shop_quantity: new_quantity,
+                shop_num: shop_num
+            };
+            $.ajax({
+                type: "POST",
+                url: "/member/updateQuantity",
+                data: requestData,
+                success: function(response) {
+                    console.log(response);
+                    location.reload();
+                },
+            });
+        }
 
-    function getSelectedShopNums() {
-        // 실제로 선택된 상품의 shop_num을 가져오는 로직을 여기에 구현
-        // 아래는 임의의 예시 코드
+        // 선택한상품 삭제
+
+        // 선택한 상품의 shop_num을 저장할 배열
         var selectedShopNums = [];
-        var checkboxes = document.getElementsByName('selectedShopNums');
 
-        for (var i = 0; i < checkboxes.length; i++) {
-            if (checkboxes[i].checked) {
-                selectedShopNums.push(checkboxes[i].value);
+        // 체크박스를 클릭할 때 호출되는 함수
+        function toggleSelectedShopNum(checkbox, shop_num) {
+            if (checkbox.checked) {
+                // 체크된 경우 배열에 추가
+                selectedShopNums.push(shop_num);
+            } else {
+                // 체크가 해제된 경우 배열에서 제거
+                var index = selectedShopNums.indexOf(shop_num);
+                if (index !== -1) {
+                    selectedShopNums.splice(index, 1);
+                }
             }
+
+            console.log("현재 선택한 상품들: ", selectedShopNums);
         }
 
-        return selectedShopNums;
-    }
+        function deleteSelectedItems() {
+        	  var selectedShopNums = getSelectedShopNums();
 
-    // 기존의 "update_click" 함수 수정
-    function update_click(button, operation, shop_num) {
-        var input_element = button.parentElement.querySelector('.shop_quantity');
-        var current_quantity = parseInt(input_element.value);
+        	  // 선택된 상품이 없을 경우 알림 표시 및 이동 막기
+        	  if (selectedShopNums.length === 0) {
+        	    alert('선택된 상품이 없습니다.');
+        	    return;
+        	  }
 
-        var shop_quantity = button.dataset.shop_quantity;
-        var new_quantity;
+        	  // 서버로 전송할 데이터
+        	  var data = {
+        	    selectedShopNums: selectedShopNums
+        	  };
 
-        if (operation == 'increase') {
-            new_quantity = current_quantity + 1;
-        } else if (operation == 'decrease' && current_quantity > 1) {
-            new_quantity = current_quantity - 1;
-        } else {
-            // 1 미만의 수량은 허용하지 않음
-            alert("상품 수량은 1보다 작을 수 없습니다.");
-            return;
-        }
-
-        // 서버로 업데이트된 수량 정보를 전송
-        console.log(new_quantity);
-        sendUpdateQuantityRequest(new_quantity, shop_num);
-    }
-
-    // 새로운 함수: 상품 수량 업데이트 요청을 보내는 함수
-    function sendUpdateQuantityRequest(new_quantity, shop_num) {
-        var requestData = {
-            shop_quantity: new_quantity,
-            shop_num: shop_num
-        };
-        $.ajax({
-            type: "POST",
-            url: "/member/updateQuantity",
-            data: requestData,
-            success: function(response) {
-                console.log(response);
-                location.reload();
-            },
-        });
-    }
-
-    // 선택한상품 삭제
-
-    // 선택한 상품의 shop_num을 저장할 배열
-    var selectedShopNums = [];
-
-    // 체크박스를 클릭할 때 호출되는 함수
-    function toggleSelectedShopNum(checkbox, shop_num) {
-        if (checkbox.checked) {
-            // 체크된 경우 배열에 추가
-            selectedShopNums.push(shop_num);
-        } else {
-            // 체크가 해제된 경우 배열에서 제거
-            var index = selectedShopNums.indexOf(shop_num);
-            if (index !== -1) {
-                selectedShopNums.splice(index, 1);
-            }
-        }
-    }
-
-    function deleteSelectedItems() {
-        // 선택한 상품들의 shop_num 배열을 문자열로 변환하여 hidden input에 설정
-        var selectedShopNumsInput = document.getElementById('selectedShopNums');
-
-        // 선택한 상품이 없는 경우 알림 표시
-        if (selectedShopNums.length === 0) {
-            alert("삭제할 상품을 선택해주세요.");
-            return;
-        }
-
-        selectedShopNumsInput.value = selectedShopNums.join(',');
-
-        // 선택한 상품들 삭제를 위한 서버 요청
-        $.ajax({
-            type: "POST",
-            url: "/member/deleteSelectedItems",
-            data: { selectedShopNums: selectedShopNums.join(',') },
-            success: function(response) {
-                console.log(response);
-                location.reload();
-            },
-        });
-    }
-</script>
+        	  // jQuery ajax 사용하여 서버로 요청 전송
+        	  $.ajax({
+        	    url: '/member/deleteSelectedItems',
+        	    type: 'POST',
+        	    data: JSON.stringify(data),
+        	    contentType: 'application/json',
+        	    success: function(response) {
+        	      // 요청 성공 시 페이지 새로고침
+        	      location.reload();
+        	    },
+        	    error: function(xhr, status, error) {
+        	      // 요청 실패 시 에러 메시지 표시
+        	      alert('상품 삭제에 실패했습니다. 다시 시도해주세요.');
+        	    }
+        	  });
+        	}
+    </script>
 </head>
 <div class="row">
     <div class="col-lg-12">
@@ -199,7 +217,7 @@ document.getElementById('orderButton').addEventListener('click', function(event)
                     </tr>
                 </c:forEach>
                 <form action="orderPageOne"  method="post"> 
-                    <input type="submit" value="주문"  onclick="orderSelectedItems()">
+                    <input type="submit" value="주문"  onclick="orderSelectedItems()" id="orderButton">
                 </form>
                 <tr>
                     <td></td>

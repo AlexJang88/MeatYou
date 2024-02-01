@@ -546,20 +546,14 @@ WHERE
             )
                 ]]>
             </insert>
-            																							 
-    <!-- 선택한 상품들의 정보를 조회하는 쿼리 -->																	 
-  <select id="getSelectedProducts" parameterType="java.util.List" resultType="com.gogi.meatyou.bean.ShoppingCartDTO">
-  SELECT * FROM shoppingcart_${add_m_id}
-  WHERE shop_num IN
-  <foreach collection="selectedShopNums" item="shop_num" open="(" separator="," close=")">
-    #{shop_num}
-  </foreach>
+
+<select id="getSelectedProducts" parameterType="java.util.List" resultType="com.gogi.meatyou.bean.ShoppingCartDTO">
+    SELECT * FROM shoppingcart_${add_m_id}
+    WHERE shop_num IN
+    <foreach collection="selectedShopNums" item="shop_num" open="(" separator="," close=")">
+        #{shop_num}
+    </foreach>
 </select>
-
-
-
-
- 
 <select id="couponCount"  >		
     SELECT COUNT(*) FROM coupon where cp_m_id='${cp_m_id}' 
 </select>

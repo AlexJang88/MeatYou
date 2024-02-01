@@ -29,15 +29,26 @@
                 </tr>
             </thead>
             <tbody>
-              <c:forEach var="product" items="${sessionScope.selectedProducts}">
-				    <p>${product}</p>
-				</c:forEach>
+                <!-- 결제 페이지에서의 출력 수정 -->
+                <c:forEach var="product" items="${selectedItems}">
+                    <tr>
+                        <td><c:out value="${product.p_name}" /></td>
+                        <td><c:out value="${product.pd_p_desc}" /></td>
+                        <td><c:out value="${product.thumb}" /></td>
+                        <td><c:out value="${product.shop_quantity}" /></td>
+                        <td><c:out value="${product.p_price * product.shop_quantity}" /></td>
+                    </tr>
+                </c:forEach>
             </tbody>
         </table>
         <!-- 추가적인 결제 정보 입력 폼 등을 필요에 따라 구현 -->
-        <button type="submit">결제 페이지로 이동</button>
+        <button type="submit">결제</button>
     </form>
-    <form action="orderPageOne"  method="post"> 
+    <!-- 주문 확인 페이지로 이동 -->
+    <form action="orderPageOne" method="post"> 
+        <c:forEach var="product" items="${selectedItems}">
+            <input type="hidden" name="selectedProducts" value="${product.shop_num}" />
+        </c:forEach>
         <input type="submit" value="다시 주문 확인">
     </form>
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />

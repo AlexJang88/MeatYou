@@ -134,5 +134,5 @@ public interface MemberMapper {
             int deletePickMeByCId2(@Param("pm_m_id") String pm_m_id,      @Param("pm_c_id") String pm_c_id);
             int pickMeInsert2(PickMeDTO pdto, @Param("pm_m_id") String pm_m_id , @Param("pm_c_id")String pm_c_id,@Param("pm_num") int pm_num );
             
-            List<ShoppingCartDTO> getSelectedProducts(  @RequestParam  List<String> selectedShopNums, @Param("add_m_id") String add_m_id);
+            List<ShoppingCartDTO> getSelectedProducts( @Param("selectedShopNums") List<String> selectedShopNums,  @Param("add_m_id") String add_m_id);
    }

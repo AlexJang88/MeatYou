@@ -115,24 +115,21 @@ public class MemberController {
 	     return "member/saller/sallerInputForm";
 	}
     
+    
+    
     @RequestMapping("/modify")
-    public String modify(Model model, Authentication authentication, CouponDTO cdto, @Param("cp_m_id") String cp_m_id) {
-        // 인증에서 사용자 이름을 가져옵니다.
-        String username = authentication.getName();
+    public String modify(Model model, Authentication authentication, CouponDTO cdto ) {
+        String cp_m_id = authentication.getName();
         
-        // 사용자 정보를 사용자 이름을 기반으로 가져옵니다.
-        MemberDTO dto = service.getUser(username);
+        MemberDTO dto = service.getUser(cp_m_id);
         
-        // 지정된 cp_m_id에 대한 쿠폰 목록과 수를 가져옵니다.
         List<CouponDTO> cList = service.howmuchCoupon(cp_m_id);
         int count = service.couponCount(cp_m_id);
         
-        // 뷰에서 사용할 모델에 속성을 추가합니다.
         model.addAttribute("cList", cList);
         model.addAttribute("count", count);
         model.addAttribute("dto", dto);
         
-        // "member/myPage/modify" 뷰 이름을 반환합니다.
         return "member/myPage/modify";
     }
     
@@ -200,18 +197,17 @@ public class MemberController {
           int totalPrice = sdto.getShop_quantity() * sdto.getP_price();
 
           List<ShoppingCartDTO> shoppingCartList = service.getShoppingCartItemsPaged(shop_m_id, page, pageSize, sdto, pdto,pddto);
-          // 선택된 상품을 세션에 저장
           session.setAttribute("selectedProducts", selectedProducts);
           int totalItemCount = service.getTotalShoppingCartItems(shop_m_id);
 
           int totalPage = (int) Math.ceil((double) totalItemCount / pageSize);
-          System.out.print("selectedProducts=============================="+selectedProducts);
           model.addAttribute("shoppingCartList", shoppingCartList);
           model.addAttribute("totalPrice", totalPrice);
           model.addAttribute("page", page);
           model.addAttribute("pageSize", pageSize);
           model.addAttribute("totalPage", totalPage);
           model.addAttribute("selectedProducts", selectedProducts);
+          System.out.print("selectedProducts=============================="+selectedProducts);
           return "member/shoppingCart/shoppingCartForm";
       }
       
@@ -468,34 +464,6 @@ public class MemberController {
     
     
     
-     /*
-     @RequestMapping("/find") public String findIDPW() { return"all/find"; }
-     
-     @GetMapping("/mailCheck")
-     @ResponseBody public String mailCheck(String email) {
-     System.out.println("�씠硫붿씪 �씤利� �슂泥��씠 �뱾�뼱�샂!"); System.out.println("�씠硫붿씪 �씤利� �씠硫붿씪 : " +
-      email); return mailService.joinEmail(email); }
-   
-   @PostMapping("/checkSuccess")
-   public String mail(String userEmail1, String userEmail2, Model model) {
-      String email = userEmail1+userEmail2;
-      int result;
-      MemberDTO mdto = usersRepository.FindByEmail(email);      
-      if(mdto == null) {
-         result = 0;
-         model.addAttribute("result", result);
-         model.addAttribute("email", email);
-      }else {
-         result = 1;
-         String m_name = mdto.getM_name();
-         String m_id = mdto.getM_name();
-         model.addAttribute("result", result);
-         model.addAttribute("m_name", m_name);
-         model.addAttribute("email", email);
-      }
-      return "user/mail";
-   }
-*/
     @RequestMapping("orderPageOne")
     public String orderPageOne(Principal peid,Model model,MemAddressDTO adto,MemberDTO mdto,String combined_address) {
        String add_m_id = peid.getName();   
@@ -508,78 +476,33 @@ public class MemberController {
         model.addAttribute("dto", dto);
         return "member/order/orderPageOne";
     }
-/*
-    @RequestMapping("orderPageTwo")
-    public String orderPageTwo(Principal peid,Model model,MemAddressDTO adto,MemberDTO mdto,String combined_address
-    		,@RequestParam(value = "selectedShopNums", required = false) String selectedShopNums) {
-       
-       String add_m_id = peid.getName();   
-       adto.setAdd_m_id(add_m_id);
-       // 상품 정보 가져오기
-       List<SelectedProductDTO> selectedItems = service.getSelectedProducts(selectedShopNums);
-
-       MemberDTO dto = service.getUser(add_m_id);         
-       model.addAttribute("adto", adto);
-       model.addAttribute("add_m_id", add_m_id);
-       model.addAttribute("dto", dto);
-       return "member/order/orderPageTwo";
-    }
-    */
-  /*
-    @RequestMapping("orderPageTwo")
-    public String orderPageTwo(Principal peid, Model model, MemAddressDTO adto, MemberDTO mdto,
-            @RequestParam(value = "selectedShopNums", required = false) String selectedShopNums,
-            HttpSession session) {
-
-        String add_m_id = peid.getName();
-        adto.setAdd_m_id(add_m_id);
-
-        // 세션에서 리스트 가져오기
-        List<String> selectedProducts = (List<String>) session.getAttribute("selectedProducts");
-
-        // 상품 정보 가져오기
-        List<SelectedProductDTO> selectedItems = service.getSelectedProducts(selectedShopNums);
-
-        // 세션에 저장
-        MemberDTO dto = service.getUser(add_m_id);
-        model.addAttribute("adto", adto);
-        model.addAttribute("add_m_id", add_m_id);
-        model.addAttribute("dto", dto);
-        model.addAttribute("selectedItems", selectedItems);
-        
-        // 기타 로직 수행
-
-        return "member/order/orderPageTwo";
-    }*/
-    
-    
+ 
     
     @RequestMapping("orderPageTwo")
     public String orderPageTwo(Principal peid, Model model, MemAddressDTO adto, MemberDTO mdto,
             @RequestParam(value = "selectedShopNums", required = false) List<String> selectedShopNums,
             HttpSession session) {
-    	// 상품 정보 가져오기
         String add_m_id = peid.getName();
         adto.setAdd_m_id(add_m_id);
 
-        // selectedShopNums가 null이면 빈 리스트로 초기화
-        if (selectedShopNums == null) {
-            selectedShopNums = new ArrayList<>();
+        List<String> selectedProducts = (List<String>) session.getAttribute("selectedProducts");
+ 
+        if (selectedProducts == null) {
+            // 세션에 선택된 상품 목록이 없는 경우에 대한 처리
+            // 예: 에러 메시지를 모델에 추가하거나 다른 로직 수행
+            return "redirect:/member/shoppingCartForm"; // 장바구니 페이지로 이동하거나 다른 페이지로 리다이렉트
         }
-
-     // 상품 정보 가져오기
-        //List<SelectedProductDTO> selectedItems = service.getSelectedProducts(selectedShopNums, add_m_id);
-       List<ShoppingCartDTO> selectedItems = service.getSelectedProducts(selectedShopNums,add_m_id);
-        
-        // 세션에 저장
+ 
+        // 여기서부터는 선택된 상품 목록이 있는 경우의 로직
+        List<ShoppingCartDTO> selectedItems = service.getSelectedProducts(selectedProducts, add_m_id);
         MemberDTO dto = service.getUser(add_m_id);
         model.addAttribute("adto", adto);
         model.addAttribute("add_m_id", add_m_id);
         model.addAttribute("dto", dto);
         model.addAttribute("selectedItems", selectedItems);
+
         return "member/order/orderPageTwo";
     }
-    
     
     
     

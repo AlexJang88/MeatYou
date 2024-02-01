@@ -27,27 +27,32 @@
    
    </style>
   <script>
-//one.jsp 내의 script 태그 내부
   function submitForm() {
-    // 선택한 주소 값을 가져옵니다
-    var selectedAddress = document.getElementById('selectedAddress').value;
+	  // 선택한 주소 값을 가져옵니다
+	  var selectedAddress = document.getElementById('selectedAddress').value;
 
-    // 이제 이 값을 사용하여 다음 작업을 수행할 수 있습니다
-    // 예: AJAX를 사용하여 서버에 데이터 전송 또는 로컬 스토리지에 저장
-
-    // 예시: 로컬 스토리지에 저장
-    localStorage.setItem('selectedAddress', selectedAddress);
-
-    // 여기서는 서버로의 전송은 하지 않았습니다. 만약 서버로의 전송이 필요하다면 AJAX 등을 사용하세요.
-
-    // 페이지 이동 등의 추가 작업을 수행할 수 있습니다.
-    // 예: window.location.href = 'yourNextPage.html';
-  }
+	  // AJAX를 사용하여 서버로 데이터 전송
+	  $.ajax({
+	    url: '/member/updateAddress',
+	    type: 'POST',
+	    data: {
+	      selectedAddress: selectedAddress
+	    },
+	    success: function(response) {
+	      // 서버에서 처리 후 페이지 이동
+	      if (response.success) {
+	        location.href = '/member/orderPageTwo';
+	      } else {
+	        alert('주소 업데이트에 실패했습니다.');
+	      }
+	    }
+	  });
+	}
 </script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 <body>
-<form action="orderPageTwo" method="post"  onsubmit="submitForm()">
+<form action="orderPageTwo" method="post" onsubmit="submitForm()">
 <b>  잠깐~~!   개인정보 및 배송지 확인하고 가실게여~</b>
     <table border="1">
         <thead  >
