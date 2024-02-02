@@ -10,9 +10,9 @@ import org.springframework.web.client.RestTemplate;
 
 import com.gogi.meatyou.bean.CusOrderDTO;
 import com.gogi.meatyou.bean.KaKaoPayDTO;
+import com.gogi.meatyou.bean.KakaoApproveResponse;
+import com.gogi.meatyou.bean.KakaoReadyResponse;
 import com.gogi.meatyou.bean.ProductDTO;
-import com.gogi.meatyou.test.KakaoApproveResponse;
-import com.gogi.meatyou.test.KakaoReadyResponse;
 
 import lombok.RequiredArgsConstructor;
 

@@ -4,9 +4,9 @@ import org.springframework.http.HttpHeaders;
 
 import com.gogi.meatyou.bean.CusOrderDTO;
 import com.gogi.meatyou.bean.KaKaoPayDTO;
+import com.gogi.meatyou.bean.KakaoApproveResponse;
+import com.gogi.meatyou.bean.KakaoReadyResponse;
 import com.gogi.meatyou.bean.ProductDTO;
-import com.gogi.meatyou.test.KakaoApproveResponse;
-import com.gogi.meatyou.test.KakaoReadyResponse;
 
 public interface KaKaoPaymentService {
 	 public KakaoReadyResponse kakaoPayReady(KaKaoPayDTO dto);

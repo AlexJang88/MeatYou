@@ -13,7 +13,7 @@
 <!-- 		<link href="/resources/img/gogi.jpg" rel="shortcut icon" type="image/x-icon"> -->
  		<!-- Google font -->
  		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
-
+	z
  		<!-- Bootstrap --> 
  		<link type="text/css" rel="stylesheet" href="/resources/css/bootstrap.min.css"/>
 
@@ -45,8 +45,8 @@
 			<div id="top-header">
 				<div class="container">
 				
-					<ul class="header-links pull-right">
-						                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />      
+				<ul class="header-links pull-right">
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />      
                   <sec:authorize access="isAnonymous()">
                       <li><a href="/member/inputForm"><i class="fa"></i>회원가입 </a></li>
                       <li><a href="/member/customLogin"><i class="fa"></i> 로그인</a></li>

@@ -24,7 +24,7 @@
 <br />
 <a href="/admin/sales">매출보기</a>
 <br>
-<h2>매출 요약정보</h2>
+<h2 id="getYear">매출 요약정보</h2>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	매출연도 검색 : <input name="startYear" id="startYear" class="date-picker-year" readonly />  <button id="Serch_btn">검색</button>
 	
@@ -64,20 +64,20 @@
 <br />
 <table>
 	<tr>
-		<td>이번달 총 매출</td>
-		<td>이번달 총 상품 판매금액</td>
-		<td>이번달 총 상품 수수료</td>
-		<td>이번달 유료결제(품목) 금액</td>
-		<td>이번달 유료결제(상위노출) 금액</td>
-		<td>이번달 쿠폰 사용금액</td>
+		<td>총 매출</td>
+		<td>순 매출</td>
+		<td>판매 수수료 수익</td>
+		<td>유료결제(품목) 수익</td>
+		<td>유료결제(상위노출) 수익</td>
+		<td>쿠폰 지출</td>
 	</tr>
 	<tr>
-		<td>${pt}</td>
-		<td>${ps}</td>
-		<td>${pc}</td>
-		<td>${pi}</td>
-		<td>${pa}</td>
-		<td>${pc}</td>
+		<td>${total}</td>
+		<td>${net_profit}</td>
+		<td>${productComm}</td>
+		<td>${item}</td>
+		<td>${Adv}</td>
+		<td>${coupon}</td>
 	</tr>
 </table>
 <script type="text/javascript">
@@ -94,9 +94,10 @@ $('#Serch_btn').on('click',function(){
             var net_profit = data.net_profit;
             var co_pay = data.co_pay;
             var cp_price = data.cp_price;
-
+            var getYear = data.getYear;
             // 데이터를 그래프에 적용
-            update(total_profit,net_profit,co_pay,cp_price); // 그래프 업데이트
+            
+            update(total_profit,net_profit,co_pay,cp_price,getYear); // 그래프 업데이트
         },
         error: function (xhr, status, error) {
             console.error('데이터 가져오기 실패:', error);
@@ -145,9 +146,9 @@ $('#Serch_btn').on('click',function(){
             	var net_profit = data.net_profit;
             	var co_pay = data.co_pay;
             	var cp_price = data.cp_price;
-
+            	var getYear = data.getYear;
             // 데이터를 그래프에 적용
-            update(total_profit,net_profit,co_pay,cp_price); // 그래프 업데이트
+            update(total_profit,net_profit,co_pay,cp_price,getYear); // 그래프 업데이트
             },
             error: function (xhr, status, error) {
                 console.error('데이터 가져오기 실패:', error);
@@ -155,7 +156,7 @@ $('#Serch_btn').on('click',function(){
         });
     }
 
-    function update(d1, d2,d3,d4) {
+    function update(d1, d2,d3,d4,d5) {
     	 $('#sales-chart').remove();
          $('#graph-container').append('<canvas id="sales-chart"></canvas>');
         var ctx = document.getElementById('sales-chart').getContext('2d');
@@ -203,7 +204,7 @@ $('#Serch_btn').on('click',function(){
                 plugins: {
                     title: {
                         display: true,
-                        text: '연별 매출통계'
+                        text: d5+'년 매출통계'
                     },
                     legend: {
                         display: true

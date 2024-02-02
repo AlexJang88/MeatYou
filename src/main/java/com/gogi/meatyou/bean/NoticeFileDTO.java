@@ -9,4 +9,5 @@ public class NoticeFileDTO {
 	private String nf_filename;
 	private int nf_category;
 	
+	
 }

@@ -12,6 +12,8 @@ public class QnADTO {
 	private String ma_title;
 	private String ma_content;
 	private int ma_status;
-	private Date ma_regdate;
+	private Date ma_reg_date;
 	private int ma_ref;
+	private String readcheck;
+	private String ma_reply;
 }

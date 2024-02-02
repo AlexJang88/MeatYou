@@ -265,9 +265,6 @@ public  class CustomersServiceImpl implements CustomersService {
       }
       
       
-      
-
-  
          
       @Override
       public void stocklist(Model model, String id, int pageNum) {  

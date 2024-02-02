@@ -29,7 +29,6 @@ import com.gogi.meatyou.bean.CusOrderDTO;
 import com.gogi.meatyou.bean.PDetailDTO;
 import com.gogi.meatyou.bean.ProductDTO;
 import com.gogi.meatyou.service.CustomersService;
-import com.gogi.meatyou.test.KakaoApproveResponse;
 
 
 @Controller

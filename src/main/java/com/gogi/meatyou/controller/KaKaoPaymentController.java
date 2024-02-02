@@ -16,12 +16,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gogi.meatyou.bean.CusOrderDTO;
 import com.gogi.meatyou.bean.KaKaoPayDTO;
+import com.gogi.meatyou.bean.KakaoApproveResponse;
+import com.gogi.meatyou.bean.KakaoReadyResponse;
 import com.gogi.meatyou.bean.ProductDTO;
 import com.gogi.meatyou.service.CustomersService;
 import com.gogi.meatyou.service.KaKaoPaymentService;
-import com.gogi.meatyou.service.TestService;
-import com.gogi.meatyou.test.KakaoApproveResponse;
-import com.gogi.meatyou.test.KakaoReadyResponse;
 
 import lombok.RequiredArgsConstructor;
 

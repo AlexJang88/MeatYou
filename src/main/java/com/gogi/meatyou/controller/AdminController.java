@@ -65,7 +65,8 @@ public class AdminController {
 
 	@PreAuthorize("hasRole('ADMIN')")
 	@RequestMapping("/main")
-	public String main() {
+	public String main(Model model) {
+		adminServicImpl.getSales(model, 0);
 		return "admin/main";
 	}
 
@@ -93,11 +94,7 @@ public class AdminController {
 		return "redirect:/admin/memberlist?check=" + check + "&pageNum=" + pageNum;
 	}
 
-// @RequestMapping("/apiTest")
-// public String apiTest(Model model) {
-// adminServicImpl.apiTest(model);
-// return "admin/apiTest";
-// }
+ 
 
 	@RequestMapping("/sales")
 	public String sales(Model model, @RequestParam(value = "check", defaultValue = "0") int check, String daterange) {
@@ -106,7 +103,7 @@ public class AdminController {
 		// check�� ���� ��¥�� ���
 		Date targetDate = adminServicImpl.calculateTargetDate(currentDate, check);
 		// SimpleDateFormat�� ����Ͽ� ���ϴ� �������� ��¥�� ���ڿ��� ��ȯ
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy�� MM��");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월");
 		String formattedDate = sdf.format(targetDate);
 		model.addAttribute("currentMonth", targetDate.getMonth() + 1);
 		model.addAttribute("currentYear", targetDate.getYear() + 1900);
@@ -163,11 +160,29 @@ public class AdminController {
 		return "admin/productList";
 	}
 
-	@RequestMapping("/report")
-	public String report(HttpServletRequest req, HttpServletResponse resp, Model model, QnADTO dto) {
+	@RequestMapping("/reportReg")
+	public String reportReg(Principal pc,HttpServletRequest req, HttpServletResponse resp, Model model, QnADTO dto,int category) {
 		String realPath = req.getServletContext().getRealPath("/resources/file/report/");
+		dto.setMa_m_id(pc.getName());
 		adminServicImpl.reportReg(realPath, model, dto);
 		return "admin/productDetail";
+	}
+	
+	@RequestMapping("/reportList")
+	public String reportList(Model model, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,@RequestParam(value = "check", defaultValue = "1")int check) {
+		adminServicImpl.reportList(pageNum, model, check);
+		
+		return "admin/reportList";
+	}
+	@RequestMapping("/reportContent")
+	public String reportContent(Model model,int ma_num) {
+			adminServicImpl.reportContent(model, ma_num);
+		return "admin/reportContent";
+	}
+	@RequestMapping("/reportReply")
+	public String reportReply(QnADTO dto) {
+			adminServicImpl.reportReply(dto);
+		return "redirect:/admin/reprotContent?ma_num"+dto.getMa_num();
 	}
 
 	@RequestMapping(value = "/uploadReportImageFile", produces = "application/json; charset=utf8")
@@ -242,4 +257,9 @@ public class AdminController {
 		
 		return adminServicImpl.getChartData(period);
 	}
+	@RequestMapping("/apiTest")
+	 public String apiTest(Model model) {
+	 adminServicImpl.apiTest(model);
+	 return "admin/apiTest";
+	 }
 }

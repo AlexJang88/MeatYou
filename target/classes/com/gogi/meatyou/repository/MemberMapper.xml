@@ -69,50 +69,43 @@ INNER JOIN
 WHERE
   m.m_id = ${add_m_id}
 </select>
-
+<select id="combined_address" resultType="com.gogi.meatyou.bean.MemAddressDTO">
+    select CONCAT (add_mem_address1,add_mem_address2) as combined_address from mem_address where add_m_id='${add_m_id}'
+</select>
 
    <!-- 주소 삭제 -->
    <delete id="deleteAddr">
-      delete from mem_address  where add_num = ${add_num}
+      delete from mem_address  where add_num =#{add_num}
    </delete>
-    
-   
+  
+
+<!-- 예시: MemAddressDTO를 사용하는 update 쿼리 -->
 <update id="updateAddr" parameterType="com.gogi.meatyou.bean.MemAddressDTO">
-    update mem_address
-    <set>
-        <if test="add_mem_address1 != null and add_mem_address1 != '' ">add_mem_address1=#{add_mem_address1},</if>
-        <if test="add_mem_address2 != null and add_mem_address2 != '' ">
-            <if test="add_mem_address1 == null or add_mem_address1 == ''">add_mem_address2=#{add_mem_address2}</if>
-            <if test="add_mem_address1 != null and add_mem_address1 != ''">, add_mem_address2=#{add_mem_address2}</if>
-        </if>
-    </set> 
-    where add_m_id='${add_m_id.replace("'", "''").replaceAll(",\\s*$", "")}'
-</update>
-   
-   <!-- 
- 
-<update id="updateAddr" parameterType="com.gogi.meatyou.bean.MemAddressDTO">
-    update mem_address
+  UPDATE mem_address
+
          <set>
-            <if test="add_mem_address1 != null and add_mem_address1 != '' ">add_mem_address1=#{add_mem_address1},</if>
-            <if test="m_name != null and m_name != '' ">m_name=#{m_name},</if>
-            <if test="birth != null and birth != '' "> birth = TO_DATE(#{birth}, 'YYYY-MM-DD HH24:MI:SS.FF'),,</if>
-            <if test="m_addr1 != null and m_addr1 != '' ">m_addr1=#{m_addr1},</if>
-            <if test="m_addr2 != null and m_addr2 != '' ">m_addr2=#{m_addr2},</if>
-            <if test="email != null and email != '' ">email=#{email},</if>
-            <if test="telep != null and telep != '' ">telep=#{telep},</if>
-            <if test="phone != null and phone != '' ">phone=#{phone}</if>
-         </set> 
-     where add_m_id='${add_m_id.replace("'", "''").replaceAll(",\\s*$", "")}'
-   </update>
+          <if test="add_mem_address1 != null  and add_mem_address1 != '' ">    add_mem_address1 = '${add_mem_address1.replace("'", "''").replaceAll(",\\s*$", "")}',</if>
+       <if test="add_mem_address2 != null  and add_mem_address2 != '' "> add_mem_address2 ='${add_mem_address2.replace("'", "''").replaceAll(",\\s*$", "")}' </if>
+              </set>
+  WHERE add_num = ${adto.add_num}
+</update>
+ 
+  
+ <resultMap id="memAddressResultMap" type="com.gogi.meatyou.bean.MemAddressDTO">
+    <result property="add_mem_address1" column="ADD_MEM_ADDRESS1" />
+    <result property="add_mem_address2" column="ADD_MEM_ADDRESS2" jdbcType="VARCHAR" />
+</resultMap>
+
+ 
+
+<insert id="insertAddr" parameterType="com.gogi.meatyou.bean.MemAddressDTO">
+    INSERT INTO mem_address(add_num,add_m_id,add_mem_address1,add_mem_address2,add_type) VALUES
+   (mem_address_seq.nextval,'${add_m_id}','${add_mem_address1.replace("'", "''").replaceAll(",\\s*$", "")}','${add_mem_address2.replace("'", "''").replaceAll(",\\s*$", "")}',0)
+</insert>
    
-    -->
    
    
-   
-   
-   
-   
+  
 <select id="shoppingcartCheck" resultType="com.gogi.meatyou.bean.ShoppingCartDTO">
     select * from shoppingcart_${m_id} where shop_m_id=#{m_id}
 </select>
@@ -505,7 +498,8 @@ WHERE
          </set> 
       where m_id=#{m_id}
    </update>
-  
+   
+   
    
    <update id="statusChange" parameterType="com.gogi.meatyou.bean.MemberDTO" >
       update member set m_status = 1000 where  passwd = #{passwd}      
@@ -537,27 +531,19 @@ WHERE
 
             
                <insert id="insertIntoCusDetail" parameterType="com.gogi.meatyou.bean.CusDetailDTO">
-				    <![CDATA[
-				    INSERT INTO cus_detail(cus_num,cus_m_id, ceoname, corpno, company, cus_address1, cus_address2, cus_pnum,cus_accnum)
-				    VALUES (
-				       cus_detail_seq.nextval,
-				        #{cus_m_id},
-				        #{ceoname},
-				        #{corpno},
-				        #{company},
-				        #{cus_address1},
-				        #{cus_address2},
-				        #{cus_pnum},
-				        #{cus_accnum}
-				)
-				    ]]>
-				</insert>
-
-
-      
-      
-   
-      
-      
-      
+                <![CDATA[
+                INSERT INTO cus_detail(cus_num,cus_m_id, ceoname, corpno, company, cus_address1, cus_address2, cus_pnum,cus_accnum)
+                VALUES (
+                   cus_detail_seq.nextval,
+                    #{cus_m_id},
+                    #{ceoname},
+                    #{corpno},
+                    #{company},
+                    #{cus_address1},
+                    #{cus_address2},
+                    #{cus_pnum},
+                    #{cus_accnum}
+            )
+                ]]>
+            </insert>
 </mapper>

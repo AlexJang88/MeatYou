@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.gogi.meatyou.bean.AdminProductDTO;
+import com.gogi.meatyou.bean.CouponDTO;
 import com.gogi.meatyou.bean.MemberDTO;
 import com.gogi.meatyou.bean.NoticeDTO;
 import com.gogi.meatyou.bean.NoticeFileDTO;
@@ -37,9 +38,11 @@ public interface AdminService {
 	public void goodMemberUpdate(List<String> id);
 
 	public void bestMemberUpdate(List<String> id);
+	
+	
 
-	// public MemberDTO test(String m_id);
-	// public void apiTest(Model model);
+	public void test();
+	
 	public void statChange(MemberDTO dto);
 
 	public void getSales(Model model, int check);
@@ -67,8 +70,6 @@ public interface AdminService {
 
 	public void noticeDelete(int num, String realPath);
 
-	public int noticeMaxnum();
-
 	public String getSearchProductList(int pageNum, String keyword, String searchOpt, int cate1, int cate2, int cate3,
 			int pstatus, Model model);
 
@@ -80,7 +81,19 @@ public interface AdminService {
 
 	public String uploadReportImageFile(@RequestParam("file") MultipartFile multipartFile, String realPath);
 
-	public int reportReg(String realPath, Model model, QnADTO dto);
+	public void reportReg(String realPath, Model model, QnADTO dto);
+	
+	public void reportList(int pageNum,Model model,int check);
+	
+	public void reportContent(Model model,int num);
+	
+	public void reportReply(QnADTO dto);
+	
+	public List<CouponDTO> getCouponMember(int m_status,int cp_price);
 	
 	public String getChartData(String period);
+	
+	public void apiTest(Model model);
+	
+	
 }

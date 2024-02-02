@@ -14,6 +14,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.gogi.meatyou.bean.AdminProductDTO;
 import com.gogi.meatyou.bean.ChartDTO;
+import com.gogi.meatyou.bean.CouponDTO;
 import com.gogi.meatyou.bean.MemberDTO;
 
 import com.gogi.meatyou.bean.NoticeDTO;
@@ -23,7 +24,6 @@ import com.gogi.meatyou.bean.NoticeFileDTO;
 import com.gogi.meatyou.bean.QnADTO;
 
 import com.gogi.meatyou.bean.ReckonDTO;
-
 
 
 public interface AdminMapper {
@@ -45,6 +45,10 @@ public interface AdminMapper {
    public void goodMemberUpdate(List<String> id);
 
    public void bestMemberUpdate(List<String> id);
+   
+   public void autoCoupon(List<CouponDTO> list);
+   
+   public List<CouponDTO> getCouponMember(HashMap hashmap);
 
    public MemberDTO test(String m_id);
 
@@ -73,10 +77,16 @@ public interface AdminMapper {
    public int getCheckProductComm(HashMap hashmap);
 
    public int getCheckPaidItem(HashMap hashmap);
-
+   
    public int getCheckPaidAdv(HashMap hashmap);
 
    public int getCheckUsedCoupon(HashMap hashmap);
+   
+   public List<Integer> getDiseaseIssueNum();
+   
+   public List<Integer> getCancleDIsuueNum();
+   
+   public void DiseaseCheck(HashMap hashmap);
 
    public List<ReckonDTO> getReckon(HashMap hashmap);
 
@@ -109,6 +119,7 @@ public interface AdminMapper {
    public List<AdminProductDTO> adminProductList(HashMap hashmap);
 
    public int adminProductCount(HashMap hashmap);
+   
 
    public void pdstatChange(HashMap hashmap);
 
@@ -122,5 +133,15 @@ public interface AdminMapper {
 
    public void reportReg(QnADTO dto);
    
-   public List<ChartDTO> getChartData(String period); 
+   public List<QnADTO> reportList(HashMap hashmap);
+   
+   public int reportCount(int check);
+   
+   public QnADTO reportContent(int ma_num);
+   
+   public void reportReply(QnADTO dto);
+   
+   public List<ChartDTO> getChartData(String period);
+   
+   
 }

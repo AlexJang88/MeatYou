@@ -169,18 +169,18 @@ function fetchData(keyword, searchOpt, cate1, cate2, cate3,pstatus,pageNum) {
                }
                if(product.pd_p_status==0){
                tableContent+="<td>"
-               tableContent+="<form action='/admin/memo' method='post'><input type='hidden' name='p_num' value="+product.p_num+">"
-               tableContent+="<intput type='hidden' name='check' value="+1+">"
-               tableContent+="<intput type='hidden' name='p_status' value="+product.p_status+">"
+               tableContent+="<form action='/admin/memo' method='post'><input type='hidden' name='p_num' value='"+product.p_num+"'>"
+               tableContent+="<intput type='hidden' name='check' value='"+1+"'>"
+               tableContent+="<intput type='hidden' name='p_status' value=''"product.p_status+"'>"
                
                tableContent+="<input type='submit' value='판매중지' onsubmit='return confirmsbm();'>"
                tableContent+="</td>";
                tableContent+="</tr>";
                }else if((product.pd_p_status/10)%10>0){
             	   tableContent+="<td>"
-                   tableContent+="<form action='/admin/pschange' method='post'><input type='hidden' name='p_num' value="+product.p_num+">"
-                   tableContent+="<intput type='hidden' name='check' value="+2+">"
-                   tableContent+="<intput type='hidden' name='p_status' value="+product.p_status+">"
+                   tableContent+="<form action='/admin/pschange' method='post'><input type='hidden' name='p_num' value='"+product.p_num+"'>"
+                   tableContent+="<intput type='hidden' name='check' value='"+2+"'>"
+                   tableContent+="<intput type='hidden' name='p_status' value='"+product.p_status+"'>"
                    tableContent+="<input type='submit' value='판매중지' onsubmit='return confirmsbm();'>"
                    tableContent+="</td>";
                    tableContent+="</tr>";
