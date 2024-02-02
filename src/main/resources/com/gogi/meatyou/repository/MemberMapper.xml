@@ -211,6 +211,8 @@ WHERE rnum >= #{startRow, jdbcType=NUMERIC}
     FROM shoppingcart_${shop_m_id}
 </select>
     
+
+
     <!-- 여기까지가 페이징 -->
     
 <!-- 게시물 선택 삭제  -->
@@ -234,6 +236,17 @@ WHERE rnum >= #{startRow, jdbcType=NUMERIC}
         AND shop_m_id = #{shop_m_id}
     </where>
 </delete>
+
+
+<select id="findshop_p_num" resultType="com.gogi.meatyou.bean.UserPayDTO" parameterType="hashmap">
+   select * from (select * from shoppingCart_${add_m_id} where shop_num in 
+   <foreach collection="list" item="shop_num" open="(" separator="," close=")">
+                #{shop_num}
+            </foreach>
+   ) s ,(select * from product) p where s.shop_p_num=p.p_num
+</select>
+    
+
 
 
 <!-- 찜 업체  리스트   -->
@@ -547,12 +560,21 @@ WHERE
                 ]]>
             </insert>
 
-<select id="getSelectedProducts" parameterType="java.util.List" resultType="com.gogi.meatyou.bean.ShoppingCartDTO">
-    SELECT * FROM shoppingcart_${add_m_id}
-    WHERE shop_num IN
-    <foreach collection="selectedShopNums" item="shop_num" open="(" separator="," close=")">
-        #{shop_num}
-    </foreach>
+<select id="getSelectedProducts" resultType="com.gogi.meatyou.bean.ShoppingCartDTO">
+    SELECT
+    sc.*,
+    p.p_name,
+    p.thumb,
+    p.p_price,
+    pd.pd_p_desc
+FROM
+    shoppingcart_${add_m_id} sc
+JOIN
+    product p ON sc.shop_p_num = p.p_num
+JOIN
+    p_detail pd ON sc.shop_p_num = pd.pd_p_num
+WHERE
+    sc.shop_num = #{shop_num}
 </select>
 <select id="couponCount"  >		
     SELECT COUNT(*) FROM coupon where cp_m_id='${cp_m_id}' 
@@ -562,7 +584,56 @@ select * from coupon where cp_m_id='${cp_m_id}'
 </select>
 
 
+        <insert id="twoNextPay" parameterType="com.gogi.meatyou.bean.MOrderDTO">
+                <![CDATA[
+                INSERT INTO m_order(
+                order_num,
+                order_m_id,
+                order_cp_num,
+                order_p_num,
+                order_P_PRICE,
+                order_DERE_NUM,
+                order_DERE_PAY,
+                ORDER_ADDR,
+                order_QUANTITY,
+                order_PAYTYPE,
+                order_STATUS
+                ,order_DISCOUNT,
+                order_TOTALPRICE,
+                order_MEMO,
+                order_paydate,
+                order_canceldate,
+                order_dere_start,
+                order_dere_end)
+                VALUES (
+                   m_order_seq.nextval,
+                    ${add_m_id},
+                    #{order_cp_num},
+                    #{order_p_num},
+                    #{order_P_PRICE},
+                    #{order_DERE_NUM},
+                    2500,
+                    #{ORDER_ADDR},
+                    #{order_QUANTITY},
+                   '카드',
+                 	  1,
+                    #{order_DISCOUNT},
+                    #{order_TOTALPRICE},
+                    #{order_MEMO},
+                    #{order_paydate},
+                    #{order_canceldate},
+                    #{order_dere_start},
+                    #{order_dere_start},
+                    #{order_dere_end}
+            )
+                ]]>
+            </insert>
 
+		<select id="findCouponToCpNum" parameterType="int" resultType="com.gogi.meatyou.bean.CouponDTO">
+			select * from coupon where cp_num=#{cp_num}
+		</select>
+		
+		
 
         
 </mapper>

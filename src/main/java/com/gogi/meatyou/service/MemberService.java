@@ -2,6 +2,7 @@ package com.gogi.meatyou.service;
 
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,13 +23,14 @@ import com.gogi.meatyou.bean.PickMeDTO;
 import com.gogi.meatyou.bean.ProductDTO;
 import com.gogi.meatyou.bean.SelectedProductDTO;
 import com.gogi.meatyou.bean.ShoppingCartDTO;
+import com.gogi.meatyou.bean.UserPayDTO;
 
 public interface MemberService  {
     int insertMember(MemberDTO dto);
     
     
     
-    
+    public List<UserPayDTO> findshop_p_num(HashMap hashmap);
     public MemberDTO member(String m_id);   
     public List<ShoppingCartDTO> shoppingCartCheck(String m_id);
    public List<ShoppingCartDTO> ShoppingCartAndProduct(String shop_m_id,ShoppingCartDTO sdto,ProductDTO pdto) ;
@@ -54,7 +56,7 @@ public interface MemberService  {
    
    public int insertIntoCusDetail(CusDetailDTO cdto) ;
       
-   
+   public CouponDTO findCouponToCpNum(int cp_num);
    
    
       public void shoppingCart(String m_id);
@@ -106,7 +108,7 @@ public interface MemberService  {
       List<CouponDTO>   howmuchCoupon(@Param("cp_m_id") String cp_m_id);
  
       // 다른 필요한 메서드들과 함께 추가
-      List<ShoppingCartDTO> getSelectedProducts(List<String> selectedShopNums, @Param("add_m_id") String add_m_id);
+      ShoppingCartDTO getSelectedProducts(int shop_num, @Param("add_m_id") String add_m_id);
     
       
 }

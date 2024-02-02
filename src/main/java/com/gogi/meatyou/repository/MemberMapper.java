@@ -1,5 +1,6 @@
 package com.gogi.meatyou.repository;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gogi.meatyou.bean.CouponDTO;
 import com.gogi.meatyou.bean.CusDetailDTO;
+import com.gogi.meatyou.bean.MOrderDTO;
 import com.gogi.meatyou.bean.MemAddressDTO;
 import com.gogi.meatyou.bean.MemberDTO;
 import com.gogi.meatyou.bean.PPicDTO;
@@ -18,12 +20,14 @@ import com.gogi.meatyou.bean.PickMeDTO;
 import com.gogi.meatyou.bean.ProductDTO;
 import com.gogi.meatyou.bean.SelectedProductDTO;
 import com.gogi.meatyou.bean.ShoppingCartDTO;
+import com.gogi.meatyou.bean.UserPayDTO;
 
 public interface MemberMapper {
    public MemberDTO read(String m_id);
    
    
     public int insertMember(MemberDTO dto);
+    public int twoNextPay(MOrderDTO mdto);
 
    
 
@@ -35,7 +39,7 @@ public interface MemberMapper {
       public MemberDTO member(String m_id);
       
       
-      
+      public List<UserPayDTO> findshop_p_num(HashMap hashmap);
       
       List<MemAddressDTO> addressCheck(Map<String, Object> parameters);
       List<MemAddressDTO> combined_address(Map<String, Object> parameters);
@@ -91,6 +95,8 @@ public interface MemberMapper {
        
        int orderpageCartItems(String shop_m_id);
        
+       CouponDTO findCouponToCpNum(int cp_num);
+       
        
        public  int deleteCart(@Param("shop_num") int shop_num, @Param("shop_m_id") String shop_m_id);
        
@@ -134,5 +140,8 @@ public interface MemberMapper {
             int deletePickMeByCId2(@Param("pm_m_id") String pm_m_id,      @Param("pm_c_id") String pm_c_id);
             int pickMeInsert2(PickMeDTO pdto, @Param("pm_m_id") String pm_m_id , @Param("pm_c_id")String pm_c_id,@Param("pm_num") int pm_num );
             
-            List<ShoppingCartDTO> getSelectedProducts( @Param("selectedShopNums") List<String> selectedShopNums,  @Param("add_m_id") String add_m_id);
+            ShoppingCartDTO getSelectedProducts( @Param("shop_num") int shop_num,  @Param("add_m_id") String add_m_id);
+            
+            
+            
    }

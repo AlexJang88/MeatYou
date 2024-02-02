@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ include file="../../header.jsp" %>
 <%
@@ -27,32 +28,50 @@
    
    </style>
   <script>
-  function submitForm() {
-	  // 선택한 주소 값을 가져옵니다
-	  var selectedAddress = document.getElementById('selectedAddress').value;
 
-	  // AJAX를 사용하여 서버로 데이터 전송
-	  $.ajax({
-	    url: '/member/updateAddress',
-	    type: 'POST',
-	    data: {
-	      selectedAddress: selectedAddress
-	    },
-	    success: function(response) {
-	      // 서버에서 처리 후 페이지 이동
-	      if (response.success) {
-	        location.href = '/member/orderPageTwo';
-	      } else {
-	        alert('주소 업데이트에 실패했습니다.');
-	      }
-	    }
-	  });
-	}
+  
+  
+  //one.jsp 내의 script 태그 내부
+  function submitForm() {
+    // 선택한 주소 값을 가져옵니다
+    var selectedAddress = document.getElementById('selectedAddress').value;
+
+    // 이제 이 값을 사용하여 다음 작업을 수행할 수 있습니다
+    // 예: AJAX를 사용하여 서버에 데이터 전송 또는 로컬 스토리지에 저장
+
+    // 예시: 로컬 스토리지에 저장
+    localStorage.setItem('selectedAddress', selectedAddress);
+
+    // 여기서는 서버로의 전송은 하지 않았습니다. 만약 서버로의 전송이 필요하다면 AJAX 등을 사용하세요.
+
+    // 페이지 이동 등의 추가 작업을 수행할 수 있습니다.
+    // 예: window.location.href = 'yourNextPage.html';
+  }
+  //one.jsp 내의 script 태그 내부
+  function submitForm() {
+    // 선택한 주소 값을 가져옵니다
+    var "cList" = document.getElementById('"cList"').value;
+
+    // 이제 이 값을 사용하여 다음 작업을 수행할 수 있습니다
+    // 예: AJAX를 사용하여 서버에 데이터 전송 또는 로컬 스토리지에 저장
+
+    // 예시: 로컬 스토리지에 저장
+    localStorage.setItem('"cList"', "cList");
+
+    // 여기서는 서버로의 전송은 하지 않았습니다. 만약 서버로의 전송이 필요하다면 AJAX 등을 사용하세요.
+
+    // 페이지 이동 등의 추가 작업을 수행할 수 있습니다.
+    // 예: window.location.href = 'yourNextPage.html';
+  }
+  
+  
+  
+  
 </script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 <body>
-<form action="orderPageTwo" method="post" onsubmit="submitForm()">
+<form action="orderPageTwo" method="post"  onsubmit="submitForm()">
 <b>  잠깐~~!   개인정보 및 배송지 확인하고 가실게여~</b>
     <table border="1">
         <thead  >
@@ -66,6 +85,7 @@
                 <th>가입일</th>
                 <th>등급</th>
                 <th>배송받으실주소</th>
+                <th>쿠폰선택하십쇼</th>
                 <th>배송지 수정</th>
                 
             </tr>
@@ -99,7 +119,14 @@
               <option value="${item.combined_address}">${item.combined_address}</option>
             </c:forEach>
           </select>
-		
+ 
+                </td>
+                 <td>
+                <select name="cp_num" id="cList">
+            <c:forEach var="item" items="${cList}" varStatus="loop">
+               <option value="${item.cp_num}">  쿠폰번호 : ${item.cp_num}  쿠폰 가격 : ${item.cp_price}  원  (쿠폰 만료일 :  <fmt:formatDate value="${item.exdate}" pattern="yyyy/MM/dd"/> )  </option>
+            </c:forEach>
+          </select> 
                 </td>
                 <td>
                 <div  class="addressBox">
@@ -111,7 +138,28 @@
             </tr>
         </tbody> 
     </table>				<input type="submit"  value="확정 및 결제 ">
+    
+    	
+		    <table style="border-collapse: collapse; width: 30%; margin: auto;">
+        <tbody>
+            <tr>
+                <th style="   padding: 15px; text-align: center;">
+                    <div>
+                        <b>
+                           		<div> 쿠폰 갯수  : <c:out value="${count}"/> 개 </div>
+                        </b>
+                    </div>
+                </th>
+            </tr>
+        </tbody>
+    </table>
+    
+ 
+   
+    
+    
  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+ <input type="hidden" name="check" value="2" />
 					</form>
 <%@ include file="../../footer.jsp" %>
 </body>

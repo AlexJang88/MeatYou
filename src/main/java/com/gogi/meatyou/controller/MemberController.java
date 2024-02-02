@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +46,7 @@ import com.gogi.meatyou.bean.PickMeDTO;
 import com.gogi.meatyou.bean.ProductDTO;
 import com.gogi.meatyou.bean.SelectedProductDTO;
 import com.gogi.meatyou.bean.ShoppingCartDTO;
+import com.gogi.meatyou.bean.UserPayDTO;
 import com.gogi.meatyou.service.MemberService;
 
 
@@ -57,6 +59,13 @@ import com.gogi.meatyou.service.MemberService;
 public class MemberController {
    @Autowired
    private MemberService service;
+   
+   @Autowired
+   private ArrayList<Integer> numbers;
+   
+   @Autowired
+   private HashMap memberMap;
+   
    //@Autowired
    @RequestMapping("all")
    public String doAll(Model model, MemberDTO dto,HttpSession  session,MemStatusDTO mdto) {return "member/loginSequrity/all"; }
@@ -189,27 +198,41 @@ public class MemberController {
  
    
 
+
    
-      @RequestMapping("shoppingCartForm")
-      public String shoppingCartForm( Principal seid, Model model, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int pageSize,     ShoppingCartDTO sdto, ProductDTO pdto,  PDetailDTO pddto, @RequestParam(value = "selectedProducts", required = false) List<String> selectedProducts,HttpSession session)    {
-         int p_num=pdto.getP_num();
-          String shop_m_id = (String) seid.getName();
-          int totalPrice = sdto.getShop_quantity() * sdto.getP_price();
+   @RequestMapping("shoppingCartForm")
+   public String shoppingCartForm(
+           Principal seid,
+           Model model,
+           @RequestParam(defaultValue = "1") int page,  
+           @RequestParam(defaultValue = "10") int pageSize,  
+           ShoppingCartDTO sdto,
+           ProductDTO pdto,
+           PDetailDTO pddto,
+           @RequestParam(value = "selectedProducts", required = false) List<String> selectedProducts)
+      {
+      
+      int p_num=pdto.getP_num();
+       String shop_m_id = (String) seid.getName();
+       int totalPrice = sdto.getShop_quantity() * sdto.getP_price();
 
-          List<ShoppingCartDTO> shoppingCartList = service.getShoppingCartItemsPaged(shop_m_id, page, pageSize, sdto, pdto,pddto);
-          session.setAttribute("selectedProducts", selectedProducts);
-          int totalItemCount = service.getTotalShoppingCartItems(shop_m_id);
+       List<ShoppingCartDTO> shoppingCartList = service.getShoppingCartItemsPaged(shop_m_id, page, pageSize, sdto, pdto,pddto);
 
-          int totalPage = (int) Math.ceil((double) totalItemCount / pageSize);
-          model.addAttribute("shoppingCartList", shoppingCartList);
-          model.addAttribute("totalPrice", totalPrice);
-          model.addAttribute("page", page);
-          model.addAttribute("pageSize", pageSize);
-          model.addAttribute("totalPage", totalPage);
-          model.addAttribute("selectedProducts", selectedProducts);
-          System.out.print("selectedProducts=============================="+selectedProducts);
-          return "member/shoppingCart/shoppingCartForm";
-      }
+       int totalItemCount = service.getTotalShoppingCartItems(shop_m_id);
+
+       int totalPage = (int) Math.ceil((double) totalItemCount / pageSize);
+       
+       model.addAttribute("shoppingCartList", shoppingCartList);
+       model.addAttribute("totalPrice", totalPrice);
+       model.addAttribute("page", page);
+       model.addAttribute("pageSize", pageSize);
+       model.addAttribute("totalPage", totalPage);
+       model.addAttribute("selectedProducts", selectedProducts);
+       return "member/shoppingCart/shoppingCartForm";
+   }
+   
+   
+   
       
       @RequestMapping("updateQuantity")
       public @ResponseBody String updateQuantity(Principal seid,int shop_num,int shop_quantity) {
@@ -452,61 +475,110 @@ public class MemberController {
                              @RequestParam String add_mem_address1, @RequestParam String add_mem_address2, @RequestParam int add_num) {
         String add_m_id = authentication.getName();
         adto.setAdd_m_id(add_m_id);
-        adto.setAdd_num(add_num);  // set add_num in adto
+        adto.setAdd_num(add_num);  
 
         List<MemAddressDTO> AddrList = service.addressCheck(add_m_id, mdto, adto, add_num);
 
-        // System.out.println("add_mem_address1 ===================== " + AddrList.get(0).getAdd_mem_address1());
 
         service.updateAddr(adto, add_m_id, AddrList, add_num, add_mem_address1, add_mem_address2);
         return "redirect:/member/addressForm";
     }
-    
-    
-    
+
+
     @RequestMapping("orderPageOne")
-    public String orderPageOne(Principal peid,Model model,MemAddressDTO adto,MemberDTO mdto,String combined_address) {
+    public String orderPageOne(Principal peid,Model model,MemAddressDTO adto,MemberDTO mdto,String combined_address, CouponDTO cdto) {
+        
        String add_m_id = peid.getName();   
           adto.setAdd_m_id(add_m_id);
+
           List<MemAddressDTO> AddrList = service.combined_address(add_m_id,combined_address, adto);
         MemberDTO dto = service.getUser(add_m_id);         
+        
+        List<CouponDTO> cList = service.howmuchCoupon(add_m_id);
+        int count = service.couponCount(add_m_id);
+        model.addAttribute("cList", cList);
+        model.addAttribute("count", count);
+      
         model.addAttribute("adto", adto);
+
         model.addAttribute("add_m_id", add_m_id);
         model.addAttribute("AddrList", AddrList);
         model.addAttribute("dto", dto);
         return "member/order/orderPageOne";
     }
- 
-    
-    @RequestMapping("orderPageTwo")
-    public String orderPageTwo(Principal peid, Model model, MemAddressDTO adto, MemberDTO mdto,
-            @RequestParam(value = "selectedShopNums", required = false) List<String> selectedShopNums,
-            HttpSession session) {
-        String add_m_id = peid.getName();
-        adto.setAdd_m_id(add_m_id);
-
-        List<String> selectedProducts = (List<String>) session.getAttribute("selectedProducts");
- 
-        if (selectedProducts == null) {
-            // 세션에 선택된 상품 목록이 없는 경우에 대한 처리
-            // 예: 에러 메시지를 모델에 추가하거나 다른 로직 수행
-            return "redirect:/member/shoppingCartForm"; // 장바구니 페이지로 이동하거나 다른 페이지로 리다이렉트
-        }
- 
-        // 여기서부터는 선택된 상품 목록이 있는 경우의 로직
-        List<ShoppingCartDTO> selectedItems = service.getSelectedProducts(selectedProducts, add_m_id);
-        MemberDTO dto = service.getUser(add_m_id);
-        model.addAttribute("adto", adto);
-        model.addAttribute("add_m_id", add_m_id);
-        model.addAttribute("dto", dto);
-        model.addAttribute("selectedItems", selectedItems);
-
-        return "member/order/orderPageTwo";
+    																
+    @RequestMapping("orderPageTwo") 
+    public String orderPageTwo(String selectedShopNums,Principal peid,Model model,MemAddressDTO adto,MemberDTO mdto,String combined_address,@Param("check") int check ,CouponDTO cdto,@RequestParam(value="p_num" , defaultValue="0") int p_num) {
+                   int cp_num=cdto.getCp_num();
+    	if(check==1) {
+    	   numbers.clear();
+    	   String [] nums =selectedShopNums.split(",");
+    	   for(String s:nums) {
+    		   numbers.add(Integer.parseInt(s));
+    	   }
+       }else if(check==2) {
+    	   String add_m_id = peid.getName();   
+           adto.setAdd_m_id(add_m_id);
+    	   memberMap.put("list", numbers);
+    	   memberMap.put("add_m_id", add_m_id);
+    	   List<UserPayDTO> updto =service.findshop_p_num(memberMap) ;
+    	   for(UserPayDTO d : updto) {
+    	   System.out.println(updto.get(0));
+    	   }
+       
+       List<MemAddressDTO> AddrList = service.combined_address(add_m_id,combined_address, adto);
+       List<CouponDTO> cList = service.howmuchCoupon(add_m_id);
+       int count = service.couponCount(add_m_id);
+       model.addAttribute("cList", cList);
+       model.addAttribute("count", count);
+       
+       ArrayList<ShoppingCartDTO> list = new ArrayList<ShoppingCartDTO>();
+       int totalprice = 0;
+       for (int shop_num : numbers) {
+		ShoppingCartDTO dto = new ShoppingCartDTO();
+		dto = service.getSelectedProducts(shop_num, add_m_id);
+		System.out.println(dto);
+		list.add(dto);
+		totalprice += dto.getP_price();
+	}
+         cdto = service.findCouponToCpNum(cp_num);
+       
+       
+       MemberDTO dto = service.getUser(add_m_id); 
+       if(p_num>0) {
+       model.addAttribute("p_num", p_num);
+       }
+       model.addAttribute("cp_num", cp_num);
+       model.addAttribute("cdto", cdto);
+       model.addAttribute("cList", cList);
+       model.addAttribute("shopList", list);
+       model.addAttribute("add_m_id", add_m_id);
+       model.addAttribute("dto", dto);
+       model.addAttribute("totalprice", totalprice);
+       }
+       return "member/order/orderPageTwo";
     }
     
     
     
     
+	/*
+	 * @PostMapping("/addToOrderList")
+	 * 
+	 * @ResponseBody public String addToOrderList(@RequestBody OrderRequest request,
+	 * HttpSession session) { // 여기에 주문 목록에 상품을 추가하는 로직을 구현 List<String>
+	 * selectedShopNums = request.getSelectedShopNums();
+	 * System.out.println("주문 목록에 추가: " + selectedShopNums);
+	 * 
+	 * // 세션에 주문 목록 저장 List<String> orderList = (List<String>)
+	 * session.getAttribute("orderList"); if (orderList == null) { orderList =
+	 * selectedShopNums; } else { orderList.addAll(selectedShopNums); }
+	 * session.setAttribute("orderList", orderList);
+	 * 
+	 * // 실제로는 주문 목록에 상품을 추가하고 성공 여부를 클라이언트에게 응답할 수 있음 return "success"; }
+	 * 
+	 * 
+	 */
     
     
     
