@@ -95,4 +95,6 @@ public interface MainService {
    public void pickInsert(Model model, PPicDTO dto, String ppic_m_id, int ppic_p_num);
    public void pickInsertMain(Model model, String ppic_m_id, int ppic_p_num);
    public int pCategory(int p_num);
+   
+   public void getStatus(Model model, String id); //지환 설문조사 입니다.
 }

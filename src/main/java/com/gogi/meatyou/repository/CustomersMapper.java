@@ -12,6 +12,7 @@ import com.gogi.meatyou.bean.CusOrderDTO;
 import com.gogi.meatyou.bean.MOrderDTO;
 import com.gogi.meatyou.bean.MemAddressDTO;
 import com.gogi.meatyou.bean.PDetailDTO;
+import com.gogi.meatyou.bean.PreferDTO;
 import com.gogi.meatyou.bean.ProductDTO;
 import com.gogi.meatyou.bean.ProductMorderDTO;
 import com.gogi.meatyou.bean.PurchaseMemberListDTO;
@@ -124,6 +125,6 @@ public interface CustomersMapper {
    public void insert_cusordertwo(CusOrderDTO cusorderdto); // 카카오톡 인서트
    
    public int getProductNEXTNum();  //상품등록시 다음번호
-    
-    
+   public void survey1(PreferDTO prefer); //설문조사
+   public void survey2(PreferDTO prefer); //설문조사
 }

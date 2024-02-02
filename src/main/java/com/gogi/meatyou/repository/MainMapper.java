@@ -137,6 +137,6 @@ public interface MainMapper {
 
    public int pCategory(int p_num);
 
-
+   public int getStatus(String id);// 지환 설문조사
 
 }

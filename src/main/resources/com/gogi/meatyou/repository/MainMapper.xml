@@ -741,5 +741,9 @@
    <select id="pCategory" parameterType="com.gogi.meatyou.bean.ProductDTO">
       select p_category from product, p_detail where p_num=pd_p_num and p_num=#{p_num}
    </select>   
+	
+   <select id="getStatus" resultType="int">
+   		select pre_status from prefer where pre_m_id =#{id}
+   </select>
 
 </mapper>

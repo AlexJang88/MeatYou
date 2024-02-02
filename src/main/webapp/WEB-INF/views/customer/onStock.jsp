@@ -7,12 +7,31 @@
 <head>
 <meta charset="UTF-8">
 <title>재고현황</title>
+<script>
+window.onload = function () {
+    // JSP 페이지에서 설정한 statusFromJSP 값을 읽어옴
+    var statusFromJSP = '${status}';
+	
+    // status 값이 0인 경우에만 동작
+    if (statusFromJSP === 0) {
+        var testPageUrl = '/customers/test';
+        var newWindow = window.open(testPageUrl, 'TestPage', 'width=800,height=600');
+        if (window.focus) {
+            newWindow.focus();
+        }
+    }
+}
+</script>
+
+
 </head>
 <body>
 <a href="/customers/customer">홈으로</a>
 <a href="/customers/stock">전체상품 재고현황</a>
 
 <h2>여기는 ${memId} 님의 판매중인 상품 재고 현황</h2>
+
+
 
 		<c:if test="${stockcount==0}">
 		    <table width="700" border="1" cellpadding="0" cellspacing="0" align="center">
@@ -80,6 +99,8 @@
 	        	<a href="/customers/onStock?pageNum=${startPage+10}">[다음]</a>
 			</c:if>
 		</c:if>
+		
+		
 		
 </body>
 </html>

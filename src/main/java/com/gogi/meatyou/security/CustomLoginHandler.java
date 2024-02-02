@@ -32,13 +32,17 @@ public class CustomLoginHandler implements AuthenticationSuccessHandler {
 	}*/
 		
 //	   2023-12-16	���� 
+		for(String s : roleNames) {
+		System.out.println("======="+s);
+		
+		}
 		String  rdir = "/main/main";
 		if(roleNames.contains("ROLE_ADMIN")) {
 			rdir = "/admin/main";
 		}else if(roleNames.contains("ROLE_MEMBER")) {
-			rdir="/member/member";
+			rdir="/main/main";
 		}else if(roleNames.contains("ROLE_SALLER")) {
-			rdir="/member/saller";
+			rdir="/customers/customer";
 		}
 		response.sendRedirect(rdir);
 	}

@@ -30,6 +30,12 @@ public class MainController {
 
    @RequestMapping("main")
    public String main(ProductDetailDTO dto, Principal seid, Model model) {
+	 if(seid != null) {
+		  String id = seid.getName();
+		  service.getStatus(model, id); //지환이가 설문조사
+	 }
+	 
+	 
      List<ProductDTO> cusList = service.mainCUS();
      String m_id="";
      int p_num = dto.getP_num();
