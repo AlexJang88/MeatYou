@@ -31,7 +31,7 @@ function getSelectedShopNums() {
 
 
 //기존의 "update_click" 함수 수정
-function update_click(button, operation, shop_num) {
+function update_click(button, operation, shop_p_num) {
     var input_element = button.parentElement.querySelector('.shop_quantity');
     var current_quantity = parseInt(input_element.value);
 
@@ -50,17 +50,17 @@ function update_click(button, operation, shop_num) {
 
     // 서버로 업데이트된 수량 정보를 전송
     console.log(new_quantity);
-    sendUpdateQuantityRequest(new_quantity, shop_num);
+    sendUpdateQuantityRequest(new_quantity, shop_p_num);
 }
 
 
 
 
 //새로운 함수: 상품 수량 업데이트 요청을 보내는 함수
-function sendUpdateQuantityRequest(new_quantity, shop_num) {
+function sendUpdateQuantityRequest(new_quantity, shop_p_num) {
  var requestData = {
      shop_quantity: new_quantity,
-     shop_num: shop_num
+     shop_p_num: shop_p_num
  };
  $.ajax({
      type: "POST",
@@ -76,24 +76,24 @@ function sendUpdateQuantityRequest(new_quantity, shop_num) {
 
 //선택한상품 삭제
 
-// 선택한 상품의 shop_num을 저장할 배열
+// 선택한 상품의 shop_p_num을 저장할 배열
 var selectedShopNums = [];
 
 // 체크박스를 클릭할 때 호출되는 함수
-function toggleSelectedShopNum(checkbox, shop_num) {
+function toggleSelectedShopNum(checkbox, shop_p_num) {
     if (checkbox.checked) {
         // 체크된 경우 배열에 추가
-        selectedShopNums.push(shop_num);
+        selectedShopNums.push(shop_p_num);
     } else {
         // 체크가 해제된 경우 배열에서 제거
-        var index = selectedShopNums.indexOf(shop_num);
+        var index = selectedShopNums.indexOf(shop_p_num);
         if (index !== -1) {
             selectedShopNums.splice(index, 1);
         }
     }
 }
 function deleteSelectedItems() {
-    // 선택한 상품들의 shop_num 배열을 문자열로 변환하여 hidden input에 설정
+    // 선택한 상품들의 shop_p_num 배열을 문자열로 변환하여 hidden input에 설정
     var selectedShopNumsInput = document.getElementById('selectedShopNums');
 
     // 선택한 상품이 없는 경우 알림 표시
@@ -137,6 +137,7 @@ function deleteSelectedItems() {
     <thead>
         <tr>
         	<th>선택</th>
+            <th>상품 고유번호(히든)</th>
             <th>상품 내용</th>
             <th>상품 분류</th>
             <th>상품 사진</th>
@@ -150,17 +151,20 @@ function deleteSelectedItems() {
         <c:forEach var="item" items="${shoppingCartList}">
             	<tr>
             	<td>
-            	   <input type="checkbox" name="selectedShopNums" value="${item.shop_num}" 
-                   onclick="toggleSelectedShopNum(this, '${item.shop_num}')"/>
+            	   <input type="checkbox" name="selectedShopNums" value="${item.shop_p_num}" 
+                   onclick="toggleSelectedShopNum(this, '${item.shop_p_num}')"/>
        			 </td>
+                <td><c:out value="${item.shop_p_num}" />
+               <%--  ${item.p_num}
+                 --%></td>
                 <td><c:out value="${item.p_name}" /></td>
                 <td><c:out value="${item.pd_p_desc}" /></td>
                 <td><c:out value="${item.thumb}" /></td>
                 <td>
-                    <button type="button" class="quantity-up" data-shop_quantity="${item.shop_quantity}" onclick="update_click(this, 'increase','${item.shop_num}')">+</button>
+                    <button type="button" class="quantity-up" data-shop_quantity="${item.shop_quantity}" onclick="update_click(this, 'increase','${item.shop_p_num}')">+</button>
                     <input type="hidden" class="shop_quantity" value="${item.shop_quantity}" />
                     <c:out value="${item.shop_quantity}" />
-                    <button type="button" class="quantity-down" data-quantity="${item.shop_quantity}" onclick="update_click(this, 'decrease','${item.shop_num}')">-</button>
+                    <button type="button" class="quantity-down" data-quantity="${item.shop_quantity}" onclick="update_click(this, 'decrease','${item.shop_p_num}')">-</button>
                 </td>				    
                 <td>
                     <b>총액  </b>
@@ -171,7 +175,8 @@ function deleteSelectedItems() {
                 <td><c:out value="${item.p_m_id}" /></td>
                 <td>
                     <form action="delete" method="post" class="quantity_delete_form">
-                        <input type="hidden" name="shop_num" value="${item.shop_num}" />
+                        <input type="hidden" name="shop_p_num" value="${item.shop_p_num}" />
+                        <input type="hidden" name="shop_p_num" value="${item.shop_p_num}" />
                         <input type="hidden" name="pd_p_num" value="${item.pd_p_num}" />
                         <input type="hidden" name="p_num" value="${item.p_num}" />
                         <button type="submit" class="delete_btn">삭제</button>
@@ -181,7 +186,9 @@ function deleteSelectedItems() {
         </c:forEach>
        <form action="orderPageOne"  method="post"> 
        <input type="hidden" name="p_num" value="${item.p_num}" />
-       	
+       <input type="hidden" name="shop_p_num" value="${item.shop_p_num}"  />
+       <input type="hidden" name="shop_p_num" value="${item.shop_p_num}"  />
+       	<input name=" totalAmount" value="${totalAmount}" type="hidden"/>
       			<input type="submit" value="주문"  onclick="orderSelectedItems()">
         </form>
         <tr>
@@ -189,6 +196,8 @@ function deleteSelectedItems() {
         	<td></td>
         	<td></td>
         	<td style="height: 10px;">
+        	
+        	
 <div class="pagination" style="height: 10px;">
     <c:if test="${page > 1}">
         <a href="?page=${page - 1}&pageSize=${pageSize}">&laquo; 이전</a>
@@ -215,6 +224,7 @@ function deleteSelectedItems() {
 
 		<td><b>전체금액: </b></td>
         	<td> <c:out value="${totalAmount}" />
+        		<input name=" totalAmount" value="${totalAmount}" type="hidden"/>
                         <b> 원</b>
                         
                         </td>

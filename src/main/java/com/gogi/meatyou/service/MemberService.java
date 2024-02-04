@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 
 import com.gogi.meatyou.bean.CouponDTO;
 import com.gogi.meatyou.bean.CusDetailDTO;
+import com.gogi.meatyou.bean.MOrderDTO;
 import com.gogi.meatyou.bean.MemAddressDTO;
 import com.gogi.meatyou.bean.MemberDTO;
 import com.gogi.meatyou.bean.PDetailDTO;
@@ -27,7 +28,11 @@ import com.gogi.meatyou.bean.UserPayDTO;
 
 public interface MemberService  {
     int insertMember(MemberDTO dto);
-    
+    int twoNextPay(
+    		MOrderDTO mdto,int shop_num,int order_p_num,String order_memo
+    		,@Param("order_m_id") String order_m_id,int order_cp_num,int order_p_price,
+    		@Param("order_dere_pay") int order_dere_pay ,@Param("order_addr") String order_addr,@Param("order_discount") int order_discount,@Param("order_quantity") int order_quantity
+    		,@Param("order_totalprice") int order_totalprice  );
     
     
     public List<UserPayDTO> findshop_p_num(HashMap hashmap);
@@ -69,7 +74,7 @@ public interface MemberService  {
        public void p_pick_seq(String m_id);
        public void prefer(String m_id);
       public void updateQuantity(int  shop_num,int  shop_quantity, String shop_m_id) ;
-      List<ShoppingCartDTO> getShoppingCartItemsPaged(String shop_m_id, int startRow, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto,PDetailDTO pddto);
+      List<ShoppingCartDTO> getShoppingCartItemsPaged2(String shop_m_id, int startRow, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto,PDetailDTO pddto);
        int getTotalShoppingCartItems(String shop_m_id);
       public int deleteCart(int shop_num,String shop_m_id);
       public void deleteSelectedItems(List<Long> selectedShopNums ,String shop_m_id);
@@ -108,7 +113,13 @@ public interface MemberService  {
       List<CouponDTO>   howmuchCoupon(@Param("cp_m_id") String cp_m_id);
  
       // 다른 필요한 메서드들과 함께 추가
-      ShoppingCartDTO getSelectedProducts(int shop_num, @Param("add_m_id") String add_m_id);
+      ShoppingCartDTO getSelectedProducts(int shop_num, @Param("add_m_id") String add_m_id );
+      ShoppingCartDTO getSelectedProducts2(int shop_p_num, @Param("add_m_id") String add_m_id );
+      
+      
+      
+      List<MOrderDTO> paypage(@Param("order_m_id") String order_m_id , int page, int pageSize );
+      int PaymentCount(@Param("order_m_id") String order_m_id );
     
       
 }

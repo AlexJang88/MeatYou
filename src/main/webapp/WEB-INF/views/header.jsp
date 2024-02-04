@@ -146,7 +146,7 @@
                                  <div class="qty">${CartCNT}</div>
                            </a>
                         </div>
-                        
+                     
                                         
                    <div class="dropdown"  style="position:absolute; right=0; margin-top:0; float: left;   height: 150px; top:-1.2px;">
                        <a href="/member/pickMe" class="login-required" onclick="checkLogin()" style=" height: 130px;" >
@@ -155,15 +155,21 @@
                          <span style="position:absolute; top:39px; right: 28px;">찜업체</span>
                          </a>
                      </div>
-        
-                         <div class="dropdown"  style="position:absolute; right:-170px; margin-top:0; float: left;   height: 150px; top:-2px;">
-                        <a href="/member/SallerPickMe" class="login-required"  style=" height: 130px;" >
-                       <img src="/resources/member/img/guest.png"  style="width:40%; margin-top:0; ">
-                                  <div class="qty">${pickmecount}</div>          
-                         <span style="position:absolute; top:39px; right: 28px;">나를 찜</span>
-                         </a>
-                     </div>
-                     </sec:authorize>
+                           </sec:authorize>
+                           
+                           
+				     <sec:authorize access="isAnonymous() == false and (hasAuthority('ROLE_GOODMEMBER') or hasAuthority('ROLE_BESTMEMBER') or hasAuthority('ROLE_READYSALLER') or hasAuthority('ROLE_RESIGNSALLER') or hasAuthority('ROLE_SALLER') or hasAuthority('ROLE_TOPPAYSALLER') or hasAuthority('ROLE_CONTENTPAYSALLER') or hasAuthority('ROLE_ALLPAYSALLER'))">
+				    <!-- 인증된 사용자 중 ROLE_MEMBER와 ROLE_ADMIN을 제외한 다른 모든 권한을 가진 사용자에게만 보여집니다 -->
+				    <div class="dropdown" style="position:absolute; right:-170px; margin-top:0; float: left; height: 150px; top:-2px;">
+				        <a href="/member/SallerPickMe" class="login-required" style="height: 130px;">
+				            <img src="/resources/member/img/guest.png" style="width:40%; margin-top:0;">
+				            <div class="qty">${pickmecount}</div>          
+				            <span style="position:absolute; top:39px; right: 28px;">나를 찜</span>
+				        </a>
+				    </div>
+				</sec:authorize>
+
+           
 
                         <!-- Wishlist -->
                       

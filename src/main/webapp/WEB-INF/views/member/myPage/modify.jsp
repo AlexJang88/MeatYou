@@ -204,7 +204,7 @@
          					 </td>
                         
                           <td>
-                         <a href="#" >결제 내역</a>
+                         <a href="/member/PaymentHistory" >결제 내역</a>
                    </td>
                         
                         
