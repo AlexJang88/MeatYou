@@ -30,9 +30,9 @@ private static final Logger logger = LoggerFactory.getLogger(CustomLoginHandler.
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
-        String username = authentication.getName();  // ����� �̸� ��������
+        String username = authentication.getName();  // 占쏙옙占쏙옙占� 占싱몌옙 占쏙옙占쏙옙占쏙옙占쏙옙
 
-        String rdir = determineTargetUrl(authentication);  // �����̷�Ʈ �ּ� ����
+        String rdir = determineTargetUrl(authentication);  // 占쏙옙占쏙옙占싱뤄옙트 占쌍쇽옙 占쏙옙占쏙옙
 
         response.sendRedirect(rdir);
     }
@@ -44,7 +44,7 @@ private static final Logger logger = LoggerFactory.getLogger(CustomLoginHandler.
             String username = authentication.getName();
             return "/main/main" ;
         } else if (hasRole(authentication, "ROLE_SELLER")) {
-            rdir="/customers/customer";
+        	return "/customers/customer";
         } else {
             return "/main/main";
         }

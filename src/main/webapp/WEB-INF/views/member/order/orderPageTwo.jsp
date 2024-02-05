@@ -127,14 +127,21 @@
                     </c:choose>
                 </td>
                  <td id="selectedAddressCell">${param.selectedAddress}</td>
-                 <td id="cListCell">${cdto.cp_price}</td>
-                 <td id="cListCell">${cdto.cp_num}</td>
-                  
-                  
-                
-              	<%-- 	   ${cList.cp_price}
- 				<%-- 	<input type="text" name="order_cp_num" value="${cList.cp_num}"/> --%>
- 			<%-- 		폰번호 : ${item.cp_num}  쿠폰 가격 : ${item.cp_price} --%>
+               <!-- 기존 코드... -->
+        <td id="cListCell">
+            <c:choose>
+                <c:when test="${not empty cdto}">
+                    ${cdto.cp_price}
+                </c:when>
+                <c:otherwise>
+                    쿠폰이 존재하지 않습니다.
+                </c:otherwise>
+            </c:choose>
+        </td>
+        <!-- 나머지 코드... -->
+    </tr>
+                 
+                   
             </tr>
         </tbody> 
         
@@ -190,6 +197,8 @@
                 </td>
             </tr>
         </c:forEach>
+        
+        
 			<tr>
 				<td>
 			 
@@ -205,29 +214,51 @@
    				 <div>적용 된 총할인 금액  :         ${order_discount}</div>
    					<div> 최종 결제금액 :      ${order_totalprice}</div>
    				   
-   				   		    <form action="showMeTheMoney" method="post" id="checkoutForm">	
-    					<input type="submit"  value="결제하기"><br/>
-    					 	하고싶은말씀 있으시면 여기서하시죠   : <input type="text"  name="order_memo" value="${order_memo}"/><br/>
-   				           <c:forEach var="item" items="${shopList}">
-   				           
-   					 	<input type="hidden"  name="order_m_id" value="${item.shop_m_id}"/><br/>
-   					  <input type="hidden"  name="order_cp_num" value="${order_cp_num}"/><br/>  
-   					   <c:forEach var="number" items="${numbers}">
-  
-   				    <input type="hidden"  name="order_p_num" value="${number}"/><br/>
-   			      	
- 				   </c:forEach>
-					 	<input type="hidden"  name="order_p_price" value="${order_p_price}"/> <br/>
-   					 	<input type="hidden"  name="order_dere_pay" value="${order_dere_pay}"/><br/>
-   				 	 	<input type="hidden"  name="order_addr" value="${param.selectedAddress}"/><br/>
-   				 		 <input type="hidden"  name="order_quantity" value="${order_quantity}"/><br/>
-   				 		 	<input type="hidden"  name="order_discount" value="${order_discount}"/><br/>
-   				 		 	<input type="hidden"  name="order_totalprice" value="${order_totalprice}"/><br/>
-   				 		
-   				 					
-   				 		</c:forEach>		
- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-					</form>
+   				   	<form action="showMeTheMoney" method="post" id="checkoutForm">    
+    <input type="submit" value="결제하기"><br/>
+    하고싶은말씀 있으시면 여기서하시죠 : <input type="text" name="order_memo" value="${order_memo}"/><br/>
+    
+    <c:forEach var="item" items="${shopList}">
+		    
+        <c:if test="${not empty cdto}">
+            <input type="text" name="order_cp_num" value="${order_cp_num}"/>
+            <input type="text" name="order_discount" value="${order_discount}"/>
+            <!-- 쿠폰이 있는 경우에만 해당 데이터를 전송 -->
+        </c:if>
+         <c:if test="${empty cdto}">
+            <input type="text" name="order_discount" value="0"/>
+            <input type="text" name="order_cp_num" value="0"/>
+            <!-- 쿠폰이비어있는경우 데이터를 전송 -->
+        </c:if>
+    </c:forEach>
+    
+    
+    	 
+					
+    <c:forEach var="item" items="${shopList}">
+        <input type="hidden" name="order_m_id" value="${item.shop_m_id}"/><br/>
+    </c:forEach>
+    
+    <c:forEach var="number" items="${numbers}">
+        <input type="hidden" name="order_p_num" value="${number}"/><br/>
+    </c:forEach>
+    
+    <input type="hidden" name="order_p_price" value="${order_p_price}"/> <br/>
+    <input type="hidden" name="order_dere_pay" value="${order_dere_pay}"/><br/>
+    <input type="hidden" name="order_addr" value="${param.selectedAddress}"/><br/>
+    <input type="hidden" name="order_quantity" value="${order_quantity}"/><br/>
+    
+    <c:if test="${not empty cdto}">
+        <input type="hidden" name="order_discount" value="${order_discount}"/><br/>
+    </c:if>
+
+    <input type="hidden" name="order_totalprice" value="${order_totalprice}"/><br/>
+    
+    <c:forEach var="item" items="${shopList}">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+    </c:forEach>
+</form>
+
 					
    				   
    				   

@@ -85,7 +85,7 @@ public interface MainMapper {
    
    public List<ProductDTO> poLinkList(HashMap map);
    public List<ProductDTO> poLinkSort(HashMap map);
-
+   public void quantity(int co_p_num);
 
    public List<ProductDTO> newProduct(HashMap map);
 
@@ -137,6 +137,6 @@ public interface MainMapper {
 
    public int pCategory(int p_num);
 
-   public int getStatus(String id);// 지환 설문조사
+
 
 }

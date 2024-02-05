@@ -1,6 +1,7 @@
 package com.gogi.meatyou.service;
  
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -58,7 +59,8 @@ public interface MainService {
    
    
    void poLinkList(Principal seid, int pageNum, Model model, String price, String sale, String star, String review, String news);
-
+   public void quantity(int co_p_num);
+   
    public void newProduct(Principal seid, int pageNum, Model model);
 
    public ProductDetailDTO productDetail(ProductDetailDTO dto, Model model);
@@ -95,6 +97,4 @@ public interface MainService {
    public void pickInsert(Model model, PPicDTO dto, String ppic_m_id, int ppic_p_num);
    public void pickInsertMain(Model model, String ppic_m_id, int ppic_p_num);
    public int pCategory(int p_num);
-   
-   public void getStatus(Model model, String id); //지환 설문조사 입니다.
 }

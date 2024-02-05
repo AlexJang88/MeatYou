@@ -115,6 +115,24 @@ function deleteSelectedItems() {
         },
     });
 }
+
+
+//one.jsp 내의 script 태그 내부
+function submitForm() {
+  // 선택한 주소 값을 가져옵니다
+  var "cList" = document.getElementById('"cList"').value;
+
+  // 이제 이 값을 사용하여 다음 작업을 수행할 수 있습니다
+  // 예: AJAX를 사용하여 서버에 데이터 전송 또는 로컬 스토리지에 저장
+
+  // 예시: 로컬 스토리지에 저장
+  localStorage.setItem('"cList"', "cList");
+
+  // 여기서는 서버로의 전송은 하지 않았습니다. 만약 서버로의 전송이 필요하다면 AJAX 등을 사용하세요.
+
+  // 페이지 이동 등의 추가 작업을 수행할 수 있습니다.
+  // 예: window.location.href = 'yourNextPage.html';
+}
 </script>
 </head>
 <div class="row">
@@ -142,6 +160,7 @@ function deleteSelectedItems() {
             <th>상품 분류</th>
             <th>상품 사진</th>
             <th>상품 수량</th>
+            <th>쿠폰</th>
             <th>금액</th>
             <td>판매자</td>
             <th>삭제</th>
@@ -165,7 +184,24 @@ function deleteSelectedItems() {
                     <input type="hidden" class="shop_quantity" value="${item.shop_quantity}" />
                     <c:out value="${item.shop_quantity}" />
                     <button type="button" class="quantity-down" data-quantity="${item.shop_quantity}" onclick="update_click(this, 'decrease','${item.shop_p_num}')">-</button>
-                </td>				    
+                </td>	
+                <td>
+                  <c:if test="${not empty cList}">
+						    <select name="cp_num" id="cList">
+								    <option type="hidden" value="0">선택안함</option>
+								    <c:forEach var="item" items="${cList}" varStatus="loop">
+								        <option value="${item.cp_num}">쿠폰번호 : ${item.cp_num}  쿠폰 가격 : ${item.cp_price}  원 (쿠폰 만료일 : <fmt:formatDate value="${item.exdate}" pattern="yyyy/MM/dd"/>)</option>
+								    </c:forEach>
+								</select>
+						</c:if>
+								         <c:if test="${ empty cList}">
+								         보유하신쿠폰이 없습니다	 
+						
+										</c:if>
+                           	
+                
+                </td>
+                			    
                 <td>
                     <b>총액  </b>
                     <c:out value="${item.p_price * item.shop_quantity}" />
@@ -175,7 +211,6 @@ function deleteSelectedItems() {
                 <td><c:out value="${item.p_m_id}" /></td>
                 <td>
                     <form action="delete" method="post" class="quantity_delete_form">
-                        <input type="hidden" name="shop_p_num" value="${item.shop_p_num}" />
                         <input type="hidden" name="shop_p_num" value="${item.shop_p_num}" />
                         <input type="hidden" name="pd_p_num" value="${item.pd_p_num}" />
                         <input type="hidden" name="p_num" value="${item.p_num}" />

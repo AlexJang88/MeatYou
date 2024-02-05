@@ -15,6 +15,7 @@ import com.gogi.meatyou.bean.CusDetailDTO;
 import com.gogi.meatyou.bean.MOrderDTO;
 import com.gogi.meatyou.bean.MemAddressDTO;
 import com.gogi.meatyou.bean.MemberDTO;
+import com.gogi.meatyou.bean.OrderwithCouponDTO;
 import com.gogi.meatyou.bean.PPicDTO;
 import com.gogi.meatyou.bean.PickMeDTO;
 import com.gogi.meatyou.bean.ProductDTO;
@@ -27,7 +28,7 @@ public interface MemberMapper {
    
    
     public int insertMember(MemberDTO dto);
-    public int twoNextPay(MOrderDTO mdto,int shop_num ,@Param("order_p_num")int order_p_num,
+    public int twoNextPay(OrderwithCouponDTO mdto,int shop_num ,@Param("order_p_num")int order_p_num,
     		@Param("order_memo") String order_memo,@Param("order_m_id") String order_m_id,@Param("order_cp_num") int order_cp_num,@Param("order_p_price") int order_p_price
     		,@Param("order_dere_pay") int order_dere_pay,@Param("order_addr") String order_addr,@Param("order_discount") int order_discount,@Param("order_quantity") int order_quantity
     		,@Param("order_totalprice") int order_totalprice
@@ -105,7 +106,7 @@ public interface MemberMapper {
        CouponDTO findCouponToCpNum(int cp_num);
        
        
-       public  int deleteCart(@Param("shop_num") int shop_num, @Param("shop_m_id") String shop_m_id);
+       public  int deleteCart(@Param("shop_p_num") int shop_p_num, @Param("shop_m_id") String shop_m_id);
        
        
        void deleteSelectedItems(Map<String, Object> paramMap);
@@ -147,7 +148,6 @@ public interface MemberMapper {
             int deletePickMeByCId2(@Param("pm_m_id") String pm_m_id,      @Param("pm_c_id") String pm_c_id);
             int pickMeInsert2(PickMeDTO pdto, @Param("pm_m_id") String pm_m_id , @Param("pm_c_id")String pm_c_id,@Param("pm_num") int pm_num );
             
-            ShoppingCartDTO getSelectedProducts( @Param("shop_num") int shop_num,  @Param("add_m_id") String add_m_id );
             ShoppingCartDTO getSelectedProducts2( @Param("shop_p_num") int shop_p_num,  @Param("add_m_id") String add_m_id );
             
             
