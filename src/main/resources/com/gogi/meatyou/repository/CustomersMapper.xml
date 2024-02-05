@@ -658,6 +658,14 @@
       <update id="statused" parameterType="int">
           UPDATE m_order SET order_status = #{status}, order_dere_end = sysdate WHERE order_num = #{num}
       </update>
-      
-
+      	 
+		
+		<update id="survey1" parameterType="com.gogi.meatyou.bean.PreferDTO">
+          UPDATE prefer SET pre0_response = #{pre0_response}, pre_reg_date = sysdate, pre_status = 1  WHERE pre_m_id = #{pre_m_id}
+      </update>
+		
+	  <update id="survey2" parameterType="com.gogi.meatyou.bean.PreferDTO">
+	    UPDATE prefer SET pre1_response = #{pre1_response}, pre_reg_date = sysdate, pre_status = 2 WHERE pre_m_id = #{pre_m_id} AND pre0_response IS NOT NULL
+	  </update>
+		
 </mapper>

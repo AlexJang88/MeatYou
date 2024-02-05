@@ -30,6 +30,7 @@ import com.gogi.meatyou.bean.CusOrderDTO;
 import com.gogi.meatyou.bean.MOrderDTO;
 import com.gogi.meatyou.bean.MemAddressDTO;
 import com.gogi.meatyou.bean.PDetailDTO;
+import com.gogi.meatyou.bean.PreferDTO;
 import com.gogi.meatyou.bean.ProductDTO;
 import com.gogi.meatyou.bean.ProductMorderDTO;
 import com.gogi.meatyou.bean.PurchaseMemberListDTO;
@@ -75,6 +76,10 @@ public  class CustomersServiceImpl implements CustomersService {
       
       jobject.add("mon_sal", new Gson().toJsonTree(mon_sal));
       jobject.add("net_profit", new Gson().toJsonTree(net_profit));
+      
+      ydate = ydate.substring(0,4);
+      
+      jobject.addProperty("selectedYear", ydate);
       
       String a = jobject.toString();
       
@@ -1170,6 +1175,23 @@ public  class CustomersServiceImpl implements CustomersService {
             mapper.statusChange(dto);
             
          }
+
+		@Override
+		public void survey1(String id, int selectedAnimal) {
+			PreferDTO prefer = new PreferDTO();
+			prefer.setPre0_response(selectedAnimal);
+			prefer.setPre_m_id(id);
+			mapper.survey1(prefer);
+		}
+
+		@Override
+		public void survey2(String id, int selectedAnimal) {
+			PreferDTO prefer = new PreferDTO();
+			
+			prefer.setPre1_response(selectedAnimal);
+			prefer.setPre_m_id(id);
+			mapper.survey2(prefer);
+		}
 
 
 

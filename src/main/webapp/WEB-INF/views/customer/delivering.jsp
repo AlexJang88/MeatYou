@@ -62,7 +62,9 @@
 		<c:forEach var="ing" items="${deliveringList}">
 		 <form action="/customers/deliverStatus" method="post">
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-			<input type="hidden" name="order_num" value="${ing.order_num}">	
+			<input type="hidden" name="order_num" value="${ing.order_num}">			
+			<input type="hidden" name="pageNum" value="${pageNum}">			
+			<input type="hidden" name="check" value="${check}">			
 			<tr align="center">
 				<td>${ing.order_num}</td>
 				<td>${ing.order_m_id}</td>
@@ -103,13 +105,13 @@
 
 <c:if test="${count>0}">
 	<c:if test="${startPage>10}">
-	   <a href="/customers/delivering?pageNum=${startPage-10}">[이전]</a>
+	   <a href="/customers/delivering?check=${check}&pageNum=${startPage-10}">[이전]</a>
 	</c:if>
 	<c:forEach var="i" begin="${startPage}" end="${endPage}" step="1">
-	  <a href="/customers/delivering?pageNum=${i}">[${i}]</a>
+	  <a href="/customers/delivering?check=${check}&pageNum=${i}">[${i}]</a>
 	</c:forEach>
 		<c:if test="${endPage<pageCount}">
-	     <a href="/customers/delivering?pageNum=${startPage+10}">[다음]</a>
+	     <a href="/customers/delivering?check=${check}&pageNum=${startPage+10}">[다음]</a>
 	</c:if>
 </c:if>
  

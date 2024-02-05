@@ -22,7 +22,7 @@
 <a href="/customers/pay">유료결제</a>
 <a href="/customers/delivering">주문접수 및 배송현황</a>
 <a href="/customers/cusQna">문의게시판</a>
-
+<a href="/member/modify"></i> 마이페이지</a>
 
 <h1>판매자 페이지 업무</h1>
 
@@ -34,7 +34,7 @@
 <div>
     <label for="year"></label>
     <select id="year" name="year">
-        <c:forEach var="i" begin="2022" end="2030">
+        <c:forEach var="i" begin="2023" end="2030">
             <option value="${i}">${i}년</option>
         </c:forEach>
     </select>
@@ -47,11 +47,14 @@
 		<canvas id="sales-chart"></canvas>
 	</div>
 
+
+
 </body>
 
 <script>
+var selectedYear = '';
 $('#Serch_btn').on('click',function(){
-	var selectedYear = $('#year').val();
+	selectedYear = $('#year').val();
     $.ajax({
         url: '/customers/chartdata', // 서버의 데이터 엔드포인트
         method: 'GET',
@@ -63,7 +66,7 @@ $('#Serch_btn').on('click',function(){
             var net_profit = data.net_profit;
 
             // 데이터를 그래프에 적용
-            update(mon_sal,net_profit); // 그래프 업데이트
+            update(mon_sal,net_profit, selectedYear); // 그래프 업데이트
         },
         error: function (xhr, status, error) {
             console.error('데이터 가져오기 실패:', error);
@@ -81,9 +84,10 @@ window.onload = function () {
             // ArrayList를 JavaScript 배열로 변환
         	 var mon_sal = data.mon_sal;
             var net_profit = data.net_profit;
-
+			var selectedYear = data.selectedYear
             // 데이터를 그래프에 적용
-            update(mon_sal,net_profit); // 그래프 업데이트
+            update(mon_sal,net_profit, selectedYear); // 그래프 업데이트
+            $('#selectedYear').text(selectedYear+"년월 매출요약");
         },
         error: function (xhr, status, error) {
             console.error('데이터 가져오기 실패:', error);
@@ -91,7 +95,7 @@ window.onload = function () {
     });
 }
 
-function update(d1, d2) {
+function update(d1, d2, d3) {
 	 $('#sales-chart').remove();
      $('#graph-container').append('<canvas id="sales-chart"></canvas>');
     var ctx = document.getElementById('sales-chart').getContext('2d');
@@ -127,7 +131,7 @@ function update(d1, d2) {
             plugins: {
                 title: {
                     display: true,
-                    text: '${selectedYear} 연별 매출통계'
+                    text: d3 + '년 매출통계' 
                 },
                 legend: {
                     display: true
@@ -136,6 +140,11 @@ function update(d1, d2) {
         }
     });
 }
+
+
+
+
+
     </script>
 </html>
 
