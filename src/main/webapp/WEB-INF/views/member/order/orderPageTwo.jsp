@@ -1,3 +1,4 @@
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
@@ -8,8 +9,23 @@
     response.setHeader("Pragma", "no-cache");
     response.setDateHeader("Expires", 0);
 %>  
+<%
+    List<Integer> numbers = (List<Integer>) request.getAttribute("numbers");
+%>
+
+<%-- 상품 총액을 계산하기 위한 변수 선언 --%>
 <head>
- 
+<!--상품총금액 선언-->
+<c:set var="order_p_price"  />
+<c:set var="order_quantity"   />
+<!--할인금액 선언-->
+<c:set var="order_discount"  />
+<!--쿠폰 번호 -->
+<c:set var="order_cp_num"  /> 
+  <!--최종결제금액 선언-->
+<c:set var="order_totalprice"   />  
+  <!-- 상품 총 수량  -->
+    <c:set var="order_quantity"  />
    
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script >
@@ -18,7 +34,7 @@
         
         // 실제로 서버로 해당 shop_num을 전송하거나, 필요한 처리를 수행하는 로직을 구현
         console.log("Selected Shop Numbers: " + selectedShopNums);
-    });
+    }); 
 
     function getParameterByName(name) {
         // URL에서 파라미터 값을 가져오는 함수
@@ -31,6 +47,7 @@
     
     window.onload = function() {
       var selectedAddressCell = document.getElementById('selectedAddressCell');
+      var cListCell = document.getElementById('cListCell');
 
       // 현재 페이지의 URL 쿼리 문자열을 가져옵니다
       var queryString = window.location.search;
@@ -39,10 +56,12 @@
       if (queryString) {
         var params = new URLSearchParams(queryString);
         var selectedAddress = params.get('selectedAddress');
+        var cList = params.get('cList');
 
         // 선택한 주소 값을 <td> 요소에 넣어줍니다
         if (selectedAddress) {
-          selectedAddressCell.innerHTML = selectedAddress;
+          selectedAddressCell.innerHTML = selectedAddress,
+          cListCell.innerHTML = cList;
         }
       }
     };
@@ -62,9 +81,11 @@
 
 </head>
 <body>
+<div>
+  
 
+</div>
 
-<form>
 <b> 결제 페이지 </b>
     <table border="1">
         <thead  >
@@ -78,6 +99,7 @@
                 <th>가입일</th>
                 <th>등급</th>
                 <th>배송받으실주소</th>
+                <th>쿠폰가격</th>
                 
             </tr>
         </thead>
@@ -105,15 +127,22 @@
                     </c:choose>
                 </td>
                  <td id="selectedAddressCell">${param.selectedAddress}</td>
- 
-               
+                 <td id="cListCell">${cdto.cp_price}</td>
+                 <td id="cListCell">${cdto.cp_num}</td>
+                  
+                  
+                
+              	<%-- 	   ${cList.cp_price}
+ 				<%-- 	<input type="text" name="order_cp_num" value="${cList.cp_num}"/> --%>
+ 			<%-- 		폰번호 : ${item.cp_num}  쿠폰 가격 : ${item.cp_price} --%>
             </tr>
         </tbody> 
         
     </table>				
-      <table>
+      <table border="2">
     <thead>
         <tr>
+            <th>상품 고유번호</th>
             <th>상품 내용</th>
             <th>상품 분류</th>
             <th>상품 사진</th>
@@ -122,38 +151,87 @@
         </tr>
     </thead>
     <tbody>
-    		 <form action="/path-to-server-handler" method="post" id="checkoutForm">
-        <!-- 여기에 선택한 상품을 출력하는 영역 -->
+     	
         <div id="selectedItemsContainer"></div>
 
-        <!-- 추가적인 결제 정보 입력 폼 등을 필요에 따라 구현 -->
-
-        <!-- 확인 및 결제 버튼 -->
-        <button type="button" onclick="submitForm()">확인 및 결제</button>
-    </form>
     
-    
-         <c:forEach var="item" items="${selectedItems}">
+         <c:forEach var="item" items="${shopList}">
+      <td>    
+      
+    </td>
             	<tr>
+                <td><c:out value="${item.shop_p_num}"/>
+                <%-- 고유번호 : ${item.p_num} --%>
+                </td>
                 <td><c:out value="${item.p_name}"/></td>
+               	
                 <td><c:out value="${item.pd_p_desc}" /></td>
                 <td><c:out value="${item.thumb}"/></td>
                 <td><c:out value="${item.shop_quantity}" /></td>
                 <td>
                     <b>총액  </b>
-                    <c:out value="${item.p_price * item.shop_quantity}" />
+                    <div>${item.p_price * item.shop_quantity} </div>
+               
                     <b> 원</b>
+                   			<!-- 총 수량 -->
+				          	       <!-- 총 수량 누적 -->
+				            <c:set var="order_quantity" value="${order_quantity + item.shop_quantity}" />
+                   			<!-- 상품 다 더한금액  -->
+                     <c:set var="order_p_price" value="${order_p_price + (item.p_price * item.shop_quantity)}" />
+                   		<!-- 할인금액 쿠폰 +-->
+                     <c:set var="order_discount" value="${cdto.cp_price}" />
+                   <!--   쿠폰번호 변수 -->
+                     <c:set var="order_cp_num" value="${cdto.cp_num}" />
+						<!-- 선택된 상품들-->
+                  
+                   				<!-- 배송비,할인뺀금액 -->
+                     <c:set var="order_totalprice" value="${order_p_price -cdto.cp_price+order_dere_pay}" />
+            
                 </td>
             </tr>
         </c:forEach>
+			<tr>
+				<td>
+			 
+				</td>
+			</tr>	        		
             <thead>
-    		</table>
-   					
-    					<input type="submit"  value="결제하기">
-					</form>
-							  			 <form action="orderPageOne"  method="post"> 
-      								<input type="submit" value="다시확인하기">
-     							  		 </form>
+    		</table>	
+    		    <!-- 배송 메모 입력란 -->
+
+    		<div> 배송비  : ${order_dere_pay}</div>
+    				   <b>총 상품 가격</b>
+   				 <div><c:out value="${order_p_price}" /></div> 
+   				 <div>적용 된 총할인 금액  :         ${order_discount}</div>
+   					<div> 최종 결제금액 :      ${order_totalprice}</div>
+   				   
+   				   		    <form action="showMeTheMoney" method="post" id="checkoutForm">	
+    					<input type="submit"  value="결제하기"><br/>
+    					 	하고싶은말씀 있으시면 여기서하시죠   : <input type="text"  name="order_memo" value="${order_memo}"/><br/>
+   				           <c:forEach var="item" items="${shopList}">
+   				           
+   					 	<input type="hidden"  name="order_m_id" value="${item.shop_m_id}"/><br/>
+   					  <input type="hidden"  name="order_cp_num" value="${order_cp_num}"/><br/>  
+   					   <c:forEach var="number" items="${numbers}">
+  
+   				    <input type="hidden"  name="order_p_num" value="${number}"/><br/>
+   			      	
+ 				   </c:forEach>
+					 	<input type="hidden"  name="order_p_price" value="${order_p_price}"/> <br/>
+   					 	<input type="hidden"  name="order_dere_pay" value="${order_dere_pay}"/><br/>
+   				 	 	<input type="hidden"  name="order_addr" value="${param.selectedAddress}"/><br/>
+   				 		 <input type="hidden"  name="order_quantity" value="${order_quantity}"/><br/>
+   				 		 	<input type="hidden"  name="order_discount" value="${order_discount}"/><br/>
+   				 		 	<input type="hidden"  name="order_totalprice" value="${order_totalprice}"/><br/>
+   				 		
+   				 					
+   				 		</c:forEach>		
  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+					</form>
+					
+   				   
+   				   
+   		
+							   
 <%@ include file="../../footer.jsp" %>
 </body>

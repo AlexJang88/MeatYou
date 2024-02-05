@@ -216,6 +216,14 @@
           <artifactId>commons-fileupload</artifactId>
           <version>1.5</version>
       </dependency>
+   <!--카카오로그인 api 때매-->
+   <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-jpa -->
+		<dependency>
+		    <groupId>org.springframework.data</groupId>
+		    <artifactId>spring-data-jpa</artifactId>
+		    <version>2.0.7.RELEASE</version>
+		</dependency>
+   
    
       <!-- Test -->
       <dependency>

@@ -24,7 +24,7 @@
     <thead>
         <tr>
             <th>나를 찜한 회원</th>
-            <th>내아이디(히든처리)</th>
+   <!--          <th>내아이디(히든처리)</th> -->
             <th>회원이름</th>
             <th>회원이메일</th>
             <th>회원 전화번호</th>
@@ -36,7 +36,7 @@
         <c:forEach var="item" items="${SallerPickMeList}">
             <tr>
                 <td><c:out value="${item.pm_m_id}"  /></td>
-                <td><c:out value="${item.pm_c_id}"/></td>
+<%--                 <td><c:out value="${item.pm_c_id}"/></td> --%>
                 <td><c:out value="${item.m_name}" /></td>
                 <td><c:out value="${item.email}" /></td>
                 <td><c:out value="${item.telep}" />-<c:out value="${item.phone}" /></td>
@@ -63,17 +63,7 @@
                   
                   
                   </td>
-                <td>
-                    <form action="SallerdeleteHim" method="post" class="quantity_delete_form">
-                        <input type="hidden" name="pm_num" value="${item.pm_num}" />
-                        
-                        <input type="hidden" name="pm_m_id" value="${item.pm_m_id}" />
-                        
-                        
-                        
-                        <button type="submit" class="delete_btn">삭제</button>
-                    </form>
-                </td>
+              
               
             </tr>
         </c:forEach>

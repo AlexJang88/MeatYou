@@ -1,9 +1,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-
 <%@ include file="../../header.jsp" %>
 <style>
 /* Reset some default table styles */
@@ -201,7 +200,7 @@
          					 </td>
                         
                           <td>
-                         <a href="#" >결제 내역</a>
+                         <a href="/member/PaymentHistory" >결제 내역</a>
                    </td>
                         
                         
@@ -210,9 +209,6 @@
                          <a href="../member/pPickList" >찜 상품 목록</a>
                     </td>
                     
-                    <td>
-                            <a href="../member/shoppingCartForm">장바구니</a>
-                     </td>
                           </tr>	
                            
                        
@@ -312,29 +308,61 @@
 </table>
 
  <!-- 1001 ~ 1050 사이의 상태일 때 -->
+
+		
+		    <table style="border-collapse: collapse; width: 30%; margin: auto;">
+        <tbody>
+            <tr>
+                <th style="   padding: 15px; text-align: center;">
+                    <div>
+                        <b>
+                           		<div> 쿠폰 갯수  : <c:out value="${count}"/> 개 </div>
+                        </b>
+                    </div>
+                </th>
+            </tr>
+        </tbody>
+    </table>
     <c:if  test="${dto.m_status ge 1001 and dto.m_status le 1050}">
         <table border=2>
-            <tbody>
-                <tr>
-                    <td>일반인 쿠폰  몇개~</td>
-                     <td>결제한상품어떤거~</td>
+          <thead>
+         	 <tr>
+
+                    <th>사업자 식별번호(제거대상) </th>
+               		<th>쿠폰 번호</th>
+                    <th>쿠폰 가격</th>
+                    <th>만료일</th>
+                    <th>발행일</th>
+                    <th>사용일</th>
                 </tr>
-             
-                <tr>
-                    <td>아직 모르지~</td>
-                       <td>몰라~</td>
-                </tr>
-                 
-            </tbody>
+            </thead>
+                
+                <tbody>
+                	 <c:forEach var="item" items="${cList}">
+				<tr>
+					<td>
+					<c:out value="${item.cp_cus_num}"/>					
+					</td>
+					<td>
+					<c:out value="${item.cp_num}"/>					
+					</td>
+					<td>
+					<c:out value="${item.cp_price}"/>					
+					</td>
+				<td>
+					<fmt:formatDate value="${item.exdate}" pattern="yyyy/MM/dd"/>
+					</td>
+					<td>
+					<fmt:formatDate value="${item.publishdate}" pattern="yyyy/MM/dd"/>
+					</td>
+					<td>
+					<fmt:formatDate value="${item.usedate}" pattern="yyyy/MM/dd"/>
+					</td>
+						</tr>
+                		</c:forEach>
+                </tbody>
         </table>
    </c:if>
-
-   
-   
-   
-   
-   
-   
    
 				<div style="position:relative;">
 	   <!-- 2000 ~ 2003 사이의 상태일 때 -->
@@ -364,11 +392,15 @@
         <tbody>
             <tr>
                 <th style="  color: white; padding: 15px; text-align: center;">
-                    <div>
-                        <b>
-                            <a href="../member/modifyForm" style="color: gray; text-decoration: none;">정보수정</a>
-                        </b>
-                    </div>
+                  
+                       <td>
+                            <a href="../member/modifyForm" style="color: black; text-decoration: none;">정보수정</a>
+                         </td>
+                            <td>
+ 							<c:if test="${dto.m_status eq 1001 and dto.m_status le 1003}">
+						 <input type="button" name="modify" value="판매자 신청"  onclick="javascript:window.location='/member/sallerInputForm'" style="background-color:lightgray; border:none; color:black; ">
+							</c:if>
+								</td>
                 </th>
             </tr>
         </tbody>

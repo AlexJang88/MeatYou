@@ -121,9 +121,6 @@
       
       
       
- 			<c:if test="${dto.m_status eq 1001 and dto.m_status le 1003}">
-				 <input type="button" name="modify" value="판매자 신청"  onclick="javascript:window.location='/member/sallerInputForm'" style="background-color:orange; ">
-						</c:if>
       </td>
     </tr>
   </table>

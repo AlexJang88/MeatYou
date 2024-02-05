@@ -5,7 +5,9 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>     
 <%@ include file="../../header.jsp" %>
 
+      
  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+ <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       document.getElementById('addressButton').addEventListener('click', function () {
@@ -47,12 +49,49 @@
     input.selectionStart = newCursorPos;
     input.selectionEnd = newCursorPos;
   }
+ 
+ 
+  
 </script>
+<script>
+	$(function () {
+$('#check').on('click', function () {
+    var b_no = $('#b_no').val();
+    var apiKey = $('#apiKey').val();
+    var resultMessage = $('#resultMessage'); // 결과 메시지를 표시할 input 요소
 
+    // 이전 오류 메시지 초기화
+    $('.error').remove();
+
+    var data = {
+        "b_no": [b_no]
+    };
+	var resultMsg = "";
+    $.ajax({
+        url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=" + apiKey,
+        type: "POST",
+        data: JSON.stringify(data),
+        dataType: "JSON",
+        contentType: "application/json",
+        accept: "application/json",
+        success: function (result) {
+            resultMessage.text(result.data[0].tax_type);
+        },
+        error: function (result) {
+            console.log(result.responseText);
+            // API 호출이 실패한 경우 오류 메시지 표시
+            resultMessage.val('서버 오류: 국세청 정보를 확인할 수 없습니다.');
+        }
+    });
+});
+	 });
+</script>
 
 <html>
 <head>
 	<title>파매자 신청 하신다구여 ~~ ? </title>
+	
+	
 </head>
 <body >
 
@@ -92,11 +131,17 @@
       </td>
     </tr>
     
-       <tr>  
-      <td  width="200"> 사업자 번호 </td>    
-      <td  width="400">	 <input type="text" name="corpno" size="15" ></td>
-      
-    </tr>
+  <tr>  
+     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+     <input type="hidden" id="apiKey" value="${apiKey}">
+   <td width="200"> 사업자 번호 </td>   
+   <td width="400">	 
+   <input type="number" name="corpno" id="b_no" maxlength="15">
+			<button type="button" id="check">조회하기</button><div id="resultMessage"></div></td>
+		
+
+ 
+  </tr>
    
    
    <tr>  

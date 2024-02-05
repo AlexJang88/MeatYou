@@ -2,51 +2,56 @@ package com.gogi.meatyou.security;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+
+
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 public class CustomLoginHandler implements AuthenticationSuccessHandler {
 
-	@Override
-	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-			Authentication authentication) throws IOException, ServletException {
-		List<String> roleNames = new ArrayList<String>();
-		authentication.getAuthorities().forEach(au ->{
-			roleNames.add(au.getAuthority());
-		});
-		
-		/*   �����ִ���
-		String  rdir = "/main/main";
-		if(roleNames.contains("ROLE_ADMIN")) {
-			rdir = "/admin/main";
-		}else if(roleNames.contains("ROLE_MEMBER")) {
-			rdir="/main/main";
-		}
-		response.sendRedirect(rdir);
-	}*/
-		
-//	   2023-12-16	���� 
-		for(String s : roleNames) {
-		System.out.println("======="+s);
-		
-		}
-		String  rdir = "/main/main";
-		if(roleNames.contains("ROLE_ADMIN")) {
-			rdir = "/admin/main";
-		}else if(roleNames.contains("ROLE_MEMBER")) {
-			rdir="/main/main";
-		}else if(roleNames.contains("ROLE_SALLER")) {
-			rdir="/customers/customer";
-		}
-		response.sendRedirect(rdir);
-	}
-		
-		
+private static final Logger logger = LoggerFactory.getLogger(CustomLoginHandler.class);
 
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+                                        Authentication authentication) throws IOException, ServletException {
+        String username = authentication.getName();  // ����� �̸� ��������
+
+        String rdir = determineTargetUrl(authentication);  // �����̷�Ʈ �ּ� ����
+
+        response.sendRedirect(rdir);
+    }
+
+    private String determineTargetUrl(Authentication authentication) {
+        if (hasRole(authentication, "ROLE_ADMIN")) {
+            return "/admin/main";
+        } else if (hasRole(authentication, "ROLE_MEMBER")) {
+            String username = authentication.getName();
+            return "/main/main" ;
+        } else if (hasRole(authentication, "ROLE_SELLER")) {
+            rdir="/customers/customer";
+        } else {
+            return "/main/main";
+        }
+    }
+
+    private boolean hasRole(Authentication authentication, String role) {
+        return authentication.getAuthorities().stream()
+                .anyMatch(authority -> authority.getAuthority().equals(role));
+    }
 }

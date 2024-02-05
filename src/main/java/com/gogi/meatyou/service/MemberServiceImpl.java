@@ -1,13 +1,17 @@
 package com.gogi.meatyou.service;
 
+import com.gogi.meatyou.bean.CouponDTO;
 import com.gogi.meatyou.bean.CusDetailDTO;
+import com.gogi.meatyou.bean.MOrderDTO;
 import com.gogi.meatyou.bean.MemAddressDTO;
 import com.gogi.meatyou.bean.MemberDTO;
 import com.gogi.meatyou.bean.PDetailDTO;
 import com.gogi.meatyou.bean.PPicDTO;
 import com.gogi.meatyou.bean.PickMeDTO;
 import com.gogi.meatyou.bean.ProductDTO;
+import com.gogi.meatyou.bean.SelectedProductDTO;
 import com.gogi.meatyou.bean.ShoppingCartDTO;
+import com.gogi.meatyou.bean.UserPayDTO;
 import com.gogi.meatyou.repository.MemberMapper;
 
 import java.util.HashMap;
@@ -50,12 +54,12 @@ public class MemberServiceImpl implements MemberService {
         if (pickCount > 0) {
             int deleteResult = mapper.deletePickMeByCId(pm_m_id, pm_c_id);
             if (deleteResult > 0) {
-                model.addAttribute("message", " 뜝 럥 맶 뜝 럥 쑋占쎌뼚횞 떋 띿삕 몭 궪 삕占쎄뎡  뜝 럥 맶 뜝 럥 쐾 뜝 럥彛▼뜝 럥 맶 뜝 럥 쐾占쎈닱筌롡뫀 맶 뜝 럥 쑅鶯ㅼ룊 삕  뜝 럥 맶 뜝 럥 쐾嶺뚮씭占쏙퐢 맶 뜝 럥 쑅占쎈쐻占쎈윥 굜 뜉 삕占쎄뎡占쎈쐻占쎈윥 뤃占  占쎈쐻占쎈윥占쎈굘占쎈쐻占쎈윥 댚 렱 쐻占쎈윞占쎈뼎 뜝 럥 맶 뜝 럥 쑅嶺뚮ギ 벉 맶 뜝 럥 쑅 뜏類Ｅ 占쎌맶 뜝 럥 쑅占쎈쑏占쎌뵢占쎌맶 뜝 럥 쑅占쎌젂 뜝占 .");
+                model.addAttribute("message", " �뜝�럩留� �뜝�럩�몗 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥먨뜝�럥�맶�뜝�럥�쑋占쎌젂占쎈뼖占쎈뮂 �뜝�럥占� �뜝�럩逾겼뜝�럡�렊 嶺뚮쪋�삕 雅��굢�삕 �뜝�럡�렊�뜝�럥�맶�뜝�럥�쐾�뜝�럥�젃  �뜝�럩留� �뜝�럩�몗 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥�렒 �뜝�럩留� �뜝�럩�몗傭��끉�젻�젆諭꾩삕占쎈㎍ �뜝�럩�몗 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥�렒�뜝�럥�맶�뜝�럥�쑅�뜝�럥堉볡솾�꺂�뒧占쏙옙力놂옙�뜝占� 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥딉옙沅섇뜝�룞�삕占쎄콬占쎈쇀�뜝占� �뜝�럡�렊  �뜝�럩留� �뜝�럩�몗 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥�렒占쎈�꿴뇡�씮�뮛�뜝�럥�럯�뜝�럥�맶�뜝�럥吏쀥뜝�럥彛� 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥듿뜝�럥�맶�뜝�럥�쑅�뜝�럥�럪�뜝�럥�맶�뜝�럥�쑅�뜝�럩紐� 占쎈쨨�뜝占� �뜝�럩留� �뜝�럡�렊�뜝�럥�맶�뜝�럥�쐾�뜝�럥�젃�뜝�럥�맶�뜝�럥�쑅�뜝�럥�럪�뜝�럥�맶�뜝�럥�쑅�뜝�럩紐� 嶺뚮슡�뜉占쎌맶  �뜝�럥�맶�뜝�럥�쑅�뜝�럥�럪�뜝�럥�맶�뜝�럥�쑅�뜝�럩紐쀥뜝�럥�맶�뜝�럥�쑅占쎈쨨占쎄섈占쎌맶�뜝�럥�쑅�뜝�럥�럪�뜝�럥�맶�뜝�럥�쑅�뜝�럩紐� �뜝�럥�넇 �뜝�럩議� �뜝�럥�럪�뜝�럥�맶�뜝�럥�쑅�뜝�럩留썲뜝�럥�맶�뜝�럥�쑅占쎌젂�뜝占� �뜝�럩留� �뜝�럩�몗 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥딉옙裕꿴뇡�씮�뮛�뜝�럡�뀮 �뵓怨ㅼ삕 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥� �뜝�럩留싷┤�뜆�돸占쎄틣 �뜝�럥�맶�뜝�럥�쑋嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥듿뜝�럥�맶�뜝�럥�쑅�뜝�럥�걖�뜝�럥�맶�뜝�럥�쑋占쎌뻹苑믭옙�맶�뜝�럥�쑋嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥듿뜝�럥�맶�뜝�럥�쑋�뜝�럩�쓥 �뜝�럩留뜹뜝�럥�맶 .");
             }
         } else {
             int insertResult = mapper.pickMeInsert(pdto, pm_m_id, pm_c_id, pm_num);
             if (insertResult > 0) {
-                model.addAttribute("message", " 뜝 럥 맶 뜝 럥 쐾嶺뚮씭占쏙퐢 맶 뜝 럥 쑅占쎈쐻占쎈윥 굜 뜉 삕占쎄뎡占쎈쐻占쎈윥 뤃占   뜝 럥 맶 뜝 럥 쐾 뜝 럥彛▼뜝 럥 맶 뜝 럥 쐾占쎈닱筌롡뫀 맶 뜝 럥 쑅嶺뚮ギ 벉 맶 뜝 럥 쑅 뜏類Ｅ 占쎌맶 뜝 럥 쑅占쎈쑏占쎌뵢占쎌맶 뜝 럥 쑅占쎌젂 뜝占 .");
+                model.addAttribute("message", " �뜝�럩留� �뜝�럩�몗 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥�렒占쎈�꿴뇡�씮�뮛�뜝�럥�럯�뜝�럥�맶�뜝�럥吏쀥뜝�럥彛� 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥듿뜝�럥�맶�뜝�럥�쑅�뜝�럥�럪�뜝�럥�맶�뜝�럥�쑅�뜝�럩紐� 占쎈쨨�뜝占� �뜝�럩留� �뜝�럡�렊�뜝�럥�맶�뜝�럥�쐾�뜝�럥�젃�뜝�럥�맶�뜝�럥�쑅�뜝�럥�럪�뜝�럥�맶�뜝�럥�쑅�뜝�럩紐� 嶺뚮슡�뜉占쎌맶   �뜝�럩留� �뜝�럩�몗 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥�렒 �뜝�럩留� �뜝�럩�몗傭��끉�젻�젆諭꾩삕占쎈㎍ �뜝�럩�몗 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥�렒�뜝�럥�맶�뜝�럥�쑅�뜝�럥堉볡솾�꺂�뒧占쏙옙力놂옙�뜝占� 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥딉옙裕꿴뇡�씮�뮛�뜝�럡�뀮 �뵓怨ㅼ삕 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥� �뜝�럩留싷┤�뜆�돸占쎄틣 �뜝�럥�맶�뜝�럥�쑋嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥듿뜝�럥�맶�뜝�럥�쑅�뜝�럥�걖�뜝�럥�맶�뜝�럥�쑋占쎌뻹苑믭옙�맶�뜝�럥�쑋嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥듿뜝�럥�맶�뜝�럥�쑋�뜝�럩�쓥 �뜝�럩留뜹뜝�럥�맶 .");
             }
         }
     }
@@ -65,18 +69,27 @@ public class MemberServiceImpl implements MemberService {
        int pickCount = mapper.ppickAndpickMeCount2(pm_m_id, pm_c_id, pm_num);
        
        if (pickCount > 0) {
-          //  뜝 럥 맶 뜝 럥 쑋占쎌뼚횞 떋 띿삕 몭 궪 삕占쎄뎡  솾 꺂 뒖占쎈１ 뜏類ｋ룏占쎌굲占쎌뼲 삕  뜝 럥 맶 뜝 럥 쑅 뜝 럥 룎 뜝 럥 맶 뜝 럥 쑅 뜝 럡 맖  뜝 럥 맶 뜝 럥 쑋占쎄덩占쎈 섓옙 맶 뜝 럥 쑅占쎌젂熬곥끉 븸 슖 볥걙占쎄뎡  솾 꺂 뒖占쎈１ 뜏類ｋ룏占쎌굲 뛾占썲뜝占   뜝 럥 맶 뜝 럥 쑅 뜝 럥琉끻뜝 럥 맶 뜝 럥 쑋 뜝 럩議 
           int deleteResult = mapper.deletePickMeByCId2(pm_m_id, pm_c_id);
           if (deleteResult > 0) {
-             model.addAttribute("message", " 뜝 럥 맶 뜝 럥 쑋占쎌뼚횞 떋 띿삕 몭 궪 삕占쎄뎡  뜝 럥 맶 뜝 럥 쐾 뜝 럥彛▼뜝 럥 맶 뜝 럥 쐾占쎈닱筌롡뫀 맶 뜝 럥 쑅鶯ㅼ룊 삕  뜝 럥 맶 뜝 럥 쐾嶺뚮씭占쏙퐢 맶 뜝 럥 쑅占쎈쐻占쎈윥 굜 뜉 삕占쎄뎡占쎈쐻占쎈윥 뤃占  占쎈쐻占쎈윥占쎈굘占쎈쐻占쎈윥 댚 렱 쐻占쎈윞占쎈뼎 뜝 럥 맶 뜝 럥 쑅嶺뚮ギ 벉 맶 뜝 럥 쑅 뜏類Ｅ 占쎌맶 뜝 럥 쑅占쎈쑏占쎌뵢占쎌맶 뜝 럥 쑅占쎌젂 뜝占 .");
+             model.addAttribute("message", " �뜝�럩留� �뜝�럩�몗 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥먨뜝�럥�맶�뜝�럥�쑋占쎌젂占쎈뼖占쎈뮂 �뜝�럥占� �뜝�럩逾겼뜝�럡�렊 嶺뚮쪋�삕 雅��굢�삕 �뜝�럡�렊�뜝�럥�맶�뜝�럥�쐾�뜝�럥�젃  �뜝�럩留� �뜝�럩�몗 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥�렒 �뜝�럩留� �뜝�럩�몗傭��끉�젻�젆諭꾩삕占쎈㎍ �뜝�럩�몗 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥�렒�뜝�럥�맶�뜝�럥�쑅�뜝�럥堉볡솾�꺂�뒧占쏙옙力놂옙�뜝占� 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥딉옙沅섇뜝�룞�삕占쎄콬占쎈쇀�뜝占� �뜝�럡�렊  �뜝�럩留� �뜝�럩�몗 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥�렒占쎈�꿴뇡�씮�뮛�뜝�럥�럯�뜝�럥�맶�뜝�럥吏쀥뜝�럥彛� 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥듿뜝�럥�맶�뜝�럥�쑅�뜝�럥�럪�뜝�럥�맶�뜝�럥�쑅�뜝�럩紐� 占쎈쨨�뜝占� �뜝�럩留� �뜝�럡�렊�뜝�럥�맶�뜝�럥�쐾�뜝�럥�젃�뜝�럥�맶�뜝�럥�쑅�뜝�럥�럪�뜝�럥�맶�뜝�럥�쑅�뜝�럩紐� 嶺뚮슡�뜉占쎌맶  �뜝�럥�맶�뜝�럥�쑅�뜝�럥�럪�뜝�럥�맶�뜝�럥�쑅�뜝�럩紐쀥뜝�럥�맶�뜝�럥�쑅占쎈쨨占쎄섈占쎌맶�뜝�럥�쑅�뜝�럥�럪�뜝�럥�맶�뜝�럥�쑅�뜝�럩紐� �뜝�럥�넇 �뜝�럩議� �뜝�럥�럪�뜝�럥�맶�뜝�럥�쑅�뜝�럩留썲뜝�럥�맶�뜝�럥�쑅占쎌젂�뜝占� �뜝�럩留� �뜝�럩�몗 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥딉옙裕꿴뇡�씮�뮛�뜝�럡�뀮 �뵓怨ㅼ삕 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥� �뜝�럩留싷┤�뜆�돸占쎄틣 �뜝�럥�맶�뜝�럥�쑋嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥듿뜝�럥�맶�뜝�럥�쑅�뜝�럥�걖�뜝�럥�맶�뜝�럥�쑋占쎌뻹苑믭옙�맶�뜝�럥�쑋嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥듿뜝�럥�맶�뜝�럥�쑋�뜝�럩�쓥 �뜝�럩留뜹뜝�럥�맶 .");
           }
        } else {
-          //  솾 꺂 뒖占쎈１ 뜏類ｋ룏占쎌굲占쎌뼲 삕  뜝 럥 맶 뜝 럥 쑅 뜝 럥 룎 뜝 럥 맶 뜝 럥 쑅 뜝 럡 맖  뜝 럥 맶 뜝 럥 쑋占쎄덩占쎈 욅빊占썲뜝 럩 뤈 뜝 럩援   뜝 럥 맶 뜝 럥 쑅占쎈ご占쎄뭍占쎌맶 뜝 럥 쑅占쎌젂熬곥끉 븸 슖 볥걙占쎄뎡  솾 꺂 뒖占쎈１ 뜏類ｋ룏占쎌굲 뛾占썲뜝占  占쎈쐻占쎈윥占쎈룾 뜝 럡猿  뜝 럥吏쀥뜝 럩援 
           int insertResult = mapper.pickMeInsert2(pdto, pm_m_id, pm_c_id, pm_num);
           if (insertResult > 0) {
-             model.addAttribute("message", " 뜝 럥 맶 뜝 럥 쐾嶺뚮씭占쏙퐢 맶 뜝 럥 쑅占쎈쐻占쎈윥 굜 뜉 삕占쎄뎡占쎈쐻占쎈윥 뤃占   뜝 럥 맶 뜝 럥 쐾 뜝 럥彛▼뜝 럥 맶 뜝 럥 쐾占쎈닱筌롡뫀 맶 뜝 럥 쑅嶺뚮ギ 벉 맶 뜝 럥 쑅 뜏類Ｅ 占쎌맶 뜝 럥 쑅占쎈쑏占쎌뵢占쎌맶 뜝 럥 쑅占쎌젂 뜝占 .");
+             model.addAttribute("message", " �뜝�럩留� �뜝�럩�몗 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥�렒占쎈�꿴뇡�씮�뮛�뜝�럥�럯�뜝�럥�맶�뜝�럥吏쀥뜝�럥彛� 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥듿뜝�럥�맶�뜝�럥�쑅�뜝�럥�럪�뜝�럥�맶�뜝�럥�쑅�뜝�럩紐� 占쎈쨨�뜝占� �뜝�럩留� �뜝�럡�렊�뜝�럥�맶�뜝�럥�쐾�뜝�럥�젃�뜝�럥�맶�뜝�럥�쑅�뜝�럥�럪�뜝�럥�맶�뜝�럥�쑅�뜝�럩紐� 嶺뚮슡�뜉占쎌맶   �뜝�럩留� �뜝�럩�몗 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥�렒 �뜝�럩留� �뜝�럩�몗傭��끉�젻�젆諭꾩삕占쎈㎍ �뜝�럩�몗 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥�렒�뜝�럥�맶�뜝�럥�쑅�뜝�럥堉볡솾�꺂�뒧占쏙옙力놂옙�뜝占� 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥딉옙裕꿴뇡�씮�뮛�뜝�럡�뀮 �뵓怨ㅼ삕 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥� �뜝�럩留싷┤�뜆�돸占쎄틣 �뜝�럥�맶�뜝�럥�쑋嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥듿뜝�럥�맶�뜝�럥�쑅�뜝�럥�걖�뜝�럥�맶�뜝�럥�쑋占쎌뻹苑믭옙�맶�뜝�럥�쑋嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥듿뜝�럥�맶�뜝�럥�쑋�뜝�럩�쓥 �뜝�럩留뜹뜝�럥�맶 .");
           }
        }
+    }
+    
+  @Override
+  public int couponCount(@Param("cp_m_id") String cp_m_id) {
+    	return mapper.couponCount(cp_m_id);
+    }
+    
+    
+    @Override
+   public  List<CouponDTO>  howmuchCoupon(@Param("cp_m_id") String cp_m_id) {
+    	return mapper.howmuchCoupon(cp_m_id);
     }
     
     
@@ -231,21 +244,22 @@ public class MemberServiceImpl implements MemberService {
          
          
          
-         public List<ShoppingCartDTO> getShoppingCartItemsPaged(String shop_m_id, int page, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto,PDetailDTO pddto) {
-             int startRow = (page - 1) * pageSize + 1;
-             int endRow = startRow + pageSize - 1;
-
-             Map<String, Object> parameters = new HashMap<>();
-             parameters.put("shop_m_id", shop_m_id);
-             parameters.put("startRow", startRow);
-             parameters.put("endRow", endRow);
-
-          //   return mapper.getShoppingCartItemsPaged(parameters);
-             List<ShoppingCartDTO> result = mapper.getShoppingCartItemsPaged(parameters);
-             System.out.println(" 뜝 럥 맶 뜝 럥 쑅 뜝 럥 럪 뜝 럥 맶 뜝 럥 쑅 뜝 럩留썲뜝 럥 맶 뜝 럥 쑅鶯ㅼ룆 굫占쎌굲 뜝 럩留띰옙 쐻占쎈윥占쎌몗占쎈쐻占쎈윥占쎄콞占쎈쐻占쎈윥 땻醫묒삕占쎈쳟占쎈쭒占쎈뙕占쎈 욑옙 맚嶺뚮Ĳ猷귨옙援   뜝 럥 맶 뜝 럥 쑅 뜝 럥 럪 뜝 럥 맶 뜝 럥 쑅 뜝 럩紐앭슖 떜媛  걫 뜝 럩留뗰옙 쐻占쎈윪 뤃轅⑤쐻占쎈윥占쎈ぁ占쎈쐻占쎈윥 댆 뜴 쐻占쎈윪筌띾쑚 쐻占쎈윥占쎈㎍ 뜝 럥 맶占쎈쐻 뜝占  -  뜝 럥 맶 뜝 럥 쑅 뜝 럥 럪 뜝 럥 맶 뜝 럥 쑅 뜝 럩紐쀥뜝 럥 맶 뜝 럥 쑋 뛾占쏙옙沅랃옙 맶 뜝 럥 쑅 뜝 럥 럪 뜝 럥 맶 뜝 럥 쑅 뜝 럩紐앾옙 쐻占쎈윪 젆 떐 렭占쎈쭫 뜮 벩 쐻占쎈쑕占쎌맶 뜝 럥 쑋 뜝 럥夷  뜝 럥 맶 뜝 럥 쑋占쎈쨨 뜝占 : " + page + ",  뜝 럥 맶 뜝 럥 쑅 뜝 럥 뱥占쎈쐻占쎈윥占쎈눁占쎈쐻占쎈윥占쎈젒 뜝 럥 맶 뜝 럥 쑋占쎈쐻占쎈짗占쎌굲占쎈쐻占쎈윪 뤃轅댁뜏 뜝 룞 삕 뤃占썲뜝 럩援   뜝 럥 맶 뜝 럥 쑅勇싲·猿딆맶 뜝 럥 쑅嶺뚯빖諭븝옙 맚嶺뚮㉡ 맊 뙴琉룸쐻占쎈윪 뤃 먯삕占쎌맶 뜝 럥 쑅占쎈닱 뜝占 : " + result.size());
-             return result;
-         }
+ 
           
+         public List<ShoppingCartDTO> getShoppingCartItemsPaged2(String shop_m_id, int page, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto,PDetailDTO pddto) {
+        	 int startRow = (page - 1) * pageSize + 1;
+        	 int endRow = startRow + pageSize - 1;
+        	 
+        	 Map<String, Object> parameters = new HashMap<>();
+        	 parameters.put("shop_m_id", shop_m_id);
+        	 parameters.put("startRow", startRow);
+        	 parameters.put("endRow", endRow);
+        	 
+        	 //   return mapper.getShoppingCartItemsPaged(parameters);
+        	 List<ShoppingCartDTO> result = mapper.getShoppingCartItemsPaged2(parameters);
+        	 return result;
+         }
+         
          
          
          public List<ShoppingCartDTO> orderpage(String shop_m_id, int page, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto) {
@@ -259,7 +273,6 @@ public class MemberServiceImpl implements MemberService {
             
             //   return mapper.getShoppingCartItemsPaged(parameters);
             List<ShoppingCartDTO> result = mapper.orderpage(parameters);
-            System.out.println(" 뜝 럥 맶 뜝 럥 쑅 뜝 럥 럪 뜝 럥 맶 뜝 럥 쑅 뜝 럩留썲뜝 럥 맶 뜝 럥 쑅鶯ㅼ룆 굫占쎌굲 뜝 럩留띰옙 쐻占쎈윥占쎌몗占쎈쐻占쎈윥占쎄콞占쎈쐻占쎈윥 땻醫묒삕占쎈쳟占쎈쭒占쎈뙕占쎈 욑옙 맚嶺뚮Ĳ猷귨옙援   뜝 럥 맶 뜝 럥 쑅 뜝 럥 럪 뜝 럥 맶 뜝 럥 쑅 뜝 럩紐앭슖 떜媛  걫 뜝 럩留뗰옙 쐻占쎈윪 뤃轅⑤쐻占쎈윥占쎈ぁ占쎈쐻占쎈윥 댆 뜴 쐻占쎈윪筌띾쑚 쐻占쎈윥占쎈㎍ 뜝 럥 맶占쎈쐻 뜝占  -  뜝 럥 맶 뜝 럥 쑅 뜝 럥 럪 뜝 럥 맶 뜝 럥 쑅 뜝 럩紐쀥뜝 럥 맶 뜝 럥 쑋 뛾占쏙옙沅랃옙 맶 뜝 럥 쑅 뜝 럥 럪 뜝 럥 맶 뜝 럥 쑅 뜝 럩紐앾옙 쐻占쎈윪 젆 떐 렭占쎈쭫 뜮 벩 쐻占쎈쑕占쎌맶 뜝 럥 쑋 뜝 럥夷  뜝 럥 맶 뜝 럥 쑋占쎈쨨 뜝占 : " + page + ",  뜝 럥 맶 뜝 럥 쑅 뜝 럥 뱥占쎈쐻占쎈윥占쎈눁占쎈쐻占쎈윥占쎈젒 뜝 럥 맶 뜝 럥 쑋占쎈쐻占쎈짗占쎌굲占쎈쐻占쎈윪 뤃轅댁뜏 뜝 룞 삕 뤃占썲뜝 럩援   뜝 럥 맶 뜝 럥 쑅勇싲·猿딆맶 뜝 럥 쑅嶺뚯빖諭븝옙 맚嶺뚮㉡ 맊 뙴琉룸쐻占쎈윪 뤃 먯삕占쎌맶 뜝 럥 쑅占쎈닱 뜝占 : " + result.size());
             return result;
          }
          
@@ -375,7 +388,7 @@ public class MemberServiceImpl implements MemberService {
                    
                   
                    
-                   List<PPicDTO> result = mapper.pPickCountPage(parameters); //  뜝 럩 뀋 뜝 럡 땽 뜝 럥裕쏉옙 쐻占쎈윥占쎄샵 뜝 럥 맶 뜝 럥 쐾占쎄턀占쎈쾫占쎌맶 뜝 럥 쑅 뜝 럥裕앶썒占쏙옙援욅몭 궪 삕占쎄뎡占쎈쐻占쎈윥塋딅쵓 삕占쎌맶 뜝 럥 쑅 뜝 럥 럪 뜝 럥 맶 뜝 럥 쑅嶺뚯쉸占싸살맶 뜝 럥 쑋占쎈쨨占쎈Ŋ 굲 뜝 럩留띰옙 쐻占쎈윥占쎌몗 뜝 럥 몡占쎈쐻 뜝占   뜝 럥 맶 뜝 럥 쑅 뜝 럥 럪 뜝 럥 맶 뜝 럥 쑅 뜝 럩紐앭뜝 럥 맶 뜝 럥 쑋 뵓怨뚮굫占쎌맶 뜝 럥 쑅 뜝 럥 럪 뜝 럥 맶 뜝 럥 쑅 뜝 럩紐쀯옙 쐻占쎈윪占쎌읆 뜝 럥 맶占쎈쐻 뜝占 
+                   List<PPicDTO> result = mapper.pPickCountPage(parameters); 
                    
                     
                    
@@ -405,17 +418,67 @@ public class MemberServiceImpl implements MemberService {
 
     
     
-          
-             
-             
-             
-             
-             
-             
-            
-            
+           
+         @Override
+         public  ShoppingCartDTO getSelectedProducts(int shop_num, @Param("add_m_id") String add_m_id ) {
+             return mapper.getSelectedProducts(shop_num, add_m_id );
+         }
+         @Override
+         public  ShoppingCartDTO getSelectedProducts2(int shop_p_num, @Param("add_m_id") String add_m_id ) {
+        	 return mapper.getSelectedProducts2(shop_p_num, add_m_id );
+         }
+
+		@Override
+		public CouponDTO findCouponToCpNum(int cp_num) {
+			return mapper.findCouponToCpNum(cp_num);
+		}
+
+		@Override
+		public List<UserPayDTO> findshop_p_num(HashMap hashmap) {
+			// TODO Auto-generated method stub
+			return mapper.findshop_p_num(hashmap);
+		 
+		}
+		
+		
+		
+		@Override			 
+		public int twoNextPay(MOrderDTO mdto,int shop_num,int order_p_num,String order_memo
+				,@Param("order_m_id") String order_m_id,int order_cp_num,int order_p_price,
+				@Param("order_dere_pay") int order_dere_pay ,@Param("order_addr") String order_addr,@Param("order_discount") int order_discount,@Param("order_quantity") int order_quantity
+	    		,@Param("order_totalprice") int order_totalprice ) {
+		
+			return mapper.twoNextPay( mdto, shop_num ,  order_p_num, order_memo, order_m_id, order_cp_num,  order_p_price  , order_dere_pay, order_addr, order_discount, order_quantity
+		    		, order_totalprice)  ;
+		}
+
+		@Override
+		public List<MOrderDTO> paypage(@Param("order_m_id") String order_m_id , int page, int pageSize ){
+			  int startRow = (page  - 1) * pageSize + 1;
+              int endRow = startRow + pageSize - 1;
+              
+              Map<String, Object> parameters = new HashMap<>();
+              parameters.put("order_m_id", order_m_id);
+              parameters.put("startRow", startRow);
+              parameters.put("endRow", endRow);
+              
+              //   return mapper.getShoppingCartItemsPaged(parameters);
+              List<MOrderDTO> result = mapper.paypage(parameters);
+              return result;
+		}
+
+		 
+		@Override
+		public int PaymentCount(@Param("order_m_id") String order_m_id ) {
+			 Map<String, Object> parameters = new HashMap<>();
+             parameters.put("pm_m_id", order_m_id);
+             return mapper.PaymentCount(parameters);
+		}
+
+		
+		 
+           
          
-            
             
              
              

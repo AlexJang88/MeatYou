@@ -145,12 +145,13 @@ WHERE
 <select id="getShoppingCartItemsPaged" parameterType="map" resultType="com.gogi.meatyou.bean.ShoppingCartDTO">
     <![CDATA[
 
-SELECT rnum, shop_num, shop_m_id, shop_quantity,p_num,p_name,thumb,p_price,p_m_id,pd_p_num,pd_p_desc
+SELECT rnum, shop_num,shop_p_num, shop_m_id, shop_quantity,p_num,p_name,thumb,p_price,p_m_id,pd_p_num,pd_p_desc
 FROM (
     SELECT ROWNUM AS rnum, t.*
     FROM (
         SELECT
             sc.shop_num,
+            sc.shop_p_num,
             sc.shop_m_id,
             sc.shop_quantity,
             p.p_num,
@@ -167,6 +168,39 @@ FROM (
         INNER JOIN
             p_detail pd ON p.p_num = pd.pd_p_num
         ORDER BY sc.shop_num
+    ) t
+    WHERE ROWNUM <= #{endRow, jdbcType=NUMERIC}
+)
+WHERE rnum >= #{startRow, jdbcType=NUMERIC}
+
+    ]]>
+</select>
+<select id="getShoppingCartItemsPaged2" parameterType="map" resultType="com.gogi.meatyou.bean.ShoppingCartDTO">
+    <![CDATA[
+
+SELECT rnum, shop_num,shop_p_num, shop_m_id, shop_quantity,p_num,p_name,thumb,p_price,p_m_id,pd_p_num,pd_p_desc
+FROM (
+    SELECT ROWNUM AS rnum, t.*
+    FROM (
+        SELECT
+            sc.shop_num,
+            sc.shop_p_num,
+            sc.shop_m_id,
+            sc.shop_quantity,
+            p.p_num,
+            p.p_name,
+            p.thumb,
+            p.p_price,
+            p.p_m_id,
+            pd.pd_p_num,
+            pd.pd_p_desc
+        FROM
+            shoppingcart_${shop_m_id} sc
+         INNER JOIN
+            product p ON sc.shop_p_num = p.p_num 
+        INNER JOIN
+            p_detail pd ON p.p_num = pd.pd_p_num
+        ORDER BY sc.shop_p_num
     ) t
     WHERE ROWNUM <= #{endRow, jdbcType=NUMERIC}
 )
@@ -211,6 +245,8 @@ WHERE rnum >= #{startRow, jdbcType=NUMERIC}
     FROM shoppingcart_${shop_m_id}
 </select>
     
+
+
     <!-- 여기까지가 페이징 -->
     
 <!-- 게시물 선택 삭제  -->
@@ -234,6 +270,17 @@ WHERE rnum >= #{startRow, jdbcType=NUMERIC}
         AND shop_m_id = #{shop_m_id}
     </where>
 </delete>
+
+
+<select id="findshop_p_num" resultType="com.gogi.meatyou.bean.UserPayDTO" parameterType="hashmap">
+   select * from (select * from shoppingCart_${add_m_id} where shop_p_num in 
+   <foreach collection="list" item="shop_p_num" open="(" separator="," close=")">
+                ${shop_p_num}
+            </foreach>
+   ) s ,(select * from product) p where s.shop_p_num=p.p_num
+</select>
+    
+
 
 
 <!-- 찜 업체  리스트   -->
@@ -546,4 +593,187 @@ WHERE
             )
                 ]]>
             </insert>
+
+<select id="getSelectedProducts" resultType="com.gogi.meatyou.bean.ShoppingCartDTO">
+    SELECT
+    sc.*,
+    p.p_name,
+    p.thumb,
+    p.p_price,
+    pd.pd_p_desc
+FROM
+    shoppingcart_${add_m_id} sc
+JOIN
+    product p ON sc.shop_p_num = p.p_num
+JOIN
+    p_detail pd ON sc.shop_p_num = pd.pd_p_num
+WHERE
+    sc.shop_num = ${shop_num}
+</select>
+
+<select id="getSelectedProducts2" resultType="com.gogi.meatyou.bean.ShoppingCartDTO">
+    SELECT
+    sc.*,
+    p.p_name,
+    p.thumb,
+    p.p_price,
+    pd.pd_p_desc
+FROM
+    shoppingcart_${add_m_id} sc
+JOIN
+    product p ON sc.shop_p_num = p.p_num
+JOIN
+    p_detail pd ON sc.shop_p_num = pd.pd_p_num
+WHERE
+    sc.shop_p_num = ${shop_p_num}
+</select>
+
+
+
+
+
+<select id="couponCount"  >		
+    SELECT COUNT(*) FROM coupon where cp_m_id='${cp_m_id}' 
+</select>
+<select id="howmuchCoupon" >
+select * from coupon where cp_m_id='${cp_m_id}'
+</select>
+
+<!-- 
+    
+   <insert id="twoNextPay" parameterType="com.gogi.meatyou.bean.MOrderDTO">
+    <![CDATA[
+    INSERT INTO m_order (
+        order_num,
+        order_m_id,
+        order_cp_num,
+        order_p_num,
+        order_p_price,
+        order_dere_num,
+        order_dere_pay,
+        order_addr,
+        order_quantity,
+        order_paytype,
+        order_status,
+        order_discount,
+        order_totalprice,
+        order_memo,
+        order_paydate,
+        order_canceldate,
+        order_dere_start,
+        order_dere_end
+    )
+    VALUES (
+        m_order_seq.nextval,
+        '${order_m_id}',
+        COALESCE(NULLIF('${order_cp_num}', ''), NULL),
+     <foreach collection="order_p_num" item="item" separator=","
+            open="(" close=")">
+            #{item}
+        </foreach>,
+        ${order_p_price},
+        0,
+        ${order_dere_pay},
+        '${order_addr}',
+        ${order_quantity},
+        '카드',
+        1,
+        ${order_discount},
+        ${order_totalprice},
+        COALESCE('${order_memo}', NULL),
+        sysdate,
+        NULL,
+        NULL,
+        NULL
+    )
+    ]]>
+</insert>
+
+ -->
+
+
+<insert id="twoNextPay" parameterType="com.gogi.meatyou.bean.MOrderDTO">
+    <![CDATA[
+    INSERT INTO m_order (
+        order_num,
+        order_m_id,
+        order_cp_num,
+        order_p_num,
+        order_p_price,
+        order_dere_num,
+        order_dere_pay,
+        order_addr,
+        order_quantity,
+        order_paytype,
+        order_status,
+        order_discount,
+        order_totalprice,
+        order_memo,
+        order_paydate,
+        order_canceldate,
+        order_dere_start,
+        order_dere_end
+    )
+    VALUES (
+        m_order_seq.nextval,
+        '${order_m_id}',
+        COALESCE(NULLIF('${order_cp_num}', ''), NULL),
+        #{order_p_num, javaType=int, jdbcType=NUMERIC},
+        ${order_p_price},
+        0,
+        ${order_dere_pay},
+        '${order_addr}',
+        ${order_quantity},
+        '카드',
+        1,
+        ${order_discount},
+        ${order_totalprice},
+        COALESCE('${order_memo}', NULL),
+        sysdate,
+        NULL,
+        NULL,
+        NULL
+    )
+    ]]>
+    </insert>
+<select id="paypage" parameterType="map">
+  <![CDATA[
+    SELECT *
+    FROM (
+      SELECT
+        ROWNUM AS rnum, t.*
+      FROM
+        m_order t
+      ORDER BY
+        order_paydate DESC
+    )
+    WHERE
+      ROWNUM <= #{endRow, jdbcType=NUMERIC}
+    AND
+       rnum >= #{startRow, jdbcType=NUMERIC}
+    AND
+      order_m_id = #{order_m_id, jdbcType=VARCHAR}
+  ]]>
+</select>
+<select id="PaymentCount" parameterType="map">
+  SELECT COUNT(*)
+  FROM m_order
+  WHERE order_m_id = #{order_m_id, jdbcType=VARCHAR}
+</select>
+
+ 
+		<!-- <select id="PaymentHistory" parameterType="int" resultType="com.gogi.meatyou.bean.MOrderDTO">
+			select * from m_order where order_m_id=#{order_m_id}
+		</select> -->
+		
+		<select id="findCouponToCpNum" parameterType="int" resultType="com.gogi.meatyou.bean.CouponDTO">
+			select * from coupon where cp_num=#{cp_num}
+		</select>
+		
+		
+
+ 
+		
+
+        
 </mapper>
