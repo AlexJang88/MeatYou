@@ -593,7 +593,6 @@ WHERE
             )
                 ]]>
             </insert>
-
 <select id="getSelectedProducts" resultType="com.gogi.meatyou.bean.ShoppingCartDTO">
     SELECT
     sc.*,

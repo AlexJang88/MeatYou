@@ -25,14 +25,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 public class CustomLoginHandler implements AuthenticationSuccessHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(CustomLoginHandler.class);
+private static final Logger logger = LoggerFactory.getLogger(CustomLoginHandler.class);
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
-        String username = authentication.getName();  // »ç¿ëÀÚ ÀÌ¸§ °¡Á®¿À±â
+        String username = authentication.getName();  // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-        String rdir = determineTargetUrl(authentication);  // ¸®´ÙÀÌ·ºÆ® ÁÖ¼Ò °áÁ¤
+        String rdir = determineTargetUrl(authentication);  // ï¿½ï¿½ï¿½ï¿½ï¿½Ì·ï¿½Æ® ï¿½Ö¼ï¿½ ï¿½ï¿½ï¿½ï¿½
 
         response.sendRedirect(rdir);
     }
@@ -44,7 +44,7 @@ public class CustomLoginHandler implements AuthenticationSuccessHandler {
             String username = authentication.getName();
             return "/main/main" ;
         } else if (hasRole(authentication, "ROLE_SELLER")) {
-            return "/member/seller";
+            rdir="/customers/customer";
         } else {
             return "/main/main";
         }

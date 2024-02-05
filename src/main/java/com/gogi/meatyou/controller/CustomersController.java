@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,7 +30,6 @@ import com.gogi.meatyou.bean.CusOrderDTO;
 import com.gogi.meatyou.bean.PDetailDTO;
 import com.gogi.meatyou.bean.ProductDTO;
 import com.gogi.meatyou.service.CustomersService;
-import com.gogi.meatyou.test.KakaoApproveResponse;
 
 
 @Controller
@@ -38,6 +38,7 @@ public class CustomersController {
 
    @Autowired
    private CustomersService service;
+   
 
    @RequestMapping("customer") // 홈
    public String home(Model model, Principal pc) {
@@ -48,7 +49,7 @@ public class CustomersController {
    
    @RequestMapping("chartdata") // 홈
    @ResponseBody
-   public String chartdata(@RequestParam(value="selectedYear", defaultValue = "2023") String selectedYear, Model model, Principal pc) {
+   public String chartdata(@RequestParam(value="selectedYear", defaultValue = "2024") String selectedYear, Model model, Principal pc) {
       String id = pc.getName();      
       return service.ChartData(model, id, selectedYear);
    }
@@ -125,6 +126,8 @@ public class CustomersController {
    public String onStock(Model model, Principal pc, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum) {
       String id = pc.getName();
       service.onStock(model, id, pageNum);
+      int status = 0;
+      model.addAttribute("status", status);
       return "customer/onStock";
    }
 
@@ -316,7 +319,6 @@ public class CustomersController {
       model.addAttribute("currentYear", targetDate.getYear() + 1900);
 
       service.deliverout(model, check, pageNum, id);
-
       return "customer/deliverout";
    }
 
@@ -336,15 +338,19 @@ public class CustomersController {
       model.addAttribute("currentYear", targetDate.getYear() + 1900);
 
       service.delivering(model, check, pageNum, id);
-
+      
+      model.addAttribute("pageNum", pageNum);     
+      model.addAttribute("check", check);     
+      
       return "customer/delivering";
    }
 
    @RequestMapping("deliverStatus") // 결제완료, 배송중, 배송완료 ,
-   public String deliverStatus(Model model, int order_num, int order_status) { // 상품번호, 배송현황
-
+   public String deliverStatus(Model model, int order_num, int order_status,int pageNum, int check) { // 상품번호, 배송현황
+	 
       service.deliverStatus(order_num, order_status);
-      return "redirect:/customers/delivering";
+   
+      return  "redirect:/customers/delivering?" + "pageNum=" + pageNum + "&check=" + check;
    }
 
    
@@ -414,13 +420,40 @@ public class CustomersController {
       service.productContent(model, num);
       return "customer/content";
    }
+   
    @RequestMapping("/productDelete")
    public String productDelete(int num) {
       service.productDelete(num);
       return "redirect:/customers/itemList";
    }
    
+   @RequestMapping("/test")
+   public String test() {
+     
+      return "customer/test";
+   }
    
+   @RequestMapping("/testPro") //설문조사
+   public String testPro(int selectedAnimal, Model model, Principal pc) {
+	 String id = pc.getName();
+
+	 service.survey1(id, selectedAnimal);
+      return "customer/testPro";
+   }
+   
+   @RequestMapping("/select")
+   public String test2() {
+     
+      return "customer/select";
+   }
+   
+   @RequestMapping("/selectPro") //설문조사  
+   public String selectPro( Model model, int selectedAnimal,Principal pc) {
+	   String id = pc.getName();
+	  
+	service.survey2(id, selectedAnimal);
+	return "customer/testPro";
+   }
    
    
 

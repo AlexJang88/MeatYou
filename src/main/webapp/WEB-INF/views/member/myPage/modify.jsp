@@ -176,16 +176,12 @@
                          <a href="/member/sallerDelete" >판매자 취소</a>
                       
                       </td>
-                            <td>
-                      
-                            <a href="../member/SallerPickMe" >나를 찜한 사람들</a>
-                      
-                      </td>
+               
                       
                         <td>
                       
                       
-                        <a href="#" >유료 상품 구매</a>
+                        <a href="/customers/customer" >판매자 페이지 바로가기</a>
                       
                       </td>
                       </tr>

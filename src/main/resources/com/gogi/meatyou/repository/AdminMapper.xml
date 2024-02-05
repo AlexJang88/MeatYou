@@ -90,6 +90,8 @@
       select order_m_id,sum(order_p_price) from (select order_m_id,order_paydate,order_p_price from m_order where order_paydate>=add_months(trunc(sysdate,'mm'),-1) and order_paydate<=trunc(sysdate,'mm')-1) group by order_m_id having sum(order_p_price)>=400000
       ]]>
 	</select>
+	
+	
 	<update id="goodMemberUpdate" parameterType="java.util.List">
 		update member set m_status=1002 where m_id in
 		<foreach collection="list" item="item" index="index" open="("
@@ -110,21 +112,59 @@
 		</foreach>
 		)
 	</update>
+	<insert id="autoCoupon" parameterType="java.util.List">
+	 	insert into coupon(cp_num,cp_cus_num,cp_price,cp_m_id,cp_status,exdate,cp_cus_id,c_type,publishdate) select coupon_seq.nextval,a.* from( 
+	 	<foreach collection="list" item="item" index="index" separator="union all">
+	 		select 
+	 		 #{item.cp_cus_num} as cp_cus_num,
+	 		 #{item.cp_price} as cp_price,
+	 		 #{item.cp_m_id} as cp_m_id,
+	 		 1 as cp_status,
+	 		 sysdate+7 as exdate,
+	 		 'admin' as cp_cus_id,
+	 		 3 as c_type,
+	 		 sysdate as publishdate
+	 		 from dual
+	 	</foreach>
+	 	) a
+	</insert>
+	
+	<select id="getCouponMember" parameterType="hashMap" resultType="com.gogi.meatyou.bean.CouponDTO">
+		select * from (select m_id as cp_m_id from member where m_status=#{m_status}) a,(select cus_num as cp_cus_num from cus_detail where cus_m_id='admin') b,(select #{cp_price} as cp_price from dual) c
+	</select>
+	
+	<select id="getDiseaseIssueNum" resultType="int">
+		select pd_p_num from (select pd_p_num,substr(local, instr(local,' ',1,1)+1,instr(local,' ',1,2)-instr(local,' ',1,1)-1) as local from p_detail) p,(select substr(FARM_LOCPLC, instr(FARM_LOCPLC,' ',1,1)+1,instr(FARM_LOCPLC,' ',1,2)-instr(FARM_LOCPLC,' ',1,1)-1) as local from disease where cessation_de is null) d where p.local=d.local
+	</select>
+	<select id="getCancleDIsuueNum" resultType="int">
+		 <![CDATA[
+		select pd_p_num from (select pd_p_num,substr(local, instr(local,' ',1,1)+1,instr(local,' ',1,2)-instr(local,' ',1,1)-1) as local from p_detail where (mod(pd_p_status,100)/10)>0) p,(select substr(FARM_LOCPLC, instr(FARM_LOCPLC,' ',1,1)+1,instr(FARM_LOCPLC,' ',1,2)-instr(FARM_LOCPLC,' ',1,1)-1) as local from disease where cessation_de <= sysdate) d where p.local=d.local
+		]]>
+	</select>
+	<update id="DiseaseCheck" parameterType="hashMap">
+		update p_detail set pd_p_status=pd_p_status${status},memo=#{memo} where pd_p_num in(
+		<foreach collection="list" item="item" index="index" separator=",">
+			#{item}
+		</foreach>
+		)
+		
+	</update>
+	
 	<select id="getProductSalse" resultType="int">
 		<choose>
 			<when test="check==0">
          <![CDATA[
-         select nvl(sum(order_totalprice),0) from m_order where order_paydate>=trunc(sysdate,'MM') and order_paydate<sysdate
+         select nvl(sum(order_totalprice),0) from m_order where order_paydate>=trunc(sysdate,'MM') and order_paydate<sysdate and order_status=4
          ]]>
 			</when>
 			<when test="check==-1">
          <![CDATA[
-         select nvl(sum(order_totalprice),0) from m_order where order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=trunc(sysdate,'mm') ${check}
+         select nvl(sum(order_totalprice),0) from m_order where order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=trunc(sysdate,'mm') ${check} and order_status=4
          ]]>
 			</when>
 			<otherwise>
          <![CDATA[
-         select nvl(sum(order_totalprice),0) from m_order where order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=add_months(trunc(sysdate,'mm'),${check}+1)-1
+         select nvl(sum(order_totalprice),0) from m_order where order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=add_months(trunc(sysdate,'mm'),${check}+1)-1 and order_status=4
          ]]>
 			</otherwise>
 		</choose>
@@ -133,17 +173,17 @@
 		<choose>
 			<when test="check==0">
          <![CDATA[
-            select nvl(sum(order_totalprice/10),0) from m_order where order_paydate>=trunc(sysdate,'MM') and order_paydate<sysdate
+            select nvl(sum(order_totalprice/10),0) from m_order where order_paydate>=trunc(sysdate,'MM') and order_paydate<sysdate and order_status=4
          ]]>
 			</when>
 			<when test="check==-1">
          <![CDATA[
-            select nvl(sum(order_totalprice/10),0) from m_order  where order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=trunc(sysdate,'mm') ${check}                           
+            select nvl(sum(order_totalprice/10),0) from m_order  where order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=trunc(sysdate,'mm') ${check} and order_status=4                          
          ]]>
 			</when>
 			<otherwise>
          <![CDATA[
-            select nvl(sum(order_totalprice/10),0) from m_order  where order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=add_months(trunc(sysdate,'mm'),${check}+1)-1                            
+            select nvl(sum(order_totalprice/10),0) from m_order  where order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=add_months(trunc(sysdate,'mm'),${check}+1)-1 and order_status=4                           
          ]]>
 			</otherwise>
 		</choose>
@@ -152,7 +192,7 @@
 		<choose>
 			<when test="check==0">
          <![CDATA[
-            select nvl(sum(co_pay),0) from cus_order where co_category=2003 and co_paydate>=trunc(sysdate,'MM') and co_paydate<sysdate
+            select nvl(sum(co_pay),0) from cus_order where co_category=2003 and co_paydate>=trunc(sysdate,'MM') and co_paydate<sysdate 
          ]]>
 			</when>
 			<when test="check==-1">
@@ -190,17 +230,17 @@
 		<choose>
 			<when test="check==0">
          <![CDATA[
-            select nvl(sum(cp_price),0) from (select * from coupon where usedate>=trunc(sysdate,'mm') and usedate<sysdate)
+            select nvl(sum(cp_price),0) from (select * from coupon where cp_cus_id='admin' and usedate>=trunc(sysdate,'mm') and usedate<sysdate)
          ]]>
 			</when>
 			<when test="check==-1">
          <![CDATA[
-            select nvl(sum(cp_price),0) from coupon where usedate>=add_months(trunc(sysdate,'mm'),${check}) and usedate<=trunc(sysdate,'mm')${check}                           
+            select nvl(sum(cp_price),0) from coupon where cp_cus_id='admin' and usedate>=add_months(trunc(sysdate,'mm'),${check}) and usedate<=trunc(sysdate,'mm')${check}                           
          ]]>
 			</when>
 			<otherwise>
          <![CDATA[
-            select nvl(sum(cp_price),0) from coupon where usedate>=add_months(trunc(sysdate,'mm'),${check}) and usedate<=add_months(trunc(sysdate,'mm'),${check}+1)-1                           
+            select nvl(sum(cp_price),0) from coupon where cp_cus_id='admin' and usedate>=add_months(trunc(sysdate,'mm'),${check}) and usedate<=add_months(trunc(sysdate,'mm'),${check}+1)-1                           
          ]]>
 			</otherwise>
 		</choose>
@@ -208,19 +248,19 @@
 	<select id="getCheckProductSalse" resultType="int"
 		parameterType="hashMap">
    <![CDATA[
-      select nvl(sum(order_totalprice),0) from m_order where order_paydate>=to_date(#{start},'YYYY-MM-DD') and order_paydate<=to_date(#{end},'YYYY-MM-DD')
+      select nvl(sum(order_totalprice),0) from m_order where order_paydate>=to_date(#{start},'YYYY-MM-DD') and order_paydate<=to_date(#{end},'YYYY-MM-DD') and order_status=4
       ]]>
 	</select>
 	<select id="getCheckProductComm" resultType="int"
 		parameterType="hashMap">
    <![CDATA[
-      select nvl(sum(order_totalprice/10),0) from m_order  where order_paydate>=to_date(#{start},'YYYY-MM-DD') and order_paydate<=to_date(#{end},'YYYY-MM-DD')                           
+      select nvl(sum(order_totalprice/10),0) from m_order  where order_paydate>=to_date(#{start},'YYYY-MM-DD') and order_paydate<=to_date(#{end},'YYYY-MM-DD')   and order_status=4                        
       ]]>
 	</select>
 	<select id="getCheckPaidItem" resultType="int"
 		parameterType="hashMap">
    <![CDATA[
-      select nvl(sum(co_pay),0) from cus_order where co_category=2003 and  co_paydate>=to_date(#{start},'YYYY-MM-DD') and co_paydate<=to_date(#{end},'YYYY-MM-DD')                           
+      select nvl(sum(co_pay),0) from cus_order where co_category=2003 and  co_paydate>=to_date(#{start},'YYYY-MM-DD') and co_paydate<=to_date(#{end},'YYYY-MM-DD')                          
       ]]>
 	</select>
 	<select id="getCheckPaidAdv" resultType="int"
@@ -232,7 +272,7 @@
 	<select id="getCheckUsedCoupon" resultType="int"
 		parameterType="hashMap">
    <![CDATA[
-      select nvl(sum(cp_price),0) from coupon where usedate>=to_date(#{start},'YYYY-MM-DD') and usedate<=to_date(#{end},'YYYY-MM-DD')                        
+      select nvl(sum(cp_price),0) from coupon where cp_cus_id='admin' and usedate>=to_date(#{start},'YYYY-MM-DD') and usedate<=to_date(#{end},'YYYY-MM-DD')                        
       ]]>
 	</select>
 	<select id="getReckon"
@@ -243,7 +283,7 @@
 	</select>
 	<select id="getReckCount" parameterType="hashMap">
       <![CDATA[
- 		select sum(count(*)) from (select * from (select order_p_num,nvl(sum(order_totalprice),0) order_totalprice ,nvl(sum(cp_price),0) cp_price,nvl(sum(order_dere_pay),0) order_dere_pay from (select * from m_order where order_paydate>=to_date(#{CheckMonth},'YYYY-MM') and order_paydate<=LAST_DAY(to_date(#{CheckMonth},'YYYY-MM'))) mo left outer join (select * from coupon where not cp_cus_id='admin') cp on cp.cp_num=mo.order_cp_num group by mo.order_p_num) rk,product p where rk.order_p_num=p.p_num) group by p_m_id      
+ 		select sum(count(*)) from (select * from (select order_p_num,nvl(sum(order_totalprice),0) order_totalprice ,nvl(sum(cp_price),0) cp_price,nvl(sum(order_dere_pay),0) order_dere_pay from (select * from m_order where order_paydate>=to_date(#{CheckMonth},'YYYY-MM') and order_paydate<=LAST_DAY(to_date(#{CheckMonth},'YYYY-MM')) and order_status=4) mo left outer join (select * from coupon where not cp_cus_id='admin') cp on cp.cp_num=mo.order_cp_num group by mo.order_p_num) rk,product p where rk.order_p_num=p.p_num) group by p_m_id      
       ]]>
 	</select>
 	<select id="noticeList" parameterType="hashMap">
@@ -269,7 +309,7 @@
 		noticefile_seq.nextval,
 		#{nf_n_num},
 		#{nf_filename},
-		10
+		#{nf_category}
 		)
 	</insert>
 	<delete id="noticeUnitFileDelete">
@@ -477,8 +517,31 @@
 	<select id="QnAnextval">
 		select qna_seq.nextval from dual;
 	</select>
-	<insert id="reportReg"
-		parameterType="com.gogi.meatyou.bean.QnADTO">
+	<select id="reportList" parameterType="hashMap" resultType="com.gogi.meatyou.bean.QnADTO">
+		select * from (select a.*,
+        case when ma_status=1000 then '안읽음(미답변)'
+        when ma_status=1001 then '읽음(답변완료)'
+        end as readcheck,rownum r  from (select * from qna where
+			<if test="check==1">ma_status=1000</if>
+			<if test="check==2">ma_status=1001</if>
+			<if test="check==3">ma_status>=1000</if>
+         <![CDATA[
+        ) a order by ma_reg_date desc) where r>=#{start} and r<=#{end} 
+		]]>
+	</select>
+	<select id="reportCount">
+		select count(*) from qna where
+			<if test="check==1">ma_status=1000</if>
+			<if test="check==2">ma_status=1001</if>
+			<if test="check==3">ma_status>=1000</if>
+	</select>
+	<select id="reportContent" resultType="com.gogi.meatyou.bean.QnADTO">
+		select * from qna where ma_num=#{ma_num}
+	</select>
+	<update id="reportReply" parameterType="com.gogi.meatyou.bean.QnADTO">
+		update qna set ma_reply=#{ma_reply},ma_status=1001 where ma_num=#{ma_num}
+	</update>
+	<insert id="reportReg"	parameterType="com.gogi.meatyou.bean.QnADTO">
 		insert into QnA values(
 		#{ma_num},
 		#{ma_m_id},
@@ -495,7 +558,7 @@
 		noticefile_seq.nextval,
 		#{nf_n_num},
 		#{nf_filename},
-		20
+		40
 		)
 	</insert>
 	<select id="getChartData" parameterType="hashMap" resultType="com.gogi.meatyou.bean.ChartDTO">

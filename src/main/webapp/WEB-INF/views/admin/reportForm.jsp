@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 	<sec:authorize access="hasRole('ROLE_ADMIN')">
   
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
@@ -12,11 +12,11 @@
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 	
 	
-<form method="post" action="/admin/reg" enctype="multipart/form-data">
+<form method="post" action="/admin/reportReg" enctype="multipart/form-data">
   <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-  <input type="hidden" name="category" value="10">
-  제목 : <input type="text" name="n_title">
-  <textarea id="summernote" name="n_content"></textarea>
+  제목 : <input type="text" name="ma_title">
+  <textarea id="summernote" name="ma_content"></textarea>
+  <input type="hidden" name="category" value="40">
   <input type="submit" value="전송">
 </form>
 

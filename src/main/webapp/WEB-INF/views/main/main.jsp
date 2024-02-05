@@ -2,6 +2,35 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../header.jsp" %> 
+
+<script>
+window.onload = function () {
+    // JSP 페이지에서 설정한 statusFromJSP 값을 읽어옴
+    var statusFromJSP = ${status};
+    var testPageUrl = '';
+    var newWindow = '';
+    var id= '${id}';
+    // status 값이 0인 경우에만 동작
+    if(id != ''){
+  
+    if (statusFromJSP === 0) {
+        testPageUrl = '/customers/test';
+        newWindow = window.open(testPageUrl, 'TestPage', 'width=800,height=600');
+        if (window.focus) {
+            newWindow.focus();
+        }
+    }else if(statusFromJSP === 1) {
+    	testPageUrl = '/customers/select';
+        newWindow = window.open(testPageUrl, 'TestPage', 'width=800,height=600');
+        if (window.focus) {
+            newWindow.focus();
+        }
+    }
+}
+}
+
+</script>
+	
 		<!-- SECTION -->
 		<div class="section">
 			<!-- container -->
@@ -753,5 +782,7 @@
 
 		<h1></h1><br /><br /><br /><br /><br /><br /><br />
 
-
 <%@ include file="../footer.jsp" %>
+
+
+

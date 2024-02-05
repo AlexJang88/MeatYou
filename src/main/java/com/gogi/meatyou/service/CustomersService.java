@@ -91,6 +91,8 @@ public interface CustomersService {
    public void productContent(Model model,int num);
    public void productDelete(int num);
     
+   public void survey1(String id, int selectedAnimal); //설문조사
+   public void survey2(String id, int selectedAnimal); //설문조사
     
     
     

@@ -33,4 +33,5 @@
 		<a href="/admin/noticeList?pageNum=${startPage+10}">[다음]</a>
 	</c:if>
 </c:if>
+<button onclick="window.location='/admin/noticeForm'">글작성</button>
 <jsp:include page="/WEB-INF/views/footer.jsp" />

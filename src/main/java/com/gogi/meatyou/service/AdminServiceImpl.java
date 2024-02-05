@@ -39,6 +39,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gogi.meatyou.bean.AdminProductDTO;
 import com.gogi.meatyou.bean.ChartDTO;
+import com.gogi.meatyou.bean.CouponDTO;
 import com.gogi.meatyou.bean.MemberDTO;
 import com.gogi.meatyou.bean.NoticeDTO;
 import com.gogi.meatyou.bean.NoticeFileDTO;
@@ -56,8 +57,6 @@ import com.google.gson.JsonObject;
 @Service
 public class AdminServiceImpl implements AdminService {
 
-	private int imgcnt = 0;
-	private int check = 0;
 
 	@Autowired
 	private HashMap adminMap;
@@ -187,11 +186,11 @@ public class AdminServiceImpl implements AdminService {
 		}
 	}
 
-//   @Override
-//   public MemberDTO test(String m_id) {
-//
-//      return mapper.test(m_id);
-//   }
+   @Override
+   public void test() {
+	   List<CouponDTO> goodList = getCouponMember(1002, 5000);
+		mapper.autoCoupon(goodList);
+   }
 
 	/*
 	 * @Scheduled(cron="* * * * * *") �뜝�룞�삕 �뜝�룞�삕 �뜝�떆怨ㅼ삕 �뜝�룞�삕 �뜝�룞�삕
@@ -207,6 +206,23 @@ public class AdminServiceImpl implements AdminService {
 			mapper.bestMemberUpdate(mapper.bestMember());
 		}
 	}
+	
+	@Scheduled(cron = "0 0 0 1-31/14 * MON")
+	public void autoCoupon() {
+		List<CouponDTO> goodList = getCouponMember(1002, 5000);
+		List<CouponDTO> bestList = getCouponMember(1003, 10000);
+		mapper.autoCoupon(goodList);
+		mapper.autoCoupon(bestList);
+		
+	}
+	@Override
+	public List<CouponDTO> getCouponMember(int m_status, int cp_price) {
+		adminMap.put("m_status", m_status);
+		adminMap.put("cp_price", cp_price);
+		return mapper.getCouponMember(adminMap);
+	}
+	
+	
 
 	@Override
 	public void statChange(MemberDTO dto) {
@@ -215,14 +231,21 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public void getSales(Model model, int check) {
-		model.addAttribute("ps", mapper.getProductSalse(check));
-		model.addAttribute("pc", mapper.getProductComm(check));
-		model.addAttribute("pi", mapper.getPaidItem(check));
-		model.addAttribute("pa", mapper.getPaidAdv(check));
-		model.addAttribute("uc", mapper.getUsedCoupon(check));
-		model.addAttribute("pt", mapper.getPaidAdv(check) + mapper.getPaidItem(check) + mapper.getProductSalse(check)
-				+ mapper.getProductComm(check) - mapper.getUsedCoupon(check));
-		model.addAttribute("check", check);
+		int productComm=mapper.getProductComm(check);
+		int item=mapper.getPaidItem(check);
+		int Adv=mapper.getPaidAdv(check);
+		int coupon=mapper.getUsedCoupon(check);
+		int total=productComm+item+Adv;
+		int net_profit=total-coupon;
+		
+		
+		model.addAttribute("productComm",productComm );
+		model.addAttribute("item",item );
+		model.addAttribute("Adv",Adv );
+		model.addAttribute("coupon",coupon );
+		model.addAttribute("total",total );
+		model.addAttribute("net_profit", net_profit);
+		
 	}
 
 	@Override
@@ -316,11 +339,6 @@ public class AdminServiceImpl implements AdminService {
 
 	}
 
-	@Override
-	public int noticeMaxnum() {
-// TODO Auto-generated method stub
-		return 0;
-	}
 
 	@Override
 	public String getSearchProductList(int pageNum, String keyword, String searchOpt, int cate1, int cate2, int cate3,
@@ -398,7 +416,42 @@ public class AdminServiceImpl implements AdminService {
 	public void ReleaseIssue(int p_num) {
 		mapper.releaseIssue(p_num);
 	}
+	
+	@Override
+	public void reportList(int pageNum, Model model,int check) {
+		int count = 0;
+		int pageSize = 10;
+		int startRow = (pageNum - 1) * pageSize + 1;
+		int endRow = pageNum * pageSize;
+		System.out.println("======check"+check);
+		adminMap.put("check", check);
+		List<QnADTO> list = Collections.EMPTY_LIST;
+		count = mapper.reportCount(check);
+		if (count > 0) {
+			adminMap.put("start", startRow);
+			adminMap.put("end", endRow);
 
+			list = mapper.reportList(adminMap);
+		}
+		model.addAttribute("list", list);
+		model.addAttribute("count", count);
+		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("pageSize", pageSize);
+
+		// page
+		int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+		int startPage = (int) (pageNum / 10) * 10 + 1;
+		int pageBlock = 10;
+		int endPage = startPage + pageBlock - 1;
+		if (endPage > pageCount) {
+			endPage = pageCount;
+		}
+		model.addAttribute("pageCount", pageCount);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("pageBlock", pageBlock);
+		model.addAttribute("endPage", endPage);
+	}
+	
 	@Override
 	public String uploadReportImageFile(MultipartFile multipartFile, String realPath) {
 
@@ -441,7 +494,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public int reportReg(String realPath, Model model, QnADTO dto) {
+	public void reportReg(String realPath, Model model, QnADTO dto) {
 // 기존 temp폴더에 저장된 이미지 표시를 위해 에디터에는 /temp로 경로가 지정되어 있다
 		// 이를 마지막 게시글 다음 번호로 설정한다.
 		int board_num = mapper.QnAnextval();
@@ -453,11 +506,22 @@ public class AdminServiceImpl implements AdminService {
 		String path_folder2 = realPath + "/" + board_num + "/";
 
 		// 폴더 복사 함수
-		fileUpload(path_folder1, path_folder2, board_num);
+		fileUpload(path_folder1, path_folder2, board_num,40);
 		deleteFolder(path_folder1);
 		dto.setMa_num(board_num);
 		mapper.reportReg(dto);
-		return 0;
+	}
+	
+	@Override
+	public void reportContent(Model model, int num) {
+		
+		QnADTO dto = mapper.reportContent(num);
+		model.addAttribute("report", dto);
+		
+	}
+	@Override
+	public void reportReply(QnADTO dto) {
+			mapper.reportReply(dto);
 	}
 
 	@Scheduled(cron = "0 0 0 1 * *")
@@ -471,8 +535,22 @@ public class AdminServiceImpl implements AdminService {
 		List<ReckonDTO> dto = mapper.getReckon(adminMap);
 
 	}
+	@Scheduled(cron = "0 0 0 * * *")
+	public void autoIssueCheck() {
+		List<Integer> issue= mapper.getDiseaseIssueNum();
+		List<Integer> noissue = mapper.getCancleDIsuueNum();
+		adminMap.put("status", 10);
+		adminMap.put("list", issue);
+		adminMap.put("memo", "방역 이슈");
+		mapper.DiseaseCheck(adminMap);
+		adminMap.put("status", -10);
+		adminMap.put("list", noissue);
+		adminMap.put("memo", "null");
+		mapper.DiseaseCheck(adminMap);
 
-	private void fileUpload(String path_folder1, String path_folder2, int num) {
+	}
+
+	private void fileUpload(String path_folder1, String path_folder2, int num,int category) {
 		// path_folder1에서 path_folder2로 파일을 복사하는 함수입니다.
 		System.out.println("fileUpload====");
 		File folder1;
@@ -511,10 +589,11 @@ public class AdminServiceImpl implements AdminService {
 					}
 					noticefiledto = new NoticeFileDTO();
 					if (num != 0) {
+						noticefiledto.setNf_category(category);
 						noticefiledto.setNf_n_num(num);
 						noticefiledto.setNf_filename(file.getName());
 						mapper.noticeFileUpload(noticefiledto);
-					}
+						}
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {
@@ -614,7 +693,7 @@ public class AdminServiceImpl implements AdminService {
 		String path_folder2 = realPath + "/" + board_num + "/";
 
 		// 폴더 복사 함수
-		fileUpload(path_folder1, path_folder2, board_num);
+		fileUpload(path_folder1, path_folder2, board_num,10);
 		deleteFolder(path_folder1);
 		dto.setN_num(board_num);
 		mapper.noticeReg(dto);
@@ -633,7 +712,7 @@ public class AdminServiceImpl implements AdminService {
 		String path_folder2 = realPath + "temporary/";
 
 		// temp로 임시저장
-		fileUpload(path_folder1, path_folder2, 0);
+		fileUpload(path_folder1, path_folder2, 0,10);
 		NoticeDTO board = mapper.noticeContent(num);
 		// 본글에있던 이미지 경로를 temp로 바꿔준다
 		board.setN_content(board.getN_content().replaceAll(num + "/", "temporary/"));
@@ -663,7 +742,7 @@ public class AdminServiceImpl implements AdminService {
 		String path_folder1 = realPath + "temporary/";
 		String path_folder2 = realPath + dto.getN_num() + "/";
 
-		fileUpload(path_folder1, path_folder2, dto.getN_num());
+		fileUpload(path_folder1, path_folder2, dto.getN_num(),10);
 		mapper.noticeUpdate(dto);
 		deleteFolder(path_folder1);
 
@@ -740,7 +819,6 @@ public class AdminServiceImpl implements AdminService {
 		if(period==null || period.length()<1) {
 			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 			Calendar cal = Calendar.getInstance();
-			cal.add(Calendar.YEAR, -1);
 			String beforeYear = sf.format(cal.getTime());
 			beforeYear = beforeYear.substring(0, beforeYear.indexOf("-"));
 			period=beforeYear;
@@ -761,7 +839,7 @@ public class AdminServiceImpl implements AdminService {
 				
 			}
 			
-			jsonObject.addProperty("checkYear", period.substring(0,period.indexOf("-")));
+			jsonObject.addProperty("getYear", period.substring(0,period.indexOf("-")));
 			jsonObject.add("net_profit", new Gson().toJsonTree(net_profit));
 			jsonObject.add("total_profit", new Gson().toJsonTree(total_profit));
 			jsonObject.add("co_pay", new Gson().toJsonTree(co_pay));
@@ -771,5 +849,18 @@ public class AdminServiceImpl implements AdminService {
 		String a = jsonObject.toString();
 		return a;
 	}
+
+	@Override
+	public void apiTest(Model model) {
+			
+	}
+
+	
+
+
+
+	
+
+	
 
 }
