@@ -105,7 +105,7 @@ public interface MemberMapper {
        CouponDTO findCouponToCpNum(int cp_num);
        
        
-       public  int deleteCart(@Param("shop_num") int shop_num, @Param("shop_m_id") String shop_m_id);
+       public  int deleteCart(@Param("shop_p_num") int shop_p_num, @Param("shop_m_id") String shop_m_id);
        
        
        void deleteSelectedItems(Map<String, Object> paramMap);
@@ -147,7 +147,6 @@ public interface MemberMapper {
             int deletePickMeByCId2(@Param("pm_m_id") String pm_m_id,      @Param("pm_c_id") String pm_c_id);
             int pickMeInsert2(PickMeDTO pdto, @Param("pm_m_id") String pm_m_id , @Param("pm_c_id")String pm_c_id,@Param("pm_num") int pm_num );
             
-            ShoppingCartDTO getSelectedProducts( @Param("shop_num") int shop_num,  @Param("add_m_id") String add_m_id );
             ShoppingCartDTO getSelectedProducts2( @Param("shop_p_num") int shop_p_num,  @Param("add_m_id") String add_m_id );
             
             

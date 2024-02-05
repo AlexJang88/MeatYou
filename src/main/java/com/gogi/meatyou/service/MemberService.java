@@ -73,10 +73,10 @@ public interface MemberService  {
        public void p_pick(String m_id);
        public void p_pick_seq(String m_id);
        public void prefer(String m_id);
-      public void updateQuantity(int  shop_num,int  shop_quantity, String shop_m_id) ;
+      public void updateQuantity(int  shop_p_num,int  shop_quantity, String shop_m_id) ;
       List<ShoppingCartDTO> getShoppingCartItemsPaged2(String shop_m_id, int startRow, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto,PDetailDTO pddto);
        int getTotalShoppingCartItems(String shop_m_id);
-      public int deleteCart(int shop_num,String shop_m_id);
+      public int deleteCart(int shop_p_num,String shop_m_id);
       public void deleteSelectedItems(List<Long> selectedShopNums ,String shop_m_id);
       List<ShoppingCartDTO> orderpage(String shop_m_id, int startRow, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto);
       int orderpageCartItems(String shop_m_id);
@@ -113,7 +113,6 @@ public interface MemberService  {
       List<CouponDTO>   howmuchCoupon(@Param("cp_m_id") String cp_m_id);
  
       // 다른 필요한 메서드들과 함께 추가
-      ShoppingCartDTO getSelectedProducts(int shop_num, @Param("add_m_id") String add_m_id );
       ShoppingCartDTO getSelectedProducts2(int shop_p_num, @Param("add_m_id") String add_m_id );
       
       

@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../header.jsp" %> 
 <%@ include file="../sort.jsp" %> 
+<%@ include file="popup2.jsp" %> 
 
 		<!-- SECTION -->
 		<div class="section">
@@ -34,9 +35,11 @@
 											<div class="product-img">
 												<img src="../resources/img/product01.png" alt="">
 												<div class="product-label">
-													<span class="sale" ><a>목록확인</a></span>
-				 									<span class="sale" ><a>상품설명</a></span>
-													<span class="sale" ><a>상품평/평점</a></span>
+													<div style="text-align : center;">
+														<form>
+															<input type="button" value="미리 보기" onclick="openPopUp('${newList.p_num}','${newList.p_m_id}')"><br>
+														</form>
+													</div>
 												</div>
 											</div>
 											<div class="product-body">

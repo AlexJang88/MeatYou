@@ -17,7 +17,7 @@
 					<div class="col-md-5 col-md-push-2">
 						<div id="product-main-img">
 							<div class="product-preview">
-								<img src="/resources/img/product01.png" alt="">
+								<img src="/resources/img/${dto.thumb}" alt="">
 							</div>
 
 							<div class="product-preview">
@@ -231,7 +231,7 @@
 								<div id="tab1" class="tab-pane fade in active">
 									<div class="row">
 										<div class="col-md-12">
-											<p>${dto.pd_p_desc}</p>
+											${dto.pd_p_desc}
 										</div>
 									</div>
 								</div>
