@@ -769,10 +769,27 @@ select * from coupon where cp_m_id='${cp_m_id}'
 		<select id="findCouponToCpNum" parameterType="int" resultType="com.gogi.meatyou.bean.CouponDTO">
 			select * from coupon where cp_num=#{cp_num}
 		</select>
-		
-		
 
- 
+		
+		<select id="dbName" parameterType="String" resultType="String">
+			select m_name from member where m_name = #{m_name} and phone = #{phone}
+		</select>
+ 		
+ 		<select id="dbPhone" parameterType="String" resultType="String">
+			select phone from member where m_name = #{m_name} and phone = #{phone}
+		</select>
+		
+		<select id="dbId" parameterType="String" resultType="String">
+			select m_id from member where m_name = #{m_name} and phone = #{phone} and m_id =#{m_id}
+		</select>
+		
+		<select id="getDbId" parameterType="String" resultType="String">
+			select m_id from member where m_name = #{m_name} and phone = #{phone}
+		</select>
+		
+		<select id="getDbPw" parameterType="String" resultType="String">
+			select passwd from member where m_name = #{m_name} and phone = #{phone} and m_id = #{m_id}
+		</select>
 		
 
         

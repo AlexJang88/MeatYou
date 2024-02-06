@@ -34,6 +34,19 @@
           <span>카카오 로그아웃</span>
       </a>
 	</li>
+	
+	<li>
+      <a href="/member/idfind">
+          <span>아이디 찾기</span>
+      </a>
+	</li>
+	<li>
+      <a href="/member/pwfind">
+          <span>비밀번호 찾기</span>
+      </a>
+	</li>
+	
+	
 </ul>
 
 <script>

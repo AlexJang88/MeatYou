@@ -600,14 +600,14 @@ public class MemberController {
 			for(String s:nums) {
 				numbers.add(Integer.parseInt(s));
 			}
-			 // È®ÀÎÀ» À§ÇÑ Ãâ·Â
+			 // È®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		    System.out.println("Numbers: " + numbers);
 		}
 		
 		else if(check==2) {
 			String add_m_id = peid.getName();   
 			adto.setAdd_m_id(add_m_id);
-			 odto.setNumbers(numbers); // numbers¸¦ MOrderDTO¿¡ ¼³Á¤
+			 odto.setNumbers(numbers); // numbersï¿½ï¿½ MOrderDTOï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			memberMap.put("list", numbers);
 			memberMap.put("add_m_id", add_m_id);
 			List<UserPayDTO> updto =service.findshop_p_num(memberMap) ;
@@ -633,7 +633,7 @@ public class MemberController {
 			}
 			int order_dere_pay=2500;
 			cdto = service.findCouponToCpNum(cp_num);
-		    // MOrderDTO¿¡ numbers °ªÀ» order_p_num¿¡ ¼³Á¤
+		    // MOrderDTOï¿½ï¿½ numbers ï¿½ï¿½ï¿½ï¿½ order_p_numï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	        odto.getOrder_p_num();  
 
 	        System.out.println("order_p_num============"+order_p_num);
@@ -720,14 +720,74 @@ public class MemberController {
            model.addAttribute("pageSize", pageSize);
            model.addAttribute("totalPage", totalPage);
        } else {
-           // order_m_id°¡ nullÀÎ °æ¿ì¿¡ ´ëÇÑ Ã³¸®
-           // ¿¹¸¦ µé¾î, ·Î±×¸¦ Ãâ·ÂÇÏ°Å³ª ´Ù¸¥ ±âº»°ªÀ» ¼³Á¤ÇÒ ¼ö ÀÖ½À´Ï´Ù.
+           // order_m_idï¿½ï¿½ nullï¿½ï¿½ ï¿½ï¿½ì¿¡ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
+           // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½Î±×¸ï¿½ ï¿½ï¿½ï¿½ï¿½Ï°Å³ï¿½ ï¿½Ù¸ï¿½ ï¿½âº»ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.
            model.addAttribute("errorMessage", "order_m_id is null");
        }
 
        return "member/order/PaymentHistory";
     }
     
+    //ì—¬ê¸°ì„œ ë¶€í„° ì§€í™˜
+    
+    @GetMapping("/mailCheck")
+	@ResponseBody
+	public String mailCheck(String email) {
+		System.out.println("ì´ë©”ì¼ ì¸ì¦ ìš”ì²­ì´ ë“¤ì–´ì˜´!");
+		System.out.println("ì´ë©”ì¼ ì¸ì¦ ì´ë©”ì¼ : " + email);
+		return service.joinEmail(email);
+	}
+    
+    //ì•„ì´ë”” ì°¾ê¸°
+    @RequestMapping("idfind")
+    public String idfind(Model model,  HttpSession session){
+    	Integer check = (Integer) session.getAttribute("check");
+    	model.addAttribute("check", check);
+    	session.removeAttribute("check");
+    	return "member/loginSequrity/idfind";
+    } 
+    
+    @RequestMapping("idfindPro")
+    public String idfindPro(Model model,MemberDTO memberdto, HttpSession session){
+ 	
+    	int check = service.findId(memberdto); // ì•„ì´ë”” ì „í™”ë²ˆí˜¸ ë§ëŠ”ì§€ í™•ì¸    	
+    	
+    	if(check == 1) {
+    		service.getDbId(model, memberdto);
+    		return "member/loginSequrity/idfindweb";
+    	}else {
+    		session.setAttribute("check", check);
+    	}
  
+    	return "redirect:/member/idfind?"+"check="+check;
+    } 
+    
+    
+    
+    
+    @RequestMapping("pwfind")
+    public String pwfind(Model model,  HttpSession session){
+    	Integer check = (Integer) session.getAttribute("check");
+    	model.addAttribute("check", check);
+    	session.removeAttribute("check");
+    	return "member/loginSequrity/pwfind";
+    } 
+    
+    
+    @RequestMapping("pwfindPro")
+    public String pwfindPro(Model model, MemberDTO memberdto, HttpSession session){
+    	int check = service.findPw(memberdto); // ë¹„ë°€ë²ˆí˜¸ ì°¾ì„ë•Œ ì •ë³´  	
+    	
+    	if(check == 1) {
+    		service.getDbPw(model, memberdto);
+    		return "member/loginSequrity/pwfindweb";
+    	}else {
+    		 session.setAttribute("check", check);
+    	}
+  
+    	return "redirect:/member/pwfind?"+"check="+check;
+    } 
+
+    
 }
  

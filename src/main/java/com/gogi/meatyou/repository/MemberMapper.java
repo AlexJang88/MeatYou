@@ -155,5 +155,11 @@ public interface MemberMapper {
             
             int PaymentCount(Map<String, Object> params);       
             
+            public String dbName(MemberDTO memberdto); //디비속 이름
+            public String dbPhone(MemberDTO memberdto); //디비속 전화번호
+            public String dbId(MemberDTO memberdto); //디비속 전화번호
+            public String getDbId(MemberDTO memberdto);//실제아이디
+            public String getDbPw(MemberDTO memberdto);//실제아이디
+            
             
    }
