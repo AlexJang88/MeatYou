@@ -195,15 +195,22 @@ public  class CustomersServiceImpl implements CustomersService {
 
    @Override
    public void statusChange(Model model, ProductDTO productdto) {                   
-      String id = productdto.getP_m_id();       
-                  
-   
-   
-      if(productdto.getP_status()==0 || productdto.getP_status()==2 || productdto.getP_status()== 3 || productdto.getP_status() ==1) {
-         mapper.conumchange(productdto); 
-      }  
-         
-      if(productdto.getP_status() ==1) {         
+      String id = productdto.getP_m_id();
+      int panmeList = mapper.panmeList(productdto); // 현재 판매중인갯수
+      
+      // 0 , 1 , 2  //3이상이면 판매중으로 등록 불가 
+      if(productdto.getP_status()==0 && panmeList > 2) {                          
+        String s = "count"; 
+        
+        model.addAttribute("s", s);          
+      }else{
+
+         if(productdto.getP_status()==0 || productdto.getP_status()==2 || productdto.getP_status()== 3 || productdto.getP_status() ==1) {
+            mapper.conumchange(productdto); 
+         }  // 애는 무조건 실행 (혹여나 있는 유료판매중인상품의 번호를 null 값으로 변경)
+       
+      
+      if(productdto.getP_status() ==1) { // 애는 유료결재 1번 일때만 실행되는코드        
          int cuscheck = mapper.cuscheck(productdto);   
          if(cuscheck==1) {             
             mapper.gijon(productdto); 
@@ -211,9 +218,9 @@ public  class CustomersServiceImpl implements CustomersService {
          }
          mapper.cus_numdelete(productdto); 
          mapper.cus_num(productdto); 
-      }    
-      mapper.statusChange(productdto);        
-   
+      }         
+      mapper.statusChange(productdto);   //애는 무조건 실행되는 코드 product의 등급을 변경한다     
+      }
    }
 
    

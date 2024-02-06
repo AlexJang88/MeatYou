@@ -70,7 +70,7 @@
 				<td>${ing.order_m_id}</td>
 				<td>${ing.p_num}</td>
 				<td>${ing.order_quantity}</td>
-				<td>${ing.order_totalprice}</td>
+				<td><fmt:formatNumber value="${ing.order_totalprice}" type="number" pattern="#,##0"/></td>				
 				<td>${ing.order_addr}</td>
 				<td><fmt:formatDate value="${ing.order_paydate}" pattern="yyyy-MM-dd" /></td>
 				<td>

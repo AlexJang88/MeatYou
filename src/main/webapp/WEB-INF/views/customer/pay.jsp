@@ -41,7 +41,7 @@
 					  <tr align="center">
 						 <td>${pay.co_m_id}</td>			
 						 <td>${pay.co_p_num}</td>
-						 <td>${pay.co_pay}</td>
+						 <td><fmt:formatNumber value="${pay.co_pay}" type="number" pattern="#,##0"/></td>	
 						 <td>${pay.co_quantity}</td>
 						 <td>
 		                    <fmt:formatDate value="${pay.co_paydate}" pattern="yyyy-MM-dd" />
@@ -81,7 +81,7 @@
 				  <tr align="center">
 					 <td>${pay.co_m_id}</td>
 					 <td>${pay.co_p_num}</td>
-					 <td>${pay.co_pay}</td>
+					 <td><fmt:formatNumber value="${pay.co_pay}" type="number" pattern="#,##0"/></td>	
 					 <td>
 	                    <fmt:formatDate value="${pay.co_paydate}" pattern="yyyy-MM-dd" />
 	                </td>

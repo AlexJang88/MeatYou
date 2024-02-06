@@ -44,7 +44,7 @@
 							<c:when test="${coupon.c_type == 2}"> ${coupon.cp_p_num} 판매상품 한정</c:when>
 						</c:choose>
 					</td>
-					<td>${coupon.cp_price}</td>
+					<td><fmt:formatNumber value="${coupon.cp_price}" type="number" pattern="#,##0"/></td>	
 					<td>
 						<c:choose>
 							<c:when test="${coupon.cp_status == 0}"> 사용함</c:when>

@@ -44,7 +44,7 @@ private static final Logger logger = LoggerFactory.getLogger(CustomLoginHandler.
             String username = authentication.getName();
             return "/main/main" ;
         } else if (hasRole(authentication, "ROLE_SELLER")) {
-            rdir="/customers/customer";
+        	return "/customers/customer";
         } else {
             return "/main/main";
         }

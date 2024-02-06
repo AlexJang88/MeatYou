@@ -42,7 +42,7 @@
             		 		<td><img src="<%= request.getContextPath() %>/resources/file/product/${product.p_num}/${product.thumb}/" alt="썸네일"></td>
             		 		<td>${product.p_num} </td>
             		 		<td><a href="/customers/productContent?num=${product.p_num}">${product.p_name}</a></td>
-            		 		<td>${product.p_price}</td> 
+            		 		<td><fmt:formatNumber value="${product.p_price}" type="number" pattern="#,##0"/></td>
             		 		<td>
 							    <c:choose>
 							        <c:when test="${product.p_status == 3}">판매종료</c:when>							       

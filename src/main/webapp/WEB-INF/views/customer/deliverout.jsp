@@ -59,7 +59,7 @@
 				<td>${out.order_m_id}</td>
 				<td>${out.p_num}</td>
 				<td>${out.order_quantity}</td>
-				<td>${out.order_totalprice}</td>
+				<td><fmt:formatNumber value="${out.order_totalprice}" type="number" pattern="#,##0"/></td>			
 				<td>${out.order_addr}</td>
 				<td>
 					<c:choose>

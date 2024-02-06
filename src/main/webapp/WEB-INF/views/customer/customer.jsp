@@ -10,6 +10,7 @@
 
 <html> 
 <head> 
+<%@ include file="../header.jsp" %>
 </head>
 <body>
 
@@ -147,4 +148,3 @@ function update(d1, d2, d3) {
 
     </script>
 </html>
-

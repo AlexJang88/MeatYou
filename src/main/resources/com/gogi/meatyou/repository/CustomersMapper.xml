@@ -7,6 +7,10 @@
    SELECT SUM(order_totalprice) AS total_price FROM m_order m, product p WHERE order_p_num = p_num AND p_m_id= #{id}
    </select>
 
+	<select id='panmeList' resultType="int">
+         select count(*) from product where p_m_id = #{p_m_id} and p_status = 0
+   </select>
+	
    <select id="graph" resultType="com.gogi.meatyou.bean.customerGraphDTO">
    SELECT TO_CHAR(months.start_date, 'YYYY-MM') AS mon, -- 월별 날짜 형식으로 변환
        COALESCE(SUM(mo.order_totalprice), 0) AS mon_sal,
