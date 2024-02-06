@@ -31,6 +31,10 @@ public class MemberServiceImpl implements MemberService {
 
     @Autowired
     private MemberMapper mapper;
+    
+    @Autowired
+    private HashMap memberMap;
+    
 
     @Override
     public int insertMember(MemberDTO dto) {
@@ -145,12 +149,12 @@ public class MemberServiceImpl implements MemberService {
        }
        
        @Override        
-       public List<MemAddressDTO> combined_address(String add_m_id,String combined_address ,MemAddressDTO adto )  {
+       public List<MemAddressDTO> combined_address(OrderwithCouponDTO dto)  {
          
                 
           Map<String, Object> parameters=new HashMap<>();
-          parameters.put("add_m_id",add_m_id);
-          parameters.put("combined_address",combined_address);
+          parameters.put("add_m_id",dto.getAdd_m_id());
+          parameters.put("combined_address",dto.getCombined_address());
              List<MemAddressDTO> result =mapper.combined_address(parameters);
           
                       return result;
@@ -247,7 +251,7 @@ public class MemberServiceImpl implements MemberService {
          
  
           
-         public List<ShoppingCartDTO> getShoppingCartItemsPaged2(String shop_m_id, int page, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto,PDetailDTO pddto) {
+         public List<ShoppingCartDTO> getShoppingCartItemsPaged2(String shop_m_id, int page, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto,PDetailDTO pddto,List<CouponDTO> cList,CouponDTO cdto ) {
         	 int startRow = (page - 1) * pageSize + 1;
         	 int endRow = startRow + pageSize - 1;
         	 
@@ -255,12 +259,18 @@ public class MemberServiceImpl implements MemberService {
         	 parameters.put("shop_m_id", shop_m_id);
         	 parameters.put("startRow", startRow);
         	 parameters.put("endRow", endRow);
+        	 parameters.put("cList", cList);
+        	 parameters.put("cp_num", cdto.getCp_num());
+        	 parameters.put("cp_price", cdto.getCp_price());
+        	 parameters.put("cList", cList);
         	 
         	 //   return mapper.getShoppingCartItemsPaged(parameters);
         	 List<ShoppingCartDTO> result = mapper.getShoppingCartItemsPaged2(parameters);
         	 return result;
          }
-         
+         public int CouponForyou(String shop_m_id,CouponDTO cdto ,ShoppingCartDTO sdto) {
+        	return mapper.CouponForyou(shop_m_id,cdto,sdto);
+         }
          
          
          public List<ShoppingCartDTO> orderpage(String shop_m_id, int page, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto) {
@@ -475,6 +485,12 @@ public class MemberServiceImpl implements MemberService {
 			 Map<String, Object> parameters = new HashMap<>();
              parameters.put("pm_m_id", order_m_id);
              return mapper.PaymentCount(parameters);
+		}
+
+		@Override
+		public List<CouponDTO> getProductCoupon(HashMap hashmap) {
+			// TODO Auto-generated method stub
+			return mapper.getProductCoupon(hashmap);
 		}
 
 		

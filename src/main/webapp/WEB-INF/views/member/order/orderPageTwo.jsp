@@ -30,10 +30,12 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script >
     document.addEventListener("DOMContentLoaded", function() {
-        var selectedShopNums = getParameterByName('selectedShopNums');
+         selectedShopNums = getParameterByName('selectedShopNums');
+         //selectedCoupon = getParameterByName('selectedCoupon');
         
         // 실제로 서버로 해당 shop_num을 전송하거나, 필요한 처리를 수행하는 로직을 구현
         console.log("Selected Shop Numbers: " + selectedShopNums);
+        //console.log("Selected Shop Numbers: " + selectedCoupon);
     }); 
 
     function getParameterByName(name) {
@@ -66,17 +68,22 @@
       }
     };
     
+ // 선택한 상품 주문 함수
     function submitForm() {
         // 여기에서 필요한 폼 데이터를 추가하거나 수정
         // 예: 선택한 상품 목록을 숨겨진 필드에 추가
         var selectedShopNums = getParameterByName('selectedShopNums');
-        document.getElementById('checkoutForm').insertAdjacentHTML('beforeend', '<input type="hidden" name="selectedShopNums" value="' + selectedShopNums.join(',') + '">');
+      // var selectedCoupon = document.getElementById('cList').value;
+
+        // 선택한 상품 목록을 숨겨진 필드에 추가
+        document.getElementById('checkoutForm').insertAdjacentHTML('beforeend', '<input type="hidden" name="selectedShopNums" value="' + selectedShopNums + '">');
+
+        // 선택한 쿠폰을 숨겨진 필드에 추가
+     //   document.getElementById('checkoutForm').insertAdjacentHTML('beforeend', '<input type="hidden" name="selectedCoupon" value="' + selectedCoupon + '">');
 
         // 폼을 서버로 제출
         document.getElementById('checkoutForm').submit();
     }
-    
-    
     </script>
 
 </head>
@@ -128,17 +135,7 @@
                 </td>
                  <td id="selectedAddressCell">${param.selectedAddress}</td>
                <!-- 기존 코드... -->
-        <td id="cListCell">
-            <c:choose>
-                <c:when test="${not empty cdto}">
-                    ${cdto.cp_price}
-                </c:when>
-                <c:otherwise>
-                    쿠폰이 존재하지 않습니다.
-                </c:otherwise>
-            </c:choose>
-        </td>
-        <!-- 나머지 코드... -->
+      
     </tr>
                  
                    
@@ -154,6 +151,7 @@
             <th>상품 분류</th>
             <th>상품 사진</th>
             <th>상품 수량</th>
+            <th>적용된 쿠폰</th>
             <th>금액</th>
         </tr>
     </thead>
@@ -175,6 +173,18 @@
                 <td><c:out value="${item.pd_p_desc}" /></td>
                 <td><c:out value="${item.thumb}"/></td>
                 <td><c:out value="${item.shop_quantity}" /></td>
+                  <td id="cListCell">
+            <c:choose>
+                <c:when test="${not empty cdto}">
+                    ${cdto.cp_price}
+                </c:when>
+                <c:otherwise>
+                    쿠폰이 존재하지 않습니다.
+                </c:otherwise>
+            </c:choose>
+        </td>
+        <!-- 나머지 코드... -->
+                
                 <td>
                     <b>총액  </b>
                     <div>${item.p_price * item.shop_quantity} </div>
@@ -215,7 +225,8 @@
    					<div> 최종 결제금액 :      ${order_totalprice}</div>
    				   
    				   	<form action="showMeTheMoney" method="post" id="checkoutForm">    
-    <input type="submit" value="결제하기"><br/>
+   		 <input type="submit" value="결제하기"><br/>
+   		 
     하고싶은말씀 있으시면 여기서하시죠 : <input type="text" name="order_memo" value="${order_memo}"/><br/>
     
     <c:forEach var="item" items="${shopList}">

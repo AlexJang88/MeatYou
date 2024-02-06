@@ -26,6 +26,7 @@ import com.gogi.meatyou.bean.UserPayDTO;
 public interface MemberMapper {
    public MemberDTO read(String m_id);
    
+   public List<CouponDTO> getProductCoupon(HashMap hashmap);
    
     public int insertMember(MemberDTO dto);
     public int twoNextPay(OrderwithCouponDTO mdto,int shop_num ,@Param("order_p_num")int order_p_num,
@@ -83,7 +84,7 @@ public interface MemberMapper {
 
 
        List<ShoppingCartDTO> ShoppingCartAndProduct(String shop_m_id);
-       public void updateQuantity(@Param("shop_num") int shop_num, @Param("shop_quantity") int shop_quantity,@Param("shop_m_id")   String shop_m_id);
+       public void updateQuantity(@Param("shop_p_num") int shop_num, @Param("shop_quantity") int shop_quantity,@Param("shop_m_id")   String shop_m_id);
      
 
        
@@ -94,9 +95,8 @@ public interface MemberMapper {
                @Param("sdto") ShoppingCartDTO sdto,
                @Param("pdto") ProductDTO pdto);
        
-       List<ShoppingCartDTO> getShoppingCartItemsPaged(Map<String, Object> params);
        List<ShoppingCartDTO> getShoppingCartItemsPaged2(Map<String, Object> params);
-       
+       int CouponForyou(String shop_m_id,CouponDTO cdto,ShoppingCartDTO sdto);
        List<ShoppingCartDTO> orderpage(Map<String, Object> params);
        
        int getTotalShoppingCartItems(String shop_m_id);

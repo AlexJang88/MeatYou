@@ -6,17 +6,20 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
 //선택주문 
+// 선택한 상품 주문 함수
+// 선택된 쿠폰을 저장하는 변수
+//var selectedCoupon = "";
 function orderSelectedItems() {
     var selectedShopNums = getSelectedShopNums(); // 선택된 상품의 shop_num을 가져오는 함수
-
-    // 자바스크립트를 사용하여 선택한 상품의 shop_num을 URL 파라미터로 세 번째 페이지로 전달
-    window.location.href = "/member/orderPageTwo?check=1&selectedShopNums=" + selectedShopNums.join(',');
-    
+    var selectedCoupon = $('#cList').val(); // select 태그에서 선택된 쿠폰 값을 가져오기
+    on
+    // 선택한 상품의 shop_num을 URL 파라미터로 세 번째 페이지로 전달
+    window.location.href = "/member/orderPageTwo?check=1&selectedShopNums=" + selectedShopNums.join(',') +	"&selectedCoupon=" + selectedCoupon,join(',');
+    //	+	"&selectedCoupon=" + selectedCoupon;;
 }
 
+// 선택된 상품의 shop_num을 가져오는 함수
 function getSelectedShopNums() {
-    // 실제로 선택된 상품의 shop_num을 가져오는 로직을 여기에 구현
-    // 아래는 임의의 예시 코드
     var selectedShopNums = [];
     var checkboxes = document.getElementsByName('selectedShopNums');
 
@@ -25,12 +28,10 @@ function getSelectedShopNums() {
             selectedShopNums.push(checkboxes[i].value);
         }
     }
-
     return selectedShopNums;
 }
 
-
-//기존의 "update_click" 함수 수정
+// 상품 수량 업데이트 함수
 function update_click(button, operation, shop_p_num) {
     var input_element = button.parentElement.querySelector('.shop_quantity');
     var current_quantity = parseInt(input_element.value);
@@ -53,50 +54,28 @@ function update_click(button, operation, shop_p_num) {
     sendUpdateQuantityRequest(new_quantity, shop_p_num);
 }
 
-
-
-
-//새로운 함수: 상품 수량 업데이트 요청을 보내는 함수
+// 상품 수량 업데이트 요청을 보내는 함수
 function sendUpdateQuantityRequest(new_quantity, shop_p_num) {
- var requestData = {
-     shop_quantity: new_quantity,
-     shop_p_num: shop_p_num
- };
- $.ajax({
-     type: "POST",
-     url: "/member/updateQuantity",
-     data: requestData,
-     success: function(response) {
-         console.log(response);
-         location.reload();
-     },
- });
+    var requestData = {
+        shop_quantity: new_quantity,
+        shop_p_num: shop_p_num
+    };
+    
+    $.ajax({
+        type: "POST",
+        url: "/member/updateQuantity",
+        data: requestData,
+        success: function(response) {
+            console.log(response);
+            location.reload();
+        },
+    });
 }
 
-
-//선택한상품 삭제
-
-// 선택한 상품의 shop_p_num을 저장할 배열
-var selectedShopNums = [];
-
-// 체크박스를 클릭할 때 호출되는 함수
-function toggleSelectedShopNum(checkbox, shop_p_num) {
-    if (checkbox.checked) {
-        // 체크된 경우 배열에 추가
-        selectedShopNums.push(shop_p_num);
-    } else {
-        // 체크가 해제된 경우 배열에서 제거
-        var index = selectedShopNums.indexOf(shop_p_num);
-        if (index !== -1) {
-            selectedShopNums.splice(index, 1);
-        }
-    }
-}
+// 선택한 상품 삭제 함수
 function deleteSelectedItems() {
-    // 선택한 상품들의 shop_p_num 배열을 문자열로 변환하여 hidden input에 설정
     var selectedShopNumsInput = document.getElementById('selectedShopNums');
 
-    // 선택한 상품이 없는 경우 알림 표시
     if (selectedShopNums.length === 0) {
         alert("삭제할 상품을 선택해주세요.");
         return;
@@ -115,26 +94,10 @@ function deleteSelectedItems() {
         },
     });
 }
-
-
-//one.jsp 내의 script 태그 내부
-function submitForm() {
-  // 선택한 주소 값을 가져옵니다
-  var "cList" = document.getElementById('"cList"').value;
-
-  // 이제 이 값을 사용하여 다음 작업을 수행할 수 있습니다
-  // 예: AJAX를 사용하여 서버에 데이터 전송 또는 로컬 스토리지에 저장
-
-  // 예시: 로컬 스토리지에 저장
-  localStorage.setItem('"cList"', "cList");
-
-  // 여기서는 서버로의 전송은 하지 않았습니다. 만약 서버로의 전송이 필요하다면 AJAX 등을 사용하세요.
-
-  // 페이지 이동 등의 추가 작업을 수행할 수 있습니다.
-  // 예: window.location.href = 'yourNextPage.html';
-}
+ 
 </script>
 </head>
+ 
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">장바구니</h1>
@@ -149,33 +112,38 @@ function submitForm() {
     <div class="panel-body">
         <!-- 수량 조절 폼 -->
         상품목록 
-<button id="toggleButton" onclick="toggleTableVisibility()">숨기기</button>
 
       <table id="productTable" class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
         	<th>선택</th>
+            <th>삭제</th> 
             <th>상품 고유번호(히든)</th>
-            <th>상품 내용</th>
+            <td>판매자</td>
             <th>상품 분류</th>
+            <th>상품 내용</th>
             <th>상품 사진</th>
             <th>상품 수량</th>
-            <th>쿠폰</th>
             <th>금액</th>
-            <td>판매자</td>
-            <th>삭제</th>
+             <th>쿠폰</th>
+             <th>판매상태</th> 
         </tr>
     </thead>
     <tbody>
+    <form action="orderPageOne"  method="post"> 
         <c:forEach var="item" items="${shoppingCartList}">
             	<tr>
             	<td>
-            	   <input type="checkbox" name="selectedShopNums" value="${item.shop_p_num}" 
-                   onclick="toggleSelectedShopNum(this, '${item.shop_p_num}')"/>
+            	   <input type="checkbox" name="shop_p_num" value="${item.shop_p_num}"/>
        			 </td>
+       			  <td>
+       			  <a href="/delete?shop_p_num=${item.shop_p_num}&pd_p_num=${item.pd_p_num}&p_num=${item.p_num}">삭제</a>
+                   
+                </td>
                 <td><c:out value="${item.shop_p_num}" />
                <%--  ${item.p_num}
                  --%></td>
+                   <td><c:out value="${item.p_m_id}" /></td>
                 <td><c:out value="${item.p_name}" /></td>
                 <td><c:out value="${item.pd_p_desc}" /></td>
                 <td><c:out value="${item.thumb}" /></td>
@@ -185,53 +153,50 @@ function submitForm() {
                     <c:out value="${item.shop_quantity}" />
                     <button type="button" class="quantity-down" data-quantity="${item.shop_quantity}" onclick="update_click(this, 'decrease','${item.shop_p_num}')">-</button>
                 </td>	
-                <td>
-                  <c:if test="${not empty cList}">
-						    <select name="cp_num" id="cList">
-								    <option type="hidden" value="0">선택안함</option>
-								    <c:forEach var="item" items="${cList}" varStatus="loop">
-								        <option value="${item.cp_num}">쿠폰번호 : ${item.cp_num}  쿠폰 가격 : ${item.cp_price}  원 (쿠폰 만료일 : <fmt:formatDate value="${item.exdate}" pattern="yyyy/MM/dd"/>)</option>
-								    </c:forEach>
-								</select>
-						</c:if>
-								         <c:if test="${ empty cList}">
-								         보유하신쿠폰이 없습니다	 
-						
-										</c:if>
-                           	
-                
-                </td>
                 			    
                 <td>
                     <b>총액  </b>
+                    <input type="hidden" name="p_price" value="${item.p_price}">
                     <c:out value="${item.p_price * item.shop_quantity}" />
                     <b> 원</b>
                       <c:set var="totalAmount" value="${totalAmount + (item.p_price * item.shop_quantity)}" />
                 </td> 
-                <td><c:out value="${item.p_m_id}" /></td>
+                
+               
                 <td>
-                    <form action="delete" method="post" class="quantity_delete_form">
-                        <input type="hidden" name="shop_p_num" value="${item.shop_p_num}" />
-                        <input type="hidden" name="pd_p_num" value="${item.pd_p_num}" />
-                        <input type="hidden" name="p_num" value="${item.p_num}" />
-                        <button type="submit" class="delete_btn">삭제</button>
-                    </form>
+                <div>	
+            
+             	
+                
+						   <select name="cp_num" id="cList"  >
+								    <option type="hidden" value="0">선택안함</option>
+								    <c:forEach var="cp" items="${item.coupons}" varStatus="loop">
+								         <c:if test="${ empty  item.coupons}">
+								         <option value="0" hidden>
+								         사용에 적합한  쿠폰이없습니다 
+										</c:if> 
+								         <c:if test="${ not empty item.coupons}">
+								        <option value="${cp.cp_num}">쿠폰번호 : ${cp.cp_num}  쿠폰 가격 : ${cp.cp_price}  원 (쿠폰 만료일 : <fmt:formatDate value="${cp.exdate}" pattern="yyyy/MM/dd"/>)</option>
+								        </c:if>
+								    </c:forEach>
+							</select>
+						
+								        
+                </div>
                 </td>
+              
             </tr>
         </c:forEach>
-       <form action="orderPageOne"  method="post"> 
-       <input type="hidden" name="p_num" value="${item.p_num}" />
-       <input type="hidden" name="shop_p_num" value="${item.shop_p_num}"  />
-       <input type="hidden" name="shop_p_num" value="${item.shop_p_num}"  />
-       	<input name=" totalAmount" value="${totalAmount}" type="hidden"/>
-      			<input type="submit" value="주문"  onclick="orderSelectedItems()">
-        </form>
+       
+       	<input name="totalAmount" value="${totalAmount}" type="hidden"/>
+      			<input type="submit" value="주문" >
+        
         <tr>
         	<td></td>
         	<td></td>
         	<td></td>
         	<td style="height: 10px;">
-        	
+       </form> 	
         	
 <div class="pagination" style="height: 10px;">
     <c:if test="${page > 1}">

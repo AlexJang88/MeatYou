@@ -141,7 +141,7 @@ WHERE
     </update>
 
   <!-- 특정 회원의 장바구니 목록 조회 (페이징 처리) -->
- 
+  
 <select id="getShoppingCartItemsPaged2" parameterType="map" resultType="com.gogi.meatyou.bean.ShoppingCartDTO">
     <![CDATA[
 
@@ -587,6 +587,23 @@ WHERE
 </select>
 <select id="howmuchCoupon" >
 select * from coupon where cp_m_id='${cp_m_id}'
+</select>
+<select id="CouponForyou" >
+SELECT * FROM coupon
+WHERE cp_m_id = '${shop_m_id}'
+AND cp_p_num IN (
+    SELECT p_num FROM product
+);
+</select>
+
+
+
+<select id="getProductCoupon" parameterType="hashmap">
+SELECT * FROM ( SELECT * FROM coupon WHERE cp_m_id=#{id} AND cp_status=1 AND cp_p_num=#{p_num} AND c_type=2 UNION ALL SELECT * FROM coupon WHERE cp_m_id=#{id} AND cp_status=1 AND c_type=3 UNION ALL SELECT * FROM coupon WHERE cp_m_id=#{id} AND cp_status=1 AND cp_p_num IN (SELECT p_num FROM product WHERE p_m_id=(SELECT p_m_id FROM product WHERE p_num=#{p_num}))
+    AND c_type=1
+) result
+
+
 </select>
  
 

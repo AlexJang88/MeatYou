@@ -23,7 +23,10 @@ public class ShoppingCartDTO {
    private int totalPrice;
    private String pd_p_desc;
    private int pd_p_num;
+   private List<CouponDTO> coupons;
    
+   private int cp_num;
+   private int cp_price;
 
    
 }
