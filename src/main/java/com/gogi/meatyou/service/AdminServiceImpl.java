@@ -50,6 +50,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
 import com.gogi.meatyou.repository.AdminMapper;
+import com.gogi.meatyou.repository.CustomersMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -75,6 +76,8 @@ public class AdminServiceImpl implements AdminService {
 
 	@Autowired
 	private AdminMapper mapper;
+	
+	@Autowired CustomersMapper cusmapper;
 
 	private HttpURLConnection conn;
 
@@ -515,13 +518,14 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public void reportContent(Model model, int num) {
 		
-		QnADTO dto = mapper.reportContent(num);
-		model.addAttribute("report", dto);
+		List<QnADTO> list = mapper.reportContent(num);
+		model.addAttribute("reports", list);
 		
 	}
 	@Override
 	public void reportReply(QnADTO dto) {
 			mapper.reportReply(dto);
+			mapper.maStatChange(dto.getMa_num());
 	}
 
 	@Scheduled(cron = "0 0 0 1 * *")
@@ -547,7 +551,6 @@ public class AdminServiceImpl implements AdminService {
 		adminMap.put("list", noissue);
 		adminMap.put("memo", "null");
 		mapper.DiseaseCheck(adminMap);
-
 	}
 
 	private void fileUpload(String path_folder1, String path_folder2, int num,int category) {
@@ -849,6 +852,12 @@ public class AdminServiceImpl implements AdminService {
 		String a = jsonObject.toString();
 		return a;
 	}
+	
+	@Scheduled(cron = "59 * * * * *")
+	public void autoOrderConfirm() {
+		cusmapper.AutoOrderConfirm();
+	}
+
 
 	@Override
 	public void apiTest(Model model) {

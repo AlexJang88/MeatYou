@@ -536,10 +536,21 @@
 			<if test="check==3">ma_status>=1000</if>
 	</select>
 	<select id="reportContent" resultType="com.gogi.meatyou.bean.QnADTO">
-		select * from qna where ma_num=#{ma_num}
+		select * from (select * from qna where ma_num=#{ma_num}  union all select * from (select * from qna where ma_ref=#{ma_num} and ma_m_id='admin')) 
 	</select>
-	<update id="reportReply" parameterType="com.gogi.meatyou.bean.QnADTO">
-		update qna set ma_reply=#{ma_reply},ma_status=1001 where ma_num=#{ma_num}
+	<insert id="reportReply" parameterType="com.gogi.meatyou.bean.QnADTO">
+		insert into qna values(
+		qna_seq.nexval,
+		'admin',
+		#{ma_title},
+		#{ma_content},
+		1001,
+		sysdate,
+		#{ma_num}
+		);
+	</insert>
+	<update id="maStatChange">
+		update qna set ma_status=1001 where ma_num=#{ma_num}
 	</update>
 	<insert id="reportReg"	parameterType="com.gogi.meatyou.bean.QnADTO">
 		insert into QnA values(
