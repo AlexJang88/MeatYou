@@ -10,11 +10,13 @@ import com.gogi.meatyou.bean.PDetailDTO;
 import com.gogi.meatyou.bean.PPicDTO;
 import com.gogi.meatyou.bean.PickMeDTO;
 import com.gogi.meatyou.bean.ProductDTO;
+import com.gogi.meatyou.bean.ReckonDTO;
 import com.gogi.meatyou.bean.SelectedProductDTO;
 import com.gogi.meatyou.bean.ShoppingCartDTO;
 import com.gogi.meatyou.bean.UserPayDTO;
 import com.gogi.meatyou.repository.MemberMapper;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -149,15 +151,9 @@ public class MemberServiceImpl implements MemberService {
        }
        
        @Override        
-       public List<MemAddressDTO> combined_address(OrderwithCouponDTO dto)  {
+       public List<String> combined_address(String id)  {
          
-                
-          Map<String, Object> parameters=new HashMap<>();
-          parameters.put("add_m_id",dto.getAdd_m_id());
-          parameters.put("combined_address",dto.getCombined_address());
-             List<MemAddressDTO> result =mapper.combined_address(parameters);
-          
-                      return result;
+                      return mapper.combined_address(id);
         
           
        }
@@ -233,8 +229,42 @@ public class MemberServiceImpl implements MemberService {
 
          
          @Override
-         public List<ShoppingCartDTO> ShoppingCartAndProduct(String shop_m_id,ShoppingCartDTO sdto,ProductDTO pdto) {
-             return mapper.ShoppingCartAndProduct(shop_m_id);
+         public List<OrderwithCouponDTO> ShoppingCartAndProduct(String shop_m_id,int page,Model model) {
+        	 int count = 0;
+     		int pageSize = 10;
+     		int startRow = (page - 1) * pageSize + 1;
+     		int endRow = page * pageSize;
+     		List<OrderwithCouponDTO> list = Collections.EMPTY_LIST;
+     		
+     		count = mapper.ShoppingCartCount(shop_m_id);
+     		
+     		if (count > 0) {
+     			memberMap.put("id",shop_m_id);
+     			memberMap.put("start", startRow);
+     			memberMap.put("end", endRow);
+
+     			list = mapper.ShoppingCartAndProduct(memberMap);
+     		}
+
+     		model.addAttribute("list", list);
+     		model.addAttribute("count", count);
+     		model.addAttribute("page", page);
+     		model.addAttribute("pageSize", pageSize);
+
+     		// page
+     		int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+     		int startPage = (int) (page / 10) * 10 + 1;
+     		int pageBlock = 10;
+     		int endPage = startPage + pageBlock - 1;
+     		if (endPage > pageCount) {
+     			endPage = pageCount;
+     		}
+     		model.addAttribute("pageCount", pageCount);
+     		model.addAttribute("startPage", startPage);
+     		model.addAttribute("pageBlock", pageBlock);
+     		model.addAttribute("endPage", endPage);
+        	 
+             return mapper.ShoppingCartAndProduct(memberMap);
          }
 
          
@@ -243,8 +273,8 @@ public class MemberServiceImpl implements MemberService {
       
          
          @Override
-         public void updateQuantity(int  shop_p_num,int  shop_quantity, String shop_m_id) {
-            mapper.updateQuantity(shop_p_num, shop_quantity ,shop_m_id);
+         public void updateQuantity(int  shop_num,int  shop_quantity, String shop_m_id) {
+            mapper.updateQuantity(shop_num, shop_quantity ,shop_m_id);
           }
          
          
@@ -303,9 +333,9 @@ public class MemberServiceImpl implements MemberService {
                           
              
              @Override
-            public int deleteCart(int shop_p_num,@Param("shop_m_id")String shop_m_id) {
+            public int deleteCart(int shop_num,@Param("shop_m_id")String shop_m_id) {
 
-             return mapper.deleteCart(shop_p_num,shop_m_id);
+             return mapper.deleteCart(shop_num,shop_m_id);
 
             }
       
@@ -489,9 +519,25 @@ public class MemberServiceImpl implements MemberService {
 
 		@Override
 		public List<CouponDTO> getProductCoupon(HashMap hashmap) {
-			// TODO Auto-generated method stub
 			return mapper.getProductCoupon(hashmap);
 		}
+
+		@Override
+		public OrderwithCouponDTO getProductInfo(int p_num) {
+			return mapper.getProductInfo(p_num);
+		}
+
+		@Override
+		public OrderwithCouponDTO getCartbyNum(HashMap hashmap) {
+			return mapper.getCartbyNum(hashmap);
+		}
+
+		@Override
+		public OrderwithCouponDTO getCouponNum(int cp_num) {
+			return mapper.getCouponNum(cp_num);
+		}
+
+		
 
 		
 		 

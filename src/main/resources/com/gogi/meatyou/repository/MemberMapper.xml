@@ -69,8 +69,9 @@ INNER JOIN
 WHERE
   m.m_id = ${add_m_id}
 </select>
-<select id="combined_address" resultType="com.gogi.meatyou.bean.MemAddressDTO">
-    select CONCAT (add_mem_address1,add_mem_address2) as combined_address from mem_address where add_m_id='${add_m_id}'
+
+<select id="combined_address" resultType="String">
+    select CONCAT (add_mem_address1,add_mem_address2) as address from mem_address where add_m_id=#{id}
 </select>
 
    <!-- 주소 삭제 -->
@@ -109,9 +110,18 @@ WHERE
 <select id="shoppingcartCheck" resultType="com.gogi.meatyou.bean.ShoppingCartDTO">
     select * from shoppingcart_${m_id} where shop_m_id=#{m_id}
 </select>
+<select id="getCartbyNum" resultType="com.gogi.meatyou.bean.OrderwithCouponDTO" parameterType="hashmap">
+	select * from 
+	(select * from product where p_num=(select shop_p_num from shoppingCart_${m_id} where shop_num=#{shop_num})),(select * from (select * from shoppingCart_${m_id} where shop_num=#{shop_num}))
+	<if test="cp_num!=0">
+	,(SELECT * FROM coupon WHERE cp_num = #{cp_num})
+	</if>
+</select>
+<select id="getCouponNum" resultType="com.gogi.meatyou.bean.OrderwithCouponDTO">
+	select cp_num,cp_price from coupon where  cp_num=#{cp_num}
+</select>
 
-
- <!--장바구니 목록출력 -->
+ <!--장바구니 목록출력  
 <select id="ShoppingCartAndProduct" resultType="com.gogi.meatyou.bean.ShoppingCartDTO">
     SELECT
         sc.shop_num,
@@ -126,6 +136,17 @@ WHERE
     INNER JOIN
         product p ON sc.shop_p_num = p.p_num
 </select>
+ -->
+ <!--장바구니 목록출력  다시  num으로 변경-->
+<select id="ShoppingCartAndProduct" resultType="com.gogi.meatyou.bean.OrderwithCouponDTO" parameterType="hashmap">
+  <![CDATA[
+   select * from (select a.*,rownum r from(select * from (select * from product), (select * from shoppingcart_${id}) where p_num=shop_p_num) a) where r>=#{start} and r<=#{end}
+	]]>
+</select>
+
+<select id="ShoppingCartCount" >
+	select count(*) from (select * from product), (select * from shoppingcart_${id}) where p_num=shop_p_num
+</select>
 
 
 
@@ -134,14 +155,52 @@ WHERE
 
 
 
-
-<!--장바구니 수량변경  -->
+<!--장바구니 수량변경  num기준으로 변경 -->
+   <update id="updateQuantity"  >
+        UPDATE shoppingcart_${shop_m_id} SET shop_quantity = #{shop_quantity} WHERE shop_num = #{shop_num}
+    </update>
+<!--장바구니 수량변경  shop_num기준으로 변경 
    <update id="updateQuantity"  >
         UPDATE shoppingcart_${shop_m_id} SET shop_quantity = #{shop_quantity} WHERE shop_p_num = #{shop_p_num}
-    </update>
+    </update> -->
 
-  <!-- 특정 회원의 장바구니 목록 조회 (페이징 처리) -->
+  <!-- 특정 회원의 장바구니 목록 조회  shop_num 기준 (페이징 처리) -->
   
+<select id="getShoppingCartItemsPaged2" parameterType="map" resultType="com.gogi.meatyou.bean.ShoppingCartDTO">
+    <![CDATA[
+
+SELECT rnum, shop_num,shop_p_num, shop_m_id, shop_quantity,p_num,p_name,thumb,p_price,p_m_id,pd_p_num,pd_p_desc
+FROM (
+    SELECT ROWNUM AS rnum, t.*
+    FROM (
+        SELECT
+            sc.shop_num,
+            sc.shop_p_num,
+            sc.shop_m_id,
+            sc.shop_quantity,
+            p.p_num,
+            p.p_name,
+            p.thumb,
+            p.p_price,
+            p.p_m_id,
+            pd.pd_p_num,
+            pd.pd_p_desc
+        FROM
+            shoppingcart_${shop_m_id} sc
+         INNER JOIN
+            product p ON sc.shop_p_num = p.p_num 
+        INNER JOIN
+            p_detail pd ON p.p_num = pd.pd_p_num
+        ORDER BY sc.shop_num
+    ) t
+    WHERE ROWNUM <= #{endRow, jdbcType=NUMERIC}
+)
+WHERE rnum >= #{startRow, jdbcType=NUMERIC}
+
+    ]]>
+</select>
+  <!-- 특정 회원의 장바구니 목록 조회  shop_p_num 기준 (페이징 처리) -->
+  <!-- 
 <select id="getShoppingCartItemsPaged2" parameterType="map" resultType="com.gogi.meatyou.bean.ShoppingCartDTO">
     <![CDATA[
 
@@ -175,7 +234,7 @@ WHERE rnum >= #{startRow, jdbcType=NUMERIC}
 
     ]]>
 </select>
-
+ -->
 <select id="orderpage" parameterType="map" resultType="com.gogi.meatyou.bean.ShoppingCartDTO">
     <![CDATA[
 SELECT rnum, shop_num, shop_m_id,shop_quantity, p_num, p_name, thumb, p_price,p_m_id
@@ -217,14 +276,33 @@ WHERE rnum >= #{startRow, jdbcType=NUMERIC}
     <!-- 여기까지가 페이징 -->
     
 <!-- 게시물 선택 삭제  -->
+ <!-- 카트 삭제 shop_num 기준 -->
+   <delete id="deleteCart">
+      delete from shoppingcart_${shop_m_id} where shop_num = ${shop_num}
+   </delete>
  
-<!-- 카트 삭제 -->
+<!-- 카트 삭제 shop_p_num 기준
    <delete id="deleteCart">
       delete from shoppingcart_${shop_m_id} where shop_p_num = ${shop_p_num}
    </delete>
-
-    <!-- 상품 삭제를 위한 쿼리 -->
+ -->
+    <!-- 상품 삭제를 위한 쿼리  shop_p_num 기준 -->
 <!-- MyBatis Mapper XML -->
+<delete id="deleteSelectedItems" parameterType="map">
+    DELETE FROM shoppingcart_${shop_m_id}
+    <where>
+        <if test="!selectedShopNums.isEmpty()">
+            AND shop_num IN
+            <foreach collection="selectedShopNums" item="shop_num" open="(" separator="," close=")">
+                #{shop_num}
+            </foreach>
+        </if>
+        AND shop_m_id = #{shop_m_id}
+    </where>
+</delete> 
+
+ <!-- 상품 삭제를 위한 쿼리  shop_p_num 기준 -->
+<!-- MyBatis Mapper XML
 <delete id="deleteSelectedItems" parameterType="map">
     DELETE FROM shoppingcart_${shop_m_id}
     <where>
@@ -238,7 +316,9 @@ WHERE rnum >= #{startRow, jdbcType=NUMERIC}
     </where>
 </delete>
 
-
+ -->
+ 
+ 
 <select id="findshop_p_num" resultType="com.gogi.meatyou.bean.UserPayDTO" parameterType="hashmap">
    select * from (select * from shoppingCart_${add_m_id} where shop_p_num in 
    <foreach collection="list" item="shop_p_num" open="(" separator="," close=")">
@@ -252,6 +332,7 @@ WHERE rnum >= #{startRow, jdbcType=NUMERIC}
 
 <!-- 찜 업체  리스트   -->
 <!-- 총 카운트 보기 -->
+
 
 <select id="pickMeCount" parameterType="int">  
     SELECT COUNT(*)   FROM pick_me_${pm_m_id}
@@ -593,7 +674,7 @@ SELECT * FROM coupon
 WHERE cp_m_id = '${shop_m_id}'
 AND cp_p_num IN (
     SELECT p_num FROM product
-);
+)
 </select>
 
 
@@ -602,8 +683,10 @@ AND cp_p_num IN (
 SELECT * FROM ( SELECT * FROM coupon WHERE cp_m_id=#{id} AND cp_status=1 AND cp_p_num=#{p_num} AND c_type=2 UNION ALL SELECT * FROM coupon WHERE cp_m_id=#{id} AND cp_status=1 AND c_type=3 UNION ALL SELECT * FROM coupon WHERE cp_m_id=#{id} AND cp_status=1 AND cp_p_num IN (SELECT p_num FROM product WHERE p_m_id=(SELECT p_m_id FROM product WHERE p_num=#{p_num}))
     AND c_type=1
 ) result
+</select>
 
-
+<select id="getProductInfo" parameterType="com.gogi.meatyou.bean.OrderwithCouponDTO">
+	select * from product where p_num=#{p_num}
 </select>
  
 

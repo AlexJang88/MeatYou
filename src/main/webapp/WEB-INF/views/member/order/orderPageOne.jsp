@@ -113,28 +113,13 @@
                 </td>
                 <td>
  <select name="selectedAddress" id="selectedAddress">
-            <c:forEach var="item" items="${AddrList}" varStatus="loop">
-              <option value="${item.combined_address}">${item.combined_address}</option>
+            <c:forEach var="item" items="${AddrList}">
+              <option value="${item}">${item}</option>
             </c:forEach>
           </select>
  
                 </td>
-             <%--    <td>
-                 		
-                           <c:if test="${not empty cList}">
-						    <select name="cp_num" id="cList">
-								    <option type="hidden" value="0">선택안함</option>
-								    <c:forEach var="item" items="${cList}" varStatus="loop">
-								        <option value="${item.cp_num}">쿠폰번호 : ${item.cp_num}  쿠폰 가격 : ${item.cp_price}  원 (쿠폰 만료일 : <fmt:formatDate value="${item.exdate}" pattern="yyyy/MM/dd"/>)</option>
-								    </c:forEach>
-								</select>
-						</c:if>
-								         <c:if test="${ empty cList}">
-								         보유하신쿠폰이 없습니다	 
-						
-										</c:if>
-                           	
-                </td>   --%>
+          
                 <td>
                 <div  class="addressBox">
 								 <a   href="../member/addressForm"  >
@@ -145,8 +130,13 @@
             </tr>
         </tbody> 
     </table>
-    <input type="hidden" name="mdto" value="${mdto}">
-    <input type="hidden" name="dto" value="${dto}">
+    
+    <c:forEach items="${dto.arr_shop_num}" var="sitem">
+    	<input type="hidden" name="arr_shop_num" value="${sitem}" >
+    </c:forEach>
+    <c:forEach items="${dto.arr_cp_num}" var="citem">
+    	<input type="hidden" name="arr_cp_num" value="${citem}" >
+    </c:forEach>
     				
     <input type="submit"  value="확정 및 결제 ">
     

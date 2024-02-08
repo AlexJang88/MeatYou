@@ -28,6 +28,9 @@ import com.gogi.meatyou.bean.ShoppingCartDTO;
 import com.gogi.meatyou.bean.UserPayDTO;
 
 public interface MemberService  {
+	public OrderwithCouponDTO getProductInfo(int p_num);
+	public OrderwithCouponDTO getCartbyNum(HashMap hashmap);
+	public OrderwithCouponDTO getCouponNum(int cp_num);
     int insertMember(MemberDTO dto);
     int twoNextPay(
     		OrderwithCouponDTO mdto,int shop_num,int order_p_num,String order_memo
@@ -39,13 +42,13 @@ public interface MemberService  {
     public List<UserPayDTO> findshop_p_num(HashMap hashmap);
     public MemberDTO member(String m_id);   
     public List<ShoppingCartDTO> shoppingCartCheck(String m_id);
-   public List<ShoppingCartDTO> ShoppingCartAndProduct(String shop_m_id,ShoppingCartDTO sdto,ProductDTO pdto) ;
+   public List<OrderwithCouponDTO> ShoppingCartAndProduct(String shop_m_id,int page,Model model) ;
    public void userUpdate(MemberDTO dto);
    
    public MemberDTO getUser(String m_id);
    
    public List<MemAddressDTO>addressCheck(String add_m_id,MemberDTO mdto,MemAddressDTO adto,int add_num) ; 
-   public List<MemAddressDTO> combined_address(OrderwithCouponDTO dto)  ; 
+   public List<String> combined_address(String id)  ; 
    public int deleteAddr(@Param("add_num")  int add_num,@Param("add_m_id") String add_m_id);
    public  int addressCount(@Param("add_m_id")String add_m_id,@Param("add_num")int add_num  ) ;       
   // public int  updateAddr(@Param("add_num")  int add_num,@Param("add_m_id") String add_m_id,@Param("add_mem_address1")String add_mem_address1,@Param("add_mem_address2") String add_mem_address2);
@@ -74,12 +77,12 @@ public interface MemberService  {
        public void p_pick(String m_id);
        public void p_pick_seq(String m_id);
        public void prefer(String m_id);
-      public void updateQuantity(int  shop_p_num,int  shop_quantity, String shop_m_id) ;
+      public void updateQuantity(int  shop_num,int  shop_quantity, String shop_m_id) ;
       List<ShoppingCartDTO> getShoppingCartItemsPaged2(String shop_m_id, int startRow, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto,PDetailDTO pddto,List<CouponDTO> cList,CouponDTO cdto  );
       	public int CouponForyou(String shop_m_id,CouponDTO cdto,ShoppingCartDTO sdto);
 
       int getTotalShoppingCartItems(String shop_m_id);
-      public int deleteCart(int shop_p_num,String shop_m_id);
+      public int deleteCart(int shop_num,String shop_m_id);
       public void deleteSelectedItems(List<Long> selectedShopNums ,String shop_m_id);
       List<ShoppingCartDTO> orderpage(String shop_m_id, int startRow, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto);
       int orderpageCartItems(String shop_m_id);

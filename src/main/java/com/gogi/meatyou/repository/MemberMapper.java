@@ -25,8 +25,9 @@ import com.gogi.meatyou.bean.UserPayDTO;
 
 public interface MemberMapper {
    public MemberDTO read(String m_id);
-   
+   public OrderwithCouponDTO getProductInfo(int p_num);
    public List<CouponDTO> getProductCoupon(HashMap hashmap);
+   public int ShoppingCartCount(String id);
    
     public int insertMember(MemberDTO dto);
     public int twoNextPay(OrderwithCouponDTO mdto,int shop_num ,@Param("order_p_num")int order_p_num,
@@ -50,7 +51,7 @@ public interface MemberMapper {
       public List<UserPayDTO> findshop_p_num(HashMap hashmap);
       
       List<MemAddressDTO> addressCheck(Map<String, Object> parameters);
-      List<MemAddressDTO> combined_address(Map<String, Object> parameters);
+      List<String> combined_address(String id);
       public int deleteAddr(@Param("add_num") int add_num,@Param("add_m_id") String add_m_id);
       
      // public int  updateAddr(@Param("add_num") int add_num,@Param("add_m_id") String add_m_id ,@Param("add_mem_address1") String add_mem_address1,@Param("add_mem_address2") String add_mem_address2);
@@ -58,7 +59,8 @@ public interface MemberMapper {
       
       public void  insertAddr(MemAddressDTO  adto);
       
-      
+      public OrderwithCouponDTO getCartbyNum(HashMap hashmap);
+      public OrderwithCouponDTO getCouponNum(int cp_num);
       public List<ShoppingCartDTO> shoppingcartCheck(String m_id);
       public void memberUpdate(MemberDTO dto);
       
@@ -83,7 +85,7 @@ public interface MemberMapper {
        public void prefer(String m_id);
 
 
-       List<ShoppingCartDTO> ShoppingCartAndProduct(String shop_m_id);
+       public List<OrderwithCouponDTO> ShoppingCartAndProduct(HashMap hashmap);
        public void updateQuantity(@Param("shop_p_num") int shop_num, @Param("shop_quantity") int shop_quantity,@Param("shop_m_id")   String shop_m_id);
      
 
