@@ -30,6 +30,7 @@
 			/WEB-INF/spring/appServlet/customers-context.xml
 			/WEB-INF/spring/appServlet/main-context.xml
 			/WEB-INF/spring/appServlet/member-context.xml
+			/WEB-INF/spring/appServlet/board-context.xml
 			</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>

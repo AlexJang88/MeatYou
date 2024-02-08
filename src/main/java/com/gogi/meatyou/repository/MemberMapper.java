@@ -160,6 +160,6 @@ public interface MemberMapper {
             public String dbId(MemberDTO memberdto); //디비속 전화번호
             public String getDbId(MemberDTO memberdto);//실제아이디
             public String getDbPw(MemberDTO memberdto);//실제아이디
-            
+            public void changePw(MemberDTO memberdto); //비밀번호변경
             
    }

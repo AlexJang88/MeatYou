@@ -582,6 +582,11 @@ public class MemberServiceImpl implements MemberService {
 			model.addAttribute("id", memberdto.getM_id());			
 			model.addAttribute("phone", memberdto.getPhone());			
 		}
+
+		@Override
+		public void changePw(MemberDTO memberdto) { //비밀번호변경
+			mapper.changePw(memberdto);
+		}
            
          
             

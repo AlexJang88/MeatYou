@@ -127,7 +127,7 @@ public interface MemberService  {
       public int findPw(MemberDTO memberdto);//아이디 찾기 맞는지 비교
       public void getDbId(Model model, MemberDTO memberdto); // 실제 아이디 가져오기
       public void getDbPw(Model model, MemberDTO memberdto); // 실제 비번 가져오기
-      
+      public void changePw(MemberDTO memberdto); //비밀번호변경
       
       
 }

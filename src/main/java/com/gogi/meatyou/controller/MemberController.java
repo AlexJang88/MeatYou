@@ -787,6 +787,17 @@ public class MemberController {
   
     	return "redirect:/member/pwfind?"+"check="+check;
     } 
+    
+   
+    @RequestMapping("pwChange")
+    public String pwChange(MemberDTO memberdto, String passwd, String passwd2){
+    	if(passwd.equals(passwd2)){
+    		memberdto.setPasswd(passwd);
+    		service.changePw(memberdto);
+    	}
+    	   	
+    	return "redirect:/member/customLogin";
+    } 
 
     
 }
