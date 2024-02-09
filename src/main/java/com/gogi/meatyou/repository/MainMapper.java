@@ -147,5 +147,4 @@ public interface MainMapper {
    public int customOrderCNT(int p_category);
    public List<ProductDetailDTO> customOrder(HashMap map);
    public MemberDTO name(String m_id);
-   
 }

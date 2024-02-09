@@ -24,6 +24,9 @@ public class ShoppingCartDTO {
    private String pd_p_desc;
    private int pd_p_num;
    
+   
+   private int cp_num;
+   private int cp_price;
 
    
 }

@@ -33,7 +33,7 @@ public class MainController {
    @RequestMapping("main")
    public String main(ProductDetailDTO dto, Principal seid, Model model, String pre_m_id) {
 	   
-	   /* ÆÄ¿ö¸µÅ© */
+	   /* íŒŒì›Œë§í¬ */
 	  List<ProductDTO> cusList = service.mainCUS();
 	  String m_id="";
 	  int p_num = dto.getP_num();
@@ -55,45 +55,45 @@ public class MainController {
           String category3="";
           String cate = cdto.getP_category()+"";
           if((cate.charAt(0)-48) == 1) {
-        	  category1 = "±¹³»»ê";
+        	  category1 = "êµ­ë‚´ì‚°";
           } else{
-        	  category1 = "¼öÀÔ»ê";
+        	  category1 = "ìˆ˜ì…ì‚°";
           }
           if((cate.charAt(1)-48) == 1) {
-        	  category2 = "µÅÁö°í±â";
+        	  category2 = "ë¼ì§€ê³ ê¸°";
           } else{
-        	  category2 = "¼Ò°í±â";
+        	  category2 = "ì†Œê³ ê¸°";
           }
           if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-        	  category3 = "Æ¯¼öºÎÀ§";
+        	  category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
           } else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-        	  category3 = "»ï°ã»ì";
+        	  category3 = "ì‚¼ê²¹ì‚´";
           }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-        	  category3 = "¸ñ»ì";
+        	  category3 = "ëª©ì‚´";
           }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-        	  category3 = "¾È½É";
+        	  category3 = "ì•ˆì‹¬";
           }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-        	  category3 = "µî½É";
+        	  category3 = "ë“±ì‹¬";
           }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-        	  category3 = "¾Õ´Ù¸®»ì";
+        	  category3 = "ì•ë‹¤ë¦¬ì‚´";
           }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-        	  category3 = "°¥¸Å±â»ì";
+        	  category3 = "ê°ˆë§¤ê¸°ì‚´";
           }
 	      	
           if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-        	  category3 = "Æ¯¼öºÎÀ§";
+        	  category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
           } else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-        	  category3 = "µî½É";
+        	  category3 = "ë“±ì‹¬";
           }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-        	  category3 = "¾È½É";
+        	  category3 = "ì•ˆì‹¬";
           }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-        	  category3 = "°¥ºñ";
+        	  category3 = "ê°ˆë¹„";
           }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-        	  category3 = "Ã¤³¡";
+        	  category3 = "ì±„ë";
           }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-        	  category3 = "¸ñ½É";
+        	  category3 = "ëª©ì‹¬";
           }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-        	  category3 = "ºÎÃ¤»ì";
+        	  category3 = "ë¶€ì±„ì‚´";
           }
           cdto.setCategory1(category1);
           cdto.setCategory2(category2);
@@ -104,7 +104,7 @@ public class MainController {
 	  }
 	  model.addAttribute("cusList", cusList);
 	  
-	   /* ¼Ò°í±â º£½ºÆ® */
+	   /* ì†Œê³ ê¸° ë² ìŠ¤íŠ¸ */
 	  List<ProductDTO> meatList = service.meatBest();
 	  for(ProductDTO mdto : meatList) {
 		  String ppic_m_id = m_id;
@@ -123,47 +123,47 @@ public class MainController {
     	  String cate = mdto.getP_category()+"";
 
     	  if((cate.charAt(0)-48) == 1) {
-    		  category1 = "±¹³»»ê";
+    		  category1 = "êµ­ë‚´ì‚°";
     	  } else{
-    		  category1 = "¼öÀÔ»ê";
+    		  category1 = "ìˆ˜ì…ì‚°";
     	  }
 	      	
     	  if((cate.charAt(1)-48) == 1) {
-    		  category2 = "µÅÁö°í±â";
+    		  category2 = "ë¼ì§€ê³ ê¸°";
     	  } else{
-    		  category2 = "¼Ò°í±â";
+    		  category2 = "ì†Œê³ ê¸°";
     	  }
 	      	
     	  if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-    		  category3 = "Æ¯¼öºÎÀ§";
+    		  category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
     	  } else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-    		  category3 = "»ï°ã»ì";
+    		  category3 = "ì‚¼ê²¹ì‚´";
     	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-    		  category3 = "¸ñ»ì";
+    		  category3 = "ëª©ì‚´";
     	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-    		  category3 = "¾È½É";
+    		  category3 = "ì•ˆì‹¬";
     	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-    		  category3 = "µî½É";
+    		  category3 = "ë“±ì‹¬";
     	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-    		  category3 = "¾Õ´Ù¸®»ì";
+    		  category3 = "ì•ë‹¤ë¦¬ì‚´";
     	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-    		  category3 = "°¥¸Å±â»ì";
+    		  category3 = "ê°ˆë§¤ê¸°ì‚´";
     	  }
 	      	
     	  if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-    		  category3 = "Æ¯¼öºÎÀ§";
+    		  category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
     	  } else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-    		  category3 = "µî½É";
+    		  category3 = "ë“±ì‹¬";
     	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-    		  category3 = "¾È½É";
+    		  category3 = "ì•ˆì‹¬";
     	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-    		  category3 = "°¥ºñ";
+    		  category3 = "ê°ˆë¹„";
     	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-    		  category3 = "Ã¤³¡";
+    		  category3 = "ì±„ë";
     	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-    		  category3 = "¸ñ½É";
+    		  category3 = "ëª©ì‹¬";
     	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-    		  category3 = "ºÎÃ¤»ì";
+    		  category3 = "ë¶€ì±„ì‚´";
     	  }
     	  mdto.setCategory1(category1);
     	  mdto.setCategory2(category2);
@@ -174,7 +174,7 @@ public class MainController {
 	      }
       model.addAttribute("meatList", meatList);
       
-      /* µÅÁö°í±â º£½ºÆ® */
+      /* ë¼ì§€ê³ ê¸° ë² ìŠ¤íŠ¸ */
       List<ProductDTO> forkList = service.forkBest();
       for(ProductDTO fdto : forkList) {
     	  String ppic_m_id = m_id;
@@ -193,47 +193,47 @@ public class MainController {
     	  String cate = fdto.getP_category()+"";
 	
     	  if((cate.charAt(0)-48) == 1) {
-    		  category1 = "±¹³»»ê";
+    		  category1 = "êµ­ë‚´ì‚°";
     	  } else{
-    		  category1 = "¼öÀÔ»ê";
+    		  category1 = "ìˆ˜ì…ì‚°";
     	  }
 	      	
     	  if((cate.charAt(1)-48) == 1) {
-    		  category2 = "µÅÁö°í±â";
+    		  category2 = "ë¼ì§€ê³ ê¸°";
     	  } else{
-    		  category2 = "¼Ò°í±â";
+    		  category2 = "ì†Œê³ ê¸°";
     	  }
     	  
     	  if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-    		  category3 = "Æ¯¼öºÎÀ§";
+    		  category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
     	  } else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-    		  category3 = "»ï°ã»ì";
+    		  category3 = "ì‚¼ê²¹ì‚´";
     	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-    		  category3 = "¸ñ»ì";
+    		  category3 = "ëª©ì‚´";
     	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-    		  category3 = "¾È½É";
+    		  category3 = "ì•ˆì‹¬";
     	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-    		  category3 = "µî½É";
+    		  category3 = "ë“±ì‹¬";
     	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-    		  category3 = "¾Õ´Ù¸®»ì";
+    		  category3 = "ì•ë‹¤ë¦¬ì‚´";
     	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-    		  category3 = "°¥¸Å±â»ì";
+    		  category3 = "ê°ˆë§¤ê¸°ì‚´";
     	  }
 	      	
     	  if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-    		  category3 = "Æ¯¼öºÎÀ§";
+    		  category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
     	  } else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-    		  category3 = "µî½É";
+    		  category3 = "ë“±ì‹¬";
     	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-    		  category3 = "¾È½É";
+    		  category3 = "ì•ˆì‹¬";
     	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-    		  category3 = "°¥ºñ";
+    		  category3 = "ê°ˆë¹„";
     	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-    		  category3 = "Ã¤³¡";
+    		  category3 = "ì±„ë";
     	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-    		  category3 = "¸ñ½É";
+    		  category3 = "ëª©ì‹¬";
     	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-    		  category3 = "ºÎÃ¤»ì";
+    		  category3 = "ë¶€ì±„ì‚´";
     	  }
     	  fdto.setCategory1(category1);
     	  fdto.setCategory2(category2);
@@ -246,7 +246,7 @@ public class MainController {
       
       
       
-      /* ½Å»óÇ° º£½ºÆ® */
+      /* ì‹ ìƒí’ˆ ë² ìŠ¤íŠ¸ */
       List<ProductDTO> newProduct = service.newProductBest();
       for(ProductDTO ndto : newProduct) {
     	  String ppic_m_id = m_id;
@@ -265,47 +265,47 @@ public class MainController {
     	  String cate = ndto.getP_category()+"";
 	
     	  if((cate.charAt(0)-48) == 1) {
-    		  category1 = "±¹³»»ê";
+    		  category1 = "êµ­ë‚´ì‚°";
     	  } else{
-    		  category1 = "¼öÀÔ»ê";
+    		  category1 = "ìˆ˜ì…ì‚°";
     	  }
 	      	
     	  if((cate.charAt(1)-48) == 1) {
-    		  category2 = "µÅÁö°í±â";
+    		  category2 = "ë¼ì§€ê³ ê¸°";
     	  } else{
-    		  category2 = "¼Ò°í±â";
+    		  category2 = "ì†Œê³ ê¸°";
     	  }
     	  
     	  if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-    		  category3 = "Æ¯¼öºÎÀ§";
+    		  category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
     	  } else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-    		  category3 = "»ï°ã»ì";
+    		  category3 = "ì‚¼ê²¹ì‚´";
     	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-    		  category3 = "¸ñ»ì";
+    		  category3 = "ëª©ì‚´";
     	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-    		  category3 = "¾È½É";
+    		  category3 = "ì•ˆì‹¬";
     	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-    		  category3 = "µî½É";
+    		  category3 = "ë“±ì‹¬";
     	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-    		  category3 = "¾Õ´Ù¸®»ì";
+    		  category3 = "ì•ë‹¤ë¦¬ì‚´";
     	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-    		  category3 = "°¥¸Å±â»ì";
+    		  category3 = "ê°ˆë§¤ê¸°ì‚´";
     	  }
 	      	
     	  if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-    		  category3 = "Æ¯¼öºÎÀ§";
+    		  category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
     	  } else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-    		  category3 = "µî½É";
+    		  category3 = "ë“±ì‹¬";
     	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-    		  category3 = "¾È½É";
+    		  category3 = "ì•ˆì‹¬";
     	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-    		  category3 = "°¥ºñ";
+    		  category3 = "ê°ˆë¹„";
     	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-    		  category3 = "Ã¤³¡";
+    		  category3 = "ì±„ë";
     	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-    		  category3 = "¸ñ½É";
+    		  category3 = "ëª©ì‹¬";
     	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-    		  category3 = "ºÎÃ¤»ì";
+    		  category3 = "ë¶€ì±„ì‚´";
     	  }
     	  ndto.setCategory1(category1);
     	  ndto.setCategory2(category2);
@@ -349,7 +349,7 @@ public class MainController {
       }
 
       
-		/* ¸¶ÃãÇü BEST */
+		/* ë§ˆì¶¤í˜• BEST */
       if(m_id != null && m_id != "") {
 	      pre_m_id = m_id;
 	      MemberDTO mdto = service.name(m_id);
@@ -385,47 +385,47 @@ public class MainController {
 	    	  String cate = ndto.getP_category()+"";
 		
 	    	  if((cate.charAt(0)-48) == 1) {
-	    		  category1 = "±¹³»»ê";
+	    		  category1 = "êµ­ë‚´ì‚°";
 	    	  } else{
-	    		  category1 = "¼öÀÔ»ê";
+	    		  category1 = "ìˆ˜ì…ì‚°";
 	    	  }
 		      	
 	    	  if((cate.charAt(1)-48) == 1) {
-	    		  category2 = "µÅÁö°í±â";
+	    		  category2 = "ë¼ì§€ê³ ê¸°";
 	    	  } else{
-	    		  category2 = "¼Ò°í±â";
+	    		  category2 = "ì†Œê³ ê¸°";
 	    	  }
 	    	  
 	    	  if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-	    		  category3 = "Æ¯¼öºÎÀ§";
+	    		  category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	    	  } else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-	    		  category3 = "»ï°ã»ì";
+	    		  category3 = "ì‚¼ê²¹ì‚´";
 	    	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-	    		  category3 = "¸ñ»ì";
+	    		  category3 = "ëª©ì‚´";
 	    	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-	    		  category3 = "¾È½É";
+	    		  category3 = "ì•ˆì‹¬";
 	    	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-	    		  category3 = "µî½É";
+	    		  category3 = "ë“±ì‹¬";
 	    	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-	    		  category3 = "¾Õ´Ù¸®»ì";
+	    		  category3 = "ì•ë‹¤ë¦¬ì‚´";
 	    	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-	    		  category3 = "°¥¸Å±â»ì";
+	    		  category3 = "ê°ˆë§¤ê¸°ì‚´";
 	    	  }
 		      	
 	    	  if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-	    		  category3 = "Æ¯¼öºÎÀ§";
+	    		  category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	    	  } else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-	    		  category3 = "µî½É";
+	    		  category3 = "ë“±ì‹¬";
 	    	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-	    		  category3 = "¾È½É";
+	    		  category3 = "ì•ˆì‹¬";
 	    	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-	    		  category3 = "°¥ºñ";
+	    		  category3 = "ê°ˆë¹„";
 	    	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-	    		  category3 = "Ã¤³¡";
+	    		  category3 = "ì±„ë";
 	    	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-	    		  category3 = "¸ñ½É";
+	    		  category3 = "ëª©ì‹¬";
 	    	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-	    		  category3 = "ºÎÃ¤»ì";
+	    		  category3 = "ë¶€ì±„ì‚´";
 	    	  }
 	    	  ndto.setCategory1(category1);
 	    	  ndto.setCategory2(category2);
@@ -1214,7 +1214,6 @@ public class MainController {
    public String product(OtherProductDetailDTO odto ,ProductDetailDTO dto, Model model, Principal seid, ReviewDTO rsdto, @RequestParam(value="pageNum", defaultValue = "1") int pageNum, int p_num) {
 	   	dto = service.productDetail(dto, model);
 	   	model.addAttribute("dto", dto);
-	   	System.out.println("Thumb : "+dto.getThumb());
 	    service.quantity(dto.getP_num());
 		String PDcategory1="";
  		String PDcategory2="";
@@ -1223,47 +1222,47 @@ public class MainController {
 	  	String PDcate = dto.getP_category()+"";
 	
 	 	if((PDcate.charAt(0)-48) == 1) {
-	 		PDcategory1 = "±¹³»»ê";
+	 		PDcategory1 = "êµ­ë‚´ì‚°";
 	  	} else{
-	      	PDcategory1 = "¼öÀÔ»ê";
+	      	PDcategory1 = "ìˆ˜ì…ì‚°";
 	 	}
 	      	
 		if((PDcate.charAt(1)-48) == 1) {
-	      	PDcategory2 = "µÅÁö°í±â";
+	      	PDcategory2 = "ë¼ì§€ê³ ê¸°";
 		} else{
-	      	PDcategory2 = "¼Ò°í±â";
+	      	PDcategory2 = "ì†Œê³ ê¸°";
 	 	}
 	      	
 	 	if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(1)-48) == 0) {
-	      	PDcategory3 = "Æ¯¼öºÎÀ§";
+	      	PDcategory3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	  	} else if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(2)-48) == 1){
-	      	PDcategory3 = "»ï°ã»ì";
+	      	PDcategory3 = "ì‚¼ê²¹ì‚´";
 	 	}else if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(2)-48) == 2){
-	      	PDcategory3 = "¸ñ»ì";
+	      	PDcategory3 = "ëª©ì‚´";
 	  	}else if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(2)-48) == 3){
-	      	PDcategory3 = "¾È½É";
+	      	PDcategory3 = "ì•ˆì‹¬";
 	  	}else if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(2)-48) == 4){
-	     	PDcategory3 = "µî½É";
+	     	PDcategory3 = "ë“±ì‹¬";
 	  	}else if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(2)-48) == 5){
-	      	PDcategory3 = "¾Õ´Ù¸®»ì";
+	      	PDcategory3 = "ì•ë‹¤ë¦¬ì‚´";
 	 	}else if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(2)-48) == 6){
-	    	PDcategory3 = "°¥¸Å±â»ì";
+	    	PDcategory3 = "ê°ˆë§¤ê¸°ì‚´";
 	  	}
 	      	
 	 	if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(1)-48) == 0) {
-	     	PDcategory3 = "Æ¯¼öºÎÀ§";
+	     	PDcategory3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	  	} else if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(2)-48) == 1){
-	      	PDcategory3 = "µî½É";
+	      	PDcategory3 = "ë“±ì‹¬";
 	  	}else if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(2)-48) == 2){
-	      	PDcategory3 = "¾È½É";
+	      	PDcategory3 = "ì•ˆì‹¬";
 	  	}else if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(2)-48) == 3){
-	  		PDcategory3 = "°¥ºñ";
+	  		PDcategory3 = "ê°ˆë¹„";
 	 	}else if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(2)-48) == 4){
-	    	PDcategory3 = "Ã¤³¡";
+	    	PDcategory3 = "ì±„ë";
 	 	}else if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(2)-48) == 5){
-	      	PDcategory3 = "¸ñ½É";
+	      	PDcategory3 = "ëª©ì‹¬";
 	 	}else if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(2)-48) == 6){
-	     	PDcategory3 = "ºÎÃ¤»ì";
+	     	PDcategory3 = "ë¶€ì±„ì‚´";
 	 	}
 	  	model.addAttribute("PDcategory1", PDcategory1);
 	  	model.addAttribute("PDcategory2", PDcategory2);
@@ -1359,47 +1358,47 @@ public class MainController {
      	  	String cate = ordto.getP_category()+"";
 
      	 	if((cate.charAt(0)-48) == 1) {
-     	 		category1 = "±¹³»»ê";
+     	 		category1 = "êµ­ë‚´ì‚°";
      	  	} else{
-     	      	category1 = "¼öÀÔ»ê";
+     	      	category1 = "ìˆ˜ì…ì‚°";
      	 	}
      	      	
      		if((cate.charAt(1)-48) == 1) {
-     	      	category2 = "µÅÁö°í±â";
+     	      	category2 = "ë¼ì§€ê³ ê¸°";
      		} else{
-     	      	category2 = "¼Ò°í±â";
+     	      	category2 = "ì†Œê³ ê¸°";
      	 	}
      	      	
      	 	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-     	      	category3 = "Æ¯¼öºÎÀ§";
+     	      	category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
      	  	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-     	      	category3 = "»ï°ã»ì";
+     	      	category3 = "ì‚¼ê²¹ì‚´";
      	 	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-     	      	category3 = "¸ñ»ì";
+     	      	category3 = "ëª©ì‚´";
      	  	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-     	      	category3 = "¾È½É";
+     	      	category3 = "ì•ˆì‹¬";
      	  	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-     	     	category3 = "µî½É";
+     	     	category3 = "ë“±ì‹¬";
      	  	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-     	      	category3 = "¾Õ´Ù¸®»ì";
+     	      	category3 = "ì•ë‹¤ë¦¬ì‚´";
      	 	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-     	    	category3 = "°¥¸Å±â»ì";
+     	    	category3 = "ê°ˆë§¤ê¸°ì‚´";
      	  	}
      	      	
      	 	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-     	     	category3 = "Æ¯¼öºÎÀ§";
+     	     	category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
      	  	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-     	      	category3 = "µî½É";
+     	      	category3 = "ë“±ì‹¬";
      	  	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-     	      	category3 = "¾È½É";
+     	      	category3 = "ì•ˆì‹¬";
      	  	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-     	      	category3 = "°¥ºñ";
+     	      	category3 = "ê°ˆë¹„";
      	 	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-     	    	category3 = "Ã¤³¡";
+     	    	category3 = "ì±„ë";
      	 	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-     	      	category3 = "¸ñ½É";
+     	      	category3 = "ëª©ì‹¬";
      	 	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-     	     	category3 = "ºÎÃ¤»ì";
+     	     	category3 = "ë¶€ì±„ì‚´";
      	 	}
      	   	ordto.setCategory1(category1);
      		ordto.setCategory2(category2);
@@ -1421,47 +1420,47 @@ public class MainController {
 	  	String PDcate = dto.getP_category()+"";
 	
 	 	if((PDcate.charAt(0)-48) == 1) {
-	 		PDcategory1 = "±¹³»»ê";
+	 		PDcategory1 = "êµ­ë‚´ì‚°";
 	  	} else{
-	      	PDcategory1 = "¼öÀÔ»ê";
+	      	PDcategory1 = "ìˆ˜ì…ì‚°";
 	 	}
 	      	
 		if((PDcate.charAt(1)-48) == 1) {
-	      	PDcategory2 = "µÅÁö°í±â";
+	      	PDcategory2 = "ë¼ì§€ê³ ê¸°";
 		} else{
-	      	PDcategory2 = "¼Ò°í±â";
+	      	PDcategory2 = "ì†Œê³ ê¸°";
 	 	}
 	      	
 	 	if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(1)-48) == 0) {
-	      	PDcategory3 = "Æ¯¼öºÎÀ§";
+	      	PDcategory3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	  	} else if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(2)-48) == 1){
-	      	PDcategory3 = "»ï°ã»ì";
+	      	PDcategory3 = "ì‚¼ê²¹ì‚´";
 	 	}else if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(2)-48) == 2){
-	      	PDcategory3 = "¸ñ»ì";
+	      	PDcategory3 = "ëª©ì‚´";
 	  	}else if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(2)-48) == 3){
-	      	PDcategory3 = "¾È½É";
+	      	PDcategory3 = "ì•ˆì‹¬";
 	  	}else if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(2)-48) == 4){
-	     	PDcategory3 = "µî½É";
+	     	PDcategory3 = "ë“±ì‹¬";
 	  	}else if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(2)-48) == 5){
-	      	PDcategory3 = "¾Õ´Ù¸®»ì";
+	      	PDcategory3 = "ì•ë‹¤ë¦¬ì‚´";
 	 	}else if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(2)-48) == 6){
-	    	PDcategory3 = "°¥¸Å±â»ì";
+	    	PDcategory3 = "ê°ˆë§¤ê¸°ì‚´";
 	  	}
 	      	
 	 	if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(1)-48) == 0) {
-	     	PDcategory3 = "Æ¯¼öºÎÀ§";
+	     	PDcategory3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	  	} else if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(2)-48) == 1){
-	      	PDcategory3 = "µî½É";
+	      	PDcategory3 = "ë“±ì‹¬";
 	  	}else if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(2)-48) == 2){
-	      	PDcategory3 = "¾È½É";
+	      	PDcategory3 = "ì•ˆì‹¬";
 	  	}else if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(2)-48) == 3){
-	  		PDcategory3 = "°¥ºñ";
+	  		PDcategory3 = "ê°ˆë¹„";
 	 	}else if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(2)-48) == 4){
-	    	PDcategory3 = "Ã¤³¡";
+	    	PDcategory3 = "ì±„ë";
 	 	}else if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(2)-48) == 5){
-	      	PDcategory3 = "¸ñ½É";
+	      	PDcategory3 = "ëª©ì‹¬";
 	 	}else if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(2)-48) == 6){
-	     	PDcategory3 = "ºÎÃ¤»ì";
+	     	PDcategory3 = "ë¶€ì±„ì‚´";
 	 	}
 	  	model.addAttribute("PDcategory1", PDcategory1);
 	  	model.addAttribute("PDcategory2", PDcategory2);
@@ -1557,47 +1556,47 @@ public class MainController {
      	  	String cate = ordto.getP_category()+"";
 
      	 	if((cate.charAt(0)-48) == 1) {
-     	 		category1 = "±¹³»»ê";
+     	 		category1 = "êµ­ë‚´ì‚°";
      	  	} else{
-     	      	category1 = "¼öÀÔ»ê";
+     	      	category1 = "ìˆ˜ì…ì‚°";
      	 	}
      	      	
      		if((cate.charAt(1)-48) == 1) {
-     	      	category2 = "µÅÁö°í±â";
+     	      	category2 = "ë¼ì§€ê³ ê¸°";
      		} else{
-     	      	category2 = "¼Ò°í±â";
+     	      	category2 = "ì†Œê³ ê¸°";
      	 	}
      	      	
      	 	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-     	      	category3 = "Æ¯¼öºÎÀ§";
+     	      	category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
      	  	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-     	      	category3 = "»ï°ã»ì";
+     	      	category3 = "ì‚¼ê²¹ì‚´";
      	 	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-     	      	category3 = "¸ñ»ì";
+     	      	category3 = "ëª©ì‚´";
      	  	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-     	      	category3 = "¾È½É";
+     	      	category3 = "ì•ˆì‹¬";
      	  	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-     	     	category3 = "µî½É";
+     	     	category3 = "ë“±ì‹¬";
      	  	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-     	      	category3 = "¾Õ´Ù¸®»ì";
+     	      	category3 = "ì•ë‹¤ë¦¬ì‚´";
      	 	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-     	    	category3 = "°¥¸Å±â»ì";
+     	    	category3 = "ê°ˆë§¤ê¸°ì‚´";
      	  	}
      	      	
      	 	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-     	     	category3 = "Æ¯¼öºÎÀ§";
+     	     	category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
      	  	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-     	      	category3 = "µî½É";
+     	      	category3 = "ë“±ì‹¬";
      	  	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-     	      	category3 = "¾È½É";
+     	      	category3 = "ì•ˆì‹¬";
      	  	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-     	      	category3 = "°¥ºñ";
+     	      	category3 = "ê°ˆë¹„";
      	 	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-     	    	category3 = "Ã¤³¡";
+     	    	category3 = "ì±„ë";
      	 	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-     	      	category3 = "¸ñ½É";
+     	      	category3 = "ëª©ì‹¬";
      	 	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-     	     	category3 = "ºÎÃ¤»ì";
+     	     	category3 = "ë¶€ì±„ì‚´";
      	 	}
      	   	ordto.setCategory1(category1);
      		ordto.setCategory2(category2);
@@ -1840,47 +1839,47 @@ public class MainController {
       	
 	      	String cate = cdto.getP_category()+"";
 	      	if((cate.charAt(0)-48) == 1) {
-	      		category1 = "±¹³»»ê";
+	      		category1 = "êµ­ë‚´ì‚°";
 	      	} else{
-	      		category1 = "¼öÀÔ»ê";
+	      		category1 = "ìˆ˜ì…ì‚°";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 1) {
-	      		category2 = "µÅÁö°í±â";
+	      		category2 = "ë¼ì§€ê³ ê¸°";
 	      	} else{
-	      		category2 = "¼Ò°í±â";
+	      		category2 = "ì†Œê³ ê¸°";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "Æ¯¼öºÎÀ§";
+	      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-	      		category3 = "»ï°ã»ì";
+	      		category3 = "ì‚¼ê²¹ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-	      		category3 = "¸ñ»ì";
+	      		category3 = "ëª©ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-	      		category3 = "¾È½É";
+	      		category3 = "ì•ˆì‹¬";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-	      		category3 = "µî½É";
+	      		category3 = "ë“±ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-	      		category3 = "¾Õ´Ù¸®»ì";
+	      		category3 = "ì•ë‹¤ë¦¬ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-	      		category3 = "°¥¸Å±â»ì";
+	      		category3 = "ê°ˆë§¤ê¸°ì‚´";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "Æ¯¼öºÎÀ§";
+	      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-	      		category3 = "µî½É";
+	      		category3 = "ë“±ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-	      		category3 = "¾È½É";
+	      		category3 = "ì•ˆì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-	      		category3 = "°¥ºñ";
+	      		category3 = "ê°ˆë¹„";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-	      		category3 = "Ã¤³¡";
+	      		category3 = "ì±„ë";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-	      		category3 = "¸ñ½É";
+	      		category3 = "ëª©ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-	      		category3 = "ºÎÃ¤»ì";
+	      		category3 = "ë¶€ì±„ì‚´";
 	      	}
 	      	cdto.setCategory1(category1);
 	      	cdto.setCategory2(category2);
@@ -1909,47 +1908,47 @@ public class MainController {
     	  String cate = mdto.getP_category()+"";
 
     	  if((cate.charAt(0)-48) == 1) {
-    		  category1 = "±¹³»»ê";
+    		  category1 = "êµ­ë‚´ì‚°";
     	  } else{
-    		  category1 = "¼öÀÔ»ê";
+    		  category1 = "ìˆ˜ì…ì‚°";
     	  }
 	      	
     	  if((cate.charAt(1)-48) == 1) {
-    		  category2 = "µÅÁö°í±â";
+    		  category2 = "ë¼ì§€ê³ ê¸°";
     	  } else{
-    		  category2 = "¼Ò°í±â";
+    		  category2 = "ì†Œê³ ê¸°";
     	  }
 	      	
 	      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "Æ¯¼öºÎÀ§";
+	      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-	      		category3 = "»ï°ã»ì";
+	      		category3 = "ì‚¼ê²¹ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-	      		category3 = "¸ñ»ì";
+	      		category3 = "ëª©ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-	      		category3 = "¾È½É";
+	      		category3 = "ì•ˆì‹¬";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-	      		category3 = "µî½É";
+	      		category3 = "ë“±ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-	      		category3 = "¾Õ´Ù¸®»ì";
+	      		category3 = "ì•ë‹¤ë¦¬ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-	      		category3 = "°¥¸Å±â»ì";
+	      		category3 = "ê°ˆë§¤ê¸°ì‚´";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "Æ¯¼öºÎÀ§";
+	      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-	      		category3 = "µî½É";
+	      		category3 = "ë“±ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-	      		category3 = "¾È½É";
+	      		category3 = "ì•ˆì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-	      		category3 = "°¥ºñ";
+	      		category3 = "ê°ˆë¹„";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-	      		category3 = "Ã¤³¡";
+	      		category3 = "ì±„ë";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-	      		category3 = "¸ñ½É";
+	      		category3 = "ëª©ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-	      		category3 = "ºÎÃ¤»ì";
+	      		category3 = "ë¶€ì±„ì‚´";
 	      	}
 	      	mdto.setCategory1(category1);
 	      	mdto.setCategory2(category2);
@@ -1978,47 +1977,47 @@ public class MainController {
 	      	String cate = fdto.getP_category()+"";
 	
 	      	if((cate.charAt(0)-48) == 1) {
-	      		category1 = "±¹³»»ê";
+	      		category1 = "êµ­ë‚´ì‚°";
 	      	} else{
-	      		category1 = "¼öÀÔ»ê";
+	      		category1 = "ìˆ˜ì…ì‚°";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 1) {
-	      		category2 = "µÅÁö°í±â";
+	      		category2 = "ë¼ì§€ê³ ê¸°";
 	      	} else{
-	      		category2 = "¼Ò°í±â";
+	      		category2 = "ì†Œê³ ê¸°";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "Æ¯¼öºÎÀ§";
+	      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-	      		category3 = "»ï°ã»ì";
+	      		category3 = "ì‚¼ê²¹ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-	      		category3 = "¸ñ»ì";
+	      		category3 = "ëª©ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-	      		category3 = "¾È½É";
+	      		category3 = "ì•ˆì‹¬";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-	      		category3 = "µî½É";
+	      		category3 = "ë“±ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-	      		category3 = "¾Õ´Ù¸®»ì";
+	      		category3 = "ì•ë‹¤ë¦¬ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-	      		category3 = "°¥¸Å±â»ì";
+	      		category3 = "ê°ˆë§¤ê¸°ì‚´";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "Æ¯¼öºÎÀ§";
+	      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-	      		category3 = "µî½É";
+	      		category3 = "ë“±ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-	      		category3 = "¾È½É";
+	      		category3 = "ì•ˆì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-	      		category3 = "°¥ºñ";
+	      		category3 = "ê°ˆë¹„";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-	      		category3 = "Ã¤³¡";
+	      		category3 = "ì±„ë";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-	      		category3 = "¸ñ½É";
+	      		category3 = "ëª©ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-	      		category3 = "ºÎÃ¤»ì";
+	      		category3 = "ë¶€ì±„ì‚´";
 	      	}
 	      	fdto.setCategory1(category1);
 	      	fdto.setCategory2(category2);
@@ -2047,47 +2046,47 @@ public class MainController {
 	      	String cate = ndto.getP_category()+"";
 	
 	      	if((cate.charAt(0)-48) == 1) {
-	      		category1 = "±¹³»»ê";
+	      		category1 = "êµ­ë‚´ì‚°";
 	      	} else{
-	      		category1 = "¼öÀÔ»ê";
+	      		category1 = "ìˆ˜ì…ì‚°";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 1) {
-	      		category2 = "µÅÁö°í±â";
+	      		category2 = "ë¼ì§€ê³ ê¸°";
 	      	} else{
-	      		category2 = "¼Ò°í±â";
+	      		category2 = "ì†Œê³ ê¸°";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "Æ¯¼öºÎÀ§";
+	      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-	      		category3 = "»ï°ã»ì";
+	      		category3 = "ì‚¼ê²¹ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-	      		category3 = "¸ñ»ì";
+	      		category3 = "ëª©ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-	      		category3 = "¾È½É";
+	      		category3 = "ì•ˆì‹¬";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-	      		category3 = "µî½É";
+	      		category3 = "ë“±ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-	      		category3 = "¾Õ´Ù¸®»ì";
+	      		category3 = "ì•ë‹¤ë¦¬ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-	      		category3 = "°¥¸Å±â»ì";
+	      		category3 = "ê°ˆë§¤ê¸°ì‚´";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "Æ¯¼öºÎÀ§";
+	      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-	      		category3 = "µî½É";
+	      		category3 = "ë“±ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-	      		category3 = "¾È½É";
+	      		category3 = "ì•ˆì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-	      		category3 = "°¥ºñ";
+	      		category3 = "ê°ˆë¹„";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-	      		category3 = "Ã¤³¡";
+	      		category3 = "ì±„ë";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-	      		category3 = "¸ñ½É";
+	      		category3 = "ëª©ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-	      		category3 = "ºÎÃ¤»ì";
+	      		category3 = "ë¶€ì±„ì‚´";
 	      	}
 	      	ndto.setCategory1(category1);
 	      	ndto.setCategory2(category2);

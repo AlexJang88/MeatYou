@@ -5,15 +5,18 @@ import com.gogi.meatyou.bean.CusDetailDTO;
 import com.gogi.meatyou.bean.MOrderDTO;
 import com.gogi.meatyou.bean.MemAddressDTO;
 import com.gogi.meatyou.bean.MemberDTO;
+import com.gogi.meatyou.bean.OrderwithCouponDTO;
 import com.gogi.meatyou.bean.PDetailDTO;
 import com.gogi.meatyou.bean.PPicDTO;
 import com.gogi.meatyou.bean.PickMeDTO;
 import com.gogi.meatyou.bean.ProductDTO;
+import com.gogi.meatyou.bean.ReckonDTO;
 import com.gogi.meatyou.bean.SelectedProductDTO;
 import com.gogi.meatyou.bean.ShoppingCartDTO;
 import com.gogi.meatyou.bean.UserPayDTO;
 import com.gogi.meatyou.repository.MemberMapper;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +33,10 @@ public class MemberServiceImpl implements MemberService {
 
     @Autowired
     private MemberMapper mapper;
+    
+    @Autowired
+    private HashMap memberMap;
+    
 
     @Override
     public int insertMember(MemberDTO dto) {
@@ -144,15 +151,9 @@ public class MemberServiceImpl implements MemberService {
        }
        
        @Override        
-       public List<MemAddressDTO> combined_address(String add_m_id,String combined_address ,MemAddressDTO adto )  {
+       public List<String> combined_address(String id)  {
          
-                
-          Map<String, Object> parameters=new HashMap<>();
-          parameters.put("add_m_id",add_m_id);
-          parameters.put("combined_address",combined_address);
-             List<MemAddressDTO> result =mapper.combined_address(parameters);
-          
-                      return result;
+                      return mapper.combined_address(id);
         
           
        }
@@ -228,8 +229,42 @@ public class MemberServiceImpl implements MemberService {
 
          
          @Override
-         public List<ShoppingCartDTO> ShoppingCartAndProduct(String shop_m_id,ShoppingCartDTO sdto,ProductDTO pdto) {
-             return mapper.ShoppingCartAndProduct(shop_m_id);
+         public List<OrderwithCouponDTO> ShoppingCartAndProduct(String shop_m_id,int page,Model model) {
+        	 int count = 0;
+     		int pageSize = 10;
+     		int startRow = (page - 1) * pageSize + 1;
+     		int endRow = page * pageSize;
+     		List<OrderwithCouponDTO> list = Collections.EMPTY_LIST;
+     		
+     		count = mapper.ShoppingCartCount(shop_m_id);
+     		
+     		if (count > 0) {
+     			memberMap.put("id",shop_m_id);
+     			memberMap.put("start", startRow);
+     			memberMap.put("end", endRow);
+
+     			list = mapper.ShoppingCartAndProduct(memberMap);
+     		}
+
+     		model.addAttribute("list", list);
+     		model.addAttribute("count", count);
+     		model.addAttribute("page", page);
+     		model.addAttribute("pageSize", pageSize);
+
+     		// page
+     		int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+     		int startPage = (int) (page / 10) * 10 + 1;
+     		int pageBlock = 10;
+     		int endPage = startPage + pageBlock - 1;
+     		if (endPage > pageCount) {
+     			endPage = pageCount;
+     		}
+     		model.addAttribute("pageCount", pageCount);
+     		model.addAttribute("startPage", startPage);
+     		model.addAttribute("pageBlock", pageBlock);
+     		model.addAttribute("endPage", endPage);
+        	 
+             return mapper.ShoppingCartAndProduct(memberMap);
          }
 
          
@@ -246,7 +281,7 @@ public class MemberServiceImpl implements MemberService {
          
  
           
-         public List<ShoppingCartDTO> getShoppingCartItemsPaged2(String shop_m_id, int page, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto,PDetailDTO pddto) {
+         public List<ShoppingCartDTO> getShoppingCartItemsPaged2(String shop_m_id, int page, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto,PDetailDTO pddto,List<CouponDTO> cList,CouponDTO cdto ) {
         	 int startRow = (page - 1) * pageSize + 1;
         	 int endRow = startRow + pageSize - 1;
         	 
@@ -254,12 +289,18 @@ public class MemberServiceImpl implements MemberService {
         	 parameters.put("shop_m_id", shop_m_id);
         	 parameters.put("startRow", startRow);
         	 parameters.put("endRow", endRow);
+        	 parameters.put("cList", cList);
+        	 parameters.put("cp_num", cdto.getCp_num());
+        	 parameters.put("cp_price", cdto.getCp_price());
+        	 parameters.put("cList", cList);
         	 
         	 //   return mapper.getShoppingCartItemsPaged(parameters);
         	 List<ShoppingCartDTO> result = mapper.getShoppingCartItemsPaged2(parameters);
         	 return result;
          }
-         
+         public int CouponForyou(String shop_m_id,CouponDTO cdto ,ShoppingCartDTO sdto) {
+        	return mapper.CouponForyou(shop_m_id,cdto,sdto);
+         }
          
          
          public List<ShoppingCartDTO> orderpage(String shop_m_id, int page, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto) {
@@ -444,7 +485,7 @@ public class MemberServiceImpl implements MemberService {
 		
 		
 		@Override			 
-		public int twoNextPay(MOrderDTO mdto,int shop_num,int order_p_num,String order_memo
+		public int twoNextPay(OrderwithCouponDTO mdto,int shop_num,int order_p_num,String order_memo
 				,@Param("order_m_id") String order_m_id,int order_cp_num,int order_p_price,
 				@Param("order_dere_pay") int order_dere_pay ,@Param("order_addr") String order_addr,@Param("order_discount") int order_discount,@Param("order_quantity") int order_quantity
 	    		,@Param("order_totalprice") int order_totalprice ) {
@@ -475,6 +516,28 @@ public class MemberServiceImpl implements MemberService {
              parameters.put("pm_m_id", order_m_id);
              return mapper.PaymentCount(parameters);
 		}
+
+		@Override
+		public List<CouponDTO> getProductCoupon(HashMap hashmap) {
+			return mapper.getProductCoupon(hashmap);
+		}
+
+		@Override
+		public OrderwithCouponDTO getProductInfo(int p_num) {
+			return mapper.getProductInfo(p_num);
+		}
+
+		@Override
+		public OrderwithCouponDTO getCartbyNum(HashMap hashmap) {
+			return mapper.getCartbyNum(hashmap);
+		}
+
+		@Override
+		public OrderwithCouponDTO getCouponNum(int cp_num) {
+			return mapper.getCouponNum(cp_num);
+		}
+
+		
 
 		
 		 

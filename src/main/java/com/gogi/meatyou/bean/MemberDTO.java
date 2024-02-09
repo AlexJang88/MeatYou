@@ -17,6 +17,7 @@ public class MemberDTO {
     private String phone;
     private String m_reg_date;
     private int m_status;
+    private String selectedAddress;
     
     
 	private String mstat_detail;
