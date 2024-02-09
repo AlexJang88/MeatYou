@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../header.jsp" %> 
 <%@ include file="../powLinkSort.jsp" %> 
+<%@ include file="popup2.jsp" %> 
 
 <!DOCTYPE html>
 
@@ -36,20 +37,22 @@
 									<div class="product-img">
 										<img src="/resources/img/product01.png" alt="">
 										<div class="product-label">
-											<span class="sale" ><a>목록확인</a></span>
-											<span class="sale" ><a>상품설명</a></span>
-											<span class="sale" ><a>상품평점</a></span>
+											<div style="text-align : center;">
+												<form>
+													<input type="button" value="미리 보기" onclick="openPopUp('${poList.p_num}','${poList.p_m_id}')"><br>
+												</form>
+											</div>
 										</div>
 									</div>
 									<div class="product-body">
 										<p class="product-category">Category1 , Category2</p>
 										<a href="../main/product?p_num=${poList.p_num}&p_m_id=${poList.p_m_id}"><h3 class="product-name">${poList.p_name}</h3></a>
-										<a href="../main/product?p_num=${poList.p_num}&p_m_id=${poList.p_m_id}"><h4 class="product-price">${poList.p_price}</h4></a>
+										<a href="../main/product?p_num=${poList.p_num}&p_m_id=${poList.p_m_id}"><h4 class="product-price">${poList.p_price}원</h4></a>
 									<ul class="product-links">
 										<a href="../main/product?p_num=${poList.p_num}&p_m_id=${poList.p_m_id}"><li><h6>${poList.category1} / ${poList.category2} / ${poList.category3}</h6></li></a>
 									</ul>
 										<div class="rating-avg">${poList.star}
-														<c:if test="${poList.star <= 5.0 && poList.star > 4.7}">
+														<c:if test="${poList.star <= 5.0 && poList.star >= 4.7}">
 															<div class="rating-stars">
 																<i class="fa fa-star"></i>
 																<i class="fa fa-star"></i>
@@ -151,13 +154,13 @@
 							<ul class="store-pagination">
 								<c:if test="${count > 0}"> 
 									<c:if test="${startPage > 10}">
-										<li><a href="/main/powerLink&pageNum${startPage-10}">[이전]</a></li>
+										<li><a href="/main/powerLink?star=star&pageNum${startPage-10}">[이전]</a></li>
 									</c:if>
 									<c:forEach var="i" begin="${startPage}" end="${endPage}">
-										<li><a href="/main/powerLink&pageNum=${i}">${i}</a></li>
+										<li><a href="/main/powerLink?star=star&pageNum=${i}">${i}</a></li>
 									</c:forEach>
 									<c:if test="${endPage < pageCount}">
-										<li><a href="/main/powerLink&pageNum${startPage+10}">[다음]</a></li>
+										<li><a href="/main/powerLink?star=star&pageNum${startPage+10}">[다음]</a></li>
 									</c:if>	
 								<li><a href="#"><i class="fa fa-angle-right"></i></a></li>
 								</c:if>

@@ -176,7 +176,6 @@ function deleteSelectedItems() {
                 <td>
                     <form action="delete" method="post" class="quantity_delete_form">
                         <input type="hidden" name="shop_p_num" value="${item.shop_p_num}" />
-                        <input type="hidden" name="shop_p_num" value="${item.shop_p_num}" />
                         <input type="hidden" name="pd_p_num" value="${item.pd_p_num}" />
                         <input type="hidden" name="p_num" value="${item.p_num}" />
                         <button type="submit" class="delete_btn">삭제</button>

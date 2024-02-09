@@ -7,8 +7,10 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.ui.Model;
 
+import com.gogi.meatyou.bean.MemberDTO;
 import com.gogi.meatyou.bean.OtherProductDetailDTO;
 import com.gogi.meatyou.bean.PPicDTO;
+import com.gogi.meatyou.bean.PreferDTO;
 import com.gogi.meatyou.bean.ProductDTO;
 import com.gogi.meatyou.bean.ProductDetailDTO;
 import com.gogi.meatyou.bean.ReviewDTO;
@@ -33,7 +35,7 @@ public interface MainMapper {
    
 
    public List<ProductDTO> newProductBest();
-
+   public List<ProductDTO> customOrderBest(int p_category);
 
    public List<ProductDTO> searchList(HashMap map);
 
@@ -85,7 +87,7 @@ public interface MainMapper {
    
    public List<ProductDTO> poLinkList(HashMap map);
    public List<ProductDTO> poLinkSort(HashMap map);
-
+   public void quantity(int co_p_num);
 
    public List<ProductDTO> newProduct(HashMap map);
 
@@ -127,6 +129,8 @@ public interface MainMapper {
    public void ShoppingCartInsert2(@Param("shop_m_id")String m_id, @Param("shop_p_num")int p_num, @Param("shop_quantity")int shop_quantity);
 
    public int pickCNT(String ppic_m_id);
+   public int pick_P_CNT(String ppic_m_id);
+   
    public int pickCNTMain(PPicDTO dto);
    public int pick_p_numCNT(@Param("ppic_m_id")String ppic_m_id, @Param("ppic_p_num")int ppic_p_num);
    public int pick_p_numCNTMain(@Param("ppic_m_id")String ppic_m_id, @Param("ppic_p_num")int ppic_p_num);
@@ -136,7 +140,12 @@ public interface MainMapper {
    public void pickDeleteMain(@Param("ppic_m_id")String ppic_m_id, @Param("ppic_p_num")int ppic_p_num);
 
    public int pCategory(int p_num);
-
-   public int getStatus(String id);// 지환 설문조사
-
+   public PreferDTO customOrderCategory (@Param("pre_m_id")String pre_m_id);
+   
+   public int customOrder(String ppic_m_id);
+   
+   public int customOrderCNT(int p_category);
+   public List<ProductDetailDTO> customOrder(HashMap map);
+   public MemberDTO name(String m_id);
+   
 }

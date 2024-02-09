@@ -3,7 +3,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../header.jsp" %>
 <%@ include file="../mainMeatSort.jsp" %> 
-
+<script>
+	function cart() {
+	alert("장바구니에 추가되었습니다.");
+	}
+</script>
 <!DOCTYPE html> 
  
 		<!-- SECTION -->

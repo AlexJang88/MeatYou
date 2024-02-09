@@ -243,9 +243,9 @@ public class MemberController {
    
       
       @RequestMapping("updateQuantity")
-      public @ResponseBody String updateQuantity(Principal seid,int shop_num,int shop_quantity) {
+      public @ResponseBody String updateQuantity(Principal seid,int shop_p_num,int shop_quantity) {
            String shop_m_id = (String) seid.getName();
-          service.updateQuantity(shop_num, shop_quantity, shop_m_id);
+          service.updateQuantity(shop_p_num, shop_quantity, shop_m_id);
              
           return "success";  
       }   
@@ -256,7 +256,7 @@ public class MemberController {
 
                   String shop_m_id = (String) seid.getName();
 
-                int check = service.deleteCart(sdto.getShop_num(), shop_m_id);
+                int check = service.deleteCart(sdto.getShop_p_num(), shop_m_id);
                 if (check == 1) {
                       
                      return "redirect:/member/shoppingCartForm";
@@ -513,77 +513,7 @@ public class MemberController {
         model.addAttribute("AddrList", AddrList);
         model.addAttribute("dto", dto);
         return "member/order/orderPageOne";
-    }
-	/*
-	@RequestMapping("orderPageTwo") 
-	public String orderPageTwo(String selectedShopNums,Principal peid,Model model,MemAddressDTO adto,MemberDTO mdto,String combined_address,@Param("check") int check ,CouponDTO cdto,@RequestParam(value="p_num" , defaultValue="0") int p_num,ShoppingCartDTO sdto,MOrderDTO odto) {
-		int shop_p_num=sdto.getShop_p_num();
-   	 String order_memo=odto.getOrder_memo();
-		int order_p_num=odto.getOrder_p_num();
-		int cp_num=cdto.getCp_num();
-		int  order_cp_num=odto.getOrder_cp_num();
-		
-		
-		
-	if(check==1) {
-	numbers.clear();
-	String [] nums =selectedShopNums.split(",");
-	for(String s:nums) {
-	numbers.add(Integer.parseInt(s));
-	}
-	}
-	
-	else if(check==2) {
-	String add_m_id = peid.getName();   
-	adto.setAdd_m_id(add_m_id);
-	memberMap.put("list", numbers);
-	memberMap.put("add_m_id", add_m_id);
-	List<UserPayDTO> updto =service.findshop_p_num(memberMap) ;
-	
-	for(UserPayDTO d : updto) {
-	System.out.println(updto.get(0));
-	}
-	
-	List<MemAddressDTO> AddrList = service.combined_address(add_m_id,combined_address, adto);
-	List<CouponDTO> cList = service.howmuchCoupon(add_m_id);
-	int count = service.couponCount(add_m_id);
-	model.addAttribute("cList", cList);
-	model.addAttribute("count", count);
-	
-	ArrayList<ShoppingCartDTO> list = new ArrayList<ShoppingCartDTO>();
-	int totalprice = 0;
-	for (int shop_num : numbers) {
-	ShoppingCartDTO dto = new ShoppingCartDTO();
-	dto = service.getSelectedProducts2(shop_num, add_m_id);
-	System.out.println(dto);
-	list.add(dto);
-	totalprice += dto.getP_price();
-	}
-	int order_dere_pay=2500;
-	cdto = service.findCouponToCpNum(cp_num);
-	
-	
-	MemberDTO dto = service.getUser(add_m_id); 
-	if(p_num>0) {
-	model.addAttribute("p_num", p_num);
-	}
-	model.addAttribute("order_cp_num", order_cp_num);
-	  model.addAttribute("order_memo", order_memo);
-	model.addAttribute("order_p_num", order_p_num);
-	model.addAttribute("shop_p_num", shop_p_num);
-	model.addAttribute("order_dere_pay", order_dere_pay);
-	model.addAttribute("cp_num", cp_num);
-	model.addAttribute("cdto", cdto);
-	model.addAttribute("cList", cList);
-	model.addAttribute("shopList", list);
-	model.addAttribute("add_m_id", add_m_id);
-	model.addAttribute("dto", dto);
-	model.addAttribute("totalprice", totalprice);
-	}
-	return "member/order/orderPageTwo";
-	}
-	*/
-  
+    } 
     
     @RequestMapping("orderPageTwo") 
 	public String orderPageTwo(String selectedShopNums,Principal peid,Model model,MemAddressDTO adto,MemberDTO mdto,String combined_address,@Param("check") int check ,CouponDTO cdto,@RequestParam(value="p_num" , defaultValue="0") int p_num,ShoppingCartDTO sdto,MOrderDTO odto) {
