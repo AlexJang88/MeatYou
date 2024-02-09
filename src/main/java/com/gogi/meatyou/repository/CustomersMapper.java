@@ -122,6 +122,7 @@ public interface CustomersMapper {
     public void statusOut(@Param ("num") int num, @Param ("status") int status); //1일때 배송일, 배송완료일  null
     public void statusing(@Param ("num") int num, @Param ("status") int status); //2일때 배송일 up, 배송완룡일 null
     public void statused(@Param ("num") int num, @Param ("status") int status); //3일때 배송완료일 up
+    public void AutoOrderConfirm();
    public void insert_cusorder(CusOrderDTO cusorderdto); // 카카오톡 인서트
    public void insert_cusordertwo(CusOrderDTO cusorderdto); // 카카오톡 인서트
    

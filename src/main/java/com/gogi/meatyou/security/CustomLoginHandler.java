@@ -30,9 +30,9 @@ private static final Logger logger = LoggerFactory.getLogger(CustomLoginHandler.
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
-        String username = authentication.getName();  // ����� �̸� ��������
+        String username = authentication.getName();
 
-        String rdir = determineTargetUrl(authentication);  // �����̷�Ʈ �ּ� ����
+        String rdir = determineTargetUrl(authentication);
 
         response.sendRedirect(rdir);
     }

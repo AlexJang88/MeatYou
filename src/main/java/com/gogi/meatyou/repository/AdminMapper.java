@@ -137,9 +137,11 @@ public interface AdminMapper {
    
    public int reportCount(int check);
    
-   public QnADTO reportContent(int ma_num);
+   public List<QnADTO> reportContent(int ma_num);
    
    public void reportReply(QnADTO dto);
+   
+   public void maStatChange(int ma_num);
    
    public List<ChartDTO> getChartData(String period);
    

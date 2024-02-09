@@ -671,5 +671,9 @@
 	  <update id="survey2" parameterType="com.gogi.meatyou.bean.PreferDTO">
 	    UPDATE prefer SET pre1_response = #{pre1_response}, pre_reg_date = sysdate, pre_status = 2 WHERE pre_m_id = #{pre_m_id} AND pre0_response IS NOT NULL
 	  </update>
-		
+		<update id="AutoOrderConfirm">
+		  <![CDATA[
+			update m_order set order_status=4 where order_dere_end<=(sysdate-3) and not order_status=4
+			]]>
+		</update>
 </mapper>

@@ -18,6 +18,7 @@ import com.gogi.meatyou.bean.CusDetailDTO;
 import com.gogi.meatyou.bean.MOrderDTO;
 import com.gogi.meatyou.bean.MemAddressDTO;
 import com.gogi.meatyou.bean.MemberDTO;
+import com.gogi.meatyou.bean.OrderwithCouponDTO;
 import com.gogi.meatyou.bean.PDetailDTO;
 import com.gogi.meatyou.bean.PPicDTO;
 import com.gogi.meatyou.bean.PickMeDTO;
@@ -27,9 +28,12 @@ import com.gogi.meatyou.bean.ShoppingCartDTO;
 import com.gogi.meatyou.bean.UserPayDTO;
 
 public interface MemberService  {
+	public OrderwithCouponDTO getProductInfo(int p_num);
+	public OrderwithCouponDTO getCartbyNum(HashMap hashmap);
+	public OrderwithCouponDTO getCouponNum(int cp_num);
     int insertMember(MemberDTO dto);
     int twoNextPay(
-    		MOrderDTO mdto,int shop_num,int order_p_num,String order_memo
+    		OrderwithCouponDTO mdto,int shop_num,int order_p_num,String order_memo
     		,@Param("order_m_id") String order_m_id,int order_cp_num,int order_p_price,
     		@Param("order_dere_pay") int order_dere_pay ,@Param("order_addr") String order_addr,@Param("order_discount") int order_discount,@Param("order_quantity") int order_quantity
     		,@Param("order_totalprice") int order_totalprice  );
@@ -38,13 +42,13 @@ public interface MemberService  {
     public List<UserPayDTO> findshop_p_num(HashMap hashmap);
     public MemberDTO member(String m_id);   
     public List<ShoppingCartDTO> shoppingCartCheck(String m_id);
-   public List<ShoppingCartDTO> ShoppingCartAndProduct(String shop_m_id,ShoppingCartDTO sdto,ProductDTO pdto) ;
+   public List<OrderwithCouponDTO> ShoppingCartAndProduct(String shop_m_id,int page,Model model) ;
    public void userUpdate(MemberDTO dto);
    
    public MemberDTO getUser(String m_id);
    
-   List<MemAddressDTO>addressCheck(String add_m_id,MemberDTO mdto,MemAddressDTO adto,int add_num) ; 
-    List<MemAddressDTO> combined_address(String add_m_id,String combined_address ,MemAddressDTO adto )  ; 
+   public List<MemAddressDTO>addressCheck(String add_m_id,MemberDTO mdto,MemAddressDTO adto,int add_num) ; 
+   public List<String> combined_address(String id)  ; 
    public int deleteAddr(@Param("add_num")  int add_num,@Param("add_m_id") String add_m_id);
    public  int addressCount(@Param("add_m_id")String add_m_id,@Param("add_num")int add_num  ) ;       
   // public int  updateAddr(@Param("add_num")  int add_num,@Param("add_m_id") String add_m_id,@Param("add_mem_address1")String add_mem_address1,@Param("add_mem_address2") String add_mem_address2);
@@ -74,8 +78,9 @@ public interface MemberService  {
        public void p_pick_seq(String m_id);
        public void prefer(String m_id);
       public void updateQuantity(int  shop_num,int  shop_quantity, String shop_m_id) ;
-      List<ShoppingCartDTO> getShoppingCartItemsPaged2(String shop_m_id, int startRow, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto,PDetailDTO pddto);
-       int getTotalShoppingCartItems(String shop_m_id);
+      List<ShoppingCartDTO> getShoppingCartItemsPaged2(String shop_m_id, int startRow, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto,PDetailDTO pddto,List<CouponDTO> cList,CouponDTO cdto  );
+      	public int CouponForyou(String shop_m_id,CouponDTO cdto,ShoppingCartDTO sdto);
+      int getTotalShoppingCartItems(String shop_m_id);
       public int deleteCart(int shop_num,String shop_m_id);
       public void deleteSelectedItems(List<Long> selectedShopNums ,String shop_m_id);
       List<ShoppingCartDTO> orderpage(String shop_m_id, int startRow, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto);
@@ -112,8 +117,7 @@ public interface MemberService  {
       int couponCount(@Param("cp_m_id") String cp_m_id);
       List<CouponDTO>   howmuchCoupon(@Param("cp_m_id") String cp_m_id);
  
-      // �ٸ� �ʿ��� �޼����� �Բ� �߰�
-      ShoppingCartDTO getSelectedProducts(int shop_num, @Param("add_m_id") String add_m_id );
+      // 다른 필요한 메서드들과 함께 추가
       ShoppingCartDTO getSelectedProducts2(int shop_p_num, @Param("add_m_id") String add_m_id );
       
       
@@ -128,6 +132,5 @@ public interface MemberService  {
       public void getDbId(Model model, MemberDTO memberdto); // 실제 아이디 가져오기
       public void getDbPw(Model model, MemberDTO memberdto); // 실제 비번 가져오기
       public void changePw(MemberDTO memberdto); //비밀번호변경
-      
       
 }

@@ -1,14 +1,17 @@
 package com.gogi.meatyou.service;
  
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.gogi.meatyou.bean.MemberDTO;
 import com.gogi.meatyou.bean.OtherProductDetailDTO;
 import com.gogi.meatyou.bean.PPicDTO;
+import com.gogi.meatyou.bean.PreferDTO;
 import com.gogi.meatyou.bean.ProductDTO;
 import com.gogi.meatyou.bean.ProductDetailDTO;
 import com.gogi.meatyou.bean.ReviewDTO;
@@ -29,7 +32,8 @@ public interface MainService {
    public List<ProductDTO> meatBest();
    public List<ProductDTO> forkBest();
    public List<ProductDTO> newProductBest();
-
+   public List<ProductDTO> customOrderBest(int p_category);
+   public MemberDTO name(String m_id);
    
    //public void mainMeat(int pageNum, Model model, String price , int category, String sale, String reg);
    public void mainMeat(Principal seid, int pageNum, Model model, String price , int category, String sale, String reg, String news, String star);
@@ -58,7 +62,8 @@ public interface MainService {
    
    
    void poLinkList(Principal seid, int pageNum, Model model, String price, String sale, String star, String review, String news);
-
+   public void quantity(int co_p_num);
+   
    public void newProduct(Principal seid, int pageNum, Model model);
 
    public ProductDetailDTO productDetail(ProductDetailDTO dto, Model model);
@@ -91,10 +96,12 @@ public interface MainService {
    public int ShoppingCartInsert2(Model model, String m_id, int p_num, int shop_quantity);
 
    public int pickCNT(String ppic_m_id);
+   public int pick_P_CNT(String ppic_m_id);
+   
    public int pick_p_numCNT(String ppic_m_id, int ppic_p_num);
    public void pickInsert(Model model, PPicDTO dto, String ppic_m_id, int ppic_p_num);
    public void pickInsertMain(Model model, String ppic_m_id, int ppic_p_num);
    public int pCategory(int p_num);
-   
-   public void getStatus(Model model, String id); //지환 설문조사 입니다.
+   public PreferDTO customOrderCategory (String pre_m_id, Model model);
+   public void customOrder(Principal seid, ProductDetailDTO dto, Model model, int pageNum, String pre_m_id);
 }

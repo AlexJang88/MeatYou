@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
@@ -1193,8 +1194,7 @@ public  class CustomersServiceImpl implements CustomersService {
 			mapper.survey2(prefer);
 		}
 
-
-
+	
          
 
 

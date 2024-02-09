@@ -5,15 +5,18 @@ import com.gogi.meatyou.bean.CusDetailDTO;
 import com.gogi.meatyou.bean.MOrderDTO;
 import com.gogi.meatyou.bean.MemAddressDTO;
 import com.gogi.meatyou.bean.MemberDTO;
+import com.gogi.meatyou.bean.OrderwithCouponDTO;
 import com.gogi.meatyou.bean.PDetailDTO;
 import com.gogi.meatyou.bean.PPicDTO;
 import com.gogi.meatyou.bean.PickMeDTO;
 import com.gogi.meatyou.bean.ProductDTO;
+import com.gogi.meatyou.bean.ReckonDTO;
 import com.gogi.meatyou.bean.SelectedProductDTO;
 import com.gogi.meatyou.bean.ShoppingCartDTO;
 import com.gogi.meatyou.bean.UserPayDTO;
 import com.gogi.meatyou.repository.MemberMapper;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +43,9 @@ public class MemberServiceImpl implements MemberService {
     @Autowired
 	private JavaMailSenderImpl mailSender;
 	private int authNumber; 
+    private HashMap memberMap;
     
+
     @Override
     public int insertMember(MemberDTO dto) {
         return mapper.insertMember(dto);
@@ -64,12 +69,12 @@ public class MemberServiceImpl implements MemberService {
         if (pickCount > 0) {
             int deleteResult = mapper.deletePickMeByCId(pm_m_id, pm_c_id);
             if (deleteResult > 0) {
-                model.addAttribute("message", " �뜝�럩留� �뜝�럩�몗 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥먨뜝�럥�맶�뜝�럥�쑋占쎌젂占쎈뼖占쎈뮂 �뜝�럥占� �뜝�럩逾겼뜝�럡�렊 嶺뚮쪋�삕 雅��굢�삕 �뜝�럡�렊�뜝�럥�맶�뜝�럥�쐾�뜝�럥�젃  �뜝�럩留� �뜝�럩�몗 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥�렒 �뜝�럩留� �뜝�럩�몗傭��끉�젻�젆諭꾩삕占쎈㎍ �뜝�럩�몗 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥�렒�뜝�럥�맶�뜝�럥�쑅�뜝�럥堉볡솾�꺂�뒧占쏙옙力놂옙�뜝占� 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥딉옙沅섇뜝�룞�삕占쎄콬占쎈쇀�뜝占� �뜝�럡�렊  �뜝�럩留� �뜝�럩�몗 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥�렒占쎈�꿴뇡�씮�뮛�뜝�럥�럯�뜝�럥�맶�뜝�럥吏쀥뜝�럥彛� 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥듿뜝�럥�맶�뜝�럥�쑅�뜝�럥�럪�뜝�럥�맶�뜝�럥�쑅�뜝�럩紐� 占쎈쨨�뜝占� �뜝�럩留� �뜝�럡�렊�뜝�럥�맶�뜝�럥�쐾�뜝�럥�젃�뜝�럥�맶�뜝�럥�쑅�뜝�럥�럪�뜝�럥�맶�뜝�럥�쑅�뜝�럩紐� 嶺뚮슡�뜉占쎌맶  �뜝�럥�맶�뜝�럥�쑅�뜝�럥�럪�뜝�럥�맶�뜝�럥�쑅�뜝�럩紐쀥뜝�럥�맶�뜝�럥�쑅占쎈쨨占쎄섈占쎌맶�뜝�럥�쑅�뜝�럥�럪�뜝�럥�맶�뜝�럥�쑅�뜝�럩紐� �뜝�럥�넇 �뜝�럩議� �뜝�럥�럪�뜝�럥�맶�뜝�럥�쑅�뜝�럩留썲뜝�럥�맶�뜝�럥�쑅占쎌젂�뜝占� �뜝�럩留� �뜝�럩�몗 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥딉옙裕꿴뇡�씮�뮛�뜝�럡�뀮 �뵓怨ㅼ삕 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥� �뜝�럩留싷┤�뜆�돸占쎄틣 �뜝�럥�맶�뜝�럥�쑋嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥듿뜝�럥�맶�뜝�럥�쑅�뜝�럥�걖�뜝�럥�맶�뜝�럥�쑋占쎌뻹苑믭옙�맶�뜝�럥�쑋嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥듿뜝�럥�맶�뜝�럥�쑋�뜝�럩�쓥 �뜝�럩留뜹뜝�럥�맶 .");
+                model.addAttribute("message", " 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 癲ル슢�뿪占쎌굲 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 占쎈쐻占쎈윥筌ｋĿ�쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몝�뜝�럩�쟼�뜝�럥堉뽩뜝�럥裕� 占쎈쐻占쎈윥�뜝占� 占쎈쐻占쎈윪�얘꼈�쐻占쎈윞占쎈젇 癲ル슢履뗰옙�굲 �썒占쏙옙援�占쎌굲 占쎈쐻占쎈윞占쎈젇占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌맽占쎈쐻占쎈윥占쎌쟽  占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 癲ル슢�뿪占쎌굲 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 占쎈쐻占쎈윥占쎈젔 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊�궘占쏙옙�걠占쎌졎占쎌젂獄�袁⑹굲�뜝�럥�럪 占쎈쐻占쎈윪占쎈첊 癲ル슢�뿪占쎌굲 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 占쎈쐻占쎈윥占쎈젔占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몗占쎈쐻占쎈윥�젆蹂≪녇占쎄틓占쎈뮛�뜝�룞�삕癲딅냲�삕占쎈쐻�뜝占� 癲ル슢�뿪占쎌굲 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 占쎈쐻占쎈윥筌ｋ뵃�삕亦낆꼪�쐻占쎈짗占쎌굲�뜝�럡肄у뜝�럥��占쎈쐻�뜝占� 占쎈쐻占쎈윞占쎈젇  占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 癲ル슢�뿪占쎌굲 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 占쎈쐻占쎈윥占쎈젔�뜝�럥占쎄였�눀占쎌뵰占쎈츥占쎈쐻占쎈윥占쎈윲占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥筌욎�λ쐻占쎈윥壤쏉옙 癲ル슢�뿪占쎌굲 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 占쎈쐻占쎈윥筌ｋ벩�쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몗占쎈쐻占쎈윥占쎈윫占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몗占쎈쐻占쎈윪筌륅옙 �뜝�럥夷⑨옙�쐻�뜝占� 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윞占쎈젇占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌맽占쎈쐻占쎈윥占쎌쟽占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몗占쎈쐻占쎈윥占쎈윫占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몗占쎈쐻占쎈윪筌륅옙 癲ル슢�뒦占쎈쐣�뜝�럩留�  占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몗占쎈쐻占쎈윥占쎈윫占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몗占쎈쐻占쎈윪筌륁�λ쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몗�뜝�럥夷ⓨ뜝�럡�꼫�뜝�럩留띰옙�쐻占쎈윥占쎌몗占쎈쐻占쎈윥占쎈윫占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몗占쎈쐻占쎈윪筌륅옙 占쎈쐻占쎈윥占쎈꼪 占쎈쐻占쎈윪鈺곤옙 占쎈쐻占쎈윥占쎈윫占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몗占쎈쐻占쎈윪筌띿뜴�쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몗�뜝�럩�쟼占쎈쐻�뜝占� 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 癲ル슢�뿪占쎌굲 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 占쎈쐻占쎈윥筌ｋ뵃�삕獒뺢였�눀占쎌뵰占쎈츥占쎈쐻占쎈윞占쎈�� 占쎈탶�ⓦ끉�굲 癲ル슢�뿪占쎌굲 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 占쎈쐻占쎈윥筌ｏ옙 占쎈쐻占쎈윪筌띿떣�뵥占쎈쐠占쎈뤈�뜝�럡�떍 占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몝癲ル슢�뿪占쎌굲 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 占쎈쐻占쎈윥筌ｋ벩�쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몗占쎈쐻占쎈윥占쎄콞占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몝�뜝�럩六배땻誘��삕占쎈㎍占쎈쐻占쎈윥占쎌몝癲ル슢�뿪占쎌굲 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 占쎈쐻占쎈윥筌ｋ벩�쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몝占쎈쐻占쎈윪占쎌뱿 占쎈쐻占쎈윪筌띾쑚�쐻占쎈윥占쎈㎍ .");
             }
         } else {
             int insertResult = mapper.pickMeInsert(pdto, pm_m_id, pm_c_id, pm_num);
             if (insertResult > 0) {
-                model.addAttribute("message", " �뜝�럩留� �뜝�럩�몗 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥�렒占쎈�꿴뇡�씮�뮛�뜝�럥�럯�뜝�럥�맶�뜝�럥吏쀥뜝�럥彛� 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥듿뜝�럥�맶�뜝�럥�쑅�뜝�럥�럪�뜝�럥�맶�뜝�럥�쑅�뜝�럩紐� 占쎈쨨�뜝占� �뜝�럩留� �뜝�럡�렊�뜝�럥�맶�뜝�럥�쐾�뜝�럥�젃�뜝�럥�맶�뜝�럥�쑅�뜝�럥�럪�뜝�럥�맶�뜝�럥�쑅�뜝�럩紐� 嶺뚮슡�뜉占쎌맶   �뜝�럩留� �뜝�럩�몗 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥�렒 �뜝�럩留� �뜝�럩�몗傭��끉�젻�젆諭꾩삕占쎈㎍ �뜝�럩�몗 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥�렒�뜝�럥�맶�뜝�럥�쑅�뜝�럥堉볡솾�꺂�뒧占쏙옙力놂옙�뜝占� 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥딉옙裕꿴뇡�씮�뮛�뜝�럡�뀮 �뵓怨ㅼ삕 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥� �뜝�럩留싷┤�뜆�돸占쎄틣 �뜝�럥�맶�뜝�럥�쑋嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥듿뜝�럥�맶�뜝�럥�쑅�뜝�럥�걖�뜝�럥�맶�뜝�럥�쑋占쎌뻹苑믭옙�맶�뜝�럥�쑋嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥듿뜝�럥�맶�뜝�럥�쑋�뜝�럩�쓥 �뜝�럩留뜹뜝�럥�맶 .");
+                model.addAttribute("message", " 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 癲ル슢�뿪占쎌굲 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 占쎈쐻占쎈윥占쎈젔�뜝�럥占쎄였�눀占쎌뵰占쎈츥占쎈쐻占쎈윥占쎈윲占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥筌욎�λ쐻占쎈윥壤쏉옙 癲ル슢�뿪占쎌굲 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 占쎈쐻占쎈윥筌ｋ벩�쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몗占쎈쐻占쎈윥占쎈윫占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몗占쎈쐻占쎈윪筌륅옙 �뜝�럥夷⑨옙�쐻�뜝占� 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윞占쎈젇占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌맽占쎈쐻占쎈윥占쎌쟽占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몗占쎈쐻占쎈윥占쎈윫占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몗占쎈쐻占쎈윪筌륅옙 癲ル슢�뒦占쎈쐣�뜝�럩留�   占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 癲ル슢�뿪占쎌굲 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 占쎈쐻占쎈윥占쎈젔 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊�궘占쏙옙�걠占쎌졎占쎌젂獄�袁⑹굲�뜝�럥�럪 占쎈쐻占쎈윪占쎈첊 癲ル슢�뿪占쎌굲 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 占쎈쐻占쎈윥占쎈젔占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몗占쎈쐻占쎈윥�젆蹂≪녇占쎄틓占쎈뮛�뜝�룞�삕癲딅냲�삕占쎈쐻�뜝占� 癲ル슢�뿪占쎌굲 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 占쎈쐻占쎈윥筌ｋ뵃�삕獒뺢였�눀占쎌뵰占쎈츥占쎈쐻占쎈윞占쎈�� 占쎈탶�ⓦ끉�굲 癲ル슢�뿪占쎌굲 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 占쎈쐻占쎈윥筌ｏ옙 占쎈쐻占쎈윪筌띿떣�뵥占쎈쐠占쎈뤈�뜝�럡�떍 占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몝癲ル슢�뿪占쎌굲 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 占쎈쐻占쎈윥筌ｋ벩�쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몗占쎈쐻占쎈윥占쎄콞占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몝�뜝�럩六배땻誘��삕占쎈㎍占쎈쐻占쎈윥占쎌몝癲ル슢�뿪占쎌굲 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 占쎈쐻占쎈윥筌ｋ벩�쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몝占쎈쐻占쎈윪占쎌뱿 占쎈쐻占쎈윪筌띾쑚�쐻占쎈윥占쎈㎍ .");
             }
         }
     }
@@ -81,12 +86,12 @@ public class MemberServiceImpl implements MemberService {
        if (pickCount > 0) {
           int deleteResult = mapper.deletePickMeByCId2(pm_m_id, pm_c_id);
           if (deleteResult > 0) {
-             model.addAttribute("message", " �뜝�럩留� �뜝�럩�몗 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥먨뜝�럥�맶�뜝�럥�쑋占쎌젂占쎈뼖占쎈뮂 �뜝�럥占� �뜝�럩逾겼뜝�럡�렊 嶺뚮쪋�삕 雅��굢�삕 �뜝�럡�렊�뜝�럥�맶�뜝�럥�쐾�뜝�럥�젃  �뜝�럩留� �뜝�럩�몗 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥�렒 �뜝�럩留� �뜝�럩�몗傭��끉�젻�젆諭꾩삕占쎈㎍ �뜝�럩�몗 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥�렒�뜝�럥�맶�뜝�럥�쑅�뜝�럥堉볡솾�꺂�뒧占쏙옙力놂옙�뜝占� 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥딉옙沅섇뜝�룞�삕占쎄콬占쎈쇀�뜝占� �뜝�럡�렊  �뜝�럩留� �뜝�럩�몗 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥�렒占쎈�꿴뇡�씮�뮛�뜝�럥�럯�뜝�럥�맶�뜝�럥吏쀥뜝�럥彛� 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥듿뜝�럥�맶�뜝�럥�쑅�뜝�럥�럪�뜝�럥�맶�뜝�럥�쑅�뜝�럩紐� 占쎈쨨�뜝占� �뜝�럩留� �뜝�럡�렊�뜝�럥�맶�뜝�럥�쐾�뜝�럥�젃�뜝�럥�맶�뜝�럥�쑅�뜝�럥�럪�뜝�럥�맶�뜝�럥�쑅�뜝�럩紐� 嶺뚮슡�뜉占쎌맶  �뜝�럥�맶�뜝�럥�쑅�뜝�럥�럪�뜝�럥�맶�뜝�럥�쑅�뜝�럩紐쀥뜝�럥�맶�뜝�럥�쑅占쎈쨨占쎄섈占쎌맶�뜝�럥�쑅�뜝�럥�럪�뜝�럥�맶�뜝�럥�쑅�뜝�럩紐� �뜝�럥�넇 �뜝�럩議� �뜝�럥�럪�뜝�럥�맶�뜝�럥�쑅�뜝�럩留썲뜝�럥�맶�뜝�럥�쑅占쎌젂�뜝占� �뜝�럩留� �뜝�럩�몗 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥딉옙裕꿴뇡�씮�뮛�뜝�럡�뀮 �뵓怨ㅼ삕 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥� �뜝�럩留싷┤�뜆�돸占쎄틣 �뜝�럥�맶�뜝�럥�쑋嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥듿뜝�럥�맶�뜝�럥�쑅�뜝�럥�걖�뜝�럥�맶�뜝�럥�쑋占쎌뻹苑믭옙�맶�뜝�럥�쑋嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥듿뜝�럥�맶�뜝�럥�쑋�뜝�럩�쓥 �뜝�럩留뜹뜝�럥�맶 .");
+             model.addAttribute("message", " 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 癲ル슢�뿪占쎌굲 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 占쎈쐻占쎈윥筌ｋĿ�쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몝�뜝�럩�쟼�뜝�럥堉뽩뜝�럥裕� 占쎈쐻占쎈윥�뜝占� 占쎈쐻占쎈윪�얘꼈�쐻占쎈윞占쎈젇 癲ル슢履뗰옙�굲 �썒占쏙옙援�占쎌굲 占쎈쐻占쎈윞占쎈젇占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌맽占쎈쐻占쎈윥占쎌쟽  占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 癲ル슢�뿪占쎌굲 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 占쎈쐻占쎈윥占쎈젔 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊�궘占쏙옙�걠占쎌졎占쎌젂獄�袁⑹굲�뜝�럥�럪 占쎈쐻占쎈윪占쎈첊 癲ル슢�뿪占쎌굲 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 占쎈쐻占쎈윥占쎈젔占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몗占쎈쐻占쎈윥�젆蹂≪녇占쎄틓占쎈뮛�뜝�룞�삕癲딅냲�삕占쎈쐻�뜝占� 癲ル슢�뿪占쎌굲 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 占쎈쐻占쎈윥筌ｋ뵃�삕亦낆꼪�쐻占쎈짗占쎌굲�뜝�럡肄у뜝�럥��占쎈쐻�뜝占� 占쎈쐻占쎈윞占쎈젇  占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 癲ル슢�뿪占쎌굲 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 占쎈쐻占쎈윥占쎈젔�뜝�럥占쎄였�눀占쎌뵰占쎈츥占쎈쐻占쎈윥占쎈윲占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥筌욎�λ쐻占쎈윥壤쏉옙 癲ル슢�뿪占쎌굲 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 占쎈쐻占쎈윥筌ｋ벩�쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몗占쎈쐻占쎈윥占쎈윫占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몗占쎈쐻占쎈윪筌륅옙 �뜝�럥夷⑨옙�쐻�뜝占� 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윞占쎈젇占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌맽占쎈쐻占쎈윥占쎌쟽占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몗占쎈쐻占쎈윥占쎈윫占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몗占쎈쐻占쎈윪筌륅옙 癲ル슢�뒦占쎈쐣�뜝�럩留�  占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몗占쎈쐻占쎈윥占쎈윫占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몗占쎈쐻占쎈윪筌륁�λ쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몗�뜝�럥夷ⓨ뜝�럡�꼫�뜝�럩留띰옙�쐻占쎈윥占쎌몗占쎈쐻占쎈윥占쎈윫占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몗占쎈쐻占쎈윪筌륅옙 占쎈쐻占쎈윥占쎈꼪 占쎈쐻占쎈윪鈺곤옙 占쎈쐻占쎈윥占쎈윫占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몗占쎈쐻占쎈윪筌띿뜴�쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몗�뜝�럩�쟼占쎈쐻�뜝占� 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 癲ル슢�뿪占쎌굲 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 占쎈쐻占쎈윥筌ｋ뵃�삕獒뺢였�눀占쎌뵰占쎈츥占쎈쐻占쎈윞占쎈�� 占쎈탶�ⓦ끉�굲 癲ル슢�뿪占쎌굲 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 占쎈쐻占쎈윥筌ｏ옙 占쎈쐻占쎈윪筌띿떣�뵥占쎈쐠占쎈뤈�뜝�럡�떍 占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몝癲ル슢�뿪占쎌굲 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 占쎈쐻占쎈윥筌ｋ벩�쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몗占쎈쐻占쎈윥占쎄콞占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몝�뜝�럩六배땻誘��삕占쎈㎍占쎈쐻占쎈윥占쎌몝癲ル슢�뿪占쎌굲 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 占쎈쐻占쎈윥筌ｋ벩�쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몝占쎈쐻占쎈윪占쎌뱿 占쎈쐻占쎈윪筌띾쑚�쐻占쎈윥占쎈㎍ .");
           }
        } else {
           int insertResult = mapper.pickMeInsert2(pdto, pm_m_id, pm_c_id, pm_num);
           if (insertResult > 0) {
-             model.addAttribute("message", " �뜝�럩留� �뜝�럩�몗 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥�렒占쎈�꿴뇡�씮�뮛�뜝�럥�럯�뜝�럥�맶�뜝�럥吏쀥뜝�럥彛� 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥듿뜝�럥�맶�뜝�럥�쑅�뜝�럥�럪�뜝�럥�맶�뜝�럥�쑅�뜝�럩紐� 占쎈쨨�뜝占� �뜝�럩留� �뜝�럡�렊�뜝�럥�맶�뜝�럥�쐾�뜝�럥�젃�뜝�럥�맶�뜝�럥�쑅�뜝�럥�럪�뜝�럥�맶�뜝�럥�쑅�뜝�럩紐� 嶺뚮슡�뜉占쎌맶   �뜝�럩留� �뜝�럩�몗 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥�렒 �뜝�럩留� �뜝�럩�몗傭��끉�젻�젆諭꾩삕占쎈㎍ �뜝�럩�몗 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥�렒�뜝�럥�맶�뜝�럥�쑅�뜝�럥堉볡솾�꺂�뒧占쏙옙力놂옙�뜝占� 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥딉옙裕꿴뇡�씮�뮛�뜝�럡�뀮 �뵓怨ㅼ삕 嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥� �뜝�럩留싷┤�뜆�돸占쎄틣 �뜝�럥�맶�뜝�럥�쑋嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥듿뜝�럥�맶�뜝�럥�쑅�뜝�럥�걖�뜝�럥�맶�뜝�럥�쑋占쎌뻹苑믭옙�맶�뜝�럥�쑋嶺뚮엪�삕 �뜝�럩留� �뜝�럩�몗 �뜝�럥泥듿뜝�럥�맶�뜝�럥�쑋�뜝�럩�쓥 �뜝�럩留뜹뜝�럥�맶 .");
+             model.addAttribute("message", " 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 癲ル슢�뿪占쎌굲 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 占쎈쐻占쎈윥占쎈젔�뜝�럥占쎄였�눀占쎌뵰占쎈츥占쎈쐻占쎈윥占쎈윲占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥筌욎�λ쐻占쎈윥壤쏉옙 癲ル슢�뿪占쎌굲 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 占쎈쐻占쎈윥筌ｋ벩�쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몗占쎈쐻占쎈윥占쎈윫占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몗占쎈쐻占쎈윪筌륅옙 �뜝�럥夷⑨옙�쐻�뜝占� 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윞占쎈젇占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌맽占쎈쐻占쎈윥占쎌쟽占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몗占쎈쐻占쎈윥占쎈윫占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몗占쎈쐻占쎈윪筌륅옙 癲ル슢�뒦占쎈쐣�뜝�럩留�   占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 癲ル슢�뿪占쎌굲 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 占쎈쐻占쎈윥占쎈젔 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊�궘占쏙옙�걠占쎌졎占쎌젂獄�袁⑹굲�뜝�럥�럪 占쎈쐻占쎈윪占쎈첊 癲ル슢�뿪占쎌굲 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 占쎈쐻占쎈윥占쎈젔占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몗占쎈쐻占쎈윥�젆蹂≪녇占쎄틓占쎈뮛�뜝�룞�삕癲딅냲�삕占쎈쐻�뜝占� 癲ル슢�뿪占쎌굲 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 占쎈쐻占쎈윥筌ｋ뵃�삕獒뺢였�눀占쎌뵰占쎈츥占쎈쐻占쎈윞占쎈�� 占쎈탶�ⓦ끉�굲 癲ル슢�뿪占쎌굲 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 占쎈쐻占쎈윥筌ｏ옙 占쎈쐻占쎈윪筌띿떣�뵥占쎈쐠占쎈뤈�뜝�럡�떍 占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몝癲ル슢�뿪占쎌굲 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 占쎈쐻占쎈윥筌ｋ벩�쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몗占쎈쐻占쎈윥占쎄콞占쎈쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몝�뜝�럩六배땻誘��삕占쎈㎍占쎈쐻占쎈윥占쎌몝癲ル슢�뿪占쎌굲 占쎈쐻占쎈윪筌랃옙 占쎈쐻占쎈윪占쎈첊 占쎈쐻占쎈윥筌ｋ벩�쐻占쎈윥占쎈㎍占쎈쐻占쎈윥占쎌몝占쎈쐻占쎈윪占쎌뱿 占쎈쐻占쎈윪筌띾쑚�쐻占쎈윥占쎈㎍ .");
           }
        }
     }
@@ -154,15 +159,9 @@ public class MemberServiceImpl implements MemberService {
        }
        
        @Override        
-       public List<MemAddressDTO> combined_address(String add_m_id,String combined_address ,MemAddressDTO adto )  {
+       public List<String> combined_address(String id)  {
          
-                
-          Map<String, Object> parameters=new HashMap<>();
-          parameters.put("add_m_id",add_m_id);
-          parameters.put("combined_address",combined_address);
-             List<MemAddressDTO> result =mapper.combined_address(parameters);
-          
-                      return result;
+                      return mapper.combined_address(id);
         
           
        }
@@ -238,8 +237,42 @@ public class MemberServiceImpl implements MemberService {
 
          
          @Override
-         public List<ShoppingCartDTO> ShoppingCartAndProduct(String shop_m_id,ShoppingCartDTO sdto,ProductDTO pdto) {
-             return mapper.ShoppingCartAndProduct(shop_m_id);
+         public List<OrderwithCouponDTO> ShoppingCartAndProduct(String shop_m_id,int page,Model model) {
+        	 int count = 0;
+     		int pageSize = 10;
+     		int startRow = (page - 1) * pageSize + 1;
+     		int endRow = page * pageSize;
+     		List<OrderwithCouponDTO> list = Collections.EMPTY_LIST;
+     		
+     		count = mapper.ShoppingCartCount(shop_m_id);
+     		
+     		if (count > 0) {
+     			memberMap.put("id",shop_m_id);
+     			memberMap.put("start", startRow);
+     			memberMap.put("end", endRow);
+
+     			list = mapper.ShoppingCartAndProduct(memberMap);
+     		}
+
+     		model.addAttribute("list", list);
+     		model.addAttribute("count", count);
+     		model.addAttribute("page", page);
+     		model.addAttribute("pageSize", pageSize);
+
+     		// page
+     		int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+     		int startPage = (int) (page / 10) * 10 + 1;
+     		int pageBlock = 10;
+     		int endPage = startPage + pageBlock - 1;
+     		if (endPage > pageCount) {
+     			endPage = pageCount;
+     		}
+     		model.addAttribute("pageCount", pageCount);
+     		model.addAttribute("startPage", startPage);
+     		model.addAttribute("pageBlock", pageBlock);
+     		model.addAttribute("endPage", endPage);
+        	 
+             return mapper.ShoppingCartAndProduct(memberMap);
          }
 
          
@@ -248,15 +281,15 @@ public class MemberServiceImpl implements MemberService {
       
          
          @Override
-         public void updateQuantity(int  shop_num,int  shop_quantity, String shop_m_id) {
-            mapper.updateQuantity(shop_num, shop_quantity ,shop_m_id);
+         public void updateQuantity(int  shop_p_num,int  shop_quantity, String shop_m_id) {
+            mapper.updateQuantity(shop_p_num, shop_quantity ,shop_m_id);
           }
          
          
          
  
           
-         public List<ShoppingCartDTO> getShoppingCartItemsPaged2(String shop_m_id, int page, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto,PDetailDTO pddto) {
+         public List<ShoppingCartDTO> getShoppingCartItemsPaged2(String shop_m_id, int page, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto,PDetailDTO pddto,List<CouponDTO> cList,CouponDTO cdto ) {
         	 int startRow = (page - 1) * pageSize + 1;
         	 int endRow = startRow + pageSize - 1;
         	 
@@ -264,12 +297,18 @@ public class MemberServiceImpl implements MemberService {
         	 parameters.put("shop_m_id", shop_m_id);
         	 parameters.put("startRow", startRow);
         	 parameters.put("endRow", endRow);
+        	 parameters.put("cList", cList);
+        	 parameters.put("cp_num", cdto.getCp_num());
+        	 parameters.put("cp_price", cdto.getCp_price());
+        	 parameters.put("cList", cList);
         	 
         	 //   return mapper.getShoppingCartItemsPaged(parameters);
         	 List<ShoppingCartDTO> result = mapper.getShoppingCartItemsPaged2(parameters);
         	 return result;
          }
-         
+         public int CouponForyou(String shop_m_id,CouponDTO cdto ,ShoppingCartDTO sdto) {
+        	return mapper.CouponForyou(shop_m_id,cdto,sdto);
+         }
          
          
          public List<ShoppingCartDTO> orderpage(String shop_m_id, int page, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto) {
@@ -302,9 +341,9 @@ public class MemberServiceImpl implements MemberService {
                           
              
              @Override
-            public int deleteCart(int shop_num,@Param("shop_m_id")String shop_m_id) {
+            public int deleteCart(int shop_p_num,@Param("shop_m_id")String shop_m_id) {
 
-             return mapper.deleteCart(shop_num,shop_m_id);
+             return mapper.deleteCart(shop_p_num,shop_m_id);
 
             }
       
@@ -429,10 +468,11 @@ public class MemberServiceImpl implements MemberService {
     
     
            
-         @Override
-         public  ShoppingCartDTO getSelectedProducts(int shop_num, @Param("add_m_id") String add_m_id ) {
-             return mapper.getSelectedProducts(shop_num, add_m_id );
-         }
+			/*
+			   @Override public ShoppingCartDTO getSelectedProducts(int
+			   shop_num, @Param("add_m_id") String add_m_id ) { return
+			   mapper.getSelectedProducts(shop_num, add_m_id ); }
+			 */
          @Override
          public  ShoppingCartDTO getSelectedProducts2(int shop_p_num, @Param("add_m_id") String add_m_id ) {
         	 return mapper.getSelectedProducts2(shop_p_num, add_m_id );
@@ -453,7 +493,7 @@ public class MemberServiceImpl implements MemberService {
 		
 		
 		@Override			 
-		public int twoNextPay(MOrderDTO mdto,int shop_num,int order_p_num,String order_memo
+		public int twoNextPay(OrderwithCouponDTO mdto,int shop_num,int order_p_num,String order_memo
 				,@Param("order_m_id") String order_m_id,int order_cp_num,int order_p_price,
 				@Param("order_dere_pay") int order_dere_pay ,@Param("order_addr") String order_addr,@Param("order_discount") int order_discount,@Param("order_quantity") int order_quantity
 	    		,@Param("order_totalprice") int order_totalprice ) {
@@ -511,6 +551,28 @@ public class MemberServiceImpl implements MemberService {
 			mailSend(setFrom, toMail, title, content);
 			return Integer.toString(authNumber);
 		}
+
+		@Override
+		public List<CouponDTO> getProductCoupon(HashMap hashmap) {
+			return mapper.getProductCoupon(hashmap);
+		}
+
+		@Override
+		public OrderwithCouponDTO getProductInfo(int p_num) {
+			return mapper.getProductInfo(p_num);
+		}
+
+		@Override
+		public OrderwithCouponDTO getCartbyNum(HashMap hashmap) {
+			return mapper.getCartbyNum(hashmap);
+		}
+
+		@Override
+		public OrderwithCouponDTO getCouponNum(int cp_num) {
+			return mapper.getCouponNum(cp_num);
+		}
+
+		
 
 		
 		//이메일 전송 메소드

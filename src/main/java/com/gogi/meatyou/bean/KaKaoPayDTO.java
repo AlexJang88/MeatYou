@@ -12,5 +12,6 @@ public class KaKaoPayDTO {
 	private String total_amount;
 	private String tax_free_amount;
 	private String vat_amount;
+	private String total_quantity;
 	
 }

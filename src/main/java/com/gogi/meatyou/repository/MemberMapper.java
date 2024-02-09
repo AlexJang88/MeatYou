@@ -15,6 +15,7 @@ import com.gogi.meatyou.bean.CusDetailDTO;
 import com.gogi.meatyou.bean.MOrderDTO;
 import com.gogi.meatyou.bean.MemAddressDTO;
 import com.gogi.meatyou.bean.MemberDTO;
+import com.gogi.meatyou.bean.OrderwithCouponDTO;
 import com.gogi.meatyou.bean.PPicDTO;
 import com.gogi.meatyou.bean.PickMeDTO;
 import com.gogi.meatyou.bean.ProductDTO;
@@ -24,10 +25,12 @@ import com.gogi.meatyou.bean.UserPayDTO;
 
 public interface MemberMapper {
    public MemberDTO read(String m_id);
-   
+   public OrderwithCouponDTO getProductInfo(int p_num);
+   public List<CouponDTO> getProductCoupon(HashMap hashmap);
+   public int ShoppingCartCount(String id);
    
     public int insertMember(MemberDTO dto);
-    public int twoNextPay(MOrderDTO mdto,int shop_num ,@Param("order_p_num")int order_p_num,
+    public int twoNextPay(OrderwithCouponDTO mdto,int shop_num ,@Param("order_p_num")int order_p_num,
     		@Param("order_memo") String order_memo,@Param("order_m_id") String order_m_id,@Param("order_cp_num") int order_cp_num,@Param("order_p_price") int order_p_price
     		,@Param("order_dere_pay") int order_dere_pay,@Param("order_addr") String order_addr,@Param("order_discount") int order_discount,@Param("order_quantity") int order_quantity
     		,@Param("order_totalprice") int order_totalprice
@@ -48,7 +51,7 @@ public interface MemberMapper {
       public List<UserPayDTO> findshop_p_num(HashMap hashmap);
       
       List<MemAddressDTO> addressCheck(Map<String, Object> parameters);
-      List<MemAddressDTO> combined_address(Map<String, Object> parameters);
+      List<String> combined_address(String id);
       public int deleteAddr(@Param("add_num") int add_num,@Param("add_m_id") String add_m_id);
       
      // public int  updateAddr(@Param("add_num") int add_num,@Param("add_m_id") String add_m_id ,@Param("add_mem_address1") String add_mem_address1,@Param("add_mem_address2") String add_mem_address2);
@@ -56,7 +59,8 @@ public interface MemberMapper {
       
       public void  insertAddr(MemAddressDTO  adto);
       
-      
+      public OrderwithCouponDTO getCartbyNum(HashMap hashmap);
+      public OrderwithCouponDTO getCouponNum(int cp_num);
       public List<ShoppingCartDTO> shoppingcartCheck(String m_id);
       public void memberUpdate(MemberDTO dto);
       
@@ -81,8 +85,8 @@ public interface MemberMapper {
        public void prefer(String m_id);
 
 
-       List<ShoppingCartDTO> ShoppingCartAndProduct(String shop_m_id);
-       public void updateQuantity(@Param("shop_num") int shop_num, @Param("shop_quantity") int shop_quantity,@Param("shop_m_id")   String shop_m_id);
+       public List<OrderwithCouponDTO> ShoppingCartAndProduct(HashMap hashmap);
+       public void updateQuantity(@Param("shop_p_num") int shop_num, @Param("shop_quantity") int shop_quantity,@Param("shop_m_id")   String shop_m_id);
      
 
        
@@ -93,9 +97,8 @@ public interface MemberMapper {
                @Param("sdto") ShoppingCartDTO sdto,
                @Param("pdto") ProductDTO pdto);
        
-       List<ShoppingCartDTO> getShoppingCartItemsPaged(Map<String, Object> params);
        List<ShoppingCartDTO> getShoppingCartItemsPaged2(Map<String, Object> params);
-       
+       int CouponForyou(String shop_m_id,CouponDTO cdto,ShoppingCartDTO sdto);
        List<ShoppingCartDTO> orderpage(Map<String, Object> params);
        
        int getTotalShoppingCartItems(String shop_m_id);
@@ -105,7 +108,7 @@ public interface MemberMapper {
        CouponDTO findCouponToCpNum(int cp_num);
        
        
-       public  int deleteCart(@Param("shop_num") int shop_num, @Param("shop_m_id") String shop_m_id);
+       public  int deleteCart(@Param("shop_p_num") int shop_p_num, @Param("shop_m_id") String shop_m_id);
        
        
        void deleteSelectedItems(Map<String, Object> paramMap);
@@ -147,7 +150,6 @@ public interface MemberMapper {
             int deletePickMeByCId2(@Param("pm_m_id") String pm_m_id,      @Param("pm_c_id") String pm_c_id);
             int pickMeInsert2(PickMeDTO pdto, @Param("pm_m_id") String pm_m_id , @Param("pm_c_id")String pm_c_id,@Param("pm_num") int pm_num );
             
-            ShoppingCartDTO getSelectedProducts( @Param("shop_num") int shop_num,  @Param("add_m_id") String add_m_id );
             ShoppingCartDTO getSelectedProducts2( @Param("shop_p_num") int shop_p_num,  @Param("add_m_id") String add_m_id );
             
             
