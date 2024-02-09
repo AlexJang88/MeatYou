@@ -2,7 +2,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../header.jsp" %> 
- 
+ <script>
+	function cart() {
+	alert("장바구니에 추가되었습니다.");
+	}
+</script>
 		<!-- SECTION -->
 		<div class="section">
 			<!-- container -->
@@ -60,7 +64,7 @@
 											<input type="hidden" name="shop_m_id" value="${m_id}">
 											<input type="hidden" name="shop_p_num" value="${p_num}">
 											<input type="hidden" name="shop_quantity" value="1">
-											<button class="add-to-cart-btn" onclick="location.href='ShoppingCartInsert2?p_num=${p_num}&m_id=${m_id}&shop_quantity=1'"><i class="fa fa-shopping-cart"></i>장바구니 담기</button>
+											<button class="add-to-cart-btn"  onsubmit="cart()" onclick="location.href='ShoppingCartInsert2?p_num=${p_num}&m_id=${m_id}&shop_quantity=1'"><i class="fa fa-shopping-cart"></i>장바구니 담기</button>
 										</div>
 									</c:if>
 									<c:if test="${m_id == null}">

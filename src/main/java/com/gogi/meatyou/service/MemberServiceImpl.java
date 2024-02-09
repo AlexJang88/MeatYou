@@ -273,8 +273,8 @@ public class MemberServiceImpl implements MemberService {
       
          
          @Override
-         public void updateQuantity(int  shop_num,int  shop_quantity, String shop_m_id) {
-            mapper.updateQuantity(shop_num, shop_quantity ,shop_m_id);
+         public void updateQuantity(int  shop_p_num,int  shop_quantity, String shop_m_id) {
+            mapper.updateQuantity(shop_p_num, shop_quantity ,shop_m_id);
           }
          
          
@@ -333,9 +333,9 @@ public class MemberServiceImpl implements MemberService {
                           
              
              @Override
-            public int deleteCart(int shop_num,@Param("shop_m_id")String shop_m_id) {
+            public int deleteCart(int shop_p_num,@Param("shop_m_id")String shop_m_id) {
 
-             return mapper.deleteCart(shop_num,shop_m_id);
+             return mapper.deleteCart(shop_p_num,shop_m_id);
 
             }
       

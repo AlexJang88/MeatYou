@@ -217,9 +217,9 @@ public class MemberController {
    
       
       @RequestMapping("updateQuantity")
-      public @ResponseBody String updateQuantity(Principal seid,int shop_num,int shop_quantity) {
+      public @ResponseBody String updateQuantity(Principal seid,int shop_p_num,int shop_quantity) {
            String shop_m_id = (String) seid.getName();
-          service.updateQuantity(shop_num, shop_quantity, shop_m_id);
+          service.updateQuantity(shop_p_num, shop_quantity, shop_m_id);
              
           return "success";  
       }   
@@ -554,11 +554,8 @@ public class MemberController {
         model.addAttribute("AddrList", AddrList);
         model.addAttribute("mdto", mdto);
         model.addAttribute("dto", dto);
-       
-        
-        
-         return "member/order/orderPageOne";
-    }  
+        return "member/order/orderPageOne";
+    } 
     
     
      
@@ -658,8 +655,8 @@ public class MemberController {
            model.addAttribute("pageSize", pageSize);
            model.addAttribute("totalPage", totalPage);
        } else {
-           // order_m_id°¡ nullÀÎ °æ¿ì¿¡ ´ëÇÑ Ã³¸®
-           // ¿¹¸¦ µé¾î, ·Î±×¸¦ Ãâ·ÂÇÏ°Å³ª ´Ù¸¥ ±âº»°ªÀ» ¼³Á¤ÇÒ ¼ö ÀÖ½À´Ï´Ù.
+           // order_m_idê°€ nullì¸ ê²½ìš°ì— ëŒ€í•œ ì²˜ë¦¬
+           // ì˜ˆë¥¼ ë“¤ì–´, ë¡œê·¸ë¥¼ ì¶œë ¥í•˜ê±°ë‚˜ ë‹¤ë¥¸ ê¸°ë³¸ê°’ì„ ì„¤ì •í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
            model.addAttribute("errorMessage", "order_m_id is null");
        }
 

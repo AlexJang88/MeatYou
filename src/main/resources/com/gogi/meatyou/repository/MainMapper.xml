@@ -360,20 +360,6 @@
       	<![CDATA[ where r >= #{start} and r <= #{end} ]]>   </if> 
    </select>
    
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
 	<!-- 소고기,돼지고기(별점 정렬) -->
    	<select id="mainMeatSort" resultType="com.gogi.meatyou.bean.ProductDTO" parameterType="hashmap">
    		<if test="category == 1"> select * from 
@@ -714,10 +700,16 @@
                            #{shop_quantity})
    </insert> 
    
+   <!-- 상품찜 -->
    <select id="pickCNT" resultType="int" >
       select count(*) from p_pick_${ppic_m_id}
    </select>
-
+   
+	<!-- 판매자찜 -->
+   	<select id="pick_P_CNT" resultType="int" >
+      select count(*) from pick_me_${ppic_m_id}
+   	</select>
+   
    <select id="pick_p_numCNT" resultType="int" >
       select count(*) from p_pick_${ppic_m_id} where ppic_p_num=#{ppic_p_num}
    </select>
@@ -741,5 +733,22 @@
    <select id="pCategory" parameterType="com.gogi.meatyou.bean.ProductDTO">
       select p_category from product, p_detail where p_num=pd_p_num and p_num=#{p_num}
    </select>   
+   
+	<select id="customOrderCategory" parameterType="com.gogi.meatyou.bean.PreferDTO" resultType="com.gogi.meatyou.bean.PreferDTO">
+      select * from prefer where pre_m_id=#{pre_m_id}
+   	</select>   
+   
+   	<select id="customOrderCNT" resultType="com.gogi.meatyou.bean.ProductDetailDTO">
+   		select * from
+		(select * from product p, p_detail d where p.p_num=d.pd_p_num and p_category=#{p_category} and p_status!=3 and d.pd_p_status=0 order by (p_price/weight)*100)
+	</select> 
+   
+	<select id="customOrderBest" resultType="com.gogi.meatyou.bean.ProductDetailDTO" parameterType="hashmap">
+   		select * from
+		(select * from product p, p_detail d where p.p_num=d.pd_p_num and p_category=#{p_category} and p_status!=3 and d.pd_p_status=0 order by (p_price/weight)*100)
+	</select> 
 
+	<select id="name" resultType="com.gogi.meatyou.bean.MemberDTO">
+		select * from member where m_id=#{m_id}
+	</select> 
 </mapper>

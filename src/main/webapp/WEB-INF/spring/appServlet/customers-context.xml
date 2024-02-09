@@ -11,5 +11,6 @@
 
 	<beans:bean id="boardMap" class="java.util.HashMap" />
 	<beans:bean id="productoldname" class="java.util.ArrayList" />
+	<beans:bean id="customersServiceImpl" class="com.gogi.meatyou.service.CustomersServiceImpl"/>
 	
 </beans:beans>

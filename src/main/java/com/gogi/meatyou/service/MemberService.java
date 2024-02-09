@@ -80,7 +80,6 @@ public interface MemberService  {
       public void updateQuantity(int  shop_num,int  shop_quantity, String shop_m_id) ;
       List<ShoppingCartDTO> getShoppingCartItemsPaged2(String shop_m_id, int startRow, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto,PDetailDTO pddto,List<CouponDTO> cList,CouponDTO cdto  );
       	public int CouponForyou(String shop_m_id,CouponDTO cdto,ShoppingCartDTO sdto);
-
       int getTotalShoppingCartItems(String shop_m_id);
       public int deleteCart(int shop_num,String shop_m_id);
       public void deleteSelectedItems(List<Long> selectedShopNums ,String shop_m_id);
@@ -118,7 +117,7 @@ public interface MemberService  {
       int couponCount(@Param("cp_m_id") String cp_m_id);
       List<CouponDTO>   howmuchCoupon(@Param("cp_m_id") String cp_m_id);
  
-      // ´Ù¸¥ ÇÊ¿äÇÑ ¸Þ¼­µåµé°ú ÇÔ²² Ãß°¡
+      // ë‹¤ë¥¸ í•„ìš”í•œ ë©”ì„œë“œë“¤ê³¼ í•¨ê»˜ ì¶”ê°€
       ShoppingCartDTO getSelectedProducts2(int shop_p_num, @Param("add_m_id") String add_m_id );
       
       

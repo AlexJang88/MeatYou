@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.gogi.meatyou.bean.MemberDTO;
 import com.gogi.meatyou.bean.OtherProductDetailDTO;
 import com.gogi.meatyou.bean.PPicDTO;
+import com.gogi.meatyou.bean.PreferDTO;
 import com.gogi.meatyou.bean.ProductDTO;
 import com.gogi.meatyou.bean.ProductDetailDTO;
 import com.gogi.meatyou.bean.ReviewDTO;
@@ -113,47 +115,47 @@ public class MainServiceImpl implements MainService {
 	      	String cate = rdto.getP_category()+"";
 	
 	      	if((cate.charAt(0)-48) == 1) {
-	      		category1 = "±¹³»»ê";
+	      		category1 = "êµ­ë‚´ì‚°";
 	      	} else{
-	      		category1 = "¼öÀÔ»ê";
+	      		category1 = "ìˆ˜ì…ì‚°";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 1) {
-	      		category2 = "µÅÁö°í±â";
+	      		category2 = "ë¼ì§€ê³ ê¸°";
 	      	} else{
-	      		category2 = "¼Ò°í±â";
+	      		category2 = "ì†Œê³ ê¸°";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "Æ¯¼öºÎÀ§";
+	      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-	      		category3 = "»ï°ã»ì";
+	      		category3 = "ì‚¼ê²¹ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-	      		category3 = "¸ñ»ì";
+	      		category3 = "ëª©ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-	      		category3 = "¾È½É";
+	      		category3 = "ì•ˆì‹¬";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-	      		category3 = "µî½É";
+	      		category3 = "ë“±ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-	      		category3 = "¾Õ´Ù¸®»ì";
+	      		category3 = "ì•ë‹¤ë¦¬ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-	      		category3 = "°¥¸Å±â»ì";
+	      		category3 = "ê°ˆë§¤ê¸°ì‚´";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "Æ¯¼öºÎÀ§";
+	      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-	      		category3 = "µî½É";
+	      		category3 = "ë“±ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-	      		category3 = "¾È½É";
+	      		category3 = "ì•ˆì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-	      		category3 = "°¥ºñ";
+	      		category3 = "ê°ˆë¹„";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-	      		category3 = "Ã¤³¡";
+	      		category3 = "ì±„ë";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-	      		category3 = "¸ñ½É";
+	      		category3 = "ëª©ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-	      		category3 = "ºÎÃ¤»ì";
+	      		category3 = "ë¶€ì±„ì‚´";
 	      	}
 	      	rdto.setCategory1(category1);
 	      	rdto.setCategory2(category2);
@@ -235,47 +237,47 @@ public class MainServiceImpl implements MainService {
 	      	String cate = rdto.getP_category()+"";
 	
 	      	if((cate.charAt(0)-48) == 1) {
-	      		category1 = "±¹³»»ê";
+	      		category1 = "êµ­ë‚´ì‚°";
 	      	} else{
-	      		category1 = "¼öÀÔ»ê";
+	      		category1 = "ìˆ˜ì…ì‚°";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 1) {
-	      		category2 = "µÅÁö°í±â";
+	      		category2 = "ë¼ì§€ê³ ê¸°";
 	      	} else{
-	      		category2 = "¼Ò°í±â";
+	      		category2 = "ì†Œê³ ê¸°";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "Æ¯¼öºÎÀ§";
+	      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-	      		category3 = "»ï°ã»ì";
+	      		category3 = "ì‚¼ê²¹ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-	      		category3 = "¸ñ»ì";
+	      		category3 = "ëª©ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-	      		category3 = "¾È½É";
+	      		category3 = "ì•ˆì‹¬";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-	      		category3 = "µî½É";
+	      		category3 = "ë“±ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-	      		category3 = "¾Õ´Ù¸®»ì";
+	      		category3 = "ì•ë‹¤ë¦¬ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-	      		category3 = "°¥¸Å±â»ì";
+	      		category3 = "ê°ˆë§¤ê¸°ì‚´";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "Æ¯¼öºÎÀ§";
+	      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-	      		category3 = "µî½É";
+	      		category3 = "ë“±ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-	      		category3 = "¾È½É";
+	      		category3 = "ì•ˆì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-	      		category3 = "°¥ºñ";
+	      		category3 = "ê°ˆë¹„";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-	      		category3 = "Ã¤³¡";
+	      		category3 = "ì±„ë";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-	      		category3 = "¸ñ½É";
+	      		category3 = "ëª©ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-	      		category3 = "ºÎÃ¤»ì";
+	      		category3 = "ë¶€ì±„ì‚´";
 	      	}
 	      	rdto.setCategory1(category1);
 	      	rdto.setCategory2(category2);
@@ -354,47 +356,47 @@ public class MainServiceImpl implements MainService {
 	      	String cate = rdto.getP_category()+"";
 	
 	      	if((cate.charAt(0)-48) == 1) {
-	      		category1 = "±¹³»»ê";
+	      		category1 = "êµ­ë‚´ì‚°";
 	      	} else{
-	      		category1 = "¼öÀÔ»ê";
+	      		category1 = "ìˆ˜ì…ì‚°";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 1) {
-	      		category2 = "µÅÁö°í±â";
+	      		category2 = "ë¼ì§€ê³ ê¸°";
 	      	} else{
-	      		category2 = "¼Ò°í±â";
+	      		category2 = "ì†Œê³ ê¸°";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "Æ¯¼öºÎÀ§";
+	      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-	      		category3 = "»ï°ã»ì";
+	      		category3 = "ì‚¼ê²¹ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-	      		category3 = "¸ñ»ì";
+	      		category3 = "ëª©ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-	      		category3 = "¾È½É";
+	      		category3 = "ì•ˆì‹¬";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-	      		category3 = "µî½É";
+	      		category3 = "ë“±ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-	      		category3 = "¾Õ´Ù¸®»ì";
+	      		category3 = "ì•ë‹¤ë¦¬ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-	      		category3 = "°¥¸Å±â»ì";
+	      		category3 = "ê°ˆë§¤ê¸°ì‚´";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "Æ¯¼öºÎÀ§";
+	      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-	      		category3 = "µî½É";
+	      		category3 = "ë“±ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-	      		category3 = "¾È½É";
+	      		category3 = "ì•ˆì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-	      		category3 = "°¥ºñ";
+	      		category3 = "ê°ˆë¹„";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-	      		category3 = "Ã¤³¡";
+	      		category3 = "ì±„ë";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-	      		category3 = "¸ñ½É";
+	      		category3 = "ëª©ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-	      		category3 = "ºÎÃ¤»ì";
+	      		category3 = "ë¶€ì±„ì‚´";
 	      	}
 	      	rdto.setCategory1(category1);
 	      	rdto.setCategory2(category2);
@@ -456,47 +458,47 @@ public class MainServiceImpl implements MainService {
 	      	String cate = rdto.getP_category()+"";
 	
 	      	if((cate.charAt(0)-48) == 1) {
-	      		category1 = "±¹³»»ê";
+	      		category1 = "êµ­ë‚´ì‚°";
 	      	} else{
-	      		category1 = "¼öÀÔ»ê";
+	      		category1 = "ìˆ˜ì…ì‚°";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 1) {
-	      		category2 = "µÅÁö°í±â";
+	      		category2 = "ë¼ì§€ê³ ê¸°";
 	      	} else{
-	      		category2 = "¼Ò°í±â";
+	      		category2 = "ì†Œê³ ê¸°";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "Æ¯¼öºÎÀ§";
+	      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-	      		category3 = "»ï°ã»ì";
+	      		category3 = "ì‚¼ê²¹ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-	      		category3 = "¸ñ»ì";
+	      		category3 = "ëª©ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-	      		category3 = "¾È½É";
+	      		category3 = "ì•ˆì‹¬";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-	      		category3 = "µî½É";
+	      		category3 = "ë“±ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-	      		category3 = "¾Õ´Ù¸®»ì";
+	      		category3 = "ì•ë‹¤ë¦¬ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-	      		category3 = "°¥¸Å±â»ì";
+	      		category3 = "ê°ˆë§¤ê¸°ì‚´";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "Æ¯¼öºÎÀ§";
+	      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-	      		category3 = "µî½É";
+	      		category3 = "ë“±ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-	      		category3 = "¾È½É";
+	      		category3 = "ì•ˆì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-	      		category3 = "°¥ºñ";
+	      		category3 = "ê°ˆë¹„";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-	      		category3 = "Ã¤³¡";
+	      		category3 = "ì±„ë";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-	      		category3 = "¸ñ½É";
+	      		category3 = "ëª©ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-	      		category3 = "ºÎÃ¤»ì";
+	      		category3 = "ë¶€ì±„ì‚´";
 	      	}
 	      	rdto.setCategory1(category1);
 	      	rdto.setCategory2(category2);
@@ -572,47 +574,47 @@ public class MainServiceImpl implements MainService {
 	      	String cate = rdto.getP_category()+"";
 	
 	      	if((cate.charAt(0)-48) == 1) {
-	      		category1 = "±¹³»»ê";
+	      		category1 = "êµ­ë‚´ì‚°";
 	      	} else{
-	      		category1 = "¼öÀÔ»ê";
+	      		category1 = "ìˆ˜ì…ì‚°";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 1) {
-	      		category2 = "µÅÁö°í±â";
+	      		category2 = "ë¼ì§€ê³ ê¸°";
 	      	} else{
-	      		category2 = "¼Ò°í±â";
+	      		category2 = "ì†Œê³ ê¸°";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "Æ¯¼öºÎÀ§";
+	      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-	      		category3 = "»ï°ã»ì";
+	      		category3 = "ì‚¼ê²¹ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-	      		category3 = "¸ñ»ì";
+	      		category3 = "ëª©ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-	      		category3 = "¾È½É";
+	      		category3 = "ì•ˆì‹¬";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-	      		category3 = "µî½É";
+	      		category3 = "ë“±ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-	      		category3 = "¾Õ´Ù¸®»ì";
+	      		category3 = "ì•ë‹¤ë¦¬ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-	      		category3 = "°¥¸Å±â»ì";
+	      		category3 = "ê°ˆë§¤ê¸°ì‚´";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "Æ¯¼öºÎÀ§";
+	      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-	      		category3 = "µî½É";
+	      		category3 = "ë“±ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-	      		category3 = "¾È½É";
+	      		category3 = "ì•ˆì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-	      		category3 = "°¥ºñ";
+	      		category3 = "ê°ˆë¹„";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-	      		category3 = "Ã¤³¡";
+	      		category3 = "ì±„ë";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-	      		category3 = "¸ñ½É";
+	      		category3 = "ëª©ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-	      		category3 = "ºÎÃ¤»ì";
+	      		category3 = "ë¶€ì±„ì‚´";
 	      	}
 	      	rdto.setCategory1(category1);
 	      	rdto.setCategory2(category2);
@@ -689,47 +691,47 @@ public class MainServiceImpl implements MainService {
 	      	String cate = rdto.getP_category()+"";
 	
 	      	if((cate.charAt(0)-48) == 1) {
-	      		category1 = "±¹³»»ê";
+	      		category1 = "êµ­ë‚´ì‚°";
 	      	} else{
-	      		category1 = "¼öÀÔ»ê";
+	      		category1 = "ìˆ˜ì…ì‚°";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 1) {
-	      		category2 = "µÅÁö°í±â";
+	      		category2 = "ë¼ì§€ê³ ê¸°";
 	      	} else{
-	      		category2 = "¼Ò°í±â";
+	      		category2 = "ì†Œê³ ê¸°";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "Æ¯¼öºÎÀ§";
+	      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-	      		category3 = "»ï°ã»ì";
+	      		category3 = "ì‚¼ê²¹ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-	      		category3 = "¸ñ»ì";
+	      		category3 = "ëª©ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-	      		category3 = "¾È½É";
+	      		category3 = "ì•ˆì‹¬";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-	      		category3 = "µî½É";
+	      		category3 = "ë“±ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-	      		category3 = "¾Õ´Ù¸®»ì";
+	      		category3 = "ì•ë‹¤ë¦¬ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-	      		category3 = "°¥¸Å±â»ì";
+	      		category3 = "ê°ˆë§¤ê¸°ì‚´";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "Æ¯¼öºÎÀ§";
+	      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-	      		category3 = "µî½É";
+	      		category3 = "ë“±ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-	      		category3 = "¾È½É";
+	      		category3 = "ì•ˆì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-	      		category3 = "°¥ºñ";
+	      		category3 = "ê°ˆë¹„";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-	      		category3 = "Ã¤³¡";
+	      		category3 = "ì±„ë";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-	      		category3 = "¸ñ½É";
+	      		category3 = "ëª©ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-	      		category3 = "ºÎÃ¤»ì";
+	      		category3 = "ë¶€ì±„ì‚´";
 	      	}
 	      	rdto.setCategory1(category1);
 	      	rdto.setCategory2(category2);
@@ -825,47 +827,47 @@ public class MainServiceImpl implements MainService {
 	      	String cate = rdto.getP_category()+"";
 	
 	      	if((cate.charAt(0)-48) == 1) {
-	      		category1 = "±¹³»»ê";
+	      		category1 = "êµ­ë‚´ì‚°";
 	      	} else{
-	      		category1 = "¼öÀÔ»ê";
+	      		category1 = "ìˆ˜ì…ì‚°";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 1) {
-	      		category2 = "µÅÁö°í±â";
+	      		category2 = "ë¼ì§€ê³ ê¸°";
 	      	} else{
-	      		category2 = "¼Ò°í±â";
+	      		category2 = "ì†Œê³ ê¸°";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "Æ¯¼öºÎÀ§";
+	      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-	      		category3 = "»ï°ã»ì";
+	      		category3 = "ì‚¼ê²¹ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-	      		category3 = "¸ñ»ì";
+	      		category3 = "ëª©ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-	      		category3 = "¾È½É";
+	      		category3 = "ì•ˆì‹¬";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-	      		category3 = "µî½É";
+	      		category3 = "ë“±ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-	      		category3 = "¾Õ´Ù¸®»ì";
+	      		category3 = "ì•ë‹¤ë¦¬ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-	      		category3 = "°¥¸Å±â»ì";
+	      		category3 = "ê°ˆë§¤ê¸°ì‚´";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "Æ¯¼öºÎÀ§";
+	      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-	      		category3 = "µî½É";
+	      		category3 = "ë“±ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-	      		category3 = "¾È½É";
+	      		category3 = "ì•ˆì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-	      		category3 = "°¥ºñ";
+	      		category3 = "ê°ˆë¹„";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-	      		category3 = "Ã¤³¡";
+	      		category3 = "ì±„ë";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-	      		category3 = "¸ñ½É";
+	      		category3 = "ëª©ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-	      		category3 = "ºÎÃ¤»ì";
+	      		category3 = "ë¶€ì±„ì‚´";
 	      	}
 	      	rdto.setCategory1(category1);
 	      	rdto.setCategory2(category2);
@@ -961,47 +963,47 @@ public class MainServiceImpl implements MainService {
 	      	String cate = rdto.getP_category()+"";
 	
 	      	if((cate.charAt(0)-48) == 1) {
-	      		category1 = "±¹³»»ê";
+	      		category1 = "êµ­ë‚´ì‚°";
 	      	} else{
-	      		category1 = "¼öÀÔ»ê";
+	      		category1 = "ìˆ˜ì…ì‚°";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 1) {
-	      		category2 = "µÅÁö°í±â";
+	      		category2 = "ë¼ì§€ê³ ê¸°";
 	      	} else{
-	      		category2 = "¼Ò°í±â";
+	      		category2 = "ì†Œê³ ê¸°";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "Æ¯¼öºÎÀ§";
+	      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-	      		category3 = "»ï°ã»ì";
+	      		category3 = "ì‚¼ê²¹ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-	      		category3 = "¸ñ»ì";
+	      		category3 = "ëª©ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-	      		category3 = "¾È½É";
+	      		category3 = "ì•ˆì‹¬";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-	      		category3 = "µî½É";
+	      		category3 = "ë“±ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-	      		category3 = "¾Õ´Ù¸®»ì";
+	      		category3 = "ì•ë‹¤ë¦¬ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-	      		category3 = "°¥¸Å±â»ì";
+	      		category3 = "ê°ˆë§¤ê¸°ì‚´";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "Æ¯¼öºÎÀ§";
+	      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-	      		category3 = "µî½É";
+	      		category3 = "ë“±ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-	      		category3 = "¾È½É";
+	      		category3 = "ì•ˆì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-	      		category3 = "°¥ºñ";
+	      		category3 = "ê°ˆë¹„";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-	      		category3 = "Ã¤³¡";
+	      		category3 = "ì±„ë";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-	      		category3 = "¸ñ½É";
+	      		category3 = "ëª©ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-	      		category3 = "ºÎÃ¤»ì";
+	      		category3 = "ë¶€ì±„ì‚´";
 	      	}
 	      	rdto.setCategory1(category1);
 	      	rdto.setCategory2(category2);
@@ -1097,47 +1099,47 @@ public class MainServiceImpl implements MainService {
 	      	String cate = rdto.getP_category()+"";
 	
 	      	if((cate.charAt(0)-48) == 1) {
-	      		category1 = "±¹³»»ê";
+	      		category1 = "êµ­ë‚´ì‚°";
 	      	} else{
-	      		category1 = "¼öÀÔ»ê";
+	      		category1 = "ìˆ˜ì…ì‚°";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 1) {
-	      		category2 = "µÅÁö°í±â";
+	      		category2 = "ë¼ì§€ê³ ê¸°";
 	      	} else{
-	      		category2 = "¼Ò°í±â";
+	      		category2 = "ì†Œê³ ê¸°";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "Æ¯¼öºÎÀ§";
+	      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-	      		category3 = "»ï°ã»ì";
+	      		category3 = "ì‚¼ê²¹ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-	      		category3 = "¸ñ»ì";
+	      		category3 = "ëª©ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-	      		category3 = "¾È½É";
+	      		category3 = "ì•ˆì‹¬";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-	      		category3 = "µî½É";
+	      		category3 = "ë“±ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-	      		category3 = "¾Õ´Ù¸®»ì";
+	      		category3 = "ì•ë‹¤ë¦¬ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-	      		category3 = "°¥¸Å±â»ì";
+	      		category3 = "ê°ˆë§¤ê¸°ì‚´";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "Æ¯¼öºÎÀ§";
+	      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-	      		category3 = "µî½É";
+	      		category3 = "ë“±ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-	      		category3 = "¾È½É";
+	      		category3 = "ì•ˆì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-	      		category3 = "°¥ºñ";
+	      		category3 = "ê°ˆë¹„";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-	      		category3 = "Ã¤³¡";
+	      		category3 = "ì±„ë";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-	      		category3 = "¸ñ½É";
+	      		category3 = "ëª©ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-	      		category3 = "ºÎÃ¤»ì";
+	      		category3 = "ë¶€ì±„ì‚´";
 	      	}
 	      	rdto.setCategory1(category1);
 	      	rdto.setCategory2(category2);
@@ -1233,47 +1235,47 @@ public class MainServiceImpl implements MainService {
 	      	String cate = rdto.getP_category()+"";
 	
 	      	if((cate.charAt(0)-48) == 1) {
-	      		category1 = "±¹³»»ê";
+	      		category1 = "êµ­ë‚´ì‚°";
 	      	} else{
-	      		category1 = "¼öÀÔ»ê";
+	      		category1 = "ìˆ˜ì…ì‚°";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 1) {
-	      		category2 = "µÅÁö°í±â";
+	      		category2 = "ë¼ì§€ê³ ê¸°";
 	      	} else{
-	      		category2 = "¼Ò°í±â";
+	      		category2 = "ì†Œê³ ê¸°";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "Æ¯¼öºÎÀ§";
+	      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-	      		category3 = "»ï°ã»ì";
+	      		category3 = "ì‚¼ê²¹ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-	      		category3 = "¸ñ»ì";
+	      		category3 = "ëª©ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-	      		category3 = "¾È½É";
+	      		category3 = "ì•ˆì‹¬";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-	      		category3 = "µî½É";
+	      		category3 = "ë“±ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-	      		category3 = "¾Õ´Ù¸®»ì";
+	      		category3 = "ì•ë‹¤ë¦¬ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-	      		category3 = "°¥¸Å±â»ì";
+	      		category3 = "ê°ˆë§¤ê¸°ì‚´";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "Æ¯¼öºÎÀ§";
+	      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-	      		category3 = "µî½É";
+	      		category3 = "ë“±ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-	      		category3 = "¾È½É";
+	      		category3 = "ì•ˆì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-	      		category3 = "°¥ºñ";
+	      		category3 = "ê°ˆë¹„";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-	      		category3 = "Ã¤³¡";
+	      		category3 = "ì±„ë";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-	      		category3 = "¸ñ½É";
+	      		category3 = "ëª©ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-	      		category3 = "ºÎÃ¤»ì";
+	      		category3 = "ë¶€ì±„ì‚´";
 	      	}
 	      	rdto.setCategory1(category1);
 	      	rdto.setCategory2(category2);
@@ -1359,47 +1361,47 @@ public class MainServiceImpl implements MainService {
 	      	String cate = rdto.getP_category()+"";
 	
 	      	if((cate.charAt(0)-48) == 1) {
-	      		category1 = "±¹³»»ê";
+	      		category1 = "êµ­ë‚´ì‚°";
 	      	} else{
-	      		category1 = "¼öÀÔ»ê";
+	      		category1 = "ìˆ˜ì…ì‚°";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 1) {
-	      		category2 = "µÅÁö°í±â";
+	      		category2 = "ë¼ì§€ê³ ê¸°";
 	      	} else{
-	      		category2 = "¼Ò°í±â";
+	      		category2 = "ì†Œê³ ê¸°";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "Æ¯¼öºÎÀ§";
+	      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-	      		category3 = "»ï°ã»ì";
+	      		category3 = "ì‚¼ê²¹ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-	      		category3 = "¸ñ»ì";
+	      		category3 = "ëª©ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-	      		category3 = "¾È½É";
+	      		category3 = "ì•ˆì‹¬";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-	      		category3 = "µî½É";
+	      		category3 = "ë“±ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-	      		category3 = "¾Õ´Ù¸®»ì";
+	      		category3 = "ì•ë‹¤ë¦¬ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-	      		category3 = "°¥¸Å±â»ì";
+	      		category3 = "ê°ˆë§¤ê¸°ì‚´";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "Æ¯¼öºÎÀ§";
+	      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-	      		category3 = "µî½É";
+	      		category3 = "ë“±ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-	      		category3 = "¾È½É";
+	      		category3 = "ì•ˆì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-	      		category3 = "°¥ºñ";
+	      		category3 = "ê°ˆë¹„";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-	      		category3 = "Ã¤³¡";
+	      		category3 = "ì±„ë";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-	      		category3 = "¸ñ½É";
+	      		category3 = "ëª©ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-	      		category3 = "ºÎÃ¤»ì";
+	      		category3 = "ë¶€ì±„ì‚´";
 	      	}
 	      	rdto.setCategory1(category1);
 	      	rdto.setCategory2(category2);
@@ -1485,47 +1487,47 @@ public class MainServiceImpl implements MainService {
 	      	String cate = rdto.getP_category()+"";
 	
 	      	if((cate.charAt(0)-48) == 1) {
-	      		category1 = "±¹³»»ê";
+	      		category1 = "êµ­ë‚´ì‚°";
 	      	} else{
-	      		category1 = "¼öÀÔ»ê";
+	      		category1 = "ìˆ˜ì…ì‚°";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 1) {
-	      		category2 = "µÅÁö°í±â";
+	      		category2 = "ë¼ì§€ê³ ê¸°";
 	      	} else{
-	      		category2 = "¼Ò°í±â";
+	      		category2 = "ì†Œê³ ê¸°";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "Æ¯¼öºÎÀ§";
+	      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-	      		category3 = "»ï°ã»ì";
+	      		category3 = "ì‚¼ê²¹ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-	      		category3 = "¸ñ»ì";
+	      		category3 = "ëª©ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-	      		category3 = "¾È½É";
+	      		category3 = "ì•ˆì‹¬";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-	      		category3 = "µî½É";
+	      		category3 = "ë“±ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-	      		category3 = "¾Õ´Ù¸®»ì";
+	      		category3 = "ì•ë‹¤ë¦¬ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-	      		category3 = "°¥¸Å±â»ì";
+	      		category3 = "ê°ˆë§¤ê¸°ì‚´";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "Æ¯¼öºÎÀ§";
+	      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-	      		category3 = "µî½É";
+	      		category3 = "ë“±ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-	      		category3 = "¾È½É";
+	      		category3 = "ì•ˆì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-	      		category3 = "°¥ºñ";
+	      		category3 = "ê°ˆë¹„";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-	      		category3 = "Ã¤³¡";
+	      		category3 = "ì±„ë";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-	      		category3 = "¸ñ½É";
+	      		category3 = "ëª©ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-	      		category3 = "ºÎÃ¤»ì";
+	      		category3 = "ë¶€ì±„ì‚´";
 	      	}
 	      	rdto.setCategory1(category1);
 	      	rdto.setCategory2(category2);
@@ -1611,47 +1613,47 @@ public class MainServiceImpl implements MainService {
 		      	String cate = rdto.getP_category()+"";
 		
 		      	if((cate.charAt(0)-48) == 1) {
-		      		category1 = "±¹³»»ê";
+		      		category1 = "êµ­ë‚´ì‚°";
 		      	} else{
-		      		category1 = "¼öÀÔ»ê";
+		      		category1 = "ìˆ˜ì…ì‚°";
 		      	}
 		      	
 		      	if((cate.charAt(1)-48) == 1) {
-		      		category2 = "µÅÁö°í±â";
+		      		category2 = "ë¼ì§€ê³ ê¸°";
 		      	} else{
-		      		category2 = "¼Ò°í±â";
+		      		category2 = "ì†Œê³ ê¸°";
 		      	}
 		      	
 		      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-		      		category3 = "Æ¯¼öºÎÀ§";
+		      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 		      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-		      		category3 = "»ï°ã»ì";
+		      		category3 = "ì‚¼ê²¹ì‚´";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-		      		category3 = "¸ñ»ì";
+		      		category3 = "ëª©ì‚´";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-		      		category3 = "¾È½É";
+		      		category3 = "ì•ˆì‹¬";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-		      		category3 = "µî½É";
+		      		category3 = "ë“±ì‹¬";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-		      		category3 = "¾Õ´Ù¸®»ì";
+		      		category3 = "ì•ë‹¤ë¦¬ì‚´";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-		      		category3 = "°¥¸Å±â»ì";
+		      		category3 = "ê°ˆë§¤ê¸°ì‚´";
 		      	}
 		      	
 		      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-		      		category3 = "Æ¯¼öºÎÀ§";
+		      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 		      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-		      		category3 = "µî½É";
+		      		category3 = "ë“±ì‹¬";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-		      		category3 = "¾È½É";
+		      		category3 = "ì•ˆì‹¬";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-		      		category3 = "°¥ºñ";
+		      		category3 = "ê°ˆë¹„";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-		      		category3 = "Ã¤³¡";
+		      		category3 = "ì±„ë";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-		      		category3 = "¸ñ½É";
+		      		category3 = "ëª©ì‹¬";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-		      		category3 = "ºÎÃ¤»ì";
+		      		category3 = "ë¶€ì±„ì‚´";
 		      	}
 		      	rdto.setCategory1(category1);
 		      	rdto.setCategory2(category2);
@@ -1733,47 +1735,47 @@ public class MainServiceImpl implements MainService {
 		      	String cate = rdto.getP_category()+"";
 		
 		      	if((cate.charAt(0)-48) == 1) {
-		      		category1 = "±¹³»»ê";
+		      		category1 = "êµ­ë‚´ì‚°";
 		      	} else{
-		      		category1 = "¼öÀÔ»ê";
+		      		category1 = "ìˆ˜ì…ì‚°";
 		      	}
 		      	
 		      	if((cate.charAt(1)-48) == 1) {
-		      		category2 = "µÅÁö°í±â";
+		      		category2 = "ë¼ì§€ê³ ê¸°";
 		      	} else{
-		      		category2 = "¼Ò°í±â";
+		      		category2 = "ì†Œê³ ê¸°";
 		      	}
 		      	
 		      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-		      		category3 = "Æ¯¼öºÎÀ§";
+		      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 		      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-		      		category3 = "»ï°ã»ì";
+		      		category3 = "ì‚¼ê²¹ì‚´";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-		      		category3 = "¸ñ»ì";
+		      		category3 = "ëª©ì‚´";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-		      		category3 = "¾È½É";
+		      		category3 = "ì•ˆì‹¬";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-		      		category3 = "µî½É";
+		      		category3 = "ë“±ì‹¬";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-		      		category3 = "¾Õ´Ù¸®»ì";
+		      		category3 = "ì•ë‹¤ë¦¬ì‚´";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-		      		category3 = "°¥¸Å±â»ì";
+		      		category3 = "ê°ˆë§¤ê¸°ì‚´";
 		      	}
 		      	
 		      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-		      		category3 = "Æ¯¼öºÎÀ§";
+		      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 		      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-		      		category3 = "µî½É";
+		      		category3 = "ë“±ì‹¬";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-		      		category3 = "¾È½É";
+		      		category3 = "ì•ˆì‹¬";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-		      		category3 = "°¥ºñ";
+		      		category3 = "ê°ˆë¹„";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-		      		category3 = "Ã¤³¡";
+		      		category3 = "ì±„ë";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-		      		category3 = "¸ñ½É";
+		      		category3 = "ëª©ì‹¬";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-		      		category3 = "ºÎÃ¤»ì";
+		      		category3 = "ë¶€ì±„ì‚´";
 		      	}
 		      	rdto.setCategory1(category1);
 		      	rdto.setCategory2(category2);
@@ -1855,47 +1857,47 @@ public class MainServiceImpl implements MainService {
 		      	String cate = rdto.getP_category()+"";
 		
 		      	if((cate.charAt(0)-48) == 1) {
-		      		category1 = "±¹³»»ê";
+		      		category1 = "êµ­ë‚´ì‚°";
 		      	} else{
-		      		category1 = "¼öÀÔ»ê";
+		      		category1 = "ìˆ˜ì…ì‚°";
 		      	}
 		      	
 		      	if((cate.charAt(1)-48) == 1) {
-		      		category2 = "µÅÁö°í±â";
+		      		category2 = "ë¼ì§€ê³ ê¸°";
 		      	} else{
-		      		category2 = "¼Ò°í±â";
+		      		category2 = "ì†Œê³ ê¸°";
 		      	}
 		      	
 		      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-		      		category3 = "Æ¯¼öºÎÀ§";
+		      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 		      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-		      		category3 = "»ï°ã»ì";
+		      		category3 = "ì‚¼ê²¹ì‚´";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-		      		category3 = "¸ñ»ì";
+		      		category3 = "ëª©ì‚´";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-		      		category3 = "¾È½É";
+		      		category3 = "ì•ˆì‹¬";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-		      		category3 = "µî½É";
+		      		category3 = "ë“±ì‹¬";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-		      		category3 = "¾Õ´Ù¸®»ì";
+		      		category3 = "ì•ë‹¤ë¦¬ì‚´";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-		      		category3 = "°¥¸Å±â»ì";
+		      		category3 = "ê°ˆë§¤ê¸°ì‚´";
 		      	}
 		      	
 		      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-		      		category3 = "Æ¯¼öºÎÀ§";
+		      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 		      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-		      		category3 = "µî½É";
+		      		category3 = "ë“±ì‹¬";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-		      		category3 = "¾È½É";
+		      		category3 = "ì•ˆì‹¬";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-		      		category3 = "°¥ºñ";
+		      		category3 = "ê°ˆë¹„";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-		      		category3 = "Ã¤³¡";
+		      		category3 = "ì±„ë";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-		      		category3 = "¸ñ½É";
+		      		category3 = "ëª©ì‹¬";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-		      		category3 = "ºÎÃ¤»ì";
+		      		category3 = "ë¶€ì±„ì‚´";
 		      	}
 		      	rdto.setCategory1(category1);
 		      	rdto.setCategory2(category2);
@@ -1977,47 +1979,47 @@ public class MainServiceImpl implements MainService {
 		      	String cate = rdto.getP_category()+"";
 		
 		      	if((cate.charAt(0)-48) == 1) {
-		      		category1 = "±¹³»»ê";
+		      		category1 = "êµ­ë‚´ì‚°";
 		      	} else{
-		      		category1 = "¼öÀÔ»ê";
+		      		category1 = "ìˆ˜ì…ì‚°";
 		      	}
 		      	
 		      	if((cate.charAt(1)-48) == 1) {
-		      		category2 = "µÅÁö°í±â";
+		      		category2 = "ë¼ì§€ê³ ê¸°";
 		      	} else{
-		      		category2 = "¼Ò°í±â";
+		      		category2 = "ì†Œê³ ê¸°";
 		      	}
 		      	
 		      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-		      		category3 = "Æ¯¼öºÎÀ§";
+		      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 		      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-		      		category3 = "»ï°ã»ì";
+		      		category3 = "ì‚¼ê²¹ì‚´";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-		      		category3 = "¸ñ»ì";
+		      		category3 = "ëª©ì‚´";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-		      		category3 = "¾È½É";
+		      		category3 = "ì•ˆì‹¬";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-		      		category3 = "µî½É";
+		      		category3 = "ë“±ì‹¬";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-		      		category3 = "¾Õ´Ù¸®»ì";
+		      		category3 = "ì•ë‹¤ë¦¬ì‚´";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-		      		category3 = "°¥¸Å±â»ì";
+		      		category3 = "ê°ˆë§¤ê¸°ì‚´";
 		      	}
 		      	
 		      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-		      		category3 = "Æ¯¼öºÎÀ§";
+		      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 		      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-		      		category3 = "µî½É";
+		      		category3 = "ë“±ì‹¬";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-		      		category3 = "¾È½É";
+		      		category3 = "ì•ˆì‹¬";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-		      		category3 = "°¥ºñ";
+		      		category3 = "ê°ˆë¹„";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-		      		category3 = "Ã¤³¡";
+		      		category3 = "ì±„ë";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-		      		category3 = "¸ñ½É";
+		      		category3 = "ëª©ì‹¬";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-		      		category3 = "ºÎÃ¤»ì";
+		      		category3 = "ë¶€ì±„ì‚´";
 		      	}
 		      	rdto.setCategory1(category1);
 		      	rdto.setCategory2(category2);
@@ -2099,47 +2101,47 @@ public class MainServiceImpl implements MainService {
 		      	String cate = rdto.getP_category()+"";
 		
 		      	if((cate.charAt(0)-48) == 1) {
-		      		category1 = "±¹³»»ê";
+		      		category1 = "êµ­ë‚´ì‚°";
 		      	} else{
-		      		category1 = "¼öÀÔ»ê";
+		      		category1 = "ìˆ˜ì…ì‚°";
 		      	}
 		      	
 		      	if((cate.charAt(1)-48) == 1) {
-		      		category2 = "µÅÁö°í±â";
+		      		category2 = "ë¼ì§€ê³ ê¸°";
 		      	} else{
-		      		category2 = "¼Ò°í±â";
+		      		category2 = "ì†Œê³ ê¸°";
 		      	}
 		      	
 		      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-		      		category3 = "Æ¯¼öºÎÀ§";
+		      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 		      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-		      		category3 = "»ï°ã»ì";
+		      		category3 = "ì‚¼ê²¹ì‚´";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-		      		category3 = "¸ñ»ì";
+		      		category3 = "ëª©ì‚´";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-		      		category3 = "¾È½É";
+		      		category3 = "ì•ˆì‹¬";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-		      		category3 = "µî½É";
+		      		category3 = "ë“±ì‹¬";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-		      		category3 = "¾Õ´Ù¸®»ì";
+		      		category3 = "ì•ë‹¤ë¦¬ì‚´";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-		      		category3 = "°¥¸Å±â»ì";
+		      		category3 = "ê°ˆë§¤ê¸°ì‚´";
 		      	}
 		      	
 		      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-		      		category3 = "Æ¯¼öºÎÀ§";
+		      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 		      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-		      		category3 = "µî½É";
+		      		category3 = "ë“±ì‹¬";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-		      		category3 = "¾È½É";
+		      		category3 = "ì•ˆì‹¬";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-		      		category3 = "°¥ºñ";
+		      		category3 = "ê°ˆë¹„";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-		      		category3 = "Ã¤³¡";
+		      		category3 = "ì±„ë";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-		      		category3 = "¸ñ½É";
+		      		category3 = "ëª©ì‹¬";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-		      		category3 = "ºÎÃ¤»ì";
+		      		category3 = "ë¶€ì±„ì‚´";
 		      	}
 		      	rdto.setCategory1(category1);
 		      	rdto.setCategory2(category2);
@@ -2221,47 +2223,47 @@ public class MainServiceImpl implements MainService {
 		      	String cate = rdto.getP_category()+"";
 		
 		      	if((cate.charAt(0)-48) == 1) {
-		      		category1 = "±¹³»»ê";
+		      		category1 = "êµ­ë‚´ì‚°";
 		      	} else{
-		      		category1 = "¼öÀÔ»ê";
+		      		category1 = "ìˆ˜ì…ì‚°";
 		      	}
 		      	
 		      	if((cate.charAt(1)-48) == 1) {
-		      		category2 = "µÅÁö°í±â";
+		      		category2 = "ë¼ì§€ê³ ê¸°";
 		      	} else{
-		      		category2 = "¼Ò°í±â";
+		      		category2 = "ì†Œê³ ê¸°";
 		      	}
 		      	
 		      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-		      		category3 = "Æ¯¼öºÎÀ§";
+		      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 		      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-		      		category3 = "»ï°ã»ì";
+		      		category3 = "ì‚¼ê²¹ì‚´";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-		      		category3 = "¸ñ»ì";
+		      		category3 = "ëª©ì‚´";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-		      		category3 = "¾È½É";
+		      		category3 = "ì•ˆì‹¬";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-		      		category3 = "µî½É";
+		      		category3 = "ë“±ì‹¬";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-		      		category3 = "¾Õ´Ù¸®»ì";
+		      		category3 = "ì•ë‹¤ë¦¬ì‚´";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-		      		category3 = "°¥¸Å±â»ì";
+		      		category3 = "ê°ˆë§¤ê¸°ì‚´";
 		      	}
 		      	
 		      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-		      		category3 = "Æ¯¼öºÎÀ§";
+		      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 		      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-		      		category3 = "µî½É";
+		      		category3 = "ë“±ì‹¬";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-		      		category3 = "¾È½É";
+		      		category3 = "ì•ˆì‹¬";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-		      		category3 = "°¥ºñ";
+		      		category3 = "ê°ˆë¹„";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-		      		category3 = "Ã¤³¡";
+		      		category3 = "ì±„ë";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-		      		category3 = "¸ñ½É";
+		      		category3 = "ëª©ì‹¬";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-		      		category3 = "ºÎÃ¤»ì";
+		      		category3 = "ë¶€ì±„ì‚´";
 		      	}
 		      	rdto.setCategory1(category1);
 		      	rdto.setCategory2(category2);
@@ -2343,47 +2345,47 @@ public class MainServiceImpl implements MainService {
 		      	String cate = rdto.getP_category()+"";
 		
 		      	if((cate.charAt(0)-48) == 1) {
-		      		category1 = "±¹³»»ê";
+		      		category1 = "êµ­ë‚´ì‚°";
 		      	} else{
-		      		category1 = "¼öÀÔ»ê";
+		      		category1 = "ìˆ˜ì…ì‚°";
 		      	}
 		      	
 		      	if((cate.charAt(1)-48) == 1) {
-		      		category2 = "µÅÁö°í±â";
+		      		category2 = "ë¼ì§€ê³ ê¸°";
 		      	} else{
-		      		category2 = "¼Ò°í±â";
+		      		category2 = "ì†Œê³ ê¸°";
 		      	}
 		      	
 		      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-		      		category3 = "Æ¯¼öºÎÀ§";
+		      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 		      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-		      		category3 = "»ï°ã»ì";
+		      		category3 = "ì‚¼ê²¹ì‚´";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-		      		category3 = "¸ñ»ì";
+		      		category3 = "ëª©ì‚´";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-		      		category3 = "¾È½É";
+		      		category3 = "ì•ˆì‹¬";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-		      		category3 = "µî½É";
+		      		category3 = "ë“±ì‹¬";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-		      		category3 = "¾Õ´Ù¸®»ì";
+		      		category3 = "ì•ë‹¤ë¦¬ì‚´";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-		      		category3 = "°¥¸Å±â»ì";
+		      		category3 = "ê°ˆë§¤ê¸°ì‚´";
 		      	}
 		      	
 		      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-		      		category3 = "Æ¯¼öºÎÀ§";
+		      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 		      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-		      		category3 = "µî½É";
+		      		category3 = "ë“±ì‹¬";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-		      		category3 = "¾È½É";
+		      		category3 = "ì•ˆì‹¬";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-		      		category3 = "°¥ºñ";
+		      		category3 = "ê°ˆë¹„";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-		      		category3 = "Ã¤³¡";
+		      		category3 = "ì±„ë";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-		      		category3 = "¸ñ½É";
+		      		category3 = "ëª©ì‹¬";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-		      		category3 = "ºÎÃ¤»ì";
+		      		category3 = "ë¶€ì±„ì‚´";
 		      	}
 		      	rdto.setCategory1(category1);
 		      	rdto.setCategory2(category2);
@@ -2467,47 +2469,47 @@ public class MainServiceImpl implements MainService {
 		      	String cate = rdto.getP_category()+"";
 		
 		      	if((cate.charAt(0)-48) == 1) {
-		      		category1 = "±¹³»»ê";
+		      		category1 = "êµ­ë‚´ì‚°";
 		      	} else{
-		      		category1 = "¼öÀÔ»ê";
+		      		category1 = "ìˆ˜ì…ì‚°";
 		      	}
 		      	
 		      	if((cate.charAt(1)-48) == 1) {
-		      		category2 = "µÅÁö°í±â";
+		      		category2 = "ë¼ì§€ê³ ê¸°";
 		      	} else{
-		      		category2 = "¼Ò°í±â";
+		      		category2 = "ì†Œê³ ê¸°";
 		      	}
 		      	
 		      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-		      		category3 = "Æ¯¼öºÎÀ§";
+		      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 		      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-		      		category3 = "»ï°ã»ì";
+		      		category3 = "ì‚¼ê²¹ì‚´";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-		      		category3 = "¸ñ»ì";
+		      		category3 = "ëª©ì‚´";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-		      		category3 = "¾È½É";
+		      		category3 = "ì•ˆì‹¬";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-		      		category3 = "µî½É";
+		      		category3 = "ë“±ì‹¬";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-		      		category3 = "¾Õ´Ù¸®»ì";
+		      		category3 = "ì•ë‹¤ë¦¬ì‚´";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-		      		category3 = "°¥¸Å±â»ì";
+		      		category3 = "ê°ˆë§¤ê¸°ì‚´";
 		      	}
 		      	
 		      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-		      		category3 = "Æ¯¼öºÎÀ§";
+		      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 		      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-		      		category3 = "µî½É";
+		      		category3 = "ë“±ì‹¬";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-		      		category3 = "¾È½É";
+		      		category3 = "ì•ˆì‹¬";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-		      		category3 = "°¥ºñ";
+		      		category3 = "ê°ˆë¹„";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-		      		category3 = "Ã¤³¡";
+		      		category3 = "ì±„ë";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-		      		category3 = "¸ñ½É";
+		      		category3 = "ëª©ì‹¬";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-		      		category3 = "ºÎÃ¤»ì";
+		      		category3 = "ë¶€ì±„ì‚´";
 		      	}
 		      	rdto.setCategory1(category1);
 		      	rdto.setCategory2(category2);
@@ -2591,47 +2593,47 @@ public class MainServiceImpl implements MainService {
 		      	String cate = rdto.getP_category()+"";
 		
 		      	if((cate.charAt(0)-48) == 1) {
-		      		category1 = "±¹³»»ê";
+		      		category1 = "êµ­ë‚´ì‚°";
 		      	} else{
-		      		category1 = "¼öÀÔ»ê";
+		      		category1 = "ìˆ˜ì…ì‚°";
 		      	}
 		      	
 		      	if((cate.charAt(1)-48) == 1) {
-		      		category2 = "µÅÁö°í±â";
+		      		category2 = "ë¼ì§€ê³ ê¸°";
 		      	} else{
-		      		category2 = "¼Ò°í±â";
+		      		category2 = "ì†Œê³ ê¸°";
 		      	}
 		      	
 		      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-		      		category3 = "Æ¯¼öºÎÀ§";
+		      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 		      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-		      		category3 = "»ï°ã»ì";
+		      		category3 = "ì‚¼ê²¹ì‚´";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-		      		category3 = "¸ñ»ì";
+		      		category3 = "ëª©ì‚´";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-		      		category3 = "¾È½É";
+		      		category3 = "ì•ˆì‹¬";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-		      		category3 = "µî½É";
+		      		category3 = "ë“±ì‹¬";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-		      		category3 = "¾Õ´Ù¸®»ì";
+		      		category3 = "ì•ë‹¤ë¦¬ì‚´";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-		      		category3 = "°¥¸Å±â»ì";
+		      		category3 = "ê°ˆë§¤ê¸°ì‚´";
 		      	}
 		      	
 		      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-		      		category3 = "Æ¯¼öºÎÀ§";
+		      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 		      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-		      		category3 = "µî½É";
+		      		category3 = "ë“±ì‹¬";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-		      		category3 = "¾È½É";
+		      		category3 = "ì•ˆì‹¬";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-		      		category3 = "°¥ºñ";
+		      		category3 = "ê°ˆë¹„";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-		      		category3 = "Ã¤³¡";
+		      		category3 = "ì±„ë";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-		      		category3 = "¸ñ½É";
+		      		category3 = "ëª©ì‹¬";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-		      		category3 = "ºÎÃ¤»ì";
+		      		category3 = "ë¶€ì±„ì‚´";
 		      	}
 		      	rdto.setCategory1(category1);
 		      	rdto.setCategory2(category2);
@@ -2715,47 +2717,47 @@ public class MainServiceImpl implements MainService {
 		      	String cate = rdto.getP_category()+"";
 		
 		      	if((cate.charAt(0)-48) == 1) {
-		      		category1 = "±¹³»»ê";
+		      		category1 = "êµ­ë‚´ì‚°";
 		      	} else{
-		      		category1 = "¼öÀÔ»ê";
+		      		category1 = "ìˆ˜ì…ì‚°";
 		      	}
 		      	
 		      	if((cate.charAt(1)-48) == 1) {
-		      		category2 = "µÅÁö°í±â";
+		      		category2 = "ë¼ì§€ê³ ê¸°";
 		      	} else{
-		      		category2 = "¼Ò°í±â";
+		      		category2 = "ì†Œê³ ê¸°";
 		      	}
 		      	
 		      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-		      		category3 = "Æ¯¼öºÎÀ§";
+		      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 		      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-		      		category3 = "»ï°ã»ì";
+		      		category3 = "ì‚¼ê²¹ì‚´";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-		      		category3 = "¸ñ»ì";
+		      		category3 = "ëª©ì‚´";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-		      		category3 = "¾È½É";
+		      		category3 = "ì•ˆì‹¬";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-		      		category3 = "µî½É";
+		      		category3 = "ë“±ì‹¬";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-		      		category3 = "¾Õ´Ù¸®»ì";
+		      		category3 = "ì•ë‹¤ë¦¬ì‚´";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-		      		category3 = "°¥¸Å±â»ì";
+		      		category3 = "ê°ˆë§¤ê¸°ì‚´";
 		      	}
 		      	
 		      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-		      		category3 = "Æ¯¼öºÎÀ§";
+		      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 		      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-		      		category3 = "µî½É";
+		      		category3 = "ë“±ì‹¬";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-		      		category3 = "¾È½É";
+		      		category3 = "ì•ˆì‹¬";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-		      		category3 = "°¥ºñ";
+		      		category3 = "ê°ˆë¹„";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-		      		category3 = "Ã¤³¡";
+		      		category3 = "ì±„ë";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-		      		category3 = "¸ñ½É";
+		      		category3 = "ëª©ì‹¬";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-		      		category3 = "ºÎÃ¤»ì";
+		      		category3 = "ë¶€ì±„ì‚´";
 		      	}
 		      	rdto.setCategory1(category1);
 		      	rdto.setCategory2(category2);
@@ -2839,47 +2841,47 @@ public class MainServiceImpl implements MainService {
 		      	String cate = rdto.getP_category()+"";
 		
 		      	if((cate.charAt(0)-48) == 1) {
-		      		category1 = "±¹³»»ê";
+		      		category1 = "êµ­ë‚´ì‚°";
 		      	} else{
-		      		category1 = "¼öÀÔ»ê";
+		      		category1 = "ìˆ˜ì…ì‚°";
 		      	}
 		      	
 		      	if((cate.charAt(1)-48) == 1) {
-		      		category2 = "µÅÁö°í±â";
+		      		category2 = "ë¼ì§€ê³ ê¸°";
 		      	} else{
-		      		category2 = "¼Ò°í±â";
+		      		category2 = "ì†Œê³ ê¸°";
 		      	}
 		      	
 		      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-		      		category3 = "Æ¯¼öºÎÀ§";
+		      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 		      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-		      		category3 = "»ï°ã»ì";
+		      		category3 = "ì‚¼ê²¹ì‚´";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-		      		category3 = "¸ñ»ì";
+		      		category3 = "ëª©ì‚´";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-		      		category3 = "¾È½É";
+		      		category3 = "ì•ˆì‹¬";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-		      		category3 = "µî½É";
+		      		category3 = "ë“±ì‹¬";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-		      		category3 = "¾Õ´Ù¸®»ì";
+		      		category3 = "ì•ë‹¤ë¦¬ì‚´";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-		      		category3 = "°¥¸Å±â»ì";
+		      		category3 = "ê°ˆë§¤ê¸°ì‚´";
 		      	}
 		      	
 		      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-		      		category3 = "Æ¯¼öºÎÀ§";
+		      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 		      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-		      		category3 = "µî½É";
+		      		category3 = "ë“±ì‹¬";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-		      		category3 = "¾È½É";
+		      		category3 = "ì•ˆì‹¬";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-		      		category3 = "°¥ºñ";
+		      		category3 = "ê°ˆë¹„";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-		      		category3 = "Ã¤³¡";
+		      		category3 = "ì±„ë";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-		      		category3 = "¸ñ½É";
+		      		category3 = "ëª©ì‹¬";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-		      		category3 = "ºÎÃ¤»ì";
+		      		category3 = "ë¶€ì±„ì‚´";
 		      	}
 		      	rdto.setCategory1(category1);
 		      	rdto.setCategory2(category2);
@@ -2963,47 +2965,47 @@ public class MainServiceImpl implements MainService {
 		      	String cate = rdto.getP_category()+"";
 		
 		      	if((cate.charAt(0)-48) == 1) {
-		      		category1 = "±¹³»»ê";
+		      		category1 = "êµ­ë‚´ì‚°";
 		      	} else{
-		      		category1 = "¼öÀÔ»ê";
+		      		category1 = "ìˆ˜ì…ì‚°";
 		      	}
 		      	
 		      	if((cate.charAt(1)-48) == 1) {
-		      		category2 = "µÅÁö°í±â";
+		      		category2 = "ë¼ì§€ê³ ê¸°";
 		      	} else{
-		      		category2 = "¼Ò°í±â";
+		      		category2 = "ì†Œê³ ê¸°";
 		      	}
 		      	
 		      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-		      		category3 = "Æ¯¼öºÎÀ§";
+		      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 		      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-		      		category3 = "»ï°ã»ì";
+		      		category3 = "ì‚¼ê²¹ì‚´";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-		      		category3 = "¸ñ»ì";
+		      		category3 = "ëª©ì‚´";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-		      		category3 = "¾È½É";
+		      		category3 = "ì•ˆì‹¬";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-		      		category3 = "µî½É";
+		      		category3 = "ë“±ì‹¬";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-		      		category3 = "¾Õ´Ù¸®»ì";
+		      		category3 = "ì•ë‹¤ë¦¬ì‚´";
 		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-		      		category3 = "°¥¸Å±â»ì";
+		      		category3 = "ê°ˆë§¤ê¸°ì‚´";
 		      	}
 		      	
 		      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-		      		category3 = "Æ¯¼öºÎÀ§";
+		      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 		      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-		      		category3 = "µî½É";
+		      		category3 = "ë“±ì‹¬";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-		      		category3 = "¾È½É";
+		      		category3 = "ì•ˆì‹¬";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-		      		category3 = "°¥ºñ";
+		      		category3 = "ê°ˆë¹„";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-		      		category3 = "Ã¤³¡";
+		      		category3 = "ì±„ë";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-		      		category3 = "¸ñ½É";
+		      		category3 = "ëª©ì‹¬";
 		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-		      		category3 = "ºÎÃ¤»ì";
+		      		category3 = "ë¶€ì±„ì‚´";
 		      	}
 		      	rdto.setCategory1(category1);
 		      	rdto.setCategory2(category2);
@@ -3104,47 +3106,47 @@ public class MainServiceImpl implements MainService {
 	      	String cate = rdto.getP_category()+"";
 	
 	      	if((cate.charAt(0)-48) == 1) {
-	      		category1 = "±¹³»»ê";
+	      		category1 = "êµ­ë‚´ì‚°";
 	      	} else{
-	      		category1 = "¼öÀÔ»ê";
+	      		category1 = "ìˆ˜ì…ì‚°";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 1) {
-	      		category2 = "µÅÁö°í±â";
+	      		category2 = "ë¼ì§€ê³ ê¸°";
 	      	} else{
-	      		category2 = "¼Ò°í±â";
+	      		category2 = "ì†Œê³ ê¸°";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "Æ¯¼öºÎÀ§";
+	      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-	      		category3 = "»ï°ã»ì";
+	      		category3 = "ì‚¼ê²¹ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-	      		category3 = "¸ñ»ì";
+	      		category3 = "ëª©ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-	      		category3 = "¾È½É";
+	      		category3 = "ì•ˆì‹¬";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-	      		category3 = "µî½É";
+	      		category3 = "ë“±ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-	      		category3 = "¾Õ´Ù¸®»ì";
+	      		category3 = "ì•ë‹¤ë¦¬ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-	      		category3 = "°¥¸Å±â»ì";
+	      		category3 = "ê°ˆë§¤ê¸°ì‚´";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "Æ¯¼öºÎÀ§";
+	      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-	      		category3 = "µî½É";
+	      		category3 = "ë“±ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-	      		category3 = "¾È½É";
+	      		category3 = "ì•ˆì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-	      		category3 = "°¥ºñ";
+	      		category3 = "ê°ˆë¹„";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-	      		category3 = "Ã¤³¡";
+	      		category3 = "ì±„ë";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-	      		category3 = "¸ñ½É";
+	      		category3 = "ëª©ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-	      		category3 = "ºÎÃ¤»ì";
+	      		category3 = "ë¶€ì±„ì‚´";
 	      	}
 	      	rdto.setCategory1(category1);
 	      	rdto.setCategory2(category2);
@@ -3216,47 +3218,47 @@ public class MainServiceImpl implements MainService {
 	      	String cate = rdto.getP_category()+"";
 	
 	      	if((cate.charAt(0)-48) == 1) {
-	      		category1 = "±¹³»»ê";
+	      		category1 = "êµ­ë‚´ì‚°";
 	      	} else{
-	      		category1 = "¼öÀÔ»ê";
+	      		category1 = "ìˆ˜ì…ì‚°";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 1) {
-	      		category2 = "µÅÁö°í±â";
+	      		category2 = "ë¼ì§€ê³ ê¸°";
 	      	} else{
-	      		category2 = "¼Ò°í±â";
+	      		category2 = "ì†Œê³ ê¸°";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "Æ¯¼öºÎÀ§";
+	      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-	      		category3 = "»ï°ã»ì";
+	      		category3 = "ì‚¼ê²¹ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-	      		category3 = "¸ñ»ì";
+	      		category3 = "ëª©ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-	      		category3 = "¾È½É";
+	      		category3 = "ì•ˆì‹¬";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-	      		category3 = "µî½É";
+	      		category3 = "ë“±ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-	      		category3 = "¾Õ´Ù¸®»ì";
+	      		category3 = "ì•ë‹¤ë¦¬ì‚´";
 	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-	      		category3 = "°¥¸Å±â»ì";
+	      		category3 = "ê°ˆë§¤ê¸°ì‚´";
 	      	}
 	      	
 	      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "Æ¯¼öºÎÀ§";
+	      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
 	      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-	      		category3 = "µî½É";
+	      		category3 = "ë“±ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-	      		category3 = "¾È½É";
+	      		category3 = "ì•ˆì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-	      		category3 = "°¥ºñ";
+	      		category3 = "ê°ˆë¹„";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-	      		category3 = "Ã¤³¡";
+	      		category3 = "ì±„ë";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-	      		category3 = "¸ñ½É";
+	      		category3 = "ëª©ì‹¬";
 	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-	      		category3 = "ºÎÃ¤»ì";
+	      		category3 = "ë¶€ì±„ì‚´";
 	      	}
 	      	rdto.setCategory1(category1);
 	      	rdto.setCategory2(category2);
@@ -3512,6 +3514,11 @@ public ProductDetailDTO productDetail(ProductDetailDTO dto, Model model) {
 	public int pickCNT(String ppic_m_id) {
 		return mapper.pickCNT(ppic_m_id);
 	}
+	
+	@Override
+	public int pick_P_CNT(String ppic_m_id) {
+		return mapper.pick_P_CNT(ppic_m_id);
+	}
 
 	@Override
 	public int pick_p_numCNT(String ppic_m_id, int ppic_p_num) {
@@ -3526,6 +3533,155 @@ public ProductDetailDTO productDetail(ProductDetailDTO dto, Model model) {
 	@Override
 	public void quantity(int co_p_num) {
 		mapper.quantity(co_p_num);
+	}
+
+	@Override
+	public PreferDTO customOrderCategory(String pre_m_id, Model model) {
+		return mapper.customOrderCategory(pre_m_id);
+	}
+
+	@Override
+	public void customOrder(Principal seid, ProductDetailDTO dto, Model model, int pageNum, String pre_m_id) {
+			PreferDTO pdto = mapper.customOrderCategory(pre_m_id);
+			int pResult=0;
+			int cate_response1 = pdto.getPre0_response();
+			int cate_response2 = pdto.getPre1_response();
+			if(cate_response1 == 100) {
+				cate_response1 = 110;
+			}else {
+				cate_response1 = 120;
+			}
+			pResult = cate_response1+cate_response2;
+			pdto.setPre_category(pResult);
+
+			
+		   String m_id = "";
+		   if(seid != null) {
+			   	m_id = (String)seid.getName(); 
+			   	model.addAttribute("m_id", m_id);
+		   }
+		   int pageSize = 6; 
+	       int startRow = (pageNum - 1) * pageSize + 1;
+	       int endRow = pageNum * pageSize;
+	       int count = mapper.customOrderCNT(pdto.getPre_category());
+	       List<ProductDetailDTO> customOrder = Collections.EMPTY_LIST;
+	       if(count > 0) {
+	          searchMap.put("pre_m_id", pre_m_id);
+	          customOrder = mapper.customOrder(searchMap);
+	       }
+	       model.addAttribute("pre_m_id", pre_m_id);
+	       
+	       for(ProductDetailDTO rdto : customOrder) {
+	    	   	int p_num = rdto.getP_num();
+	    	   	double result=0;
+	    	   	double sum =0.0;
+	   		  	int recount = mapper.reviewAllCNT(p_num);
+	   			if(recount > 0) {
+		   			sum = mapper.reviewSum(p_num);
+		   			result = sum / (double)recount;
+		   			result = Double.parseDouble(String.format("%.1f", result));
+		   			rdto.setStar(result);
+		   			model.addAttribute("p_num", p_num);
+	   			}
+	   			String category1="";
+	    		String category2="";
+	    		String category3="";
+	    	
+		      	String cate = rdto.getP_category()+"";
+		
+		      	if((cate.charAt(0)-48) == 1) {
+		      		category1 = "êµ­ë‚´ì‚°";
+		      	} else{
+		      		category1 = "ìˆ˜ì…ì‚°";
+		      	}
+		      	
+		      	if((cate.charAt(1)-48) == 1) {
+		      		category2 = "ë¼ì§€ê³ ê¸°";
+		      	} else{
+		      		category2 = "ì†Œê³ ê¸°";
+		      	}
+		      	
+		      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
+		      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
+		      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
+		      		category3 = "ì‚¼ê²¹ì‚´";
+		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
+		      		category3 = "ëª©ì‚´";
+		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
+		      		category3 = "ì•ˆì‹¬";
+		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
+		      		category3 = "ë“±ì‹¬";
+		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
+		      		category3 = "ì•ë‹¤ë¦¬ì‚´";
+		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
+		      		category3 = "ê°ˆë§¤ê¸°ì‚´";
+		      	}
+		      	
+		      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
+		      		category3 = "íŠ¹ìˆ˜ë¶€ìœ„";
+		      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
+		      		category3 = "ë“±ì‹¬";
+		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
+		      		category3 = "ì•ˆì‹¬";
+		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
+		      		category3 = "ê°ˆë¹„";
+		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
+		      		category3 = "ì±„ë";
+		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
+		      		category3 = "ëª©ì‹¬";
+		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
+		      		category3 = "ë¶€ì±„ì‚´";
+		      	}
+		      	rdto.setCategory1(category1);
+		      	rdto.setCategory2(category2);
+		      	rdto.setCategory3(category3);
+		      	
+		      	String ppic_m_id = m_id;
+		      	int ppic_p_num = rdto.getP_num();
+		      	rdto.setPpic_m_id(ppic_m_id);
+		      	rdto.setPpic_p_num(ppic_p_num);
+		      	
+		      	int r_p_num = mapper.reviewAllCNT(rdto.getP_num());
+		      	rdto.setReviewAllCNT(r_p_num);
+	       }
+	       //page
+	        int pageCount = count / pageSize + ( count % pageSize == 0 ? 0 : 1);
+	       
+	        int startPage = (int)(pageNum/10)*10+1;
+	        int pageBlock=10;
+	        int endPage = startPage + pageBlock-1;
+	        if (endPage > pageCount) {
+	           endPage = pageCount;
+	        }
+	       model.addAttribute("pageCount", pageCount);
+	       model.addAttribute("startPage", startPage);
+	       model.addAttribute("pageBlock", pageBlock);
+	       model.addAttribute("endPage", endPage);
+	       
+	       for(ProductDetailDTO rdto : customOrder) {
+	    	   int p_num = rdto.getP_num();
+	    	   double result=0;
+	    	   double sum =0.0;
+	   		  	int recount = mapper.reviewAllCNT(p_num);
+	   			if(recount > 0) {
+	   			sum = mapper.reviewSum(p_num);
+	   			result = sum / (double)recount;
+	   			result = Double.parseDouble(String.format("%.1f", result));
+	   			rdto.setStar(result);
+	   			model.addAttribute("p_num",p_num);
+	   			}
+	       }
+	       model.addAttribute("customOrder", customOrder);
+	   }
+
+	@Override
+	public List<ProductDTO> customOrderBest(int p_category) {
+		return mapper.customOrderBest(p_category);
+	}
+
+	@Override
+	public MemberDTO name(String m_id) {
+		return mapper.name(m_id);
 	}
 
 }
