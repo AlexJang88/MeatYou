@@ -10,13 +10,14 @@
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
 	<beans:bean id="memberDTO" class="com.gogi.meatyou.bean.MemberDTO" />
+	<beans:bean id="memberMap" class="java.util.HashMap"/>
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	 <beans:bean id="numbers" class="java.util.ArrayList">
    	<beans:constructor-arg>
    		<beans:list value-type="Integer"/>
    	</beans:constructor-arg>
    </beans:bean>
-   <beans:bean id="memberMap" class="java.util.HashMap"/>
+   
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
 </beans:beans>

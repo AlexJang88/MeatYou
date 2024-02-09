@@ -117,7 +117,7 @@ public interface MemberService  {
       int couponCount(@Param("cp_m_id") String cp_m_id);
       List<CouponDTO>   howmuchCoupon(@Param("cp_m_id") String cp_m_id);
  
-      // 다른 필요한 메서드들과 함께 추가
+      // �떎瑜� �븘�슂�븳 硫붿꽌�뱶�뱾怨� �븿猿� 異붽�
       ShoppingCartDTO getSelectedProducts2(int shop_p_num, @Param("add_m_id") String add_m_id );
       
       
@@ -125,12 +125,12 @@ public interface MemberService  {
       List<MOrderDTO> paypage(@Param("order_m_id") String order_m_id , int page, int pageSize );
       int PaymentCount(@Param("order_m_id") String order_m_id );
       
-      public String joinEmail(String email); //이메일체크
+      public String joinEmail(String email); //�씠硫붿씪泥댄겕
       
-      public int findId(MemberDTO memberdto);//아이디 찾기 맞는지 비교
-      public int findPw(MemberDTO memberdto);//아이디 찾기 맞는지 비교
-      public void getDbId(Model model, MemberDTO memberdto); // 실제 아이디 가져오기
-      public void getDbPw(Model model, MemberDTO memberdto); // 실제 비번 가져오기
-      public void changePw(MemberDTO memberdto); //비밀번호변경
-      
+      public int findId(MemberDTO memberdto);//�븘�씠�뵒 李얘린 留욌뒗吏� 鍮꾧탳
+      public int findPw(MemberDTO memberdto);//�븘�씠�뵒 李얘린 留욌뒗吏� 鍮꾧탳
+      public void getDbId(Model model, MemberDTO memberdto); // �떎�젣 �븘�씠�뵒 媛��졇�삤湲�
+      public void getDbPw(Model model, MemberDTO memberdto); // �떎�젣 鍮꾨쾲 媛��졇�삤湲�
+      public void changePw(MemberDTO memberdto); //鍮꾨�踰덊샇蹂�寃�
+      public List<CouponDTO> getProductCoupon(HashMap hashmap);
 }

@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-<%@ include file="../../header.jsp" %>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <%
     response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
     response.setHeader("Cache-Control", "post-check=0, pre-check=0");
@@ -222,8 +222,8 @@
    				 <div>적용 된 총할인 금액  :         ${dto.total_amount}</div>
    					<div> 최종 결제금액 :      ${dto.total_amount}</div>
    				   
-   				   	<form action="showMeTheMoney" method="post" id="checkoutForm">    
-   		 <input type="submit" value="결제하기">
+   				   	<form action="/kakaopay/memready" method="post" id="checkoutForm">    
+   		 <button id="btn_kakao-pay" type="button">kakao</button>
    		 <input type="hidden" name="total_quantity" value="${dto.tot_price}">
    		 <input type="hidden" name="partner_order_id" value="${dto.shop_num}">
    		 <input type="hidden" name="partner_user_id" value="${mdto.m_id}">
@@ -259,3 +259,20 @@
 							   
 <%@ include file="../../footer.jsp" %>
 </body>
+
+<script>
+	
+	$("#btn_kakao-pay").click(function(){
+		// 카카오페이 결제전송
+		$.ajax({
+			type:'POST'
+			,url:'/kakaopay/memready'
+			,success:function(response){
+				 alert(response.next_redirect_pc_url);
+				location.href = response.next_redirect_pc_url;			
+			}
+		})
+		// 버튼 클릭이벤트 해제
+	});
+
+</script>

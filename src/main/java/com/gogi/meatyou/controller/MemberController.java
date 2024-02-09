@@ -88,6 +88,8 @@ public class MemberController {
    public String doLogin(Model model, MemberDTO dto,MemStatusDTO  mdto,HttpSession  session) {  session.setAttribute("status",dto.getM_status()); session.setAttribute("level",mdto.getMstat_auth());  
        Integer status = (Integer) session.getAttribute("status");
        Integer level = (Integer) session.getAttribute("status");
+       model.addAttribute("key", "1ee6779526ade881c825d37815f69911");
+		model.addAttribute("uri", "http://localhost:8080/test/loginpro");
    //   return "member/loginSequrity/login";
          return "member/loginSequrity/login";
    }
@@ -471,17 +473,13 @@ public class MemberController {
 
     
     @RequestMapping("shoppingCartForm")
-    public String shoppingCartForm(
- 		   Principal seid,
- 		   Model model,
- 		   @RequestParam(value="page",defaultValue = "1") int page  
- 		   )
-    {	
-    	String id = seid.getName();
-    	memberMap.put("id", id);
-    	memberMap.put("page", page);
+    public String shoppingCartForm(Principal seid,Model model,@RequestParam(value="page",defaultValue = "1") int page){	
     	
-    	List<OrderwithCouponDTO> cartdto = service.ShoppingCartAndProduct(id,page,model);
+    	String id = seid.getName();
+    	System.out.println("id==========="+id);
+    	List<OrderwithCouponDTO> cartdto =Collections.EMPTY_LIST;
+		System.out.println("page====="+page);
+    	cartdto = service.ShoppingCartAndProduct(id,page,model);
     	for(OrderwithCouponDTO temp : cartdto) {
     	memberMap.put("p_num", temp.getP_num());
     	//temp.setAddressList(service.combined_address(id));
@@ -491,46 +489,6 @@ public class MemberController {
     	
     	model.addAttribute("cartdto", cartdto);
     	
-//    	String shop_m_id = (String) seid.getName(); 
-//    	ShoppingCartDTO sdto = service.shoppingCartCheck(shop_m_id);
-//    	cdto//
-//    	pdetail//
-//    	pdto//product
-//    	//shoppincartdto
-// 	   int cp_num=sdto.getCp_num(); //
-// 	   int cp_price=sdto.getCp_price(); //
-// 	   int p_num=pdto.getP_num(); //
-// 	   
-// 	   int totalPrice = sdto.getShop_quantity() * sdto.getP_price(); //
-// 	  
-// 	   List<CouponDTO> cList = service.howmuchCoupon(shop_m_id);
-// 	   List<ShoppingCartDTO> shoppingCartList = service.getShoppingCartItemsPaged2(shop_m_id, page, pageSize, sdto, pdto,pddto,cList,cdto);
-// 	   for(ShoppingCartDTO dto : shoppingCartList) {
-// 		  int sp_num= dto.getShop_p_num();
-// 		 memberMap.put("id", shop_m_id);
-// 		  memberMap.put("p_num", sp_num);
-// 		  dto.setCoupons(service.getProductCoupon(memberMap));
-// 	   }
-// 	   
-// 	   int count = service.couponCount(shop_m_id);  
-// 	//  int checkCoupon=service.CouponForyou(shop_m_id,cdto,sdto);
-//         
-//         
-// 	   int totalItemCount = service.getTotalShoppingCartItems(shop_m_id);
-// 	   
-// 	   int totalPage = (int) Math.ceil((double) totalItemCount / pageSize);
-// 	   
-// 	   System.out.println("shoppingCartList================================"+shoppingCartList);
-// 	   System.out.println("cp_num================================"+cp_num);
-// 	   System.out.println("cp_price================================"+cp_price);
-// 	   System.out.println("selectedProducts================================"+selectedProducts);
-// 	   
-// 	   model.addAttribute("shoppingCartList", shoppingCartList);
-// 	   model.addAttribute("totalPrice", totalPrice);
-// 	   model.addAttribute("page", page);
-// 	   model.addAttribute("pageSize", pageSize);
-// 	   model.addAttribute("totalPage", totalPage);
-// 	   model.addAttribute("selectedProducts", selectedProducts);
  	   return "member/shoppingCart/shoppingCartForm";
     }
   
@@ -655,25 +613,25 @@ public class MemberController {
            model.addAttribute("pageSize", pageSize);
            model.addAttribute("totalPage", totalPage);
        } else {
-           // order_m_id가 null인 경우에 대한 처리
-           // 예를 들어, 로그를 출력하거나 다른 기본값을 설정할 수 있습니다.
+           // order_m_id媛� null�씤 寃쎌슦�뿉 ���븳 泥섎━
+           // �삁瑜� �뱾�뼱, 濡쒓렇瑜� 異쒕젰�븯嫄곕굹 �떎瑜� 湲곕낯媛믪쓣 �꽕�젙�븷 �닔 �엳�뒿�땲�떎.
            model.addAttribute("errorMessage", "order_m_id is null");
        }
 
        return "member/order/PaymentHistory";
     }
     
-    //여기서 부터 지환
+    //�뿬湲곗꽌 遺��꽣 吏��솚
     
     @GetMapping("/mailCheck")
 	@ResponseBody
 	public String mailCheck(String email) {
-		System.out.println("이메일 인증 요청이 들어옴!");
-		System.out.println("이메일 인증 이메일 : " + email);
+		System.out.println("�씠硫붿씪 �씤利� �슂泥��씠 �뱾�뼱�샂!");
+		System.out.println("�씠硫붿씪 �씤利� �씠硫붿씪 : " + email);
 		return service.joinEmail(email);
 	}
     
-    //아이디 찾기
+    //�븘�씠�뵒 李얘린
     @RequestMapping("idfind")
     public String idfind(Model model,  HttpSession session){
     	Integer check = (Integer) session.getAttribute("check");
@@ -685,7 +643,7 @@ public class MemberController {
     @RequestMapping("idfindPro")
     public String idfindPro(Model model,MemberDTO memberdto, HttpSession session){
  	
-    	int check = service.findId(memberdto); // 아이디 전화번호 맞는지 확인    	
+    	int check = service.findId(memberdto); // �븘�씠�뵒 �쟾�솕踰덊샇 留욌뒗吏� �솗�씤    	
     	
     	if(check == 1) {
     		service.getDbId(model, memberdto);
@@ -711,7 +669,7 @@ public class MemberController {
     
     @RequestMapping("pwfindPro")
     public String pwfindPro(Model model, MemberDTO memberdto, HttpSession session){
-    	int check = service.findPw(memberdto); // 비밀번호 찾을때 정보  	
+    	int check = service.findPw(memberdto); // 鍮꾨�踰덊샇 李얠쓣�븣 �젙蹂�  	
     	
     	if(check == 1) {
     		service.getDbPw(model, memberdto);
@@ -723,8 +681,8 @@ public class MemberController {
     	return "redirect:/member/pwfind?"+"check="+check;
     } 
     
-   
     @RequestMapping("pwChange")
+    
     public String pwChange(MemberDTO memberdto, String passwd, String passwd2){
     	if(passwd.equals(passwd2)){
     		memberdto.setPasswd(passwd);
