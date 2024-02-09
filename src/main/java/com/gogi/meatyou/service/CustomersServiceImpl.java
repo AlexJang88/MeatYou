@@ -196,15 +196,22 @@ public  class CustomersServiceImpl implements CustomersService {
 
    @Override
    public void statusChange(Model model, ProductDTO productdto) {                   
-      String id = productdto.getP_m_id();       
-                  
-   
-   
-      if(productdto.getP_status()==0 || productdto.getP_status()==2 || productdto.getP_status()== 3 || productdto.getP_status() ==1) {
-         mapper.conumchange(productdto); 
-      }  
-         
-      if(productdto.getP_status() ==1) {         
+      String id = productdto.getP_m_id();
+      int panmeList = mapper.panmeList(productdto); // 현재 판매중인갯수
+      
+      // 0 , 1 , 2  //3이상이면 판매중으로 등록 불가 
+      if(productdto.getP_status()==0 && panmeList > 2) {                          
+        String s = "count"; 
+        
+        model.addAttribute("s", s);          
+      }else{
+
+         if(productdto.getP_status()==0 || productdto.getP_status()==2 || productdto.getP_status()== 3 || productdto.getP_status() ==1) {
+            mapper.conumchange(productdto); 
+         }  // 애는 무조건 실행 (혹여나 있는 유료판매중인상품의 번호를 null 값으로 변경)
+       
+      
+      if(productdto.getP_status() ==1) { // 애는 유료결재 1번 일때만 실행되는코드        
          int cuscheck = mapper.cuscheck(productdto);   
          if(cuscheck==1) {             
             mapper.gijon(productdto); 
@@ -212,9 +219,9 @@ public  class CustomersServiceImpl implements CustomersService {
          }
          mapper.cus_numdelete(productdto); 
          mapper.cus_num(productdto); 
-      }    
-      mapper.statusChange(productdto);        
-   
+      }         
+      mapper.statusChange(productdto);   //애는 무조건 실행되는 코드 product의 등급을 변경한다     
+      }
    }
 
    
@@ -808,7 +815,7 @@ public  class CustomersServiceImpl implements CustomersService {
                co_quantity = 2400;
             }
             int co_num=mapper.getco_num();
-            System.out.println("powerlink======"+co_num);
+            
             ProductDTO productdto = new ProductDTO();
             productdto.setP_num(p_num); // 상품번호값
             productdto.setClickpay(clickpay);
@@ -841,10 +848,7 @@ public  class CustomersServiceImpl implements CustomersService {
       @Override
       public void insert_cusorderTwo(CusOrderDTO cusorderdto) {
          mapper.insert_cusordertwo(cusorderdto);
-         System.out.println("==========++"+cusorderdto.getCo_m_id());
-         System.out.println("==========++"+cusorderdto.getCo_num());
-         System.out.println("==========++"+cusorderdto.getCo_p_num());
-         System.out.println("==========++"+cusorderdto.getCo_quantity());
+        
       }
 
       //아래 에디터
@@ -854,7 +858,7 @@ public  class CustomersServiceImpl implements CustomersService {
                // 기존 temp폴더에 저장된 이미지 표시를 위해 에디터에는 /temp로 경로가 지정되어 있다 
                // 이를 마지막 게시글 다음 번호로 설정한다.
               int board_num=mapper.getProductNEXTNum();
-              System.out.println("=======++"+board_num);
+              
 
               String oname =file.getOriginalFilename();
               String extention = oname.substring(oname.lastIndexOf("."));
@@ -896,7 +900,7 @@ public  class CustomersServiceImpl implements CustomersService {
       
         private void fileUpload(String path_folder1, String path_folder2,int num) {
               // path_folder1에서 path_folder2로 파일을 복사하는 함수입니다.
-           System.out.println("fileUpload====");
+           
               File folder1;
               File folder2;
               folder1 = new File(path_folder1);
@@ -930,10 +934,8 @@ public  class CustomersServiceImpl implements CustomersService {
                               // 버퍼를 사용하여 파일 내용을 읽고 복사합니다.
                               fos.write(b, 0, cnt);
                           }
-                          CusFileDTO dto = new CusFileDTO();
-                          System.out.println("fileupload num === "+num);
-                          if(num!=0) {
-                             System.out.println("fileupload after if ==="+num);
+                          CusFileDTO dto = new CusFileDTO();                          
+                          if(num!=0) {                           
                              dto.setCf_p_num(num);
                              dto.setCf_filename(file.getName());
                              mapper.ProductFileReg(dto);
@@ -1083,8 +1085,7 @@ public  class CustomersServiceImpl implements CustomersService {
                  if(thumbs != null && !thumbs.isEmpty()) {
                   String oname =thumbs.getOriginalFilename();
                     String extention = oname.substring(oname.lastIndexOf("."));
-                    String filename=UUID.randomUUID()+extention;
-                    System.out.println("========+"+filename);
+                    String filename=UUID.randomUUID()+extention;                   
                     try {
                     File copy = new File(realPath+productdto.getP_num()+"/"+filename);
                     if(copy.exists()) {
@@ -1093,7 +1094,6 @@ public  class CustomersServiceImpl implements CustomersService {
                        thumbs.transferTo(copy);
                     }
                     productdto.setThumb(filename);
-                    System.out.println("========++"+productdto.getThumb());
                     } catch (Exception e) {
                        e.printStackTrace();
                     }

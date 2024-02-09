@@ -663,6 +663,77 @@ public class MemberController {
        return "member/order/PaymentHistory";
     }
     
+    //여기서 부터 지환
+    
+    @GetMapping("/mailCheck")
+	@ResponseBody
+	public String mailCheck(String email) {
+		System.out.println("이메일 인증 요청이 들어옴!");
+		System.out.println("이메일 인증 이메일 : " + email);
+		return service.joinEmail(email);
+	}
+    
+    //아이디 찾기
+    @RequestMapping("idfind")
+    public String idfind(Model model,  HttpSession session){
+    	Integer check = (Integer) session.getAttribute("check");
+    	model.addAttribute("check", check);
+    	session.removeAttribute("check");
+    	return "member/loginSequrity/idfind";
+    } 
+    
+    @RequestMapping("idfindPro")
+    public String idfindPro(Model model,MemberDTO memberdto, HttpSession session){
+ 	
+    	int check = service.findId(memberdto); // 아이디 전화번호 맞는지 확인    	
+    	
+    	if(check == 1) {
+    		service.getDbId(model, memberdto);
+    		return "member/loginSequrity/idfindweb";
+    	}else {
+    		session.setAttribute("check", check);
+    	}
  
+    	return "redirect:/member/idfind?"+"check="+check;
+    } 
+    
+    
+    
+    
+    @RequestMapping("pwfind")
+    public String pwfind(Model model,  HttpSession session){
+    	Integer check = (Integer) session.getAttribute("check");
+    	model.addAttribute("check", check);
+    	session.removeAttribute("check");
+    	return "member/loginSequrity/pwfind";
+    } 
+    
+    
+    @RequestMapping("pwfindPro")
+    public String pwfindPro(Model model, MemberDTO memberdto, HttpSession session){
+    	int check = service.findPw(memberdto); // 비밀번호 찾을때 정보  	
+    	
+    	if(check == 1) {
+    		service.getDbPw(model, memberdto);
+    		return "member/loginSequrity/pwfindweb";
+    	}else {
+    		 session.setAttribute("check", check);
+    	}
+  
+    	return "redirect:/member/pwfind?"+"check="+check;
+    } 
+    
+   
+    @RequestMapping("pwChange")
+    public String pwChange(MemberDTO memberdto, String passwd, String passwd2){
+    	if(passwd.equals(passwd2)){
+    		memberdto.setPasswd(passwd);
+    		service.changePw(memberdto);
+    	}
+    	   	
+    	return "redirect:/member/customLogin";
+    } 
+
+    
 }
  

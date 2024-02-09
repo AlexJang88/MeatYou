@@ -73,9 +73,9 @@
 				 	<td>${mber.p_num}</td>
 				 	<td><a href="/customers/content?p_num=${mber.p_num}">${mber.p_name}</a>	</td>
 				 	<td>${mber.order_quantity}</td>
-				 	<td>${mber.order_totalprice}</td>
+				 	<td><fmt:formatNumber value="${mber.order_totalprice}" type="number" pattern="#,##0"/></td>		
 				 	<td><fmt:formatDate value="${mber.order_paydate}" pattern="yyyy-MM-dd" /></td>
-				 	<td>
+				 	<td> 
 				 		<c:choose>
 							<c:when test="${mber.order_status == 0}">결제취소</c:when>
 							<c:when test="${mber.order_status == 1}">결제완료</c:when>							       

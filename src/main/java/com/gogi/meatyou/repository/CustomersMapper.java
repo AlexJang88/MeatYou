@@ -33,6 +33,7 @@ public interface CustomersMapper {
    public int productNextval();//에디터 관련
    public int getco_num();
    
+   public int panmeList(ProductDTO productdto); //현재 판매중인갯수
    
    public int itemcount(String id); // 상품목록페이지의  총 등록 갯수
    public int paycount(String id); // 품목 유료결제한 갯수   

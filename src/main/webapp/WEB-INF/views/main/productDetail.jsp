@@ -179,6 +179,16 @@
 									</div>
 								</form>
 							</c:if>
+							
+							<c:if test="${mid != null}">
+									<div class="add-to-cart">
+										<a href="/board/userQna?p_num=${p_num}">
+										<button class="add-to-cart-btn" type="button"><i class="fa fa-shopping-cart"></i>
+										판매자 문의하기</button>
+										</a>										 
+									</div>
+							</c:if>
+							
 
 
 							<c:if test="${mid == null}">

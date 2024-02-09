@@ -6,12 +6,13 @@ import lombok.Data;
 
 @Data
 public class PQuestionDTO {
-	private int pqNum;
-	private String mId;
-	private int pNum;
-	private String pqTitle;
-	private String pqContent;
-	private int pqStatus;
-	private int pqRef;
-	private Date regDate;
+	private int pq_num;
+	private String pq_m_id;
+	private int pq_p_num;
+	private String pq_title;
+	private String pq_content;
+	private int pq_status;
+	private int pq_ref;
+	private Date pq_reg_date;
+	private int r;
 }

@@ -11,52 +11,42 @@
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.6.0/kakao.min.js" integrity="sha384-6MFdIr0zOira1CHQkedUqJVql0YtcZA1P0nbPrQYJXVJZUkTk/oX4U9GhUIs3/z8" crossorigin="anonymous"></script>
 <script>Kakao.init('995dae66ae429982c698a333c5a4fd80'); Kakao.isInitialized();</script>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <table class="table table-bordered">
-                <thead>
-                    <tr class="text-center">
-                        <th colspan="2"><h1>로그인</h1></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <form action="/login" method="post">
-                        <input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}" />
-                        <tr>
-                            <td class="text-right"><label for="username">사용자명:</label></td>
-                            <td><input type="text" class="form-control" id="username" name="username" required></td>
-                        </tr>
-                        <tr>
-                            <td class="text-right"><label for="password">비밀번호:</label></td>
-                            <td><input type="password" class="form-control" id="password" name="password" required></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td class="text-left">
-                                <div class="form-group form-check">
-                                    <input type="checkbox" class="form-check-input" id="remember-me" name="remember-me">
-                                    <label class="form-check-label" for="remember-me">자동로그인</label>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" class="text-center">
-                                <button type="submit" class="btn btn-primary btn-block">로그인</button>
-                            </td>
-                        </tr>
-                    </form>
-                    <tr>
-                        <td colspan="2" class="text-center">
-                            <button class="btn btn-warning" onclick="kakaoLogin()">카카오 로그인</button>
-                            <button class="btn btn-danger" onclick="kakaoLogout()">카카오 로그아웃</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
+    <form action="/login" method="post">
+		    <input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}" />                      
+			<input type="text" name="username" /> <br />
+			<input type="password" name="password" /> <br />
+			<input type="submit" value="로그인" />
+			<div class="checkbox">
+			<label> <input name="remember-me" type="checkbox">자동로그인
+			</label>
+			</div>
+			</form>
+			<ul>
+	<li onclick="kakaoLogin();">
+      <a href="javascript:void(0)">
+          <span>카카오 로그인</span>
+      </a>
+	</li>
+	<li onclick="kakaoLogout();">
+      <a href="javascript:void(0)">
+          <span>카카오 로그아웃</span>
+      </a>
+	</li>
+	
+	<li>
+      <a href="/member/idfind">
+          <span>아이디 찾기</span>
+      </a>
+	</li>
+	<li>
+      <a href="/member/pwfind">
+          <span>비밀번호 찾기</span>
+      </a>
+	</li>
+	
+	
+</ul>
+
 <script>
 Kakao.init('8890a67c089173194979845f9389950d'); //발급받은 키 중 javascript키를 사용해준다.
 console.log(Kakao.isInitialized()); // sdk초기화여부판단
