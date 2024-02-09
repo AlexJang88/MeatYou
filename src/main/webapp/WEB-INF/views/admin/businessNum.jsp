@@ -13,11 +13,13 @@ var apiKey = $('#apiKey').val();
 	   }; 
 	   
 $.ajax({
-  url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey="+apiKey,  // serviceKey 값을 xxxxxx에 입력
+  url: "https://proxy.cors.sh/api.odcloud.kr/api/nts-businessman/v1/status?serviceKey="+apiKey,  // serviceKey 값을 xxxxxx에 입력
+  beforeSend: function (xhr) {
+  xhr.setRequestHeader("Access-Control-Allow-Origin","*");,
   type: "POST",
   data: JSON.stringify(data), // json 을 string으로 변환하여 전송
   dataType: "JSON",
-  contentType: "application/json",
+  contentType: "application/json; charset:UTF-8",
   accept: "application/json",
   success: function(result) {
       console.log(result);

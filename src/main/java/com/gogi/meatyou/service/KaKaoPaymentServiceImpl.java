@@ -129,6 +129,12 @@ public class KaKaoPaymentServiceImpl implements KaKaoPaymentService{
 		
 			}
 
-			
+			//주문번호
+			//사용자아이디 
+			//상품이름 
+			//수량 
+			//총금액 
+			//세후금액 
+			//세금 
 	}
 
