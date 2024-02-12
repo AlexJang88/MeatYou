@@ -32,6 +32,13 @@ public interface MemberService  {
 	public OrderwithCouponDTO getCartbyNum(HashMap hashmap);
 	public OrderwithCouponDTO getCouponNum(int cp_num);
     int insertMember(MemberDTO dto);
+    int insertKaKao(MemberDTO dto);
+    //kakao Token
+    public String getAccessToken(String authorize_code) throws Throwable;
+    public void tokenLogout(String accessToken) ;
+    public HashMap<String, Object> getUserInfo(String access_Token) throws Throwable;
+    
+    
     int twoNextPay(
     		OrderwithCouponDTO mdto,int shop_num,int order_p_num,String order_memo
     		,@Param("order_m_id") String order_m_id,int order_cp_num,int order_p_price,
@@ -133,4 +140,5 @@ public interface MemberService  {
       public void getDbPw(Model model, MemberDTO memberdto); // �떎�젣 鍮꾨쾲 媛��졇�삤湲�
       public void changePw(MemberDTO memberdto); //鍮꾨�踰덊샇蹂�寃�
       public List<CouponDTO> getProductCoupon(HashMap hashmap);
+      	public boolean memberList( @Param("m_id") String m_id);
 }

@@ -77,15 +77,12 @@ a {
      <a class="kakao" href="https://kauth.kakao.com/oauth/authorize?client_id=${key}&redirect_uri=${uri}&response_type=code">
      	<!-- REST_API키 및 REDIRECT_URI는 본인걸로 수정하세요 -->
         
+        
       	<div class="kakao_i"></div>
       	<div class="kakao_txt">카카오톡으로 간편로그인 </div>
    	</a>
 </div>
-	<li onclick="kakaoLogout();">
-      <a href="javascript:void(0)">
-          <span>카카오 로그아웃</span>
-      </a>
-	</li>
+ 
 	
 	<li>
       <a href="/member/idfind">

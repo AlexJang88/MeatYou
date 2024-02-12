@@ -40,14 +40,25 @@ private static final Logger logger = LoggerFactory.getLogger(CustomLoginHandler.
     private String determineTargetUrl(Authentication authentication) {
         if (hasRole(authentication, "ROLE_ADMIN")) {
             return "/admin/main";
-        } else if (hasRole(authentication, "ROLE_MEMBER")) {
+        } else if (hasRole(authentication, "ROLE_KAKAO_ADMIN")) {
+            return "/admin/main";
+        }
+        	else if (hasRole(authentication, "ROLE_MEMBER")) {
             String username = authentication.getName();
             return "/main/main" ;
-        } else if (hasRole(authentication, "ROLE_SELLER")) {
+        }  else if (hasRole(authentication, "ROLE_KAKAO_MEMBER")) {
+            String username = authentication.getName();
+            return "/main/main" ;
+        } 
+        else if (hasRole(authentication, "ROLE_SELLER")) {
         	return "/customers/customer";
-        } else {
+        }  else if (hasRole(authentication, "ROLE_KAKAO_SALLER")) {
+        	return "/customers/customer";
+        }
+        	else {
             return "/main/main";
         }
+        
     }
 
     private boolean hasRole(Authentication authentication, String role) {

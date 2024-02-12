@@ -50,7 +50,7 @@ public class testServiceImpl implements testService{
 			StringBuilder sb = new StringBuilder();
 			sb.append("grant_type=authorization_code");
 			
-			sb.append("&client_id=1ee6779526ade881c825d37815f69911"); // REST_API키 본인이 발급받은 key 넣어주기
+			sb.append("&client_id=fcaac1b29853acd91d3df7f95bfa316f"); // REST_API키 본인이 발급받은 key 넣어주기
 			sb.append("&redirect_uri=http://localhost:8080/test/loginpro"); // REDIRECT_URI 본인이 설정한 주소 넣어주기
 
 			sb.append("&code=" + authorize_code);
