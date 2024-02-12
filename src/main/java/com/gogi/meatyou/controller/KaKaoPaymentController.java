@@ -1,5 +1,6 @@
 package com.gogi.meatyou.controller;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,12 @@ import com.gogi.meatyou.bean.CusOrderDTO;
 import com.gogi.meatyou.bean.KaKaoPayDTO;
 import com.gogi.meatyou.bean.KakaoApproveResponse;
 import com.gogi.meatyou.bean.KakaoReadyResponse;
+import com.gogi.meatyou.bean.MOrderDTO;
 import com.gogi.meatyou.bean.MemberPayDTO;
 import com.gogi.meatyou.bean.ProductDTO;
 import com.gogi.meatyou.service.CustomersService;
 import com.gogi.meatyou.service.KaKaoPaymentService;
+import com.gogi.meatyou.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,7 +32,12 @@ import lombok.RequiredArgsConstructor;
 public class KaKaoPaymentController {
 
 	@Autowired
-    private CustomersService service; 
+    private CustomersService customersService;
+	
+	@Autowired
+	private MemberService memberService;
+	
+
 	
     private final KaKaoPaymentService kakaoPayService;
     
@@ -46,12 +54,6 @@ public class KaKaoPaymentController {
     
     @RequestMapping("/ready")
     public @ResponseBody KakaoReadyResponse readyToKakaoPay(Principal principal, String totalpay, String p_num, String quantity, String co_num, String co_name) {
-        System.out.println("==="+co_num);
-        System.out.println("==="+principal.getName());
-        System.out.println("==="+co_name);
-        System.out.println("==="+p_num);
-        System.out.println("==="+totalpay);
-        System.out.println("==="+quantity);
         dto = new KaKaoPayDTO();
         
         int itotalpay = Integer.parseInt(totalpay);
@@ -60,9 +62,6 @@ public class KaKaoPaymentController {
         int vat = (int)(itotalpay*0.1);
         String tax_free=String.valueOf(taxfree);
         String vat_p=String.valueOf(vat);
-        System.out.println("==="+tax_free);
-        System.out.println("==="+vat_p);
-        
         dto.setP_num(p_num);
         dto.setItem_name(co_name);
         dto.setPartner_order_id(co_num);
@@ -80,11 +79,6 @@ public class KaKaoPaymentController {
     
     @RequestMapping("/readytwo")
     public @ResponseBody KakaoReadyResponse readyToKakaoPaytwo(Principal principal, String totalpay, String quantity, String co_num, String co_name) {
-        System.out.println("==="+co_num);
-        System.out.println("==="+principal.getName());
-        System.out.println("==="+co_name);       
-        System.out.println("==="+totalpay);
-        System.out.println("==="+quantity);
         dto = new KaKaoPayDTO();
         int itotalpay = Integer.parseInt(totalpay);
         String p_id = principal.getName();
@@ -92,8 +86,6 @@ public class KaKaoPaymentController {
         int vat = (int)(itotalpay*0.1);
         String tax_free=String.valueOf(taxfree);
         String vat_p=String.valueOf(vat);
-        System.out.println("==="+tax_free);
-        System.out.println("==="+vat_p);
         
         dto.setPartner_order_id(co_num); //  cus甕곕뜇�깈
         dto.setPartner_user_id(p_id);  //占쎈툡占쎌뵠占쎈탵
@@ -147,7 +139,7 @@ public class KaKaoPaymentController {
 	        cusorderdto.setCo_m_id(kakaoApprove.getPartner_user_id()); //野껉퀣�삺占쎌쁽 占쎌뵠�뵳占�
 	        cusorderdto.setCo_p_num(p_num); //占쎄맒占쎈�배린�뜇�깈
 	        
-	        service.insert_cusorder(cusorderdto);
+	        customersService.insert_cusorder(cusorderdto);
 	        	     
 		return "redirect:/customers/customer";
 	}
@@ -173,13 +165,14 @@ public class KaKaoPaymentController {
   	        cusorderdto.setCo_m_id(kakaoApprove.getPartner_user_id()); //野껉퀣�삺占쎌쁽 占쎌뵠�뵳占�
   	    
   	        
-  	        service.insert_cusorderTwo(cusorderdto);
+  	      customersService.insert_cusorderTwo(cusorderdto);
   	        	     
   		return "redirect:/customers/customer";
   	}
     
     @RequestMapping("/memready")
     public @ResponseBody KakaoReadyResponse MemreadyToKakaoPay(Principal principal,MemberPayDTO pdto) {
+    	int num =pdto.getArr_shop_num()[0];
         System.out.println("==="+pdto.getPartner_order_id());
         System.out.println("==="+pdto.getPartner_user_id());
         System.out.println("==="+pdto.getItem_name());
@@ -191,18 +184,23 @@ public class KaKaoPaymentController {
         dto = new KaKaoPayDTO();
         mpdto = new MemberPayDTO();
         mpdto=pdto;
+        int qty = Integer.parseInt(pdto.getQuantity())-1;
+        
         String p_id = principal.getName();
         String txfree=pdto.getTax_free_amount().substring(0,pdto.getTax_free_amount().lastIndexOf("."));
         String vat=pdto.getVat_amount().substring(0,pdto.getVat_amount().lastIndexOf("."));
         System.out.println("==="+txfree);
         System.out.println("==="+vat);
         dto.setP_num("11");
-        dto.setItem_name(pdto.getItem_name());
+        dto.setItem_name(pdto.getArr_p_name()[0]+"외 "+qty+"종");
+        pdto.setPartner_order_id(String.valueOf(pdto.getArr_shop_num()[0]));
         dto.setPartner_order_id(String.valueOf(pdto.getArr_shop_num()[0]));
         dto.setPartner_user_id(pdto.getPartner_user_id());
         dto.setQuantity(pdto.getQuantity());
+        pdto.setTax_free_amount(txfree);
         dto.setTax_free_amount(txfree);
         dto.setTotal_amount(pdto.getTotal_amount());
+        pdto.setVat_amount(vat);
         dto.setVat_amount(vat);
         System.out.println("===dto.check=="+dto.getP_num());
         System.out.println("===dto.check=="+dto.getItem_name());
@@ -216,12 +214,29 @@ public class KaKaoPaymentController {
     }
     @GetMapping("/memsuccess")
     public String memsuccess(@RequestParam("pg_token") String pgToken,Model model) {
-        KakaoApproveResponse kakaoApprove = kakaoPayService.ApproveMemResponse(pgToken,mpdto);
+    	KakaoApproveResponse kakaoApprove = kakaoPayService.ApproveMemResponse(pgToken,mpdto);
         int count = mpdto.getArr_shop_num().length;
+        ArrayList<MOrderDTO> list = new ArrayList<MOrderDTO>();
+        
         for(int i=0; i<count; i++) {
+        	MOrderDTO temp= new MOrderDTO();
+        	temp.setOrder_m_id(mpdto.getArr_order_m_id()[i]);
+        	temp.setOrder_cp_num(mpdto.getArr_order_cp_num()[i]);
+        	temp.setOrder_p_num(mpdto.getArr_order_p_num()[i]);
+        	temp.setOrder_p_price(mpdto.getArr_order_p_price()[i]);
+        	temp.setOrder_dere_pay(mpdto.getArr_order_dere_pay()[i]);
+        	temp.setOrder_addr(mpdto.getArr_order_addr()[i]);
+        	temp.setOrder_quantity(mpdto.getArr_order_quantity()[i]);
+        	temp.setOrder_discount(mpdto.getArr_order_discount()[i]);
+        	temp.setOrder_totalprice(mpdto.getArr_order_totalprice()[i]);
+        	temp.setOrder_memo(mpdto.getOrder_memo());
+        	list.add(temp);
         	System.out.println("shounu============"+mpdto.getArr_shop_num()[i]);
         	System.out.println("shounu============"+mpdto.getArr_order_cp_num()[i]);
         }
+        
+        memberService.userPaycomplete(list,mpdto.getArr_shop_num(),mpdto.getArr_order_cp_num(),mpdto.getArr_order_m_id()[0]);
+        
         return "kakaopay/success";
     }
     

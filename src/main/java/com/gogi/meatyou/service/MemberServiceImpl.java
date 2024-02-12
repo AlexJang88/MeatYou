@@ -16,6 +16,7 @@ import com.gogi.meatyou.bean.ShoppingCartDTO;
 import com.gogi.meatyou.bean.UserPayDTO;
 import com.gogi.meatyou.repository.MemberMapper;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -48,7 +49,17 @@ public class MemberServiceImpl implements MemberService {
 	@Autowired
 	private HashMap memberMap;
     
-
+	@Override
+	public void userPaycomplete(ArrayList<MOrderDTO> list,int[] shop_num,int[]cp_num,String id) {
+		memberMap.put("shop_num", shop_num);
+		memberMap.put("cp_num", cp_num);
+		memberMap.put("list", list);
+		memberMap.put("id", id);
+		
+		mapper.userPay(list);
+		
+	}
+	
     @Override
     public int insertMember(MemberDTO dto) {
         return mapper.insertMember(dto);

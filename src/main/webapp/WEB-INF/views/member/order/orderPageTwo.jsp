@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<%@ include file="../../header.jsp" %>
 <%
     response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
     response.setHeader("Cache-Control", "post-check=0, pre-check=0");
@@ -222,12 +222,11 @@
    				 <div>적용 된 총할인 금액  :         ${dto.total_amount}</div>
    					<div> 최종 결제금액 :      ${dto.total_amount}</div>
    				   
-   				   	<form action="/kakaopay/memready" method="post" id="checkoutForm">    
+   				   	<form action="/kakaopay/memready" method="post" id="checkoutForm" name="payform">    
    		 <button id="btn_kakao-pay" type="button">kakao</button>
    		 <input type="hidden" name="total_quantity" value="${dto.tot_price}">
    		 <input type="hidden" name="partner_order_id" value="${dto.shop_num}">
    		 <input type="hidden" name="partner_user_id" value="${mdto.m_id}">
-   		 <input type="hidden" name="item_name" value="아이템이름">
    		 <input type="hidden" name="quantity" value="${dto.total_quantity}">
    		 <input type="hidden" name="total_amount" value="${dto.total_amount}">
    		 <input type="hidden" name="tax_free_amount" value="${dto.total_amount*90/100 }">
@@ -243,6 +242,7 @@
     	 <input type="hidden" name="arr_order_m_id" value="${item.shop_m_id}"/>
          <input type="hidden" name="arr_shop_num" value="${item.shop_num}"/>
          <input type="hidden" name="arr_order_cp_num" value="${item.cp_num}"/>
+         <input type="hidden" name="arr_p_name" value="${item.p_name}"/>
      </c:forEach>
     <br/>
     
@@ -263,10 +263,11 @@
 <script>
 	
 	$("#btn_kakao-pay").click(function(){
-		// 카카오페이 결제전송
+	var formValues = $("form[name=payform]").serialize();
 		$.ajax({
 			type:'POST'
 			,url:'/kakaopay/memready'
+			,data : formValues
 			,success:function(response){
 				 alert(response.next_redirect_pc_url);
 				location.href = response.next_redirect_pc_url;			

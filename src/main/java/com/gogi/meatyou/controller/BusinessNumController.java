@@ -8,12 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.gogi.meatyou.bean.BusinessNumDTO;
+import com.gogi.meatyou.bean.DiseaseDTO;
 import com.gogi.meatyou.service.testService;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 @Controller
 public class BusinessNumController {
@@ -24,6 +28,7 @@ public class BusinessNumController {
 	@RequestMapping("/check")
 	public String check(Model model) {
 		model.addAttribute("apiKey","wBStzrx7b1p8B9XqfLWLBMa0q7HCWqRMC7%2F2o%2BG1CWfp2gW%2FffWQ8H81TDthbbN%2FU%2FqtGmiOtMUvFtzKeHPiuQ%3D%3D");
+		
 		return "admin/businessNum";
 	}
 	
@@ -69,11 +74,13 @@ public class BusinessNumController {
 		return "test/disease";
 	}
 	
-	@RequestMapping(value="/dapi",produces = "application/text; charset=UTF-8")
-	@CrossOrigin(origins = "*", methods = RequestMethod.GET)
-	public @ResponseBody String dapi(Model model,HttpServletResponse response) {
+	@RequestMapping("/dapi")
+	public void dapi(Model model,HttpServletResponse response,@RequestBody DiseaseDTO data
+			) {
 		response.setCharacterEncoding("UTF-8");
-		return service.getdi();
+        	System.out.println("dataout===="+data.getFarm_nm());
+		
+				//service.getdi();
 	}
 
 	

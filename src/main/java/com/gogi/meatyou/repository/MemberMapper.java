@@ -1,5 +1,6 @@
 package com.gogi.meatyou.repository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,7 @@ public interface MemberMapper {
    public OrderwithCouponDTO getProductInfo(int p_num);
    public List<CouponDTO> getProductCoupon(HashMap hashmap);
    public int ShoppingCartCount(String id);
+   public void userPay(ArrayList<MOrderDTO> list);
    
     public int insertMember(MemberDTO dto);
     public int twoNextPay(OrderwithCouponDTO mdto,int shop_num ,@Param("order_p_num")int order_p_num,

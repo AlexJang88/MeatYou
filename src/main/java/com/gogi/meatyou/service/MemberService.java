@@ -2,6 +2,7 @@ package com.gogi.meatyou.service;
 
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,7 @@ import com.gogi.meatyou.bean.ShoppingCartDTO;
 import com.gogi.meatyou.bean.UserPayDTO;
 
 public interface MemberService  {
+	public void userPaycomplete(ArrayList<MOrderDTO> list,int[] shop_num,int[]cp_num,String id);
 	public OrderwithCouponDTO getProductInfo(int p_num);
 	public OrderwithCouponDTO getCartbyNum(HashMap hashmap);
 	public OrderwithCouponDTO getCouponNum(int cp_num);
