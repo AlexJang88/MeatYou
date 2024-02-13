@@ -237,11 +237,10 @@ public class MemberController {
     @PostMapping("checkUsernameAvailability")
     @ResponseBody
     public int checkUsernameAvailability(@RequestBody String m_id) {
-        Integer result  = service.isM_ideAvailable(m_id);
-        		 	
-        		    return result;
+        Integer result = service.isM_ideAvailable(m_id);
+ 
+        return (result != null) ? result : 0;
     }
-    
     
     
     
