@@ -191,46 +191,79 @@ public class testServiceImpl implements testService{
 	@Override
 	public String getdi() {
 		String key = "1c9a14382163bb7dc822492a3dca9b9a8841b3782755afedd33d3b5879c98e94";
-		String reqURL = "http://211.237.50.150:7080/openapi/"+key+"/xml/Grid_20151204000000000316_1/1/5";
+		String reqURL = "https://cors-anywhere.herokuapp.com/http://211.237.50.150:7080/openapi/"+key+"/json/Grid_20151204000000000316_1/1/5";
 		 String result = "";
 		 
 		 try {
-//			URL url = new URL(reqURL);
+			URL url = new URL(reqURL);
 
-//			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			// POST 요청을 위해 기본값이 false인 setDoOutput을 true로
-			//conn.setRequestProperty("Accept", "application/json");
-			//conn.setRequestProperty("Content-type", "application/json");
-//			conn.setRequestMethod("POST");
-//			conn.setDoOutput(true);
+			conn.setRequestProperty("Accept", "application/json");
+			conn.setRequestProperty("Content-type", "application/json");
+			conn.setRequestMethod("GET");
+			conn.setDoOutput(true);
 			// POST 요청에 필요로 요구하는 파라미터 스트림을 통해 전송
-			DocumentBuilderFactory factory= DocumentBuilderFactory.newInstance();
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document document = builder.parse(reqURL);
-			Element root = document.getDocumentElement();
-//			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
-//			StringBuilder sb = new StringBuilder();
-//			sb.append("OCCRRNC_DE=20240110");
+//			DocumentBuilderFactory factory= DocumentBuilderFactory.newInstance();
+//			DocumentBuilder builder = factory.newDocumentBuilder();
+//			Document document = builder.parse(reqURL);
+//			Element root = document.getDocumentElement();
 //			
-//			bw.write(sb.toString());
-//			bw.flush();
-//
-//			// 결과 코드가 200이라면 성공
-//			int responseCode = conn.getResponseCode();
-//			System.out.println("responseCode : " + responseCode);
-//
-//			// 요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
-//			 BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(),"utf-8"));
-//            String br_line = "";
-//
-//            while ((br_line = br.readLine()) != null) {
-//                result += new String(URLDecoder.decode(br_line, "UTF-8"));
-//            }
-//				br.close();
-//				bw.close();
-//				System.out.println("result ===== "+result);
-			System.out.println("root====="+root.getAttribute("result"));
-			result="{\"Grid_20151204000000000316_1\":{\"totalCnt\":3,\"startRow\":1,\"endRow\":5,\"result\":{\"code\":\"INFO-000\",\"message\":\"정상 처리되었습니다.\"},\"row\":[{\"ROW_NUM\":1,\"ICTSD_OCCRRNC_NO\":\"00347584\",\"LKNTS_NM\":\"결핵병\",\"FARM_NM\":\"광부 농장\",\"FARM_LOCPLC_LEGALDONG_CODE\":\"4684034025\",\"FARM_LOCPLC\":\"전라남도 무안군 현경면 현화리\",\"OCCRRNC_DE\":\"20240105\",\"LVSTCKSPC_CODE\":\"412002\",\"LVSTCKSPC_NM\":\"소-한우\",\"OCCRRNC_LVSTCKCNT\":2,\"DGNSS_ENGN_CODE\":\"6460950\",\"DGNSS_ENGN_NM\":\"전남 동물위생시험소\",\"CESSATION_DE\":\"\"},{\"ROW_NUM\":2,\"ICTSD_OCCRRNC_NO\":\"00348709\",\"LKNTS_NM\":\"결핵병\",\"FARM_NM\":\"안동민속한우 2농장\",\"FARM_LOCPLC_LEGALDONG_CODE\":\"4717033030\",\"FARM_LOCPLC\":\"경상북도 안동시 서후면 대두서리\",\"OCCRRNC_DE\":\"20240105\",\"LVSTCKSPC_CODE\":\"412002\",\"LVSTCKSPC_NM\":\"소-한우\",\"OCCRRNC_LVSTCKCNT\":1,\"DGNSS_ENGN_CODE\":\"6471193\",\"DGNSS_ENGN_NM\":\"경북 북부지소\",\"CESSATION_DE\":\"\"},{\"ROW_NUM\":3,\"ICTSD_OCCRRNC_NO\":\"00350839\",\"LKNTS_NM\":\"브루셀라병\",\"FARM_NM\":\"다인\",\"FARM_LOCPLC_LEGALDONG_CODE\":\"4783025324\",\"FARM_LOCPLC\":\"경상북도 고령군 대가야읍 장기리\",\"OCCRRNC_DE\":\"20240105\",\"LVSTCKSPC_CODE\":\"412002\",\"LVSTCKSPC_NM\":\"소-한우\",\"OCCRRNC_LVSTCKCNT\":2,\"DGNSS_ENGN_CODE\":\"6471188\",\"DGNSS_ENGN_NM\":\"경북 동물위생시험소\",\"CESSATION_DE\":\"\"}]}}";
+			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+			StringBuilder sb = new StringBuilder();
+//			sb.append("OCCRRNC_DE=20240110");
+			
+			bw.write(sb.toString());
+			bw.flush();
+
+			// 결과 코드가 200이라면 성공
+			int responseCode = conn.getResponseCode();
+			System.out.println("responseCode : " + responseCode);
+
+			// 요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
+			 BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(),"utf-8"));
+            String br_line = "";
+
+            while ((br_line = br.readLine()) != null) {
+                result += new String(URLDecoder.decode(br_line, "UTF-8"));
+            }
+				br.close();
+				bw.close();
+				System.out.println("result ===== "+result);
+			//System.out.println("root====="+root.getAttribute("result"));
+			//result=root.getAttribute("result");
+			//result="{\"Grid_20151204000000000316_1\":{\"totalCnt\":3,\"startRow\":1,\"endRow\":5,\"result\":{\"code\":\"INFO-000\",\"message\":\"정상 처리되었습니다.\"},\"row\":[{\"ROW_NUM\":1,\"ICTSD_OCCRRNC_NO\":\"00347584\",\"LKNTS_NM\":\"결핵병\",\"FARM_NM\":\"광부 농장\",\"FARM_LOCPLC_LEGALDONG_CODE\":\"4684034025\",\"FARM_LOCPLC\":\"전라남도 무안군 현경면 현화리\",\"OCCRRNC_DE\":\"20240105\",\"LVSTCKSPC_CODE\":\"412002\",\"LVSTCKSPC_NM\":\"소-한우\",\"OCCRRNC_LVSTCKCNT\":2,\"DGNSS_ENGN_CODE\":\"6460950\",\"DGNSS_ENGN_NM\":\"전남 동물위생시험소\",\"CESSATION_DE\":\"\"},{\"ROW_NUM\":2,\"ICTSD_OCCRRNC_NO\":\"00348709\",\"LKNTS_NM\":\"결핵병\",\"FARM_NM\":\"안동민속한우 2농장\",\"FARM_LOCPLC_LEGALDONG_CODE\":\"4717033030\",\"FARM_LOCPLC\":\"경상북도 안동시 서후면 대두서리\",\"OCCRRNC_DE\":\"20240105\",\"LVSTCKSPC_CODE\":\"412002\",\"LVSTCKSPC_NM\":\"소-한우\",\"OCCRRNC_LVSTCKCNT\":1,\"DGNSS_ENGN_CODE\":\"6471193\",\"DGNSS_ENGN_NM\":\"경북 북부지소\",\"CESSATION_DE\":\"\"},{\"ROW_NUM\":3,\"ICTSD_OCCRRNC_NO\":\"00350839\",\"LKNTS_NM\":\"브루셀라병\",\"FARM_NM\":\"다인\",\"FARM_LOCPLC_LEGALDONG_CODE\":\"4783025324\",\"FARM_LOCPLC\":\"경상북도 고령군 대가야읍 장기리\",\"OCCRRNC_DE\":\"20240105\",\"LVSTCKSPC_CODE\":\"412002\",\"LVSTCKSPC_NM\":\"소-한우\",\"OCCRRNC_LVSTCKCNT\":2,\"DGNSS_ENGN_CODE\":\"6471188\",\"DGNSS_ENGN_NM\":\"경북 동물위생시험소\",\"CESSATION_DE\":\"\"}]}}";
+			
+			 JsonParser jsonParser = new JsonParser();
+	         JsonObject jsonObject = jsonParser.parse(result).getAsJsonObject();
+
+	         	
+	         	
+	            JsonObject grid =null;
+	            JsonObject rs = null;
+	            JsonObject resultObj=null;
+	            
+	            if(jsonObject.getAsJsonObject("Grid_20151204000000000316_1")!=null) {
+	            	grid=jsonObject.getAsJsonObject("Grid_20151204000000000316_1");
+	            	if(grid.getAsJsonObject("result")!=null) {
+	  	              resultObj= grid.getAsJsonObject("result");
+	  	              if(resultObj.get("code").toString().contains("INFO-000")) {
+		            	JsonArray rows = grid.getAsJsonArray("row");
+		            	for(int i=0; i<rows.size(); i++) {
+		            		JsonObject row=rows.get(i).getAsJsonObject();
+		            		
+		            	    System.out.println("Row " + (i + 1) + ":");
+		                    System.out.println(" - LKNTS_NM: " + row.get("LKNTS_NM").getAsString());
+		                    System.out.println(" - FARM_NM: " + row.get("FARM_NM").getAsString());
+		                    
+		            	}
+	  	            }
+	            }
+	            }
+	            if(jsonObject.getAsJsonObject("result")!=null) {
+	            	rs = jsonObject.getAsJsonObject("result");
+	            	System.out.println("meagae===="+rs.get("message"));
+	            }
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

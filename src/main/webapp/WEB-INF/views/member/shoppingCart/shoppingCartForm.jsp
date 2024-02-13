@@ -41,7 +41,7 @@ function update_click(button, operation, shop_num) {
     var input_element = button.parentElement.querySelector('.shop_quantity');
     var current_quantity = parseInt(input_element.value);
 
-    var shop_quantity = button.dataset.shop_quantity;
+    var shop_quantity = button.dataset.data-quantity;
     var new_quantity;
 
     if (operation == 'increase') {
@@ -169,121 +169,98 @@ function deleteSelectedItems() {
                 <td><c:out value="${item.shop_num}" />
                <%--  ${item.p_num}
                  --%></td>
-                <td><c:out value="${item.shop_p_num}" />
-               <%--  ${item.p_num}
+								<td><c:out value="${item.shop_p_num}" /> <%--  ${item.p_num}
                  --%></td>
-                   <td>${item.p_m_id}</td>
-                <td>${item.p_name}</td>
-                <td>${item.thumb}</td>
-                <td>
-                    <button type="button" class="quantity-up" data-shop_quantity="${item.shop_quantity}" onclick="update_click(this, 'increase','${item.shop_num}')">+</button>
-                    <input type="hidden" class="arr_shop_quantity" value="${item.shop_quantity}" />
-                    <c:out value="${item.shop_quantity}" />
-                    <button type="button" class="quantity-down" data-quantity="${item.shop_quantity}" onclick="update_click(this, 'decrease','${item.shop_num}')">-</button>
-                </td>	
-                			    
-                <td>
-                    <b>총액  </b>
-                    <input type="hidden" name="arr_p_price" value="${item.p_price}">
-                    <c:out value="${item.p_price * item.shop_quantity}" />
-                    <b> 원</b>
-                      <c:set var="totalAmount" value="${totalAmount + (item.p_price * item.shop_quantity)}" />
-                </td> 
-                
-               
-                <td>
-                <div>	
-            
-             	
-                
-						   <select name="arr_cp_num" id="cList"  >
-						  
-						     <c:if test="${  empty item.coupons}">
-						      <option value="0" selected="selected">사용에 적합한  쿠폰이없습니다 </option>	        
-						   </c:if>
-						    <c:if test="${ not empty item.coupons}">
-						    <option value="0">사용안함</option>
-						    
-						     <c:forEach var="cp" items="${item.coupons}" >
-						   		  <option value="${cp.cp_num}">쿠폰번호 : ${cp.cp_num}  쿠폰 가격 : ${cp.cp_price}  원 </option>
-						   	 </c:forEach>
-						   </c:if>	
-							</select>
-						
-								        
-                </div>
-                  
-                </td>
-              
-            </tr>
-        </c:forEach>
-       
-       	<input name="totalAmount" value="${totalAmount}" type="hidden"/>
-      			<input type="submit" value="주문" >
-        
-        <tr>
-        	<td></td>
-        	<td></td>
-        	<td></td>
-        	<td style="height: 10px;">
-       </form> 	
+								<td>${item.p_m_id}</td>
+								<td>${item.p_name}</td>
+								<td>${item.thumb}</td>
+								<td>
+									<button type="button" class="quantity-up" data-quantity="${item.shop_quantity}" onclick="update_click(this, 'increase','${item.shop_num}')">+</button>
+									<input type="hidden" class="shop_quantity" value="${item.shop_quantity}" /> 
+										<c:out value="${item.shop_quantity}" />
+									<button type="button" class="quantity-down" data-quantity="${item.shop_quantity}" onclick="update_click(this, 'decrease','${item.shop_num}')">-</button>
+								</td>
+
+								<td><b>총액 </b> <input type="hidden" name="arr_p_price" value="${item.p_price}"> <c:out value="${item.p_price * item.shop_quantity}" /> <b> 원</b> 
+										<c:set var="totalAmount" value="${totalAmount + (item.p_price * item.shop_quantity)}" />
+								</td>
 
 
-<c:if test="${count>0}">
-	<c:if test="${startPage>10}">
-		<a href="/member/shoppingCartForm?page=${startPage-10}">[이전]</a>
-	</c:if>
-	<c:forEach var="i" begin="${startPage}" end="${endPage}" step="1">
-		<a href="/member/shoppingCartForm?page=${i}">[${i}]</a>
-	</c:forEach>
-	<c:if test="${endPage<pageCount}">
-		<a href="/member/shoppingCartForm?page=${startPage+10}">[다음]</a>
-	</c:if>
-</c:if>        	
-        	</td>
-        	<td>
-</td>
+								<td>
+									<div>
 
-		<td><b>전체금액: </b></td>
-        	<td> <c:out value="${totalAmount}" />
-        		<input name=" totalAmount" value="${totalAmount}" type="hidden"/>
-                        <b> 원</b>
-                        
-                        </td>
-        </tr>
-    </tbody>
-    
-</table>
-		  <table class="table mt-4">
-                <tbody>
-                    <tr>
-							<td>선택한 상품</td>
-							<td>
-			 
-			 
-			 
-				</td>
-									<td>
-							    <input type="hidden" id="selectedShopNums" name="selectedShopNums" />
-							    <a href="#" id="deleteSelectedBtn" onclick="deleteSelectedItems()">삭제</a>
-							</td>
-							</tr>	
-					</tbody>
-			</table>
-			
-			
-			<table>
-					<tbody>
-					
+
+
+										<select name="arr_cp_num" id="cList">
+
+											<c:if test="${  empty item.coupons}">
+												<option value="0" selected="selected">사용에 적합한 쿠폰이없습니다</option>
+											</c:if>
+											<c:if test="${ not empty item.coupons}">
+												<option value="0">사용안함</option>
+												<c:forEach var="cp" items="${item.coupons}">
+													<option value="${cp.cp_num}">쿠폰번호 : ${cp.cp_num} 쿠폰 가격 : ${cp.cp_price} 원</option>
+												</c:forEach>
+											</c:if>
+										</select>
+									</div>
+								</td>
+							</tr>
+						</c:forEach>
+
+						<input name="totalAmount" value="${totalAmount}" type="hidden" />
+						<input type="submit" value="주문">
+
 						<tr>
-							<td>
-							</td>
 							<td></td>
-						</tr>	
-					</tbody>
-					
-					
+							<td></td>
+							<td></td>
+							<td style="height: 10px;">
+					</form>
+
+
+					<c:if test="${count>0}">
+						<c:if test="${startPage>10}">
+							<a href="/member/shoppingCartForm?page=${startPage-10}">[이전]</a>
+						</c:if>
+						<c:forEach var="i" begin="${startPage}" end="${endPage}" step="1">
+							<a href="/member/shoppingCartForm?page=${i}">[${i}]</a>
+						</c:forEach>
+						<c:if test="${endPage<pageCount}">
+							<a href="/member/shoppingCartForm?page=${startPage+10}">[다음]</a>
+						</c:if>
+					</c:if>
+					</td>
+					<td></td>
+
+					<td><b>전체금액: </b></td>
+					<td><c:out value="${totalAmount}" /> <input
+						name=" totalAmount" value="${totalAmount}" type="hidden" /> <b> 원</b></td>
+					</tr>
+				</tbody>
+
 			</table>
-    </div>
-</div>
-<%@ include file="../../footer.jsp" %>
+			<table class="table mt-4">
+				<tbody>
+					<tr>
+						<td>선택한 상품</td>
+						<td></td>
+						<td><input type="hidden" id="selectedShopNums" name="selectedShopNums" /> 
+						<a href="#" id="deleteSelectedBtn" onclick="deleteSelectedItems()">삭제</a></td>
+					</tr>
+				</tbody>
+			</table>
+			<table>
+				<tbody>
+
+					<tr>
+						<td></td>
+						<td></td>
+					</tr>
+				</tbody>
+
+
+			</table>
+		</div>
+	</div>
+	<%@ include file="../../footer.jsp"%>

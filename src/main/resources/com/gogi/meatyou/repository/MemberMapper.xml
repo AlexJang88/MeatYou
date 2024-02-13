@@ -109,7 +109,7 @@ WHERE
    
   
 <select id="shoppingcartCheck" resultType="com.gogi.meatyou.bean.ShoppingCartDTO">
-    select * from shoppingcart_${m_id} where shop_m_id=#{m_id}
+    select * from shoppingcart_${m_id} where shop_m_id=#{m_id} 
 </select>
 <select id="getCartbyNum" resultType="com.gogi.meatyou.bean.OrderwithCouponDTO" parameterType="hashmap">
 	select * from 
@@ -700,6 +700,50 @@ SELECT * FROM ( SELECT * FROM coupon WHERE cp_m_id=#{id} AND cp_status=1 AND cp_
     AND c_type=1
 ) result
 </select>
+
+<insert id="userPay" parameterType="java.util.List">
+	<foreach collection="list" item="item">
+	insert into m_order values(
+		m_order_seq.nextval,
+		#{item.order_m_id},
+		<if test="item.order_cp_num != 0">#{item.order_cp_num},</if>
+		<if test="item.order_cp_num == 0">null,</if>
+		#{item.order_p_num},
+		#{item.order_p_price},
+		null,
+		#{item.order_dere_pay},
+		#{item.order_addr},
+		#{item.order_dere_pay},
+		#{item.order_quantity},
+		#{item.order_dere_pay},
+		'카드',
+		1,
+		#{item.order_discount},
+		#{item.order_totalprice},
+		<if test="item.order_memo != '' or item.order_memo != null">#{item.order_cp_num},</if>
+		<if test="item.order_memo == '' or item.order_memo == null">null,</if>
+		sysdate,
+		null,
+		null,
+		null
+	)
+	</foreach>
+</insert>
+<update id="couponAfterPay" parameterType="hashmap">
+	update coupon set cp_status=0 where cp_num in(
+	<foreach collection="cp_num" separator="," item="item">
+		#{item}
+	</foreach>
+	)
+</update>
+<update id="cartAfterPay" parameterType="hashmap">
+	delete from shoppingcart_${id} where shop_num in (
+	<foreach collection="shop_num" separator="," item="item">
+		#{item}
+	</foreach>
+	);
+</update>
+
 
 <select id="getProductInfo" parameterType="com.gogi.meatyou.bean.OrderwithCouponDTO">
 	select * from product where p_num=#{p_num}

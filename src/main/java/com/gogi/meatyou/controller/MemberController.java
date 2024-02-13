@@ -92,7 +92,7 @@ public class MemberController {
    public String doLogin(Model model, MemberDTO dto,MemStatusDTO  mdto,HttpSession  session) {  session.setAttribute("status",dto.getM_status()); session.setAttribute("level",mdto.getMstat_auth());  
        Integer status = (Integer) session.getAttribute("status");
        Integer level = (Integer) session.getAttribute("status");
-		model.addAttribute("key", "fcaac1b29853acd91d3df7f95bfa316f");
+	  model.addAttribute("key", "fcaac1b29853acd91d3df7f95bfa316f");
 		model.addAttribute("uri", "http://localhost:8080/member/loginpro");
    //   return "member/loginSequrity/login";
          return "member/loginSequrity/login";
@@ -688,11 +688,7 @@ public class MemberController {
        
        System.out.println("id======"+add_m_id);
           dto.setAdd_m_id(add_m_id);
-          int [] test = dto.getArr_shop_num();
-          int [] cptest= dto.getArr_cp_num();
-          System.out.println("===DTO"+test[0]);
-          System.out.println("===CPNUM"+cptest[0]);
-          List<String> AddrList = service.combined_address(add_m_id);
+        List<String> AddrList = service.combined_address(add_m_id);
         MemberDTO mdto = service.getUser(add_m_id);         
         
         List<CouponDTO> cList = service.howmuchCoupon(add_m_id);

@@ -25,6 +25,7 @@ public class MemberPayDTO {
 	private int []arr_order_discount;
 	private int []arr_order_totalprice;
 	private int []arr_shop_num;
+	private String [] arr_p_name;
 	
 	
 	

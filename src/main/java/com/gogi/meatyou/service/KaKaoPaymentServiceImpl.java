@@ -1,5 +1,8 @@
 package com.gogi.meatyou.service;
 
+import java.util.ArrayList;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -12,8 +15,10 @@ import com.gogi.meatyou.bean.CusOrderDTO;
 import com.gogi.meatyou.bean.KaKaoPayDTO;
 import com.gogi.meatyou.bean.KakaoApproveResponse;
 import com.gogi.meatyou.bean.KakaoReadyResponse;
+import com.gogi.meatyou.bean.MOrderDTO;
 import com.gogi.meatyou.bean.MemberPayDTO;
 import com.gogi.meatyou.bean.ProductDTO;
+import com.gogi.meatyou.repository.MemberMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,11 +29,13 @@ public class KaKaoPaymentServiceImpl implements KaKaoPaymentService{
 	
 
 	
-
+		
 		 static final String cid = "TC0ONETIME"; // 가맹점 테스트 코드
 		 static final String admin_Key = "522691b1ab4a59fb764eb3f752b30bfe"; // 공개 조심! 본인 애플리케이션의 어드민 키를 넣어주세요
 		 private KakaoReadyResponse kakaoReady;
-		    
+		
+		 @Autowired
+		 MemberMapper membermapper;
 		    
 		    public KakaoReadyResponse kakaoPayReady(KaKaoPayDTO dto) {
 		         // 카카오페이 요청 양식
@@ -175,6 +182,9 @@ public class KaKaoPaymentServiceImpl implements KaKaoPaymentService{
 		                
 		        return approveResponse;
 			}
+
+			
+			
 
 			//주문번호
 			//사용자아이디 

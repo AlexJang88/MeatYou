@@ -34,7 +34,6 @@
     	<option value="2">판매중</option>
     	<option value="3">판매중단(이슈)</option>
     </select>
-
     <table>
     	<tr>
     		<td>썸네일</td>
@@ -50,36 +49,10 @@
     	</tr>
     	<tbody id="productBody">
     	</tbody>
-     <%-- <c:forEach var="product" items="${list}">
-    	<tr>
-			<td>${product.thumb}</td>
-			<td>${product.p_name}</td>
-			<td>${product.p_price}</td>
-			<td>${product.totalsales}</td>
-			<td>${product.p_rcount}</td>
-			<td>${product.p_m_id}</td>
-			<td>${product.report}</td>
-			<td><fmt:formatDate pattern="yyyy-MM-dd" value="${product.p_reg_date}"/></td>    		
-    	</tr>
-    </c:forEach> --%>
     </table>
     <div id="pageContent">
     
     </div>
-    
-    
-    <%-- <c:if test="${count>0}">
-			<c:if test="${startPage>10}">
-	        	<a href="/admin/productList?pageNum=${startPage-10}&keyword=${keyword}&searchOpt=${searchOpt}&cate1=${cate1}&cate2=${cate2}">[이전]</a>
-			</c:if>
-			<c:forEach var="i" begin="${startPage}" end="${endPage}" step="1">
-	        	<a href="/admin/productList?pageNum=${i}&keyword=${keyword}&searchOpt=${searchOpt}&cate1=${cate1}&cate2=${cate2}">[${i}]</a>
-			</c:forEach>
-				<c:if test="${endPage<pageCount}">
-	        	<a href="/admin/productList?pageNum=${startPage+10}&keyword=${keyword}&searchOpt=${searchOpt}&cate1=${cate1}&cate2=${cate2}">[다음]</a>
-			</c:if>
-		</c:if> --%>
-
 <script>
 // 데이터 가져오는 함수
 function fetchData(keyword, searchOpt, cate1, cate2, cate3,pstatus,pageNum) {

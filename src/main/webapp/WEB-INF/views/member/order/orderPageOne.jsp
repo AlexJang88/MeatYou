@@ -137,6 +137,10 @@
     <c:forEach items="${dto.arr_cp_num}" var="citem">
     	<input type="hidden" name="arr_cp_num" value="${citem}" >
     </c:forEach>
+    <c:forEach items="${dto.arr_p_name}" var="pitem">
+    	<input type="hidden" name="arr_p_name" value="${pitem}" >
+    </c:forEach>
+    
     				
     <input type="submit"  value="확정 및 결제 ">
     
