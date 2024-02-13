@@ -5,7 +5,8 @@
 <mapper namespace="com.gogi.meatyou.repository.MemberMapper">
 
    <select id="memberList" resultType="com.gogi.meatyou.bean.MemberDTO">
-      select * from member
+       SELECT * FROM member
+    WHERE m_id ='${m_id}'
    </select>
 
 
@@ -42,7 +43,7 @@
    
    
    <select id="member" resultType="com.gogi.meatyou.bean.MemberDTO">
-      select * from member where  m_id=#{m_id}
+      select * from member where  m_id='${m_id}'
    </select>
    
    
@@ -498,6 +499,24 @@ WHERE
        1001)
     ]]>
 </insert>
+<insert id="insertKaKao" parameterType="com.gogi.meatyou.bean.MemberDTO">
+    <![CDATA[
+    INSERT INTO member(m_id, passwd, m_name, birth, m_addr1, m_addr2, email, telep, phone, m_reg_date, m_status)
+    VALUES (
+        '${m_id}',
+        ${m_id}88,
+        '${m_name}',
+   TO_DATE('2000-01-01', 'YYYY-MM-DD'),
+        '변경 부탁드립니다',
+        '변경 부탁드립니다',
+        '${email}',
+        '변경부탁드립니다',
+        '변경부탁드립니다',
+        TO_CHAR(SYSDATE, 'YYYY-MM-DD'),
+       1011)
+    ]]>
+    
+</insert>
 
 <insert id="prefer">
     <![CDATA[
@@ -552,7 +571,7 @@ WHERE
             
             <insert id="pick_me_seq">
              <![CDATA[
-            create   sequence pick_me_${m_id}_Seq   NOCACHE
+            create   sequence pick_me_${m_id}_seq   NOCACHE
                 ]]>
             </insert>
             
@@ -573,7 +592,7 @@ WHERE
             
             <insert id="p_pick_seq">
              <![CDATA[
-            create   sequence p_pick_${m_id}_Seq   NOCACHE
+            create   sequence p_pick_${m_id}_seq   NOCACHE
                    ]]>
             </insert>
             

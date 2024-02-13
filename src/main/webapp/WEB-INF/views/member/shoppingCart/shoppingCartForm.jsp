@@ -1,49 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://www.springframework.org/security/tags"
-	prefix="sec"%>
-<%@ include file="../../header.jsp"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<%@ include file="../../header.jsp" %>
 <head>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
-<style>
-/* Custom styles go here */
-body {
-	font-family: 'Roboto', sans-serif;
-}
-
-.container {
-	margin-top: 50px;
-}
-
-.page-header {
-	color: #2196F3;
-}
-
-.panel-default {
-	border-color: #ddd;
-}
-
-.panel-heading {
-	background-color: #2196F3;
-	color: white;
-}
-
-.table th, .table td {
-	text-align: center;
-}
-
-.btn-danger {
-	background-color: #F44336;
-	color: white;
-}
-</style>
-<script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    
+      
+    <script>
 //선택주문 
 // 선택한 상품 주문 함수
 // 선택된 쿠폰을 저장하는 변수
@@ -160,50 +124,50 @@ function deleteSelectedItems() {
 </script>
 </head>
 
-<div class="container mt-5">
-	<div class="row">
-		<div class="col-lg-12">
-			<h1 class="page-header">장바구니</h1>
-		</div>
-	</div>
+<div >
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">장바구니</h1>
+        </div>
+    </div>
 
-	<div class="panel panel-default">
-		<div class="panel-heading"></div>
+    <div class="panel panel-default">
+        <div class="panel-heading"></div>
 
-		<div class="panel-body">
-			<!-- 수량 조절 폼 -->
-			상품목록
-			<table class="table table-striped table-bordered table-hover mt-4">
-				<thead>
-					<tr>
-						<th>선택</th>
-						<th>삭제</th>
-						<th>카트고유번호(히든)shop_num</th>
-						<th>상품 고유번호(히든)shop_P_num</th>
-						<td>판매자</td>
-						<th>상품 분류</th>
-						<th>상품 사진</th>
-						<th>상품 수량</th>
-						<th>금액</th>
-						<th>쿠폰</th>
-						<th>판매상태</th>
-					</tr>
-				</thead>
-				<tbody>
-					<form action="orderPageOne" method="post">
-						<c:forEach var="item" items="${cartdto}">
-							<tr>
-								<td>
-									<%-- <input type="checkbox" name="shop_num" value="${item.shop_num}"/> --%>
-									<input type="checkbox" name="arr_shop_num"
-									value="${item.shop_num}"
-									onclick="toggleSelectedShopNum(this, '${item.shop_num}')" />
-								</td>
-								<td><a
-									href="/delete?shop_num=${item.shop_num}&pd_p_num=${item.pd_p_num}&p_num=${item.p_num}">삭제</a>
-
-								</td>
-								<td><c:out value="${item.shop_num}" /> <%--  ${item.p_num}
+        <div class="panel-body">
+        <!-- 수량 조절 폼 -->
+        상품목록 
+ <table class="table table-striped table-bordered table-hover  ">
+    <thead>
+        <tr>
+        	<th>선택</th>
+            <th>삭제</th> 
+            <th>카트고유번호(히든)shop_num</th>
+            <th>상품 고유번호(히든)shop_P_num</th>
+            <td>판매자</td>
+            <th>상품 분류</th>
+            <th>상품 사진</th>
+            <th>상품 수량</th>
+            <th>금액</th>
+             <th>쿠폰</th>
+             <th>판매상태</th> 
+        </tr>
+    </thead>
+    <tbody>
+    <form action="orderPageOne"  method="post"> 
+        <c:forEach var="item" items="${cartdto}">
+            	<tr>
+            	<td>
+            	   <%-- <input type="checkbox" name="shop_num" value="${item.shop_num}"/> --%>
+            	      <input type="checkbox" name="arr_shop_num" value="${item.shop_num}" 
+                   onclick="toggleSelectedShopNum(this, '${item.shop_num}')"/>
+       			 </td>
+       			  <td>
+       			  <a href="/delete?shop_num=${item.shop_num}&pd_p_num=${item.pd_p_num}&p_num=${item.p_num}">삭제</a>
+                   
+                </td>
+                <td><c:out value="${item.shop_num}" />
+               <%--  ${item.p_num}
                  --%></td>
 								<td><c:out value="${item.shop_p_num}" /> <%--  ${item.p_num}
                  --%></td>

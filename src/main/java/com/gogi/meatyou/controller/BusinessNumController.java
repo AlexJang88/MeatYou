@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.gogi.meatyou.bean.BusinessNumDTO;
+import com.gogi.meatyou.bean.MemberDTO;
+
 import com.gogi.meatyou.bean.DiseaseDTO;
 import com.gogi.meatyou.service.testService;
 import com.google.gson.JsonArray;
@@ -45,17 +47,18 @@ public class BusinessNumController {
 		return "admin/itemCategoryAPI";
 	}
 	
-	
+	/*
 	@RequestMapping("/test/login")
 	public String login(Model model) {
-		model.addAttribute("key", "1ee6779526ade881c825d37815f69911");
+		model.addAttribute("key", "fcaac1b29853acd91d3df7f95bfa316f");
 		model.addAttribute("uri", "http://localhost:8080/test/loginpro");
+		//model.addAttribute("uri", "http://localhost:8080/test/loginpro");
 		return "test/login";
 	}
 	
 	
 	@RequestMapping("/test/loginpro")
-	public @ResponseBody String loginPro(@RequestParam(value = "code", required = false) String code) throws Throwable {
+	public @ResponseBody String loginPro(@RequestParam(value = "code", required = false) String code,MemberDTO dto) throws Throwable {
 		String token = service.getAccessToken(code);
 		HashMap<String, Object> userInfo = service.getUserInfo(token);
 		System.out.println("###nickname#### : " + userInfo.get("nickname"));
@@ -67,7 +70,7 @@ public class BusinessNumController {
 		System.out.println("###phone_number#### : " + userInfo.get("phone_number"));
 		return code;
 	}
-	
+	*/
 	@RequestMapping("diapi")
 	public String diapi(Model model) {
 		model.addAttribute("key", "1c9a14382163bb7dc822492a3dca9b9a8841b3782755afedd33d3b5879c98e94");

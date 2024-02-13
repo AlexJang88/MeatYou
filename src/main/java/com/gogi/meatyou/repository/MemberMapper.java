@@ -32,6 +32,7 @@ public interface MemberMapper {
    public void userPay(ArrayList<MOrderDTO> list);
    
     public int insertMember(MemberDTO dto);
+    public int insertKaKao(MemberDTO dto);
     public int twoNextPay(OrderwithCouponDTO mdto,int shop_num ,@Param("order_p_num")int order_p_num,
     		@Param("order_memo") String order_memo,@Param("order_m_id") String order_m_id,@Param("order_cp_num") int order_cp_num,@Param("order_p_price") int order_p_price
     		,@Param("order_dere_pay") int order_dere_pay,@Param("order_addr") String order_addr,@Param("order_discount") int order_discount,@Param("order_quantity") int order_quantity
@@ -45,8 +46,10 @@ public interface MemberMapper {
          
        public MemberDTO loadUserByUsername(String username);
       
-       public List<MemberDTO> memberList();
-    
+       static boolean memberList( @Param("m_id") String m_id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
       public MemberDTO member(String m_id);
       
       

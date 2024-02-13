@@ -1,6 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
- 
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script>
+    // 로그아웃 시도
+    Kakao.Auth.logout(function() {
+        console.log("Kakao.Auth.logout: Logout successful.");
+
+        // 로그아웃 후 현재 액세스 토큰 확인
+        console.log("Kakao.Auth.getAccessToken():", Kakao.Auth.getAccessToken());
+
+        // 로그아웃 후 추가적인 작업을 여기에 추가할 수 있습니다.
+    });
+
+    // 추가적인 로그아웃 시도 (Promise를 이용한 방식)
+    Kakao.Auth.logout()
+        .then(function(response) {
+            console.log("Kakao.Auth.logout Promise: Logout successful.");
+            // Promise 방식으로도 로그아웃 후 액세스 토큰 확인
+            console.log("Kakao.Auth.getAccessToken():", Kakao.Auth.getAccessToken());
+        })
+        .catch(function(error) {
+            console.log('Kakao.Auth.logout Promise: Logout failed.', error);
+        });
+</script>
+
 <!DOCTYPE html>
 <html lang="en"> 
    <head>
@@ -28,14 +51,12 @@
 
        <!-- Custom stlylesheet -->
        <link type="text/css" rel="stylesheet" href="/resources/css/style.css"/>
-
        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
        <!--[if lt IE 9]>
          <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
        <![endif]-->
-
     </head>
    <body>
       <!-- HEADER -->
@@ -55,7 +76,18 @@
                      <sec:authorize access="isAuthenticated()">
                          <li><a href="/member/modify"><i class="fa"></i> 마이페이지</a></li>
                          <li><a href="/member/customLogout"><i class="fa"></i> 로그아웃</a></li>
+                              <a href="/member/tokenLogout">카카오톡로그아웃</a>
                      </sec:authorize>
+                     
+            
+				  <sec:authorize access="isAuthenticated() and (hasAuthority('ROLE_KAKAO_BESTMEMBER') or hasAuthority('ROLE_KAKAO_MEMBER') or hasAuthority('ROLE_KAKAO_RESIGN') or hasAuthority('ROLE_KAKAO_READYSALLER') or hasAuthority('ROLE_KAKAO_RESIGNSALLER') or hasAuthority('ROLE_KAKAO_SALLER') or hasAuthority('ROLE_KAKAO_TOPPAYSALLER') or hasAuthority('ROLE_KAKAO_CONTENTPAYSALLER') or hasAuthority('ROLE_KAKAO_ALLPAYSALLER') or hasAuthority('ROLE_KAKAO_ADMIN'))">
+				    <!-- 카카오 계정으로 로그인한 사용자에게 보여질 내용 -->
+				    <div>
+				      <li><a>보이려나</a></li>
+				    </div>
+				</sec:authorize>
+       
+  			
                   <li><a href="#"><i class="fa"></i> 고객센터</a></li>
                </ul>
             </div>
@@ -152,9 +184,8 @@
                          </a>
                      </div>
                            </sec:authorize>
-                           
-                           
-                 <sec:authorize access="isAnonymous() == false and (hasAuthority('ROLE_READYSALLER') or hasAuthority('ROLE_RESIGNSALLER') or hasAuthority('ROLE_SALLER') or hasAuthority('ROLE_TOPPAYSALLER') or hasAuthority('ROLE_CONTENTPAYSALLER') or hasAuthority('ROLE_ALLPAYSALLER'))">
+                 <sec:authorize access="isAnonymous() == false and (hasAuthority('ROLE_READYSALLER') or hasAuthority('ROLE_RESIGNSALLER') or hasAuthority('ROLE_SALLER') or hasAuthority('ROLE_TOPPAYSALLER') or hasAuthority('ROLE_CONTENTPAYSALLER') or hasAuthority('ROLE_ALLPAYSALLER')   or hasAuthority('ROLE_KAKAO_RESIGNSALLER') or hasAuthority('ROLE_KAKAO_SALLER') or hasAuthority('ROLE_KAKAO_TOPPAYSALLER') or hasAuthority('ROLE_KAKAO_CONTENTPAYSALLER') 
+                 or hasAuthority('ROLE_KAKAO_ALLPAYSALLER'))">
                 <!-- 인증된 사용자 중 ROLE_MEMBER와 ROLE_ADMIN을 제외한 다른 모든 권한을 가진 사용자에게만 보여집니다 -->
                 <div class="dropdown" style="position:absolute; right:-170px; margin-top:0; float: left; height: 150px; top:-2px;">
                     <a href="/member/SallerPickMe" class="login-required" style="height: 130px;">

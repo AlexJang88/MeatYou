@@ -21,8 +21,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -50,6 +53,7 @@ import com.gogi.meatyou.bean.ProductDTO;
 import com.gogi.meatyou.bean.SelectedProductDTO;
 import com.gogi.meatyou.bean.ShoppingCartDTO;
 import com.gogi.meatyou.bean.UserPayDTO;
+import com.gogi.meatyou.repository.MemberMapper;
 import com.gogi.meatyou.service.MemberService;
 
 
@@ -88,10 +92,198 @@ public class MemberController {
    public String doLogin(Model model, MemberDTO dto,MemStatusDTO  mdto,HttpSession  session) {  session.setAttribute("status",dto.getM_status()); session.setAttribute("level",mdto.getMstat_auth());  
        Integer status = (Integer) session.getAttribute("status");
        Integer level = (Integer) session.getAttribute("status");
-       model.addAttribute("key", "1ee6779526ade881c825d37815f69911");
-		model.addAttribute("uri", "http://localhost:8080/test/loginpro");
+	  model.addAttribute("key", "fcaac1b29853acd91d3df7f95bfa316f");
+		model.addAttribute("uri", "http://localhost:8080/member/loginpro");
+   //   return "member/loginSequrity/login";
          return "member/loginSequrity/login";
    }
+
+	@RequestMapping("login")
+	public String login(Model model) {
+		model.addAttribute("key", "fcaac1b29853acd91d3df7f95bfa316f");
+		model.addAttribute("uri", "http://localhost:8080/member/loginpro");
+		//model.addAttribute("uri", "http://localhost:8080/test/loginpro");
+		return "member/login";
+	} 
+	 
+ 
+	 /*
+
+    @RequestMapping("loginpro")
+    public String loginPro(@RequestParam(value = "code", required = false) String code, MemberDTO dto, HttpSession session) throws Throwable {
+        String token = service.getAccessToken(code);
+        String m_id=dto.getM_id();
+        // Retrieve user information from Kakao API
+        HashMap<String, Object> userInfo = service.getUserInfo(token);
+
+        // Check if the user is already registered
+        boolean result = service.memberList((String) userInfo.get("m_id"));
+        System.out.println("m_id에 대한 memberList 결과: " + m_id + userInfo.get("m_id") + "는 " + result);
+        System.out.println("Database Check Result: " + result);
+        if (userInfo.get("m_id") != null) {
+            // User is already registered
+            setLoggedInUser((String) userInfo.get("m_id"), dto.getPasswd());
+            System.out.println("이미 가입된 사용자입니다. m_id: " + userInfo.get("m_id"));
+            return "redirect:/main/main";
+        } else {
+            // User is not registered
+            // Populate MemberDTO with Kakao user information
+            dto.setM_id((String) userInfo.get("m_id"));
+            dto.setEmail((String) userInfo.get("email"));
+            dto.setM_name((String) userInfo.get("name"));
+            dto.setPhone((String) userInfo.get("phone_number"));
+
+            // Register the user
+            service.insertKaKao(dto);
+            service.shoppingCart(dto.getM_id());
+            service.shoppingCart_seq(dto.getM_id());
+            service.pick_me_seq(dto.getM_id());
+            service.pick_me(dto.getM_id());
+            service.p_pick_seq(dto.getM_id());
+            service.prefer(dto.getM_id());
+            service.p_pick(dto.getM_id());
+
+            // Set up Spring Security authentication
+            setLoggedInUser(dto.getM_id(), dto.getPasswd());
+            System.out.println("사용자가 등록되어 있지 않습니다. m_id: " + userInfo.get("m_id"));
+            return "redirect:/main/main";
+        }
+    }
+    
+    */
+	/*
+	
+	@RequestMapping("loginpro")
+    public String loginPro(@RequestParam(value = "code", required = false) String code, MemberDTO dto, HttpSession session) throws Throwable {
+        String token = service.getAccessToken(code);
+        String m_id=dto.getM_id();
+        // Retrieve user information from Kakao API
+        HashMap<String, Object> userInfo = service.getUserInfo(token);
+
+        // Check if the user is already registered
+        boolean result = service.memberList((String) userInfo.get("m_id"));
+        System.out.println("m_id에 대한 memberList 결과: " + m_id + userInfo.get("m_id") + "는 " + result);
+        System.out.println("Database Check Result: " + result);
+        if (userInfo.get("m_id") != null ) {
+        	
+            setLoggedInUser((String) userInfo.get("m_id"), dto.getPasswd());
+            System.out.println("이미 가입된 사용자입니다. m_id: " + userInfo.get("m_id"));
+            return "redirect:/main/main";
+        } 
+        		else {
+            // User is not registered
+            // Populate MemberDTO with Kakao user information
+            dto.setM_id((String) userInfo.get("m_id"));
+            dto.setEmail((String) userInfo.get("email"));
+            dto.setM_name((String) userInfo.get("name"));
+            dto.setPhone((String) userInfo.get("phone_number"));
+
+            // Register the user
+            service.insertKaKao(dto);
+            service.shoppingCart(dto.getM_id());
+            service.shoppingCart_seq(dto.getM_id());
+            service.pick_me_seq(dto.getM_id());
+            service.pick_me(dto.getM_id());
+            service.p_pick_seq(dto.getM_id());
+            service.prefer(dto.getM_id());
+            service.p_pick(dto.getM_id());
+
+            // Set up Spring Security authentication
+            setLoggedInUser(dto.getM_id(), dto.getPasswd());
+            System.out.println("사용자가 등록되어 있지 않습니다. m_id: " + userInfo.get("m_id"));
+            return "redirect:/main/main";
+        }
+}
+	private void setLoggedInUser(String m_id, String passwd) {
+		// Set up Spring Security authentication
+		Authentication authentication = new UsernamePasswordAuthenticationToken(m_id, passwd, new ArrayList<>());
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+	}
+    */
+	
+	
+	@RequestMapping("loginpro")
+	public String loginPro(@RequestParam(value = "code", required = false) String code, MemberDTO dto, HttpSession session) throws Throwable {
+	    String token = service.getAccessToken(code);
+	    String m_id = dto.getM_id();
+
+	    // Retrieve user information from Kakao API
+	    HashMap<String, Object> userInfo = service.getUserInfo(token);
+
+	    // Check if the user is already registered
+	    boolean isUserRegistered = service.memberList((String) userInfo.get("m_id"));
+	    System.out.println("m_id에 대한 memberList 결과: " + m_id + userInfo.get("m_id") + "는 " + isUserRegistered);
+	    System.out.println("Database Check Result: " + isUserRegistered);
+
+	    // Register the user if not already registered
+	    if (!isUserRegistered) {
+	        // Populate MemberDTO with Kakao user information
+	        dto.setM_id((String) userInfo.get("m_id"));
+	        dto.setEmail((String) userInfo.get("email"));
+	        dto.setM_name((String) userInfo.get("name"));
+	        dto.setPhone((String) userInfo.get("phone_number"));
+
+	        // Register the user
+	        service.insertKaKao(dto);
+	        service.shoppingCart(dto.getM_id());
+	        service.shoppingCart_seq(dto.getM_id());
+	        service.pick_me_seq(dto.getM_id());
+	        service.pick_me(dto.getM_id());
+	        service.p_pick_seq(dto.getM_id());
+	        service.prefer(dto.getM_id());
+	        service.p_pick(dto.getM_id());
+
+	        // Set up Spring Security authentication
+	        setLoggedInUser(dto.getM_id(), dto.getPasswd());
+	        System.out.println("사용자가 등록되어 있지 않습니다. m_id: " + userInfo.get("m_id"));
+	    } else {
+	        // Set up Spring Security authentication for existing user
+	        setLoggedInUser((String) userInfo.get("m_id"), dto.getPasswd());
+	        System.out.println("이미 가입된 사용자입니다. m_id: " + userInfo.get("m_id"));
+	    }
+
+	    // Redirect to the main page
+	    return "redirect:/main/main";
+	}
+
+	private void setLoggedInUser(String m_id, String passwd) {
+	    // Set up Spring Security authentication
+	    Authentication authentication = new UsernamePasswordAuthenticationToken(m_id, passwd, new ArrayList<>());
+	    SecurityContextHolder.getContext().setAuthentication(authentication);
+	}
+    
+	@GetMapping("/tokenLogout")
+	public String kakaoLogout(HttpSession session) {
+	    // 세션에서 액세스 토큰 얻기
+	    String accessToken = (String) session.getAttribute("access_token");
+
+	    if (accessToken != null) {
+	        // 얻은 액세스 토큰을 사용하여 로그아웃
+	        service.tokenLogout(accessToken);
+
+	        // 세션에서 액세스 토큰 제거
+	        session.removeAttribute("access_token");
+	    }
+
+	    // 로그아웃 성공 페이지로 리다이렉트
+	    return "redirect:/main/main";
+	}
+	 
+	    @GetMapping("callback")
+	    public String kakaoCallback(String code, HttpSession session)throws Throwable {
+	        // Handle Kakao callback and obtain access token
+	        String accessToken = service.getAccessToken(code); 
+
+	        // Store access token in session or database
+	        session.setAttribute("access_token", accessToken);
+
+	        // Redirect to a success page
+	        return "redirect:/main/main";
+	    }
+	
+   
+   
+   
    
 
    @RequestMapping("customLogout")
@@ -130,9 +322,7 @@ public class MemberController {
     
     @RequestMapping("/sallerInputForm")
 	public String sallerInputForm(Model model, Authentication authentication,CusDetailDTO cdto) {
-		
     	String username = authentication.getName(); MemberDTO dto = service.getUser(username); model.addAttribute("dto", dto);
-        
     	model.addAttribute("apiKey","wBStzrx7b1p8B9XqfLWLBMa0q7HCWqRMC7%2F2o%2BG1CWfp2gW%2FffWQ8H81TDthbbN%2FU%2FqtGmiOtMUvFtzKeHPiuQ%3D%3D");
 	     return "member/saller/sallerInputForm";
 	}
@@ -574,22 +764,7 @@ public class MemberController {
     	return list;
         } 
     
-//	order_num
-//	order_m_id
-//	order_cp_num
-//	order_p_num
-//	order_p_price
-//	order_dere_num
-//	order_dere_pay
-//	order_addr
-//	order_quantity
-//	order_paytype
-//	order_status
-//	order_discount
-//	order_totalprice
-//	order_memo
-//	order_paydate
-    
+ 
     @RequestMapping("PaymentHistory")
     public String PaymentHistory(
           Principal seid,
@@ -608,25 +783,25 @@ public class MemberController {
            model.addAttribute("pageSize", pageSize);
            model.addAttribute("totalPage", totalPage);
        } else {
-           // order_m_id媛� null�씤 寃쎌슦�뿉 ���븳 泥섎━
-           // �삁瑜� �뱾�뼱, 濡쒓렇瑜� 異쒕젰�븯嫄곕굹 �떎瑜� 湲곕낯媛믪쓣 �꽕�젙�븷 �닔 �엳�뒿�땲�떎.
+           // order_m_id揶쏉옙 null占쎌뵥 野껋럩�뒭占쎈퓠 占쏙옙占쎈립 筌ｌ꼶�봺
+           // 占쎌굙�몴占� 占쎈굶占쎈선, 嚥≪뮄�젃�몴占� �빊�뮆�젾占쎈릭椰꾧퀡援� 占쎈뼄�몴占� 疫꿸퀡�궚揶쏅�れ뱽 占쎄퐬占쎌젟占쎈막 占쎈땾 占쎌뿳占쎈뮸占쎈빍占쎈뼄.
            model.addAttribute("errorMessage", "order_m_id is null");
        }
 
        return "member/order/PaymentHistory";
     }
     
-    //�뿬湲곗꽌 遺��꽣 吏��솚
+    //占쎈연疫꿸퀣苑� �겫占쏙옙苑� 筌욑옙占쎌넎
     
     @GetMapping("/mailCheck")
 	@ResponseBody
 	public String mailCheck(String email) {
-		System.out.println("�씠硫붿씪 �씤利� �슂泥��씠 �뱾�뼱�샂!");
-		System.out.println("�씠硫붿씪 �씤利� �씠硫붿씪 : " + email);
+		System.out.println("占쎌뵠筌롫뗄�뵬 占쎌뵥筌앾옙 占쎌뒄筌ｏ옙占쎌뵠 占쎈굶占쎈선占쎌긾!");
+		System.out.println("占쎌뵠筌롫뗄�뵬 占쎌뵥筌앾옙 占쎌뵠筌롫뗄�뵬 : " + email);
 		return service.joinEmail(email);
 	}
     
-    //�븘�씠�뵒 李얘린
+    //占쎈툡占쎌뵠占쎈탵 筌≪뼐由�
     @RequestMapping("idfind")
     public String idfind(Model model,  HttpSession session){
     	Integer check = (Integer) session.getAttribute("check");
@@ -638,7 +813,7 @@ public class MemberController {
     @RequestMapping("idfindPro")
     public String idfindPro(Model model,MemberDTO memberdto, HttpSession session){
  	
-    	int check = service.findId(memberdto); // �븘�씠�뵒 �쟾�솕踰덊샇 留욌뒗吏� �솗�씤    	
+    	int check = service.findId(memberdto); // 占쎈툡占쎌뵠占쎈탵 占쎌읈占쎌넅甕곕뜇�깈 筌띿쉶�뮉筌욑옙 占쎌넇占쎌뵥    	
     	
     	if(check == 1) {
     		service.getDbId(model, memberdto);
@@ -664,7 +839,7 @@ public class MemberController {
     
     @RequestMapping("pwfindPro")
     public String pwfindPro(Model model, MemberDTO memberdto, HttpSession session){
-    	int check = service.findPw(memberdto); // 鍮꾨�踰덊샇 李얠쓣�븣 �젙蹂�  	
+    	int check = service.findPw(memberdto); // �뜮袁⑨옙甕곕뜇�깈 筌≪뼚�뱽占쎈르 占쎌젟癰귨옙  	
     	
     	if(check == 1) {
     		service.getDbPw(model, memberdto);
