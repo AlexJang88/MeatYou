@@ -9,9 +9,12 @@
     WHERE m_id ='${m_id}'
    </select>
 
- <select id="isM_ideAvailable" resultType="com.gogi.meatyou.bean.MemberDTO">
-       SELECT * FROM member
-    WHERE m_id ='${m_id}'
+ 	<select id="idCheck" parameterType="String" resultType="int">
+ SELECT COUNT(m_id) FROM MEMBER WHERE m_id= #{m_id}
+   </select>
+   
+ <select id="eMailCheck" parameterType="String" resultType="int">
+ SELECT COUNT(email) FROM MEMBER WHERE email= #{email}
    </select>
 
    <resultMap id="memberMap" type="com.gogi.meatyou.bean.MemberDTO" >

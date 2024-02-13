@@ -186,6 +186,7 @@ public class MemberController {
 	    return "redirect:/main/main";
 	}
 	 
+	
 	    @GetMapping("callback")
 	    public String kakaoCallback(String code, HttpSession session)throws Throwable {
 	        // Handle Kakao callback and obtain access token
@@ -233,17 +234,20 @@ public class MemberController {
     public String sallerInputForm(Model model, Authentication authentication,CusDetailDTO cdto) {  String username = authentication.getName(); MemberDTO dto = service.getUser(username); model.addAttribute("dto", dto);
        return "member/saller/sallerInputForm";
     }*/
-    
-    @PostMapping("checkUsernameAvailability")
-    @ResponseBody
-    public int checkUsernameAvailability(@RequestBody String m_id) {
-        Integer result = service.isM_ideAvailable(m_id);
- 
-        return (result != null) ? result : 0;
-    }
-    
-    
-    
+  //아이디 중복체크
+  		@PostMapping("/idCheck")
+  		@ResponseBody
+  		public int idCheck(@RequestParam("m_id") String m_id) {
+  			int check = service.idCheck(m_id);
+  			return check;
+  		}
+  		//이메일 중복체크
+  		@PostMapping("/eMailCheck")
+  		@ResponseBody
+  		public int emailCheck(@RequestParam("email") String email) {
+  			int check = service.eMailCheck(email);
+  			return check;
+  		}
     @RequestMapping("sallerInputPro")
     public String sallerInputPro(MemberDTO dto,CusDetailDTO cdto, Authentication authentication) {  String m_id = authentication.getName(); dto.setM_id(m_id); Map<String, Object> statusParamMap = new HashMap<>();  statusParamMap.put("m_id", m_id);  service.updateMemberStatus(dto);  service.insertIntoCusDetail(cdto);
        return "member/saller/sallerInputPro"; 

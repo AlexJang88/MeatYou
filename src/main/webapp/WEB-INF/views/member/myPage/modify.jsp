@@ -121,7 +121,7 @@
 <sec:authorize access="isAuthenticated()">
 
      <div class="table-container">
-<table border="1"  class="custom-table">
+<table border="1"  class="custom-table" style="width: 60%">
     <thead>
         <tr>
             <th colspan="4" class="status-message">
@@ -237,9 +237,9 @@
       		  
       	 
     </thead>
-</table>
+</table >
 
-    <table border=1 class="custom-table">
+    <table border=1 class="custom-table" style="width: 60%">
 	    <thead>
 	     
 
@@ -248,7 +248,7 @@
 	            <th>아이디</th>
 	            <th>성함</th>
 	     		 <th>생년월일</th>	    
-	            <th style="width: 30%;">주소 </th>
+	            <th style="width: 26%;">주소 </th>
 				<th>이메일  </th>
 				<th>통신사 </th>
 				<th>휴대폰번호 </th>
@@ -263,8 +263,8 @@
 	  
             <tr>
                 <td>${dto.m_id}</td>
-                <td>${dto.m_name}</td>
-                <td>${dto.birth.substring(0, 10)}</td>
+                <td style="font-size: small;">${dto.m_name}</td>
+               <td style="font-size: small;">${dto.birth.substring(0, 10)}</td>
                 <td>${dto.m_addr1} 
                		${dto.m_addr2}  
 						<a   href="../member/addressForm"  >
@@ -272,11 +272,11 @@
 			 </td>
 			 </td>
                
-                <td>${dto.email}</td>
+                <td style="font-size: small;">${dto.email}</td>
                 <td>${dto.telep}</td>
-                <td>${dto.phone}</td>
-                <td>${dto.m_reg_date.substring(0, 10)}</td>
-                <td>
+                <td style="font-size: small;">${dto.phone}</td>
+                <td style="font-size: small;">${dto.m_reg_date.substring(0, 10)}</td>
+              <td style="font-size: small;">
 				<c:if test="${dto.m_status eq 1000}">
 							탈퇴회원							
 				</c:if>

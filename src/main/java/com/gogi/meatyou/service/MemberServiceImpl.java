@@ -74,11 +74,19 @@ public class MemberServiceImpl implements MemberService {
 		mapper.userPay(list);
 		
 	}
-	 @Override
-	    public Integer isM_ideAvailable(String m_id) {
-		 return mapper.isM_ideAvailable(m_id);
-	         
-	    }
+	//아이디 중복체크 mapper 접근
+			@Override
+			public int idCheck(String m_id) {
+				int check = mapper.idCheck(m_id);
+				System.out.println("check: " + check);
+				return check;
+			}	
+			@Override
+			public int eMailCheck(String email) {
+				int check = mapper.eMailCheck(email);
+				System.out.println("check: " + check);
+				return check;
+			}	
     @Override
     public int insertMember(MemberDTO dto) {
         return mapper.insertMember(dto);

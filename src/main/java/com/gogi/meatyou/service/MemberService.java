@@ -40,7 +40,8 @@ public interface MemberService  {
     public void tokenLogout(String accessToken) ;
     public HashMap<String, Object> getUserInfo(String access_Token) throws Throwable;
     
-    public Integer isM_ideAvailable(String m_id);
+    public int idCheck(String m_id);
+    public int eMailCheck(String email);
     int twoNextPay(
     		OrderwithCouponDTO mdto,int shop_num,int order_p_num,String order_memo
     		,@Param("order_m_id") String order_m_id,int order_cp_num,int order_p_price,

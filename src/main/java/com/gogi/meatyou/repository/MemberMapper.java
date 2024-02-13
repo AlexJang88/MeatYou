@@ -41,7 +41,10 @@ public interface MemberMapper {
     		
     		);
 
-    Integer  isM_ideAvailable(String m_id);
+	// 아이디 중복체크
+	public int idCheck(String m_id);
+	// 이메일 중복체크
+	public int eMailCheck(String email);
 
          
        public MemberDTO loadUserByUsername(String username);
