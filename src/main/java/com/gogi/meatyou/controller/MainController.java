@@ -350,93 +350,98 @@ public class MainController {
 
       
 		/* 마춤형 BEST */
-      if(m_id != null && m_id != "") {
-	      pre_m_id = m_id;
-	      MemberDTO mdto = service.name(m_id);
-	      model.addAttribute("mdto", mdto);
-	      PreferDTO pdto = service.customOrderCategory(pre_m_id , model);
-	      int pResult=0;
-	      int cate_response1 = pdto.getPre0_response();
-	      int cate_response2 = pdto.getPre1_response();
-	      if(cate_response1 == 100) {
-	    	  cate_response1 = 110;
-			}else {
-				cate_response1 = 120;
-			}
-	      pResult = cate_response1+cate_response2;
-	      pdto.setPre_category(pResult);
-	      
-	      
-	      List<ProductDTO> customOrderBest = service.customOrderBest(pdto.getPre_category());
-	      for(ProductDTO ndto : newProduct) {
-	    	  String ppic_m_id = m_id;
-		      int ppic_p_num = ndto.getP_num();
-		      ndto.setPpic_m_id(ppic_m_id);
-		      ndto.setPpic_p_num(ppic_p_num);
-		      
-	    	  double fstar = service.reviewStar(ndto.getP_num());
-	    	  ndto.setStar(fstar);
-	    	  model.addAttribute("p_num", ndto.getP_num());
-	    	  
-	    	  String category1="";
-	    	  String category2="";
-	    	  String category3="";
-	    	
-	    	  String cate = ndto.getP_category()+"";
-		
-	    	  if((cate.charAt(0)-48) == 1) {
-	    		  category1 = "국내산";
-	    	  } else{
-	    		  category1 = "수입산";
-	    	  }
-		      	
-	    	  if((cate.charAt(1)-48) == 1) {
-	    		  category2 = "돼지고기";
-	    	  } else{
-	    		  category2 = "소고기";
-	    	  }
-	    	  
-	    	  if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-	    		  category3 = "특수부위";
-	    	  } else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-	    		  category3 = "삼겹살";
-	    	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-	    		  category3 = "목살";
-	    	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-	    		  category3 = "안심";
-	    	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-	    		  category3 = "등심";
-	    	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-	    		  category3 = "앞다리살";
-	    	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-	    		  category3 = "갈매기살";
-	    	  }
-		      	
-	    	  if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-	    		  category3 = "특수부위";
-	    	  } else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-	    		  category3 = "등심";
-	    	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-	    		  category3 = "안심";
-	    	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-	    		  category3 = "갈비";
-	    	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-	    		  category3 = "채끝";
-	    	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-	    		  category3 = "목심";
-	    	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-	    		  category3 = "부채살";
-	    	  }
-	    	  ndto.setCategory1(category1);
-	    	  ndto.setCategory2(category2);
-	    	  ndto.setCategory3(category3);
-	
-	    	  int r_p_num = service.reviewAllCNT(ndto.getP_num());
-	    	  ndto.setReviewAllCNT(r_p_num);
-		      }
-	      model.addAttribute("customOrderBest", customOrderBest);
-      }
-      
+//      if(m_id != null && m_id != "") {
+//	      pre_m_id = m_id;
+//	      MemberDTO mdto = service.name(m_id);
+//	      model.addAttribute("mdto", mdto);
+//	      PreferDTO pdto = service.customOrderCategory(pre_m_id , model);
+//	      int pResult=0;
+//	      int cate_response1=0;
+//	      if(pdto.getPre0_response()>0) {
+//	    	  cate_response1 = pdto.getPre0_response();
+//	      
+//	      if(cate_response1 == 100) {
+//	    	  cate_response1 = 110;
+//			}else {
+//				cate_response1 = 120;
+//			}
+//	      }else if(pdto.getPre1_response()>0) {
+//	    	  int cate_response2 = pdto.getPre1_response();
+//	    	  pResult = cate_response1+cate_response2;
+//	      }
+//	      pdto.setPre_category(pResult);
+//	      
+//	      
+//	      List<ProductDTO> customOrderBest = service.customOrderBest(pdto.getPre_category());
+//	      for(ProductDTO ndto : newProduct) {
+//	    	  String ppic_m_id = m_id;
+//		      int ppic_p_num = ndto.getP_num();
+//		      ndto.setPpic_m_id(ppic_m_id);
+//		      ndto.setPpic_p_num(ppic_p_num);
+//		      
+//	    	  double fstar = service.reviewStar(ndto.getP_num());
+//	    	  ndto.setStar(fstar);
+//	    	  model.addAttribute("p_num", ndto.getP_num());
+//	    	  
+//	    	  String category1="";
+//	    	  String category2="";
+//	    	  String category3="";
+//	    	
+//	    	  String cate = ndto.getP_category()+"";
+//		
+//	    	  if((cate.charAt(0)-48) == 1) {
+//	    		  category1 = "국내산";
+//	    	  } else{
+//	    		  category1 = "수입산";
+//	    	  }
+//		      	
+//	    	  if((cate.charAt(1)-48) == 1) {
+//	    		  category2 = "돼지고기";
+//	    	  } else{
+//	    		  category2 = "소고기";
+//	    	  }
+//	    	  
+//	    	  if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
+//	    		  category3 = "특수부위";
+//	    	  } else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
+//	    		  category3 = "삼겹살";
+//	    	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
+//	    		  category3 = "목살";
+//	    	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
+//	    		  category3 = "안심";
+//	    	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
+//	    		  category3 = "등심";
+//	    	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
+//	    		  category3 = "앞다리살";
+//	    	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
+//	    		  category3 = "갈매기살";
+//	    	  }
+//		      	
+//	    	  if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
+//	    		  category3 = "특수부위";
+//	    	  } else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
+//	    		  category3 = "등심";
+//	    	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
+//	    		  category3 = "안심";
+//	    	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
+//	    		  category3 = "갈비";
+//	    	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
+//	    		  category3 = "채끝";
+//	    	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
+//	    		  category3 = "목심";
+//	    	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
+//	    		  category3 = "부채살";
+//	    	  }
+//	    	  ndto.setCategory1(category1);
+//	    	  ndto.setCategory2(category2);
+//	    	  ndto.setCategory3(category3);
+//	
+//	    	  int r_p_num = service.reviewAllCNT(ndto.getP_num());
+//	    	  ndto.setReviewAllCNT(r_p_num);
+//		      }
+//	      model.addAttribute("customOrderBest", customOrderBest);
+//      }
+//      
       return "main/main";
    }
 

@@ -6,18 +6,20 @@ import lombok.Data;
 
 @Data
 public class DiseaseDTO {
-	private int d_num;
-	private String ictsd_occrrnc_no;
-	private String lknts_nm;
-	private String farm_nm;
-	private String farm_locplc_legaldong_code;
-	private String farm_locplc;
-	private Date occrrnc_de;
-	private String lvstckspc_code;
-	private String lvstckspc_nm;
-	private String occrrnc_lvstckcnt;
-	private String dgnss_engn_code;
-	private String dgnss_engnNm;
-	private Date cessation_de;
-	private Date reg_date;
+	private int D_NUM;
+	private String ICTSD_OCCRRNC_NO;
+	private String LKNTS_NM;
+	private String FARM_NM;
+	private String FARM_LOCPLC_LEGALDONG_CODE;
+	private String FARM_LOCPLC;
+	private String OCCRRNC_DE;
+	private String LVSTCKSPC_CODE;
+	private String LVSTCKSPC_NM;
+	private String OCCRRNC_LVSTCKCNT;
+	private String DGNSS_ENGN_CODE;
+	private String DGNSS_ENGN_NM;
+	private String CESSATION_DE;
+	
+	private Date REG_DATE;
+	
 }

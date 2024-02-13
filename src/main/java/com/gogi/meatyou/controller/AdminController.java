@@ -29,13 +29,16 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gogi.meatyou.bean.DiseaseDTO;
 import com.gogi.meatyou.bean.MemberDTO;
 import com.gogi.meatyou.bean.NoticeDTO;
 import com.gogi.meatyou.bean.NoticeFileDTO;
@@ -257,6 +260,63 @@ public class AdminController {
 		
 		return adminServicImpl.getChartData(period);
 	}
+	
+	@RequestMapping("/check")
+	public String check(Model model) {
+		model.addAttribute("apiKey","wBStzrx7b1p8B9XqfLWLBMa0q7HCWqRMC7%2F2o%2BG1CWfp2gW%2FffWQ8H81TDthbbN%2FU%2FqtGmiOtMUvFtzKeHPiuQ%3D%3D");
+		
+		return "admin/businessNum";
+	}
+	
+	@RequestMapping(value="/api",produces = "application/text; charset=UTF-8")
+	@CrossOrigin(origins = "*", methods = RequestMethod.GET)
+	public @ResponseBody String itemCategoryAPI(Model model,HttpServletResponse response) {
+		response.setCharacterEncoding("UTF-8");
+		return adminServicImpl.getPriceinfo();
+	}
+	@RequestMapping("item")
+	public String item() {
+		return "admin/itemCategoryAPI";
+	}
+	
+	@RequestMapping("/diapi")
+	public String diapi(Model model) {
+		model.addAttribute("key", "1c9a14382163bb7dc822492a3dca9b9a8841b3782755afedd33d3b5879c98e94");
+		return "admin/disease";
+	}
+	
+	@RequestMapping(value="/dapi",produces="application/text; charset=UTF-8")
+	public @ResponseBody String dapi(Model model,HttpServletResponse response,
+			String ICTSD_OCCRRNC_NO, 
+          	String LKNTS_NM,
+          	String FARM_NM,
+          	String FARM_LOCPLC_LEGALDONG_CODE,
+          	String FARM_LOCPLC,
+          	String OCCRRNC_DE,
+          	String LVSTCKSPC_CODE,
+          	String LVSTCKSPC_NM,
+          	String OCCRRNC_LVSTCKCNT,
+          	String DGNSS_ENGN_CODE,
+          	String DGNSS_ENGN_NM,
+          	String CESSATION_DE) {
+			DiseaseDTO dto = new DiseaseDTO();
+			dto.setICTSD_OCCRRNC_NO(ICTSD_OCCRRNC_NO);
+			dto.setLKNTS_NM(LKNTS_NM);
+			dto.setFARM_NM(FARM_NM);
+			dto.setFARM_LOCPLC_LEGALDONG_CODE(FARM_LOCPLC_LEGALDONG_CODE);
+			dto.setFARM_LOCPLC(FARM_LOCPLC);
+			dto.setOCCRRNC_DE(OCCRRNC_DE);
+			dto.setLVSTCKSPC_CODE(LVSTCKSPC_CODE);
+			dto.setLVSTCKSPC_NM(LVSTCKSPC_NM);
+			dto.setOCCRRNC_LVSTCKCNT(OCCRRNC_LVSTCKCNT);
+			dto.setDGNSS_ENGN_CODE(DGNSS_ENGN_CODE);
+			dto.setDGNSS_ENGN_NM(DGNSS_ENGN_NM);
+			dto.setCESSATION_DE(CESSATION_DE);
+			adminServicImpl.updatedi(dto);
+			return "success";
+	}
+	
+	
 	@RequestMapping("/apiTest")
 	 public String apiTest(Model model) {
 	 adminServicImpl.apiTest(model);

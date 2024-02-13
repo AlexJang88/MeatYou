@@ -582,7 +582,7 @@
       ]]>
        ) months LEFT JOIN (select * from m_order mo left join (select * from coupon where cp_cus_id='admin') cp on mo.order_p_num=cp.cp_p_num ) mo ON TO_CHAR(months.start_date, 'YYYY-MM') = TO_CHAR(order_paydate, 'YYYY-MM')
 	   GROUP BY TO_CHAR(months.start_date, 'YYYY-MM') 
-       ORDER BY mon) a ,(SELECT TO_CHAR(months.start_date, 'YYYY-MM') AS mon, -- 월별 날짜 형식으로 변환
+       ORDER BY mon) a ,(SELECT TO_CHAR(months.start_date, 'YYYY-MM') AS mon, 
         nvl(sum(co_pay),0) co_pay FROM (
         <![CDATA[
        SELECT ADD_MONTHS(TO_DATE(#{period}, 'YYYY-MM-DD'), LEVEL - 1) AS start_date FROM DUAL CONNECT BY LEVEL <= 12
@@ -591,4 +591,23 @@
 	   GROUP BY TO_CHAR(months.start_date, 'YYYY-MM') 
        ORDER BY mon) b where a.mon=b.mon
 	</select>
+	<insert id="diseaseAutoUpdate" parameterType="com.gogi.meatyou.bean.DiseaseDTO">
+	insert into disease values(
+		disease_seq.nextval,
+		#{ICTSD_OCCRRNC_NO},
+		#{LKNTS_NM},
+		#{FARM_NM},
+		#{FARM_LOCPLC_LEGALDONG_CODE},
+		#{FARM_LOCPLC},
+		#{OCCRRNC_DE},
+		#{LVSTCKSPC_CODE},
+		#{LVSTCKSPC_NM},
+		#{OCCRRNC_LVSTCKCNT},
+		#{DGNSS_ENGN_CODE},
+		#{DGNSS_ENGN_NM},
+		<if test="CESSATION_DE==19900101">null,</if>
+		<if test="CESSATION_DE!=19900101">#{CESSATION_DE}</if>
+		sysdate
+		)
+	</insert>
 </mapper>

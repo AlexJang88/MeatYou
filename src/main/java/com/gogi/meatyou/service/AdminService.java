@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.gogi.meatyou.bean.AdminProductDTO;
 import com.gogi.meatyou.bean.CouponDTO;
+import com.gogi.meatyou.bean.DiseaseDTO;
 import com.gogi.meatyou.bean.MemberDTO;
 import com.gogi.meatyou.bean.NoticeDTO;
 import com.gogi.meatyou.bean.NoticeFileDTO;
@@ -92,6 +93,10 @@ public interface AdminService {
 	public List<CouponDTO> getCouponMember(int m_status,int cp_price);
 	
 	public String getChartData(String period);
+	
+	public String getPriceinfo();
+	
+	public void updatedi(DiseaseDTO dto);
 	
 	
 	public void apiTest(Model model);
