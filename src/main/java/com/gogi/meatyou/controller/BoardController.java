@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.gogi.meatyou.bean.PQuestionDTO;
+import com.gogi.meatyou.bean.QnADTO;
 import com.gogi.meatyou.service.BoardService;
 
 @Controller
@@ -112,18 +113,83 @@ public class BoardController {
 	 
 	 
 	 
-	 
-	 
-	 
-	 
-	 
-	 
 	 @RequestMapping("consumerQna") // 소비자 - 관리자
-	   public String consumerQna(Model model, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum) {
+	   public String consumerQna(Model model, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum, Principal pc) {
+		 	String id = pc.getName();
+		 	
 		 	service.consumerQnaList(model, pageNum);
 	      return "board/consumerQna/consumerQna";
 	   }
 	
+	 
+	 @RequestMapping("userContent") // 판매자 - 관리자
+	   public String userContent(Model model,int pageNum, int ma_num, int ma_ref, QnADTO qnadto, Principal pc) {		
+		model.addAttribute("pageNum", pageNum);
+		String id = pc.getName();
+		qnadto.setMa_num(ma_num);
+		qnadto.setMa_ref(ma_ref);
+		
+		 service.contentView(model, qnadto, id); // 내용 및 댓글보기
+	      return "board/consumerQna/userContent";
+	   }
+	 
+	 @RequestMapping("userContentPro") // 판매자 - 관리자
+	   public String userContentPro(Model model, QnADTO qnadto,  Principal pc, int ma_num, int pageNum, int ma_ref) {		
+		 qnadto.setMa_ref(ma_ref);
+		 qnadto.setMa_m_id(pc.getName());
+		 service.insertanswer(qnadto); //답변 등록
+		 
+	      return "redirect:/board/userContent?ma_num="+ma_num+"&ma_ref="+ma_ref+"&pageNum="+pageNum;   
+	   }
+	 
+	 @RequestMapping("questionCA") // 소비자 - 관리자
+	   public String questionCA(Model model, Principal pc) {
+		 	String id = pc.getName();
+		 	model.addAttribute("id", id);
+		 	
+	      return "board/consumerQna/questionCA";
+	   }
+	 
+	 @RequestMapping("questionCAPro") // 소비자 - 관리자
+	   public String questionCAPro(Model model, HttpServletRequest req, Principal pc, QnADTO qnadto) {
+		 	String id = pc.getName();		 	
+		 	String realPath = req.getServletContext().getRealPath("/resources/file/QnAboard/");
+		 	
+		 	 service.questionReg(qnadto,realPath);
+		 	 
+	      return "redirect:/board/consumerQna";
+	   }
+
+	
+	 @RequestMapping(value="/uploadImageFileCA", produces = "application/json; charset=utf8")
+	 @ResponseBody
+	 public String uploadImageFileCA(@RequestParam("file") MultipartFile multipartFile,
+	            HttpServletRequest req) {
+	      String realPath=req.getServletContext().getRealPath("/resources/file/QnAboard/");
+	      return service.productImgCAUpload(multipartFile, realPath);
+	   }
+	 
+	 @RequestMapping(value = "/deleteImageFileCA", produces = "application/json; charset=utf8")
+	    public String deleteImageFileCA(@RequestParam("file") String fileName,HttpServletRequest req, int pq_q_num) {
+	      String realPath=req.getServletContext().getRealPath("/resources/file/QnAboard/");
+	      service.productImgCADel(fileName, realPath);
+	      return "redirect:/board/consumerQna";
+	   }
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
 	 @RequestMapping("sellerQna") // 판매자 - 관리자
 	   public String home(Model model, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum) {
 		 	service.sellerQnaList(model, pageNum);

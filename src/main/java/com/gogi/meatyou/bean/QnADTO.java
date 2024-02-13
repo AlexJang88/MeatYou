@@ -16,4 +16,5 @@ public class QnADTO {
 	private int ma_ref;
 	private String readcheck;
 	private String ma_reply;
+	private int r;
 }

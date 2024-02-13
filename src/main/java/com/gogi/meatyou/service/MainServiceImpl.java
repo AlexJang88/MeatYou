@@ -3683,5 +3683,14 @@ public ProductDetailDTO productDetail(ProductDetailDTO dto, Model model) {
 	public MemberDTO name(String m_id) {
 		return mapper.name(m_id);
 	}
+	
+	@Override
+	public void getStatus(Model model, String id) {  //지환 설문조사
+		int status = mapper.getStatus(id);
+		
+		model.addAttribute("status", status);
+		model.addAttribute("id", id);
+	}
+	
 
 }
