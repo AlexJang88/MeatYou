@@ -9,6 +9,10 @@
     WHERE m_id ='${m_id}'
    </select>
 
+ <select id="isM_ideAvailable" resultType="com.gogi.meatyou.bean.MemberDTO">
+       SELECT * FROM member
+    WHERE m_id ='${m_id}'
+   </select>
 
    <resultMap id="memberMap" type="com.gogi.meatyou.bean.MemberDTO" >
       <result property="m_id" column="m_id" />

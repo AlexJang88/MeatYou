@@ -4,51 +4,48 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ include file="../../header.jsp" %>
 <style>
-/* Reset some default table styles */
+ 
+ 
+
 .custom-table {
-  border-collapse: collapse;
-  width: 40%;
-  margin-top: 20px; /* Adjust as needed */
-}
+    width: 65%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: white;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
 
-.custom-table th, .custom-table td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: center;
-}
+  .custom-table th, .custom-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
 
-/* Customize your header styles */
-.custom-table th {
-  background-color: #f2f2f2; /* Light gray background */
-}
+  .custom-table th {
+    background-color: #f2f2f2;
+  }
 
-/* Customize your status message styles */
-.custom-table .status-message {
-  font-weight: bold;
-  font-size: 16px;
-}
+  .custom-table .status-message {
+    font-weight: bold;
+    font-size: 16px;
+  }
 
-/* Customize your action link styles */
-.custom-table .action-links a {
-  margin-right: 10px; /* Adjust spacing between links as needed */
-  text-decoration: none;
-  font-weight: bold;
-}
+  .custom-table .action-links a {
+    margin-right: 10px;
+    text-decoration: none;
+    font-weight: bold;
+  }
 
-.custom-table .action-links a:hover {
-  color: #333; /* Darken the color on hover */
-}
-
-  body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #f8f9fa;
-    margin: 0;
-    padding: 0;
+  .custom-table .action-links a:hover {
+    color: black;
+    font-weight:  bold;
   }
 
   table {
-    width: 60%; /* 테이블 넓이를 조절 */
-    margin: 20px auto; /* 가운데 정렬 */
+    width: 60%;
+    margin: 20px auto;
     border-collapse: collapse;
     background-color: white;
     border: 1px solid #dee2e6;
@@ -57,7 +54,7 @@
   }
 
   th, td {
-    padding: 15px; /* 셀 내부 간격을 늘림 */
+    padding: 15px;
     border-bottom: 1px solid #dee2e6;
     text-align: left;
   }
@@ -69,22 +66,18 @@
 
   table a {
     font-size: 16px;
-    color: #007bff;
+    color: #blakc;
     text-decoration: none;
   }
 
   .addressBox {
-    width: 4.1%;
-    position: absolute;
-    margin-top: 0;
-    margin-right: 0;
-   right:280px;
+    position: relative;
+    width: 10%;
     cursor: pointer;
-    	top:250px;
   }
 
   .addressBox:hover {
-    width: 4.3%;
+    width: 11%;
     cursor: pointer;
   }
 
@@ -95,8 +88,29 @@
   }
 
   .action-links {
-    color: #28a745;
+    color: white;
     font-size: 18px;
+  }
+  
+  
+  
+    .action-buttons {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .action-buttons a {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 0 10px;
+    text-decoration: none;
+    color:black;
+    border-radius: 5px;
+    background-color: lightgray;
+  }
+
+  .action-buttons a:hover {
+    background-color: gray; /* Change the hover background color if needed */
   }
 </style>
 
@@ -106,7 +120,7 @@
 
 <sec:authorize access="isAuthenticated()">
 
-   
+     <div class="table-container">
 <table border="1"  class="custom-table">
     <thead>
         <tr>
@@ -183,6 +197,10 @@
                         <a href="/customers/customer" >판매자 페이지 바로가기</a>
                       
                       </td>
+                      <td>
+                        	<a href="/customers/CouponList"> 내가 발급한 쿠폰목록</a>
+                      </td>
+                      
                       </tr>
        
                     </c:when>
@@ -195,7 +213,7 @@
                         </td>
                         
                          <td>
-                            <a href="/member/pickMe" s>내가 마음에드는 업체</a>
+                            <a href="/member/pickMe">내가 마음에드는 업체</a>
          					 </td>
                         
                           <td>
@@ -206,7 +224,9 @@
                         
                          	  <td>
                          <a href="../member/pPickList" >찜 상품 목록</a>
-                    </td>
+                    		</td>
+              
+                    	
                     
                           </tr>	
                            
@@ -215,22 +235,11 @@
                 </c:choose> 
       		  </tr>
       		  
-      		  
-      		    <th colspan="4"  style="background-color:white; color:white; ">
-      		         <c:if test="${dto.m_status ge 1000 and dto.m_status le 2004}">
-						<div >
-								<a   href="../member/addressForm"  >
-							<img src="/resources/member/img/address.png" class="addressBox" title="너님의 배송지 주소">
-						</a>
-					
-					</div>
-					</c:if>
-					     		  
-      		  </th>
+      	 
     </thead>
 </table>
 
-    <table border=1>
+    <table border=1 class="custom-table">
 	    <thead>
 	     
 
@@ -238,9 +247,8 @@
 
 	            <th>아이디</th>
 	            <th>성함</th>
-	     		  <th>생년월일</th>	    
-	            <th>주소 </th>
-				<th>상세주소  </th>
+	     		 <th>생년월일</th>	    
+	            <th style="width: 30%;">주소 </th>
 				<th>이메일  </th>
 				<th>통신사 </th>
 				<th>휴대폰번호 </th>
@@ -257,8 +265,13 @@
                 <td>${dto.m_id}</td>
                 <td>${dto.m_name}</td>
                 <td>${dto.birth.substring(0, 10)}</td>
-                <td>${dto.m_addr1}</td>
-                <td>${dto.m_addr2}</td>
+                <td>${dto.m_addr1} 
+               		${dto.m_addr2}  
+						<a   href="../member/addressForm"  >
+							<img src="/resources/member/img/address.png" class="addressBox" title="배송지 주소 변경"></a>
+			 </td>
+			 </td>
+               
                 <td>${dto.email}</td>
                 <td>${dto.telep}</td>
                 <td>${dto.phone}</td>
@@ -308,22 +321,10 @@
 
  <!-- 1001 ~ 1050 사이의 상태일 때 -->
 
-		
-		    <table style="border-collapse: collapse; width: 30%; margin: auto;">
-        <tbody>
-            <tr>
-                <th style="   padding: 15px; text-align: center;">
-                    <div>
-                        <b>
-                           		<div> 쿠폰 갯수  : <c:out value="${count}"/> 개 </div>
-                        </b>
-                    </div>
-                </th>
-            </tr>
-        </tbody>
-    </table>
+	
+     <c:if  test="${count > 0}">
     <c:if  test="${dto.m_status ge 1001 and dto.m_status le 1050}">
-        <table border=2>
+        <table border=2 class="custom-table">
           <thead>
          	 <tr>
 
@@ -360,13 +361,21 @@
 						</tr>
                 		</c:forEach>
                 </tbody>
+                <tr>
+                <td colspan="6" class="text-center">
+    <div> 보유한 쿠폰 총  : <c:out value="${count}"/> 개 </div>
+</td>
+                </tr>
         </table>
    </c:if>
+   </c:if>
+   
+    
    
 				<div style="position:relative;">
 	   <!-- 2000 ~ 2003 사이의 상태일 때 -->
    <c:if test="${dto.m_status ge 2000 and dto.m_status le 2004}">
-        <table  border=2>
+        <table  border=2 class="custom-table">
         
             <tbody>
             
@@ -387,24 +396,13 @@
 
  </div>
 
-    <table style="border-collapse: collapse; width: 30%; margin: auto;">
-        <tbody>
-            <tr>
-                <th style="  color: white; padding: 15px; text-align: center;">
-                  
-                       <td>
-                            <a href="../member/modifyForm" style="color: black; text-decoration: none;">정보수정</a>
-                         </td>
-                            <td>
- 							<c:if test="${dto.m_status eq 1001 and dto.m_status le 1003}">
-						 <input type="button" name="modify" value="판매자 신청"  onclick="javascript:window.location='/member/sallerInputForm'" style="background-color:lightgray; border:none; color:black; ">
-							</c:if>
-								</td>
-                </th>
-            </tr>
-        </tbody>
-    </table>
-
+ <div class="action-buttons">
+  <a href="../member/modifyForm">정보수정</a>
+  
+  <c:if test="${dto.m_status eq 1001 and dto.m_status le 1003}">
+    <a href="/member/sallerInputForm">판매자 신청</a>
+  </c:if>
+</div>
  
 </sec:authorize>
 		

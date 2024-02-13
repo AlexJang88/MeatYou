@@ -9,6 +9,25 @@
   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
   
 <script>
+function checkUsernameAvailability() {
+    var m_id = $("#m_id").val();
+
+    $.ajax({
+        type: "POST",
+        url: "/member/checkUsernameAvailability",
+        data: { m_id: m_id },
+        success: function(result) {
+            console.log("아이디 사용할 수 있는지~없는지 ~~" + (result === 1 ? "사용 가능" : "이미 사용 중"));
+
+            if (result === 1) {
+                $("#statusMessage").html("사용 가능한 아이디입니다.");
+            } else {
+                $("#statusMessage").html("이미 사용 중인 아이디입니다.");
+            }
+        }
+    });
+}
+
   document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('addressButton').addEventListener('click', function () {
       new daum.Postcode({
@@ -95,7 +114,8 @@
     <tr> 
       <td width="200"> 사용자 ID</td>
       <td width="400"> 
-       <input type="text" name="m_id" size="10" maxlength="12" required="required">
+       <input type="text" name="m_id" size="10" maxlength="12" id="m_id" required="required" onkeyup="checkUsernameAvailability()">
+        <div class="statusMessage" id="statusMessage"></div>
       </td>
     </tr>
     <tr> 

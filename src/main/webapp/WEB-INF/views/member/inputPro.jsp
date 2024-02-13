@@ -14,7 +14,8 @@
     <tr>
         <td > 
             <form>
-                <input type="button" value="메인으로" onclick="window.location='../main/main'">
+                <a href="/main/main"><i class="fa"></i>메인으로</a>
+                <a href="/member/customLogin"><i class="fa"></i> 로그인</a>
             </form>
             5초후에 메인으로 이동합니다.<meta http-equiv="Refresh" content="5;url=../main/main" >                       
         </td>

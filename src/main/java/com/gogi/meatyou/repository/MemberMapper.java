@@ -41,7 +41,7 @@ public interface MemberMapper {
     		
     		);
 
-   
+    Integer  isM_ideAvailable(String m_id);
 
          
        public MemberDTO loadUserByUsername(String username);
@@ -162,11 +162,11 @@ public interface MemberMapper {
             
             int PaymentCount(Map<String, Object> params);       
             
-            public String dbName(MemberDTO memberdto); //디비속 이름
-            public String dbPhone(MemberDTO memberdto); //디비속 전화번호
-            public String dbId(MemberDTO memberdto); //디비속 전화번호
-            public String getDbId(MemberDTO memberdto);//실제아이디
-            public String getDbPw(MemberDTO memberdto);//실제아이디
-            public void changePw(MemberDTO memberdto); //비밀번호변경
+            public String dbName(MemberDTO memberdto); //�뵒鍮꾩냽 �씠由�
+            public String dbPhone(MemberDTO memberdto); //�뵒鍮꾩냽 �쟾�솕踰덊샇
+            public String dbId(MemberDTO memberdto); //�뵒鍮꾩냽 �쟾�솕踰덊샇
+            public String getDbId(MemberDTO memberdto);//�떎�젣�븘�씠�뵒
+            public String getDbPw(MemberDTO memberdto);//�떎�젣�븘�씠�뵒
+            public void changePw(MemberDTO memberdto); //鍮꾨�踰덊샇蹂�寃�
             
    }
