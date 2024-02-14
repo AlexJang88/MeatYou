@@ -63,40 +63,6 @@ ${month}
 		<a href="/admin/memberlist?pageNum=${startPage+10}&check=${check}">[다음]</a>
 	</c:if>
 </c:if>
-<script>
-        var ctx = document.getElementById('sales-chart').getContext('2d');
-        var salesChart = new Chart(ctx, {
-            type: 'line', // The type of chart we want to create
-            data: { // Data for our dataset
-                labels: ['January', 'February', 'March', 'April', 'May', 'June'], // Example labels
-                datasets: [{
-                    label: '총 판매 금액', // Name of the data
-                    backgroundColor: 'rgb(255, 99, 132)', // Color of the dots
-                    borderColor: 'rgb(255, 99, 132)', // Color of the line
-                    data: [0, 10000, 5000, 15000, 20000, 30000], // Example sales data
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: '단위(원)'
-                        }
-                    }
-                },
-                plugins: {
-                    title: {
-                        display: true,
-                        text: '월별 매출통계'
-                    },
-                    legend: {
-                        display: true
-                    }
-                }
-            }
-        });
-    </script>
+
 
 <%@ include file="../footer.jsp"%>

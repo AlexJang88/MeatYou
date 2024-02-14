@@ -15,6 +15,7 @@ import org.apache.ibatis.annotations.Param;
 import com.gogi.meatyou.bean.AdminProductDTO;
 import com.gogi.meatyou.bean.ChartDTO;
 import com.gogi.meatyou.bean.CouponDTO;
+import com.gogi.meatyou.bean.DiseaseDTO;
 import com.gogi.meatyou.bean.MemberDTO;
 
 import com.gogi.meatyou.bean.NoticeDTO;
@@ -144,6 +145,8 @@ public interface AdminMapper {
    public void maStatChange(int ma_num);
    
    public List<ChartDTO> getChartData(String period);
+   
+   public void diseaseAutoUpdate(List<DiseaseDTO> list);
    
    
 }

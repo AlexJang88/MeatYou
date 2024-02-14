@@ -12,9 +12,11 @@ import java.text.SimpleDateFormat;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.ServletRequest;
@@ -29,13 +31,16 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gogi.meatyou.bean.DiseaseDTO;
 import com.gogi.meatyou.bean.MemberDTO;
 import com.gogi.meatyou.bean.NoticeDTO;
 import com.gogi.meatyou.bean.NoticeFileDTO;
@@ -43,7 +48,9 @@ import com.gogi.meatyou.bean.QnADTO;
 import com.gogi.meatyou.repository.AdminMapper;
 import com.gogi.meatyou.service.AdminService;
 import com.gogi.meatyou.service.AdminServiceImpl;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
 import lombok.AllArgsConstructor;
 
@@ -257,6 +264,82 @@ public class AdminController {
 		
 		return adminServicImpl.getChartData(period);
 	}
+	
+	@RequestMapping("/check")
+	public String check(Model model) {
+		model.addAttribute("apiKey","wBStzrx7b1p8B9XqfLWLBMa0q7HCWqRMC7%2F2o%2BG1CWfp2gW%2FffWQ8H81TDthbbN%2FU%2FqtGmiOtMUvFtzKeHPiuQ%3D%3D");
+		
+		return "admin/businessNum";
+	}
+	
+	@RequestMapping(value="/api",produces = "application/text; charset=UTF-8")
+	@CrossOrigin(origins = "*", methods = RequestMethod.GET)
+	public @ResponseBody String itemCategoryAPI(Model model,HttpServletResponse response) {
+		response.setCharacterEncoding("UTF-8");
+		return adminServicImpl.getPriceinfo();
+	}
+	@RequestMapping("item")
+	public String item() {
+		return "admin/itemCategoryAPI";
+	}
+	
+	@RequestMapping("/diapi")
+	public String diapi(Model model) {
+		model.addAttribute("key", "1c9a14382163bb7dc822492a3dca9b9a8841b3782755afedd33d3b5879c98e94");
+		return "admin/disease";
+	}
+	
+	@RequestMapping(value="/dapi", method=RequestMethod.POST, produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public Map<String, Object> dapi(@RequestBody Map<String, Object> requestData) {
+	    System.out.println("data====" + requestData); // 데이터가 제대로 수신되는지 확인
+	    Map<String, Object> result = new HashMap<>();
+	    List<DiseaseDTO> list = new ArrayList<DiseaseDTO>();;
+	    try {
+	    	 Map<String, Object> data = (Map<String, Object>) requestData.get("data");
+	         Map<String, Object> gridData = (Map<String, Object>) data.get("Grid_20151204000000000316_1");
+	         List<Map<String, Object>> rows = (List<Map<String, Object>>) gridData.get("row");
+	         // 각 행의 정보 출력
+	         if(rows.isEmpty()) {
+	        	 System.out.println("없음");
+	         }else {
+	         for (Map<String, Object> row : rows) {
+	        	 String cessation =(String)row.get("CESSATION_DE");
+	        	 String check = (String)row.get("LVSTCKSPC_NM"); 
+	             DiseaseDTO dto = new DiseaseDTO();
+	             if(check.contains("소")||check.contains("돼지")) {
+	            	 if(cessation.length()<0 || cessation.equals("") || cessation.isEmpty()) {
+	            		 dto.setCESSATION_DE("0");
+		        	 }else {
+	            	 dto.setCESSATION_DE((String)row.get("CESSATION_DE"));}
+		             dto.setDGNSS_ENGN_CODE((String)row.get("DGNSS_ENGN_CODE"));
+		             dto.setDGNSS_ENGN_NM((String)row.get("DGNSS_ENGN_NM"));
+		             dto.setFARM_LOCPLC((String)row.get("FARM_LOCPLC"));
+		             dto.setFARM_LOCPLC_LEGALDONG_CODE((String)row.get("FARM_LOCPLC_LEGALDONG_CODE"));
+		             dto.setFARM_NM((String)row.get("FARM_NM"));
+		             dto.setICTSD_OCCRRNC_NO((String)row.get("ICTSD_OCCRRNC_NO"));
+		             dto.setLKNTS_NM((String)row.get("LKNTS_NM"));
+		             dto.setLVSTCKSPC_CODE((String)row.get("LVSTCKSPC_CODE"));
+		             dto.setLVSTCKSPC_NM((String)row.get("LVSTCKSPC_NM"));
+		             dto.setOCCRRNC_DE((String)row.get("OCCRRNC_DE"));
+		             dto.setOCCRRNC_LVSTCKCNT((int)row.get("OCCRRNC_LVSTCKCNT"));
+		             list.add(dto);
+	         	}
+	         }
+		        if(list!=null || list.size()>0 || !list.isEmpty()) {
+		        	adminServicImpl.updatedi(list);
+		       	}
+	         }
+	         result.put("result", true);
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	        result.put("result", false);
+	    }
+	    return result;
+	}
+
+	
+	
 	@RequestMapping("/apiTest")
 	 public String apiTest(Model model) {
 	 adminServicImpl.apiTest(model);

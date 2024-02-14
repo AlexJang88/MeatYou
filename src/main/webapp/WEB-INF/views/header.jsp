@@ -81,7 +81,7 @@
              
        
   			
-                  <li><a href="#"><i class="fa"></i> 고객센터</a></li>
+                  <li><a href="/board/consumerQna"><i class="fa"></i> 고객문의</a></li>
                </ul>
             </div>
          </div>
