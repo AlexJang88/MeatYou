@@ -1,41 +1,217 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ include file="../header.jsp" %>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>판매자 페이지</title>
+    <%@ include file="../header.jsp" %>
+    <script>
+ 
+    </script>
+    <style>
+        .main-table {
+        width: 50%; /* Set the desired width */
+        margin: 0 auto; /* Center-align the table */
+           box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+           height: 80%;
+        
+    }
+    .out-table{
+        margin: 0 auto; /* Center-align the element */
+      	 align-items: center; 
+      	 justify-content: center;
+      	
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          
+    }
+  .summary-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        margin-right: 10px;
+   
+    }
+
+    .summary-table th, .summary-table td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .summary-table th {
+        background-color: #f2f2f2;
+    }
+
+    .summary-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+
+      
+
+
+       .category-menu {
+       margin-top:0;
+        width: 20%;
+        flex-shrink: 0; /* 추가: 카테고리 메뉴가 축소되지 않도록 설정 */
+    }
+
+        .graph-container {
+            width: 60%; /* Adjust the width as needed */
+            order: 1; /* Set the order for the graph */
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            font-weight: bold; /* Added font weight */
+        }
+
+        .btn:hover {
+            font-weight: bold; /* Added font weight */
+        }
+
+        h1 {
+            color: #333;
+            font-weight: bold; /* Added font weight */
+        }
+
+        .sales-summary {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #sales-chart {
+            flex: 1; /* Adjust the width of the graph as needed */
+            height: 350px; /* Adjust the height of the graph as needed */
+			margin-bottom:15%; 
+			
+
+        }
+        
+          .vertical-menu {
+        order: -1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-right: 20px;
+        width: 100%; /* 추가: 수직 메뉴 전체 너비를 100%로 설정 */
+		margin-top:0;
+    }
+
+      .vertical-menu a {
+        margin-bottom: 10px;
+        /* width: 100%; 수직 메뉴 아이템은 전체 너비로 설정하지 않음 */
+        text-align: left;
+    }
+ 
+        #category-list {
+            flex: 1; /* Adjust the width of the category list as needed */
+            padding: 20px;
+            margin-top: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+    @media only screen and (max-width: 768px) {
+            .outer-table {
+                flex-direction: column;
+            }
+
+
+            .category-menu,
+            .graph-container {
+                width: 100%;
+            }
+        }
+
+        @media only screen and (min-width: 769px) {
+
+            .category-menu {
+                width: 20%;
+            }
+
+            .graph-container {
+                width: 80%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div style="display: flex;   margin-top:50px; margin-bottom:50px;">
+ 
+      <h2 id="getYear" class="out-table">매출 요약정보</h2>
+</div>
+    <table class="main-table">
+    
+        <tr>
+      
+            <td class="category-menu">
+                <div class="vertical-menu">
+                    <div class="vertical-menu-item">
+                        <a href="/admin/memberlist?check=1" ">회원목록 조회(일반)</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">하위 메뉴 1</a>
+                            <a class="dropdown-item" href="#">하위 메뉴 2</a>
+                            <a class="dropdown-item" href="#">하위 메뉴 3</a>
+                            <a class="dropdown-item" href="#">하위 메뉴 4</a>
+                        </div>
+                    </div>
+                    <a href="/admin/memberlist?check=2" class="btn">회원목록 조회(판매자)</a>
+                    <a href="/admin/memberlist?check=3" class="btn">판매자 승인대기</a>
+                    <a href="/admin/memberlist?check=4" class="btn">판매자(유료회원)목록</a>
+                    <a href="/admin/sales" class="btn">매출보기</a>
+                    <a href="/admin/reckon" class="btn">정산내역 확인</a>
+                    <a href="/admin/noticeList" class="btn">공지사항</a>
+                    <a href="/admin/reportList" class="btn">신고글 보기</a>
+                    <a href="/admin/productList" class="btn">상품목록보기</a>
+                </div>
+            </td>
+            <td class="graph-and-summary">
+                <div id="graph-container">
+                    <canvas id="sales-chart"></canvas>
+                </div>
+                <table class="summary-table">
+                    <tr>
+                        <td>총 매출</td>
+                        <td>순 매출</td>
+                        <td>판매 수수료 수익</td>
+                        <td>유료결제(품목) 수익</td>
+                        <td>유료결제(상위노출) 수익</td>
+                        <td>쿠폰 지출</td>
+                    </tr>
+                    <tr>
+                        <td>${total}</td>
+                        <td>${net_profit}</td>
+                        <td>${productComm}</td>
+                        <td>${item}</td>
+                        <td>${Adv}</td>
+                        <td>${coupon}</td>
+                    </tr>
+                </table>
+            </td>
+            
+        </tr>
+    </table>
+</body>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<a href="/admin/memberlist?check=1">회원목록 조회(일반)</a>|
-<a href="/admin/memberlist?check=2">회원목록 조회(판매자)</a>|
-<a href="/admin/memberlist?check=3">판매자 승인대기</a>|
-<a href="/admin/memberlist?check=4">판매자(유료회원)목록</a>|
-<a href="/admin/sales">매출보기</a>|
-<a href="/admin/reckon">정산내역 확인</a>|
-<a href="/admin/noticeList">공지사항</a>|
-<a href="/admin/reportList">신고글 보기</a>|
-<a href="/admin/productList">상품목록보기</a>
-
-
-<h2 id="getYear">매출 요약정보</h2>
-<div style="width: 60%; height: 50%;" id="graph-container">
-		<canvas id="sales-chart"></canvas>
-	</div>
-<table>
-	<tr>
-		<td>총 매출</td>
-		<td>순 매출</td>
-		<td>판매 수수료 수익</td>
-		<td>유료결제(품목) 수익</td>
-		<td>유료결제(상위노출) 수익</td>
-		<td>쿠폰 지출</td>
-	</tr>
-	<tr>
-		<td>${total}</td>
-		<td>${net_profit}</td>
-		<td>${productComm}</td>
-		<td>${item}</td>
-		<td>${Adv}</td>
-		<td>${coupon}</td>
-	</tr>
-</table>
 <script>
     // AJAX 요청 보내기
     window.onload = function () {
@@ -45,14 +221,14 @@
             dataType: 'json', // 응답 데이터 타입
             success: function (data) {
                 // ArrayList를 JavaScript 배열로 변환
-            	var total_profit = data.total_profit;
-            	var net_profit = data.net_profit;
-            	var co_pay = data.co_pay;
-            	var cp_price = data.cp_price;
-            	var getYear = data.getYear;
-            // 데이터를 그래프에 적용
-            update(total_profit,net_profit,co_pay,cp_price); // 그래프 업데이트
-            	$('#getYear').text(getYear+" 년 매출 요약정보");
+                var total_profit = data.total_profit;
+                var net_profit = data.net_profit;
+                var co_pay = data.co_pay;
+                var cp_price = data.cp_price;
+                var getYear = data.getYear;
+                // 데이터를 그래프에 적용
+                update(total_profit, net_profit, co_pay, cp_price); // 그래프 업데이트
+                $('#getYear').text(getYear + " 년 매출 요약정보");
             },
             error: function (xhr, status, error) {
                 console.error('데이터 가져오기 실패:', error);
@@ -60,9 +236,9 @@
         });
     }
 
-    function update(d1, d2,d3,d4) {
-    	 $('#sales-chart').remove();
-         $('#graph-container').append('<canvas id="sales-chart"></canvas>');
+    function update(d1, d2, d3, d4) {
+        $('#sales-chart').remove();
+        $('#graph-container').append('<canvas id="sales-chart"></canvas>');
         var ctx = document.getElementById('sales-chart').getContext('2d');
         var salesChart = new Chart(ctx, {
             type: 'line',
@@ -119,3 +295,4 @@
     }
 </script>
 <br /><%@ include file="../footer.jsp" %>
+</html>

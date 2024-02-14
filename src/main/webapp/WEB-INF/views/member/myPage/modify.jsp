@@ -88,7 +88,6 @@
   }
 
   .action-links {
-    color: white;
     font-size: 18px;
   }
   
@@ -104,14 +103,10 @@
     padding: 10px 20px;
     margin: 0 10px;
     text-decoration: none;
-    color:black;
     border-radius: 5px;
-    background-color: lightgray;
   }
 
-  .action-buttons a:hover {
-    background-color: gray; /* Change the hover background color if needed */
-  }
+   
 </style>
 
 <body>
@@ -121,7 +116,7 @@
 <sec:authorize access="isAuthenticated()">
 
      <div class="table-container">
-<table border="1"  class="custom-table" style="width: 60%">
+<table border="1"  class="custom-table" style="width: 50%">
     <thead>
         <tr>
             <th colspan="4" class="status-message">
@@ -239,7 +234,7 @@
     </thead>
 </table >
 
-    <table border=1 class="custom-table" style="width: 60%">
+    <table border=1 class="custom-table" style="width: 50%">
 	    <thead>
 	     
 
@@ -248,7 +243,7 @@
 	            <th>아이디</th>
 	            <th>성함</th>
 	     		 <th>생년월일</th>	    
-	            <th style="width: 26%;">주소 </th>
+	            <th style="width: 24%;">주소 </th>
 				<th>이메일  </th>
 				<th>통신사 </th>
 				<th>휴대폰번호 </th>
@@ -397,10 +392,10 @@
  </div>
 
  <div class="action-buttons">
-  <a href="../member/modifyForm">정보수정</a>
+  <a href="../member/modifyForm"  class="btn btn-primary"  >정보수정</a>
   
   <c:if test="${dto.m_status eq 1001 and dto.m_status le 1003}">
-    <a href="/member/sallerInputForm">판매자 신청</a>
+    <a href="/member/sallerInputForm"  class="btn btn-primary"  >판매자 신청</a>
   </c:if>
 </div>
  
