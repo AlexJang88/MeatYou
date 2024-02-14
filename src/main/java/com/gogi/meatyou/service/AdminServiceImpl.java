@@ -238,15 +238,15 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public void getSales(Model model, int check) {
+		
 		int productComm=mapper.getProductComm(check);
 		int item=mapper.getPaidItem(check);
 		int Adv=mapper.getPaidAdv(check);
 		int coupon=mapper.getUsedCoupon(check);
 		int total=productComm+item+Adv;
 		int net_profit=total-coupon;
-		
-		
-		model.addAttribute("productComm",productComm );
+		model.addAttribute("check", check);
+		model.addAttribute("productComm",productComm);
 		model.addAttribute("item",item );
 		model.addAttribute("Adv",Adv );
 		model.addAttribute("coupon",coupon );
@@ -261,17 +261,21 @@ public class AdminServiceImpl implements AdminService {
 		String[] endarr = end.split("/");
 		start = startarr[2] + "-" + startarr[0] + "-" + startarr[1];
 		end = endarr[2] + "-" + endarr[0] + "-" + endarr[1];
+		adminMap.put("check", check);
 		adminMap.put("start", start);
 		adminMap.put("end", end);
-		model.addAttribute("ps", mapper.getCheckProductSalse(adminMap));
-		model.addAttribute("pc", mapper.getCheckProductComm(adminMap));
-		model.addAttribute("pi", mapper.getCheckPaidItem(adminMap));
-		model.addAttribute("pa", mapper.getCheckPaidAdv(adminMap));
-		model.addAttribute("uc", mapper.getCheckUsedCoupon(adminMap));
-		model.addAttribute("pt",
-				mapper.getCheckPaidAdv(adminMap) + mapper.getCheckPaidItem(adminMap)
-						+ mapper.getCheckProductSalse(adminMap) + mapper.getCheckProductComm(adminMap)
-						- mapper.getCheckUsedCoupon(adminMap));
+		int productComm=mapper.getCheckProductComm(adminMap);
+		int item=mapper.getCheckPaidItem(adminMap);
+		int Adv=mapper.getCheckPaidAdv(adminMap);
+		int coupon=mapper.getCheckUsedCoupon(adminMap);
+		int total=productComm+item+Adv;
+		int net_profit=total-coupon;
+		model.addAttribute("productComm", productComm);
+		model.addAttribute("item", item);
+		model.addAttribute("Adv", Adv);
+		model.addAttribute("coupon", coupon);
+		model.addAttribute("total", total);
+		model.addAttribute("net_profit",net_profit);
 		model.addAttribute("check", check);
 	}
 

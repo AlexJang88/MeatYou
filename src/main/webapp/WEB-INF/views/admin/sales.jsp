@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -9,6 +9,7 @@
 	src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript"
 	src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <style>
@@ -38,7 +39,7 @@
 	<input type="submit" value="검색">
 </form>
 
-<c:if test="${check==1}">
+<c:if test="${check!=0}">
 	<a href="/admin/sales">이번달 매출보기 </a>
 </c:if>
 <c:if test="${check<=0}">
@@ -49,14 +50,11 @@
 		<c:when test="${not empty currentMonth and currentMonth <= 0}">
 			<c:out value="${currentYear - 1}" />년 
 			<c:out value="${currentMonth + 12}" />월 매출 현황
-    </c:when>
+    	</c:when>
 		<c:otherwise>
-			<c:out value="${currentYear}" />년 <c:out value="${currentMonth}" />월 매출 현황
-    </c:otherwise>
+			${currentYear}년 ${currentMonth}월 매출 현황
+    	</c:otherwise>
 	</c:choose>
-</c:if>
-<c:if test="${check==100}">
-검색결과 <a href="/admin/sales">이번달 매출보기 </a>
 </c:if>
 <c:if test="${check<0}">
 	<a href="/admin/sales?check=${check+1}">다음달</a>
@@ -72,12 +70,12 @@
 		<td>쿠폰 지출</td>
 	</tr>
 	<tr>
-		<td>${total}</td>
-		<td>${net_profit}</td>
-		<td>${productComm}</td>
-		<td>${item}</td>
-		<td>${Adv}</td>
-		<td>${coupon}</td>
+	  <td>${total}</td>
+      <td>${net_profit}</td>
+      <td>${productComm}</td>
+      <td>${item}</td>
+      <td>${Adv}</td>
+      <td>${coupon}</td>
 	</tr>
 </table>
 <script type="text/javascript">

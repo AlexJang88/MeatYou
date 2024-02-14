@@ -50,7 +50,7 @@ public interface AdminService {
 
 	public void getCheckSalse(Model model, int check, String start, String end);
 
-	//
+	
 	public void getReckon(Model model, int pageNum, String year, String month);
 
 	public void autoReckonUpdate();
@@ -97,7 +97,6 @@ public interface AdminService {
 	public String getPriceinfo();
 	
 	public void updatedi(List<DiseaseDTO> dto);
-	
 	
 	public void apiTest(Model model);
 	
