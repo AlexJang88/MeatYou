@@ -22,11 +22,16 @@ public interface BoardService {
 	public String productImgUpload(MultipartFile multipartFile, String realPath);	
 	public void productImgDel(String fileName, String realPath);
 	
-	
+	public void getIdStatus(Model model, String id);// 회원등급
 	public void contentView(Model model, QnADTO qnadto, String id);// 내용 및 댓글보기
 	public void insertanswer(QnADTO qnadto); // 답변등록
 	public void questionReg(QnADTO qnadto, String realPath); //문의사항 등록
 	public String productImgCAUpload(MultipartFile multipartFile, String realPath);	
 	public void productImgCADel(String fileName, String realPath);
 	
+	public void sllerContentView(Model model, QnADTO qnadto, String id);
+	public void insertAdminanswer(QnADTO qnadto); //답변등록
+	public void questionSAReg(QnADTO qnadto, String realPath); //문의사항 등록
+	public String productImgSAUpload(MultipartFile multipartFile, String realPath);
+	public void productImgSADel(String fileName, String realPath);
 }

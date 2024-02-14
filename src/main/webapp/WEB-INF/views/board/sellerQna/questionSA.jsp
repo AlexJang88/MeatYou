@@ -16,9 +16,9 @@
 
 </head>
 <body>
-<h1> 문의사항 소비자 관리자 작성</h1>
 
-<form action="questionCAPro" method="post" enctype="multipart/form-data">
+<h1> 문의사항 판매자 관리자 작성</h1>
+<form action="questionSAPro" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 	<input type="hidden" name="ma_m_id" value="${id}">
 	<table width="500" border="1" cellspacing="0" cellpadding="0" align="center">
@@ -39,7 +39,7 @@
              <td colspan="2" align="center">
                 <input type="submit" value="문의하기 등록">
                 <input type="reset" value="다시 작성">
-                <input type="button" value="목록으로" onclick="window.location='/board/consumerQna'">
+                <input type="button" value="목록으로" onclick="window.location='/board/sellerQna'">
              </td>
         </tr>
 		
@@ -126,7 +126,7 @@ function uploadImageFile(file, el) {
         $.ajax({
             data: data,
             type: 'POST',
-            url: '/board/uploadImageFileCA',
+            url: '/board/uploadImageFileSA',
             contentType: false,
             enctype: 'multipart/form-data',
             processData: false,
@@ -147,15 +147,12 @@ function uploadImageFile(file, el) {
     $.ajax({
         data: data,
         type: 'POST',
-        url: '/board/deleteImageFileCA',
+        url: '/board/deleteImageFileSA',
         contentType: false,
         enctype: 'multipart/form-data',
         processData: false,
     })
 } 
- 
-
 
 </script>
-
 </html>

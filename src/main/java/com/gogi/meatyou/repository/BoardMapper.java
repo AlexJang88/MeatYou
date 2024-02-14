@@ -34,4 +34,14 @@ public interface BoardMapper {
 	public void CAQnaUp(QnADTO qnadto); // 문의내용 디비 등록
 	public void QnAFileReg(NoticeFileDTO dto);//파일업로드
 	
+	
+	
+	public int sellerQnAcount(); //판매자- 관리자 질문갯수
+	public List<QnADTO> sellerQnAlist(HashMap boardListMap);//문의한 제목 글
+	public QnADTO getsellerContent(QnADTO qnadto);//판매자- 관리자 문의사항 내용가져오기
+	public int answerSellerCount(QnADTO qnadto); //댓글여부확인
+	public void insertAdminanswer(QnADTO qnadto);// 댓글등록
+	public QnADTO getcontentAdminView(QnADTO qnadto);  // 문의사항 후 댓글 가져오기
+	public void SAQnaUp(QnADTO qnadto); // 문의내용 디비 등록
+	public void QnASAFileReg(NoticeFileDTO dto);//파일업로드
 }

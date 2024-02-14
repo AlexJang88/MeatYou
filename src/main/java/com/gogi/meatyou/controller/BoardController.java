@@ -116,13 +116,13 @@ public class BoardController {
 	 @RequestMapping("consumerQna") // 소비자 - 관리자
 	   public String consumerQna(Model model, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum, Principal pc) {
 		 	String id = pc.getName();
-		 	
+		 	service.getIdStatus(model, id);
 		 	service.consumerQnaList(model, pageNum);
 	      return "board/consumerQna/consumerQna";
 	   }
 	
 	 
-	 @RequestMapping("userContent") // 판매자 - 관리자
+	 @RequestMapping("userContent") //소비자 - 관리자
 	   public String userContent(Model model,int pageNum, int ma_num, int ma_ref, QnADTO qnadto, Principal pc) {		
 		model.addAttribute("pageNum", pageNum);
 		String id = pc.getName();
@@ -133,7 +133,7 @@ public class BoardController {
 	      return "board/consumerQna/userContent";
 	   }
 	 
-	 @RequestMapping("userContentPro") // 판매자 - 관리자
+	 @RequestMapping("userContentPro") // 소비자 - 관리자
 	   public String userContentPro(Model model, QnADTO qnadto,  Principal pc, int ma_num, int pageNum, int ma_ref) {		
 		 qnadto.setMa_ref(ma_ref);
 		 qnadto.setMa_m_id(pc.getName());
@@ -181,19 +181,69 @@ public class BoardController {
 	 
 	 
 	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
 	 @RequestMapping("sellerQna") // 판매자 - 관리자
 	   public String home(Model model, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum) {
 		 	service.sellerQnaList(model, pageNum);
 	      return "board/sellerQna/sellerQna";
 	   }
+	 
+	 
+	 
+	 @RequestMapping("sellerContent") //판매자 - 관리자
+	   public String sellerContent(Model model,int pageNum, int ma_num, int ma_ref, QnADTO qnadto, Principal pc) {		
+		model.addAttribute("pageNum", pageNum);
+		
+		String id = pc.getName();
+		qnadto.setMa_num(ma_num);
+		qnadto.setMa_ref(ma_ref);
+		
+		 service.sllerContentView(model, qnadto, id); // 내용 및 댓글보기
+	      return "board/sellerQna/sellerContent";
+	   }
+	 
+	 @RequestMapping("sellerContentPro") // 판매자 - 관리자
+	   public String sellerContentPro(Model model, QnADTO qnadto,  Principal pc, int ma_num, int pageNum, int ma_ref) {		
+		 qnadto.setMa_ref(ma_ref);
+		 qnadto.setMa_m_id(pc.getName());
+		 service.insertAdminanswer(qnadto); //답변 등록
+		 
+	      return "redirect:/board/sellerContent?ma_num="+ma_num+"&ma_ref="+ma_ref+"&pageNum="+pageNum;   
+	   }
+	 
+	 @RequestMapping("questionSA") // 소비자 - 관리자
+	   public String questionSA(Model model, Principal pc) {
+		 	String id = pc.getName();
+		 	model.addAttribute("id", id);
+		 	
+	      return "board/sellerQna/questionSA";
+	   }
+	 
+	 @RequestMapping("questionSAPro") // 판매자 - 관리자
+	   public String questionSAPro(Model model, HttpServletRequest req, Principal pc, QnADTO qnadto) {
+		 	String id = pc.getName();		 	
+		 	String realPath = req.getServletContext().getRealPath("/resources/file/QnASAboard/");
+		 	
+		 	 service.questionSAReg(qnadto,realPath);
+		 	 
+	      return "redirect:/board/sellerQna";
+	   }
+	 
+	 
+
+	 @RequestMapping(value="/uploadImageFileSA", produces = "application/json; charset=utf8")
+	 @ResponseBody
+	 public String uploadImageFileSA(@RequestParam("file") MultipartFile multipartFile,
+	            HttpServletRequest req) {
+	      String realPath=req.getServletContext().getRealPath("/resources/file/QnASAboard/");
+	      return service.productImgSAUpload(multipartFile, realPath);
+	   }
+	 
+	 @RequestMapping(value = "/deleteImageFileSA", produces = "application/json; charset=utf8")
+	    public String deleteImageFileSA(@RequestParam("file") String fileName,HttpServletRequest req, int pq_q_num) {
+	      String realPath=req.getServletContext().getRealPath("/resources/file/QnASAboard/");
+	      service.productImgSADel(fileName, realPath);
+	      return "redirect:/board/consumerQna";
+	   }
+	 
 	 
 }
