@@ -1,13 +1,67 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-   
-<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>     
-<%@ include file="../../header.jsp" %>
 
-      
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>     
  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+ 
+<html>
+<head>
+<%@ include file="../../header.jsp" %>
+   
+<!-- 이 스크립트 태그를 HTML의 head 섹션으로 이동하세요 -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+ <style>
+  body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .containers {
+            width: 50%;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+    
+
+     
+
+        .form-control {
+            background-color: #ffa500;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #ff8c00;
+        }
+
+        .btn-light {
+            background-color: #fff;
+            color: #000;
+        }
+    </style>
+ 
+ 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       document.getElementById('addressButton').addEventListener('click', function () {
@@ -87,9 +141,6 @@ $('#check').on('click', function () {
 	 });
 </script>
 
-<html>
-<head>
-	<title>파매자 신청 하신다구여 ~~ ? </title>
 	
 	
 </head>
@@ -97,91 +148,62 @@ $('#check').on('click', function () {
 
         
 
-<form method="post" action="sallerInputPro" name="userinput">
+<form method="post" action="sallerInputPro" name="userinput" style="margin-top:70px;">
+<div class="containers"  style="width:26%;">
    <sec:authorize access="isAuthenticated()">
-  <table width="600" border="1"  align="center">
-    <tr > 
-      <td  colspan="2" height="39"align="center">
-	     <font size="+1" ><b>판매자 신청날짜[${dto.m_reg_date.substring(0, 10)}]</b></font></td>
-    </tr>
-	
-    <tr> 
-      <td  width="200"> 사업자 ID</td>
-      <td  width="400">
-        		 <input type="text" name="cus_m_id" size="15" value="${dto.m_id}"  >
-      		
-      		</td>
-      
-    </tr>
-    
-     <tr> 
-      <td width="200"><b>대표자 </b></td>
-      <td width="400" >
-			<input type="text" name="ceoname" size="15" maxlength="20" >
-		</td>
-    <tr>  
-	
-    
-   
-    <tr> 
-      <td   width="200">회사 이름 </td>
-     	<td  width="400"> 
-       		 <input type="text" name="company" size="15"  >
-          		  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-      </td>
-    </tr>
-    
-  <tr>  
-     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-     <input type="hidden" id="apiKey" value="${apiKey}">
-   <td width="200"> 사업자 번호 </td>   
-   <td width="400">	 
-   <input type="number" name="corpno" id="b_no" maxlength="15">
-			<button type="button" id="check">조회하기</button><div id="resultMessage"></div></td>
-		
 
+    <h1 class="text-center" style="margin-top:20px;">신입 판매자,<br/>  ${dto.m_name}님 환영합니다 .    </h1>
+       <input type="hidden" name="ceoname" size="15" value="${dto.m_name}"    >
+    
+		<div class="form-group"  style="margin-top:50px;">
+        <label for="userId"> 판매자님 아이디는     ${dto.m_id} 입니다 .</label>
+ <input type="hidden"  name="cus_m_id" size="15" value="${dto.m_id}"   >
+
+    </div>
+    
+     
+    
  
-  </tr>
+       <div class="form-group">
+     	<label for="companyname">회사 이름</label> <br/>
+       		 <input type="text" class="form-control"  name="company" size="15" placeholder="운영하시는 업체 이름알려주세요" />
+          		  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+          		  
+          		  </div>
+
+
+
+     
    
+   <div class="form-group"  >
+  	  <label for="companyNum"  >사업자 번호</label><br/>
+      <input type="hidden" id="apiKey" value="${apiKey}"/>
+    <div style="display: flex; align-items: center; justify-content: center; margin-top: 10px;">
+    
+    <input type="number" class="form-control" name="corpno" id="b_no" maxlength="15" style="width:58%;" placeholder="입력 후 인증해주세요"/>
+      <button type="button" class="btn btn-primary" style="width:35%; margin-left:20px; " id="check">조회하기</button>
+    </div>
+     <div id="resultMessage"></div>
+</div>
+
    
-   <tr>  
-      <td> 
-          <label for="address">사업자 주소</label>
-	   </td>
-   <td> 
-   	<div class="form-group"> 
-   		<input type="text" class="form-control" id="address"  name="cus_address1" placeholder="사업자 주소">  
-   	</div>
- <button type="button" id="addressButton" class="btn btn-primary btn-block">주소 검색</button>
-     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />		   	
-   </td>	      
-  </tr>
-  <tr>
-  	<td>
-	      <label for="detailAddress">상세주소</label>
-	  </td>
-	  <td>
-	       <div class="form-group">
-	        <input type="text" class="form-control" name="cus_address2" placeholder="사업자 상세주소">
-	     </div>
-	   </td>
-  </tr>
-  <tr>
-  	<td>
-	    사업자 전화 번호 
-	  </td>
-	  <td>
-	        <input type="text" name="cus_pnum" placeholder="전화번호 ">
- 	<td>
-  </tr>
-  <tr>
-  	<td>
-	    사업자 계좌번호 
-	  </td>
-	  <td>
-	  
-	      <input type="text" id="cus_accnum" name="cus_accnum" placeholder="계좌번호 입력하세요" oninput="formatBankNumber(this)"  maxlength="22">
-	  		   <select class="box"   name="cus_accnum" onchange="whereBank()">
+   <div class="form-group"  >
+    <label for="address">사장님의 회사 주소를 입력해주세요</label> <br/>
+    <div style="display: flex; align-items: center; justify-content: center; margin-top: 10px;">
+        <button type="button"   id="addressButton" class="btn btn-light" style="margin-left: 0px; background-color:white; width:120%;">
+        <input type="text" class="form-control" id="address" name="cus_address1"  placeholder="주소" style="align-items: center;  width: 100%;" /> </button>
+        <input type="text" class="form-control" name="cus_address2"  placeholder="상세주소" >
+    </div>
+</div>
+   <div class="form-group">
+        <label for="cus_pnum">사업자 전화번호 </label>
+<input type="text" class="form-control" name="cus_pnum" placeholder="전화번호 " >        
+    </div>
+    
+        <label for="cus_accnum">  사업자 계좌번호   </label><br/>
+   <div class="form-group"style="display: flex;">
+   <input type="text" id="cus_accnum" name="cus_accnum" style="width:58%;" placeholder="계좌번호 입력하세요" oninput="formatBankNumber(this)" class="form-control"  maxlength="22">
+	  		   <select class="box form-control"   name="cus_accnum"  style="width:35%; margin-left:10px;" onchange="whereBank()"  >
                         <option value="type">직접 입력</option>
                         <option value="농협"></option>
                         <option value="카카오뱅크">카카오뱅크</option>
@@ -189,26 +211,17 @@ $('#check').on('click', function () {
                         <option value="국민은행">국민은행</option>
                         <option value="우리은행">우리은행</option>
                         <option value="우체국">우체국</option>
-                      
                     </select>
-	  
-	  
-	  
-	  
-	  
- 	<td>
-  </tr>
-  
-  
-    <tr> 
-      <td colspan="2" align="center"> 
-       <input type="submit" name="sallerInputForm" value="판매자 신청"   style="background-color:orange; ">
-       <input type="button" value="취  소" onclick="javascript:window.location='/main/main'">      
-      </td>
-    </tr>
-  </table>
+    </div>
+     
+   <div class="form-group">
+    <input type="submit" name="sallerInputForm" value="판매자 신청" style="width:100%; margin-top:10px; margin-bottom:10px;"  class="btn btn-primary"  class="form-control"  >
+   </div>
+   
       </sec:authorize>
+      </div>
 </form>
+
 </body>
 </html>
 <%@ include file="../../footer.jsp" %>

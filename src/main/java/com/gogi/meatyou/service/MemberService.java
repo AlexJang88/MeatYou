@@ -40,7 +40,8 @@ public interface MemberService  {
     public void tokenLogout(String accessToken) ;
     public HashMap<String, Object> getUserInfo(String access_Token) throws Throwable;
     
-    
+    public int idCheck(String m_id);
+    public int eMailCheck(String email);
     int twoNextPay(
     		OrderwithCouponDTO mdto,int shop_num,int order_p_num,String order_memo
     		,@Param("order_m_id") String order_m_id,int order_cp_num,int order_p_price,
@@ -97,7 +98,7 @@ public interface MemberService  {
       List<PickMeDTO> pickMeCountPage(String pm_m_id, int page, int pageSize, PickMeDTO pdto, CusDetailDTO cdto);
       int pickMeCount( String pm_m_id,@Param("p_m_id")String p_m_id );
          public int deleteHim(int pm_num,String pm_m_id);
-         
+         public int checkHim(String pm_m_id);
          
          List<PickMeDTO> SallerpickMeCountPage(@Param("pm_c_id") String pm_c_id,@Param("pm_m_id")String pm_m_id, int page, int pageSize, PickMeDTO pdto);
          int SallerpickMeCount(@Param("pm_m_id") String pm_m_id ,@Param("pm_c_id")String pm_c_id );
@@ -126,7 +127,7 @@ public interface MemberService  {
       int couponCount(@Param("cp_m_id") String cp_m_id);
       List<CouponDTO>   howmuchCoupon(@Param("cp_m_id") String cp_m_id);
  
-      // �떎瑜� �븘�슂�븳 硫붿꽌�뱶�뱾怨� �븿猿� 異붽�
+      // 占쎈뼄�몴占� 占쎈툡占쎌뒄占쎈립 筌롫뗄苑뚳옙諭띰옙諭얏�⑨옙 占쎈맙�뙼占� �빊遺쏙옙
       ShoppingCartDTO getSelectedProducts2(int shop_p_num, @Param("add_m_id") String add_m_id );
       
       
@@ -134,13 +135,13 @@ public interface MemberService  {
       List<MOrderDTO> paypage(@Param("order_m_id") String order_m_id , int page, int pageSize );
       int PaymentCount(@Param("order_m_id") String order_m_id );
       
-      public String joinEmail(String email); //�씠硫붿씪泥댄겕
+      public String joinEmail(String email); //占쎌뵠筌롫뗄�뵬筌ｋ똾寃�
       
-      public int findId(MemberDTO memberdto);//�븘�씠�뵒 李얘린 留욌뒗吏� 鍮꾧탳
-      public int findPw(MemberDTO memberdto);//�븘�씠�뵒 李얘린 留욌뒗吏� 鍮꾧탳
-      public void getDbId(Model model, MemberDTO memberdto); // �떎�젣 �븘�씠�뵒 媛��졇�삤湲�
-      public void getDbPw(Model model, MemberDTO memberdto); // �떎�젣 鍮꾨쾲 媛��졇�삤湲�
-      public void changePw(MemberDTO memberdto); //鍮꾨�踰덊샇蹂�寃�
+      public int findId(MemberDTO memberdto);//占쎈툡占쎌뵠占쎈탵 筌≪뼐由� 筌띿쉶�뮉筌욑옙 �뜮袁㏉꺍
+      public int findPw(MemberDTO memberdto);//占쎈툡占쎌뵠占쎈탵 筌≪뼐由� 筌띿쉶�뮉筌욑옙 �뜮袁㏉꺍
+      public void getDbId(Model model, MemberDTO memberdto); // 占쎈뼄占쎌젫 占쎈툡占쎌뵠占쎈탵 揶쏉옙占쎌죬占쎌궎疫뀐옙
+      public void getDbPw(Model model, MemberDTO memberdto); // 占쎈뼄占쎌젫 �뜮袁⑥쓰 揶쏉옙占쎌죬占쎌궎疫뀐옙
+      public void changePw(MemberDTO memberdto); //�뜮袁⑨옙甕곕뜇�깈癰귨옙野껓옙
       public List<CouponDTO> getProductCoupon(HashMap hashmap);
       	public boolean memberList( @Param("m_id") String m_id);
 }

@@ -10,7 +10,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>판매자 페이지</title>
     <%@ include file="../header.jsp" %>
-    
     <script>
     $(document).ready(function() {
         $('.vertical-menu-item').hover(function() {
@@ -18,13 +17,11 @@
             $menu.toggle();
         });
     });</script>
-   
     <style>
         body {
             font-family: 'Roboto', Arial, sans-serif; /* Google font */
             background-color: #f4f4f4;
         }
-
         .outer-table {
             display: flex;
             justify-content: center;
@@ -40,7 +37,6 @@
             display: flex;
             align-items: flex-start; /* 메뉴 및 콘텐츠를 상단에 정렬 */
         }
-
         .btn {
             display: inline-block;
             padding: 8px 20px;
@@ -49,16 +45,13 @@
             transition: background-color 0.3s;
             font-weight: bold; /* Added font weight */
         }
-
         .btn:hover {
             font-weight: bold; /* Added font weight */
         }
-
         h1 {
             color: #333;
             font-weight: bold; /* Added font weight */
         }
-
         .sales-summary {
             margin-top: 20px;
             padding: 20px;
@@ -73,25 +66,21 @@
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-
         #sales-chart {
             width: 100%;
             height: 300px; /* Adjust height as needed */
         }
-
         .vertical-menu {
             display: flex;
             flex-direction: column;
             align-items: flex-start;
             margin-right: 20px; /* 테이블과 메뉴 사이의 간격 설정 */
         }
-
         .vertical-menu a {
             margin-bottom: 10px;
             width: 100%; /* 메뉴 아이템이 전체 너비를 차지하도록 설정 */
             text-align: left; /* 텍스트를 왼쪽으로 정렬 */
         }
-
         .dropdown-menu {
             display: none;
             position: absolute;
@@ -259,3 +248,5 @@
 </script>
 </body>
 </html>
+
+<%@ include file="../footer.jsp" %>
