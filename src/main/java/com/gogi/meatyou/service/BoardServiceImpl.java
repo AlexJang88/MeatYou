@@ -401,12 +401,12 @@ public class BoardServiceImpl implements BoardService{
 		 // 폴더 위치
         String filePath = realPath + "temporary/";
 
-        // 해당 파일 삭제
+        // 해당 파일 삭제fileUpload2
         deleteFile(filePath, fileName);
 	}
 
 	
-	private void fileUpload2(String path_folder1, String path_folder2,int num) {
+	private void fileUpload2(String path_folder1, String path_folder2,int ma_num) {
         // path_folder1에서 path_folder2로 파일을 복사하는 함수입니다.
      
         File folder1;
@@ -443,11 +443,11 @@ public class BoardServiceImpl implements BoardService{
                         fos.write(b, 0, cnt);
                     }
                     NoticeFileDTO dto = new NoticeFileDTO();                          
-                    if(num!=0) {                           
-                       dto.setNf_n_num(num);
-                       dto.setNf_filename(file.getName()); 위에 다바꿔야함
+                    if(ma_num!=0) {                           
+                       dto.setNf_n_num(ma_num);
+                       dto.setNf_filename(file.getName()); 
                        dto.setNf_category(30);
-                       mapper.여기아직안바꿈FileReg(dto);
+                       mapper.QnAFileReg(dto);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

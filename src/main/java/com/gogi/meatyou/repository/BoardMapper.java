@@ -32,5 +32,6 @@ public interface BoardMapper {
 	public void insertanswer(QnADTO qnadto); //댓글 등록
 	public int getMaNEXTNum(); //판매자 관리자 등록시 다음번호
 	public void CAQnaUp(QnADTO qnadto); // 문의내용 디비 등록
+	public void QnAFileReg(NoticeFileDTO dto);//파일업로드
 	
 }

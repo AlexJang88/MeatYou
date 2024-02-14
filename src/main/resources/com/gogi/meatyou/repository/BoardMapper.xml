@@ -121,9 +121,18 @@
 			#{ma_title},
 			#{ma_content},
 			0,
-			sysdate 
-			#{ma_num},
+			sysdate, 
+			#{ma_num}
           )
+       </insert>
+		
+		<insert id="QnAFileReg" parameterType="com.gogi.meatyou.bean.NoticeFileDTO">
+         insert into NOTICEFILE values(
+         NOTICEFILE_seq.nextval,
+         #{nf_n_num},
+         #{nf_filename},
+         #{nf_category}
+         )     
        </insert>
 		
 		

@@ -12,7 +12,7 @@
 
 <a href="/main/main">메인으로</a> <br/>
 <a href="/board/questionCA">문의글쓰기</a> <br/>
-<h1>소비자 - 관리자</h1>
+<h1>소비자 - 관리자 문의하기</h1>
 
 	<c:if test="${count==0}">
 		<table width="700" border="1" cellpadding="0" cellspacing="0" align="center">
