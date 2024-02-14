@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.gogi.meatyou.bean.NoticeFileDTO;
 import com.gogi.meatyou.bean.PQuestionDTO;
+import com.gogi.meatyou.bean.QnADTO;
 
 public interface BoardMapper {
 	public int userQnacount();//소비자 판매자 질문 갯수
@@ -20,4 +21,27 @@ public interface BoardMapper {
 	public int getBoardNEXTNum(); //문의 등록시 다음번호
 	public void userQnaUp(PQuestionDTO pquestiondto); //문의내용 디비 등록
 	public void boardFileReg(NoticeFileDTO dto);//파일업로드
+	
+	
+	public int consumerQnacount();//소비자 관리자 질문갯수
+	public List<QnADTO> consumerQnalist(HashMap boardListMap); //문의한 글 제목 
+	public QnADTO getcontent(QnADTO qnadto); //문의사항 내용 가져오기
+	public QnADTO getcontentView(QnADTO qnadto);  // 문의사항 후 댓글 가져오기
+	public int answerCount(QnADTO qnadto);//댓글여부 확인
+	public int m_Status(String id);//회원 등급 가져오기
+	public void insertanswer(QnADTO qnadto); //댓글 등록
+	public int getMaNEXTNum(); //판매자 관리자 등록시 다음번호
+	public void CAQnaUp(QnADTO qnadto); // 문의내용 디비 등록
+	public void QnAFileReg(NoticeFileDTO dto);//파일업로드
+	
+	
+	
+	public int sellerQnAcount(); //판매자- 관리자 질문갯수
+	public List<QnADTO> sellerQnAlist(HashMap boardListMap);//문의한 제목 글
+	public QnADTO getsellerContent(QnADTO qnadto);//판매자- 관리자 문의사항 내용가져오기
+	public int answerSellerCount(QnADTO qnadto); //댓글여부확인
+	public void insertAdminanswer(QnADTO qnadto);// 댓글등록
+	public QnADTO getcontentAdminView(QnADTO qnadto);  // 문의사항 후 댓글 가져오기
+	public void SAQnaUp(QnADTO qnadto); // 문의내용 디비 등록
+	public void QnASAFileReg(NoticeFileDTO dto);//파일업로드
 }

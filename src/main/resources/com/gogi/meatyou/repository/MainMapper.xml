@@ -751,4 +751,6 @@
 	<select id="name" resultType="com.gogi.meatyou.bean.MemberDTO">
 		select * from member where m_id=#{m_id}
 	</select> 
+	<select resultType="int" id="getStatus">select pre_status from prefer where pre_m_id =#{id} </select>
+	
 </mapper>

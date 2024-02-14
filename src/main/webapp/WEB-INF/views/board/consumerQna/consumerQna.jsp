@@ -6,11 +6,19 @@
 <head>
 <meta charset="UTF-8">
 <title>관리자 문의</title>
+
 </head>
 <body>
 
 <a href="/main/main">메인으로</a> <br/>
-<h1>소비자 - 관리자</h1>
+<a href="/board/questionCA">문의글쓰기</a> <br/>
+
+<c:if test="${m_Status > 2000}">
+<a href="/board/sellerQna">판매자용 문의하기</a> <br/>
+</c:if>
+
+<h1>고객의 소리</h1>
+
 
 	<c:if test="${count==0}">
 		<table width="700" border="1" cellpadding="0" cellspacing="0" align="center">
@@ -21,9 +29,37 @@
 	</c:if>
 	
 	<c:if test="${count >  0}">	
-		<table>
-		
+		<table border="1" width="1200" cellpadding="0" cellspacing="0" align="center">
+			<tr height="30">
+				<td width="200" align="center">글 번호</td>
+				<td width="300" align="center">글 제목</td>
+				<td width="200" align="center">질문자</td>
+				<td width="300" align="center">작성 날짜</td>
+			</tr>
+			<c:forEach var="Qna" items="${list}">
+				<tr align="center">
+					<td>${Qna.r}</td>
+					<td><a href="/board/userContent?ma_num=${Qna.ma_num}&ma_ref=${Qna.ma_ref}&pageNum=${pageNum}">${Qna.ma_title}</a></td>
+					<td>${Qna.ma_m_id}</td>
+					<td><fmt:formatDate value="${Qna.ma_reg_date}" pattern="yyyy-MM-dd" /></td>
+				</tr>
+			</c:forEach>	
 		</table>
 	</c:if>
+	
+	
+	
+	<c:if test="${count>0}">
+			<c:if test="${startPage>10}">
+	        	<a href="/board/consumerQna?pageNum=${startPage-10}">[이전]</a>
+			</c:if>
+			<c:forEach var="i" begin="${startPage}" end="${endPage}" step="1">
+	        	<a href="/board/consumerQna?pageNum=${i}">[${i}]</a>
+			</c:forEach>
+				<c:if test="${endPage<pageCount}">
+	        	<a href="/board/consumerQna?pageNum=${startPage+10}">[다음]</a>
+			</c:if>
+		</c:if>
+
 </body>
 </html>

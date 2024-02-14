@@ -144,7 +144,7 @@
                                 <a href="/customers/consumerList" class="btn">구매회원</a>
                                 <a href="/customers/pay" class="btn">유료결제</a>
                                 <a href="/customers/delivering" class="btn">주문접수 및 배송현황</a>
-                                <a href="/customers/cusQna" class="btn">문의게시판</a>
+                                <a href="/board/sellerQna" class="btn">관리자 문의게시판</a>
                                 <a href="/member/modify" class="btn">마이페이지</a>
                             </div>
                         </td>
