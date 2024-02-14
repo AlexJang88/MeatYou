@@ -51,49 +51,7 @@ $(document).on("click", ".delete_btn", function(e) {
         }
     });
 });
-/* 
-$(document).on("click", ".heartHim", function(e) {
-    e.preventDefault();
-
-    // 클릭된 버튼에 대한 정보 가져오기
-    const button = $(this);
-    const ppic_num = button.closest("tr").find(".ppic_num").val();
-    const pm_c_id = button.closest("tr").find(".pm_c_id").val();
-    const pm_m_id = button.closest("tr").find(".pm_m_id").val();
-    const ppic_m_id = button.closest("tr").find(".ppic_m_id").val();
-    const ppic_p_num = button.closest("tr").find(".ppic_p_num").val();
-    const p_num = button.closest("tr").find(".p_num").val();
-    const pm_num = button.closest("tr").find(".pm_num").val();
-    const p_m_id = button.closest("tr").find(".p_m_id").val();
-
-    // AJAX를 사용하여 서버에 요청 보내기
-    $.ajax({
-        type: "POST",
-        url: "/member/pickInsert",  // 새로운 엔드포인트로 변경
-        data: {
-        	   ppic_num: ppic_num,
-        	      pm_c_id: pm_c_id,
-        	      pm_m_id: pm_m_id,
-        	      ppic_m_id: ppic_m_id,
-        	      ppic_p_num: ppic_p_num,
-        	      p_num: p_num,
-        	      pm_num: pm_num,
-        	      p_m_id: p_m_id
-        },
-        success: function(response) {
-            // 성공적으로 토글된 경우 버튼의 텍스트 변경
-            if (response === "inserted") {
-                button.text("삭제");
-            } else if (response === "deleted") {
-                button.text("인서트");
-            }
-        },
-        error: function(error) {
-            console.log("Error:", error);
-            // 오류가 발생한 경우 적절히 처리
-        }
-    });
-});   */
+ 
 </script>
 </head>
 <div class="row">

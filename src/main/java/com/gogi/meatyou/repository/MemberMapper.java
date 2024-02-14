@@ -133,7 +133,7 @@ public interface MemberMapper {
           
           int SallerpickMeCount(Map<String, Object> params);       
           public  int SallerdeleteHim(@Param("pm_num") int shop_num, @Param("pm_m_id") String pm_m_id,@Param("pm_c_id")String pm_c_id);
-          
+          	int checkHim(String pm_m_id);
           int couponCount(@Param("cp_m_id") String cp_m_id);
           List<CouponDTO> howmuchCoupon(@Param("cp_m_id") String cp_m_id);
 

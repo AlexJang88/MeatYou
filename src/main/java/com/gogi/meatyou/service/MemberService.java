@@ -98,7 +98,7 @@ public interface MemberService  {
       List<PickMeDTO> pickMeCountPage(String pm_m_id, int page, int pageSize, PickMeDTO pdto, CusDetailDTO cdto);
       int pickMeCount( String pm_m_id,@Param("p_m_id")String p_m_id );
          public int deleteHim(int pm_num,String pm_m_id);
-         
+         public int checkHim(String pm_m_id);
          
          List<PickMeDTO> SallerpickMeCountPage(@Param("pm_c_id") String pm_c_id,@Param("pm_m_id")String pm_m_id, int page, int pageSize, PickMeDTO pdto);
          int SallerpickMeCount(@Param("pm_m_id") String pm_m_id ,@Param("pm_c_id")String pm_c_id );
