@@ -39,11 +39,11 @@
 							<div class="col-md-4 col-xs-6">
 								<div class="product">
 									<div class="product-img">
-										<img src="/resources/img/product01.png" alt="">
+										<img src="/resources/img/${sear.thumb}" alt="">
 										<div class="product-label">
 											<div style="text-align : center;">
 												<form>
-													<input type="button" value="미리 보기" onclick="openPopUp('${sear.p_num}','${sear.p_m_id}')"><br>
+													<input class="viewClass" type="button" value="미리 보기" onclick="openPopUp('${sear.p_num}','${sear.p_m_id}')"><br>
 												</form>
 											</div>
 										</div>

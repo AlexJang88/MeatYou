@@ -80,7 +80,7 @@
 										<div class="product-label">
 											<div style="text-align : center;">
 												<form>
-													<input type="button" value="미리 보기" onclick="openPopUp('${meat.p_num}','${meat.p_m_id}')"><br>
+													<input class="viewClass" type="button" value="미리 보기" onclick="openPopUp('${meat.p_num}','${meat.p_m_id}')"><br>
 												</form>
 											</div>
 										</div>
@@ -156,7 +156,7 @@
 
 												<c:if test="${m_id != null}">
 													<div class="product-btns">
-														<form class="product-btns" action="pickInsertMainMeat" method="post">
+														<form class="product-btns" action=pickInsertmainMeatKOR method="post">
 															<input type="hidden" name="ppic_m_id" value="${meat.ppic_m_id}">
 															<input type="hidden" name="ppic_p_num" value="${meat.ppic_p_num}">
 															<input type="hidden" name="category" value="${category}">

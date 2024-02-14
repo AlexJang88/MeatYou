@@ -17,19 +17,7 @@
 					<div class="col-md-5 col-md-push-2">
 						<div id="product-main-img">
 							<div class="product-preview">
-								<img src="/resources/img/${dto.thumb}" alt="">
-							</div>
-
-							<div class="product-preview">
-								<img src="/resources/img/product03.png" alt="">
-							</div>
-
-							<div class="product-preview">
-								<img src="/resources/img/product06.png" alt="">
-							</div>
-
-							<div class="product-preview">
-								<img src="/resources/img/product08.png" alt="">
+								${dto.pd_p_desc}
 							</div>
 						</div>
 					</div>
@@ -39,19 +27,19 @@
 					<div class="col-md-2  col-md-pull-5">
 						<div id="product-imgs">
 							<div class="product-preview">
-								<img src="/resources/img/product01.png" alt="">
+								${dto.pd_p_desc}
 							</div>
 
 							<div class="product-preview">
-								<img src="/resources/img/product03.png" alt="">
+								${dto.pd_p_desc}
 							</div>
 
 							<div class="product-preview">
-								<img src="/resources/img/product06.png" alt="">
+								${dto.pd_p_desc}
 							</div>
 
 							<div class="product-preview">
-								<img src="/resources/img/product08.png" alt="">
+								${dto.pd_p_desc}
 							</div>
 						</div>
 					</div>
@@ -179,16 +167,6 @@
 									</div>
 								</form>
 							</c:if>
-							
-							<c:if test="${mid != null}">
-									<div class="add-to-cart">
-										<a href="/board/userQna?p_num=${p_num}">
-										<button class="add-to-cart-btn" type="button"><i class="fa fa-shopping-cart"></i>
-										판매자 문의하기</button>
-										</a>										 
-									</div>
-							</c:if>
-							
 
 
 							<c:if test="${mid == null}">
@@ -230,7 +208,7 @@
 							<!-- product tab nav -->
 							<ul class="tab-nav">
 								<li class="active"><a data-toggle="tab" href="#tab1">상세정보</a></li>
-								<li><a data-toggle="tab" href="#tab2">사진</a></li>
+								<!-- <li><a data-toggle="tab" href="#tab2">사진</a></li> -->
 								<li><a data-toggle="tab" href="#tab3">리뷰/평점</a></li>
 							</ul>
 							<!-- /product tab nav -->

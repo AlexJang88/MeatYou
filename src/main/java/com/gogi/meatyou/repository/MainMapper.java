@@ -36,7 +36,8 @@ public interface MainMapper {
 
    public List<ProductDTO> newProductBest();
    public List<ProductDTO> customOrderBest(int p_category);
-
+   public PreferDTO customOrderCategory (@Param("pre_m_id")String pre_m_id);
+   
    public List<ProductDTO> searchList(HashMap map);
 
 
@@ -140,11 +141,11 @@ public interface MainMapper {
    public void pickDeleteMain(@Param("ppic_m_id")String ppic_m_id, @Param("ppic_p_num")int ppic_p_num);
 
    public int pCategory(int p_num);
-   public PreferDTO customOrderCategory (@Param("pre_m_id")String pre_m_id);
    
    public int customOrder(String ppic_m_id);
    
    public int customOrderCNT(int p_category);
    public List<ProductDetailDTO> customOrder(HashMap map);
    public MemberDTO name(String m_id);
+   
 }

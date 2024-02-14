@@ -1,6 +1,7 @@
 package com.gogi.meatyou.controller;
 
 import java.security.Principal;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -22,6 +23,8 @@ import com.gogi.meatyou.bean.ReviewDTO;
 import com.gogi.meatyou.bean.ShoppingCartDTO;
 import com.gogi.meatyou.service.MainService;
 
+import lombok.Data;
+
 @Controller
 @RequestMapping("/main/*")
 public class MainController {
@@ -33,7 +36,7 @@ public class MainController {
    @RequestMapping("main")
    public String main(ProductDetailDTO dto, Principal seid, Model model, String pre_m_id) {
 	   
-	   /* 파워링크 */
+	   /* �Ŀ���ũ */
 	  List<ProductDTO> cusList = service.mainCUS();
 	  String m_id="";
 	  int p_num = dto.getP_num();
@@ -104,7 +107,7 @@ public class MainController {
 	  }
 	  model.addAttribute("cusList", cusList);
 	  
-	   /* 소고기 베스트 */
+	   /* �Ұ�� ����Ʈ */
 	  List<ProductDTO> meatList = service.meatBest();
 	  for(ProductDTO mdto : meatList) {
 		  String ppic_m_id = m_id;
@@ -122,49 +125,47 @@ public class MainController {
     	
     	  String cate = mdto.getP_category()+"";
 
-    	  if((cate.charAt(0)-48) == 1) {
-    		  category1 = "국내산";
-    	  } else{
-    		  category1 = "수입산";
-    	  }
+          if((cate.charAt(0)-48) == 1) {
+        	  category1 = "국내산";
+          } else{
+        	  category1 = "수입산";
+          }
+          if((cate.charAt(1)-48) == 1) {
+        	  category2 = "돼지고기";
+          } else{
+        	  category2 = "소고기";
+          }
+          if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
+        	  category3 = "특수부위";
+          } else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
+        	  category3 = "삼겹살";
+          }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
+        	  category3 = "목살";
+          }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
+        	  category3 = "안심";
+          }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
+        	  category3 = "등심";
+          }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
+        	  category3 = "앞다리살";
+          }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
+        	  category3 = "갈매기살";
+          }
 	      	
-    	  if((cate.charAt(1)-48) == 1) {
-    		  category2 = "돼지고기";
-    	  } else{
-    		  category2 = "소고기";
-    	  }
-	      	
-    	  if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-    		  category3 = "특수부위";
-    	  } else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-    		  category3 = "삼겹살";
-    	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-    		  category3 = "목살";
-    	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-    		  category3 = "안심";
-    	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-    		  category3 = "등심";
-    	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-    		  category3 = "앞다리살";
-    	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-    		  category3 = "갈매기살";
-    	  }
-	      	
-    	  if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-    		  category3 = "특수부위";
-    	  } else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-    		  category3 = "등심";
-    	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-    		  category3 = "안심";
-    	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-    		  category3 = "갈비";
-    	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-    		  category3 = "채끝";
-    	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-    		  category3 = "목심";
-    	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-    		  category3 = "부채살";
-    	  }
+          if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
+        	  category3 = "특수부위";
+          } else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
+        	  category3 = "등심";
+          }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
+        	  category3 = "안심";
+          }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
+        	  category3 = "갈비";
+          }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
+        	  category3 = "채끝";
+          }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
+        	  category3 = "목심";
+          }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
+        	  category3 = "부채살";
+          }
     	  mdto.setCategory1(category1);
     	  mdto.setCategory2(category2);
     	  mdto.setCategory3(category3);
@@ -174,7 +175,7 @@ public class MainController {
 	      }
       model.addAttribute("meatList", meatList);
       
-      /* 돼지고기 베스트 */
+      /* ������� ����Ʈ */
       List<ProductDTO> forkList = service.forkBest();
       for(ProductDTO fdto : forkList) {
     	  String ppic_m_id = m_id;
@@ -192,49 +193,47 @@ public class MainController {
     	
     	  String cate = fdto.getP_category()+"";
 	
-    	  if((cate.charAt(0)-48) == 1) {
-    		  category1 = "국내산";
-    	  } else{
-    		  category1 = "수입산";
-    	  }
+          if((cate.charAt(0)-48) == 1) {
+        	  category1 = "국내산";
+          } else{
+        	  category1 = "수입산";
+          }
+          if((cate.charAt(1)-48) == 1) {
+        	  category2 = "돼지고기";
+          } else{
+        	  category2 = "소고기";
+          }
+          if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
+        	  category3 = "특수부위";
+          } else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
+        	  category3 = "삼겹살";
+          }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
+        	  category3 = "목살";
+          }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
+        	  category3 = "안심";
+          }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
+        	  category3 = "등심";
+          }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
+        	  category3 = "앞다리살";
+          }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
+        	  category3 = "갈매기살";
+          }
 	      	
-    	  if((cate.charAt(1)-48) == 1) {
-    		  category2 = "돼지고기";
-    	  } else{
-    		  category2 = "소고기";
-    	  }
-    	  
-    	  if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-    		  category3 = "특수부위";
-    	  } else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-    		  category3 = "삼겹살";
-    	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-    		  category3 = "목살";
-    	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-    		  category3 = "안심";
-    	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-    		  category3 = "등심";
-    	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-    		  category3 = "앞다리살";
-    	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-    		  category3 = "갈매기살";
-    	  }
-	      	
-    	  if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-    		  category3 = "특수부위";
-    	  } else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-    		  category3 = "등심";
-    	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-    		  category3 = "안심";
-    	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-    		  category3 = "갈비";
-    	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-    		  category3 = "채끝";
-    	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-    		  category3 = "목심";
-    	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-    		  category3 = "부채살";
-    	  }
+          if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
+        	  category3 = "특수부위";
+          } else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
+        	  category3 = "등심";
+          }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
+        	  category3 = "안심";
+          }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
+        	  category3 = "갈비";
+          }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
+        	  category3 = "채끝";
+          }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
+        	  category3 = "목심";
+          }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
+        	  category3 = "부채살";
+          }
     	  fdto.setCategory1(category1);
     	  fdto.setCategory2(category2);
     	  fdto.setCategory3(category3);
@@ -246,7 +245,7 @@ public class MainController {
       
       
       
-      /* 신상품 베스트 */
+      /* �Ż�ǰ ����Ʈ */
       List<ProductDTO> newProduct = service.newProductBest();
       for(ProductDTO ndto : newProduct) {
     	  String ppic_m_id = m_id;
@@ -264,49 +263,47 @@ public class MainController {
     	
     	  String cate = ndto.getP_category()+"";
 	
-    	  if((cate.charAt(0)-48) == 1) {
-    		  category1 = "국내산";
-    	  } else{
-    		  category1 = "수입산";
-    	  }
+          if((cate.charAt(0)-48) == 1) {
+        	  category1 = "국내산";
+          } else{
+        	  category1 = "수입산";
+          }
+          if((cate.charAt(1)-48) == 1) {
+        	  category2 = "돼지고기";
+          } else{
+        	  category2 = "소고기";
+          }
+          if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
+        	  category3 = "특수부위";
+          } else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
+        	  category3 = "삼겹살";
+          }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
+        	  category3 = "목살";
+          }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
+        	  category3 = "안심";
+          }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
+        	  category3 = "등심";
+          }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
+        	  category3 = "앞다리살";
+          }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
+        	  category3 = "갈매기살";
+          }
 	      	
-    	  if((cate.charAt(1)-48) == 1) {
-    		  category2 = "돼지고기";
-    	  } else{
-    		  category2 = "소고기";
-    	  }
-    	  
-    	  if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-    		  category3 = "특수부위";
-    	  } else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-    		  category3 = "삼겹살";
-    	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-    		  category3 = "목살";
-    	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-    		  category3 = "안심";
-    	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-    		  category3 = "등심";
-    	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-    		  category3 = "앞다리살";
-    	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-    		  category3 = "갈매기살";
-    	  }
-	      	
-    	  if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-    		  category3 = "특수부위";
-    	  } else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-    		  category3 = "등심";
-    	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-    		  category3 = "안심";
-    	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-    		  category3 = "갈비";
-    	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-    		  category3 = "채끝";
-    	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-    		  category3 = "목심";
-    	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-    		  category3 = "부채살";
-    	  }
+          if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
+        	  category3 = "특수부위";
+          } else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
+        	  category3 = "등심";
+          }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
+        	  category3 = "안심";
+          }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
+        	  category3 = "갈비";
+          }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
+        	  category3 = "채끝";
+          }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
+        	  category3 = "목심";
+          }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
+        	  category3 = "부채살";
+          }
     	  ndto.setCategory1(category1);
     	  ndto.setCategory2(category2);
     	  ndto.setCategory3(category3);
@@ -348,91 +345,94 @@ public class MainController {
     	  model.addAttribute("pick_P_CNT", pick_P_CNT);
       }
 
-      
-		/* 마춤형 BEST */
-      if(m_id != null && m_id != "") {
-	      pre_m_id = m_id;
-	      MemberDTO mdto = service.name(m_id);
-	      model.addAttribute("mdto", mdto);
-	      PreferDTO pdto = service.customOrderCategory(pre_m_id , model);
-	      int pResult=0;
-	      int cate_response1 = pdto.getPre0_response();
-	      int cate_response2 = pdto.getPre1_response();
-	      if(cate_response1 == 100) {
-	    	  cate_response1 = 110;
-			}else {
-				cate_response1 = 120;
-			}
+      	if(m_id != null && m_id != "") {
+      		pre_m_id = m_id;
+      		PreferDTO pdto = service.customOrderCategory(pre_m_id , model);
+      		int pResult=0;
+      		int cate_response1 = 0;
+      		int cate_response2 = 0;
+      		if(pdto.getPre0_response() != 0) {
+      			cate_response1 = pdto.getPre0_response();
+      			cate_response2 = pdto.getPre1_response();
+	    	  
+      			if(cate_response1 == 10) {
+      				cate_response1 = 100;
+      			}else {
+      				cate_response1 = 100;
+      			}
+	      } else{
+	    	  cate_response1 = 0;
+	    	  cate_response2 = 0;
+	      }
 	      pResult = cate_response1+cate_response2;
 	      pdto.setPre_category(pResult);
+	      System.out.println(pResult);
 	      
 	      
 	      List<ProductDTO> customOrderBest = service.customOrderBest(pdto.getPre_category());
-	      for(ProductDTO ndto : newProduct) {
+	      for(ProductDTO predto : newProduct) {
 	    	  String ppic_m_id = m_id;
-		      int ppic_p_num = ndto.getP_num();
-		      ndto.setPpic_m_id(ppic_m_id);
-		      ndto.setPpic_p_num(ppic_p_num);
+		      int ppic_p_num = predto.getP_num();
+		      predto.setPpic_m_id(ppic_m_id);
+		      predto.setPpic_p_num(ppic_p_num);
 		      
-	    	  double fstar = service.reviewStar(ndto.getP_num());
-	    	  ndto.setStar(fstar);
-	    	  model.addAttribute("p_num", ndto.getP_num());
+	    	  double fstar = service.reviewStar(predto.getP_num());
+	    	  predto.setStar(fstar);
+	    	  model.addAttribute("p_num", predto.getP_num());
 	    	  
 	    	  String category1="";
 	    	  String category2="";
 	    	  String category3="";
 	    	
-	    	  String cate = ndto.getP_category()+"";
+	    	  String cate = predto.getP_category()+"";
 		
-	    	  if((cate.charAt(0)-48) == 1) {
-	    		  category1 = "국내산";
-	    	  } else{
-	    		  category1 = "수입산";
-	    	  }
+	          if((cate.charAt(0)-48) == 1) {
+	        	  category1 = "국내산";
+	          } else{
+	        	  category1 = "수입산";
+	          }
+	          if((cate.charAt(1)-48) == 1) {
+	        	  category2 = "돼지고기";
+	          } else{
+	        	  category2 = "소고기";
+	          }
+	          if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
+	        	  category3 = "특수부위";
+	          } else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
+	        	  category3 = "삼겹살";
+	          }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
+	        	  category3 = "목살";
+	          }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
+	        	  category3 = "안심";
+	          }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
+	        	  category3 = "등심";
+	          }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
+	        	  category3 = "앞다리살";
+	          }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
+	        	  category3 = "갈매기살";
+	          }
 		      	
-	    	  if((cate.charAt(1)-48) == 1) {
-	    		  category2 = "돼지고기";
-	    	  } else{
-	    		  category2 = "소고기";
-	    	  }
-	    	  
-	    	  if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-	    		  category3 = "특수부위";
-	    	  } else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-	    		  category3 = "삼겹살";
-	    	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-	    		  category3 = "목살";
-	    	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-	    		  category3 = "안심";
-	    	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-	    		  category3 = "등심";
-	    	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-	    		  category3 = "앞다리살";
-	    	  }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-	    		  category3 = "갈매기살";
-	    	  }
-		      	
-	    	  if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-	    		  category3 = "특수부위";
-	    	  } else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-	    		  category3 = "등심";
-	    	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-	    		  category3 = "안심";
-	    	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-	    		  category3 = "갈비";
-	    	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-	    		  category3 = "채끝";
-	    	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-	    		  category3 = "목심";
-	    	  }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-	    		  category3 = "부채살";
-	    	  }
-	    	  ndto.setCategory1(category1);
-	    	  ndto.setCategory2(category2);
-	    	  ndto.setCategory3(category3);
+	          if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
+	        	  category3 = "특수부위";
+	          } else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
+	        	  category3 = "등심";
+	          }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
+	        	  category3 = "안심";
+	          }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
+	        	  category3 = "갈비";
+	          }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
+	        	  category3 = "채끝";
+	          }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
+	        	  category3 = "목심";
+	          }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
+	        	  category3 = "부채살";
+	          }
+	          predto.setCategory1(category1);
+	          predto.setCategory2(category2);
+	          predto.setCategory3(category3);
 	
-	    	  int r_p_num = service.reviewAllCNT(ndto.getP_num());
-	    	  ndto.setReviewAllCNT(r_p_num);
+	    	  int r_p_num = service.reviewAllCNT(predto.getP_num());
+	    	  predto.setReviewAllCNT(r_p_num);
 		      }
 	      model.addAttribute("customOrderBest", customOrderBest);
       }
@@ -1214,6 +1214,7 @@ public class MainController {
    public String product(OtherProductDetailDTO odto ,ProductDetailDTO dto, Model model, Principal seid, ReviewDTO rsdto, @RequestParam(value="pageNum", defaultValue = "1") int pageNum, int p_num) {
 	   	dto = service.productDetail(dto, model);
 	   	model.addAttribute("dto", dto);
+	   	System.out.println("Thumb : "+dto.getThumb());
 	    service.quantity(dto.getP_num());
 		String PDcategory1="";
  		String PDcategory2="";
@@ -1221,49 +1222,47 @@ public class MainController {
    	
 	  	String PDcate = dto.getP_category()+"";
 	
-	 	if((PDcate.charAt(0)-48) == 1) {
-	 		PDcategory1 = "국내산";
-	  	} else{
-	      	PDcategory1 = "수입산";
-	 	}
+        if((PDcate.charAt(0)-48) == 1) {
+        	PDcategory1 = "국내산";
+        } else{
+        	PDcategory1 = "수입산";
+        }
+        if((PDcate.charAt(1)-48) == 1) {
+        	PDcategory2 = "돼지고기";
+        } else{
+        	PDcategory2 = "소고기";
+        }
+        if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(1)-48) == 0) {
+        	PDcategory3 = "특수부위";
+        } else if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(2)-48) == 1){
+        	PDcategory3 = "삼겹살";
+        }else if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(2)-48) == 2){
+        	PDcategory3 = "목살";
+        }else if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(2)-48) == 3){
+        	PDcategory3 = "안심";
+        }else if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(2)-48) == 4){
+        	PDcategory3 = "등심";
+        }else if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(2)-48) == 5){
+        	PDcategory3 = "앞다리살";
+        }else if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(2)-48) == 6){
+        	PDcategory3 = "갈매기살";
+        }
 	      	
-		if((PDcate.charAt(1)-48) == 1) {
-	      	PDcategory2 = "돼지고기";
-		} else{
-	      	PDcategory2 = "소고기";
-	 	}
-	      	
-	 	if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(1)-48) == 0) {
-	      	PDcategory3 = "특수부위";
-	  	} else if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(2)-48) == 1){
-	      	PDcategory3 = "삼겹살";
-	 	}else if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(2)-48) == 2){
-	      	PDcategory3 = "목살";
-	  	}else if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(2)-48) == 3){
-	      	PDcategory3 = "안심";
-	  	}else if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(2)-48) == 4){
-	     	PDcategory3 = "등심";
-	  	}else if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(2)-48) == 5){
-	      	PDcategory3 = "앞다리살";
-	 	}else if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(2)-48) == 6){
-	    	PDcategory3 = "갈매기살";
-	  	}
-	      	
-	 	if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(1)-48) == 0) {
-	     	PDcategory3 = "특수부위";
-	  	} else if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(2)-48) == 1){
-	      	PDcategory3 = "등심";
-	  	}else if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(2)-48) == 2){
-	      	PDcategory3 = "안심";
-	  	}else if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(2)-48) == 3){
-	  		PDcategory3 = "갈비";
-	 	}else if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(2)-48) == 4){
-	    	PDcategory3 = "채끝";
-	 	}else if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(2)-48) == 5){
-	      	PDcategory3 = "목심";
-	 	}else if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(2)-48) == 6){
-	     	PDcategory3 = "부채살";
-	 	}
+        if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(1)-48) == 0) {
+        	PDcategory3 = "특수부위";
+        } else if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(2)-48) == 1){
+        	PDcategory3 = "등심";
+        }else if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(2)-48) == 2){
+        	PDcategory3 = "안심";
+        }else if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(2)-48) == 3){
+        	PDcategory3 = "갈비";
+        }else if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(2)-48) == 4){
+        	PDcategory3 = "채끝";
+        }else if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(2)-48) == 5){
+        	PDcategory3 = "목심";
+        }else if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(2)-48) == 6){
+        	PDcategory3 = "부채살";
+        }
 	  	model.addAttribute("PDcategory1", PDcategory1);
 	  	model.addAttribute("PDcategory2", PDcategory2);
 	  	model.addAttribute("PDcategory3", PDcategory3);
@@ -1357,49 +1356,47 @@ public class MainController {
            	
      	  	String cate = ordto.getP_category()+"";
 
-     	 	if((cate.charAt(0)-48) == 1) {
-     	 		category1 = "국내산";
-     	  	} else{
-     	      	category1 = "수입산";
-     	 	}
-     	      	
-     		if((cate.charAt(1)-48) == 1) {
-     	      	category2 = "돼지고기";
-     		} else{
-     	      	category2 = "소고기";
-     	 	}
-     	      	
-     	 	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-     	      	category3 = "특수부위";
-     	  	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-     	      	category3 = "삼겹살";
-     	 	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-     	      	category3 = "목살";
-     	  	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-     	      	category3 = "안심";
-     	  	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-     	     	category3 = "등심";
-     	  	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-     	      	category3 = "앞다리살";
-     	 	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-     	    	category3 = "갈매기살";
-     	  	}
-     	      	
-     	 	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-     	     	category3 = "특수부위";
-     	  	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-     	      	category3 = "등심";
-     	  	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-     	      	category3 = "안심";
-     	  	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-     	      	category3 = "갈비";
-     	 	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-     	    	category3 = "채끝";
-     	 	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-     	      	category3 = "목심";
-     	 	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-     	     	category3 = "부채살";
-     	 	}
+	          if((cate.charAt(0)-48) == 1) {
+	        	  category1 = "국내산";
+	          } else{
+	        	  category1 = "수입산";
+	          }
+	          if((cate.charAt(1)-48) == 1) {
+	        	  category2 = "돼지고기";
+	          } else{
+	        	  category2 = "소고기";
+	          }
+	          if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
+	        	  category3 = "특수부위";
+	          } else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
+	        	  category3 = "삼겹살";
+	          }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
+	        	  category3 = "목살";
+	          }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
+	        	  category3 = "안심";
+	          }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
+	        	  category3 = "등심";
+	          }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
+	        	  category3 = "앞다리살";
+	          }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
+	        	  category3 = "갈매기살";
+	          }
+		      	
+	          if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
+	        	  category3 = "특수부위";
+	          } else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
+	        	  category3 = "등심";
+	          }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
+	        	  category3 = "안심";
+	          }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
+	        	  category3 = "갈비";
+	          }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
+	        	  category3 = "채끝";
+	          }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
+	        	  category3 = "목심";
+	          }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
+	        	  category3 = "부채살";
+	          }
      	   	ordto.setCategory1(category1);
      		ordto.setCategory2(category2);
      	  	ordto.setCategory3(category3);
@@ -1419,49 +1416,47 @@ public class MainController {
    	
 	  	String PDcate = dto.getP_category()+"";
 	
-	 	if((PDcate.charAt(0)-48) == 1) {
-	 		PDcategory1 = "국내산";
-	  	} else{
-	      	PDcategory1 = "수입산";
-	 	}
+        if((PDcate.charAt(0)-48) == 1) {
+        	PDcategory1 = "국내산";
+        } else{
+        	PDcategory1 = "수입산";
+        }
+        if((PDcate.charAt(1)-48) == 1) {
+        	PDcategory2 = "돼지고기";
+        } else{
+        	PDcategory2 = "소고기";
+        }
+        if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(1)-48) == 0) {
+        	PDcategory3 = "특수부위";
+        } else if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(2)-48) == 1){
+        	PDcategory3 = "삼겹살";
+        }else if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(2)-48) == 2){
+        	PDcategory3 = "목살";
+        }else if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(2)-48) == 3){
+        	PDcategory3 = "안심";
+        }else if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(2)-48) == 4){
+        	PDcategory3 = "등심";
+        }else if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(2)-48) == 5){
+        	PDcategory3 = "앞다리살";
+        }else if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(2)-48) == 6){
+        	PDcategory3 = "갈매기살";
+        }
 	      	
-		if((PDcate.charAt(1)-48) == 1) {
-	      	PDcategory2 = "돼지고기";
-		} else{
-	      	PDcategory2 = "소고기";
-	 	}
-	      	
-	 	if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(1)-48) == 0) {
-	      	PDcategory3 = "특수부위";
-	  	} else if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(2)-48) == 1){
-	      	PDcategory3 = "삼겹살";
-	 	}else if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(2)-48) == 2){
-	      	PDcategory3 = "목살";
-	  	}else if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(2)-48) == 3){
-	      	PDcategory3 = "안심";
-	  	}else if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(2)-48) == 4){
-	     	PDcategory3 = "등심";
-	  	}else if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(2)-48) == 5){
-	      	PDcategory3 = "앞다리살";
-	 	}else if((PDcate.charAt(1)-48) == 1 && (PDcate.charAt(2)-48) == 6){
-	    	PDcategory3 = "갈매기살";
-	  	}
-	      	
-	 	if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(1)-48) == 0) {
-	     	PDcategory3 = "특수부위";
-	  	} else if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(2)-48) == 1){
-	      	PDcategory3 = "등심";
-	  	}else if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(2)-48) == 2){
-	      	PDcategory3 = "안심";
-	  	}else if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(2)-48) == 3){
-	  		PDcategory3 = "갈비";
-	 	}else if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(2)-48) == 4){
-	    	PDcategory3 = "채끝";
-	 	}else if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(2)-48) == 5){
-	      	PDcategory3 = "목심";
-	 	}else if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(2)-48) == 6){
-	     	PDcategory3 = "부채살";
-	 	}
+        if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(1)-48) == 0) {
+        	PDcategory3 = "특수부위";
+        } else if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(2)-48) == 1){
+        	PDcategory3 = "등심";
+        }else if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(2)-48) == 2){
+        	PDcategory3 = "안심";
+        }else if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(2)-48) == 3){
+        	PDcategory3 = "갈비";
+        }else if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(2)-48) == 4){
+        	PDcategory3 = "채끝";
+        }else if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(2)-48) == 5){
+        	PDcategory3 = "목심";
+        }else if((PDcate.charAt(1)-48) == 2 && (PDcate.charAt(2)-48) == 6){
+        	PDcategory3 = "부채살";
+        }
 	  	model.addAttribute("PDcategory1", PDcategory1);
 	  	model.addAttribute("PDcategory2", PDcategory2);
 	  	model.addAttribute("PDcategory3", PDcategory3);
@@ -1555,49 +1550,47 @@ public class MainController {
            	
      	  	String cate = ordto.getP_category()+"";
 
-     	 	if((cate.charAt(0)-48) == 1) {
-     	 		category1 = "국내산";
-     	  	} else{
-     	      	category1 = "수입산";
-     	 	}
-     	      	
-     		if((cate.charAt(1)-48) == 1) {
-     	      	category2 = "돼지고기";
-     		} else{
-     	      	category2 = "소고기";
-     	 	}
-     	      	
-     	 	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-     	      	category3 = "특수부위";
-     	  	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-     	      	category3 = "삼겹살";
-     	 	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-     	      	category3 = "목살";
-     	  	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-     	      	category3 = "안심";
-     	  	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-     	     	category3 = "등심";
-     	  	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-     	      	category3 = "앞다리살";
-     	 	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-     	    	category3 = "갈매기살";
-     	  	}
-     	      	
-     	 	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-     	     	category3 = "특수부위";
-     	  	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-     	      	category3 = "등심";
-     	  	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-     	      	category3 = "안심";
-     	  	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-     	      	category3 = "갈비";
-     	 	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-     	    	category3 = "채끝";
-     	 	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-     	      	category3 = "목심";
-     	 	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-     	     	category3 = "부채살";
-     	 	}
+	          if((cate.charAt(0)-48) == 1) {
+	        	  category1 = "국내산";
+	          } else{
+	        	  category1 = "수입산";
+	          }
+	          if((cate.charAt(1)-48) == 1) {
+	        	  category2 = "돼지고기";
+	          } else{
+	        	  category2 = "소고기";
+	          }
+	          if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
+	        	  category3 = "특수부위";
+	          } else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
+	        	  category3 = "삼겹살";
+	          }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
+	        	  category3 = "목살";
+	          }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
+	        	  category3 = "안심";
+	          }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
+	        	  category3 = "등심";
+	          }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
+	        	  category3 = "앞다리살";
+	          }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
+	        	  category3 = "갈매기살";
+	          }
+		      	
+	          if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
+	        	  category3 = "특수부위";
+	          } else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
+	        	  category3 = "등심";
+	          }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
+	        	  category3 = "안심";
+	          }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
+	        	  category3 = "갈비";
+	          }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
+	        	  category3 = "채끝";
+	          }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
+	        	  category3 = "목심";
+	          }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
+	        	  category3 = "부채살";
+	          }
      	   	ordto.setCategory1(category1);
      		ordto.setCategory2(category2);
      	  	ordto.setCategory3(category3);
@@ -1807,6 +1800,11 @@ public class MainController {
       service.pickInsertMain(model, ppic_m_id, ppic_p_num); 
       return "redirect:/main/giftSet";
    }
+   @RequestMapping("pickInsertmainMeatKOR")
+   public String pickInsertmainMeatKOR(Principal seid, Model model, String ppic_m_id, int ppic_p_num) {
+      service.pickInsertMain(model, ppic_m_id, ppic_p_num); 
+      return "forward:/main/mainMeatKOR?category=12&price=price";
+   }
    
    
 
@@ -1814,320 +1812,7 @@ public class MainController {
    public String boot() { 
       return "main/bootstrap";
    }
-   
-   @RequestMapping("main2")
-   public String main2(ProductDetailDTO dto, Principal seid, Model model) {
-	  List<ProductDTO> cusList = service.mainCUS();
-	  String m_id="";
-	  int p_num = dto.getP_num();
-	  if(seid != null) {
-          m_id = (String)seid.getName(); 
-          model.addAttribute("m_id", m_id);
-       }
-	  for(ProductDTO cdto : cusList) {
-	      String ppic_m_id = m_id;
-	      int ppic_p_num = cdto.getP_num();
-	      cdto.setPpic_m_id(ppic_m_id);
-	      cdto.setPpic_p_num(ppic_p_num);
-	      
-    	  double cstar = service.reviewStar(cdto.getP_num());
-          cdto.setStar(cstar);
-          
-        	String category1="";
-      		String category2="";
-      		String category3="";
-      	
-	      	String cate = cdto.getP_category()+"";
-	      	if((cate.charAt(0)-48) == 1) {
-	      		category1 = "국내산";
-	      	} else{
-	      		category1 = "수입산";
-	      	}
-	      	
-	      	if((cate.charAt(1)-48) == 1) {
-	      		category2 = "돼지고기";
-	      	} else{
-	      		category2 = "소고기";
-	      	}
-	      	
-	      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "특수부위";
-	      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-	      		category3 = "삼겹살";
-	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-	      		category3 = "목살";
-	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-	      		category3 = "안심";
-	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-	      		category3 = "등심";
-	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-	      		category3 = "앞다리살";
-	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-	      		category3 = "갈매기살";
-	      	}
-	      	
-	      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "특수부위";
-	      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-	      		category3 = "등심";
-	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-	      		category3 = "안심";
-	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-	      		category3 = "갈비";
-	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-	      		category3 = "채끝";
-	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-	      		category3 = "목심";
-	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-	      		category3 = "부채살";
-	      	}
-	      	cdto.setCategory1(category1);
-	      	cdto.setCategory2(category2);
-	      	cdto.setCategory3(category3);
-
-	      	int r_p_num = service.reviewAllCNT(cdto.getP_num());
-	      	cdto.setReviewAllCNT(r_p_num);
-	      }
-	  	model.addAttribute("cusList", cusList);
-	  
-      List<ProductDTO> meatList = service.meatBest();
-      for(ProductDTO mdto : meatList) {
-    	  String ppic_m_id = m_id;
-	      int ppic_p_num = mdto.getP_num();
-	      mdto.setPpic_m_id(ppic_m_id);
-	      mdto.setPpic_p_num(ppic_p_num);
-	      
-    	  double mstar = service.reviewStar(mdto.getP_num());
-    	  mdto.setStar(mstar);
-    	  model.addAttribute("p_num", mdto.getP_num());
-    	  
-    	  String category1="";
-    	  String category2="";
-    	  String category3="";
-    	
-    	  String cate = mdto.getP_category()+"";
-
-    	  if((cate.charAt(0)-48) == 1) {
-    		  category1 = "국내산";
-    	  } else{
-    		  category1 = "수입산";
-    	  }
-	      	
-    	  if((cate.charAt(1)-48) == 1) {
-    		  category2 = "돼지고기";
-    	  } else{
-    		  category2 = "소고기";
-    	  }
-	      	
-	      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "특수부위";
-	      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-	      		category3 = "삼겹살";
-	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-	      		category3 = "목살";
-	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-	      		category3 = "안심";
-	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-	      		category3 = "등심";
-	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-	      		category3 = "앞다리살";
-	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-	      		category3 = "갈매기살";
-	      	}
-	      	
-	      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "특수부위";
-	      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-	      		category3 = "등심";
-	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-	      		category3 = "안심";
-	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-	      		category3 = "갈비";
-	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-	      		category3 = "채끝";
-	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-	      		category3 = "목심";
-	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-	      		category3 = "부채살";
-	      	}
-	      	mdto.setCategory1(category1);
-	      	mdto.setCategory2(category2);
-	      	mdto.setCategory3(category3);
-
-	      	int r_p_num = service.reviewAllCNT(mdto.getP_num());
-	      	mdto.setReviewAllCNT(r_p_num);
-	      	}
-      		model.addAttribute("meatList", meatList);
-      
-      List<ProductDTO> forkList = service.forkBest();
-      for(ProductDTO fdto : forkList) {
-	      String ppic_m_id = m_id;
-	      int ppic_p_num = fdto.getP_num();
-	      fdto.setPpic_m_id(ppic_m_id);
-	      fdto.setPpic_p_num(ppic_p_num);
-	      
-    	  double fstar = service.reviewStar(fdto.getP_num());
-    	  fdto.setStar(fstar);
-    	  model.addAttribute("p_num", fdto.getP_num());
-    	  
-    	  	String category1="";
-    		String category2="";
-    		String category3="";
-    	
-	      	String cate = fdto.getP_category()+"";
-	
-	      	if((cate.charAt(0)-48) == 1) {
-	      		category1 = "국내산";
-	      	} else{
-	      		category1 = "수입산";
-	      	}
-	      	
-	      	if((cate.charAt(1)-48) == 1) {
-	      		category2 = "돼지고기";
-	      	} else{
-	      		category2 = "소고기";
-	      	}
-	      	
-	      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "특수부위";
-	      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-	      		category3 = "삼겹살";
-	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-	      		category3 = "목살";
-	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-	      		category3 = "안심";
-	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-	      		category3 = "등심";
-	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-	      		category3 = "앞다리살";
-	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-	      		category3 = "갈매기살";
-	      	}
-	      	
-	      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "특수부위";
-	      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-	      		category3 = "등심";
-	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-	      		category3 = "안심";
-	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-	      		category3 = "갈비";
-	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-	      		category3 = "채끝";
-	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-	      		category3 = "목심";
-	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-	      		category3 = "부채살";
-	      	}
-	      	fdto.setCategory1(category1);
-	      	fdto.setCategory2(category2);
-	      	fdto.setCategory3(category3);
-
-	      	int r_p_num = service.reviewAllCNT(fdto.getP_num());
-	      	fdto.setReviewAllCNT(r_p_num);
-	      }
-      model.addAttribute("forkList", forkList);
-      
-      List<ProductDTO> newProduct = service.newProductBest();
-      for(ProductDTO ndto : newProduct) {
-    	  String ppic_m_id = m_id;
-	      int ppic_p_num = ndto.getP_num();
-	      ndto.setPpic_m_id(ppic_m_id);
-	      ndto.setPpic_p_num(ppic_p_num);
-    	  
-    	  double nstar = service.reviewStar(ndto.getP_num());
-    	  ndto.setStar(nstar);
-    	  model.addAttribute("p_num", ndto.getP_num());
-    	  
-    	  	String category1="";
-    		String category2="";
-    		String category3="";
-    	
-	      	String cate = ndto.getP_category()+"";
-	
-	      	if((cate.charAt(0)-48) == 1) {
-	      		category1 = "국내산";
-	      	} else{
-	      		category1 = "수입산";
-	      	}
-	      	
-	      	if((cate.charAt(1)-48) == 1) {
-	      		category2 = "돼지고기";
-	      	} else{
-	      		category2 = "소고기";
-	      	}
-	      	
-	      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "특수부위";
-	      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-	      		category3 = "삼겹살";
-	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-	      		category3 = "목살";
-	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-	      		category3 = "안심";
-	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-	      		category3 = "등심";
-	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-	      		category3 = "앞다리살";
-	      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-	      		category3 = "갈매기살";
-	      	}
-	      	
-	      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-	      		category3 = "특수부위";
-	      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-	      		category3 = "등심";
-	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-	      		category3 = "안심";
-	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-	      		category3 = "갈비";
-	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-	      		category3 = "채끝";
-	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-	      		category3 = "목심";
-	      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-	      		category3 = "부채살";
-	      	}
-	      	ndto.setCategory1(category1);
-	      	ndto.setCategory2(category2);
-	      	ndto.setCategory3(category3);
-
-	      	if(seid != null) {
-	      		service.pick_p_numCNT(ppic_m_id, ppic_p_num);
-		    }
-	      	int r_p_num = service.reviewAllCNT(ndto.getP_num());
-	      	ndto.setReviewAllCNT(r_p_num);
-	      }
-      model.addAttribute("newProduct", newProduct);
-      
-      
-      if(seid != null) {
-          m_id = (String)seid.getName(); 
-          model.addAttribute("m_id", m_id);
-       }
-      
-      int CartCNT=0;
-      if(seid != null) {
-         String shop_m_id = (String)seid.getName();
-         CartCNT = service.ShoppingCartCNT2(shop_m_id);
-        model.addAttribute("CartCNT", CartCNT);
-      } else {
-         CartCNT=0;
-         model.addAttribute("CartCNT", CartCNT);
-      }
-      
-      int pickCNT=0;
-      if(seid != null) {
-         String ppic_m_id = (String)seid.getName();
-         pickCNT = service.pickCNT(ppic_m_id);
-        model.addAttribute("pickCNT", pickCNT);
-      } else {
-         pickCNT=0;
-         model.addAttribute("pickCNT", pickCNT);
-      }
-
-      return "main/main2";
-   }
+ 
    
    @RequestMapping("meatYou")
    public String meatYou() {
@@ -2135,22 +1820,32 @@ public class MainController {
    }
    
    @RequestMapping("customOrder")
-   public String customOrder(String pre_m_id, Model model) {
-	   	PreferDTO dto = service.customOrderCategory(pre_m_id , model);
-		int result=0;
-		int category1 = dto.getPre0_response();
-		int category2 = dto.getPre1_response();
-		if(category1 == 100) {
-			category1 = 110;
-		}else {
-			category1 = 120;
-		}
-		result = category1+category2;
-		dto.setPre_category(result);
-		
-		model.addAttribute("dto", dto);
+   public String customOrder(Principal seid, String pre_m_id, Model model, @RequestParam(value="pageNum", defaultValue = "1") int pageNum) {
+	   if(seid != null) {
+		   String m_id = (String)seid.getName();
+		   model.addAttribute("m_id", m_id);
+		   pre_m_id = m_id;
+	   }
+	   		service.customOrder(seid, pre_m_id, model, pageNum);
+		   int CartCNT=0;
+		   if(seid != null) {
+			   String shop_m_id = (String)seid.getName();
+			   CartCNT = service.ShoppingCartCNT2(shop_m_id);
+			   model.addAttribute("CartCNT", CartCNT);
+		   } else {
+			   CartCNT=0;
+			   model.addAttribute("CartCNT", CartCNT);
+		   }
+	      
+		   int pickCNT=0;
+		   if(seid != null) {
+			   String ppic_m_id = (String)seid.getName();
+			   pickCNT = service.pickCNT(ppic_m_id);
+			   model.addAttribute("pickCNT", pickCNT);
+		   } else {
+			   pickCNT=0;
+			   model.addAttribute("pickCNT", pickCNT);
+		   }
       return "main/customOrder";
    }
-   
-
 }
