@@ -12,9 +12,11 @@ import java.text.SimpleDateFormat;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.ServletRequest;
@@ -46,7 +48,9 @@ import com.gogi.meatyou.bean.QnADTO;
 import com.gogi.meatyou.repository.AdminMapper;
 import com.gogi.meatyou.service.AdminService;
 import com.gogi.meatyou.service.AdminServiceImpl;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
 import lombok.AllArgsConstructor;
 
@@ -285,36 +289,55 @@ public class AdminController {
 		return "admin/disease";
 	}
 	
-	@RequestMapping(value="/dapi",produces="application/text; charset=UTF-8")
-	public @ResponseBody String dapi(Model model,HttpServletResponse response,
-			String ICTSD_OCCRRNC_NO, 
-          	String LKNTS_NM,
-          	String FARM_NM,
-          	String FARM_LOCPLC_LEGALDONG_CODE,
-          	String FARM_LOCPLC,
-          	String OCCRRNC_DE,
-          	String LVSTCKSPC_CODE,
-          	String LVSTCKSPC_NM,
-          	String OCCRRNC_LVSTCKCNT,
-          	String DGNSS_ENGN_CODE,
-          	String DGNSS_ENGN_NM,
-          	String CESSATION_DE) {
-			DiseaseDTO dto = new DiseaseDTO();
-			dto.setICTSD_OCCRRNC_NO(ICTSD_OCCRRNC_NO);
-			dto.setLKNTS_NM(LKNTS_NM);
-			dto.setFARM_NM(FARM_NM);
-			dto.setFARM_LOCPLC_LEGALDONG_CODE(FARM_LOCPLC_LEGALDONG_CODE);
-			dto.setFARM_LOCPLC(FARM_LOCPLC);
-			dto.setOCCRRNC_DE(OCCRRNC_DE);
-			dto.setLVSTCKSPC_CODE(LVSTCKSPC_CODE);
-			dto.setLVSTCKSPC_NM(LVSTCKSPC_NM);
-			dto.setOCCRRNC_LVSTCKCNT(OCCRRNC_LVSTCKCNT);
-			dto.setDGNSS_ENGN_CODE(DGNSS_ENGN_CODE);
-			dto.setDGNSS_ENGN_NM(DGNSS_ENGN_NM);
-			dto.setCESSATION_DE(CESSATION_DE);
-			adminServicImpl.updatedi(dto);
-			return "success";
+	@RequestMapping(value="/dapi", method=RequestMethod.POST, produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public Map<String, Object> dapi(@RequestBody Map<String, Object> requestData) {
+	    System.out.println("data====" + requestData); // 데이터가 제대로 수신되는지 확인
+	    Map<String, Object> result = new HashMap<>();
+	    List<DiseaseDTO> list = new ArrayList<DiseaseDTO>();;
+	    try {
+	    	 Map<String, Object> data = (Map<String, Object>) requestData.get("data");
+	         Map<String, Object> gridData = (Map<String, Object>) data.get("Grid_20151204000000000316_1");
+	         List<Map<String, Object>> rows = (List<Map<String, Object>>) gridData.get("row");
+	         // 각 행의 정보 출력
+	         if(rows.isEmpty()) {
+	        	 System.out.println("없음");
+	         }else {
+	         for (Map<String, Object> row : rows) {
+	        	 String cessation =(String)row.get("CESSATION_DE");
+	        	 String check = (String)row.get("LVSTCKSPC_NM"); 
+	             DiseaseDTO dto = new DiseaseDTO();
+	             if(check.contains("소")||check.contains("돼지")) {
+	            	 if(cessation.length()<0 || cessation.equals("") || cessation.isEmpty()) {
+	            		 dto.setCESSATION_DE("0");
+		        	 }else {
+	            	 dto.setCESSATION_DE((String)row.get("CESSATION_DE"));}
+		             dto.setDGNSS_ENGN_CODE((String)row.get("DGNSS_ENGN_CODE"));
+		             dto.setDGNSS_ENGN_NM((String)row.get("DGNSS_ENGN_NM"));
+		             dto.setFARM_LOCPLC((String)row.get("FARM_LOCPLC"));
+		             dto.setFARM_LOCPLC_LEGALDONG_CODE((String)row.get("FARM_LOCPLC_LEGALDONG_CODE"));
+		             dto.setFARM_NM((String)row.get("FARM_NM"));
+		             dto.setICTSD_OCCRRNC_NO((String)row.get("ICTSD_OCCRRNC_NO"));
+		             dto.setLKNTS_NM((String)row.get("LKNTS_NM"));
+		             dto.setLVSTCKSPC_CODE((String)row.get("LVSTCKSPC_CODE"));
+		             dto.setLVSTCKSPC_NM((String)row.get("LVSTCKSPC_NM"));
+		             dto.setOCCRRNC_DE((String)row.get("OCCRRNC_DE"));
+		             dto.setOCCRRNC_LVSTCKCNT((int)row.get("OCCRRNC_LVSTCKCNT"));
+		             list.add(dto);
+	         	}
+	         }
+		        if(list!=null || list.size()>0 || !list.isEmpty()) {
+		        	adminServicImpl.updatedi(list);
+		       	}
+	         }
+	         result.put("result", true);
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	        result.put("result", false);
+	    }
+	    return result;
 	}
+
 	
 	
 	@RequestMapping("/apiTest")

@@ -907,7 +907,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public void updatedi(DiseaseDTO dto) {
+	public void updatedi(List<DiseaseDTO> dto) {
 		mapper.diseaseAutoUpdate(dto);
 		autoIssueCheck();
 	}

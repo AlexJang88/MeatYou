@@ -146,7 +146,7 @@ public interface AdminMapper {
    
    public List<ChartDTO> getChartData(String period);
    
-   public void diseaseAutoUpdate(DiseaseDTO dto);
+   public void diseaseAutoUpdate(List<DiseaseDTO> list);
    
    
 }

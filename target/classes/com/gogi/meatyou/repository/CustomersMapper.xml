@@ -7,6 +7,10 @@
    SELECT SUM(order_totalprice) AS total_price FROM m_order m, product p WHERE order_p_num = p_num AND p_m_id= #{id}
    </select>
 
+	<select id='panmeList' resultType="int">
+         select count(*) from product where p_m_id = #{p_m_id} and p_status = 0
+   </select>
+	
    <select id="graph" resultType="com.gogi.meatyou.bean.customerGraphDTO">
    SELECT TO_CHAR(months.start_date, 'YYYY-MM') AS mon, -- 월별 날짜 형식으로 변환
        COALESCE(SUM(mo.order_totalprice), 0) AS mon_sal,
@@ -667,5 +671,9 @@
 	  <update id="survey2" parameterType="com.gogi.meatyou.bean.PreferDTO">
 	    UPDATE prefer SET pre1_response = #{pre1_response}, pre_reg_date = sysdate, pre_status = 2 WHERE pre_m_id = #{pre_m_id} AND pre0_response IS NOT NULL
 	  </update>
-		
+		<update id="AutoOrderConfirm">
+		  <![CDATA[
+			update m_order set order_status=4 where order_dere_end<=(sysdate-3) and not order_status=4
+			]]>
+		</update>
 </mapper>

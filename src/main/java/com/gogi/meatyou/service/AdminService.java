@@ -96,7 +96,7 @@ public interface AdminService {
 	
 	public String getPriceinfo();
 	
-	public void updatedi(DiseaseDTO dto);
+	public void updatedi(List<DiseaseDTO> dto);
 	
 	
 	public void apiTest(Model model);

@@ -15,7 +15,7 @@ public class DiseaseDTO {
 	private String OCCRRNC_DE;
 	private String LVSTCKSPC_CODE;
 	private String LVSTCKSPC_NM;
-	private String OCCRRNC_LVSTCKCNT;
+	private int OCCRRNC_LVSTCKCNT;
 	private String DGNSS_ENGN_CODE;
 	private String DGNSS_ENGN_NM;
 	private String CESSATION_DE;

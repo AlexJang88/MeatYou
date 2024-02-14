@@ -23,7 +23,7 @@
 <script>
 window.onload = function(){
 	$.ajax({
-	  url: "/api",
+	  url: "/admin/api",
 	  type: "POST",
 	  dataType: "JSON",
 	  success: function(result) {
