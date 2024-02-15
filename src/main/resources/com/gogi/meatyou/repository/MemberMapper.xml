@@ -4,6 +4,23 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gogi.meatyou.repository.MemberMapper">
 
+   	<!-- 장바구니 품목수 카운트 -->
+   	<select id="ShoppingCartCNT" resultType="int" >
+      		select count(*) from shoppingcart_${shop_m_id}
+   	</select>
+
+
+	<!-- 상품찜 -->
+	<select id="pickCNT" resultType="int" >
+      		select count(*) from p_pick_${ppic_m_id}
+	</select>
+   
+
+	<!-- 판매자찜 -->
+   	<select id="pick_P_CNT" resultType="int" >
+      		select count(*) from pick_me_${ppic_m_id}
+   	</select>
+
    <select id="memberList" resultType="com.gogi.meatyou.bean.MemberDTO">
        SELECT * FROM member
     WHERE m_id ='${m_id}'
@@ -15,6 +32,12 @@
    
  <select id="eMailCheck" parameterType="String" resultType="int">
  SELECT COUNT(email) FROM MEMBER WHERE email= #{email}
+   </select>
+   
+ <select id="deleteCheck" parameterType="String" resultType="int">
+SELECT 
+passwd  from member
+WHERE m_id = #{m_id}' AND passwd = #{passwd}
    </select>
 
    <resultMap id="memberMap" type="com.gogi.meatyou.bean.MemberDTO" >
@@ -152,6 +175,7 @@ WHERE
 	]]>
 </select>
 
+
 <select id="ShoppingCartCount" >
 	select count(*) from (select * from product), (select * from shoppingcart_${id}) where p_num=shop_p_num
 </select>
@@ -167,6 +191,7 @@ WHERE
    <update id="updateQuantity"  >
         UPDATE shoppingcart_${shop_m_id} SET shop_quantity = #{shop_quantity} WHERE shop_p_num = #{shop_p_num}
     </update>
+    
 <!--장바구니 수량변경  shop_num기준으로 변경 
    <update id="updateQuantity"  >
         UPDATE shoppingcart_${shop_m_id} SET shop_quantity = #{shop_quantity} WHERE shop_p_num = #{shop_p_num}
@@ -829,11 +854,10 @@ SELECT * FROM ( SELECT * FROM coupon WHERE cp_m_id=#{id} AND cp_status=1 AND cp_
   WHERE order_m_id = #{order_m_id, jdbcType=VARCHAR}
 </select>
 
- 
-		<!-- <select id="PaymentHistory" parameterType="int" resultType="com.gogi.meatyou.bean.MOrderDTO">
-			select * from m_order where order_m_id=#{order_m_id}
-		</select> -->
-		
+
+
+
+  
 		<select id="findCouponToCpNum" parameterType="int" resultType="com.gogi.meatyou.bean.CouponDTO">
 			select * from coupon where cp_num=#{cp_num}
 		</select>

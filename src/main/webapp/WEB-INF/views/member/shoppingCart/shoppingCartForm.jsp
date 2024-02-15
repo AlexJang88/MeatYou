@@ -4,6 +4,16 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ include file="../../header.jsp" %>
 <head>
+<style>
+   .pagination {
+        justify-content: center;
+    }
+
+    .pagination a,
+    .pagination .current {
+        margin: 0 5px;
+    }
+</style>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     
       
@@ -37,7 +47,7 @@ function getSelectedShopNums() {
 
 
 // 상품 수량 업데이트 함수
-function update_click(button, operation, shop_num) {
+function update_click(button, operation, shop_p_num) {
     var input_element = button.parentElement.querySelector('.shop_quantity');
     var current_quantity = parseInt(input_element.value);
 
@@ -56,7 +66,7 @@ function update_click(button, operation, shop_num) {
 
     // 서버로 업데이트된 수량 정보를 전송
     console.log(new_quantity);
-    sendUpdateQuantityRequest(new_quantity, shop_num);
+    sendUpdateQuantityRequest(new_quantity, shop_p_num);
 }
 
 
@@ -64,10 +74,10 @@ function update_click(button, operation, shop_num) {
 
 
 // 상품 수량 업데이트 요청을 보내는 함수
-function sendUpdateQuantityRequest(new_quantity, shop_num) {
+function sendUpdateQuantityRequest(new_quantity,shop_p_num) {
     var requestData = {
         shop_quantity: new_quantity,
-        shop_num: shop_num
+        shop_p_num: shop_p_num
     };
     
     $.ajax({
@@ -123,8 +133,7 @@ function deleteSelectedItems() {
  
 </script>
 </head>
-
-<div >
+<div class="container mt-4">
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">장바구니</h1>
@@ -163,7 +172,7 @@ function deleteSelectedItems() {
                    onclick="toggleSelectedShopNum(this, '${item.shop_num}')"/>
        			 </td>
        			  <td>
-       			  <a href="/delete?shop_num=${item.shop_num}&pd_p_num=${item.pd_p_num}&p_num=${item.p_num}">삭제</a>
+       			  <a href="/member/delete?shop_num=${item.shop_num}&pd_p_num=${item.pd_p_num}&p_num=${item.p_num}">삭제</a>
                    
                 </td>
                 <td><c:out value="${item.shop_num}" />
@@ -175,10 +184,10 @@ function deleteSelectedItems() {
 								<td>${item.p_name}</td>
 								<td>${item.thumb}</td>
 								<td>
-									<button type="button" class="quantity-up" data-quantity="${item.shop_quantity}" onclick="update_click(this, 'increase','${item.shop_num}')">+</button>
+									<button type="button" class="quantity-up" data-quantity="${item.shop_quantity}" onclick="update_click(this, 'increase','${item.shop_p_num}')">+</button>
 									<input type="hidden" class="shop_quantity" value="${item.shop_quantity}" /> 
 										<c:out value="${item.shop_quantity}" />
-									<button type="button" class="quantity-down" data-quantity="${item.shop_quantity}" onclick="update_click(this, 'decrease','${item.shop_num}')">-</button>
+									<button type="button" class="quantity-down" data-quantity="${item.shop_quantity}" onclick="update_click(this, 'decrease','${item.shop_p_num}')">-</button>
 								</td>
 
 								<td><b>총액 </b> <input type="hidden" name="arr_p_price" value="${item.p_price}"> <c:out value="${item.p_price * item.shop_quantity}" /> <b> 원</b> 
@@ -261,6 +270,7 @@ function deleteSelectedItems() {
 
 
 			</table>
+		</div>
 		</div>
 	</div>
 	<%@ include file="../../footer.jsp"%>
