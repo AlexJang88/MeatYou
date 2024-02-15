@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<div id="check">
+<div id="view">
 	
 </div>
 <input type="hidden" id="key" value="${key}">
@@ -45,7 +45,7 @@ $('#check').click(function(){
 		    		  
 	                	// Add more attributes as needed
 	                    if(item.LVSTCKSPC_NM.includes("소")||item.LVSTCKSPC_NM.includes("돼지")){
-	                    	update(item.ICTSD_OCCRRNC_NO);
+	                    	
 	                    	console.log("ROW_NUM: " + item.ROW_NUM);
 	                    	console.log("ICTSD_OCCRRNC_NO: " + item.ICTSD_OCCRRNC_NO);
 		                    console.log("LKNTS_NM: " + item.LKNTS_NM);
@@ -59,6 +59,7 @@ $('#check').click(function(){
 		                    console.log("DGNSS_ENGN_CODE: " + item.DGNSS_ENGN_CODE);
 		                    console.log("DGNSS_ENGN_NM: " + item.DGNSS_ENGN_NM);
 		                    console.log("CESSATION_DE: " + item.CESSATION_DE);
+		                    update(item);
 	                    }
 	                	
 	                	
@@ -66,7 +67,7 @@ $('#check').click(function(){
 	               
 		  	}
 		  },
-		  error: function(result) {
+		  error: function() {
 		  }
 		});
 	});
@@ -75,11 +76,10 @@ $('#check').click(function(){
  function update(d1){
 	console.log("메롱"+d1);
 	 $.ajax({
-		  url: "/dapi",
-		  type: "post",
+		  url: "/admin/dapi",
+		  type: "get",
 		  contentType: "application/json , charset:UTF-8",
-		  data: {ictsd_occrrnc_no:d1
-		  },
+		  data:d1,
 		  dataType: "JSON",
 		  success: function(result) {
 		      console.log(result);

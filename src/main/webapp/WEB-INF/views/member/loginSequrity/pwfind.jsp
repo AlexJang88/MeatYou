@@ -8,6 +8,109 @@
 <head>
 <meta charset="UTF-8">
 <title>비밀번호찾기</title>
+ <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f6f7;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        form {
+            width: 400px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+        }
+
+        table tr {
+            margin-bottom: 10px;
+        }
+
+        table td {
+            padding: 10px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .mail-check-input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #success {
+            background-color: #dddddd;
+            color: black;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 90%;
+        }
+
+        #success:disabled {
+            background-color: #ddd;
+            color: #555;
+            cursor: not-allowed;
+        }
+
+        #confirmButton {
+            background-color: #3498db;
+            color: color;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 84%;
+        }
+
+        #confirmButton:disabled {
+            background-color: #ddd;
+                   color: black;
+            cursor: not-allowed;
+        }
+
+        #mail-Check-Btn {
+            background-color: #dddddd;
+color: color;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            width: 84%;
+        }
+    </style>
 <script>
 
 function updateEmail() {
@@ -46,67 +149,69 @@ function formatPhoneNumber(input) {
 </script>
 </head>
 <body>
-<h1>여기서 비번 찾을것</h1> 
-
+<table>
+    		<th><h1> 비밀번호  찾기</h1></th>
+    	</table>
 <form  method="post" action="/member/pwfindPro">
 	<table>
 		<tr>
-			<td>아이디</td>
-			<td><input type="text" name="m_id" required="required" placeholder="아이디를 입력하시오" size="15"></td>
+			  <td colspan="3"><input type="text" name="m_id" required="required" placeholder="아이디를 입력하시오" size="15"></td>
 		</tr>
 	
 		<tr>
-			<td>이름</td>
-			<td><input type="text" name="m_name" required="required" placeholder="이름을 입력하시오" size="15"></td>
+			  <td colspan="3"><input type="text" name="m_name" required="required" placeholder="이름을 입력하시오" size="15"></td>
 		</tr>
 		
 		<tr>
-			 <td width="200">휴대폰번호</td>
-    		 <td width="400"> 
+    		   <td colspan="3"> 
 			 <input type="text" name="phone" id="phoneInput" size="40" required="required" maxlength="13" placeholder="전화번호를 입력하시오" oninput="formatPhoneNumber(this)">
 		    </td>
 		</tr>
 		
 		
-		<tr>
-           <td  class="hiddenshow"><label for="email">이메일</label></td>              
-           <td>
-              <input type="text" id="email" class="inputText" name="email" size="14"  required="required"  placeholder="이메일을 입력하시오"/>
-              <select class="box" id="emaillist" name="emaillist" onchange="updateEmail()">
-	              <option value="type">직접 입력</option>
-	              <option value="@naver.com">@naver.com</option>
-	              <option value="@google.com">@google.com</option>
-	              <option value="@hanmail.net">@hanmail.net</option>
-	              <option value="@nate.com">@nate.com</option>
-	              <option value="@kakao.com">@kakao.com</option>
-              </select>
-              <span id="emailError" style="color: red;"  class="error-message"></span>
-            </td>           
-        </tr>
-          		  
-        <tr>
-			<td>
-				<button type="button" class="btn btn-primary" id="mail-Check-Btn">인증번호 전송</button>
-			</td>
-			<td>
-				<input class="form-control mail-check-input" required="required" placeholder="인증번호 6자리를 입력해주세요!" maxlength="6">
-				<span id="mail-check-warn"></span>
-			</td>
-		</tr>
-		
-		<tr>
-			<td colspan="2">
-				<input type="button" class="btn btn-primary" id="success" value="이메일 인증확인">
-			</td>
-		</tr>
-
-		<tr>
-	      <td> 
+    <tr>
+         <td colspan="2">
+                    <input type="text" id="email" class="inputText" name="email" size="14" required="required"
+                        placeholder="이메일을 입력하시오" />
+                
+                    <span id="emailError" style="color: red;" class="error-message"></span>
+                </td>
+                <td colspan="1">
+                    <select class="box" id="emaillist" name="emaillist" onchange="updateEmail()">
+                        <option value="type">직접 입력</option>
+                        <option value="@naver.com">@naver.com</option>
+                        <option value="@google.com">@google.com</option>
+                        <option value="@hanmail.net">@hanmail.net</option>
+                        <option value="@nate.com">@nate.com</option>
+                        <option value="@kakao.com">@kakao.com</option>
+                        <option value="@gmail.com">@gmail.com</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td  colspan="2">
+                    <input class="form-control mail-check-input" required="required"
+                        placeholder="인증번호 입력해주세요!" maxlength="6">
+                    <span id="mail-check-warn"></span>
+                    </td>
+                    <td  colspan="1">
+                    <button type="button" class="btn btn-primary" id="mail-Check-Btn" style="">인증번호 전송</button> 
+                </td>
+            </tr>
+	 
+	 
+	 <tr>
+                <td colspan="1">
+                    <input type="button" class="btn btn-primary" id="success" value="이메일 인증확인">
+                </td>
+                <td colspan="2">
+ 
 	          <input type="submit" name="confirm" value="비밀번호 찾기" id="confirmButton" disabled > 
-	          <input type="button" value="돌아가기" onclick="javascript:window.location='../main/main'">
-	      </td>
-	    </tr>
 		
+                </td>
+            </tr>
+            
+           
 	</table>
 </form>
 </body>

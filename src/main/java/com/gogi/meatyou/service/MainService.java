@@ -104,4 +104,5 @@ public interface MainService {
    public int pCategory(int p_num);
    public PreferDTO customOrderCategory (String pre_m_id, Model model);
    public PreferDTO customOrder(Principal seid, String pre_m_id, Model model, int pageNum);
+   public void getStatus(Model model, String id); //지환 설문조사 입니다.
 }

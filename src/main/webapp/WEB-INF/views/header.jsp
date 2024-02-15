@@ -76,19 +76,12 @@
                      <sec:authorize access="isAuthenticated()">
                          <li><a href="/member/modify"><i class="fa"></i> 마이페이지</a></li>
                          <li><a href="/member/customLogout"><i class="fa"></i> 로그아웃</a></li>
-                              <a href="/member/tokenLogout">카카오톡로그아웃</a>
                      </sec:authorize>
                      
-            
-				  <sec:authorize access="isAuthenticated() and (hasAuthority('ROLE_KAKAO_BESTMEMBER') or hasAuthority('ROLE_KAKAO_MEMBER') or hasAuthority('ROLE_KAKAO_RESIGN') or hasAuthority('ROLE_KAKAO_READYSALLER') or hasAuthority('ROLE_KAKAO_RESIGNSALLER') or hasAuthority('ROLE_KAKAO_SALLER') or hasAuthority('ROLE_KAKAO_TOPPAYSALLER') or hasAuthority('ROLE_KAKAO_CONTENTPAYSALLER') or hasAuthority('ROLE_KAKAO_ALLPAYSALLER') or hasAuthority('ROLE_KAKAO_ADMIN'))">
-				    <!-- 카카오 계정으로 로그인한 사용자에게 보여질 내용 -->
-				    <div>
-				      <li><a>보이려나</a></li>
-				    </div>
-				</sec:authorize>
+             
        
   			
-                  <li><a href="#"><i class="fa"></i> 고객센터</a></li>
+                  <li><a href="/board/consumerQna"><i class="fa"></i> 고객문의</a></li>
                </ul>
             </div>
          </div>
@@ -132,71 +125,108 @@
                   <div class="col-md-3 clearfix">
                      <div class="header-ctn">   
                       <sec:authorize access="isAnonymous()">
-                              <div>
-                   <a href="/member/customLogin" class="login-required" onclick="checkLogin()">
-                         <i class="fa fa-heart-o"></i>
-                         <span>찜목록</span>
+                   <div class="dropdown"  style="position:absolute; right:120px; margin-top:2px; float: left;   height: 150px; top:-1.2px;">
+                       <a href="/member/pPickList" class="login-required" onclick="checkLogin()" style=" height: 130px;" >
+                       <img src="/resources/member/img/heart.png"  style="width:40%; margin-top:0; ">
+                         <span style="position:absolute; top:39px; right: 28px;">찜 목록</span>
+                      	  	<c:if test="${pickCNT > 0}">
                          <div class="qty">${pickCNT}</div>
-                       </a>
+                         </c:if>
+                         </a>
                      </div>
                      
-                     <div class="dropdown">
-                       <a href="/member/customLogin" class="login-required" onclick="checkLogin()">
-                         <i class="fa fa-shopping-cart"></i>
-                         <span>장바구니</span>
+                   <div class="dropdown"  style="position:absolute; right:8px;  margin-top:2px;  float: left;   height: 150px; top:-1.2px;">
+                       <a href="/member/shoppingCartForm" class="login-required" onclick="checkLogin()" style=" height: 130px;" >
+                       <img src="/resources/member/img/cart.png"  style="width:40%; margin-top:0; ">
+                         <span style="position:absolute; top:39px; right: 28px;">장바구니</span>
+                      	  	<c:if test="${CartCNT > 0}">
                          <div class="qty">${CartCNT}</div>
-                       </a>
+                         </c:if>
+                         </a>
                      </div>
-                          <div class="dropdown"  style="position:absolute; right:-80px; margin-top:0; float: left;   height: 150px; top:-2px;">
+                          <div class="dropdown"  style="position:absolute; right:-80px;  margin-top:2px;  float: left;   height: 150px; top:-2px;">
                        <a href="/member/customLogin" class="login-required" onclick="checkLogin()" style=" height: 130px;" >
                        <img src="/resources/member/img/customer.png"  style="width:40%; margin-top:0; ">
-                         <span style="position:absolute; top:39px; right: 28px;">내가 찜</span>
+                         <span style="position:absolute; top:39px; right: 28px;">찜업체</span>
                          </a>
                      </div>
 
                         </sec:authorize>
 
-                     <sec:authorize access="isAuthenticated()">
-                           <div>
-                           <a href="/member/pPickList">
-                              <i class="fa fa-heart-o"></i>
-                              <span>찜목록</span>
-                              <div class="qty">${pickCNT}</div>
-                           </a>
-                        </div>
-                        <!-- /Wishlist -->
-                        <!-- Cart -->
-                        <div class="dropdown">
-                           <a href="/member/shoppingCartForm">
-                                 <i class="fa fa-shopping-cart"></i>
-                                 <span>장바구니</span>
-                                 <div class="qty">${CartCNT}</div>
-                           </a>
-                        </div>
+
+            <sec:authorize access="isAuthenticated() and not hasRole('ROLE_ADMIN')">
+
                      
-                                        
-                   <div class="dropdown"  style="position:absolute; right=0; margin-top:0; float: left;   height: 150px; top:-1.2px;">
-                       <a href="/member/pickMe" class="login-required" onclick="checkLogin()" style=" height: 130px;" >
-                       <img src="/resources/member/img/customer.png"  style="width:40%; margin-top:0; ">
-                         <div class="qty">${pickmecount}</div>                        
-                         <span style="position:absolute; top:39px; right: 28px;">찜업체</span>
-                         <div class="qty">${pick_P_CNT}</div>
+                                            
+                   <div class="dropdown"  style="position:absolute; right:120px;  margin-top:4px;  float: left;   height: 150px; top:-1.2px;">
+                       <a href="/member/pPickList" class="login-required" onclick="checkLogin()" style=" height: 130px;" >
+                       <img src="/resources/member/img/heart.png"  style="width:40%; margin-top:0; ">
+                         <span style="position:absolute; top:39px; right: 28px;">찜 목록</span>
+                      	  	<c:if test="${pickCNT > 0}">
+                         <div class="qty">${pickCNT}</div>
+                         </c:if>
                          </a>
                      </div>
+                     
+                   <div class="dropdown"  style="position:absolute; right:8px; margin-top:4px;  float: left;   height: 150px; top:-1.2px;">
+                       <a href="/member/shoppingCartForm" class="login-required" onclick="checkLogin()" style=" height: 130px;" >
+                       <img src="/resources/member/img/cart.png"  style="width:40%; margin-top:0; ">
+                         <span style="position:absolute; top:39px; right: 28px;">장바구니</span>
+                      	  	<c:if test="${CartCNT > 0}">
+                         <div class="qty">${CartCNT}</div>
+                         </c:if>
+                         </a>
+                     </div>
+                     
+                     
+                     
+                     
+                     
                            </sec:authorize>
+<sec:authorize access="isAuthenticated() and not (hasRole('ROLE_ADMIN') or hasRole('ROLE_READYSALLER') or hasRole('ROLE_RESIGNSALLER') or hasRole('ROLE_SALLER') or hasRole('ROLE_TOPPAYSALLER') or hasRole('ROLE_CONTENTPAYSALLER') or hasRole('ROLE_ALLPAYSALLER'))">
+                   <div class="dropdown"  style="position:absolute; right=0;  margin-top:2px;  float: left;   height: 150px; top:-1.2px;">
+                       <a href="/member/pickMe" class="login-required" onclick="checkLogin()" style=" height: 130px;" >
+                       <img src="/resources/member/img/customer.png"  style="width:40%; margin-top:0; ">
+                         <span style="position:absolute; top:39px; right: 28px;">찜업체</span>
+                      		<c:if test="${pick_P_CNT >0}">
+                         <div class="qty">${pick_P_CNT}</div>
+                         </c:if>
+                         </a>
+                     </div>
+</sec:authorize>                                        
                  <sec:authorize access="isAnonymous() == false and (hasAuthority('ROLE_READYSALLER') or hasAuthority('ROLE_RESIGNSALLER') or hasAuthority('ROLE_SALLER') or hasAuthority('ROLE_TOPPAYSALLER') or hasAuthority('ROLE_CONTENTPAYSALLER') or hasAuthority('ROLE_ALLPAYSALLER')   or hasAuthority('ROLE_KAKAO_RESIGNSALLER') or hasAuthority('ROLE_KAKAO_SALLER') or hasAuthority('ROLE_KAKAO_TOPPAYSALLER') or hasAuthority('ROLE_KAKAO_CONTENTPAYSALLER') 
                  or hasAuthority('ROLE_KAKAO_ALLPAYSALLER'))">
                 <!-- 인증된 사용자 중 ROLE_MEMBER와 ROLE_ADMIN을 제외한 다른 모든 권한을 가진 사용자에게만 보여집니다 -->
-                <div class="dropdown" style="position:absolute; right:-170px; margin-top:0; float: left; height: 150px; top:-2px;">
+                <div class="dropdown" style="position:absolute; right:-90px; margin-top:4px;  float: left; height: 150px; top:-2px;">
                     <a href="/member/SallerPickMe" class="login-required" style="height: 130px;">
                         <img src="/resources/member/img/guest.png" style="width:40%; margin-top:0;">
+                        <c:if test="${pickmecount >0}">
                         <div class="qty">${pickmecount}</div>          
+                        </c:if>
                         <span style="position:absolute; top:39px; right: 28px;">나를 찜</span>
                     </a>
                 </div>
+                <div class="dropdown" style="position:absolute; right:-190px; margin-top:3px;  float: left; height: 150px; width:auto;  top:-2px;">
+                    <a href="/customers/customer" class="login-required" style="height: 130px;">
+                        <img src="/resources/member/img/saller.png" style="width:40%; margin-top:0;">
+                        <span style="position:absolute;   top:39px; right: 28px;">판매자<br/> 페이지</span>
+                    </a>
+                </div>
+                
+                
+                
+                
+                
             </sec:authorize>
 
-           
+                <sec:authorize access="hasRole('ROLE_ADMIN')">
+                <div class="dropdown" style="position:absolute; right:50px; margin-top:5px; float: left; height: 150px; top:-2px;">
+                    <a href="/admin/main" class="login-required" style="height: 130px;">
+                        <img src="/resources/member/img/admin.png" style="width:40%; margin-top:0;">
+                        <span style="position:absolute; top:39px; right: 10px;">운영자 페이지</span>
+                    </a>
+                </div>
+            </sec:authorize>
 
                         <!-- Wishlist -->
                       

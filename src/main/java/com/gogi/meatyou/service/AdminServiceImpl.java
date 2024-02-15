@@ -1,12 +1,15 @@
 package com.gogi.meatyou.service;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -40,6 +43,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gogi.meatyou.bean.AdminProductDTO;
 import com.gogi.meatyou.bean.ChartDTO;
 import com.gogi.meatyou.bean.CouponDTO;
+import com.gogi.meatyou.bean.DiseaseDTO;
 import com.gogi.meatyou.bean.MemberDTO;
 import com.gogi.meatyou.bean.NoticeDTO;
 import com.gogi.meatyou.bean.NoticeFileDTO;
@@ -234,15 +238,15 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public void getSales(Model model, int check) {
+		
 		int productComm=mapper.getProductComm(check);
 		int item=mapper.getPaidItem(check);
 		int Adv=mapper.getPaidAdv(check);
 		int coupon=mapper.getUsedCoupon(check);
 		int total=productComm+item+Adv;
 		int net_profit=total-coupon;
-		
-		
-		model.addAttribute("productComm",productComm );
+		model.addAttribute("check", check);
+		model.addAttribute("productComm",productComm);
 		model.addAttribute("item",item );
 		model.addAttribute("Adv",Adv );
 		model.addAttribute("coupon",coupon );
@@ -257,17 +261,21 @@ public class AdminServiceImpl implements AdminService {
 		String[] endarr = end.split("/");
 		start = startarr[2] + "-" + startarr[0] + "-" + startarr[1];
 		end = endarr[2] + "-" + endarr[0] + "-" + endarr[1];
+		adminMap.put("check", check);
 		adminMap.put("start", start);
 		adminMap.put("end", end);
-		model.addAttribute("ps", mapper.getCheckProductSalse(adminMap));
-		model.addAttribute("pc", mapper.getCheckProductComm(adminMap));
-		model.addAttribute("pi", mapper.getCheckPaidItem(adminMap));
-		model.addAttribute("pa", mapper.getCheckPaidAdv(adminMap));
-		model.addAttribute("uc", mapper.getCheckUsedCoupon(adminMap));
-		model.addAttribute("pt",
-				mapper.getCheckPaidAdv(adminMap) + mapper.getCheckPaidItem(adminMap)
-						+ mapper.getCheckProductSalse(adminMap) + mapper.getCheckProductComm(adminMap)
-						- mapper.getCheckUsedCoupon(adminMap));
+		int productComm=mapper.getCheckProductComm(adminMap);
+		int item=mapper.getCheckPaidItem(adminMap);
+		int Adv=mapper.getCheckPaidAdv(adminMap);
+		int coupon=mapper.getCheckUsedCoupon(adminMap);
+		int total=productComm+item+Adv;
+		int net_profit=total-coupon;
+		model.addAttribute("productComm", productComm);
+		model.addAttribute("item", item);
+		model.addAttribute("Adv", Adv);
+		model.addAttribute("coupon", coupon);
+		model.addAttribute("total", total);
+		model.addAttribute("net_profit",net_profit);
 		model.addAttribute("check", check);
 	}
 
@@ -543,11 +551,11 @@ public class AdminServiceImpl implements AdminService {
 	public void autoIssueCheck() {
 		List<Integer> issue= mapper.getDiseaseIssueNum();
 		List<Integer> noissue = mapper.getCancleDIsuueNum();
-		adminMap.put("status", 10);
+		adminMap.put("status", 1);
 		adminMap.put("list", issue);
 		adminMap.put("memo", "방역 이슈");
 		mapper.DiseaseCheck(adminMap);
-		adminMap.put("status", -10);
+		adminMap.put("status", -1);
 		adminMap.put("list", noissue);
 		adminMap.put("memo", "null");
 		mapper.DiseaseCheck(adminMap);
@@ -857,7 +865,56 @@ public class AdminServiceImpl implements AdminService {
 	public void autoOrderConfirm() {
 		cusmapper.AutoOrderConfirm();
 	}
+	
+	@Override
+	public String getPriceinfo() {
+		String reqURL = "http://www.kamis.co.kr/service/price/xml.do";
+		 String result = "";
+		try {
+			URL url = new URL(reqURL);
 
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			// POST 요청을 위해 기본값이 false인 setDoOutput을 true로
+
+			conn.setRequestMethod("POST");
+			conn.setDoOutput(true);
+			// POST 요청에 필요로 요구하는 파라미터 스트림을 통해 전송
+
+			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+			StringBuilder sb = new StringBuilder();
+			sb.append("action=dailySalesList");
+			
+			sb.append("&p_cert_key=262ecfe0-6ae1-46c1-b97c-6988b68b30f2"); // REST_API키 본인이 발급받은 key 넣어주기
+			sb.append("&p_cert_id=jaus0708@gamil.com"); // REDIRECT_URI 본인이 설정한 주소 넣어주기
+
+			sb.append("&p_returntype=json");
+			bw.write(sb.toString());
+			bw.flush();
+
+			// 결과 코드가 200이라면 성공
+			int responseCode = conn.getResponseCode();
+			System.out.println("responseCode : " + responseCode);
+
+			// 요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
+			 BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(),"utf-8"));
+             String br_line = "";
+
+             while ((br_line = br.readLine()) != null) {
+                 result += new String(URLDecoder.decode(br_line, "UTF-8"));
+             }
+				br.close();
+				bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public void updatedi(List<DiseaseDTO> dto) {
+		mapper.diseaseAutoUpdate(dto);
+		autoIssueCheck();
+	}
 
 	@Override
 	public void apiTest(Model model) {

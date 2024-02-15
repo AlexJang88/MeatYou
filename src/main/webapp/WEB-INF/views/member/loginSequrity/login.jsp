@@ -1,103 +1,101 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../../header.jsp" %>
-<style>
-.wrap {
-   width: 490px;
-   padding: 40px 20px 20px 20px;
-   background-color: #f5f6f7;
-   position: absolute;
-   top: 50%;
-   left: 50%;
-   transform: translate(-50%,-50%);
-   border-radius: 30px;
-   box-sizing: border-box;
-}
 
-.title {
-   margin: 0 auto;
-    width: 240px;
-    height: 44px;
+<style>
+
+ 
+  .wrap {
+    width: 400px;
+    margin: 0 auto;
+    padding: 40px 20px 20px 20px;
+    background-color: #f5f6f7;
+    border-radius: 30px;
+  }
+
+  .title {
     text-align: center;
     font-size: 25px;
-    background-repeat: no-repeat;
-    background-position: 0 0;
-    background-size: 240px auto;
     margin-bottom: 20px;
-}
-.kakao{
-   margin-top: 15px;
-   height: 60px;
-   border: solid 1px #FEE500;
-   background: #FEE500;
-   color: #3c1d1e;
-   font-size: 18px; 
-   box-sizing: border-box;
-   border-radius: 5px;
-   cursor: pointer;
-   width: 450px;
-   display: flex;
-}
-.kakao_i{
-   background: url(resources/icons/kakao.png) no-repeat;
-   width: 40px;
-   height: 100%;
-   background-size: 90%;
-   background-position: 50%;
-   margin: 0 20px;
-}
-.kakao_txt{
-   width: 100%;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   font-size: 16px;
-   padding-right: 60px;
-}
+    height: 60px;
+    width: 360px;
+  }
 
-a {
-   text-decoration: none;
-}
+  .kakao {
+    margin-top: 15px;
+    height: 60px;
+    border: solid 1px #FEE500;
+    background: #FEE500;
+    color: #3c1d1e;
+    font-size: 18px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
+  .btn-primary {
+    width: 100%; /* 로그인 버튼을 100% 너비로 설정하여 카카오톡 로그인 버튼과 크기를 동일하게 함 */
+    height: 60px;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  /* 가운데 정렬을 위한 스타일 추가 */
+  .center-text {
+    text-align: center;
+  }
 </style>
 
-    <form action="/login" method="post">
-		    <input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}" />                      
-			<input type="text" name="username" /> <br />
-			<input type="password" name="password" /> <br />
-			<input type="submit" value="로그인" />
-			<div class="checkbox">
-			<label> <input name="remember-me" type="checkbox">자동로그인
-			</label>
-			</div>
-			</form>
-			<ul>
-	<div class="wrap">
-   <div class="title">로그인</div>
-     <a class="kakao" href="https://kauth.kakao.com/oauth/authorize?client_id=${key}&redirect_uri=${uri}&response_type=code">
-     	<!-- REST_API키 및 REDIRECT_URI는 본인걸로 수정하세요 -->
-        
-        
-      	<div class="kakao_i"></div>
-      	<div class="kakao_txt">카카오톡으로 간편로그인 </div>
-   	</a>
+<script>
+  function openNewWindow(url, width, height) {
+    var left = (screen.width - width) / 2;
+    var top = (screen.height - height) / 2;
+    window.open(url, "_blank", "width=" + width + ", height=" + height + ", left=" + left + ", top=" + top);
+  }
+</script>
+<br/>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   
+<div class="wrap">
+  <div class="title">로그인</div>
+  <form action="/login" method="post">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+    <div class="mb-3">
+      <label for="username" class="form-label">아이디</label>
+      <input type="text" class="form-control" id="username" name="username">
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">비밀번호</label>
+      <input type="password" class="form-control" id="password" name="password">
+    </div>
+    <div class="mb-3 form-check">
+      <input type="checkbox" class="form-check-input" id="remember-me" name="remember-me">
+      <label class="form-check-label" for="remember-me">자동로그인</label>
+    </div>
+<br/>
+    <!-- 아이디 찾기와 비밀번호 찾기를 가운데 정렬 -->
+    <div class="center-text">
+      <a href="javascript:void(0);" onclick="openNewWindow('/member/idfind', 500, 450)">
+        <span>아이디 찾기</span>
+      </a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;          
+      <a href="javascript:void(0);" onclick="openNewWindow('/member/pwfind', 500, 540)">
+        <span>비밀번호 찾기</span>
+      </a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;     
+      <a href="/member/inputForm"><i class="fa"></i>회원가입 </a>
+    </div><br/>
+
+    <button type="submit" class="btn btn-primary">로그인</button><br/>
+  <a class="kakao" href="https://kauth.kakao.com/oauth/authorize?client_id=${key}&redirect_uri=${uri}&response_type=code">
+    <div class="kakao_txt">카카오톡 로그인</div>
+  </a>
 </div>
- 
-	
-	<li>
-      <a href="/member/idfind">
-          <span>아이디 찾기</span>
-      </a>
-	</li>
-	<li>
-      <a href="/member/pwfind">
-          <span>비밀번호 찾기</span>
-      </a>
-	</li>
-	
-	
-</ul>
-
-
 
 <%@ include file="../../footer.jsp" %>

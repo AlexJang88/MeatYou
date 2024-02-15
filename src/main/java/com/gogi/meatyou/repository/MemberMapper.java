@@ -41,7 +41,10 @@ public interface MemberMapper {
     		
     		);
 
-   
+	// 아이디 중복체크
+	public int idCheck(String m_id);
+	// 이메일 중복체크
+	public int eMailCheck(String email);
 
          
        public MemberDTO loadUserByUsername(String username);
@@ -130,7 +133,7 @@ public interface MemberMapper {
           
           int SallerpickMeCount(Map<String, Object> params);       
           public  int SallerdeleteHim(@Param("pm_num") int shop_num, @Param("pm_m_id") String pm_m_id,@Param("pm_c_id")String pm_c_id);
-          
+          	int checkHim(String pm_m_id);
           int couponCount(@Param("cp_m_id") String cp_m_id);
           List<CouponDTO> howmuchCoupon(@Param("cp_m_id") String cp_m_id);
 
@@ -162,11 +165,11 @@ public interface MemberMapper {
             
             int PaymentCount(Map<String, Object> params);       
             
-            public String dbName(MemberDTO memberdto); //디비속 이름
-            public String dbPhone(MemberDTO memberdto); //디비속 전화번호
-            public String dbId(MemberDTO memberdto); //디비속 전화번호
-            public String getDbId(MemberDTO memberdto);//실제아이디
-            public String getDbPw(MemberDTO memberdto);//실제아이디
-            public void changePw(MemberDTO memberdto); //비밀번호변경
+            public String dbName(MemberDTO memberdto); //�뵒鍮꾩냽 �씠由�
+            public String dbPhone(MemberDTO memberdto); //�뵒鍮꾩냽 �쟾�솕踰덊샇
+            public String dbId(MemberDTO memberdto); //�뵒鍮꾩냽 �쟾�솕踰덊샇
+            public String getDbId(MemberDTO memberdto);//�떎�젣�븘�씠�뵒
+            public String getDbPw(MemberDTO memberdto);//�떎�젣�븘�씠�뵒
+            public void changePw(MemberDTO memberdto); //鍮꾨�踰덊샇蹂�寃�
             
    }

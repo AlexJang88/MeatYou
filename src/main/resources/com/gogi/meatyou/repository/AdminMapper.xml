@@ -142,7 +142,10 @@
 		]]>
 	</select>
 	<update id="DiseaseCheck" parameterType="hashMap">
-		update p_detail set pd_p_status=pd_p_status${status},memo=#{memo} where pd_p_num in(
+		update p_detail set pd_p_status=pd_p_status
+		<if test="status==1">+1</if>
+		<if test="status==-1">-1</if>
+		,memo=#{memo} where pd_p_num in(
 		<foreach collection="list" item="item" index="index" separator=",">
 			#{item}
 		</foreach>
@@ -341,16 +344,9 @@
 	</insert>
 	<select id="adminProductList" parameterType="hashMap"
 		resultType="com.gogi.meatyou.bean.AdminProductDTO">
-		select * from (select a.*,rownum r from (select
-		p_category,pd_p_status,p_num,thumb,p_name,p_m_id,nvl(totalsales,0)
-		totalsales,p_price,nvl(count,0) report,p_rcount,p_status,p_reg_date
-		from (select * from (select * from (select * from product p left outer
-		join (select order_p_num,nvl(sum(order_p_price*order_quantity),0) as
-		totalsales from m_order group by order_p_num) ts on
-		p.p_num=ts.order_p_num)) list left outer join (select
-		ma_ref,count(ma_ref) count from (select * from qna where
-		ma_status>1000) group by ma_ref) report on list.p_num=report.ma_ref)
-		pro,p_detail pd where pro.p_num=pd.pd_p_num) a
+		select * from (select a.*,rownum r from (select	p_category,pd_p_status,p_num,thumb,p_name,p_m_id,nvl(totalsales,0) totalsales,p_price,nvl(count,0) report,p_rcount,p_status,p_reg_date from 
+		(select * from (select * from (select * from product p left outer join (select order_p_num,nvl(sum(order_p_price*order_quantity),0) as totalsales from m_order group by order_p_num) ts 
+		on p.p_num=ts.order_p_num)) list left outer join (select ma_ref,count(ma_ref) count from (select * from qna where ma_status>1000) group by ma_ref) report on list.p_num=report.ma_ref) pro,p_detail pd where pro.p_num=pd.pd_p_num) a
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
 			<if test="keyword != null and keyword != ''">
 				<choose>
@@ -423,16 +419,9 @@
 
 	<select id="adminProductCount" parameterType="hashMap"
 		resultType="int">
-		select count(*) from (select a.*,rownum r from (select
-		p_category,pd_p_status,p_num,thumb,p_name,p_m_id,nvl(totalsales,0)
-		totalsales,p_price,nvl(count,0) report,p_rcount,p_status,p_reg_date
-		from (select * from (select * from (select * from product p left outer
-		join (select order_p_num,nvl(sum(order_p_price*order_quantity),0) as
-		totalsales from m_order group by order_p_num) ts on
-		p.p_num=ts.order_p_num)) list left outer join (select
-		ma_ref,count(ma_ref) count from (select * from qna where
-		ma_status>1000) group by ma_ref) report on list.p_num=report.ma_ref)
-		pro,p_detail pd where pro.p_num=pd.pd_p_num) a)
+		select count(*) from (select a.*,rownum r from (select p_category,pd_p_status,p_num,thumb,p_name,p_m_id,nvl(totalsales,0) totalsales,p_price,nvl(count,0) report,p_rcount,p_status,p_reg_date from 
+		(select * from (select * from (select * from product p left outer join (select order_p_num,nvl(sum(order_p_price*order_quantity),0) as totalsales from m_order group by order_p_num) ts on 
+		p.p_num=ts.order_p_num)) list left outer join (select ma_ref,count(ma_ref) count from (select * from qna where ma_status>1000) group by ma_ref) report on list.p_num=report.ma_ref) pro,p_detail pd where pro.p_num=pd.pd_p_num) a)
 		<trim prefix="WHERE" prefixOverrides="AND |OR "
 			suffixOverrides="AND |OR ">
 			<if test="keyword != null and keyword != ''">
@@ -582,7 +571,7 @@
       ]]>
        ) months LEFT JOIN (select * from m_order mo left join (select * from coupon where cp_cus_id='admin') cp on mo.order_p_num=cp.cp_p_num ) mo ON TO_CHAR(months.start_date, 'YYYY-MM') = TO_CHAR(order_paydate, 'YYYY-MM')
 	   GROUP BY TO_CHAR(months.start_date, 'YYYY-MM') 
-       ORDER BY mon) a ,(SELECT TO_CHAR(months.start_date, 'YYYY-MM') AS mon, -- 월별 날짜 형식으로 변환
+       ORDER BY mon) a ,(SELECT TO_CHAR(months.start_date, 'YYYY-MM') AS mon, 
         nvl(sum(co_pay),0) co_pay FROM (
         <![CDATA[
        SELECT ADD_MONTHS(TO_DATE(#{period}, 'YYYY-MM-DD'), LEVEL - 1) AS start_date FROM DUAL CONNECT BY LEVEL <= 12
@@ -591,4 +580,41 @@
 	   GROUP BY TO_CHAR(months.start_date, 'YYYY-MM') 
        ORDER BY mon) b where a.mon=b.mon
 	</select>
+	<insert id="diseaseAutoUpdate" parameterType="java.util.List">
+	insert into disease(
+	d_num,
+	ICTSD_OCCRRNC_NO,
+	LKNTS_NM,
+	FARM_NM,
+	FARM_LOCPLC_LEGALDONG_CODE,
+	FARM_LOCPLC,
+	OCCRRNC_DE,
+	LVSTCKSPC_CODE,
+	LVSTCKSPC_NM,
+	OCCRRNC_LVSTCKCNT,
+	DGNSS_ENGN_CODE,
+	DGNSS_ENGN_NM,
+	CESSATION_DE,
+	d_reg_date) 
+	select disease_seq.nextval,a.* from( 
+	 	<foreach collection="list" item="item" index="index" separator="union all">
+	 		select 
+	 		 #{item.ICTSD_OCCRRNC_NO} as ICTSD_OCCRRNC_NO,
+	 		 #{item.LKNTS_NM} as LKNTS_NM,
+	 		 #{item.FARM_NM} as FARM_NM,
+	 		 #{item.FARM_LOCPLC_LEGALDONG_CODE} as FARM_LOCPLC_LEGALDONG_CODE,
+	 		 #{item.FARM_LOCPLC} as FARM_LOCPLC,
+	 		 #{item.OCCRRNC_DE} as OCCRRNC_DE,
+	 		 #{item.LVSTCKSPC_CODE} as LVSTCKSPC_CODE,
+	 		 #{item.LVSTCKSPC_NM} as LVSTCKSPC_NM,
+	 		 #{item.OCCRRNC_LVSTCKCNT} as OCCRRNC_LVSTCKCNT,
+	 		 #{item.DGNSS_ENGN_CODE} as DGNSS_ENGN_CODE,
+	 		 #{item.DGNSS_ENGN_NM} as DGNSS_ENGN_NM,
+	 		 <if test="item.CESSATION_DE==0"> null as CESSATION_DE,</if>
+	 		 <if test="item.CESSATION_DE!=0"> #{item.CESSATION_DE} as CESSATION_DE,</if>
+	 		 sysdate as d_reg_date
+	 		 from dual
+	 	</foreach>
+	 	) a
+	</insert>
 </mapper>
