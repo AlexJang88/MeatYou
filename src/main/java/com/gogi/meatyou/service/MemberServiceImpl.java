@@ -612,19 +612,31 @@ public class MemberServiceImpl implements MemberService {
 		}
 		
 		@Override
-		public String joinEmail(String email) {
+		public String joinEmail(String email,String name,String phone,String m_id) {
 			makeRandomNumber();
-			String setFrom = "jaus0708@gmail.com"; // email-config占쎈퓠 占쎄퐬占쎌젟占쎈립 占쎌쁽占쎈뻿占쎌벥 占쎌뵠筌롫뗄�뵬 雅뚯눘�꺖�몴占� 占쎌뿯占쎌젾 
+			memberMap.put("name",name);
+			memberMap.put("email",email);
+			memberMap.put("phone",phone);
+			memberMap.put("m_id", m_id);
+			System.out.println("=====m_id"+m_id);
+			int result =mapper.checkEmail(memberMap);
+			if(result==1) {
+			String setFrom = "jaus0708@gmail.com"; // email-config에 설정한 자신의 이메일 주소를 입력 
 			String toMail = email;
-			String title = "占쎈툡占쎌뵠占쎈탵/�뜮袁⑨옙甕곕뜇�깈 筌≪뼐由� 筌롫뗄�뵬占쎌뿯占쎈빍占쎈뼄."; // 占쎌뵠筌롫뗄�뵬 占쎌젫筌륅옙 
+			String title = "아이디/비밀번호 찾기 메일입니다."; // 이메일 제목 
 			String content = 
-					"占쎌냳占쎈읂占쎌뵠筌욑옙�몴占� 獄쎻뫖揆占쎈퉸雅뚯눘�쏉옙苑� 揶쏅Ŋ沅쀯옙鍮�占쎈빍占쎈뼄." + 	//html 占쎌굨占쎈뻼占쎌몵嚥∽옙 占쎌삂占쎄쉐 ! 
+					"홈페이지를 방문해주셔서 감사합니다." + 	//html 형식으로 작성 ! 
 		            "<br><br>" + 
-		            "占쎌뵥筌앾옙 甕곕뜇�깈占쎈뮉 " + authNumber + "占쎌뿯占쎈빍占쎈뼄." + 
+		            "인증 번호는 " + authNumber + "입니다." + 
 		            "<br>" + 
-				    "占쎈퉸占쎈뼣 占쎌뵥筌앹빖苡뀐옙�깈�몴占� 占쎌뵥筌앹빖苡뀐옙�깈 占쎌넇占쎌뵥占쏙옙占쎈퓠 疫꿸퀣�뿯占쎈릭占쎈연 雅뚯눘苑�占쎌뒄."; //占쎌뵠筌롫뗄�뵬 占쎄땀占쎌뒠 占쎄땜占쎌뿯
+				    "해당 인증번호를 인증번호 확인란에 기입하여 주세요."; //이메일 내용 삽입
 			mailSend(setFrom, toMail, title, content);
-			return Integer.toString(authNumber);
+			result = authNumber;
+			}
+			else {
+				result= 0;
+			}
+			return Integer.toString(result) ;
 		}
 
 		@Override

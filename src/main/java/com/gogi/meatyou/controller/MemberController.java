@@ -265,7 +265,8 @@ public class MemberController {
     
     @RequestMapping("/sallerInputForm")
 	public String sallerInputForm(Model model, Authentication authentication,CusDetailDTO cdto) {
-    	String username = authentication.getName(); MemberDTO dto = service.getUser(username); model.addAttribute("dto", dto);
+    	String username = authentication.getName(); 
+    	MemberDTO dto = service.getUser(username); model.addAttribute("dto", dto);
     	model.addAttribute("apiKey","wBStzrx7b1p8B9XqfLWLBMa0q7HCWqRMC7%2F2o%2BG1CWfp2gW%2FffWQ8H81TDthbbN%2FU%2FqtGmiOtMUvFtzKeHPiuQ%3D%3D");
 	     return "member/saller/sallerInputForm";
 	}
@@ -780,10 +781,10 @@ public class MemberController {
     
     @GetMapping("/mailCheck")
 	@ResponseBody
-	public String mailCheck(String email) {
+	public String mailCheck(String email,String phoneInput,String m_name,String m_id) {
 		System.out.println("占쎌뵠筌롫뗄�뵬 占쎌뵥筌앾옙 占쎌뒄筌ｏ옙占쎌뵠 占쎈굶占쎈선占쎌긾!");
 		System.out.println("占쎌뵠筌롫뗄�뵬 占쎌뵥筌앾옙 占쎌뵠筌롫뗄�뵬 : " + email);
-		return service.joinEmail(email);
+		return service.joinEmail(email,m_name,phoneInput,m_id);
 	}
     
     //占쎈툡占쎌뵠占쎈탵 筌≪뼐由�
@@ -797,17 +798,18 @@ public class MemberController {
     
     @RequestMapping("idfindPro")
     public String idfindPro(Model model,MemberDTO memberdto, HttpSession session){
- 	
-    	int check = service.findId(memberdto); // 占쎈툡占쎌뵠占쎈탵 占쎌읈占쎌넅甕곕뜇�깈 筌띿쉶�뮉筌욑옙 占쎌넇占쎌뵥    	
     	
+    	int check = service.findId(memberdto); // 占쎈툡占쎌뵠占쎈탵 占쎌읈占쎌넅甕곕뜇�깈 筌띿쉶�뮉筌욑옙 占쎌넇占쎌뵥    	
+    	String url="";
     	if(check == 1) {
     		service.getDbId(model, memberdto);
-    		return "member/loginSequrity/idfindweb";
+    		url= "member/loginSequrity/idfindweb";
     	}else {
     		session.setAttribute("check", check);
+    		url="redirect:/member/idfind?check="+check;
     	}
  
-    	return "redirect:/member/idfind?"+"check="+check;
+    	return url;
     } 
     
     

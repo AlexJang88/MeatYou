@@ -5,9 +5,6 @@
 <%@ include file="../header.jsp"%>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <h2>정산내역 확인</h2>
-<div style="width: 70%; height: 50%;">
-	<canvas id="sales-chart"></canvas>
-</div>
 <a href="/admin/reckon?check=1">정산중</a>
 <a href="/admin/reckon?check=2">정산완료</a>
 <a href="/admin/reckon?check=3">전체</a>

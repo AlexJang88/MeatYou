@@ -33,8 +33,8 @@
 		<td width="300" align="center">${id}</td>
 		<td width="200" align="center">품목확장 1건</td>
 		<td width="300" align="center">50,000</td>
-		<td width="200" align="center">1개월 ${co_num}</td>				
-		<td width="200" align="center">불가${co_num}</td>					
+		<td width="200" align="center">1개월 </td>				
+		<td width="200" align="center">불가</td>					
 		<td align="center" >   
 			<input type="button" id="btn_kakao-paytwo" value="결제하기">
 		 </td> 

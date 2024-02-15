@@ -148,7 +148,7 @@
     
         <table>
             <tr>
-                <td colspan="3"><input type="text" name="m_name" required="required" placeholder="이름을 입력하시오" size="15"></td>
+                <td colspan="3"><input type="text" id="m_name" name="m_name" required="required" placeholder="이름을 입력하시오" size="15"></td>
             </tr>
             <tr>
           <td colspan="3">
@@ -198,18 +198,25 @@
     <script>
         $('#mail-Check-Btn').click(function () {
             var email = $('#email').val();
+            var m_name = $('#m_name').val();
+            var phoneInput = $('#phoneInput').val();
+            
             console.log('완성된 이메일 : ' + email);
 
             const checkInput = $('.mail-check-input');
 
             $.ajax({
                 type: 'get',
-                url: '/member/mailCheck?email=' + email,
+                url: "/member/mailCheck?email="+email+"&m_name="+m_name+"&phoneInput="+phoneInput+"",
                 success: function (data) {
                     console.log("data : " + data);
+                    if(data!=0){
                     checkInput.attr('disabled', false);
                     code = data;
-                    alert('인증번호가 전송되었습니다.');
+                    alert('인증번호가 전송되었습니다.');}
+                    else{
+                    	alert('가입했던 정보를 작성해주세요');
+                    }
                 }
             });
         });

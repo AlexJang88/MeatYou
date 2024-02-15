@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ include file="../header.jsp" %>
 <a href="/admin/memberlist?check=1">회원목록 조회(일반)</a>
 <a href="/admin/memberlist?check=2">회원목록 조회(판매자)</a>
@@ -31,7 +32,10 @@
 					<td>${d.m_name} </td>
 					<td>${d.email} </td>
 					<td>${d.phone}</td>
-					<td>${d.m_reg_date}</td>
+					<td>
+						<c:set var ="reg_date" value="${d.m_reg_date}"/>
+						${fn:substring(reg_date,0,10) }
+					</td>
 					<td>${d.mstat_detail}</td>
 					<c:if test="${check==1}">
 						<td>
