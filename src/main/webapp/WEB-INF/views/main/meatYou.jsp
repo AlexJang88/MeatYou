@@ -27,14 +27,14 @@
 								<!-- tab -->
 								<div id="tab1" class="tab-pane active" >
 									<div style="text-align : center;">
-										<a href="/main/main"><img src="/resources/img/MeatYou2.png" width="500"><br /></a>
-										<img src="/resources/img/meetu01.PNG" alt=""><br />
-										<img src="/resources/img/meetu02.PNG" alt=""><br />
-										<img src="/resources/img/meetu03.PNG" alt=""><br />
-										<img src="/resources/img/meetu04.PNG" alt=""><br />
-										<img src="/resources/img/meetu06.PNG" alt=""><br />
-										<img src="/resources/img/meetu07.PNG" alt=""><br />
-										<a href="/main/main"><img src="/resources/img/MeatYou2.png" width="500"><br /></a>
+										<a href="/main/main"><img src="/resources/meatyou/MeatYou.png" width="500"><br /></a>
+										<img src="/resources/meatyou/meetu01.PNG" alt=""><br />
+										<img src="/resources/meatyou/meetu02.PNG" alt=""><br />
+										<img src="/resources/meatyou/meetu03.PNG" alt=""><br />
+										<img src="/resources/meatyou/meetu04.PNG" alt=""><br />
+										<img src="/resources/meatyou/meetu06.PNG" alt=""><br />
+										<img src="/resources/meatyou/meetu07.PNG" alt=""><br />
+										<a href="/main/main"><img src="/resources/meatyou/MeatYou.png" width="500"><br /></a>
 										<!-- /product -->
 									</div>
 									<div id="slick-nav-1" class="products-slick-nav"></div>

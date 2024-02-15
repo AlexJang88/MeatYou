@@ -32,7 +32,7 @@
 										<c:forEach var="sear" items="${searchList}">
 										<div class="product">
 											<div class="product-img">
-												<img src="../resources/img/product01.png" alt="">
+												<img src="../resources/file/product/${sear.p_num}/${sear.thumb}" >
 												<div class="product-label">
 													<span class="sale" ><a>목록확인</a></span>
 													<span class="sale" ><a>상품설명</a></span>

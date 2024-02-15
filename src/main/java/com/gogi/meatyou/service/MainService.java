@@ -1,12 +1,9 @@
 package com.gogi.meatyou.service;
  
 import java.security.Principal;
-import java.util.HashMap;
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gogi.meatyou.bean.MemberDTO;
 import com.gogi.meatyou.bean.OtherProductDetailDTO;
@@ -32,7 +29,6 @@ public interface MainService {
    public List<ProductDTO> meatBest();
    public List<ProductDTO> forkBest();
    public List<ProductDTO> newProductBest();
-   public List<ProductDTO> customOrderBest(int p_category);
    public MemberDTO name(String m_id);
    
    //public void mainMeat(int pageNum, Model model, String price , int category, String sale, String reg);
@@ -102,7 +98,10 @@ public interface MainService {
    public void pickInsert(Model model, PPicDTO dto, String ppic_m_id, int ppic_p_num);
    public void pickInsertMain(Model model, String ppic_m_id, int ppic_p_num);
    public int pCategory(int p_num);
+   
+   public List<ProductDTO> customOrderBest(int p_category);
    public PreferDTO customOrderCategory (String pre_m_id, Model model);
    public PreferDTO customOrder(Principal seid, String pre_m_id, Model model, int pageNum);
+   
    public void getStatus(Model model, String id); //지환 설문조사 입니다.
 }

@@ -51,7 +51,7 @@
 							<div class="col-md-4 col-xs-6">
 								<div class="product">
 									<div class="product-img">
-										<img src="/resources/img/product01.png" alt="">
+										<img src="../resources/file/product/${smenu.p_num}/${smenu.thumb}" >
 										<div class="product-label">
 											<div style="text-align : center;">
 												<form>
@@ -170,13 +170,13 @@
 							<ul class="store-pagination">
 							<c:if test="${count > 0}">
 								<c:if test="${startPage > 10}">
-									<li><a href="/main/setMenuNews&pageNum=${startPage-10}">[이전]</a></li>
+									<li><a href="/main/setMenuNews?pageNum=${startPage-10}">[이전]</a></li>
 								</c:if>
 								<c:forEach var="i" begin="${startPage}" end="${endPage}">
-									<li><a href="/main/setMenuNews&pageNum=${i}">${i}</a></li>
+									<li><a href="/main/setMenuNews?pageNum=${i}">${i}</a></li>
 								</c:forEach>
 								<c:if test="${endPage > pageCount}">
-									<li><a href="/main/setMenuNews&pageNum=${startPage+10}">[다음]</a></li>
+									<li><a href="/main/setMenuNews?pageNum=${startPage+10}">[다음]</a></li>
 								</c:if>	
 
 								</c:if>

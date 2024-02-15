@@ -35,7 +35,7 @@
 										<c:forEach var="fork" items="${mainFork}">
 										<div class="product">
 											<div class="product-img">
-												<img src="../resources/img/product01.png" alt="">
+												<img src="../resources/file/product/${fork.p_num}/${fork.thumb}" >
 												<div class="product-label">
 													<span class="sale" ><a>목록확인</a></span>
 													<span class="sale" ><a>상품설명</a></span>

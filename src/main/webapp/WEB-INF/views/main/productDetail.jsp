@@ -17,7 +17,7 @@
 					<div class="col-md-5 col-md-push-2">
 						<div id="product-main-img">
 							<div class="product-preview">
-								${dto.pd_p_desc}
+							<img src="../resources/file/product/${dto.p_num}/${dto.thumb}" >
 							</div>
 						</div>
 					</div>
@@ -26,21 +26,6 @@
 					<!-- Product thumb imgs -->
 					<div class="col-md-2  col-md-pull-5">
 						<div id="product-imgs">
-							<div class="product-preview">
-								${dto.pd_p_desc}
-							</div>
-
-							<div class="product-preview">
-								${dto.pd_p_desc}
-							</div>
-
-							<div class="product-preview">
-								${dto.pd_p_desc}
-							</div>
-
-							<div class="product-preview">
-								${dto.pd_p_desc}
-							</div>
 						</div>
 					</div>
 					<!-- /Product thumb imgs -->
@@ -527,7 +512,7 @@
 										<c:forEach var="op" items="${opList}">
 										<div class="product">
 											<div class="product-img">
-												<img src="../resources/img/product01.png" alt="">
+												<img src="../resources/file/product/${dto.p_num}/${dto.thumb}" >
 												<div class="product-label">
 													<span class="sale" ><a>목록확인</a></span>
 													<span class="sale" ><a>상품설명</a></span>

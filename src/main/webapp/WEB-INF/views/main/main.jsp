@@ -71,7 +71,7 @@ window.onload = function () {
 										<c:forEach var="cus" items="${cusList}">
 										<div class="product">
 											<div class="product-img">
-												<img src="../resources/img/${cus.thumb}" alt="">
+												<img src="../resources/file/product/${cus.p_num}/${cus.thumb}" alt="">
 												<div class="product-label">
 													<div style="text-align : center;">
 														<form>
@@ -217,10 +217,10 @@ window.onload = function () {
 					<!-- section title -->
 					<div class="col-md-12">
 						<div class="section-title">
-							<h3 class="title">${mdto.m_name}님 맞춤 추천</h3>
+							<h3 class="title">${memdto.m_name}님 맞춤 추천</h3>
 							<div class="section-nav">
 								<ul class="section-tab-nav tab-nav">
-								<li class="active"><a href="customOrder?pre_m_id=${m_id}">${mdto.m_name}님 맞춤 추천 상품 더보기</a></li>
+								<li class="active"><a href="customOrder?pre_m_id=${m_id}">${memdto.m_name}님 맞춤 추천 상품 더보기</a></li>
 								</ul>
 							</div>
 						</div>
@@ -238,11 +238,11 @@ window.onload = function () {
 										<c:forEach var="meat" items="${customOrderBest}">
 										<div class="product">
 											<div class="product-img">
-												<img src="../resources/img/${meat.thumb}" alt="">
+												<img src="../resources/file/product/${meat.p_num}/${meat.thumb}" alt="">
 												<div class="product-label">
 													<div style="text-align : center;">
 														<form>
-															<input type="button" value="미리 보기" onclick="openPopUp('${meat.p_num}','${meat.p_m_id}')"><br>
+															<input class="viewClass" type="button" value="미리 보기" onclick="openPopUp('${meat.p_num}','${meat.p_m_id}')"><br>
 														</form>
 													</div>
 												</div>
@@ -408,11 +408,11 @@ window.onload = function () {
 										<c:forEach var="meat" items="${meatList}">
 										<div class="product">
 											<div class="product-img">
-												<img src="../resources/img/${meat.thumb}" alt="">
+												<img src="../resources/file/product/${meat.p_num}/${meat.thumb}" alt="">
 												<div class="product-label">
 													<div style="text-align : center;">
 														<form>
-															<input type="button" value="미리 보기" onclick="openPopUp('${meat.p_num}','${meat.p_m_id}')"><br>
+															<input class="viewClass" type="button" value="미리 보기" onclick="openPopUp('${meat.p_num}','${meat.p_m_id}')"><br>
 														</form>
 													</div>
 												</div>
@@ -578,11 +578,11 @@ window.onload = function () {
 										<c:forEach var="fork" items="${forkList}">
 										<div class="product">
 											<div class="product-img">
-												<img src="../resources/img/${fork.thumb}" alt="">
+												<img src="../resources/file/product/${fork.p_num}/${fork.thumb}" alt="">
 												<div class="product-label">
 													<div style="text-align : center;">
 														<form>
-															<input type="button" value="미리 보기" onclick="openPopUp('${fork.p_num}','${fork.p_m_id}')"><br>
+															<input class="viewClass" type="button" value="미리 보기" onclick="openPopUp('${fork.p_num}','${fork.p_m_id}')"><br>
 														</form>
 													</div>
 												</div>
@@ -750,11 +750,11 @@ window.onload = function () {
 										<c:forEach var="newList" items="${newProduct}">
 										<div class="product"> 
 											<div class="product-img">
-												<img src="../resources/img/${newList.thumb}" alt="">
+												<img src="../resources/file/product/${newList.p_num}/${newList.thumb}" alt="">
 												<div class="product-label">
 													<div style="text-align : center;">
 														<form>
-															<input type="button" value="미리 보기" onclick="openPopUp('${newList.p_num}','${newList.p_m_id}')"><br>
+															<input class="viewClass" type="button" value="미리 보기" onclick="openPopUp('${newList.p_num}','${newList.p_m_id}')"><br>
 														</form>
 													</div>
 												</div>

@@ -35,7 +35,7 @@
 							<div class="col-md-4 col-xs-6">
 								<div class="product">
 									<div class="product-img">
-										<img src="/resources/img/product01.png" alt="">
+										<img src="../resources/file/product/${poList.p_num}/${poList.thumb}" >
 										<div class="product-label">
 											<div style="text-align : center;">
 												<form>

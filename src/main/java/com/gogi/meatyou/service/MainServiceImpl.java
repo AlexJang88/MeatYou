@@ -8,7 +8,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gogi.meatyou.bean.MemberDTO;
 import com.gogi.meatyou.bean.OtherProductDetailDTO;
@@ -2919,47 +2918,49 @@ public class MainServiceImpl implements MainService {
 	    	
 		      	String cate = rdto.getP_category()+"";
 		
-		          if((cate.charAt(0)-48) == 1) {
-		        	  category1 = "국내산";
-		          } else{
-		        	  category1 = "수입산";
-		          }
-		          if((cate.charAt(1)-48) == 1) {
-		        	  category2 = "돼지고기";
-		          } else{
-		        	  category2 = "소고기";
-		          }
-		          if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
-		        	  category3 = "특수부위";
-		          } else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
-		        	  category3 = "삼겹살";
-		          }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
-		        	  category3 = "목살";
-		          }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
-		        	  category3 = "안심";
-		          }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
-		        	  category3 = "등심";
-		          }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
-		        	  category3 = "앞다리살";
-		          }else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
-		        	  category3 = "갈매기살";
-		          }
-			      	
-		          if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
-		        	  category3 = "특수부위";
-		          } else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
-		        	  category3 = "등심";
-		          }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
-		        	  category3 = "안심";
-		          }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
-		        	  category3 = "갈비";
-		          }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
-		        	  category3 = "채끝";
-		          }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
-		        	  category3 = "목심";
-		          }else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
-		        	  category3 = "부채살";
-		          }
+		      	if((cate.charAt(0)-48) == 1) {
+		      		category1 = "국내산";
+		      	} else{
+		      		category1 = "수입산";
+		      	}
+		      	
+		      	if((cate.charAt(1)-48) == 1) {
+		      		category2 = "돼지고기";
+		      	} else{
+		      		category2 = "소고기";
+		      	}
+		      	
+		      	if((cate.charAt(1)-48) == 1 && (cate.charAt(1)-48) == 0) {
+		      		category3 = "특수부위";
+		      	} else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 1){
+		      		category3 = "삼겹살";
+		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 2){
+		      		category3 = "목살";
+		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 3){
+		      		category3 = "안심";
+		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 4){
+		      		category3 = "등심";
+		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 5){
+		      		category3 = "앞다리살";
+		      	}else if((cate.charAt(1)-48) == 1 && (cate.charAt(2)-48) == 6){
+		      		category3 = "갈매기살";
+		      	}
+		      	
+		      	if((cate.charAt(1)-48) == 2 && (cate.charAt(1)-48) == 0) {
+		      		category3 = "특수부위";
+		      	} else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 1){
+		      		category3 = "등심";
+		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 2){
+		      		category3 = "안심";
+		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 3){
+		      		category3 = "갈비";
+		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 4){
+		      		category3 = "채끝";
+		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 5){
+		      		category3 = "목심";
+		      	}else if((cate.charAt(1)-48) == 2 && (cate.charAt(2)-48) == 6){
+		      		category3 = "부채살";
+		      	}
 		      	rdto.setCategory1(category1);
 		      	rdto.setCategory2(category2);
 		      	rdto.setCategory3(category3);
@@ -3484,7 +3485,6 @@ public ProductDetailDTO productDetail(ProductDetailDTO dto, Model model) {
 		mapper.quantity(co_p_num);
 	}
 
-
 	 @Override public PreferDTO customOrderCategory(String pre_m_id, Model model){ 
 		 return mapper.customOrderCategory(pre_m_id); 
 	 }
@@ -3497,18 +3497,18 @@ public ProductDetailDTO productDetail(ProductDetailDTO dto, Model model) {
 	@Override
 	public PreferDTO customOrder(Principal seid, String pre_m_id, Model model, int pageNum) {
 			PreferDTO predto = mapper.customOrderCategory(pre_m_id);
-			
+			System.out.println("category : "+predto.getPre_category());
 			int pResult=0;
 			int cate_response1 = predto.getPre0_response();
 			int cate_response2 = predto.getPre1_response();
 			if(cate_response1 == 10) {
-				cate_response1 = 100;
+				cate_response1 = 110;
 			}else {
-				cate_response1 = 100;
+				cate_response1 = 120;
 			}
 			pResult = cate_response1+cate_response2;
 			predto.setPre_category(pResult);
-
+			System.out.println("pResult : "+pResult);
 			
 		   String m_id = "";
 		   if(seid != null) {
@@ -3519,15 +3519,29 @@ public ProductDetailDTO productDetail(ProductDetailDTO dto, Model model) {
 	       int startRow = (pageNum - 1) * pageSize + 1;
 	       int endRow = pageNum * pageSize;
 	       int p_category = predto.getPre_category();
-	       int count = mapper.customOrderCNT(p_category);
+	       int count = mapper.customOrderCNT(pResult);
 	       List<ProductDetailDTO> customOrder = Collections.EMPTY_LIST;
 	       if(count > 0) {
 		      searchMap.put("start", startRow);
 		      searchMap.put("end", endRow);
-	          searchMap.put("p_category", predto.getPre_category());
+	          searchMap.put("p_category", pResult);
 	          customOrder = mapper.customOrder(searchMap);
 	       }
 	       model.addAttribute("pre_m_id", pre_m_id);
+	       
+	       //page
+	        int pageCount = count / pageSize + ( count % pageSize == 0 ? 0 : 1);
+	       
+	        int startPage = (int)(pageNum/10)*10+1;
+	        int pageBlock=10;
+	        int endPage = startPage + pageBlock-1;
+	        if (endPage > pageCount) {
+	           endPage = pageCount;
+	        }
+	       model.addAttribute("pageCount", pageCount);
+	       model.addAttribute("startPage", startPage);
+	       model.addAttribute("pageBlock", pageBlock);
+	       model.addAttribute("endPage", endPage);
 	       
 	       for(ProductDetailDTO rdto : customOrder) {
 	    	   	int p_num = rdto.getP_num();
@@ -3600,19 +3614,6 @@ public ProductDetailDTO productDetail(ProductDetailDTO dto, Model model) {
 		      	int r_p_num = mapper.reviewAllCNT(rdto.getP_num());
 		      	rdto.setReviewAllCNT(r_p_num);
 	       }
-	       //page
-	        int pageCount = count / pageSize + ( count % pageSize == 0 ? 0 : 1);
-	       
-	        int startPage = (int)(pageNum/10)*10+1;
-	        int pageBlock=10;
-	        int endPage = startPage + pageBlock-1;
-	        if (endPage > pageCount) {
-	           endPage = pageCount;
-	        }
-	       model.addAttribute("pageCount", pageCount);
-	       model.addAttribute("startPage", startPage);
-	       model.addAttribute("pageBlock", pageBlock);
-	       model.addAttribute("endPage", endPage);
 	       
 	       for(ProductDetailDTO rdto : customOrder) {
 	    	   int p_num = rdto.getP_num();
@@ -3637,7 +3638,6 @@ public ProductDetailDTO productDetail(ProductDetailDTO dto, Model model) {
 	public MemberDTO name(String m_id) {
 		return mapper.name(m_id);
 	}
-	
 	@Override
 	public void getStatus(Model model, String id) {  //지환 설문조사
 		int status = mapper.getStatus(id);
@@ -3645,7 +3645,6 @@ public ProductDetailDTO productDetail(ProductDetailDTO dto, Model model) {
 		model.addAttribute("status", status);
 		model.addAttribute("id", id);
 	}
-	
 
 
 }
