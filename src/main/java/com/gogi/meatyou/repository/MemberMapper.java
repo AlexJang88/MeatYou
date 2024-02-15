@@ -41,11 +41,16 @@ public interface MemberMapper {
     		
     		
     		);
+    public int ShoppingCartCNT(String shop_m_id);
+    public int pickCNT(String ppic_m_id);
+    public int pick_P_CNT(String ppic_m_id);
+
 
 	// 아이디 중복체크
 	public int idCheck(String m_id);
 	// 이메일 중복체크
 	public int eMailCheck(String email);
+	public int deleteCheck(String passwd);
 
          
        public MemberDTO loadUserByUsername(String username);

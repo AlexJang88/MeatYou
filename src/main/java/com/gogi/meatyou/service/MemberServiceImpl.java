@@ -74,6 +74,22 @@ public class MemberServiceImpl implements MemberService {
 		mapper.userPay(list);
 		
 	}
+	
+	@Override
+	public int ShoppingCartCNT(String shop_m_id) {
+		return mapper.ShoppingCartCNT(shop_m_id);
+	}
+
+	@Override
+	public int pick_P_CNT(String ppic_m_id) {
+		return mapper.pick_P_CNT(ppic_m_id);
+	}
+
+	@Override
+	public int pickCNT(String ppic_m_id) {
+		return mapper.pickCNT(ppic_m_id);
+	}
+
 	//아이디 중복체크 mapper 접근
 			@Override
 			public int idCheck(String m_id) {
@@ -81,12 +97,21 @@ public class MemberServiceImpl implements MemberService {
 				System.out.println("check: " + check);
 				return check;
 			}	
+			
+			
 			@Override
 			public int eMailCheck(String email) {
 				int check = mapper.eMailCheck(email);
 				System.out.println("check: " + check);
 				return check;
 			}	
+			@Override
+			public int deleteCheck(String passwd) {
+				int check = mapper.deleteCheck(passwd);
+				System.out.println("check: " + check);
+				return check;
+			}	
+			
     @Override
     public int insertMember(MemberDTO dto) {
         return mapper.insertMember(dto);

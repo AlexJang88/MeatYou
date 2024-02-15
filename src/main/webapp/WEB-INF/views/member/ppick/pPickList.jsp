@@ -22,6 +22,16 @@
 		font-weight: bold;
 		
 	}
+	
+	
+	 .pagination {
+        justify-content: center;
+    }
+
+    .pagination a,
+    .pagination .current {
+        margin: 0 5px;
+    }
 </style>
 <script>
 // 삭제 메서드
@@ -54,21 +64,22 @@ $(document).on("click", ".delete_btn", function(e) {
  
 </script>
 </head>
+
+<div class="container mt-4">
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">내가 관심있는상품 </h1>
+         <div class="col-lg-12 text-center">
+            <h1 class="page-header"> 내가  찜 한 상품</h1>
+        </div>
     </div>
-</div>
+ <div class="card">
+        <div class="card-header">
+           
+        </div>
 
-<div class="panel panel-default">
-    <div class="panel-heading">
-내가 관심있는상품
-    </div>
 
-    <div class="panel-body">
-        <!-- 수량 조절 폼 -->
- <!--        <form action="/updateQuantity" method="post" onsubmit="submitForm();"> -->
-          <table class="table table-striped table-bordered table-hover">
+     <div class="card-body">
+            <table class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
             <th>상품이름 </th>
@@ -139,35 +150,42 @@ $(document).on("click", ".delete_btn", function(e) {
                				 	<input type="hidden"  class="ppic_p_num"  value="${item.ppic_p_num}"/>  
              			  	  <input type="hidden"  class="p_num"  value="${item.p_num}"/>  
                    
-                        <button type="submit" class="delete_btn">삭제</button>
+                        <button type="submit" class="btn btn-danger delete_btn">삭제</button>
                     </form>
                 </td>
             </tr>
-        </c:forEach>
-    </tbody>
-</table>
-
-<!-- 페이징 -->
-<div class="pagination">
+         </c:forEach>
+                    
+                  <tr>
+    <td colspan="9" class=" justify-content-center">
+    <!-- 페이징 -->
+   <!-- 페이징 -->
+<div class="text-center">
     <c:if test="${page > 1}">
-        <a href="?page=${page - 1}&pageSize=${pageSize}">&laquo; 이전</a>
+        <a href="?page=${page - 1}&pageSize=${pageSize}" class="btn btn-primary">&laquo; 이전</a>
     </c:if>
 
     <c:forEach var="pageNumber" begin="1" end="${totalPage}">
         <c:choose>
             <c:when test="${pageNumber == page}">
-                <span class="current">${pageNumber}</span>
+                <span class="btn btn-primary current">${pageNumber}</span>
             </c:when>
             <c:otherwise>
-                <a href="?page=${pageNumber}&pageSize=${pageSize}">${pageNumber}</a>
+                <a href="?page=${pageNumber}&pageSize=${pageSize}" class="btn btn-primary">${pageNumber}</a>
             </c:otherwise>
         </c:choose>
     </c:forEach>
 
     <c:if test="${page < totalPage}">
-        <a href="?page=${page + 1}&pageSize=${pageSize}">다음 &raquo;</a>
+        <a href="?page=${page + 1}&pageSize=${pageSize}" class="btn btn-primary">다음 &raquo;</a>
     </c:if>
 </div>
+</td>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
+</div>
+
 <%@ include file="../../footer.jsp" %>

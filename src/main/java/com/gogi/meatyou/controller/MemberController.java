@@ -230,10 +230,7 @@ public class MemberController {
         } else {
             return "errorPage";  
         }    }
-   /* @RequestMapping("sallerInputForm")
-    public String sallerInputForm(Model model, Authentication authentication,CusDetailDTO cdto) {  String username = authentication.getName(); MemberDTO dto = service.getUser(username); model.addAttribute("dto", dto);
-       return "member/saller/sallerInputForm";
-    }*/
+ 
   //아이디 중복체크
   		@PostMapping("/idCheck")
   		@ResponseBody
@@ -241,6 +238,7 @@ public class MemberController {
   			int check = service.idCheck(m_id);
   			return check;
   		}
+  		
   		//이메일 중복체크
   		@PostMapping("/eMailCheck")
   		@ResponseBody
@@ -248,6 +246,16 @@ public class MemberController {
   			int check = service.eMailCheck(email);
   			return check;
   		}
+  		
+  		@PostMapping("/deleteCheck")
+  		@ResponseBody
+  		public int deleteCheck(@RequestParam("passwd") String passwd) {
+  			int check = service.deleteCheck(passwd);
+  			return check;
+  		}
+  		
+  		
+  		
     @RequestMapping("sallerInputPro")
     public String sallerInputPro(MemberDTO dto,CusDetailDTO cdto, Authentication authentication) {  String m_id = authentication.getName(); dto.setM_id(m_id); Map<String, Object> statusParamMap = new HashMap<>();  statusParamMap.put("m_id", m_id);  service.updateMemberStatus(dto);  service.insertIntoCusDetail(cdto);
        return "member/saller/sallerInputPro"; 
@@ -291,6 +299,9 @@ public class MemberController {
         MemberDTO dto = service.getUser(username);
         model.addAttribute("dto", dto);
         return "member/myPage/modifyForm";
+        
+        
+        
     }
     
     @RequestMapping("/modifyPro")
@@ -306,16 +317,19 @@ public class MemberController {
    }
    
    @RequestMapping("deletePro")
-   public String deletePro(Model model , String passwd , HttpSession session,MemberDTO dto) {
-      String m_id =(String)session.getAttribute("m_id");
-      int check = service.userDelete(dto);
-      if(check == 1) {
-         session.invalidate();
-      }
-      model.addAttribute("check",check);
-      return "redirect:/member/customLogout";
-   } 
-   
+   public String deletePro(Model model, String passwd, HttpSession session, MemberDTO dto) {
+       String m_id = (String) session.getAttribute("m_id");
+       int check= service.userDelete(dto);
+
+       if (check == 1) {
+           session.invalidate();
+           model.addAttribute("check", check);
+       }
+       return "redirect:/member/customLogout";
+       
+   }
+       
+ 
    @RequestMapping("sallerDelete")
    public String sallerDelete() {
       return "member/deleteSaller/sallerDelete";
@@ -605,6 +619,38 @@ public class MemberController {
     	List<OrderwithCouponDTO> cartdto =Collections.EMPTY_LIST;
 		System.out.println("page====="+page);
     	cartdto = service.ShoppingCartAndProduct(id,page,model);
+    	
+    	
+    	String m_id="";
+        int CartCNT=0;
+        
+        if(seid != null) {
+      	 m_id = (String)seid.getName(); 
+           model.addAttribute("m_id", m_id);
+           String shop_m_id = (String)seid.getName();
+           CartCNT = service.ShoppingCartCNT(shop_m_id);
+          model.addAttribute("CartCNT", CartCNT);
+        } else {
+           CartCNT=0;
+           model.addAttribute("CartCNT", CartCNT);
+        }
+
+        int pickCNT=0;
+        int pick_P_CNT=0;
+        if(seid != null) {
+      	  String ppic_m_id = (String)seid.getName();
+      	  pickCNT = service.pickCNT(ppic_m_id);
+      	  pick_P_CNT = service.pick_P_CNT(ppic_m_id);
+      	  model.addAttribute("pickCNT", pickCNT);
+      	  model.addAttribute("pick_P_CNT", pick_P_CNT);
+        } else {
+      	  pickCNT=0;
+      	  pick_P_CNT=0;
+      	  model.addAttribute("pickCNT", pickCNT);
+      	  model.addAttribute("pick_P_CNT", pick_P_CNT);
+        }
+
+
     	for(OrderwithCouponDTO temp : cartdto) {
     	memberMap.put("p_num", temp.getP_num());
     	//temp.setAddressList(service.combined_address(id));

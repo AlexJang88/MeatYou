@@ -42,6 +42,7 @@ public interface MemberService  {
     
     public int idCheck(String m_id);
     public int eMailCheck(String email);
+    public int deleteCheck( String passwd) ;
     int twoNextPay(
     		OrderwithCouponDTO mdto,int shop_num,int order_p_num,String order_memo
     		,@Param("order_m_id") String order_m_id,int order_cp_num,int order_p_price,
@@ -77,7 +78,10 @@ public interface MemberService  {
       
    public CouponDTO findCouponToCpNum(int cp_num);
    
-   
+   public int ShoppingCartCNT(String shop_m_id);
+   public int pickCNT(String ppic_m_id);
+   public int pick_P_CNT(String ppic_m_id);
+
       public void shoppingCart(String m_id);
        public void shoppingCart_seq(String m_id);
        
