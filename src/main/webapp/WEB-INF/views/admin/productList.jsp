@@ -124,7 +124,7 @@ function fetchData(keyword, searchOpt, cate1, cate2, cate3,pstatus,pageNum) {
         if(products.length>0){
         $.each(products, function(index, product) {
             tableContent += "<tr>" +
-                "<td>" + product.thumb + "</td>" +
+                "<td> <img src='/resources/file/product/"+product.p_num+"/"+ product.thumb + "'/></td>" +
                 "<td>" + product.p_name + "</td>" +
                 "<td>" + product.p_price + "</td>" +
                 "<td>" + product.totalsales + "</td>" +
@@ -136,7 +136,7 @@ function fetchData(keyword, searchOpt, cate1, cate2, cate3,pstatus,pageNum) {
                if(product.pd_p_status==0){
             	   tableContent+=
             		  "<td>판매중(이슈없음)</td>";
-               }else if(product.p_status>0){
+               }else if(product.pd_p_status>0){
             	   tableContent+=
              		  "<td>판매중단(노출안됨)</td>";
                }
@@ -144,7 +144,7 @@ function fetchData(keyword, searchOpt, cate1, cate2, cate3,pstatus,pageNum) {
                tableContent+="<td>"
                tableContent+="<form action='/admin/memo' method='post'><input type='hidden' name='p_num' value='"+product.p_num+"'>"
                tableContent+="<intput type='hidden' name='check' value='"+1+"'>"
-               tableContent+="<intput type='hidden' name='p_status' value=''"product.p_status+"'>"
+               tableContent+="<intput type='hidden' name='p_status' value=''"+product.p_status+"'>"
                
                tableContent+="<input type='submit' value='판매중지' onsubmit='return confirmsbm();'>"
                tableContent+="</td>";
@@ -179,20 +179,20 @@ function fetchData(keyword, searchOpt, cate1, cate2, cate3,pstatus,pageNum) {
     }
     
     function updatePage(pageData){
-    	console.log(pageData)
-    	var pageContent = '';
+        console.log(pageData);
+        var pageContent = '';
         if (pageData.startPage > 1) {
-        	pageContent += '<a href="#" onclick="fetchData(\'' + pageData.keyword + '\', \'' + pageData.searchOpt + '\', \'' + pageData.cate1 + '\', \'' + pageData.cate2 + '\', \'' + pageData.cate3 + '\',\'' + pageData.pstatus + '\',  ' + (pageData.startPage - 1) + '); return false;">[이전]</a> ';
+            pageContent += '<a href="#" onclick="fetchData(\'' + pageData.keyword + '\', \'' + pageData.searchOpt + '\', \'' + pageData.cate1 + '\', \'' + pageData.cate2 + '\', \'' + pageData.cate3 + '\',\'' + pageData.pstatus + '\',  ' + (pageData.startPage - 10) + '); return false;">[이전]</a> ';
         }
         for (var i = pageData.startPage; i <= pageData.endPage; i++) {
-        	pageContent += '<a href="#" onclick="fetchData(\'' + pageData.keyword + '\', \'' + pageData.searchOpt + '\', \'' + pageData.cate1 + '\', \'' + pageData.cate2 + '\', \'' + pageData.cate3 + '\',\'' + pageData.pstatus + '\',  ' + i + '); return false;">[' + i + ']</a> ';
+            pageContent += '<a href="#" onclick="fetchData(\'' + pageData.keyword + '\', \'' + pageData.searchOpt + '\', \'' + pageData.cate1 + '\', \'' + pageData.cate2 + '\', \'' + pageData.cate3 + '\',\'' + pageData.pstatus + '\',  ' + i + '); return false;">[' + i + ']</a> ';
         }
-        if (pageData.endPage < pageData.totalPages) {
-        	pageContent += '<a href="#" onclick="fetchData(\''+pageData.keyword+'\',\''+pageData.searchOpt+'\',\'' +pageData.cate1+'\',\''+pageData.cate2+'\',\''+pageData.cate3+'\',\'' + pageData.pstatus + '\', \'' + (pageData.endPage + 1) + '); return false;">[다음]</a> ';
+        if (pageData.endPage < pageData.pageCount) {
+            pageContent += '<a href="#" onclick="fetchData(\''+pageData.keyword+'\',\''+pageData.searchOpt+'\',\'' +pageData.cate1+'\',\''+pageData.cate2+'\',\''+pageData.cate3+'\',\'' + pageData.pstatus + '\', ' + (pageData.endPage + 1) + '); return false;">[다음]</a> ';
         }
-        // 여기서 "#pagination"은 페이징 링크를 담을 HTML 요소의 ID
         $('#pageContent').html(pageContent);
     }
+
 </script>
 <script>
  function confirmsbm(){

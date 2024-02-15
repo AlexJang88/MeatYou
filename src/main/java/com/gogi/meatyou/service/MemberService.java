@@ -135,7 +135,7 @@ public interface MemberService  {
       List<MOrderDTO> paypage(@Param("order_m_id") String order_m_id , int page, int pageSize );
       int PaymentCount(@Param("order_m_id") String order_m_id );
       
-      public String joinEmail(String email); //占쎌뵠筌롫뗄�뵬筌ｋ똾寃�
+      public String joinEmail(String email,String name,String phone,String m_id); //占쎌뵠筌롫뗄�뵬筌ｋ똾寃�
       
       public int findId(MemberDTO memberdto);//占쎈툡占쎌뵠占쎈탵 筌≪뼐由� 筌띿쉶�뮉筌욑옙 �뜮袁㏉꺍
       public int findPw(MemberDTO memberdto);//占쎈툡占쎌뵠占쎈탵 筌≪뼐由� 筌띿쉶�뮉筌욑옙 �뜮袁㏉꺍

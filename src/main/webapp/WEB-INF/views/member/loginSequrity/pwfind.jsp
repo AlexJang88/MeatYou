@@ -155,11 +155,11 @@ function formatPhoneNumber(input) {
 <form  method="post" action="/member/pwfindPro">
 	<table>
 		<tr>
-			  <td colspan="3"><input type="text" name="m_id" required="required" placeholder="아이디를 입력하시오" size="15"></td>
+			  <td colspan="3"><input type="text" id="m_id" name="m_id" required="required" placeholder="아이디를 입력하시오" size="15"></td>
 		</tr>
 	
 		<tr>
-			  <td colspan="3"><input type="text" name="m_name" required="required" placeholder="이름을 입력하시오" size="15"></td>
+			  <td colspan="3"><input type="text" id="m_name" name="m_name" required="required" placeholder="이름을 입력하시오" size="15"></td>
 		</tr>
 		
 		<tr>
@@ -218,18 +218,25 @@ function formatPhoneNumber(input) {
 
 <script>
 		$('#mail-Check-Btn').click(function() { 
-			var email = $('#email').val();// 이메일 주소값 얻어오기!
-			console.log('완성된 이메일 : ' + email); // 이메일 오는지 확인
-			const checkInput = $('.mail-check-input') // 인증번호 입력하는곳 
-			
+			var email = $('#email').val();
+            var m_name = $('#m_name').val();
+            var phoneInput = $('#phoneInput').val();
+            var m_id=$('#m_id').val();
+            const checkInput = $('.mail-check-input');
 			$.ajax({
 				type : 'get',
-				url : '/member/mailCheck?email='+email, // GET방식이라 Url 뒤에 email을 뭍힐수있다.
+				 url: "/member/mailCheck?email="+email+"&m_name="+m_name+"&phoneInput="+phoneInput+"&m_id="+m_id+"",
 				success : function (data) {
 					console.log("data : " +  data);
-					checkInput.attr('disabled',false);
-					code =data;
-					alert('인증번호가 전송되었습니다.')
+					 if(data!=0){
+		                    checkInput.attr('disabled', false);
+		                    code = data;
+		                    alert('인증번호가 전송되었습니다.');}
+		                    else{
+		                    	alert('가입했던 정보를 작성해주세요');
+		                    }
+					 
+					
 				}			
 			}); // end ajax
 		}); // end send eamil
