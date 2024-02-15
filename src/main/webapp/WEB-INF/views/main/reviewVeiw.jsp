@@ -23,7 +23,7 @@
 							<!-- product tab nav -->
 							<ul class="tab-nav">
 								<li class="active"><a data-toggle="tab" href="#tab1">상세정보</a></li>
-								<li><a data-toggle="tab" href="#tab2">사진</a></li>
+								<!-- <li><a data-toggle="tab" href="#tab2">사진</a></li> -->
 								<li><a data-toggle="tab" href="#tab3">리뷰/평점</a></li>
 							</ul>
 							<!-- /product tab nav -->
@@ -44,7 +44,7 @@
 								<div id="tab2" class="tab-pane fade in">
 									<div class="row">
 										<div class="col-md-12">
-											<img src="/resources/img/product01.png" alt="">
+											${dto.pd_p_desc}
 										</div>
 									</div>
 								</div>

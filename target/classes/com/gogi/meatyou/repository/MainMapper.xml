@@ -360,20 +360,6 @@
       	<![CDATA[ where r >= #{start} and r <= #{end} ]]>   </if> 
    </select>
    
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
 	<!-- 소고기,돼지고기(별점 정렬) -->
    	<select id="mainMeatSort" resultType="com.gogi.meatyou.bean.ProductDTO" parameterType="hashmap">
    		<if test="category == 1"> select * from 

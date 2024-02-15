@@ -34,20 +34,20 @@ window.onload = function () {
 	alert("장바구니에 추가되었습니다.");
 	}
 </script>
+<script>
+	function pick() {
+	alert("찜목록에 추가되었습니다.");
+	}
+</script>
 <div style="text-align : center;">
 	<%@ include file="popup2.jsp" %> 
 </div>
-												<form action="customOrder" method="post">
-													<input type="hidden" name="pre_m_id" value="${m_id}">
-													<button class="add-to-cart-btn" ><i class="fa fa-shopping-cart"></i>이동</button>
-												</form>
 		<!-- SECTION -->
 		<div class="section">
 			<!-- container -->
 			<div class="container">
 				<!-- row -->
 				<div class="row">
-
 					<!-- section title -->
 					<div class="col-md-12">
 						<div class="section-title">
@@ -75,7 +75,7 @@ window.onload = function () {
 												<div class="product-label">
 													<div style="text-align : center;">
 														<form>
-															<input type="button" value="미리 보기" onclick="openPopUp('${cus.p_num}','${cus.p_m_id}')"><br>
+															<input class="viewClass" type="button" value="미리 보기" onclick="openPopUp('${cus.p_num}','${cus.p_m_id}')" color="red"><br>
 														</form>
 													</div>
 												</div>
@@ -220,7 +220,7 @@ window.onload = function () {
 							<h3 class="title">${mdto.m_name}님 맞춤 추천</h3>
 							<div class="section-nav">
 								<ul class="section-tab-nav tab-nav">
-								<li class="active"><a data-toggle="tab" href="#tab1">${mdto.m_name}님 맞춤 추천 상품 더보기</a></li>
+								<li class="active"><a href="customOrder?pre_m_id=${m_id}">${mdto.m_name}님 맞춤 추천 상품 더보기</a></li>
 								</ul>
 							</div>
 						</div>

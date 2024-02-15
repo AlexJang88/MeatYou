@@ -51,7 +51,7 @@
 										<div class="product-label">
 											<div style="text-align : center;">
 												<form>
-													<input type="button" value="미리 보기" onclick="openPopUp('${gift.p_num}','${gift.p_m_id}')"><br>
+													<input class="viewClass" type="button" value="미리 보기" onclick="openPopUp('${gift.p_num}','${gift.p_m_id}')"><br>
 												</form>
 											</div>
 										</div>

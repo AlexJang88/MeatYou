@@ -12,6 +12,7 @@ public class PreferDTO {
 	private int pre0_response;
 	private int pre1_response;
 	private String pre2_response;
+	
 	private Date pre_reg_date;
 	private int pre_status;
 	private int pre_category;

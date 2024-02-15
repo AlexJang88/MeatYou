@@ -12,8 +12,7 @@
 		popupWindow.onresize = (_=>{
 		popupWindow.resizeTo(700,900);
 		})
-	}
-																	
+	}															
 	function showHidden() {
 		alert(document.testForm.flag.value);
 	}

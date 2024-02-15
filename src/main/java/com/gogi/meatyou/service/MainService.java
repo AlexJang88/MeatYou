@@ -103,7 +103,6 @@ public interface MainService {
    public void pickInsertMain(Model model, String ppic_m_id, int ppic_p_num);
    public int pCategory(int p_num);
    public PreferDTO customOrderCategory (String pre_m_id, Model model);
-   public void customOrder(Principal seid, ProductDetailDTO dto, Model model, int pageNum, String pre_m_id);
-   
+   public PreferDTO customOrder(Principal seid, String pre_m_id, Model model, int pageNum);
    public void getStatus(Model model, String id); //지환 설문조사 입니다.
 }
