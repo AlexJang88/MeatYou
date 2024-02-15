@@ -1,6 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"   pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>     
  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -108,37 +108,48 @@
   
 </script>
 <script>
-	$(function () {
-$('#check').on('click', function () {
-    var b_no = $('#b_no').val();
-    var apiKey = $('#apiKey').val();
-    var resultMessage = $('#resultMessage'); // 결과 메시지를 표시할 input 요소
+$(function () {
+    $('#check').on('click', function () {
+        var b_no = $('#b_no').val();
+        var apiKey = $('#apiKey').val();
+        var resultMessage = $('#resultMessage'); // 결과 메시지를 표시할 input 요소
+        var submitButton = $('input[name="sallerInputForm"]'); // 신청 버튼
 
-    // 이전 오류 메시지 초기화
-    $('.error').remove();
+        // 이전 오류 메시지 초기화
+        $('.error').remove();
 
-    var data = {
-        "b_no": [b_no]
-    };
-	var resultMsg = "";
-    $.ajax({
-        url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=" + apiKey,
-        type: "POST",
-        data: JSON.stringify(data),
-        dataType: "JSON",
-        contentType: "application/json",
-        accept: "application/json",
-        success: function (result) {
-            resultMessage.text(result.data[0].tax_type);
-        },
-        error: function (result) {
-            console.log(result.responseText);
-            // API 호출이 실패한 경우 오류 메시지 표시
-            resultMessage.val('서버 오류: 국세청 정보를 확인할 수 없습니다.');
-        }
+        var data = {
+            "b_no": [b_no]
+        };
+        var resultMsg = "";
+        $.ajax({
+            url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=" + apiKey,
+            type: "POST",
+            data: JSON.stringify(data),
+            dataType: "JSON",
+            contentType: "application/json",
+            accept: "application/json",
+            success: function (result) {
+                if (result.data[0].tax_type != "국세청에 등록되지 않은 사업자등록번호입니다.") {
+                    resultMessage.text('인증완료');
+                    // Ajax 요청이 성공했으므로 버튼을 활성화합니다.
+                    submitButton.prop('disabled', false);
+                } else {
+                    resultMessage.text(result.data[0].tax_type);
+                    // Ajax 요청이 실패했으므로 버튼을 비활성화합니다.
+                    submitButton.prop('disabled', true);
+                }
+            },
+            error: function (result) {
+                console.log(result.responseText);
+                // API 호출이 실패한 경우 오류 메시지 표시
+                resultMessage.val('서버 오류: 국세청 정보를 확인할 수 없습니다.');
+                // Ajax 요청이 실패했으므로 버튼을 비활성화합니다.
+                submitButton.prop('disabled', true);
+            }
+        });
     });
 });
-	 });
 </script>
 
 	
@@ -166,7 +177,7 @@ $('#check').on('click', function () {
  
        <div class="form-group">
      	<label for="companyname">회사 이름</label> <br/>
-       		 <input type="text" class="form-control"  name="company" size="15" placeholder="운영하시는 업체 이름알려주세요" />
+       		 <input type="text" class="form-control" required="required" name="company" size="15" placeholder="운영하시는 업체 이름알려주세요" />
           		  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
           		  
           		  </div>
@@ -180,7 +191,7 @@ $('#check').on('click', function () {
       <input type="hidden" id="apiKey" value="${apiKey}"/>
     <div style="display: flex; align-items: center; justify-content: center; margin-top: 10px;">
     
-    <input type="number" class="form-control" name="corpno" id="b_no" maxlength="15" style="width:58%;" placeholder="입력 후 인증해주세요"/>
+    <input type="number" class="form-control" name="corpno" id="b_no" required="required" maxlength="15" style="width:58%;" placeholder="입력 후 인증해주세요"/>
       <button type="button" class="btn btn-primary" style="width:35%; margin-left:20px; " id="check">조회하기</button>
     </div>
      <div id="resultMessage"></div>
@@ -191,18 +202,18 @@ $('#check').on('click', function () {
     <label for="address">사장님의 회사 주소를 입력해주세요</label> <br/>
     <div style="display: flex; align-items: center; justify-content: center; margin-top: 10px;">
         <button type="button"   id="addressButton" class="btn btn-light" style="margin-left: 0px; background-color:white; width:120%;">
-        <input type="text" class="form-control" id="address" name="cus_address1"  placeholder="주소" style="align-items: center;  width: 100%;" /> </button>
+        <input type="text" class="form-control" id="address" name="cus_address1"  required="required" placeholder="주소" style="align-items: center;  width: 100%;" /> </button>
         <input type="text" class="form-control" name="cus_address2"  placeholder="상세주소" >
     </div>
 </div>
    <div class="form-group">
         <label for="cus_pnum">사업자 전화번호 </label>
-<input type="text" class="form-control" name="cus_pnum" placeholder="전화번호 " >        
+<input type="text" class="form-control" required="required" name="cus_pnum" placeholder="전화번호 " >        
     </div>
     
         <label for="cus_accnum">  사업자 계좌번호   </label><br/>
    <div class="form-group"style="display: flex;">
-   <input type="text" id="cus_accnum" name="cus_accnum" style="width:58%;" placeholder="계좌번호 입력하세요" oninput="formatBankNumber(this)" class="form-control"  maxlength="22">
+   <input type="text" id="cus_accnum" name="cus_accnum" style="width:58%;" required="required" placeholder="계좌번호 입력하세요" oninput="formatBankNumber(this)" class="form-control"  maxlength="22">
 	  		   <select class="box form-control"   name="cus_accnum"  style="width:35%; margin-left:10px;" onchange="whereBank()"  >
                         <option value="type">직접 입력</option>
                         <option value="농협"></option>
@@ -215,8 +226,9 @@ $('#check').on('click', function () {
     </div>
      
    <div class="form-group">
-    <input type="submit" name="sallerInputForm" value="판매자 신청" style="width:100%; margin-top:10px; margin-bottom:10px;"  class="btn btn-primary"  class="form-control"  >
-   </div>
+    <input type="submit" name="sallerInputForm" value="판매자 신청" style="width:100%; margin-top:10px; margin-bottom:10px;"  class="btn btn-primary" disabled>
+</div>
+
    
       </sec:authorize>
       </div>

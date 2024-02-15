@@ -29,7 +29,7 @@
 				<td width="200" align="center">상품</td>
 				<td width="300" align="center">글 제목</td>
 				<td width="300" align="center">작성 날짜</td>
-				<td width="200" align="center">공개여부</td>
+			
 
 			</tr>
 			
@@ -42,21 +42,25 @@
 			            <c:choose>
 			                <c:when test="${userQna.pq_status == 0}">
 			                    <a href="/board/userQnaContent?pq_p_num=${userQna.pq_p_num}&pq_num=${userQna.pq_num}&pq_ref=${userQna.pq_ref}">${userQna.pq_title}</a>
-			                </c:when>			            			                
-			                <c:when test="${userQna.pq_status == 3}">
-			                   <a href="/board/userQnaContent?pq_p_num=${userQna.pq_p_num}&pq_num=${userQna.pq_num}&pq_ref=${userQna.pq_ref}">${userQna.pq_title}</a>
-			                </c:when>	                
+			                </c:when>
+			                
+			                
+			                <c:when test="${userQna.pq_status == 3 and id ne userQna.pq_m_id}">
+							    비공개글입니다.
+							</c:when>
+			                
+			                <c:when test="${userQna.pq_status == 3 and id eq userQna.pq_m_id}">
+							    <a href="/board/userQnaContent?pq_p_num=${userQna.pq_p_num}&pq_num=${userQna.pq_num}&pq_ref=${userQna.pq_ref}">${userQna.pq_title}</a>
+							</c:when>
+			               	
+			               
+							
+							
+			                	                
 			            </c:choose>
 			        </td>
 					<td><fmt:formatDate value="${userQna.pq_reg_date}" pattern="yyyy-MM-dd" /></td>
-					<c:choose>
-					    <c:when test="${userQna.pq_status == 0}">
-					        <td>공개</td>
-					    </c:when>
-					    <c:when test="${userQna.pq_status == 3}">
-					        <td>비공개</td>
-					    </c:when>					    
-					</c:choose>
+	
 				</tr>			
 			</c:forEach>
 		</table>
