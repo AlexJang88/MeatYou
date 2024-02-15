@@ -847,6 +847,11 @@ public class MemberServiceImpl implements MemberService {
 			// TODO Auto-generated method stub
 			return MemberMapper.memberList(m_id);
 		}
+		@Override
+		public int checkHim(String pm_m_id) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
              
              
              
