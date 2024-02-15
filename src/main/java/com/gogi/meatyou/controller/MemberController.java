@@ -257,7 +257,8 @@ public class MemberController {
     
     @RequestMapping("/sallerInputForm")
 	public String sallerInputForm(Model model, Authentication authentication,CusDetailDTO cdto) {
-    	String username = authentication.getName(); MemberDTO dto = service.getUser(username); model.addAttribute("dto", dto);
+    	String username = authentication.getName(); 
+    	MemberDTO dto = service.getUser(username); model.addAttribute("dto", dto);
     	model.addAttribute("apiKey","wBStzrx7b1p8B9XqfLWLBMa0q7HCWqRMC7%2F2o%2BG1CWfp2gW%2FffWQ8H81TDthbbN%2FU%2FqtGmiOtMUvFtzKeHPiuQ%3D%3D");
 	     return "member/saller/sallerInputForm";
 	}
