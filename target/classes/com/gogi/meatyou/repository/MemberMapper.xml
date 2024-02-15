@@ -9,6 +9,13 @@
     WHERE m_id ='${m_id}'
    </select>
 
+ 	<select id="idCheck" parameterType="String" resultType="int">
+ SELECT COUNT(m_id) FROM MEMBER WHERE m_id= #{m_id}
+   </select>
+   
+ <select id="eMailCheck" parameterType="String" resultType="int">
+ SELECT COUNT(email) FROM MEMBER WHERE email= #{email}
+   </select>
 
    <resultMap id="memberMap" type="com.gogi.meatyou.bean.MemberDTO" >
       <result property="m_id" column="m_id" />
@@ -338,7 +345,7 @@ WHERE rnum >= #{startRow, jdbcType=NUMERIC}
 <select id="pickMeCount" parameterType="int">  
     SELECT COUNT(*)   FROM pick_me_${pm_m_id}
 </select>
- 
+
   <!-- 찜  업체  확인  -->
 
 <select id="pickMeCountPage"   resultType="com.gogi.meatyou.bean.PickMeDTO">
@@ -374,6 +381,9 @@ WHERE
    <!--판매자 찜-->
 <select id="SallerpickMeCount" parameterType="map">  
     SELECT COUNT(*)   FROM pick_me_${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")}
+</select>
+ <select id="checkHim" parameterType="int">  
+    SELECT * FROM pick_me_${pm_m_id} where pm_c_id=${pm_c_id}
 </select>
  
   <!-- 찜  업체  확인  -->

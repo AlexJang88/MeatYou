@@ -130,8 +130,8 @@
                        <img src="/resources/member/img/heart.png"  style="width:40%; margin-top:0; ">
                          <span style="position:absolute; top:39px; right: 28px;">찜 목록</span>
                       	  	<c:if test="${pickCNT > 0}">
-                         <div class="qty">${pickCNT}</div>
-                         </c:if>
+                         		<div class="qty">${pickCNT}</div>
+                         	</c:if>
                          </a>
                      </div>
                      
@@ -140,8 +140,8 @@
                        <img src="/resources/member/img/cart.png"  style="width:40%; margin-top:0; ">
                          <span style="position:absolute; top:39px; right: 28px;">장바구니</span>
                       	  	<c:if test="${CartCNT > 0}">
-                         <div class="qty">${CartCNT}</div>
-                         </c:if>
+                         		<div class="qty">${CartCNT}</div>
+                         	</c:if>
                          </a>
                      </div>
                           <div class="dropdown"  style="position:absolute; right:-80px;  margin-top:2px;  float: left;   height: 150px; top:-2px;">
@@ -261,6 +261,7 @@
                <!-- NAV -->
                <ul class="main-nav nav navbar-nav">
                    <li class="active"><a href="/main/main">홈</a></li>
+                   <li><a href="/main/meatYou">미트유소개</a></li>
                   <li><a href="/main/mainMeat?category=2&price=desc">소고기</a></li>
                   <li><a href="/main/mainMeat?category=1&price=desc">돼지고기</a></li>
                   <li><a href="/main/setMenu?p_s_category=1">세트</a></li>

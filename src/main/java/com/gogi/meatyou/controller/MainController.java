@@ -38,8 +38,7 @@ public class MainController {
 	   if(seid != null) {
 			  String id = seid.getName();
 			  service.getStatus(model, id); //지환이가 설문조사
-		 }
-	   
+	   }
 	   
 	   /* �Ŀ���ũ */
 	  List<ProductDTO> cusList = service.mainCUS();
@@ -361,9 +360,9 @@ public class MainController {
       			cate_response2 = pdto.getPre1_response();
 	    	  
       			if(cate_response1 == 10) {
-      				cate_response1 = 100;
+      				cate_response1 = 110;
       			}else {
-      				cate_response1 = 100;
+      				cate_response1 = 120;
       			}
 	      } else{
 	    	  cate_response1 = 0;
@@ -384,7 +383,6 @@ public class MainController {
 	    	  double fstar = service.reviewStar(predto.getP_num());
 	    	  predto.setStar(fstar);
 	    	  model.addAttribute("p_num", predto.getP_num());
-	    	  
 	    	  String category1="";
 	    	  String category2="";
 	    	  String category3="";
@@ -439,8 +437,11 @@ public class MainController {
 	    	  int r_p_num = service.reviewAllCNT(predto.getP_num());
 	    	  predto.setReviewAllCNT(r_p_num);
 		      }
+	      MemberDTO memdto = service.name(m_id);
+	      model.addAttribute("memdto", memdto);
 	      model.addAttribute("customOrderBest", customOrderBest);
       }
+      
       return "main/main";
    }
 
@@ -449,7 +450,9 @@ public class MainController {
    public String searchList(Principal seid, Model model, @RequestParam(value="pageNum", defaultValue = "1") 
       int pageNum , String desc, String searchOption, String search) {
 	   List<ProductDTO> searchList = service.searchList(seid, pageNum, model , desc ,searchOption ,search);
-	   String m_id="";
+
+      model.addAttribute("pickList", searchList);
+      String m_id="";
       int CartCNT=0;
       
       if(seid != null) {
@@ -463,17 +466,21 @@ public class MainController {
          model.addAttribute("CartCNT", CartCNT);
       }
 
-      model.addAttribute("pickList", searchList);
-      
       int pickCNT=0;
+      int pick_P_CNT=0;
       if(seid != null) {
-         String ppic_m_id = (String)seid.getName();
-         pickCNT = service.pickCNT(ppic_m_id);
-         model.addAttribute("pickCNT", pickCNT);
+    	  String ppic_m_id = (String)seid.getName();
+    	  pickCNT = service.pickCNT(ppic_m_id);
+    	  pick_P_CNT = service.pick_P_CNT(ppic_m_id);
+    	  model.addAttribute("pickCNT", pickCNT);
+    	  model.addAttribute("pick_P_CNT", pick_P_CNT);
       } else {
-         pickCNT=0;
-         model.addAttribute("pickCNT", pickCNT);
+    	  pickCNT=0;
+    	  pick_P_CNT=0;
+    	  model.addAttribute("pickCNT", pickCNT);
+    	  model.addAttribute("pick_P_CNT", pick_P_CNT);
       }
+
       return "main/searchList";
    }
    
@@ -1809,17 +1816,38 @@ public class MainController {
       service.pickInsertMain(model, ppic_m_id, ppic_p_num); 
       return "forward:/main/mainMeatKOR?category=12&price=price";
    }
-   
-   
 
-   @RequestMapping("boot")
-   public String boot() { 
-      return "main/bootstrap";
-   }
- 
-   
    @RequestMapping("meatYou")
-   public String meatYou() {
+   public String meatYou(Principal seid, Model model) {
+	      String m_id="";
+	      int CartCNT=0;
+	      
+	      if(seid != null) {
+	    	 m_id = (String)seid.getName(); 
+	         model.addAttribute("m_id", m_id);
+	         String shop_m_id = (String)seid.getName();
+	         CartCNT = service.ShoppingCartCNT2(shop_m_id);
+	        model.addAttribute("CartCNT", CartCNT);
+	      } else {
+	         CartCNT=0;
+	         model.addAttribute("CartCNT", CartCNT);
+	      }
+
+	      int pickCNT=0;
+	      int pick_P_CNT=0;
+	      if(seid != null) {
+	    	  String ppic_m_id = (String)seid.getName();
+	    	  pickCNT = service.pickCNT(ppic_m_id);
+	    	  pick_P_CNT = service.pick_P_CNT(ppic_m_id);
+	    	  model.addAttribute("pickCNT", pickCNT);
+	    	  model.addAttribute("pick_P_CNT", pick_P_CNT);
+	      } else {
+	    	  pickCNT=0;
+	    	  pick_P_CNT=0;
+	    	  model.addAttribute("pickCNT", pickCNT);
+	    	  model.addAttribute("pick_P_CNT", pick_P_CNT);
+	      }
+
       return "main/meatYou";
    }
    

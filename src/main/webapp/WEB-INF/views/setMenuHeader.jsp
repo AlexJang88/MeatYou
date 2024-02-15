@@ -189,6 +189,7 @@
 					<!-- NAV -->
 					<ul class="main-nav nav navbar-nav">
 						<li><a href="/main/main">홈</a></li>
+						<li><a href="/main/meatYou">미트유소개</a></li>
 						<li><a href="/main/mainMeat?category=2&price=desc">소고기</a></li>
 						<li><a href="/main/mainMeat?category=1&price=desc">돼지고기</a></li>
 						<li class="active"><a href="/main/setMenu?p_s_category=1">세트</a></li>

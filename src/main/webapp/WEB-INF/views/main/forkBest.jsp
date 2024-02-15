@@ -60,7 +60,7 @@
 							<div class="col-md-4 col-xs-6">
 								<div class="product">
 									<div class="product-img">
-										<img src="/resources/img/product01.png" alt="">
+										<img src="../resources/file/product/${meat.p_num}/${meat.thumb}" >
 										<div class="product-label">
 											<span class="sale" ><a>목록확인</a></span>
 											<span class="sale" ><a>상품설명</a></span>

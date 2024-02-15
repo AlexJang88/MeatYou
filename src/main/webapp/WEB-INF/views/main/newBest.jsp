@@ -33,7 +33,7 @@
 										<c:forEach var="newList" items="${newProduct}">
 										<div class="product">
 											<div class="product-img">
-												<img src="../resources/img/product01.png" alt="">
+												<img src="../resources/file/product/${newList.p_num}/${newList.thumb}" >
 												<div class="product-label">
 													<div style="text-align : center;">
 														<form>
