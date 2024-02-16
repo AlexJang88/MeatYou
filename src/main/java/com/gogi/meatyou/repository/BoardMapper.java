@@ -10,7 +10,7 @@ import com.gogi.meatyou.bean.PQuestionDTO;
 import com.gogi.meatyou.bean.QnADTO;
 
 public interface BoardMapper {
-	public int userQnacount();//소비자 판매자 질문 갯수
+	public int userQnacount(int p_num);//소비자 판매자 질문 갯수
 	public List<PQuestionDTO> userQnalist(HashMap boardListMap); // 문의한 글 제목, 등급 반복문
 	public PQuestionDTO getuserQnacotent(PQuestionDTO pquestiondto); //소비자문의내용 가져오기
 	public PQuestionDTO getCuserContent(PQuestionDTO pquestiondto); //판매자 답글 가져오기

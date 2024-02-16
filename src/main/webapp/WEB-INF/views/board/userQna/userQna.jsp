@@ -68,13 +68,13 @@
 	
 	<c:if test="${count>0}">
 			<c:if test="${startPage>10}">
-	        	<a href="/board/userQna?pageNum=${startPage-10}">[이전]</a>
+	        	<a href="/board/userQna?p_num=${pq_p_num}&pageNum=${startPage-10}">[이전]</a>
 			</c:if>
 			<c:forEach var="i" begin="${startPage}" end="${endPage}" step="1">
-	        	<a href="/board/userQna?pageNum=${i}">[${i}]</a>
+	        	<a href="/board/userQna?p_num=${pq_p_num}&pageNum=${i}">[${i}]</a>
 			</c:forEach>
 				<c:if test="${endPage<pageCount}">
-	        	<a href="/board/userQna?pageNum=${startPage+10}">[다음]</a>
+	        	<a href="/board/userQna?p_num=${pq_p_num}&pageNum=${startPage+10}">[다음]</a>
 			</c:if>
 		</c:if>
 	

@@ -163,6 +163,23 @@
 									</div>
 								</form>
 							</c:if>
+							
+							<c:if test="${mid != null}">
+								<a href="/board/userQna?p_num=${p_num}" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>판매자 문의하기</a>
+							</c:if>
+							
+							<c:if test="${mid == null}">
+								<form action="/member/customLogin">
+									<div class="add-to-cart">
+										<input type="hidden" name="ppic_m_id" value="${mid}">
+										<input type="hidden" name="ppic_p_num" value="${p_num}">
+										<button class="add-to-cart-btn" type="submit"><i class="fa fa-shopping-cart"></i> 판매자 문의하기</button>
+									</div>
+								</form>
+							</c:if>
+							
+							
+							
 <!-- 							<ul class="product-btns">
 								<li><a href="#"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
 								<li><a href="#"><i class="fa fa-exchange"></i> add to compare</a></li>

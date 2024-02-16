@@ -5,7 +5,7 @@
 <mapper namespace="com.gogi.meatyou.repository.BoardMapper">
  	
  	<select id="userQnacount" resultType="int">
- 		select count(*) from P_QUESTION where (pq_status =  0 or pq_status = 3)
+ 		select count(*) from P_QUESTION where (pq_status =  0 or pq_status = 3) and pq_p_num=#{p_num}
  	</select>
 	
 	<select id="userQnalist" resultType="com.gogi.meatyou.bean.PQuestionDTO" parameterType="hashmap">

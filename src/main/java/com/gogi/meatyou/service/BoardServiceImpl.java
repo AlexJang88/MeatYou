@@ -41,7 +41,7 @@ public class BoardServiceImpl implements BoardService{
 		  int pageSize = 10;
 	      int startRow = (pageNum - 1) * pageSize + 1;
 	      int endRow = pageNum * pageSize;
-	      int count = mapper.userQnacount(); //질문갯수  
+	      int count = mapper.userQnacount(p_num); //질문갯수  
 	      List<PQuestionDTO> list = Collections.EMPTY_LIST;
 	      
 	      if (count > 0) {
