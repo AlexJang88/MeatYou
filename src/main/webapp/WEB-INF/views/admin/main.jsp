@@ -11,7 +11,13 @@
     <title>판매자 페이지</title>
     <%@ include file="../header.jsp" %>
     <script>
- 
+    $(document).ready(function () {
+        // Add a click event handler for the menu items with sub-menus
+        $('.vertical-menu-item a').click(function () {
+            // Toggle the collapse state when the menu item is clicked
+            $(this).next('.collapse').collapse('toggle');
+        });
+    });
     </script>
     <style>
         .main-table {
@@ -79,9 +85,6 @@
             font-weight: bold; /* Added font weight */
         }
 
-        .btn:hover {
-            font-weight: bold; /* Added font weight */
-        }
 
         h1 {
             color: #333;
@@ -164,23 +167,24 @@
       
             <td class="category-menu">
                 <div class="vertical-menu">
-                    <div class="vertical-menu-item">
-                        <a href="/admin/memberlist?check=1" ">회원목록 조회(일반)</a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">하위 메뉴 1</a>
-                            <a class="dropdown-item" href="#">하위 메뉴 2</a>
-                            <a class="dropdown-item" href="#">하위 메뉴 3</a>
-                            <a class="dropdown-item" href="#">하위 메뉴 4</a>
-                        </div>
-                    </div>
+             
+                     <div class="vertical-menu-item">
+								        <a href="/customers/customer" class="btn" data-toggle="collapse" data-target="#mem">회원</a>
+								        <div id="homeSubMenu" class="collapse">
+                                    <a href="/admin/memberlist?check=1" ">회원목록 조회(일반)</a><br/>
+                                 
                     <a href="/admin/memberlist?check=2" class="btn">회원목록 조회(판매자)</a>
                     <a href="/admin/memberlist?check=3" class="btn">판매자 승인대기</a>
                     <a href="/admin/memberlist?check=4" class="btn">판매자(유료회원)목록</a>
+                             
+                                    </div>
+                
                     <a href="/admin/sales" class="btn">매출보기</a>
                     <a href="/admin/reckon" class="btn">정산내역 확인</a>
                     <a href="/admin/noticeList" class="btn">공지사항</a>
                     <a href="/admin/reportList" class="btn">신고글 보기</a>
                     <a href="/admin/productList" class="btn">상품목록보기</a>
+                    </div>
                 </div>
             </td>
             <td class="graph-and-summary">

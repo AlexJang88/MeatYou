@@ -6,7 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <title>주문현황</title>
+    <%@ include file="../header.jsp" %>
 </head>
+
 <body>
 <a href="/customers/customer">홈으로</a>
 
@@ -90,3 +92,5 @@
 
 </body>
 </html>
+
+<%@ include file="../footer.jsp" %>

@@ -8,6 +8,7 @@
 <html>
 <head>
 <title>쿠폰제공리스트</title>
+    <%@ include file="../header.jsp" %>
 </head>
 <body>
 
@@ -74,3 +75,5 @@
 	
 </body>
 </html>
+
+<%@ include file="../footer.jsp" %>

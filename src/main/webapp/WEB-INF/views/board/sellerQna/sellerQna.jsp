@@ -1,11 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>판매자 문의</title>
+    <%@ include file="../../header.jsp" %>
 </head>
 <body>
 
@@ -55,3 +57,6 @@
 
 </body>
 </html>
+
+
+<%@ include file="../../footer.jsp" %>

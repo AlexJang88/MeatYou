@@ -6,8 +6,11 @@
 <head>
 <meta charset="UTF-8">
 <title>배송예정 및 배송중</title>
+    <%@ include file="../header.jsp" %>
 </head>
+
 <body>
+
 <h3>여기는 배송 중 및 배송완료</h3>
 <a href="/customers/customer">홈으로</a>
 <a href="/customers/deliverout">주문취소</a>
@@ -120,3 +123,7 @@
 
 </body>
 </html>
+
+
+
+<%@ include file="../footer.jsp" %>

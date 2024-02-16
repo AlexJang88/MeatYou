@@ -6,6 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>파워링크 결제하기</title>
+
+    <%@ include file="../header.jsp" %>
 </head>
 <body>
 <a href="/customers/customer">홈으로</a> <br/>
@@ -80,3 +82,6 @@
 
 </body>
 </html>
+
+
+<%@ include file="../footer.jsp" %>

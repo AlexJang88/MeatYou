@@ -9,6 +9,8 @@
 <title>유료결제</title>
 </head>
 <body>
+
+    <%@ include file="../header.jsp" %>
 <a href="/customers/customer">홈으로</a>
 
 
@@ -99,3 +101,6 @@
 
 </body>
 </html>
+
+
+<%@ include file="../footer.jsp" %>

@@ -1,28 +1,82 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"   pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>비밀번호 찾기 성공</title>
-  <style>
-        table {
-            border-collapse: collapse; /* 테이블 셀 테두리를 합치도록 설정 */
-            width: 100%;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비밀번호 찾기 성공</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
-        td {
-            padding: 8px; /* 셀 내부 여백 설정 */
-            border: 1px solid #ddd; /* 테두리 스타일 설정 */
-        }
-        .label-cell {
-            width: 70px;
+
+        .container {
             text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        td {
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+
+        .label-cell {
+            width: 150px;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            margin-top: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="submit"], input[type="button"] {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        input[type="submit"]:hover, input[type="button"]:hover {
+            background-color: #2c3e50;
         }
     </style>
-     <script>
+    <script>
         function validateForm() {
             var passwd = document.getElementsByName("passwd")[0].value;
             var passwd2 = document.getElementsByName("passwd2")[0].value;
@@ -37,47 +91,33 @@
     </script>
 </head>
 <body>
-<script>
-function hidePassword(password) {
-    let hiddenPassword = '';
-    for (let i = 0; i < password.length; i++) {
-        if (i % 2 === 0) {
-            hiddenPassword += password[i]; // 짝수 번째 문자는 그대로 유지
-        } else {
-            hiddenPassword += '*'; // 홀수 번째 문자는 *로 대체
-        }
-    }
-    return hiddenPassword;
-}
-</script>
+    <div class="container">
+        <h1>${id} 님의 비밀번호</h1>
+        <p><strong>${phone}</strong></p>
+        <p>변경할 비밀번호를 입력하세요.</p>
 
-${id} 님의 비밀번호는  <script>document.write(hidePassword("${passwd}"));</script> 입니다.
-<h1>${id}</h1>
-<h1>${phone}</h1>
+        <form method="post" action="/member/pwChange" onsubmit="return validateForm()">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+            <input type="hidden" name="m_id" value="${id}">
+            <input type="hidden" name="phone" value="${phone}">
 
-<form method="post" action="/member/pwChange" onsubmit="return validateForm()">
-    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-    <input type="hidden" name="m_id" value="${id}">            
-    <input type="hidden" name="phone" value="${phone}">
-    <table>
-        <tr>
-            <td class="label-cell">변경할 비밀번호</td>
-            <td>
-                <input type="text" size="15" maxlength="20" name="passwd" required="required" placeholder="변경할 비밀번호 입력하세요">
-            </td>
-        </tr>
-        <tr>
-            <td class="label-cell">변경할 비밀번호 재입력</td>
-            <td>
-                <input type="text" size="15" maxlength="20" name="passwd2" required="required" placeholder="변경할 비밀번호 입력하세요">
-            </td>
-        </tr>                   
-    </table>
-    <input type="submit" value="비밀번호 변경">
-</form>
-
-<input type="button" value="다음에 변경하기" onclick="javascript:window.location='../main/main'">
-<input type="button" value="로그인하기" onclick="javascript:window.location='../member/customLogin'">
+            <table>
+                <tr>
+                    <td class="label-cell">변경할 비밀번호</td>
+                    <td>
+                        <input type="text" size="15" maxlength="20" name="passwd" required="required" placeholder="비밀번호 입력">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label-cell">비밀번호 재입력</td>
+                    <td>
+                        <input type="text" size="15" maxlength="20" name="passwd2" required="required" placeholder="비밀번호 재입력">
+                    </td>
+                </tr>
+            </table>
+            <input type="submit" value="비밀번호 변경">
+        </form>
+ 
+    </div>
 </body>
-
 </html>

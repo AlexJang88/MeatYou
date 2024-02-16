@@ -266,7 +266,7 @@ function formatPhoneNumber(input) {
         </div>
 
         <label for="email">이메일</label><br/>
-        <input type="text" class="form-input" id="email" name="email" size="8" style="width:50%"  required="required" placeholder="이메일을 입력하시오" oninput="checkEmail()">
+        <input type="text" class="form-input" id="email" name="email" size="30" style="width:50%"  required="required" placeholder="이메일을 입력하시오" oninput="checkEmail()">
         <select class="form-dropdown" id="emaillist" name="emaillist" onchange="updateEmail()">
             <option value="type">직접 입력</option>
             <option value="@naver.com">@naver.com</option>
@@ -282,6 +282,7 @@ function formatPhoneNumber(input) {
             <input class="form-input mail-check-input"  style="width:50%" required="required" placeholder="인증번호 6자리를 입력해주세요!" maxlength="6">
             <span id="mail-check-warn"></span>
           <button type="button" class="form-button" style="width:22%; font-size: 12px;" id="mail-Check-Btn">인증번호 전송</button>
+             <button type="button" class="btn btn-primary" id="mail-Check-Btn">인증번호 전송</button>
 <input type="button" class="form-button" id="success" style="width:22%; font-size: 12px;" value="이메일 인증확인" style="text-align: center;">     
  </div>
         <label for="address" style="maring-top:20px;">주소 와 </label> 

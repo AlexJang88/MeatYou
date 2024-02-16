@@ -2,7 +2,20 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>   
+  <%@ include file="../header.jsp" %>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+     <style>
+    .styled-box {
+             justify-content: center;
+                  margin: 0 5px;
+      align-items: center;
+      justify-content: center;
+    width:60%;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+<div class="styled-box">
     <h1>상품목록</h1>
     <input type="hidden" id="pageNum" name="pageNum" value="pageNum">
    	<input type="text" name="keyword" id="keyword">
@@ -34,9 +47,9 @@
     	<option value="2">판매중</option>
     	<option value="3">판매중단(이슈)</option>
     </select>
-    <table>
+    <table border="1">
     	<tr>
-    		<td>썸네일</td>
+    		<td style="width: 10%;">썸네일</td>
     		<td>상품이름</td>
     		<td>가격</td>
     		<td>누적판매금액</td>
@@ -52,6 +65,7 @@
     </table>
     <div id="pageContent">
     
+    </div>
     </div>
 <script>
 // 데이터 가져오는 함수
@@ -124,7 +138,7 @@ function fetchData(keyword, searchOpt, cate1, cate2, cate3,pstatus,pageNum) {
         if(products.length>0){
         $.each(products, function(index, product) {
             tableContent += "<tr>" +
-                "<td> <img src='/resources/file/product/"+product.p_num+"/"+ product.thumb + "'/></td>" +
+                "<td> <img style='width:40%;' src='/resources/file/product/"+product.p_num+"/"+ product.thumb + "'/></td>" +
                 "<td>" + product.p_name + "</td>" +
                 "<td>" + product.p_price + "</td>" +
                 "<td>" + product.totalsales + "</td>" +
@@ -204,5 +218,5 @@ function fetchData(keyword, searchOpt, cate1, cate2, cate3,pstatus,pageNum) {
 	 }
  }
 </script>
-    
+  <%@ include file="../footer.jsp" %>
     

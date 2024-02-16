@@ -10,13 +10,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>판매자 페이지</title>
     <%@ include file="../header.jsp" %>
-    <script>
-    $(document).ready(function() {
-        $('.vertical-menu-item').hover(function() {
-            var $menu = $(this).children('.dropdown-menu');
-            $menu.toggle();
+<script>
+    // Use jQuery to handle the collapsing behavior
+    $(document).ready(function () {
+        // Add a click event handler for the menu items with sub-menus
+        $('.vertical-menu-item a').click(function () {
+            // Toggle the collapse state when the menu item is clicked
+            $(this).next('.collapse').collapse('toggle');
         });
-    });</script>
+    });
+</script>
     <style>
         body {
             font-family: 'Roboto', Arial, sans-serif; /* Google font */
@@ -116,24 +119,74 @@
                 <table class="inner-table">
                     <tr>
                         <td>
-                           <div class="vertical-menu">
-                                <div class="vertical-menu-item">
-                                    <a href="/customers/customer" class="btn dropdown-toggle" data-toggle="dropdown">홈으로</a>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="#">하위 메뉴 1</a>
-                                        <a class="dropdown-item" href="#">하위 메뉴 2</a>
-                                        <a class="dropdown-item" href="#">하위 메뉴 3</a>
-                                        <a class="dropdown-item" href="#">하위 메뉴 4</a>
+			                          <div class="vertical-menu" style="margin-right:60px;">
+						 
+                                   <div class="vertical-menu-item">
+								        <a href="/customers/customer" class="btn" data-toggle="collapse" data-target="#homeSubMenu">상품</a>
+								        <div id="homeSubMenu" class="collapse">
+                                         <a href="/customers/itemUpdate" class="btn" >상품 등록</a><br/>
+                                            <a href="/customers/itemList" class="btn">상품 목록</a>
                                     </div>
                                 </div>
-                                <a href="/customers/itemUpdate" class="btn">상품등록</a>
-                                <a href="/customers/itemList" class="btn">상품목록</a>
-                                <a href="/customers/profit" class="btn">매출현황</a>
-                                <a href="/customers/stock" class="btn">재고현황</a>
-                                <a href="/customers/consumerList" class="btn">구매회원</a>
-                                <a href="/customers/pay" class="btn">유료결제</a>
-                                <a href="/customers/delivering" class="btn">주문접수 및 배송현황</a>
-                                <a href="/board/sellerQna" class="btn">관리자 문의게시판</a>
+                            
+                                    <div class="vertical-menu-item">
+                                    <a href="/customers/somePage" class="btn" data-toggle="collapse" data-target="#someSubMenu">매출</a>
+                                    <div id="someSubMenu" class="collapse">
+                                     <a href="/customers/profit" class="btn" >매출현황</a><br/>
+                                       <a href="/customers/profitItem"class="btn">월별 판매 현황</a>
+                                    </div>
+                                </div>
+                            
+                                    <div class="vertical-menu-item">
+                                    <a  href="#" class="btn" data-toggle="collapse" data-target="#stock">재고</a>
+                                    <div id="stock" class="collapse">
+                                     <a href="/customers/stock"  class="btn" >재고현황</a><br/>
+                                       <a href="/customers/onStock" class="btn">월별 판매 현황</a>
+                                    </div>
+                                </div>
+                                
+                                    <div class="vertical-menu-item">
+                                    <a  href="#" class="btn" data-toggle="collapse" data-target="#consumerList">회원 관리</a>
+                                    <div id="consumerList" class="collapse">
+                                <a href="/customers/consumerList" class="btn" >구매회원</a><br/>
+                                <a href="/customers/CouponList" class="btn"  >쿠폰 보유 회원</a>
+                                    </div>
+                                </div>
+                                
+                                
+                                
+                                    <div class="vertical-menu-item">
+                                    <a  href="#" class="btn" data-toggle="collapse" data-target="#pay">결제</a>
+                                    <div id="pay" class="collapse">
+                          
+                                <a href="/customers/pay" class="btn">유료결제</a><br/>
+                                <a href="/customers/powerlink" class="btn">파워링크 결제</a><br/>
+                                <a href="/customers/itemplus" class="btn">품목 확장 결제</a> 
+                                    </div>
+                                </div>
+                                
+                                
+                                    <div class="vertical-menu-item">
+                                    <a  href="#" class="btn" data-toggle="collapse" data-target="#delivering">주문|배송</a>
+                                    <div id="delivering" class="collapse">
+                          
+                    
+                                <a href="/customers/delivering" class="btn">주문접수 및 배송현황</a><br/>
+                                <a href="/customers/deliverout" class="btn"> 주문 취소 </a><br/>
+                                    </div>
+                                </div>
+                                
+                                    <div class="vertical-menu-item">
+                                    <a  href="#" class="btn" data-toggle="collapse" data-target="#sellerQna">관리자</a>
+                                    <div id="sellerQna" class="collapse">
+                          
+                    
+                                <a href="/board/sellerQna" class="btn">관리자 문의게시판</a><br/>
+                                    </div>
+                                </div>
+                     
+                           
+                           
                                 <a href="/member/modify" class="btn">마이페이지</a>
                             </div>
                         </td>

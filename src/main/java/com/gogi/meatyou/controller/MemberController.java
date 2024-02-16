@@ -224,7 +224,7 @@ public class MemberController {
     		service.pick_me(dto.getM_id());     
     		service.p_pick_seq(dto.getM_id()); 
     		service.prefer(dto.getM_id());    
-    		service.p_pick(dto.getM_id());    
+    		service.p_pick(dto.getM_id());  
    model.addAttribute("check", check);
             return "member/inputPro";
         } else {
@@ -257,7 +257,12 @@ public class MemberController {
   		
   		
     @RequestMapping("sallerInputPro")
-    public String sallerInputPro(MemberDTO dto,CusDetailDTO cdto, Authentication authentication) {  String m_id = authentication.getName(); dto.setM_id(m_id); Map<String, Object> statusParamMap = new HashMap<>();  statusParamMap.put("m_id", m_id);  service.updateMemberStatus(dto);  service.insertIntoCusDetail(cdto);
+    public String sallerInputPro(MemberDTO dto,CusDetailDTO cdto, Authentication authentication) {  
+    	String m_id = authentication.getName(); 
+    	dto.setM_id(m_id); Map<String, Object> statusParamMap = new HashMap<>(); 
+    	statusParamMap.put("m_id", m_id);
+    	service.updateMemberStatus(dto); 
+    	service.insertIntoCusDetail(cdto);
        return "member/saller/sallerInputPro"; 
     }
     
@@ -839,16 +844,21 @@ public class MemberController {
     } 
     
     @RequestMapping("pwChange")
-    
     public String pwChange(MemberDTO memberdto, String passwd, String passwd2){
     	if(passwd.equals(passwd2)){
     		memberdto.setPasswd(passwd);
     		service.changePw(memberdto);
     	}
     	   	
-    	return "redirect:/member/customLogin";
+    	return "redirect:/member/pwResult";
+    }
+    
+    @RequestMapping("pwResult")
+    public String pwResult(){
+    	return "member/loginSequrity/pwResult";
     } 
-
+    
+	 
     
 }
  

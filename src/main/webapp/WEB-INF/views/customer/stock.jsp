@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <%@ include file="../header.jsp" %>
 <meta charset="UTF-8">
 <title>재고현황</title>
 </head>
@@ -82,3 +83,6 @@
 
 </body>
 </html>
+
+
+<%@ include file="../footer.jsp" %>

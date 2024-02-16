@@ -1,9 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 <!DOCTYPE html>
+    <%@ include file="../header.jsp" %>
 <html>
 <head> 
     <title>상품 등록</title>
@@ -20,7 +22,6 @@
 
 </head>
 <body>
-    <a href="/customers/customer">홈으로</a>
     <h1>상품 등록 페이지</h1>	
     <center>
         <b>상품 등록하기</b><br> 
@@ -420,5 +421,7 @@ function uploadImageFile(file, el) {
     
 </body>
 </html>
+
+<%@ include file="../footer.jsp" %>
 
 

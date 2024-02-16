@@ -4,17 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>아이디 찾기 성공</title>
+    <title>Password Changed</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f0f0f0;
+            background-color: #f5f5f5;
             margin: 0;
-            padding: 0;
+            padding: 20px;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             height: 100vh;
         }
 
@@ -28,26 +27,21 @@
 
         h1 {
             color: #333;
-        }
-
-        .message {
-            font-size: 18px;
-            margin: 20px 0;
+            margin-bottom: 20px;
         }
 
         button {
-            display: inline-block;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
             padding: 10px 20px;
-            margin: 0 10px;
-            font-size: 16px;
-            font-weight: bold;
             text-align: center;
             text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 20px;
             cursor: pointer;
-            border: none;
-            border-radius: 5px;
-            color: #fff;
-            background-color: #3498db;
+            border-radius: 4px;
             transition: background-color 0.3s;
         }
 
@@ -58,8 +52,14 @@
 </head>
 <body>
     <div class="container">
-        <h1>아이디 찾기 성공</h1>
-        <p class="message">회원님의 아이디는  <strong>${m_id}</strong> 입니다 </p>
+        <h1>비밀번호가 변경되었습니다</h1>
+        <button onclick="closeWindow()">닫기</button>
     </div>
+
+    <script>
+        function closeWindow() {
+            window.close(); // Close the current window
+        }
+    </script>
 </body>
 </html>

@@ -126,7 +126,7 @@
                      <div class="header-ctn">   
                       <sec:authorize access="isAnonymous()">
                    <div class="dropdown"  style="position:absolute; right:120px; margin-top:2px; float: left;   height: 150px; top:-1.2px;">
-                       <a href="/member/pPickList" class="login-required" onclick="checkLogin()" style=" height: 130px;" >
+                       <a href="/member/customLogin" class="login-required" onclick="checkLogin()" style=" height: 130px;" >
                        <img src="/resources/member/img/heart.png"  style="width:40%; margin-top:0; ">
                          <span style="position:absolute; top:39px; right: 28px;">찜 목록</span>
                       	  	<c:if test="${pickCNT > 0}">
@@ -136,7 +136,7 @@
                      </div>
                      
                    <div class="dropdown"  style="position:absolute; right:8px;  margin-top:2px;  float: left;   height: 150px; top:-1.2px;">
-                       <a href="/member/shoppingCartForm" class="login-required" onclick="checkLogin()" style=" height: 130px;" >
+                  <a href="/member/customLogin"class="login-required" onclick="checkLogin()" style=" height: 130px;" >
                        <img src="/resources/member/img/cart.png"  style="width:40%; margin-top:0; ">
                          <span style="position:absolute; top:39px; right: 28px;">장바구니</span>
                       	  	<c:if test="${CartCNT > 0}">
@@ -194,7 +194,7 @@
                          </a>
                      </div>
 </sec:authorize>                                        
-                 <sec:authorize access="isAnonymous() == false and (hasAuthority('ROLE_READYSALLER') or hasAuthority('ROLE_RESIGNSALLER') or hasAuthority('ROLE_SALLER') or hasAuthority('ROLE_TOPPAYSALLER') or hasAuthority('ROLE_CONTENTPAYSALLER') or hasAuthority('ROLE_ALLPAYSALLER')   or hasAuthority('ROLE_KAKAO_RESIGNSALLER') or hasAuthority('ROLE_KAKAO_SALLER') or hasAuthority('ROLE_KAKAO_TOPPAYSALLER') or hasAuthority('ROLE_KAKAO_CONTENTPAYSALLER') 
+                 <sec:authorize access="isAnonymous() == false and (hasAuthority('ROLE_RESIGNSALLER') or hasAuthority('ROLE_SALLER') or hasAuthority('ROLE_TOPPAYSALLER') or hasAuthority('ROLE_CONTENTPAYSALLER') or hasAuthority('ROLE_ALLPAYSALLER')   or hasAuthority('ROLE_KAKAO_RESIGNSALLER') or hasAuthority('ROLE_KAKAO_SALLER') or hasAuthority('ROLE_KAKAO_TOPPAYSALLER') or hasAuthority('ROLE_KAKAO_CONTENTPAYSALLER') 
                  or hasAuthority('ROLE_KAKAO_ALLPAYSALLER'))">
                 <!-- 인증된 사용자 중 ROLE_MEMBER와 ROLE_ADMIN을 제외한 다른 모든 권한을 가진 사용자에게만 보여집니다 -->
                 <div class="dropdown" style="position:absolute; right:-90px; margin-top:4px;  float: left; height: 150px; top:-2px;">

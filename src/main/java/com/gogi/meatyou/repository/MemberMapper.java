@@ -33,6 +33,7 @@ public interface MemberMapper {
    public void userPay(ArrayList<MOrderDTO> list);
    
     public int insertMember(MemberDTO dto);
+    public int insertMember_Addr(String m_id);
     public int insertKaKao(MemberDTO dto);
     public int twoNextPay(OrderwithCouponDTO mdto,int shop_num ,@Param("order_p_num")int order_p_num,
     		@Param("order_memo") String order_memo,@Param("order_m_id") String order_m_id,@Param("order_cp_num") int order_cp_num,@Param("order_p_price") int order_p_price

@@ -20,10 +20,12 @@
    	<select id="pick_P_CNT" resultType="int" >
       		select count(*) from pick_me_${ppic_m_id}
    	</select>
+   	
 	<select id="checkEmail" parameterType="hashmap" resultType="int">
 		select count(*) from member where email=#{email} and m_name=#{name} and phone=#{phone} 
-		<if test="m_id!=null or m_id!=''"> and m_id=#{m_id}</if>
+		<if test="m_id!=null and m_id!=''"> and m_id=#{m_id}</if>
 	</select>
+	
    <select id="memberList" resultType="com.gogi.meatyou.bean.MemberDTO">
        SELECT * FROM member
     WHERE m_id ='${m_id}'
@@ -136,6 +138,10 @@ WHERE
 <insert id="insertAddr" parameterType="com.gogi.meatyou.bean.MemAddressDTO">
     INSERT INTO mem_address(add_num,add_m_id,add_mem_address1,add_mem_address2,add_type) VALUES
    (mem_address_seq.nextval,'${add_m_id}','${add_mem_address1.replace("'", "''").replaceAll(",\\s*$", "")}','${add_mem_address2.replace("'", "''").replaceAll(",\\s*$", "")}',0)
+</insert>
+<insert id="insertMember_Addr" parameterType="com.gogi.meatyou.bean.MemAddressDTO">
+    INSERT INTO mem_address(add_num,add_m_id,add_mem_address1,add_mem_address2,add_type) VALUES
+   (mem_address_seq.nextval,'${m_id}','${m_add1.replace("'", "''").replaceAll(",\\s*$", "")}','${m_addr2.replace("'", "''").replaceAll(",\\s*$", "")}',0)
 </insert>
    
    

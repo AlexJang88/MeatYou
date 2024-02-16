@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <%@ include file="../header.jsp" %>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>  
 <meta charset="UTF-8">
 <title>여기는 품목확장</title>
@@ -77,3 +78,4 @@
 
 </body>
 </html>
+<%@ include file="../footer.jsp" %>
