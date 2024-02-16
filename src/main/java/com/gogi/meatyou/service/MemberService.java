@@ -29,6 +29,7 @@ import com.gogi.meatyou.bean.ShoppingCartDTO;
 import com.gogi.meatyou.bean.UserPayDTO;
 
 public interface MemberService  {
+	public int getCouponPrice(int cp_num);
 	public void userPaycomplete(ArrayList<MOrderDTO> list,int[] shop_num,int[]cp_num,String id);
 	public OrderwithCouponDTO getProductInfo(int p_num);
 	public OrderwithCouponDTO getCartbyNum(HashMap hashmap);

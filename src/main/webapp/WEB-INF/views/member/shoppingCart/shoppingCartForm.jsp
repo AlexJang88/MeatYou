@@ -18,19 +18,41 @@
     
       
     <script>
-//선택주문 
-// 선택한 상품 주문 함수
-// 선택된 쿠폰을 저장하는 변수
-//var selectedCoupon = "";
-/* function orderSelectedItems() {
-    var selectedShopNums = getSelectedShopNums(); // 선택된 상품의 shop_num을 가져오는 함수
-    var selectedCoupon = $('#cList').val(); // select 태그에서 선택된 쿠폰 값을 가져오기
- //   on
-    // 선택한 상품의 shop_num을 URL 파라미터로 세 번째 페이지로 전달
-    window.location.href = "/member/orderPageTwo?check=1&selectedShopNums=" + selectedShopNums.join(',');
-    //	+	"&selectedCoupon=" + selectedCoupon;;
-} */
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('submitForm').addEventListener('click', function(e) {
+            e.preventDefault(); // 기본 폼 제출 방지
 
+            var form = document.createElement('form');
+            form.method = 'post';
+            form.action = '/member/orderPageOne'; // 컨트롤러의 경로로 수정
+
+            // 선택된 체크박스와 해당하는 쿠폰 정보를 폼 데이터로 추가
+            document.querySelectorAll('input[name="arr_shop_num"]:checked').forEach(function(checkbox) {
+                // 상품 정보 추가
+                var inputShopNum = document.createElement('input');
+                inputShopNum.type = 'hidden';
+                inputShopNum.name = 'selectedShopNums';
+                inputShopNum.value = checkbox.value;
+                form.appendChild(inputShopNum);
+
+                // 해당 상품의 쿠폰 정보 추가
+                var couponSelect = checkbox.closest('tr').querySelector('.coupon-select'); // .coupon-select는 쿠폰 선택 드롭다운의 클래스명
+                if (couponSelect) {
+                    var inputCoupon = document.createElement('input');
+                    inputCoupon.type = 'hidden';
+                    inputCoupon.name = 'couponInfo[' + checkbox.value + ']'; // 쿠폰 정보를 상품 번호와 연결
+                    inputCoupon.value = couponSelect.value;
+                    form.appendChild(inputCoupon);
+                }
+            });
+
+            document.body.appendChild(form);
+            form.submit();
+        });
+    });
+
+    
+    
 // 선택된 상품의 shop_num을 가져오는 함수
 function getSelectedShopNums() {
     var selectedShopNums = [];
@@ -163,45 +185,36 @@ function deleteSelectedItems() {
         </tr>
     </thead>
     <tbody>
-    <form action="orderPageOne"  method="post"> 
+    <form action="/member/orderPageOne"  method="post">
+     	
+    <button id="submitForm">제출</button>
+    </form>
+    
         <c:forEach var="item" items="${cartdto}">
+            	
             	<tr>
             	<td>
-            	   <%-- <input type="checkbox" name="shop_num" value="${item.shop_num}"/> --%>
-            	      <input type="checkbox" name="arr_shop_num" value="${item.shop_num}" 
-                   onclick="toggleSelectedShopNum(this, '${item.shop_num}')"/>
+            	      <input type="checkbox" name="arr_shop_num" value="${item.shop_num}"/> 
        			 </td>
        			  <td>
        			  <a href="/member/delete?shop_num=${item.shop_num}&pd_p_num=${item.pd_p_num}&p_num=${item.p_num}">삭제</a>
                    
                 </td>
-                <td><c:out value="${item.shop_num}" />
-               <%--  ${item.p_num}
-                 --%></td>
-								<td><c:out value="${item.shop_p_num}" /> <%--  ${item.p_num}
-                 --%></td>
+                <td><c:out value="${item.shop_num}" /> </td>
+					<td><c:out value="${item.shop_p_num}" /> </td>
 								<td>${item.p_m_id}</td>
 								<td>${item.p_name}</td>
 								<td>${item.thumb}</td>
 								<td>
 									<button type="button" class="quantity-up" data-quantity="${item.shop_quantity}" onclick="update_click(this, 'increase','${item.shop_p_num}')">+</button>
-									<input type="hidden" class="shop_quantity" value="${item.shop_quantity}" /> 
 										<c:out value="${item.shop_quantity}" />
 									<button type="button" class="quantity-down" data-quantity="${item.shop_quantity}" onclick="update_click(this, 'decrease','${item.shop_p_num}')">-</button>
 								</td>
-
 								<td><b>총액 </b> <input type="hidden" name="arr_p_price" value="${item.p_price}"> <c:out value="${item.p_price * item.shop_quantity}" /> <b> 원</b> 
 										<c:set var="totalAmount" value="${totalAmount + (item.p_price * item.shop_quantity)}" />
 								</td>
-
-
 								<td>
-									<div>
-
-
-
-										<select name="arr_cp_num" id="cList">
-
+										<select name="arr_cp_num" id="cList" class="coupon-select">
 											<c:if test="${  empty item.coupons}">
 												<option value="0" selected="selected">사용에 적합한 쿠폰이없습니다</option>
 											</c:if>
@@ -212,20 +225,19 @@ function deleteSelectedItems() {
 												</c:forEach>
 											</c:if>
 										</select>
-									</div>
 								</td>
 							</tr>
 						</c:forEach>
 
 						<input name="totalAmount" value="${totalAmount}" type="hidden" />
-						<input type="submit" value="주문">
+						
 
 						<tr>
 							<td></td>
 							<td></td>
 							<td></td>
 							<td style="height: 10px;">
-					</form>
+					
 
 
 					<c:if test="${count>0}">

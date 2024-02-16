@@ -22,7 +22,7 @@
    	</select>
 	<select id="checkEmail" parameterType="hashmap" resultType="int">
 		select count(*) from member where email=#{email} and m_name=#{name} and phone=#{phone} 
-		<if test="m_id!=null or m_id!=''"> and m_id=#{m_id}</if>
+		<if test="m_id!=null and m_id!=''"> and m_id=#{m_id}</if>
 	</select>
    <select id="memberList" resultType="com.gogi.meatyou.bean.MemberDTO">
        SELECT * FROM member
@@ -857,7 +857,9 @@ SELECT * FROM ( SELECT * FROM coupon WHERE cp_m_id=#{id} AND cp_status=1 AND cp_
   WHERE order_m_id = #{order_m_id, jdbcType=VARCHAR}
 </select>
 
-
+		<select id="getCouponPrice" parameterType="int" resultType="com.gogi.meatyou.bean.CouponDTO">
+			select cp_price from coupon where cp_num=#{cp_num}
+		</select>
 
 
   

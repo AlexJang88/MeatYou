@@ -25,7 +25,8 @@ import com.gogi.meatyou.bean.ShoppingCartDTO;
 import com.gogi.meatyou.bean.UserPayDTO;
 
 public interface MemberMapper {
-   public int checkEmail(HashMap hashmap);
+   public int getCouponPrice(int cp_num);
+	public int checkEmail(HashMap hashmap);
 	public MemberDTO read(String m_id);
    public OrderwithCouponDTO getProductInfo(int p_num);
    public List<CouponDTO> getProductCoupon(HashMap hashmap);

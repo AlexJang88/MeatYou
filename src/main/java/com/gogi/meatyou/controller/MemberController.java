@@ -655,9 +655,7 @@ public class MemberController {
     	memberMap.put("p_num", temp.getP_num());
     	//temp.setAddressList(service.combined_address(id));
     	 temp.setCoupons(service.getProductCoupon(memberMap));
-    	 
     	}
-    	
     	model.addAttribute("cartdto", cartdto);
     	
  	   return "member/shoppingCart/shoppingCartForm";
@@ -667,18 +665,12 @@ public class MemberController {
     public String orderPageOne(Principal peid,Model model,OrderwithCouponDTO dto) {
         
        String add_m_id = peid.getName();   
-       
-       System.out.println("id======"+add_m_id);
+       		for(int i=0;i<dto.getArr_cp_num().length;i++) {
+       			System.out.println("==pageone=="+dto.getArr_cp_num()[i]);
+       		}
           dto.setAdd_m_id(add_m_id);
-          int [] test = dto.getArr_shop_num();
-          int [] cptest= dto.getArr_cp_num();
-          System.out.println("===DTO"+test[0]);
-          System.out.println("===CPNUM"+cptest[0]);
           List<String> AddrList = service.combined_address(add_m_id);
-        MemberDTO mdto = service.getUser(add_m_id);         
-        
-        List<CouponDTO> cList = service.howmuchCoupon(add_m_id);
-        System.out.println("cList================================="+cList);
+          MemberDTO mdto = service.getUser(add_m_id);         
         model.addAttribute("add_m_id", add_m_id);
         model.addAttribute("AddrList", AddrList);
         model.addAttribute("mdto", mdto);
@@ -691,39 +683,41 @@ public class MemberController {
     @RequestMapping("orderPageTwo")
     public String orderPageTwo(Principal peid, Model model ,OrderwithCouponDTO dto) {
     	ArrayList<OrderwithCouponDTO> cdto = new ArrayList<OrderwithCouponDTO>();
-        dto.setOrder_dere_pay(2500);
         String add_m_id = peid.getName();
         MemberDTO mdto = service.getUser(add_m_id);         
         memberMap.put("m_id", add_m_id);
             int [] temp_shop_num = dto.getArr_shop_num();
             int totquantity =0;
             int totalprice=0;
+            int dere_pay = 0;
             int price=0;
+            int discount=0;
+            int totalAmount=0;
             for (int i = 0; i < temp_shop_num.length; i++) {
-            	System.out.println("=====shopnum"+temp_shop_num[i]);
-            	System.out.println("=====shopnum"+dto.getArr_cp_num()[i]);
-            }
-            for (int i = 0; i < temp_shop_num.length; i++) {
+            	System.out.println("test==="+dto.getArr_cp_num()[i]);
 				OrderwithCouponDTO tempdto = new OrderwithCouponDTO();
 				memberMap.put("shop_num", dto.getArr_shop_num()[i]);
 				memberMap.put("cp_num", dto.getArr_cp_num()[i]);
 				tempdto=service.getCartbyNum(memberMap);
+				totalprice+=tempdto.getShop_quantity()*tempdto.getP_price();
 				totquantity+=tempdto.getShop_quantity();
+				tempdto.setOrder_dere_pay(2500);
+				dere_pay+= dto.getOrder_dere_pay()+tempdto.getOrder_dere_pay();
+				tempdto.setCp_num(dto.getArr_cp_num()[i]);
+				tempdto.setSelectedAddress(dto.getSelectedAddress());
 				if(dto.getArr_cp_num()[i]==0) {
 					tempdto.setCp_price(0);
+				}else {
+					discount+=service.getCouponPrice(dto.getArr_cp_num()[i]);
+					tempdto.setCp_price(service.getCouponPrice(dto.getArr_cp_num()[i]));
 				}
-				price+=tempdto.getP_price()*tempdto.getShop_quantity()+dto.getOrder_dere_pay()-tempdto.getCp_price();
-				tempdto.setTot_price(price);
-				totalprice+=price;
-				price=0;
-				System.out.println(tempdto);
-				System.out.println(tempdto.getTot_price());
-				System.out.println("cp_price===="+tempdto.getCp_price());
 				cdto.add(tempdto);
 			}
+            dto.setOrder_dere_pay(dere_pay);
             dto.setTotal_quantity(totquantity);
-            dto.setTotal_amount(totalprice);
+            dto.setTotal_amount(totalprice+dere_pay-discount);
             dto.setTot_price(totalprice);
+            dto.setCp_price(discount);
             model.addAttribute("cdto", cdto);
             model.addAttribute("dto", dto);
             model.addAttribute("mdto", mdto);

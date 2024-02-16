@@ -131,7 +131,7 @@
         </tbody> 
     </table>
     
-    <c:forEach items="${dto.arr_shop_num}" var="sitem">
+   <c:forEach items="${dto.arr_shop_num}" var="sitem">
     	<input type="hidden" name="arr_shop_num" value="${sitem}" >
     </c:forEach>
     <c:forEach items="${dto.arr_cp_num}" var="citem">
@@ -139,6 +139,15 @@
     </c:forEach>
     <c:forEach items="${dto.arr_p_name}" var="pitem">
     	<input type="hidden" name="arr_p_name" value="${pitem}" >
+    </c:forEach>
+     <c:forEach items="${dto.arr_shop_p_num}" var="pitem">
+    	<input type="hidden" name="arr_shop_p_num" value="${pitem}" >
+    </c:forEach>
+         <c:forEach items="${dto.arr_shop_quantity}" var="pitem">
+    	<input type="hidden" name="arr_shop_quantity" value="${pitem}" >
+    </c:forEach>
+         <c:forEach items="${dto.arr_p_price}" var="pitem">
+    	<input type="hidden" name="arr_p_price" value="${pitem}" >
     </c:forEach>
     
     				

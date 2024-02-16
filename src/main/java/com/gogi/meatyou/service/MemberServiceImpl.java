@@ -889,6 +889,12 @@ public class MemberServiceImpl implements MemberService {
 			// TODO Auto-generated method stub
 			return 0;
 		}
+
+		@Override
+		public int getCouponPrice(int cp_num) {
+			// TODO Auto-generated method stub
+			return mapper.getCouponPrice(cp_num);
+		}
              
              
              
