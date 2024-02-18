@@ -4,6 +4,9 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <%@ include file="../../header.jsp" %>
+
+    <link rel="stylesheet" href="/resources/qna/css/questionCA.css"> <!-- 외부 스타일시트 추가 -->	
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,36 +21,95 @@
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 </head>
 <body>
-<div style="width: 80%; header:auto; border: 1px solid black; margin: auto; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-<h1> 문의사항 판매자 관리자 작성</h1>
-<form action="questionSAPro" method="post" enctype="multipart/form-data">
-	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-	<input type="hidden" name="ma_m_id" value="${id}">
-	<table width="500" border="1" cellspacing="0" cellpadding="0" align="center">
+ 
 
-		<tr>
-			<td width="70" align="center" >제목</td>
-			<td><input type="text" name="ma_title" size="40" maxlength="50" placeholder="제목을 적어주세요" required="required"></td>
-		</tr>
-		
-		<tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div style="display: flex; margin-top: 40px; margin-bottom: 50px;">
+    <h2 id="getYear" class="out-table">
+  문의사항 소비자 관리자 작성 
+</h2><br/> 
+</div>
+
+<div class="main-container" >
+    
+      <table class="main-table"  >
+            <td class="graph-and-summary">
+							<form action="questionSAPro" method="post" enctype="multipart/form-data">
+								<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+	<input type="hidden" name="ma_m_id" value="${id}">
+									<table  class="summary-table" >
+								
+										<tr>
+											<td width="70" align="center" >제목</td>
+											<td><input type="text" name="ma_title" size="40" maxlength="50" placeholder="제목을 적어주세요" required="required" "style="margin-bottom:2%;"></td>
+										</tr>
+										
+										<tr>
+										  <tr>
 		    <td width="70" align="center" >문의내용  입력</td> 
 			<td width="330" >
 			    <textarea id="summernote" name="ma_content" required="required"  placeholder="문의하실 내용을 적어주세요"></textarea>
 			</td>
 		</tr> 
-		
-		<tr>
-             <td colspan="2" align="center">
-                <input type="submit" value="문의하기 등록">
-                <input type="reset" value="다시 작성">
-                <input type="button" value="목록으로" onclick="window.location='/board/sellerQna'">
-             </td>
-        </tr>
-		
-	</table>	
-</form>
+										</tr> 
+										
+										<tr>
+								             <td colspan="2" align="center">
+								                <input type="submit" value="문의하기 등록">
+								                <input type="reset" value="다시 작성">
+								                <input type="button" value="목록으로" onclick="window.location='/board/sellerQna'">
+								             </td>
+								        </tr>
+										
+									</table>	
+								</form>
+			
+			   </td>
+		</table>
+      
+ 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

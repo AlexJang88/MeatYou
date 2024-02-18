@@ -123,10 +123,10 @@
 						 
                                    <div class="vertical-menu-item">
 								        <a href="/customers/customer" class="btn" data-toggle="collapse" data-target="#homeSubMenu">상품</a>
-								        <div id="homeSubMenu" class="collapse">
-                                         <a href="/customers/itemUpdate" class="btn" >상품 등록</a><br/>
-                                            <a href="/customers/itemList" class="btn">상품 목록</a>
-                                    </div>
+											        <div id="homeSubMenu" class="collapse">
+			                                         <a href="/customers/itemUpdate" class="btn" >상품 등록</a><br/>
+			                                            <a href="/customers/itemList" class="btn">상품 목록</a>
+			                                    </div>
                                 </div>
                             
                                     <div class="vertical-menu-item">
@@ -177,17 +177,14 @@
                                 </div>
                                 
                                     <div class="vertical-menu-item">
-                                    <a  href="#" class="btn" data-toggle="collapse" data-target="#sellerQna">관리자</a>
-                                    <div id="sellerQna" class="collapse">
-                          
-                    
-                                <a href="/board/sellerQna" class="btn">관리자 문의게시판</a><br/>
+		                                    <a  href="#" class="btn" data-toggle="collapse" data-target="#sellerQna">관리자</a>
+		                                    <div id="sellerQna" class="collapse">
+		                                <a href="/board/sellerQna" class="btn">관리자 문의게시판</a><br/>
                                     </div>
                                 </div>
                      
                            
                            
-                                <a href="/member/modify" class="btn">마이페이지</a>
                             </div>
                         </td>
                         <td>
