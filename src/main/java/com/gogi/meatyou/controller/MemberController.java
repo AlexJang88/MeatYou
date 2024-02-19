@@ -358,20 +358,20 @@ public class MemberController {
    
       
       @RequestMapping("updateQuantity")
-      public @ResponseBody String updateQuantity(Principal seid,int shop_p_num,int shop_quantity) {
+      public @ResponseBody String updateQuantity(Principal seid,int shop_num,int shop_quantity) {
            String shop_m_id = (String) seid.getName();
-          service.updateQuantity(shop_p_num, shop_quantity, shop_m_id);
+          service.updateQuantity(shop_num, shop_quantity, shop_m_id);
              
           return "success";  
       }   
       
       
-      @PostMapping("delete")
-      public String deleteItems(Principal seid,ShoppingCartDTO sdto) {
+      @RequestMapping("delete")
+      public String deleteItems(Principal seid,int shop_num) {
 
                   String shop_m_id = (String) seid.getName();
 
-                int check = service.deleteCart(sdto.getShop_p_num(), shop_m_id);
+                int check = service.deleteCart(shop_num, shop_m_id);
                 if (check == 1) {
                       
                      return "redirect:/member/shoppingCartForm";
@@ -382,11 +382,13 @@ public class MemberController {
       
       @PostMapping("/deleteSelectedItems")
       @ResponseBody
-      public ResponseEntity<String> deleteSelectedItems(Principal seid, @RequestParam("selectedShopNums") List<Long> selectedShopNums ) {
+      public ResponseEntity<String> deleteSelectedItems(Principal seid,String selectedShopNums ) {
           String shop_m_id = (String) seid.getName();
-
+          
           try {
-              service.deleteSelectedItems(selectedShopNums , shop_m_id);
+        	  String [] arrshopnums = selectedShopNums.split(",");
+        	  
+              service.deleteSelectedItems(arrshopnums , shop_m_id);
               return ResponseEntity.ok("Selected items deleted successfully");
           } catch (Exception e) {
               e.printStackTrace();
@@ -612,81 +614,95 @@ public class MemberController {
 
     
     @RequestMapping("shoppingCartForm")
-    public String shoppingCartForm(Principal seid,Model model,@RequestParam(value="page",defaultValue = "1") int page){	
-    	
-    	String id = seid.getName();
-    	System.out.println("id==========="+id);
-    	List<OrderwithCouponDTO> cartdto =Collections.EMPTY_LIST;
-		System.out.println("page====="+page);
-    	cartdto = service.ShoppingCartAndProduct(id,page,model);
-    	
-    	
-    	String m_id="";
-        int CartCNT=0;
-        
-        if(seid != null) {
-      	 m_id = (String)seid.getName(); 
-           model.addAttribute("m_id", m_id);
-           String shop_m_id = (String)seid.getName();
-           CartCNT = service.ShoppingCartCNT(shop_m_id);
-          model.addAttribute("CartCNT", CartCNT);
-        } else {
-           CartCNT=0;
-           model.addAttribute("CartCNT", CartCNT);
-        }
-
-        int pickCNT=0;
-        int pick_P_CNT=0;
-        if(seid != null) {
-      	  String ppic_m_id = (String)seid.getName();
-      	  pickCNT = service.pickCNT(ppic_m_id);
-      	  pick_P_CNT = service.pick_P_CNT(ppic_m_id);
-      	  model.addAttribute("pickCNT", pickCNT);
-      	  model.addAttribute("pick_P_CNT", pick_P_CNT);
-        } else {
-      	  pickCNT=0;
-      	  pick_P_CNT=0;
-      	  model.addAttribute("pickCNT", pickCNT);
-      	  model.addAttribute("pick_P_CNT", pick_P_CNT);
-        }
-
-
-    	for(OrderwithCouponDTO temp : cartdto) {
-    	memberMap.put("p_num", temp.getP_num());
-    	//temp.setAddressList(service.combined_address(id));
-    	 temp.setCoupons(service.getProductCoupon(memberMap));
-    	}
-    	model.addAttribute("cartdto", cartdto);
-    	
+    public String shoppingCartForm(
+ 		   Principal seid,
+ 		   Model model,
+ 		   @RequestParam(defaultValue = "1") int page,  
+ 		   @RequestParam(defaultValue = "10") int pageSize,  
+ 		   ShoppingCartDTO sdto,
+ 		   ProductDTO pdto,
+ 		   PDetailDTO pddto,
+ 		   @RequestParam(value = "selectedProducts", required = false) List<String> selectedProducts, CouponDTO cdto,MOrderDTO odto  )
+    {
+    	  
+ 	   int cp_num=sdto.getCp_num();
+ 	   int cp_price=sdto.getCp_price();
+ 	   int p_num=pdto.getP_num();
+ 	   String shop_m_id = (String) seid.getName();
+ 	   int totalPrice = sdto.getShop_quantity() * sdto.getP_price();
+ 	  
+ 	   List<CouponDTO> cList = service.howmuchCoupon(shop_m_id);
+ 	   List<ShoppingCartDTO> shoppingCartList = service.getShoppingCartItemsPaged2(shop_m_id, page, pageSize, sdto, pdto,pddto,cList,cdto);
+ 	   for(ShoppingCartDTO dto : shoppingCartList) {
+ 		  int sp_num= dto.getShop_p_num();
+ 		 memberMap.put("id", shop_m_id);
+ 		  memberMap.put("p_num", sp_num);
+ 		  dto.setCoupons(service.getProductCoupon(memberMap));
+ 	   }
+ 	   
+ 	   int count = service.couponCount(shop_m_id);  
+ 	//  int checkCoupon=service.CouponForyou(shop_m_id,cdto,sdto);
+ 	     Integer order_cp_num = cdto.getCp_num(); // 변경
+ 	     Integer order_cp_price = cdto.getCp_price(); // 변경
+         Integer order_discount = odto.getOrder_discount(); // 변경
+         
+         
+ 	   int totalItemCount = service.getTotalShoppingCartItems(shop_m_id);
+ 	   
+ 	   int totalPage = (int) Math.ceil((double) totalItemCount / pageSize);
+ 	   
+ 	   System.out.print("shoppingCartList================================"+shoppingCartList);
+ 	   System.out.print("cp_num================================"+cp_num);
+ 	   System.out.print("cp_num================================"+cp_price);
+ 	   
+ 	   model.addAttribute("shoppingCartList", shoppingCartList);
+ 	   model.addAttribute("totalPrice", totalPrice);
+ 	   model.addAttribute("page", page);
+ 	   model.addAttribute("pageSize", pageSize);
+ 	   model.addAttribute("totalPage", totalPage);
+ 	   model.addAttribute("selectedProducts", selectedProducts);
  	   return "member/shoppingCart/shoppingCartForm";
     }
   
     @RequestMapping("orderPageOne")
-    public String orderPageOne(Principal peid,Model model,OrderwithCouponDTO dto) {
+    public String orderPageOne(Principal peid,Model model,String selectedShopNums,String selectedCoupon) {
         
        String add_m_id = peid.getName();   
-       		for(int i=0;i<dto.getArr_cp_num().length;i++) {
-       			System.out.println("==pageone=="+dto.getArr_cp_num()[i]);
-       		}
-          dto.setAdd_m_id(add_m_id);
+       System.out.println("test one ====="+selectedShopNums);
+       System.out.println("test one ====="+selectedCoupon);
+       System.out.println("id======"+add_m_id);
+       OrderwithCouponDTO dto= new OrderwithCouponDTO();   
+       dto.setAdd_m_id(add_m_id);
+
           List<String> AddrList = service.combined_address(add_m_id);
-          MemberDTO mdto = service.getUser(add_m_id);         
+        MemberDTO mdto = service.getUser(add_m_id);         
+        
+        List<CouponDTO> cList = service.howmuchCoupon(add_m_id);
+        int count = service.couponCount(add_m_id);
         model.addAttribute("add_m_id", add_m_id);
         model.addAttribute("AddrList", AddrList);
         model.addAttribute("mdto", mdto);
+        model.addAttribute("selectedShopNums", selectedShopNums);
+        model.addAttribute("selectedCoupon", selectedCoupon);
         model.addAttribute("dto", dto);
-        return "member/order/orderPageOne";
-    } 
+       
+        
+        
+         return "member/order/orderPageOne";
+    }  
     
     
      
     @RequestMapping("orderPageTwo")
-    public String orderPageTwo(Principal peid, Model model ,OrderwithCouponDTO dto) {
+    public String orderPageTwo(Principal peid, Model model, OrderwithCouponDTO dto,String selectedShopNums,String selectedCoupon) {
     	ArrayList<OrderwithCouponDTO> cdto = new ArrayList<OrderwithCouponDTO>();
         String add_m_id = peid.getName();
         MemberDTO mdto = service.getUser(add_m_id);         
+        System.out.println("test===two"+selectedShopNums);
+        System.out.println("test===two"+selectedCoupon);
         memberMap.put("m_id", add_m_id);
-            int [] temp_shop_num = dto.getArr_shop_num();
+            String [] temp_shop_num = selectedShopNums.split(",");
+            String [] temp_cp_num =selectedCoupon.split(",");
             int totquantity =0;
             int totalprice=0;
             int dere_pay = 0;
@@ -694,25 +710,25 @@ public class MemberController {
             int discount=0;
             int totalAmount=0;
             for (int i = 0; i < temp_shop_num.length; i++) {
-            	System.out.println("test==="+dto.getArr_cp_num()[i]);
 				OrderwithCouponDTO tempdto = new OrderwithCouponDTO();
-				memberMap.put("shop_num", dto.getArr_shop_num()[i]);
-				memberMap.put("cp_num", dto.getArr_cp_num()[i]);
+				memberMap.put("shop_num", Integer.parseInt(temp_shop_num[i]));
+				memberMap.put("cp_num", Integer.parseInt(temp_cp_num[i]));
 				tempdto=service.getCartbyNum(memberMap);
 				totalprice+=tempdto.getShop_quantity()*tempdto.getP_price();
 				totquantity+=tempdto.getShop_quantity();
 				tempdto.setOrder_dere_pay(2500);
-				dere_pay+= dto.getOrder_dere_pay()+tempdto.getOrder_dere_pay();
-				tempdto.setCp_num(dto.getArr_cp_num()[i]);
+				dere_pay+=tempdto.getOrder_dere_pay();
+				tempdto.setCp_num(Integer.parseInt(temp_cp_num[i]));
 				tempdto.setSelectedAddress(dto.getSelectedAddress());
-				if(dto.getArr_cp_num()[i]==0) {
+				if(temp_cp_num[i].equals("0")) {
 					tempdto.setCp_price(0);
 				}else {
-					discount+=service.getCouponPrice(dto.getArr_cp_num()[i]);
-					tempdto.setCp_price(service.getCouponPrice(dto.getArr_cp_num()[i]));
+					discount+=service.getCouponPrice(Integer.parseInt(temp_cp_num[i]));
+					tempdto.setCp_price(service.getCouponPrice(Integer.parseInt(temp_cp_num[i])));
 				}
 				cdto.add(tempdto);
 			}
+            dto.setShop_num(Integer.parseInt(temp_shop_num[0]));
             dto.setOrder_dere_pay(dere_pay);
             dto.setTotal_quantity(totquantity);
             dto.setTotal_amount(totalprice+dere_pay-discount);

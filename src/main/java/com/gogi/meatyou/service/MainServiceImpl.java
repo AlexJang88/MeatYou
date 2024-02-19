@@ -3426,8 +3426,23 @@ public ProductDetailDTO productDetail(ProductDetailDTO dto, Model model) {
 	
 	@Override
 	public int ShoppingCartInsert2(Model model, String m_id, int p_num, int shop_quantity) {
+		
 		int CartCNT = mapper.ShoppingCartCNT2(m_id);
-		mapper.ShoppingCartInsert2(m_id , p_num, shop_quantity);
+		List<Integer> list = mapper.getCart(m_id);
+		int check=0;
+		for(Integer i : list) {
+			if(i==p_num) {
+				check++;
+				searchMap.put("shop_p_num", p_num);
+				searchMap.put("id", m_id);
+				mapper.updateCart(searchMap);
+				break;
+			}
+		}
+		if(check!=0) {
+			mapper.ShoppingCartInsert2(m_id , p_num, shop_quantity);
+		}
+		
 		model.addAttribute("m_id" , m_id);
 		model.addAttribute("p_num" , p_num);
 		model.addAttribute("shop_quantity" , shop_quantity);
@@ -3645,6 +3660,7 @@ public ProductDetailDTO productDetail(ProductDetailDTO dto, Model model) {
 		model.addAttribute("status", status);
 		model.addAttribute("id", id);
 	}
+
 
 
 }

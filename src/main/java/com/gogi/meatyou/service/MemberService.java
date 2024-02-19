@@ -44,12 +44,6 @@ public interface MemberService  {
     public int idCheck(String m_id);
     public int eMailCheck(String email);
     public int deleteCheck( String passwd) ;
-    int twoNextPay(
-    		OrderwithCouponDTO mdto,int shop_num,int order_p_num,String order_memo
-    		,@Param("order_m_id") String order_m_id,int order_cp_num,int order_p_price,
-    		@Param("order_dere_pay") int order_dere_pay ,@Param("order_addr") String order_addr,@Param("order_discount") int order_discount,@Param("order_quantity") int order_quantity
-    		,@Param("order_totalprice") int order_totalprice  );
-    
     
     public List<UserPayDTO> findshop_p_num(HashMap hashmap);
     public MemberDTO member(String m_id);   
@@ -97,7 +91,7 @@ public interface MemberService  {
       	public int CouponForyou(String shop_m_id,CouponDTO cdto,ShoppingCartDTO sdto);
       int getTotalShoppingCartItems(String shop_m_id);
       public int deleteCart(int shop_num,String shop_m_id);
-      public void deleteSelectedItems(List<Long> selectedShopNums ,String shop_m_id);
+      public void deleteSelectedItems(String[] selectedShopNums ,String shop_m_id);
       List<ShoppingCartDTO> orderpage(String shop_m_id, int startRow, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto);
       int orderpageCartItems(String shop_m_id);
       List<PickMeDTO> pickMeCountPage(String pm_m_id, int page, int pageSize, PickMeDTO pdto, CusDetailDTO cdto);

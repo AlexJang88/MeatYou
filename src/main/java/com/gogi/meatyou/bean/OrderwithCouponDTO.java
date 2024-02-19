@@ -35,7 +35,6 @@ public class OrderwithCouponDTO {
 	private String  p_m_id;
 	private String  thumb;
 	private int  p_price;//
-	private int  selectedShopNums;
 	private String shop_m_id;//
 	private int totalAmount;
 	
