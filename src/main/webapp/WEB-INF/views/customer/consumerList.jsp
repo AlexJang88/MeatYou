@@ -10,9 +10,26 @@
 <html>
 <head>
     <title>구매 회원 고객리스트</title>
-</head>
-<body>
+    <script>
+ // 썸머노트 초기화
+    $('#summernote').summernote();
 
+    // 현재 커서 위치 가져오기
+    function getCurrentCursorPosition() {
+      var range = $('#summernote').summernote('focus').summernote('getRange');
+      var node = range.sc;
+      var offset = range.so;
+      
+      console.log('현재 커서 위치 - 노드:', node, '오프셋:', offset);
+    }
+
+    // 예제: 버튼 클릭 시 현재 커서 위치 출력
+    $('#getCursorPositionButton').on('click', function() {
+      getCurrentCursorPosition();
+    });
+    </script>
+</head>
+<body onscroll="return false;">
 
     <a href="/customers/customer">홈으로</a>
     <a href="/customers/CouponList">쿠폰제공리스트</a>

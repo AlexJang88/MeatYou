@@ -119,15 +119,13 @@
 															<a href="/admin/noticeList?pageNum=${startPage+10}">[다음]</a>
 														</c:if>
 													</c:if>
-												</div>
 			
 			   </td>
+												</div>
 		</table>
       
  
 </div>
-</body>
-</html>
 <jsp:include page="/WEB-INF/views/footer.jsp" />
 <!-- FOOTER -->
 			<footer id="footer">

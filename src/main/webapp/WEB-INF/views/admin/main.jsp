@@ -157,14 +157,7 @@ h1 {
     color: #333; /* Change the color as needed */
     font-weight: bold;
 }
-      /* Add this style for the sales summary section */
-.sales-summary {
-    font-family: 'Arial', sans-serif;
-    margin-top: 20px;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+  
 
         #sales-chart {
             flex: 1;
