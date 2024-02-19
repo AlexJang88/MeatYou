@@ -6,6 +6,7 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
      <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/resources/customers/itemUpdate.css"> <!-- 외부 스타일시트 추가 -->	
  <script>
     $(document).ready(function () {
         // Add a click event handler for the menu items with sub-menus
@@ -291,8 +292,7 @@
   	</h2>
 		</div>
  
-  
-<div class="main-container" >
+  <div class="main-container" >
 			    <div class="category-menu">
 			        <!-- Your category menu content -->
 					        <div class="vertical-menu">
@@ -332,50 +332,32 @@
 											
 					
 								            <div class="vertical-menu-item">
-								                <a href="#" class="btn" class="btn" data-toggle="collapse" data-target="#check" id="bigfont">결제</a>
-								                <div id="check" class="collapse">
+								                <a href="#" class="btn" class="btn" data-toggle="collapse" data-target="#pay" id="bigfont">결제</a>
+								                <div id="pay" class="collapse">
 								             
                               <a href="/customers/pay" class="btn"id="smallfont" >유료결제</a><br/>
                                 <a href="/customers/powerlink" class="btn"id="smallfont" >파워링크 결제</a><br/>
                                 <a href="/customers/itemplus" class="btn"id="smallfont" >품목 확장 결제</a> 
                            		                </div>
 								            </div>
+								    
 								            
 								            <div class="vertical-menu-item">
-								                <a href="#" class="btn" class="btn" data-toggle="collapse" data-target="#check" id="bigfont">결제</a>
-								                <div id="check" class="collapse">
-								             
-                              <a href="/customers/pay" class="btn"id="smallfont" >유료결제</a><br/>
-                                <a href="/customers/powerlink" class="btn"id="smallfont" >파워링크 결제</a><br/>
-                                <a href="/customers/itemplus" class="btn"id="smallfont" >품목 확장 결제</a> 
-                           		                </div>
-								            </div>
-								            
-								            <div class="vertical-menu-item">
-								                <a href="#" class="btn" class="btn" data-toggle="collapse" data-target="#check" id="bigfont">주문|배송</a>
-								                <div id="check" class="collapse">
+								                <a href="#" class="btn" class="btn" data-toggle="collapse" data-target="#go" id="bigfont">주문|배송</a>
+								                <div id="go" class="collapse">
 								             
                               <a href="/customers/delivering" class="btn"id="smallfont" >주문접수 및 배송현황</a><br/>
                                 <a href="/customers/deliverout" class="btn"id="smallfont" > 주문 취소 </a><br/>
                            		                </div>
 								            </div> 
-								            
-								            
-								            
 								              <div class="vertical-menu-item">
 		                                    <a  href="#" class="btn" data-toggle="collapse" data-target="#sellerQna"id="bigfont">관리자</a>
 		                                    <div id="sellerQna" class="collapse">
 		                                <a href="/board/sellerQna" class="btn"id="smallfont" >관리자 문의게시판</a><br/>
 		                                </div>
                                     </div>
-								            
 					        </div>
 			    </div>
-    
- 
-    
-    
-    
       <table class="main-table"  >
             <td class="graph-and-summary">
 						 		 	 <table class="summary-table" >
@@ -384,17 +366,17 @@
 								    		    <form method="post" name="productForm" action="/customers/productReg" enctype="multipart/form-data">
         	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
      
-            <table width="500" border="1" cellspacing="0" cellpadding="0" align="center" class="final">           
+            <table  border="1" cellspacing="0" cellpadding="0" align="center" class="final">           
                 <tr>
                     <td width="70" align="center">상품명</td> 
-                    <td width="330">
+                    <td  >
                         <input type="text"  class="inputsix" size="40" maxlength="50" name="p_name" required="required" placeholder="판매할 제목을 적어주세요">
                     </td>
                 </tr>
                 
             	 <tr>
 	                <td width="70" align="center">국내 or 수입</td>
-	                <td width="330">
+	                <td  >
 	                    <select id="originSelect" name="originer" required="required"  class="inputsix"onchange="updateCategory()">
 	                        <option value="" disabled selected>선택하세요</option>
 	                        <option value="100">국내산</option>
@@ -405,7 +387,7 @@
 
 	            <tr>
 	                <td width="70" align="center">가축 선택</td>
-	                <td width="330">
+	                <td  >
 	                    <select id="livestockSelect" name="livestock" required="required"  class="inputsix"  onchange="updateCategory()">
 	                   		 <option value="" disabled selected>선택하세요</option>
 	                        <option value="10">돼지</option>
@@ -416,7 +398,7 @@
             
 	            <tr>
 	                <td width="70" align="center">부위 선택</td>
-	                <td width="330">                      
+	                <td >                      
 	                    <select id="cutSelect" name="cut" required="required" class="inputsix"  onchange="updateCategoryOriginal()">
 						    <option value="" disabled selected>선택하세요</option>
 						</select>
@@ -427,7 +409,7 @@
                 
                 <tr>		      		      
 			      <td width="70"  align="center">썸네일사진</td>
-			      <td width="330" id="thumbs">
+			      <td  id="thumbs">
 			        <input type="file" size="40" maxlength="30" name="thumbs"  class="inputsix"   required="required" placeholder="사진 나중에 추가할래"></td>
 			   </tr>
 			   
@@ -435,7 +417,7 @@
 			   
 			    <tr>
                     <td width="70" align="center">품목 단위</td>
-                    <td width="330">             
+                    <td  >             
                         <select name="p_s_category" required="required"  class="inputsix" >
                             <option value="0">단품</option>
                             <option value="1">세트</option>
@@ -446,14 +428,14 @@
 			
                 <tr>
                     <td width="70" align="center">가격</td>
-                    <td width="330">
+                    <td  >
                         <input type="number"   class="inputsix" size="40" maxlength="30" name="p_price"  class="inputsix"  required="required" placeholder="숫자를 입력하세요"> 원
                     </td>
                 </tr>
                 
                 <tr>
                     <td width="70" align="center">원산지</td> 
-                    <td width="330">
+                    <td >
                         <input type="text"   class="inputsix" size="40" maxlength="50" name="origin" required="required" placeholder="원산지를 입력하세요">
                     </td>
                 </tr>
@@ -506,7 +488,7 @@
                 
                 <tr>
                     <td width="70" align="center">재고</td>
-                    <td width="330">
+                    <td >
                         <input type="number" size="40" maxlength="30" name="stock"   class="inputsix"  required="required" placeholder="재고를 입력하세요">
                     </td>
                 </tr>
@@ -521,28 +503,28 @@
                  
                 <tr>
                     <td width="70" align="center">유통기한</td>
-                    <td width="330">
+                    <td  >
                         <input type="text" size="40" maxlength="30" name="pd_duedate"  class="inputsix"  required="required" placeholder="유통기한을 입력하세요" >
                     </td>
                 </tr>
    				
                 <tr>
                     <td width="70" align="center">판매시작 날짜</td>
-                    <td width="330">
+                    <td >
                         <input type="date" size="40" maxlength="30"  class="inputsix"  name="startdate" placeholder="YYYY-MM-DD">
                     </td>
                 </tr>
                 
                 <tr>
                     <td width="70" align="center">판매종료 날짜</td>
-                    <td width="330">
+                    <td >
                         <input type="date" size="40" maxlength="30"  class="inputsix"  name="enddate"  placeholder="YYYY-MM-DD">
                     </td>
                 </tr>
                 
                 <tr>
 				   <td width="70" align="center"> 반품주소 </td>
-				   <td width="330">	
+				   <td  >	
 				   	<button type="button" id="addressButton" class="btn btn-primary btn-block">		   
 					   	<input type="text" size="40"  id="address" required="required"  class="inputsix"  name="add_mem_address1" placeholder="주소">  
 				 </button>
@@ -553,7 +535,7 @@
 			   
 			   <tr>		      		      
 			      <td width="70"  align="center">반품 상세주소</td>
-			      <td width="330" id="add_mem_address2">
+			      <td   id="add_mem_address2">
 			        <input type="text" size="40" maxlength="30" name="add_mem_address2"   class="inputsix"  placeholder="반품 상세주소">
 			      </td>
 			   </tr>
@@ -573,8 +555,6 @@
 								       	<tbody id="productBody">
 			    						</tbody>
 									</table>
-									
-									
 									 <div id="pageContent">
 								    </div>
  					</td>
@@ -689,7 +669,7 @@ $(document).ready(function () {
         codeviewFilter: false, // 코드 보기 필터 비활성화
         codeviewIframeFilter: false, // 코드 보기 iframe 필터 비활성화
 
-        height: 500, // 에디터 높이
+        height: 300, // 에디터 높이
         minHeight: null, // 최소 높이
         maxHeight: null, // 최대 높이
         focus: true, // 에디터 로딩 후 포커스 설정

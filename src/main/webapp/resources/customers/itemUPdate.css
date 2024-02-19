@@ -1,9 +1,41 @@
-@charset "UTF-8";@charset "utf-8";/* Optional: Style for the datepicker */
-        .ui-datepicker-calendar {
-            display: none;
+    header {
+    color: black !important;
+    
+}
+     a{color:black;}
+   /* 기존 
+    .styled-box {
+             justify-content: center;
+                  margin: 0 5px;
+      align-items: center;
+      justify-content: center;
+    width:60%;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+        */
+       #pageContent {
+        /*     width: 60%;*/
+            order: 1; 
+                width: 60%;
+    text-align: center; margin: auto;
+    margin-bottom:5%;
+    margin-top:2%;
         }
+         #pageContent a{
+               	cursor: pointer;
+				color:gray;
+				font-size: medium;
+         }
         
-     
+            
+    
+    /*복붙할것들 */
+    /*전체 규격  시작*/
+  body {
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+        }
         /*전체 규격 끝*/
 /* 헤더  */
   .out-table {
@@ -76,11 +108,8 @@
             height: 100%; /* Adjust the height as needed */
             position: relative;
             margin-right:0;
-            left:18%;
-            z-index: 2
+            left:25%;
         }
-
-
 
 /* 카테고리 끝*/
 /* 메인  시작*/
@@ -94,11 +123,10 @@
        .summary-table {
        margin-top:1%;
             width: 100%;
-            margin-bottom:5%;
+            margin-bottom:10%;
             margin-left: auto;
             margin-right: auto;
-            
-                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+              box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
             font-size: xx-small;
         }   
@@ -117,12 +145,14 @@
         }
 
  .graph-and-summary {
-               width: 80%;
+               width: 100%;
         margin: 0 auto; /* Center the element horizontally */
         text-align: center; /* Center the content inside the element */
  		margin-left:auto;
  		margin-right:auto;
- 		
+ 		    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+           
 		position: relative;
         }
 
@@ -130,10 +160,10 @@
 
 
      .main-table {
-            width: 50%;
+            width: 130%;
             margin: 0 auto;
-            margin-left:18%;
-            height: 60%;
+            margin-left:25%;
+            height: 50%;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
            
@@ -154,8 +184,10 @@
     padding: 10px;
     text-align: center;
 }
-
-
+.inputsix{margin : 0 auto;
+	width: 60%; 
+	    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
                 
        select {
         padding: 8px;
@@ -167,79 +199,48 @@
         border:none;
     }
 
-    /* Style for submit button */
-    input[type="submit"] {
-        padding: 8px 20px;
-        border: none;
-        border-radius: 4px;
-        background-color:lightgray;
-        color: #fff;
-        cursor: pointer;
-    }
-
-    input[type="submit"]:hover {
-        background-color: gray;
-    }
- 
     
-    input[type="submit"] {
-        padding: 8px 20px;
-        border: none;
-        border-radius: 4px;
-        background-color:lightgray;
-        color: #fff;
-        cursor: pointer;
-    }
-    input[type="text"] {
-        border-radius: 4px;
-        margin-top:3%;
-    }
-        
-           button{
-           padding: 8px 20px;
-        border: none;
-        border-radius: 4px;
-        background-color:lightgray;
-        color: #fff;
-        cursor: pointer; 
-           }
-button:hover {
-        background-color: gray;
-    }
-    input[type="button"]:hover {
-        background-color: gray;
-    }
-    input[type="button"] {
-        padding: 8px 20px;
-        border: none;
-        border-radius: 4px;
-        background-color:lightgray;
-        color: #fff;
-        cursor: pointer;
-    }
-        
-      #sales-chart {
-            flex: 1;
-            font-size:12px;
-            height: 60%;
-            width: 100%;
-            margin-bottom:3%;
-            margin-top: 5%;
-            margin-left: auto;
-            margin-right: auto;
-                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-        }
-        
-        
-        
-        .vertical-menu {
-    /* Existing styles */
-    z-index: 1; /* Set a higher z-index for the category menu */
-}
-
-#footer {
-    /* Existing styles */
-    z-index: 0; /* Set a lower z-index for the footer */
-}
-        
+ .final{
+ margin-top:-8%;
+ 	width: 95%;
+ 	   text-align: center; /* 텍스트를 가운데 정렬 */
+ }
+ 
+ #addressButton2{
+ height:43px;
+ width: 70%;
+ background-color: white;
+   border:none;
+ }
+ 
+ #addressButton3{
+ height:43px;
+ width: 70%;
+  background-color: white;
+  border:none;
+ 
+ }
+ 
+ #addressButton{
+ height:40%;
+ width: 70%;
+  background-color: white;
+    border:none;
+ }
+ 
+  
+ #address2{
+ height:100%;
+ width: 100%;
+ }
+ 
+ #address3{
+ height:100%;
+ width: 100%;
+ }
+ 
+ #address{
+ height:40%;
+ width: 100%;
+ }
+    

@@ -3,8 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ include file="../header.jsp" %>
-    <link rel="stylesheet" href="/resources/admin/css/sales.css"> <!-- 외부 스타일시트 추가 -->	
+<%@ include file="../header.jsp" %>    <link rel="stylesheet" href="/resources/admin/css/memberList.css"> <!-- 외부 스타일시트 추가 -->	
    <script>
         $(document).ready(function () {
             // Add a click event handler for the menu items with sub-menus
