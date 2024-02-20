@@ -31,7 +31,7 @@ public class KaKaoPaymentServiceImpl implements KaKaoPaymentService{
 	
 		
 		 static final String cid = "TC0ONETIME"; // 가맹점 테스트 코드
-		 static final String admin_Key = "522691b1ab4a59fb764eb3f752b30bfe"; // 공개 조심! 본인 애플리케이션의 어드민 키를 넣어주세요
+		 static final String admin_Key = "a811a11bc7b57328a88467db9baf8f7c"; // 공개 조심! 본인 애플리케이션의 어드민 키를 넣어주세요
 		 private KakaoReadyResponse kakaoReady;
 		
 		 @Autowired

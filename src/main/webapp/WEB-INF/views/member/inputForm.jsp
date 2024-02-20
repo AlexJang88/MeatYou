@@ -124,17 +124,17 @@ function checkId(){
             if(check == 0){ //check가 1이 아니면(=0일 경우) -> 사용 가능한 아이디 
                 $('.m_id_ok').css("display","inline-block"); 
                 $('.m_id_already').css("display", "none");
-                $('.confirm_ok').css("display","inline-block"); 
-                $('.cofrim_already').css("display", "none");
+             //   $('.confirm_ok').css("display","inline-block"); 
+             //   $('.cofrim_already').css("display", "none");
                 
             } else { // check가 1일 경우 -> 이미 존재하는 아이디
                 $('.m_id_already').css("display","inline-block");
                 $('.m_id_ok').css("display", "none");
-                $('.confirm_ok').css("display","inline-block"); 
-                $('.cofrim_already').css("display", "none");
+              //  $('.confirm_ok').css("display","inline-block"); 
+              //  $('.cofrim_already').css("display", "none");
                 
                 // 이미 사용 중인 아이디일 때 회원가입 버튼 숨김
-                $('#confirmButton').prop('disabled', true);
+              //  $('#confirmButton').prop('disabled', true);
                // alert("아이디를 다시 입력해주세요");
                // $('#m_id').val('');
             }
@@ -240,7 +240,7 @@ function formatPhoneNumber(input) {
 <body>
 
 <div class="form-container">
-    <form method="post" action="/member/inputPro" name="userinput" onsubmit="return checkIt()">
+    <form method="post" action="/member/inputPro" name="userinput" >
         <div class="form-title">회원가입</div>
 
 <!--         <label for="m_id">아이디 입력</label> -->
@@ -270,7 +270,7 @@ function formatPhoneNumber(input) {
         <select class="form-dropdown" id="emaillist" name="emaillist" onchange="updateEmail()">
             <option value="type">직접 입력</option>
             <option value="@naver.com">@naver.com</option>
-            <option value="@google.com">@google.com</option>
+            <option value="@gmail.com">@gmail.com</option>
             <option value="@hanmail.net">@hanmail.net</option>
             <option value="@nate.com">@nate.com</option>
             <option value="@kakao.com">@kakao.com</option>
@@ -311,7 +311,7 @@ function formatPhoneNumber(input) {
             <input type="button" value="가입안함" onclick="javascript:window.location='../main/main'" class="form-button-secondary">
 </div> 
   <div class="form-group">
-            <input type="submit" name="confirm" value="회원가입" class="form-button" id="confirmButton" oninput="confirmButtons()">
+            <input type="submit" name="confirm" value="회원가입" class="form-button" id="confirmButton" >
     
 </div>
     </form>
@@ -320,6 +320,34 @@ function formatPhoneNumber(input) {
 </body>
 
 <script>
+function validateForm() {
+    var m_id = $('#m_id').val().trim();
+    var passwd = $('#passwd').val().trim();
+    var passwd2 = $('#passwd2').val().trim();
+    var email = $('#email').val().trim();
+
+    // Check if any field is empty
+    if (m_id === "" || passwd === "" || passwd2 === "" || email === "") {
+        alert("모든 필수 입력란을 채워주세요."); // "Please fill in all required fields."
+        return false;
+    }
+
+    // Check if passwords match
+    if (passwd !== passwd2) {
+        alert("비밀번호가 일치하지 않습니다. 확인해주세요."); // "Passwords do not match. Please check again."
+        return false;
+    }
+
+    // Additional validation checks can be added here (e.g., email format, password strength)
+
+    // If all checks pass
+    return true;
+}
+
+// Step 2: Bind the validation to form submission
+document.forms['userinput'].onsubmit = function() {
+    return validateForm();
+};
 $('#mail-Check-Btn').click(function() {
     var email = $('#email').val();// 이메일 주소값 얻어오기!
     console.log('완성된 이메일 : ' + email); // 이메일 오는지 확인
@@ -327,7 +355,7 @@ $('#mail-Check-Btn').click(function() {
 
     $.ajax({
         type : 'get',
-        url : '/member/mailCheck?email='+email, // GET방식이라 Url 뒤에 email을 뭍힐수있다.
+        url : '/member/joinmailCheck?email='+email, // GET방식이라 Url 뒤에 email을 뭍힐수있다.
         success : function (data) {
             console.log("data : " +  data);
             checkInput.attr('disabled',false);

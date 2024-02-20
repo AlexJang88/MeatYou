@@ -112,7 +112,7 @@
                     </c:choose>
                 </td>
                 <td>
- <select name="selectedAddress" id="selectedAddress">
+ 		<select name="selectedAddress" id="selectedAddress">
             <c:forEach var="item" items="${AddrList}">
               <option value="${item}">${item}</option>
             </c:forEach>
@@ -123,7 +123,7 @@
                 <td>
                 <div  class="addressBox">
 								 <a   href="../member/addressForm"  >
-							<img src="/resources/member/img/address.png"   class="box" title="너님의 배송지 주소"  >
+							<img src="/resources/member/img/address.png"   class="box" title="회원 배송지 주소"  >
 						</a>
 						</div>
                 </td>
@@ -131,15 +131,8 @@
         </tbody> 
     </table>
     
-    <c:forEach items="${dto.arr_shop_num}" var="sitem">
-    	<input type="hidden" name="arr_shop_num" value="${sitem}" >
-    </c:forEach>
-    <c:forEach items="${dto.arr_cp_num}" var="citem">
-    	<input type="hidden" name="arr_cp_num" value="${citem}" >
-    </c:forEach>
-    <c:forEach items="${dto.arr_p_name}" var="pitem">
-    	<input type="hidden" name="arr_p_name" value="${pitem}" >
-    </c:forEach>
+   <input type="hidden" name="selectedShopNums" value="${selectedShopNums}"/>
+   <input type="hidden" name="selectedCoupon" value="${selectedCoupon}"/>
     
     				
     <input type="submit"  value="확정 및 결제 ">

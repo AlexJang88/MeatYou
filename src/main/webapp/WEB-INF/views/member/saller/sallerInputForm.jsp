@@ -151,8 +151,8 @@ $(function () {
 });
 </script>
 
-	
-	
+   
+   
 </head>
 <body >
 
@@ -165,7 +165,7 @@ $(function () {
     <h1 class="text-center" style="margin-top:20px;">신입 판매자,<br/>  ${dto.m_name}님 환영합니다 .    </h1>
        <input type="hidden" name="ceoname" size="15" value="${dto.m_name}"    >
     
-		<div class="form-group"  style="margin-top:50px;">
+      <div class="form-group"  style="margin-top:50px;">
         <label for="userId"> 판매자님 아이디는     ${dto.m_id} 입니다 .</label>
  <input type="hidden"  name="cus_m_id" size="15" value="${dto.m_id}"   >
 
@@ -175,18 +175,18 @@ $(function () {
     
  
        <div class="form-group">
-     	<label for="companyname">회사 이름</label> <br/>
-       		 <input type="text" class="form-control" required="required" name="company" size="15" placeholder="운영하시는 업체 이름알려주세요" />
-          		  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-          		  
-          		  </div>
+        <label for="companyname">회사 이름</label> <br/>
+              <input type="text" class="form-control" required="required" name="company" size="15" placeholder="운영하시는 업체 이름알려주세요" />
+                  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                  
+                  </div>
 
 
 
      
    
    <div class="form-group"  >
-  	  <label for="companyNum"  >사업자 번호</label><br/>
+       <label for="companyNum"  >사업자 번호</label><br/>
       <input type="hidden" id="apiKey" value="${apiKey}"/>
     <div style="display: flex; align-items: center; justify-content: center; margin-top: 10px;">
     
@@ -213,7 +213,7 @@ $(function () {
         <label for="cus_accnum">  사업자 계좌번호   </label><br/>
    <div class="form-group"style="display: flex;">
    <input type="text" id="cus_accnum" name="cus_accnum" style="width:58%;" required="required" placeholder="계좌번호 입력하세요" oninput="formatBankNumber(this)" class="form-control"  maxlength="22">
-	  		   <select class="box form-control"   name="cus_accnum"  style="width:35%; margin-left:10px;" onchange="whereBank()"  >
+              <select class="box form-control"   name="cus_accnum"  style="width:35%; margin-left:10px;" onchange="whereBank()"  >
                         <option value="type">직접 입력</option>
                         <option value="농협"></option>
                         <option value="카카오뱅크">카카오뱅크</option>

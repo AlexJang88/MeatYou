@@ -71,7 +71,7 @@ window.onload = function () {
 										<c:forEach var="cus" items="${cusList}">
 										<div class="product">
 											<div class="product-img">
-												<img src="../resources/file/product/${cus.p_num}/${cus.thumb}" alt="">
+												<img src="../resources/file/product/${cus.p_num}/${cus.thumb}" alt=""style="width:260px; height:260px;  ">
 												<div class="product-label">
 													<div style="text-align : center;">
 														<form>

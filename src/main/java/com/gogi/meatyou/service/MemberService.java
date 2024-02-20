@@ -29,6 +29,8 @@ import com.gogi.meatyou.bean.ShoppingCartDTO;
 import com.gogi.meatyou.bean.UserPayDTO;
 
 public interface MemberService  {
+	public MemberDTO getUserInf(String m_id);
+	public int getCouponPrice(int cp_num);
 	public void userPaycomplete(ArrayList<MOrderDTO> list,int[] shop_num,int[]cp_num,String id);
 	public OrderwithCouponDTO getProductInfo(int p_num);
 	public OrderwithCouponDTO getCartbyNum(HashMap hashmap);
@@ -43,12 +45,6 @@ public interface MemberService  {
     public int idCheck(String m_id);
     public int eMailCheck(String email);
     public int deleteCheck( String passwd) ;
-    int twoNextPay(
-    		OrderwithCouponDTO mdto,int shop_num,int order_p_num,String order_memo
-    		,@Param("order_m_id") String order_m_id,int order_cp_num,int order_p_price,
-    		@Param("order_dere_pay") int order_dere_pay ,@Param("order_addr") String order_addr,@Param("order_discount") int order_discount,@Param("order_quantity") int order_quantity
-    		,@Param("order_totalprice") int order_totalprice  );
-    
     
     public List<UserPayDTO> findshop_p_num(HashMap hashmap);
     public MemberDTO member(String m_id);   
@@ -96,7 +92,7 @@ public interface MemberService  {
       	public int CouponForyou(String shop_m_id,CouponDTO cdto,ShoppingCartDTO sdto);
       int getTotalShoppingCartItems(String shop_m_id);
       public int deleteCart(int shop_num,String shop_m_id);
-      public void deleteSelectedItems(List<Long> selectedShopNums ,String shop_m_id);
+      public void deleteSelectedItems(String[] selectedShopNums ,String shop_m_id);
       List<ShoppingCartDTO> orderpage(String shop_m_id, int startRow, int pageSize, ShoppingCartDTO sdto, ProductDTO pdto);
       int orderpageCartItems(String shop_m_id);
       List<PickMeDTO> pickMeCountPage(String pm_m_id, int page, int pageSize, PickMeDTO pdto, CusDetailDTO cdto);
@@ -140,12 +136,12 @@ public interface MemberService  {
       int PaymentCount(@Param("order_m_id") String order_m_id );
       
       public String joinEmail(String email,String name,String phone,String m_id); //占쎌뵠筌롫뗄�뵬筌ｋ똾寃�
-      
+      public String checkEmail(String email);
       public int findId(MemberDTO memberdto);//占쎈툡占쎌뵠占쎈탵 筌≪뼐由� 筌띿쉶�뮉筌욑옙 �뜮袁㏉꺍
       public int findPw(MemberDTO memberdto);//占쎈툡占쎌뵠占쎈탵 筌≪뼐由� 筌띿쉶�뮉筌욑옙 �뜮袁㏉꺍
       public void getDbId(Model model, MemberDTO memberdto); // 占쎈뼄占쎌젫 占쎈툡占쎌뵠占쎈탵 揶쏉옙占쎌죬占쎌궎疫뀐옙
       public void getDbPw(Model model, MemberDTO memberdto); // 占쎈뼄占쎌젫 �뜮袁⑥쓰 揶쏉옙占쎌죬占쎌궎疫뀐옙
       public void changePw(MemberDTO memberdto); //�뜮袁⑨옙甕곕뜇�깈癰귨옙野껓옙
       public List<CouponDTO> getProductCoupon(HashMap hashmap);
-      	public boolean memberList( @Param("m_id") String m_id);
+      public boolean memberList(@Param("m_id") String m_id);
 }

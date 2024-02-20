@@ -1,35 +1,23 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ include file="../../header.jsp" %>
 <head>
-<style>
-   .pagination {
-        justify-content: center;
-    }
-
-    .pagination a,
-    .pagination .current {
-        margin: 0 5px;
-    }
-</style>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    
-      
-    <script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
 //선택주문 
 // 선택한 상품 주문 함수
 // 선택된 쿠폰을 저장하는 변수
 //var selectedCoupon = "";
-/* function orderSelectedItems() {
+function orderSelectedItems() {
     var selectedShopNums = getSelectedShopNums(); // 선택된 상품의 shop_num을 가져오는 함수
-    var selectedCoupon = $('#cList').val(); // select 태그에서 선택된 쿠폰 값을 가져오기
- //   on
+    var selectedCoupon = getSelectedCoupons(); // select 태그에서 선택된 쿠폰 값을 가져오기
+    console.log(selectedShopNums);
+    console.log(selectedCoupon);
     // 선택한 상품의 shop_num을 URL 파라미터로 세 번째 페이지로 전달
-    window.location.href = "/member/orderPageTwo?check=1&selectedShopNums=" + selectedShopNums.join(',');
+    window.location.href = "/member/orderPageOne?selectedShopNums=" + selectedShopNums.join(',') +	"&selectedCoupon=" + selectedCoupon.join(',');
     //	+	"&selectedCoupon=" + selectedCoupon;;
-} */
+}
 
 // 선택된 상품의 shop_num을 가져오는 함수
 function getSelectedShopNums() {
@@ -43,15 +31,28 @@ function getSelectedShopNums() {
     }
     return selectedShopNums;
 }
+function getSelectedCoupons() {
+    var selectedCoupons = [];
+    var selectedShopNums = getSelectedShopNums(); // 이미 정의된 함수를 사용하여 선택된 상품 번호를 가져옵니다.
+
+    selectedShopNums.forEach(function(shop_num) {
+        var selectElement = document.getElementById("cp_num_" + shop_num); // 올바른 요소 선택 방법
+        if (selectElement) {
+            selectedCoupons.push(selectElement.value); // .value 속성을 사용하여 선택된 쿠폰 번호를 배열에 추가
+        }
+    });
+
+    return selectedCoupons; // 상품 번호별 선택된 쿠폰 번호가 저장된 배열을 반환합니다.
+}
 
 
 
 // 상품 수량 업데이트 함수
-function update_click(button, operation, shop_p_num) {
+function update_click(button, operation, shop_num) {
     var input_element = button.parentElement.querySelector('.shop_quantity');
     var current_quantity = parseInt(input_element.value);
-
-    var shop_quantity = button.dataset.data-quantity;
+	
+    var shop_quantity = button.dataset.shop_quantity;
     var new_quantity;
 
     if (operation == 'increase') {
@@ -66,18 +67,14 @@ function update_click(button, operation, shop_p_num) {
 
     // 서버로 업데이트된 수량 정보를 전송
     console.log(new_quantity);
-    sendUpdateQuantityRequest(new_quantity, shop_p_num);
+    sendUpdateQuantityRequest(new_quantity, shop_num);
 }
 
-
-
-
-
 // 상품 수량 업데이트 요청을 보내는 함수
-function sendUpdateQuantityRequest(new_quantity,shop_p_num) {
+function sendUpdateQuantityRequest(new_quantity, shop_num) {
     var requestData = {
         shop_quantity: new_quantity,
-        shop_p_num: shop_p_num
+        shop_num: shop_num
     };
     
     $.ajax({
@@ -90,34 +87,17 @@ function sendUpdateQuantityRequest(new_quantity,shop_p_num) {
         },
     });
 }
-//선택한상품 삭제
 
-//선택한 상품의 shop_num을 저장할 배열
-var selectedShopNums = [];
-
-//체크박스를 클릭할 때 호출되는 함수
-function toggleSelectedShopNum(checkbox, shop_num) {
- if (checkbox.checked) {
-     // 체크된 경우 배열에 추가
-     selectedShopNums.push(shop_num);
- } else {
-     // 체크가 해제된 경우 배열에서 제거
-     var index = selectedShopNums.indexOf(shop_num);
-     if (index !== -1) {
-         selectedShopNums.splice(index, 1);
-     }
- }
-}
 // 선택한 상품 삭제 함수
 function deleteSelectedItems() {
-    var selectedShopNumsInput = document.getElementById('selectedShopNums');
-
+	var selectedShopNums = getSelectedShopNums();
+	
     if (selectedShopNums.length === 0) {
         alert("삭제할 상품을 선택해주세요.");
         return;
     }
-
-    selectedShopNumsInput.value = selectedShopNums.join(',');
+	console.log(selectedShopNums.join(','));
+    
 
     // 선택한 상품들 삭제를 위한 서버 요청
     $.ajax({
@@ -133,28 +113,31 @@ function deleteSelectedItems() {
  
 </script>
 </head>
-<div class="container mt-4">
-    <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header">장바구니</h1>
-        </div>
+ 
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">장바구니</h1>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+   
     </div>
 
-    <div class="panel panel-default">
-        <div class="panel-heading"></div>
-
-        <div class="panel-body">
+    <div class="panel-body">
         <!-- 수량 조절 폼 -->
         상품목록 
- <table class="table table-striped table-bordered table-hover  ">
+
+      <table id="productTable" class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
         	<th>선택</th>
             <th>삭제</th> 
-            <th>카트고유번호(히든)shop_num</th>
-            <th>상품 고유번호(히든)shop_P_num</th>
+            <th>상품 고유번호(히든)</th>
             <td>판매자</td>
             <th>상품 분류</th>
+            <th>상품 내용</th>
             <th>상품 사진</th>
             <th>상품 수량</th>
             <th>금액</th>
@@ -163,13 +146,10 @@ function deleteSelectedItems() {
         </tr>
     </thead>
     <tbody>
-    <form action="orderPageOne"  method="post"> 
-        <c:forEach var="item" items="${cartdto}">
+        <c:forEach var="item" items="${shoppingCartList}">
             	<tr>
             	<td>
-            	   <%-- <input type="checkbox" name="shop_num" value="${item.shop_num}"/> --%>
-            	      <input type="checkbox" name="arr_shop_num" value="${item.shop_num}" 
-                   onclick="toggleSelectedShopNum(this, '${item.shop_num}')"/>
+            	   <input type="checkbox" name="selectedShopNums" value="${item.shop_num}"/>
        			 </td>
        			  <td>
        			  <a href="/member/delete?shop_num=${item.shop_num}&pd_p_num=${item.pd_p_num}&p_num=${item.p_num}">삭제</a>
@@ -178,99 +158,122 @@ function deleteSelectedItems() {
                 <td><c:out value="${item.shop_num}" />
                <%--  ${item.p_num}
                  --%></td>
-								<td><c:out value="${item.shop_p_num}" /> <%--  ${item.p_num}
-                 --%></td>
-								<td>${item.p_m_id}</td>
-								<td>${item.p_name}</td>
-								<td>${item.thumb}</td>
-								<td>
-									<button type="button" class="quantity-up" data-quantity="${item.shop_quantity}" onclick="update_click(this, 'increase','${item.shop_p_num}')">+</button>
-									<input type="hidden" class="shop_quantity" value="${item.shop_quantity}" /> 
-										<c:out value="${item.shop_quantity}" />
-									<button type="button" class="quantity-down" data-quantity="${item.shop_quantity}" onclick="update_click(this, 'decrease','${item.shop_p_num}')">-</button>
-								</td>
+                   <td><c:out value="${item.p_m_id}" /></td>
+                <td><c:out value="${item.p_name}" /></td>
+                <td><c:out value="${item.pd_p_desc}" /></td>
+                <td><c:out value="${item.thumb}" /></td>
+                <td>
+                    <button type="button" class="quantity-up" data-shop_quantity="${item.shop_quantity}" onclick="update_click(this, 'increase','${item.shop_num}')">+</button>
+                    <input type="hidden" class="shop_quantity" value="${item.shop_quantity}" />
+                    <c:out value="${item.shop_quantity}" />
+                    <button type="button" class="quantity-down" data-quantity="${item.shop_quantity}" onclick="update_click(this, 'decrease','${item.shop_num}')">-</button>
+                </td>	
+                			    
+                <td>
+                    <b>총액  </b>
+                    <input type="hidden" name="p_price" value="${item.p_price}">
+                    <c:out value="${item.p_price * item.shop_quantity}" />
+                    <b> 원</b>
+                      <c:set var="totalAmount" value="${totalAmount + (item.p_price * item.shop_quantity)}" />
+                </td> 
+                
+               
+                <td>
+                <div>	
+            
+             	
+                
+						   <select id="cp_num_${item.shop_num}" class="coupon-select">
+								    <option type="hidden" value="0">선택안함</option>
+								    <c:forEach var="cp" items="${item.coupons}" varStatus="loop">
+								         <c:if test="${ empty  item.coupons}">
+								         <option value="0" hidden>
+								         사용에 적합한  쿠폰이없습니다 
+										</c:if> 
+								         <c:if test="${ not empty item.coupons}">
+								        <option value="${cp.cp_num}">쿠폰번호 : ${cp.cp_num}  쿠폰 가격 : ${cp.cp_price}  원 (쿠폰 만료일 : <fmt:formatDate value="${cp.exdate}" pattern="yyyy/MM/dd"/>)</option>
+								        </c:if>
+								    </c:forEach>
+							</select>
+						
+								        
+                </div>
+                </td>
+              
+            </tr>
+        </c:forEach>
+       
+       	<input name="totalAmount" value="${totalAmount}" type="hidden"/>
+      			<input type="button" value="주문" onclick="orderSelectedItems()">
+        
+        <tr>
+        	<td></td>
+        	<td></td>
+        	<td></td>
+        	<td style="height: 10px;">
+        	
+<div class="pagination" style="height: 10px;">
+    <c:if test="${page > 1}">
+        <a href="?page=${page - 1}&pageSize=${pageSize}">&laquo; 이전</a>
+    </c:if>
 
-								<td><b>총액 </b> <input type="hidden" name="arr_p_price" value="${item.p_price}"> <c:out value="${item.p_price * item.shop_quantity}" /> <b> 원</b> 
-										<c:set var="totalAmount" value="${totalAmount + (item.p_price * item.shop_quantity)}" />
-								</td>
+    <c:forEach var="pageNumber" begin="1" end="${totalPage}">
+        <c:choose>
+            <c:when test="${pageNumber == page}">
+                <span class="current">${pageNumber}</span>
+            </c:when>
+            <c:otherwise>
+                <a href="?page=${pageNumber}&pageSize=${pageSize}">${pageNumber}</a>
+            </c:otherwise>
+        </c:choose>
+    </c:forEach>
 
+    <c:if test="${page < totalPage}">
+        <a href="?page=${page + 1}&pageSize=${pageSize}">다음 &raquo;</a>
+    </c:if>
+</div>
+        	</td>
+        	<td>
+</td>
 
-								<td>
-									<div>
-
-
-
-										<select name="arr_cp_num" id="cList">
-
-											<c:if test="${  empty item.coupons}">
-												<option value="0" selected="selected">사용에 적합한 쿠폰이없습니다</option>
-											</c:if>
-											<c:if test="${ not empty item.coupons}">
-												<option value="0">사용안함</option>
-												<c:forEach var="cp" items="${item.coupons}">
-													<option value="${cp.cp_num}">쿠폰번호 : ${cp.cp_num} 쿠폰 가격 : ${cp.cp_price} 원</option>
-												</c:forEach>
-											</c:if>
-										</select>
-									</div>
-								</td>
-							</tr>
-						</c:forEach>
-
-						<input name="totalAmount" value="${totalAmount}" type="hidden" />
-						<input type="submit" value="주문">
-
-						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td style="height: 10px;">
-					</form>
-
-
-					<c:if test="${count>0}">
-						<c:if test="${startPage>10}">
-							<a href="/member/shoppingCartForm?page=${startPage-10}">[이전]</a>
-						</c:if>
-						<c:forEach var="i" begin="${startPage}" end="${endPage}" step="1">
-							<a href="/member/shoppingCartForm?page=${i}">[${i}]</a>
-						</c:forEach>
-						<c:if test="${endPage<pageCount}">
-							<a href="/member/shoppingCartForm?page=${startPage+10}">[다음]</a>
-						</c:if>
-					</c:if>
-					</td>
-					<td></td>
-
-					<td><b>전체금액: </b></td>
-					<td><c:out value="${totalAmount}" /> <input
-						name=" totalAmount" value="${totalAmount}" type="hidden" /> <b> 원</b></td>
-					</tr>
-				</tbody>
-
+		<td><b>전체금액: </b></td>
+        	<td> <c:out value="${totalAmount}" />
+        		<input name=" totalAmount" value="${totalAmount}" type="hidden"/>
+                        <b> 원</b>
+                        
+                        </td>
+        </tr>
+    </tbody>
+    
+</table>
+			<table border="1">
+					<tbody>
+							<tr>
+							<td>선택한 상품</td>
+							<td>
+			 
+				</td>
+									<td>
+							    <input type="hidden" id="selectedShopNums" name="selectedShopNums" />
+							    <a href="#" id="deleteSelectedBtn" onclick="deleteSelectedItems()">삭제</a>
+							</td>
+							</tr>	
+					</tbody>
 			</table>
-			<table class="table mt-4">
-				<tbody>
-					<tr>
-						<td>선택한 상품</td>
-						<td></td>
-						<td><input type="hidden" id="selectedShopNums" name="selectedShopNums" /> 
-						<a href="#" id="deleteSelectedBtn" onclick="deleteSelectedItems()">삭제</a></td>
-					</tr>
-				</tbody>
-			</table>
+			
+			
 			<table>
-				<tbody>
-
-					<tr>
-						<td></td>
-						<td></td>
-					</tr>
-				</tbody>
-
-
+					<tbody>
+					
+						<tr>
+							<td>
+							</td>
+							<td></td>
+						</tr>	
+					</tbody>
+					
+					
 			</table>
-		</div>
-		</div>
-	</div>
-	<%@ include file="../../footer.jsp"%>
+    </div>
+</div>
+<%@ include file="../../footer.jsp" %>

@@ -34,6 +34,7 @@ import java.util.ArrayList;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -72,6 +73,8 @@ public class MemberServiceImpl implements MemberService {
 		memberMap.put("id", id);
 		
 		mapper.userPay(list);
+		mapper.couponAfterPay(memberMap);
+		mapper.cartAfterPay(memberMap);
 		
 	}
 	
@@ -357,7 +360,10 @@ public class MemberServiceImpl implements MemberService {
          
          @Override
          public void updateQuantity(int  shop_p_num,int  shop_quantity, String shop_m_id) {
-            mapper.updateQuantity(shop_p_num, shop_quantity ,shop_m_id);
+            memberMap.put("shop_m_id", shop_m_id);
+            memberMap.put("shop_quantity", shop_quantity);
+            memberMap.put("shop_num", shop_p_num);
+        	 mapper.updateQuantity(memberMap);
           }
          
          
@@ -424,15 +430,18 @@ public class MemberServiceImpl implements MemberService {
       
              @Transactional
              @Override
-             public void deleteSelectedItems(List<Long> selectedShopNums, String shop_m_id) {
-                 Map<String, Object> paramMap = new HashMap<>();
-                 paramMap.put("selectedShopNums", selectedShopNums);
-                 paramMap.put("shop_m_id", shop_m_id);
+             public void deleteSelectedItems(String[] selectedShopNums, String shop_m_id) {
+                 ArrayList<Integer> arr =new ArrayList();
+            	 for (int i=0; i<selectedShopNums.length;i++) {
+                	 arr.add(Integer.parseInt(selectedShopNums[i]));
+                 }
+            	 memberMap.put("selectedShopNums", arr);
+                 memberMap.put("shop_m_id", shop_m_id);
 
                  System.out.print("list =======================" + selectedShopNums);
                  System.out.print("shop_m_id =======================" + shop_m_id);
                  
-                 mapper.deleteSelectedItems(paramMap);
+                 mapper.deleteSelectedItems(memberMap);
              }
              
              
@@ -567,15 +576,6 @@ public class MemberServiceImpl implements MemberService {
 		
 		
 		
-		@Override			 
-		public int twoNextPay(OrderwithCouponDTO mdto,int shop_num,int order_p_num,String order_memo
-				,@Param("order_m_id") String order_m_id,int order_cp_num,int order_p_price,
-				@Param("order_dere_pay") int order_dere_pay ,@Param("order_addr") String order_addr,@Param("order_discount") int order_discount,@Param("order_quantity") int order_quantity
-	    		,@Param("order_totalprice") int order_totalprice ) {
-		
-			return mapper.twoNextPay( mdto, shop_num ,  order_p_num, order_memo, order_m_id, order_cp_num,  order_p_price  , order_dere_pay, order_addr, order_discount, order_quantity
-		    		, order_totalprice)  ;
-		}
 
 		@Override
 		public List<MOrderDTO> paypage(@Param("order_m_id") String order_m_id , int page, int pageSize ){
@@ -621,6 +621,29 @@ public class MemberServiceImpl implements MemberService {
 			System.out.println("=====m_id"+m_id);
 			int result =mapper.checkEmail(memberMap);
 			if(result==1) {
+			String setFrom = "jaus0708@gmail.com"; // email-config에 설정한 자신의 이메일 주소를 입력 
+			String toMail = email;
+			String title = "아이디/비밀번호 찾기 메일입니다."; // 이메일 제목 
+			String content = 
+					"홈페이지를 방문해주셔서 감사합니다." + 	//html 형식으로 작성 ! 
+		            "<br><br>" + 
+		            "인증 번호는 " + authNumber + "입니다." + 
+		            "<br>" + 
+				    "해당 인증번호를 인증번호 확인란에 기입하여 주세요."; //이메일 내용 삽입
+			mailSend(setFrom, toMail, title, content);
+			result = authNumber;
+			}
+			else {
+				result= 0;
+			}
+			return Integer.toString(result) ;
+		}
+		@Override
+		public String checkEmail(String email) {
+			makeRandomNumber();
+			memberMap.put("email",email);
+			int result =mapper.checkEmail(memberMap);
+			if(result==0) {
 			String setFrom = "jaus0708@gmail.com"; // email-config에 설정한 자신의 이메일 주소를 입력 
 			String toMail = email;
 			String title = "아이디/비밀번호 찾기 메일입니다."; // 이메일 제목 
@@ -889,6 +912,19 @@ public class MemberServiceImpl implements MemberService {
 			// TODO Auto-generated method stub
 			return 0;
 		}
+
+		@Override
+		public int getCouponPrice(int cp_num) {
+			// TODO Auto-generated method stub
+			return mapper.getCouponPrice(cp_num);
+		}
+
+		@Override
+		public MemberDTO getUserInf(String m_id) {
+			return null;
+		}
+
+		
              
              
              
