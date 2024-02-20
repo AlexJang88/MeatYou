@@ -21,12 +21,15 @@
       		select count(*) from pick_me_${ppic_m_id}
    	</select>
 	<select id="checkEmail" parameterType="hashmap" resultType="int">
-		select count(*) from member where email=#{email} and m_name=#{name} and phone=#{phone} 
+		select count(*) from member where email=#{email}   
+		<if test="m_name!=null and m_name!=''"> and m_name=#{name}</if>
+		<if test="phone!=null and phone!=''"> and phone=#{phone}</if>
 		<if test="m_id!=null and m_id!=''"> and m_id=#{m_id}</if>
+		
 	</select>
    <select id="memberList" resultType="com.gogi.meatyou.bean.MemberDTO">
        SELECT * FROM member
-    WHERE m_id ='${m_id}'
+    WHERE m_id = #{m_id}  
    </select>
 
  	<select id="idCheck" parameterType="String" resultType="int">

@@ -52,7 +52,7 @@ public interface MemberMapper {
          
        public MemberDTO loadUserByUsername(String username);
       
-       static boolean memberList( @Param("m_id") String m_id) {
+    public static boolean memberList( @Param("m_id") String m_id) {
 		// TODO Auto-generated method stub
 		return false;
 	}

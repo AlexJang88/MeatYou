@@ -29,6 +29,7 @@ import com.gogi.meatyou.bean.ShoppingCartDTO;
 import com.gogi.meatyou.bean.UserPayDTO;
 
 public interface MemberService  {
+	public MemberDTO getUserInf(String m_id);
 	public int getCouponPrice(int cp_num);
 	public void userPaycomplete(ArrayList<MOrderDTO> list,int[] shop_num,int[]cp_num,String id);
 	public OrderwithCouponDTO getProductInfo(int p_num);
@@ -135,12 +136,12 @@ public interface MemberService  {
       int PaymentCount(@Param("order_m_id") String order_m_id );
       
       public String joinEmail(String email,String name,String phone,String m_id); //占쎌뵠筌롫뗄�뵬筌ｋ똾寃�
-      
+      public String checkEmail(String email);
       public int findId(MemberDTO memberdto);//占쎈툡占쎌뵠占쎈탵 筌≪뼐由� 筌띿쉶�뮉筌욑옙 �뜮袁㏉꺍
       public int findPw(MemberDTO memberdto);//占쎈툡占쎌뵠占쎈탵 筌≪뼐由� 筌띿쉶�뮉筌욑옙 �뜮袁㏉꺍
       public void getDbId(Model model, MemberDTO memberdto); // 占쎈뼄占쎌젫 占쎈툡占쎌뵠占쎈탵 揶쏉옙占쎌죬占쎌궎疫뀐옙
       public void getDbPw(Model model, MemberDTO memberdto); // 占쎈뼄占쎌젫 �뜮袁⑥쓰 揶쏉옙占쎌죬占쎌궎疫뀐옙
       public void changePw(MemberDTO memberdto); //�뜮袁⑨옙甕곕뜇�깈癰귨옙野껓옙
       public List<CouponDTO> getProductCoupon(HashMap hashmap);
-      	public boolean memberList( @Param("m_id") String m_id);
+      public boolean memberList(@Param("m_id") String m_id);
 }

@@ -256,10 +256,14 @@ public class MemberController {
   		
   		
   		
-    @RequestMapping("sallerInputPro")
-    public String sallerInputPro(MemberDTO dto,CusDetailDTO cdto, Authentication authentication) {  String m_id = authentication.getName(); dto.setM_id(m_id); Map<String, Object> statusParamMap = new HashMap<>();  statusParamMap.put("m_id", m_id);  service.updateMemberStatus(dto);  service.insertIntoCusDetail(cdto);
+	@RequestMapping("sallerInputPro")
+    public String sallerInputPro(MemberDTO dto,CusDetailDTO cdto, Authentication authentication) { 
+       String m_id = authentication.getName(); dto.setM_id(m_id); Map<String, Object> statusParamMap = new HashMap<>(); 
+       statusParamMap.put("m_id", m_id);  service.updateMemberStatus(dto); 
+       service.insertIntoCusDetail(cdto);
        return "member/saller/sallerInputPro"; 
     }
+  	    
     
     
     
@@ -792,9 +796,12 @@ public class MemberController {
     @GetMapping("/mailCheck")
 	@ResponseBody
 	public String mailCheck(String email,String phoneInput,String m_name,String m_id) {
-		System.out.println("占쎌뵠筌롫뗄�뵬 占쎌뵥筌앾옙 占쎌뒄筌ｏ옙占쎌뵠 占쎈굶占쎈선占쎌긾!");
-		System.out.println("占쎌뵠筌롫뗄�뵬 占쎌뵥筌앾옙 占쎌뵠筌롫뗄�뵬 : " + email);
 		return service.joinEmail(email,m_name,phoneInput,m_id);
+	}
+    @GetMapping("/joinmailCheck")
+	@ResponseBody
+	public String joinmailCheck(String email) {
+		return service.checkEmail(email);
 	}
     
     //占쎈툡占쎌뵠占쎈탵 筌≪뼐由�
