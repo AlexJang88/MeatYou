@@ -44,7 +44,7 @@
             		 	<tr align="center">
             		 		<td><img src="<%= request.getContextPath() %>/resources/file/product/${product.p_num}/${product.thumb}/" alt="썸네일"></td>
             		 		<td>${product.p_num} </td>
-            		 		<td><a href="/customers/productContent?num=${product.p_num}">${product.p_name}</a></td>
+            		 		<td>${product.p_name}</a></td>
             		 		<td><fmt:formatNumber value="${product.p_price}" type="number" pattern="#,##0"/></td>
             		 		<td>
 							    <c:choose>
@@ -66,6 +66,10 @@
 							  <td align="center" >   
 			                  <input type="submit" value="변경">
 			                 </td> 
+			                 <td align="center" >  
+				             	  <input type="button" value="글수정" onclick="document.location.href='/customers/productUpdate?num=${product.p_num}'">
+				              </td> 
+			                 
 		                </tr>		
 		            </form>	  
 				</c:forEach>

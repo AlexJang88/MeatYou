@@ -157,7 +157,8 @@
      	
         <div id="selectedItemsContainer"></div>
 
-		<c:set var="totalquantity" value="0"/>    
+		<c:set var="totalquantity" value="0"/>   
+		<c:set var="total_dere" value="0"/> 
          <c:forEach var="item" items="${cdto}">
       <td>    
       
@@ -169,10 +170,10 @@
                 <td><c:out value="${item.p_name}"/></td>
                	
                 <td><c:out value="${item.thumb}"/></td>
-                <td><c:out value="${item.shop_quantity}" /></td>
+                <td><c:out value="${item.shop_quantity}" /> 쿠폰확인 :${item.cp_price}</td>
                   <td id="cListCell">
             <c:choose>
-                <c:when test="${item.cp_num!='' && item.cp_num!=null}">
+                <c:when test="${item.cp_num!=0}">
                     ${item.cp_price}
                 </c:when>
                 <c:otherwise>
@@ -215,16 +216,15 @@
             <thead>
     		</table>	
     		    <!-- 배송 메모 입력란 -->
-
+			
     		<div> 배송비  : ${dto.order_dere_pay}</div>
     				   <b>총 상품 가격</b>
-   				 <div><c:out value="${dto.tot_price}" /></div> 
-   				 <div>적용 된 총할인 금액  :         ${dto.total_amount}</div>
+   				 <div>적용 된 총할인 금액  :         ${dto.cp_price}</div>
    					<div> 최종 결제금액 :      ${dto.total_amount}</div>
    				   
-   				   	<form action="/kakaopay/memready" method="post" id="checkoutForm" name="payform">    
+   		 	<form id="checkoutForm" name="payform">    
    		 <button id="btn_kakao-pay" type="button">kakao</button>
-   		 <input type="hidden" name="total_quantity" value="${dto.tot_price}">
+   		 <input type="hidden" name="total_quantity" value="${dto.total_quantity}">
    		 <input type="hidden" name="partner_order_id" value="${dto.shop_num}">
    		 <input type="hidden" name="partner_user_id" value="${mdto.m_id}">
    		 <input type="hidden" name="quantity" value="${dto.total_quantity}">
@@ -240,9 +240,16 @@
 					
     <c:forEach var="item" items="${cdto}">
     	 <input type="hidden" name="arr_order_m_id" value="${item.shop_m_id}"/>
-         <input type="hidden" name="arr_shop_num" value="${item.shop_num}"/>
-         <input type="hidden" name="arr_order_cp_num" value="${item.cp_num}"/>
+    	 <input type="hidden" name="arr_shop_num" value="${item.shop_num}">
+        <input type="hidden" name="arr_order_cp_num" value="${item.cp_num}"/>	
+         <input type="hidden" name="arr_order_p_num" value="${item.p_num}"/>
          <input type="hidden" name="arr_p_name" value="${item.p_name}"/>
+          <input type="hidden" name="arr_order_p_price" value="${item.p_price}" />
+         <input type="hidden" name="arr_order_dere_pay" value="${item.order_dere_pay}"/>
+         <input type="hidden" name="arr_order_addr" value="${item.selectedAddress}" />
+         <input type="hidden" name="arr_order_quantity" value="${item.shop_quantity}" />
+         <input type="hidden" name="arr_order_discount" value="${item.cp_price}" />
+         <input type="hidden" name="arr_order_totalprice" value="${(item.shop_quantity*item.p_price)-item.cp_price+item.order_dere_pay}" />
      </c:forEach>
     <br/>
     

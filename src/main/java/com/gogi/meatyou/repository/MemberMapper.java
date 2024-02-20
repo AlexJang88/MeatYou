@@ -25,7 +25,8 @@ import com.gogi.meatyou.bean.ShoppingCartDTO;
 import com.gogi.meatyou.bean.UserPayDTO;
 
 public interface MemberMapper {
-   public int checkEmail(HashMap hashmap);
+   public int getCouponPrice(int cp_num);
+	public int checkEmail(HashMap hashmap);
 	public MemberDTO read(String m_id);
    public OrderwithCouponDTO getProductInfo(int p_num);
    public List<CouponDTO> getProductCoupon(HashMap hashmap);
@@ -35,16 +36,12 @@ public interface MemberMapper {
     public int insertMember(MemberDTO dto);
     public int insertMember_Addr(String m_id);
     public int insertKaKao(MemberDTO dto);
-    public int twoNextPay(OrderwithCouponDTO mdto,int shop_num ,@Param("order_p_num")int order_p_num,
-    		@Param("order_memo") String order_memo,@Param("order_m_id") String order_m_id,@Param("order_cp_num") int order_cp_num,@Param("order_p_price") int order_p_price
-    		,@Param("order_dere_pay") int order_dere_pay,@Param("order_addr") String order_addr,@Param("order_discount") int order_discount,@Param("order_quantity") int order_quantity
-    		,@Param("order_totalprice") int order_totalprice
-    		
-    		
-    		);
+    public int twoNextPay(MOrderDTO dto);		
     public int ShoppingCartCNT(String shop_m_id);
     public int pickCNT(String ppic_m_id);
     public int pick_P_CNT(String ppic_m_id);
+    public void couponAfterPay(HashMap hasmap);
+    public void cartAfterPay(HashMap hasmap);
 
 
 	// 아이디 중복체크
@@ -56,7 +53,7 @@ public interface MemberMapper {
          
        public MemberDTO loadUserByUsername(String username);
       
-       static boolean memberList( @Param("m_id") String m_id) {
+    public static boolean memberList( @Param("m_id") String m_id) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -101,7 +98,7 @@ public interface MemberMapper {
 
 
        public List<OrderwithCouponDTO> ShoppingCartAndProduct(HashMap hashmap);
-       public void updateQuantity(@Param("shop_p_num") int shop_num, @Param("shop_quantity") int shop_quantity,@Param("shop_m_id")   String shop_m_id);
+       public void updateQuantity(HashMap hashmap);
      
 
        
@@ -123,10 +120,10 @@ public interface MemberMapper {
        CouponDTO findCouponToCpNum(int cp_num);
        
        
-       public  int deleteCart(@Param("shop_p_num") int shop_p_num, @Param("shop_m_id") String shop_m_id);
+       public  int deleteCart(@Param("shop_num") int shop_num, @Param("shop_m_id") String shop_m_id);
        
        
-       void deleteSelectedItems(Map<String, Object> paramMap);
+       void deleteSelectedItems(HashMap hashmap);
        
           List<PickMeDTO> pickMeCountPages(
                   @Param("pm_m_id") String pm_m_id,

@@ -17,10 +17,11 @@ import com.gogi.meatyou.bean.ReviewDTO;
 import com.gogi.meatyou.bean.ShoppingCartDTO;
 
 public interface MainMapper {
- 
-
-   public int cusCount();
-   
+	public void updateCart(HashMap hashmap);
+	
+	public List<Integer> getCart(String id);
+  
+	public int cusCount();
 
    public List<ProductDTO> mainCUS();
    

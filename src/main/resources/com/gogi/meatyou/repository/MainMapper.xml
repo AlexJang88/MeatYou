@@ -713,8 +713,13 @@
                            #{shop_m_id}, 
                            #{shop_p_num}, 
                            #{shop_quantity})
-   </insert>   
- 
+   </insert>
+   <update id="updateCart" parameterType="hashmap">
+   		update shoppingcart_${id} set shop_quantity=shop_quantity+1 where shop_p_num=#{shop_p_num}
+   </update>   
+ 	<select id="getCart" resultType="int">
+ 		select shop_p_num from shoppingcart_${id} 
+ 	</select>
    <!-- 상품찜 -->
    <select id="pickCNT" resultType="int" >
       select count(*) from p_pick_${ppic_m_id}

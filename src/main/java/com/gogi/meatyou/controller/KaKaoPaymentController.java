@@ -172,15 +172,13 @@ public class KaKaoPaymentController {
     
     @RequestMapping("/memready")
     public @ResponseBody KakaoReadyResponse MemreadyToKakaoPay(Principal principal,MemberPayDTO pdto) {
-    	int num =pdto.getArr_shop_num()[0];
-        System.out.println("==="+pdto.getPartner_order_id());
-        System.out.println("==="+pdto.getPartner_user_id());
-        System.out.println("==="+pdto.getItem_name());
-        System.out.println("==="+pdto.getQuantity());
-        System.out.println("==="+pdto.getTotal_amount());
-        System.out.println("==="+pdto.getTax_free_amount());
-        System.out.println("==="+pdto.getVat_amount());
-        System.out.println("==="+pdto.getTotal_quantity());
+        System.out.println("memready==="+pdto.getPartner_order_id());
+        System.out.println("memready==="+pdto.getPartner_user_id());
+        System.out.println("memready==="+pdto.getQuantity());
+        System.out.println("memready==="+pdto.getTotal_amount());
+        System.out.println("memready==="+pdto.getTax_free_amount());
+        System.out.println("memready==="+pdto.getVat_amount());
+        System.out.println("memready==="+pdto.getTotal_quantity());
         dto = new KaKaoPayDTO();
         mpdto = new MemberPayDTO();
         mpdto=pdto;
