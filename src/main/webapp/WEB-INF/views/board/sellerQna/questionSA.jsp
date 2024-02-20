@@ -15,6 +15,40 @@
         });
     </script>
 
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
+</head>
+<body>
+
+
+
+
+
+<style>
+a{
+color:black;
+}
+.centered-summernote {
+    margin: 0 auto; /* Center horizontally */
+    margin-right:20%;
+    /* Add any additional styling as needed */
+}
+</style>
+
+
+
+
+
+
+
+<div style="display: flex; margin-top: 40px; margin-bottom: 50px;">
+    <h2 id="getYear" class="out-table">
+관리자님께 작성</h2><br/> 
+</div>
 
 
 
@@ -92,7 +126,7 @@
 		 		  			<td>
 					<div style="display: flex; margin-top: 40px; margin-bottom: 50px;">
     <h2 id="getYear" class="out-table">
-  문의사항 소비자 관리자 작성 
+  문의사항 [관리자님께보내기]  
 </h2><br/> 
 </div>
 
@@ -106,18 +140,19 @@
 									<table  class="summary-table" >
 								
 										<tr>
-											<td width="70" align="center" >제목</td>
-											<td><input type="text" name="ma_title" size="40" maxlength="50" placeholder="제목을 적어주세요" required="required" "style="margin-bottom:2%;"></td>
+											
+		    									<td><input type="text" name="ma_title" size="40" maxlength="50" placeholder="제목을 적어주세요" required="required" "style="margin-bottom:2%;"></td>
+		   
 										</tr>
 										
-										<tr>
 										  <tr>
-		    <td width="70" align="center" >문의내용  입력</td> 
-			<td width="330" >
-			    <textarea id="summernote" name="ma_content" required="required"  placeholder="문의하실 내용을 적어주세요"></textarea>
-			</td>
+		    <td align="center" >문의내용  입력</td> </tr>
+		    <tr>
+		    <td>
+			 <textarea id="summernote" name="ma_content" required="required" class="centered-summernote"   placeholder="문의하실 내용을 적어주세요"> 
+			 </textarea>
+		</td>
 		</tr> 
-										</tr> 
 										
 										<tr>
 								             <td colspan="2" align="center">
@@ -299,7 +334,7 @@ $(window).on('load', function () {
     $('#summernote').summernote({
         codeviewFilter: false, // 코드 보기 필터 비활성화
         codeviewIframeFilter: false, // 코드 보기 iframe 필터 비활성화
-
+        width: 700,
         height: 500, // 에디터 높이
         minHeight: null, // 최소 높이
         maxHeight: null, // 최대 높이

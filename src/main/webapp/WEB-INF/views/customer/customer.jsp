@@ -185,12 +185,14 @@
                                 
                                 
                                     <div class="vertical-menu-item">
-		                                    <a  href="#" class="btn" data-toggle="collapse" data-target="#sellerQna"id="bigfont">관리자</a>
+		                                    <a  href="#" class="btn" data-toggle="collapse" data-target="#sellerQna"id="bigfont">qna</a>
 		                                    <div id="sellerQna" class="collapse">
-		                                <a href="/board/sellerQna" class="btn"id="smallfont" >관리자 문의게시판</a><br/>
+		                                <a href="/board/sellerQna" class="btn"id="smallfont" >관리자님과의 소통</a><br/>
                                     </div>
                                 </div>
                      
+                                
+                                    
                            
                            
                             </div>

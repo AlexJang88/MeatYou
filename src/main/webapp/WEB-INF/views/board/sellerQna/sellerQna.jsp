@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -125,7 +124,7 @@
 									
 									<div style="display: flex; margin-top: 40px; margin-bottom: 50px;">
 					    <h2  class="out-table">
-					   판매자- 관리자
+					   판매자와 관리자님의 소통 
 					  	</h2>
 					  	</div>
 										<tr height="30">
@@ -157,7 +156,7 @@
 									 		  		 
 									 		  		<tr> 
 									 		  		<td>
-									 		  		<a href="/board/questionSA">판매자관리자에게문의글쓰기</a> <br/>
+									 		  		<a href="/board/questionSA">글쓰기</a> <br/>
 									 		  		</td>
 									 		  		</tr>
             

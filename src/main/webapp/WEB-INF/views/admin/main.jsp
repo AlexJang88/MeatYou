@@ -250,6 +250,13 @@ h1 {
                     <a href="/admin/reportList" class="btn"  id="smallfont" >신고글 보기</a>
                 </div>
             </div>
+            <div class="vertical-menu-item">
+                <a href="#" class="btn" class="btn" data-toggle="collapse" data-target="#Qna" id="bigfont">Qna</a>
+                <div id="Qna" class="collapse">
+                    <a href="/board/consumerQna" class="btn" id="smallfont" >관리자에게하는소통</a><br/>
+                    <a href="/board/sellerQna " class="btn"  id="smallfont" >판매자님이 관리자:나에게</a>
+                </div>
+            </div>
         </div>
     </div>
     <table class="main-table"  >
