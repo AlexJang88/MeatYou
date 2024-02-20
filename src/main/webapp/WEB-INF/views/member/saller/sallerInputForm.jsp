@@ -141,7 +141,6 @@ $(function () {
                 }
             },
             error: function (result) {
-                console.log(result.responseText);
                 // API 호출이 실패한 경우 오류 메시지 표시
                 resultMessage.val('서버 오류: 국세청 정보를 확인할 수 없습니다.');
                 // Ajax 요청이 실패했으므로 버튼을 비활성화합니다.
