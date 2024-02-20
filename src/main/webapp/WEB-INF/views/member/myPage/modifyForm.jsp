@@ -38,7 +38,7 @@
 <body>
 
 <form method="post" action="modifyPro" name="userinput">
-<div class="container" style="width:26%;">
+<div class="container" style="width:26%;  margin-top:50px;  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);" >
     <h1 class="text-center" style="margin-top:20px;">회원 정보수정 </h1>
     <div class="form-group">
         <label for="userId"  style=" margin-top:10px;align-items: center; ">고객님께서 가입하신날짜는 ${dto.m_reg_date.substring(0, 10)}입니다</label>

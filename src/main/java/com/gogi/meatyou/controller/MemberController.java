@@ -75,15 +75,155 @@ public class MemberController {
    
    //@Autowired
    @RequestMapping("all")
-   public String doAll(Model model, MemberDTO dto,HttpSession  session,MemStatusDTO mdto) {return "member/loginSequrity/all"; }
+   public String doAll(Principal seid,Model model, MemberDTO dto,HttpSession  session,MemStatusDTO mdto) {
+
+   	String m_id="";
+       int CartCNT=0;
+       
+       if(seid != null) {
+     	 m_id = (String)seid.getName(); 
+          model.addAttribute("m_id", m_id);
+          String shop_m_id = (String)seid.getName();
+          CartCNT = service.ShoppingCartCNT(shop_m_id);
+         model.addAttribute("CartCNT", CartCNT);
+       } else {
+          CartCNT=0;
+          model.addAttribute("CartCNT", CartCNT);
+       }
+
+       int pickCNT=0;
+       int pick_P_CNT=0;
+       if(seid != null) {
+     	  String ppic_m_id = (String)seid.getName();
+     	  pickCNT = service.pickCNT(ppic_m_id);
+     	  pick_P_CNT = service.pick_P_CNT(ppic_m_id);
+     	  model.addAttribute("pickCNT", pickCNT);
+     	  model.addAttribute("pick_P_CNT", pick_P_CNT);
+       } else {
+     	  pickCNT=0;
+     	  pick_P_CNT=0;
+     	  model.addAttribute("pickCNT", pickCNT);
+     	  model.addAttribute("pick_P_CNT", pick_P_CNT);
+       }
+
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   return "member/loginSequrity/all"; }
    @RequestMapping("member")
-   public String doMember(Model model, MemberDTO dto,HttpSession  session,MemStatusDTO mdto) {return "member/loginSequrity/member"; }
+   public String doMember(Principal seid,  Model model, MemberDTO dto,HttpSession  session,MemStatusDTO mdto) {
+
+   	String m_id="";
+       int CartCNT=0;
+       
+       if(seid != null) {
+     	 m_id = (String)seid.getName(); 
+          model.addAttribute("m_id", m_id);
+          String shop_m_id = (String)seid.getName();
+          CartCNT = service.ShoppingCartCNT(shop_m_id);
+         model.addAttribute("CartCNT", CartCNT);
+       } else {
+          CartCNT=0;
+          model.addAttribute("CartCNT", CartCNT);
+       }
+
+       int pickCNT=0;
+       int pick_P_CNT=0;
+       if(seid != null) {
+     	  String ppic_m_id = (String)seid.getName();
+     	  pickCNT = service.pickCNT(ppic_m_id);
+     	  pick_P_CNT = service.pick_P_CNT(ppic_m_id);
+     	  model.addAttribute("pickCNT", pickCNT);
+     	  model.addAttribute("pick_P_CNT", pick_P_CNT);
+       } else {
+     	  pickCNT=0;
+     	  pick_P_CNT=0;
+     	  model.addAttribute("pickCNT", pickCNT);
+     	  model.addAttribute("pick_P_CNT", pick_P_CNT);
+       }
+
+	   
+	   return "member/loginSequrity/member"; }
    
    @RequestMapping("admin")
-   public String doAdmin(Model model, MemberDTO dto,HttpSession  session,MemStatusDTO mdto) {return "member/loginSequrity/admin"; }
+   public String doAdmin(  Principal seid,Model model, MemberDTO dto,HttpSession  session,MemStatusDTO mdto) {
+	   
+	   
+	 
+   	String m_id="";
+       int CartCNT=0;
+       
+       if(seid != null) {
+     	 m_id = (String)seid.getName(); 
+          model.addAttribute("m_id", m_id);
+          String shop_m_id = (String)seid.getName();
+          CartCNT = service.ShoppingCartCNT(shop_m_id);
+         model.addAttribute("CartCNT", CartCNT);
+       } else {
+          CartCNT=0;
+          model.addAttribute("CartCNT", CartCNT);
+       }
+
+       int pickCNT=0;
+       int pick_P_CNT=0;
+       if(seid != null) {
+     	  String ppic_m_id = (String)seid.getName();
+     	  pickCNT = service.pickCNT(ppic_m_id);
+     	  pick_P_CNT = service.pick_P_CNT(ppic_m_id);
+     	  model.addAttribute("pickCNT", pickCNT);
+     	  model.addAttribute("pick_P_CNT", pick_P_CNT);
+       } else {
+     	  pickCNT=0;
+     	  pick_P_CNT=0;
+     	  model.addAttribute("pickCNT", pickCNT);
+     	  model.addAttribute("pick_P_CNT", pick_P_CNT);
+       }
+
+	   
+	   
+	   return "member/loginSequrity/admin"; }
    
    @RequestMapping("saller")
-   public String doSaller() {   return "member/loginSequrity/saller"; }
+   public String doSaller(Principal seid,Model model) {
+
+   	String m_id="";
+       int CartCNT=0;
+       
+       if(seid != null) {
+     	 m_id = (String)seid.getName(); 
+          model.addAttribute("m_id", m_id);
+          String shop_m_id = (String)seid.getName();
+          CartCNT = service.ShoppingCartCNT(shop_m_id);
+         model.addAttribute("CartCNT", CartCNT);
+       } else {
+          CartCNT=0;
+          model.addAttribute("CartCNT", CartCNT);
+       }
+
+       int pickCNT=0;
+       int pick_P_CNT=0;
+       if(seid != null) {
+     	  String ppic_m_id = (String)seid.getName();
+     	  pickCNT = service.pickCNT(ppic_m_id);
+     	  pick_P_CNT = service.pick_P_CNT(ppic_m_id);
+     	  model.addAttribute("pickCNT", pickCNT);
+     	  model.addAttribute("pick_P_CNT", pick_P_CNT);
+       } else {
+     	  pickCNT=0;
+     	  pick_P_CNT=0;
+     	  model.addAttribute("pickCNT", pickCNT);
+     	  model.addAttribute("pick_P_CNT", pick_P_CNT);
+       }
+
+	   return "member/loginSequrity/saller"; }
    
    @RequestMapping("accessError")
    public String accessError(Authentication auth) {return "member/loginSequrity/accessError";}
@@ -99,7 +239,37 @@ public class MemberController {
    }
 
 	@RequestMapping("login")
-	public String login(Model model) {
+	public String login(Model model,Principal seid) {
+
+    	String m_id="";
+        int CartCNT=0;
+        
+        if(seid != null) {
+      	 m_id = (String)seid.getName(); 
+           model.addAttribute("m_id", m_id);
+           String shop_m_id = (String)seid.getName();
+           CartCNT = service.ShoppingCartCNT(shop_m_id);
+          model.addAttribute("CartCNT", CartCNT);
+        } else {
+           CartCNT=0;
+           model.addAttribute("CartCNT", CartCNT);
+        }
+
+        int pickCNT=0;
+        int pick_P_CNT=0;
+        if(seid != null) {
+      	  String ppic_m_id = (String)seid.getName();
+      	  pickCNT = service.pickCNT(ppic_m_id);
+      	  pick_P_CNT = service.pick_P_CNT(ppic_m_id);
+      	  model.addAttribute("pickCNT", pickCNT);
+      	  model.addAttribute("pick_P_CNT", pick_P_CNT);
+        } else {
+      	  pickCNT=0;
+      	  pick_P_CNT=0;
+      	  model.addAttribute("pickCNT", pickCNT);
+      	  model.addAttribute("pick_P_CNT", pick_P_CNT);
+        }
+	
 		model.addAttribute("key", "fcaac1b29853acd91d3df7f95bfa316f");
 		model.addAttribute("uri", "http://localhost:8080/member/loginpro");
 		//model.addAttribute("uri", "http://localhost:8080/test/loginpro");
@@ -224,7 +394,7 @@ public class MemberController {
     		service.pick_me(dto.getM_id());     
     		service.p_pick_seq(dto.getM_id()); 
     		service.prefer(dto.getM_id());    
-    		service.p_pick(dto.getM_id());    
+    		service.p_pick(dto.getM_id());  
    model.addAttribute("check", check);
             return "member/inputPro";
         } else {
@@ -257,18 +427,49 @@ public class MemberController {
   		
   		
     @RequestMapping("sallerInputPro")
-    public String sallerInputPro(MemberDTO dto,CusDetailDTO cdto, Authentication authentication) { 
+ public String sallerInputPro(MemberDTO dto,CusDetailDTO cdto, Authentication authentication) { 
     	String m_id = authentication.getName(); dto.setM_id(m_id); Map<String, Object> statusParamMap = new HashMap<>(); 
     	statusParamMap.put("m_id", m_id);  service.updateMemberStatus(dto); 
     	service.insertIntoCusDetail(cdto);
-      return "member/saller/sallerInputPro"; 
+  return "member/saller/sallerInputPro";
     }
   	    
     
     
     
     @RequestMapping("/sallerInputForm")
-	public String sallerInputForm(Model model, Authentication authentication,CusDetailDTO cdto) {
+	public String sallerInputForm(Principal seid, Model model, Authentication authentication,CusDetailDTO cdto) {
+
+    	String m_id="";
+        int CartCNT=0;
+        
+        if(seid != null) {
+      	 m_id = (String)seid.getName(); 
+           model.addAttribute("m_id", m_id);
+           String shop_m_id = (String)seid.getName();
+           CartCNT = service.ShoppingCartCNT(shop_m_id);
+          model.addAttribute("CartCNT", CartCNT);
+        } else {
+           CartCNT=0;
+           model.addAttribute("CartCNT", CartCNT);
+        }
+
+        int pickCNT=0;
+        int pick_P_CNT=0;
+        if(seid != null) {
+      	  String ppic_m_id = (String)seid.getName();
+      	  pickCNT = service.pickCNT(ppic_m_id);
+      	  pick_P_CNT = service.pick_P_CNT(ppic_m_id);
+      	  model.addAttribute("pickCNT", pickCNT);
+      	  model.addAttribute("pick_P_CNT", pick_P_CNT);
+        } else {
+      	  pickCNT=0;
+      	  pick_P_CNT=0;
+      	  model.addAttribute("pickCNT", pickCNT);
+      	  model.addAttribute("pick_P_CNT", pick_P_CNT);
+        }
+
+    	
     	String username = authentication.getName(); 
     	MemberDTO dto = service.getUser(username); model.addAttribute("dto", dto);
     	model.addAttribute("apiKey","wBStzrx7b1p8B9XqfLWLBMa0q7HCWqRMC7%2F2o%2BG1CWfp2gW%2FffWQ8H81TDthbbN%2FU%2FqtGmiOtMUvFtzKeHPiuQ%3D%3D");
@@ -278,7 +479,37 @@ public class MemberController {
     
     
     @RequestMapping("/modify")
-    public String modify(Model model, Authentication authentication, CouponDTO cdto ) {
+    public String modify(Model model,Principal seid, Authentication authentication, CouponDTO cdto ) {
+
+    	String m_id="";
+        int CartCNT=0;
+        
+        if(seid != null) {
+      	 m_id = (String)seid.getName(); 
+           model.addAttribute("m_id", m_id);
+           String shop_m_id = (String)seid.getName();
+           CartCNT = service.ShoppingCartCNT(shop_m_id);
+          model.addAttribute("CartCNT", CartCNT);
+        } else {
+           CartCNT=0;
+           model.addAttribute("CartCNT", CartCNT);
+        }
+
+        int pickCNT=0;
+        int pick_P_CNT=0;
+        if(seid != null) {
+      	  String ppic_m_id = (String)seid.getName();
+      	  pickCNT = service.pickCNT(ppic_m_id);
+      	  pick_P_CNT = service.pick_P_CNT(ppic_m_id);
+      	  model.addAttribute("pickCNT", pickCNT);
+      	  model.addAttribute("pick_P_CNT", pick_P_CNT);
+        } else {
+      	  pickCNT=0;
+      	  pick_P_CNT=0;
+      	  model.addAttribute("pickCNT", pickCNT);
+      	  model.addAttribute("pick_P_CNT", pick_P_CNT);
+        }
+
         String cp_m_id = authentication.getName();
         
         MemberDTO dto = service.getUser(cp_m_id);
@@ -298,11 +529,42 @@ public class MemberController {
     
     
     @RequestMapping("/modifyForm")
-    public String modifyForm(Model model, Authentication authentication) {
+    public String modifyForm(Principal seid, Model model, Authentication authentication) {
+
+    	String m_id="";
+        int CartCNT=0;
+        
+        if(seid != null) {
+      	 m_id = (String)seid.getName(); 
+           model.addAttribute("m_id", m_id);
+           String shop_m_id = (String)seid.getName();
+           CartCNT = service.ShoppingCartCNT(shop_m_id);
+          model.addAttribute("CartCNT", CartCNT);
+        } else {
+           CartCNT=0;
+           model.addAttribute("CartCNT", CartCNT);
+        }
+
+        int pickCNT=0;
+        int pick_P_CNT=0;
+        if(seid != null) {
+      	  String ppic_m_id = (String)seid.getName();
+      	  pickCNT = service.pickCNT(ppic_m_id);
+      	  pick_P_CNT = service.pick_P_CNT(ppic_m_id);
+      	  model.addAttribute("pickCNT", pickCNT);
+      	  model.addAttribute("pick_P_CNT", pick_P_CNT);
+        } else {
+      	  pickCNT=0;
+      	  pick_P_CNT=0;
+      	  model.addAttribute("pickCNT", pickCNT);
+      	  model.addAttribute("pick_P_CNT", pick_P_CNT);
+        }
+
         String username = authentication.getName();
         MemberDTO dto = service.getUser(username);
         model.addAttribute("dto", dto);
         return "member/myPage/modifyForm";
+        
         
         
         
@@ -561,7 +823,38 @@ public class MemberController {
        String add_m_id = (String) seid.getName();
        int count=service.addressCount(add_m_id, add_num);
        System.out.print("add_m_id  ======================================================"+add_m_id);
-             
+
+   	String m_id="";
+       int CartCNT=0;
+       
+       if(seid != null) {
+     	 m_id = (String)seid.getName(); 
+          model.addAttribute("m_id", m_id);
+          String shop_m_id = (String)seid.getName();
+          CartCNT = service.ShoppingCartCNT(shop_m_id);
+         model.addAttribute("CartCNT", CartCNT);
+       } else {
+          CartCNT=0;
+          model.addAttribute("CartCNT", CartCNT);
+       }
+
+       int pickCNT=0;
+       int pick_P_CNT=0;
+       if(seid != null) {
+     	  String ppic_m_id = (String)seid.getName();
+     	  pickCNT = service.pickCNT(ppic_m_id);
+     	  pick_P_CNT = service.pick_P_CNT(ppic_m_id);
+     	  model.addAttribute("pickCNT", pickCNT);
+     	  model.addAttribute("pick_P_CNT", pick_P_CNT);
+       } else {
+     	  pickCNT=0;
+     	  pick_P_CNT=0;
+     	  model.addAttribute("pickCNT", pickCNT);
+     	  model.addAttribute("pick_P_CNT", pick_P_CNT);
+       }
+      
+       
+       
        List<MemAddressDTO> AddrList = service.addressCheck(add_m_id,mdto,adto,add_num );
        model.addAttribute("count", count);
        model.addAttribute("add_m_id", add_m_id);
@@ -689,17 +982,46 @@ public class MemberController {
         model.addAttribute("selectedShopNums", selectedShopNums);
         model.addAttribute("selectedCoupon", selectedCoupon);
         model.addAttribute("dto", dto);
-       
-        
-        
-         return "member/order/orderPageOne";
-    }  
-    
+     return "member/order/orderPageOne";
+    }
     
      
     @RequestMapping("orderPageTwo")
     public String orderPageTwo(Principal peid, Model model, OrderwithCouponDTO dto,String selectedShopNums,String selectedCoupon) {
     	ArrayList<OrderwithCouponDTO> cdto = new ArrayList<OrderwithCouponDTO>();
+    	String m_id="";
+        int CartCNT=0;
+        
+        if(peid != null) {
+      	 m_id = (String)peid.getName(); 
+           model.addAttribute("m_id", m_id);
+           String shop_m_id = (String)peid.getName();
+           CartCNT = service.ShoppingCartCNT(shop_m_id);
+          model.addAttribute("CartCNT", CartCNT);
+        } else {
+           CartCNT=0;
+           model.addAttribute("CartCNT", CartCNT);
+        }
+
+        int pickCNT=0;
+        int pick_P_CNT=0;
+        if(peid != null) {
+      	  String ppic_m_id = (String)peid.getName();
+      	  pickCNT = service.pickCNT(ppic_m_id);
+      	  pick_P_CNT = service.pick_P_CNT(ppic_m_id);
+      	  model.addAttribute("pickCNT", pickCNT);
+      	  model.addAttribute("pick_P_CNT", pick_P_CNT);
+        } else {
+      	  pickCNT=0;
+      	  pick_P_CNT=0;
+      	  model.addAttribute("pickCNT", pickCNT);
+      	  model.addAttribute("pick_P_CNT", pick_P_CNT);
+        }
+
+    	
+    	
+    	
+        dto.setOrder_dere_pay(2500);
         String add_m_id = peid.getName();
         MemberDTO mdto = service.getUser(add_m_id);         
         System.out.println("test===two"+selectedShopNums);
@@ -856,16 +1178,21 @@ public class MemberController {
     } 
     
     @RequestMapping("pwChange")
-    
     public String pwChange(MemberDTO memberdto, String passwd, String passwd2){
     	if(passwd.equals(passwd2)){
     		memberdto.setPasswd(passwd);
     		service.changePw(memberdto);
     	}
     	   	
-    	return "redirect:/member/customLogin";
+    	return "redirect:/member/pwResult";
+    }
+    
+    @RequestMapping("pwResult")
+    public String pwResult(){
+    	return "member/loginSequrity/pwResult";
     } 
-
+    
+	 
     
 }
  

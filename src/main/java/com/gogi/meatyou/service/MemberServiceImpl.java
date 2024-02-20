@@ -121,6 +121,11 @@ public class MemberServiceImpl implements MemberService {
     }
     
     @Override
+    public int  insertMember_Addr(String m_id) {
+    	return mapper.insertMember_Addr(m_id);
+    }
+    
+    @Override
     public int insertKaKao(MemberDTO dto) {
     	return mapper.insertKaKao(dto);
     }

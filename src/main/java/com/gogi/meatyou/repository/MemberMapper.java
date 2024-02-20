@@ -34,6 +34,7 @@ public interface MemberMapper {
    public void userPay(ArrayList<MOrderDTO> list);
    
     public int insertMember(MemberDTO dto);
+    public int insertMember_Addr(String m_id);
     public int insertKaKao(MemberDTO dto);
     public int twoNextPay(MOrderDTO dto);		
     public int ShoppingCartCNT(String shop_m_id);

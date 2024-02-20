@@ -36,6 +36,9 @@ public interface MemberService  {
 	public OrderwithCouponDTO getCartbyNum(HashMap hashmap);
 	public OrderwithCouponDTO getCouponNum(int cp_num);
     int insertMember(MemberDTO dto);
+    public int  insertMember_Addr(String m_id);
+    
+    
     int insertKaKao(MemberDTO dto);
     //kakao Token
     public String getAccessToken(String authorize_code) throws Throwable;
@@ -62,6 +65,7 @@ public interface MemberService  {
    public void  updateAddr(MemAddressDTO adto,@Param("add_m_id") String add_m_id,List<MemAddressDTO> AddrList,int add_num,@Param("add_mem_address1") String add_mem_address1,@Param("add_mem_address2") String add_mem_address2);
    
    public void  insertAddr(MemAddressDTO  adto);
+
    
    public int userDelete(MemberDTO dto);
    public int sallerDelete(MemberDTO dto);

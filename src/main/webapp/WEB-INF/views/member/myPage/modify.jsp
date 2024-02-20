@@ -394,7 +394,7 @@
  <div class="action-buttons">
   <a href="../member/modifyForm"  class="btn btn-primary"  >정보수정</a>
   
-  <c:if test="${dto.m_status eq 1001 and dto.m_status le 1003}">
+<c:if test="${dto.m_status ge 1001 and dto.m_status le 1004}">
     <a href="/member/sallerInputForm"  class="btn btn-primary"  >판매자 신청</a>
   </c:if>
 </div>

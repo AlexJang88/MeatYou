@@ -11,63 +11,135 @@
     <title>판매자 페이지</title>
     <%@ include file="../header.jsp" %>
     <script>
- 
+        $(document).ready(function () {
+            // Add a click event handler for the menu items with sub-menus
+            $('.vertical-menu-item a').click(function () {
+                // Toggle the collapse state when the menu item is clicked
+                $(this).next('.collapse').collapse('toggle');
+            });
+        });
     </script>
     <style>
-        .main-table {
-        width: 50%; /* Set the desired width */
-        margin: 0 auto; /* Center-align the table */
-           box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-           height: 80%;
-        
-    }
-    .out-table{
-        margin: 0 auto; /* Center-align the element */
-      	 align-items: center; 
-      	 justify-content: center;
-      	
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-          
-    }
-  .summary-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-        margin-right: 10px;
-   
-    }
-
-    .summary-table th, .summary-table td {
-        border: 1px solid #ddd;
-        padding: 10px;
-        text-align: center;
-    }
-
-    .summary-table th {
-        background-color: #f2f2f2;
-    }
-
-    .summary-table tr:nth-child(even) {
-        background-color: #f9f9f9;
-    }
         body {
             font-family: 'Roboto', Arial, sans-serif;
             background-color: #f4f4f4;
             margin: 0;
         }
 
-      
+        .category-menu {
+            width: 8%; /* Adjust the width as needed */
+            height: 100%; /* Adjust the height as needed */
+            position: relative;
+            margin-right:0;
+            left:18%;
+        }
+/* 
+        .main-container {
+            display: flex;
+
+            justify-content: space-between;
+            
+             
+        }
 
 
-       .category-menu {
-       margin-top:0;
-        width: 20%;
-        flex-shrink: 0; /* 추가: 카테고리 메뉴가 축소되지 않도록 설정 */
-    }
+ */
+ .vertical-menu a.btn {
+    font-size: 14px; /* You can adjust the font size as needed */
+}
 
-        .graph-container {
-            width: 60%; /* Adjust the width as needed */
-            order: 1; /* Set the order for the graph */
+/* Add this style for the lower-level menu items (sub-menu items) */
+.vertical-menu a.btn + .collapse a.btn {
+    font-weight: normal;
+    font-size: 14px; /* You can adjust the font size as needed */
+}
+ .main-container{
+   display: flex;
+        justify-content: center; /* Center the children horizontally */
+        align-items: flex-start; /* Align the children at the top */
+        margin-top: 40px;
+        margin-bottom: 50px;
+ }
+        .graph-and-summary {
+               width: 60%;
+        margin: 0 auto; /* Center the element horizontally */
+        text-align: center; /* Center the content inside the element */
+ 
+		position: relative;
+        }
+       
+       
+        .main-table {
+            width: 50%;
+            margin: 0 auto;
+            margin-left:18%;
+            height: 60%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+           
+            
+        }
+        
+        .main-table th {
+    font-family: 'Arial', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #f2f2f2;
+    padding: 10px;
+    text-align: center;
+}
+.main-table td {
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    padding: 10px;
+    text-align: center;
+}
+        .out-table {
+            margin: 0 auto;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            
+              font-family: 'Arial', sans-serif; /* Change the font family as needed */
+    font-size: 24px; /* You can adjust the font size as needed */
+    color: #333; /* Change the color as needed */
+    font-weight: bold;
+            
+        }
+
+        .summary-table {
+            width: 76%;
+            margin-bottom:15%;
+            margin-left: auto;
+            margin-right: auto;
+            
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            font-size: xx-small;
+        }   
+
+  .summary-table th, .summary-table td {
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+
+        .summary-table th {
+            background-color: #f2f2f2;
+        }
+
+        .summary-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        #graph-container {
+        /*     width: 60%;
+            order: 1; */
+                width: 60%;
+    text-align: center; margin: auto;
         }
 
         .btn {
@@ -76,118 +148,119 @@
             text-decoration: none;
             border-radius: 4px;
             transition: background-color 0.3s;
-            font-weight: bold; /* Added font weight */
         }
 
-        .btn:hover {
-            font-weight: bold; /* Added font weight */
-        }
-
-        h1 {
-            color: #333;
-            font-weight: bold; /* Added font weight */
-        }
-
-        .sales-summary {
-            margin-top: 20px;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+   /* Add this style for the h1 element */
+h1 {
+    font-family: 'Roboto', Arial, sans-serif; /* Change the font family as needed */
+    font-size: 32px; /* You can adjust the font size as needed */
+    color: #333; /* Change the color as needed */
+    font-weight: bold;
+}
+  
 
         #sales-chart {
-            flex: 1; /* Adjust the width of the graph as needed */
-            height: 350px; /* Adjust the height of the graph as needed */
-			margin-bottom:15%; 
-			
-
+            flex: 1;
+            font-size:12px;
+            height: 60%;
+            width: 100%;
+            margin-bottom: 15%;
+            margin-top: 10%;
+            margin-left: auto;
+            margin-right: auto;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
         }
+
+        .vertical-menu {
+            order: -1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-right: 20px;
+            width: 100%;
+            margin-top: 0;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .vertical-menu a {
+            margin-bottom: 10px;
+            text-align: left;
+        }
+
+#bigfont {
+    font-weight: bold;
+    font-size: 14px; /* You can adjust the font size as needed */
+    font-family: 'Poppins', sans-serif; /* Change the font family as needed for bigfont */
+    border: 1px solid #ddd;
+          width: 140px;
+      border-right:none;
+         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+         margin-bottom:0;
+      
+}
+
+/* Add this style for the smallfont element */
+#smallfont {
+    font-size: 12px; /* You can adjust the font size as needed */
+    font-family: 'Quicksand', sans-serif; /* Change the font family as needed for smallfont */
+}
         
-          .vertical-menu {
-        order: -1;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        margin-right: 20px;
-        width: 100%; /* 추가: 수직 메뉴 전체 너비를 100%로 설정 */
-		margin-top:0;
-    }
-
-      .vertical-menu a {
-        margin-bottom: 10px;
-        /* width: 100%; 수직 메뉴 아이템은 전체 너비로 설정하지 않음 */
-        text-align: left;
-    }
- 
-        #category-list {
-            flex: 1; /* Adjust the width of the category list as needed */
-            padding: 20px;
-            margin-top: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-    @media only screen and (max-width: 768px) {
-            .outer-table {
-                flex-direction: column;
-            }
-
-
-            .category-menu,
-            .graph-container {
-                width: 100%;
-            }
-        }
-
-        @media only screen and (min-width: 769px) {
-
-            .category-menu {
-                width: 20%;
-            }
-
-            .graph-container {
-                width: 80%;
-            }
-        }
     </style>
 </head>
 <body>
 
-    <div style="display: flex;   margin-top:50px; margin-bottom:50px;">
- 
-      <h2 id="getYear" class="out-table">매출 요약정보</h2>
+<div style="display: flex; margin-top: 40px; margin-bottom: 50px;">
+    <h2 id="getYear" class="out-table">매출 요약정보</h2><br/> 
 </div>
-    <table class="main-table">
-    
-        <tr>
-      
-            <td class="category-menu">
-                <div class="vertical-menu">
-                    <div class="vertical-menu-item">
-                        <a href="/admin/memberlist?check=1" ">회원목록 조회(일반)</a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">하위 메뉴 1</a>
-                            <a class="dropdown-item" href="#">하위 메뉴 2</a>
-                            <a class="dropdown-item" href="#">하위 메뉴 3</a>
-                            <a class="dropdown-item" href="#">하위 메뉴 4</a>
-                        </div>
-                    </div>
-                    <a href="/admin/memberlist?check=2" class="btn">회원목록 조회(판매자)</a>
-                    <a href="/admin/memberlist?check=3" class="btn">판매자 승인대기</a>
-                    <a href="/admin/memberlist?check=4" class="btn">판매자(유료회원)목록</a>
-                    <a href="/admin/sales" class="btn">매출보기</a>
-                    <a href="/admin/reckon" class="btn">정산내역 확인</a>
-                    <a href="/admin/noticeList" class="btn">공지사항</a>
-                    <a href="/admin/reportList" class="btn">신고글 보기</a>
-                    <a href="/admin/productList" class="btn">상품목록보기</a>
+
+<div class="main-container" >
+    <div class="category-menu">
+        <!-- Your category menu content -->
+        <div class="vertical-menu">
+            <div class="vertical-menu-item">
+                <a href="#" class="btn" data-toggle="collapse" data-target="#mem" id="bigfont">회원</a>
+                <div id="mem" class="collapse">
+                    <a href="/admin/memberlist?check=1" class="btn" id="smallfont" >회원목록 조회(일반)</a><br/>
+                    <a href="/admin/memberlist?check=2" class="btn" id="smallfont" >회원목록 조회(판매자)</a><br/>
+                    <a href="/admin/memberlist?check=3" class="btn" id="smallfont" >판매자 승인대기</a><br/>
+                    <a href="/admin/memberlist?check=4" class="btn" id="smallfont" >판매자(유료회원)목록</a><br/>
                 </div>
-            </td>
+            </div>
+            <div class="vertical-menu-item">
+                <a href="#" class="btn" data-toggle="collapse" data-target="#pro" id="bigfont">상품</a>
+                <div id="pro" class="collapse">
+                    <a href="/admin/productList" class="btn" id="smallfont" >상품 목록 보기</a>
+                </div>
+            </div>
+
+            <div class="vertical-menu-item">
+                <a href="#" class="btn" class="btn" data-toggle="collapse" data-target="#money" id="bigfont">정산</a>
+                <div id="money" class="collapse">
+                    <a href="/admin/sales" class="btn" id="smallfont" >매출 보기</a><br/>
+                    <a href="/admin/reckon" class="btn" id="smallfont" >정산내역 확인</a>
+                </div>
+            </div>
+
+            <div class="vertical-menu-item">
+                <a href="#" class="btn" class="btn" data-toggle="collapse" data-target="#check" id="bigfont">관리자 체크</a>
+                <div id="check" class="collapse">
+                    <a href="/admin/noticeList" class="btn" id="smallfont" > 공지 사항</a><br/>
+                    <a href="/admin/reportList" class="btn"  id="smallfont" >신고글 보기</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="main-table"  >
+        <tr>
             <td class="graph-and-summary">
                 <div id="graph-container">
-                    <canvas id="sales-chart"></canvas>
+                    <canvas id="sales-chart" ></canvas>
                 </div>
-                <table class="summary-table">
+                
+                
+                <table class="summary-table" >
                     <tr>
                         <td>총 매출</td>
                         <td>순 매출</td>
@@ -206,10 +279,10 @@
                     </tr>
                 </table>
             </td>
-            
         </tr>
     </table>
-</body>
+</div>
+
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -228,7 +301,7 @@
                 var getYear = data.getYear;
                 // 데이터를 그래프에 적용
                 update(total_profit, net_profit, co_pay, cp_price); // 그래프 업데이트
-                $('#getYear').text(getYear + " 년 매출 요약정보");
+                $('#getYear').text(getYear + " 년 매출 요약정보 [관리자님 메인 페이지]");
             },
             error: function (xhr, status, error) {
                 console.error('데이터 가져오기 실패:', error);
@@ -252,22 +325,22 @@
                         data: d1
                     },
                     {
-                        label: '판매수수료 매출', // Name of the new data
-                        backgroundColor: 'rgb(0,128,0)', // Blue color for the dots
-                        borderColor: 'rgb(0,128,0)', // Blue color for the line
-                        data: d2 // Example data for the new dataset
+                        label: '판매수수료 매출',
+                        backgroundColor: 'rgb(0,128,0)',
+                        borderColor: 'rgb(0,128,0)',
+                        data: d2
                     },
                     {
-                        label: '유료결제 매출', // Name of the new data
-                        backgroundColor: 'rgb(255,165,0)', // Blue color for the dots
-                        borderColor: 'rgb(255,165,0)', // Blue color for the line
-                        data: d3 // Example data for the new dataset
+                        label: '유료결제 매출',
+                        backgroundColor: 'rgb(255,165,0)',
+                        borderColor: 'rgb(255,165,0)',
+                        data: d3
                     },
                     {
-                        label: '쿠폰 지출', // Name of the new data
-                        backgroundColor: 'rgb(255,0,0)', // Blue color for the dots
-                        borderColor: 'rgb(255,0,0)', // Blue color for the line
-                        data: d4 // Example data for the new dataset
+                        label: '쿠폰 지출',
+                        backgroundColor: 'rgb(255,0,0)',
+                        borderColor: 'rgb(255,0,0)',
+                        data: d4
                     }
                 ]
             },
