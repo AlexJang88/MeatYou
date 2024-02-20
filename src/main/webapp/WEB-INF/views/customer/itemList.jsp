@@ -31,11 +31,11 @@
 					<td width="300" align="center">썸네일 사진</td>
 					<td width="200" align="center">상품번호</td>
 					<td width="200" align="center">제품이름</td>
-					<td width="200" align="center">가격</td>				
-									
+					<td width="200" align="center">가격</td>													
 					<td width="200" align="center">현재상태</td>				
 					<td width="100" align="center">노출상태변경</td>	
 					<td width="100" align="center">변경하기</td>	
+					<td width="100" align="center">정보수정</td>	
 				</tr>
 					
 				<c:forEach var="product" items="${list}"  varStatus="loop">			 			 			   
@@ -51,7 +51,7 @@
 	            		 		</td>
 	            		 		 <td>${product.p_num}			               				                
 					            </td> 
-	            		 		<td><a href="/customers/productContent?num=${product.p_num}">${product.p_name}</a></td>
+	            		 		<td>${product.p_name}</a></td>
 	            		 		<td><fmt:formatNumber value="${product.p_price}" type="number" pattern="#,##0"/></td>            		 		
 	            		 		<td>
 								    <c:choose>
@@ -80,12 +80,14 @@
 							        </c:choose>
 							    </select>
 							</td>						  
-							  <td align="center" >   
-							
-			                  <input type="submit" value="변경" >
+							  <td align="center" >   							
+			                  	<input type="submit" value="변경" >
 			                 </td> 
-		                </tr>		    			   				        		
-             	  </form>
+			                   <td align="center" >  
+				             	  <input type="button" value="글수정" onclick="document.location.href='/customers/productUpdate?num=${product.p_num}'">
+				              </td> 
+		                </tr>			            	    			   				        		
+             	  </form>            	   
 				</c:forEach>
 			</table>			
 		</c:if>
