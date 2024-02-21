@@ -1,29 +1,310 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-	
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <!-- include summernote css/js -->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-<form method="post" action="/admin/reportReg" enctype="multipart/form-data">
-  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-  <input type="hidden" name="ma_ref" value="${p_num}">
-  제목 : <input type="text" name="ma_title">
-  <textarea id="summernote" name="ma_content"></textarea>
-  <input type="hidden" name="category" value="40">
-  <input type="submit" value="전송">
-</form>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+<!DOCTYPE html>
+<html>
+<head>
+
+<style>
+body{
+ align:center;
+  margin: 0 auto;
+}
+  
+    
+    #summernote {
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .note-editor {
+        display: inline-block;
+        text-align: left;
+    }
+        .ui-datepicker-calendar {
+            display: none;
+        }
+        
+     /*      .bodyArea {
+            font-family: 'Roboto', Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+        } */
+        /*전체 규격 끝*/
+/* 헤더  */
+  .out-table {
+            margin: 0 auto;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            
+              font-family: 'Arial', sans-serif; /* Change the font family as needed */
+    font-size: 24px; /* You can adjust the font size as needed */
+    color: #333; /* Change the color as needed */
+    font-weight: bold;
+}    
+/*헤더끝*/
+/* 카테고리 시작*/
+#bigfont {
+    font-weight: bold;
+    font-size: 14px; /* You can adjust the font size as needed */
+    font-family: 'Poppins', sans-serif; /* Change the font family as needed for bigfont */
+    border: 1px solid #ddd;
+          width: 140px;
+      border-right:none;
+         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+         margin-bottom:0;
+         color:black;
+      
+}
+
+/* Add this style for the smallfont element */
+#smallfont {
+    font-size: 12px; /* You can adjust the font size as needed */
+    font-family: 'Quicksand', sans-serif; /* Change the font family as needed for smallfont */
+            color:black;
+}
+ .vertical-menu {
+            order: -1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-right: 20px;
+            width: 100%;
+            margin-top: 0;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+          
+        }
+
+        .vertical-menu a {
+            margin-bottom: 10px;
+            text-align: left;
+        }
+
+
+        .btn {
+            display: inline-block;
+            padding: 8px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+ .vertical-menu a.btn {
+    font-size: 14px; /* You can adjust the font size as needed */
+}
+
+/* Add this style for the lower-level menu items (sub-menu items) */
+.vertical-menu a.btn + .collapse a.btn {
+    font-weight: normal;
+    font-size: 14px; /* You can adjust the font size as needed */
+}
+   .category-menu {
+            width: 8%; /* Adjust the width as needed */
+            height: 100%; /* Adjust the height as needed */
+            position: relative;
+            margin-right:0;
+            left:18%;
+            z-index: 2
+        }
+
+
+
+/* 카테고리 끝*/
+/* 메인  시작*/
+ .main-container{
+   display: flex;
+        justify-content: center; /* Center the children horizontally */
+        align-items: flex-start; /* Align the children at the top */
+        margin-top: 40px;
+        margin-bottom: 50px;
+ }
+       .summary-table {
+       margin-top:1%;
+            width: 100%;
+            margin-bottom:5%;
+            margin-left: auto;
+            margin-right: auto;
+            
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            font-size: xx-small;
+        }   
+  .summary-table th, .summary-table td {
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+} 
+.summary-table th {
+            background-color: #f2f2f2;
+        }
+        .summary-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+ .graph-and-summary {
+               width: 80%;
+        margin: 0 auto; /* Center the element horizontally */
+        text-align: center; /* Center the content inside the element */
+ 		margin-left:auto;
+ 		margin-right:auto;
+ 		
+		position: relative;
+        }
+
+
+
+
+     .main-table {
+            width: 50%;
+            margin: 0 auto;
+            margin-left:24%;
+            height: 60%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+           
+            
+        }
+        
+        .main-table th {
+    font-family: 'Arial', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #f2f2f2;
+    padding: 10px;
+    text-align: center;
+}
+.main-table td {
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    padding: 10px;
+    text-align: center;
+}
+
+
+                
+       select {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 12px;
+        margin-right: 5px;
+     /*    height: 30px; */
+        border:none;
+    }
+
+    /* Style for submit button */
+    input[type="submit"] {
+        padding: 8px 20px;
+        border: none;
+        border-radius: 4px;
+        background-color:lightgray;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+        background-color: gray;
+    }
+ 
+    
+    input[type="submit"] {
+        padding: 8px 20px;
+        border: none;
+        border-radius: 4px;
+        background-color:lightgray;
+        color: #fff;
+        cursor: pointer;
+    }
+    input[type="text"] {
+        border-radius: 4px;
+        margin-top:3%;
+    }
+        
+           button{
+           padding: 8px 20px;
+        border: none;
+        border-radius: 4px;
+        background-color:lightgray;
+        color: #fff;
+        cursor: pointer; 
+           }
+button:hover {
+        background-color: gray;
+    }
+    input[type="button"]:hover {
+        background-color: gray;
+    }
+    input[type="button"] {
+        padding: 8px 20px;
+        border: none;
+        border-radius: 4px;
+        background-color:lightgray;
+        color: #fff;
+        cursor: pointer;
+    }
+    input[type="reset"]:hover {
+        background-color: gray;
+    }
+    input[type="reset"] {
+        padding: 8px 20px;
+        border: none;
+        border-radius: 4px;
+        background-color:lightgray;
+        color: #fff;
+        cursor: pointer;
+    }
+      
+
+
+</style>
+    <%@ include file="../header.jsp" %>
+    <meta charset="UTF-8">
+    <title>Q&A Details</title>
+</head>
+
+<body>		
+    <div class="main-container" align="center" style="width: 100%;"> 
+      
+				<form method="post" action="/admin/reportReg" enctype="multipart/form-data"  align="center">
+				   <table class="summary-table" align="center">
+                <td class="graph-and-summary" align="center">
+				  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+          <input type="hidden" name="ma_ref" value="${p_num}">
+				  제목 : <input type="text" name="ma_title"><br/>
+				 
+				  <textarea id="summernote" name="ma_content"  ></textarea>
+				  <input type="hidden" name="category" value="40">
+				   
+				
+				   </td><tr>
+				   <td>
+				    <input type="submit" value="전송">
+				   </td>
+				   </tr>
+				          	</table>
+				</form>
+
+               
+
+    </div>
 <script>
 $(document).ready(function () {
     $('#summernote').summernote({
         codeviewFilter: false, // 코드 보기 필터 비활성화
         codeviewIframeFilter: false, // 코드 보기 iframe 필터 비활성화
-
-        height: 500, // 에디터 높이
+		width:600,
+        height: 450, // 에디터 높이
         minHeight: null, // 최소 높이
         maxHeight: null, // 최대 높이
         focus: true, // 에디터 로딩 후 포커스 설정
@@ -112,17 +393,102 @@ function uploadSummernoteImageFile(file, el) {
             },
         })
     }
-/* function deleteSummernoteImageFile(imageName) {
-    data = new FormData()
-    data.append('file', imageName)
-    $.ajax({
-        data: data,
-        type: 'POST',
-        url: '/admin/deleteSummernoteImageFile',
-        contentType: false,
-        enctype: 'multipart/form-data',
-        processData: false,
-    })
-} */
-
+ 
 </script>
+
+</body>
+
+
+
+
+<!-- FOOTER -->
+			<footer id="footer">
+			<!-- top footer -->
+			<div class="section">
+				<!-- container -->
+				<div class="container">
+					<!-- row -->
+					<div class="row">
+						<div class="col-md-3 col-xs-6">
+							<div class="footer">
+								<h3 class="footer-title">About Us</h3>
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.</p>
+								<ul class="footer-links">
+									<li><a href="#"><i class="fa fa-map-marker"></i>1734 Stonecoal Road</a></li>
+									<li><a href="#"><i class="fa fa-phone"></i>+021-95-51-84</a></li>
+									<li><a href="#"><i class="fa fa-envelope-o"></i>email@email.com</a></li>
+								</ul>
+							</div>
+						</div>
+
+						<div class="col-md-3 col-xs-6">
+							<div class="footer">
+								<h3 class="footer-title">Categories</h3>
+								<ul class="footer-links">
+									<li><a href="#">Hot deals</a></li>
+									<li><a href="#">Laptops</a></li>
+									<li><a href="#">Smartphones</a></li>
+									<li><a href="#">Cameras</a></li>
+									<li><a href="#">Accessories</a></li>
+								</ul>
+							</div>
+						</div>
+
+						<div class="clearfix visible-xs"></div>
+
+						<div class="col-md-3 col-xs-6">
+							<div class="footer">
+								<h3 class="footer-title">Information</h3>
+								<ul class="footer-links">
+									<li><a href="#">About Us</a></li>
+									<li><a href="#">Contact Us</a></li>
+									<li><a href="#">Privacy Policy</a></li>
+									<li><a href="#">Orders and Returns</a></li>
+									<li><a href="#">Terms & Conditions</a></li>
+								</ul>
+							</div>
+						</div>
+
+						<div class="col-md-3 col-xs-6">
+							<div class="footer">
+								<h3 class="footer-title">Service</h3>
+								<ul class="footer-links">
+									<li><a href="#">My Account</a></li>
+									<li><a href="#">View Cart</a></li>
+									<li><a href="#">Wishlist</a></li>
+									<li><a href="#">Track My Order</a></li>
+									<li><a href="#">Help</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- /row -->
+				</div>
+				<!-- /container -->
+			</div>
+			<!-- /top footer -->
+
+			<!-- bottom footer -->
+			<div id="bottom-footer" class="section">
+				<div class="container">
+					<!-- row -->
+					<div class="row">
+						<div class="col-md-12 text-center">
+							
+							<span class="copyright">
+								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+								Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+							</span>
+
+
+						</div>
+					</div>
+						<!-- /row -->
+				</div>
+				<!-- /container -->
+			</div>
+			<!-- /bottom footer -->
+		</footer>
+		<!-- /FOOTER -->
+</html>

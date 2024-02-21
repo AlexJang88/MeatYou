@@ -129,6 +129,7 @@ public interface MainMapper {
    
    public void ShoppingCartInsert(ShoppingCartDTO dto);
    public void ShoppingCartInsert2(@Param("shop_m_id")String m_id, @Param("shop_p_num")int p_num, @Param("shop_quantity")int shop_quantity);
+   public void plusshop_quantity(@Param("shop_m_id")String m_id, @Param("shop_p_num")int p_num, @Param("shop_quantity")int shop_quantity);
 
    public int pickCNT(String ppic_m_id);
    public int pick_P_CNT(String ppic_m_id);

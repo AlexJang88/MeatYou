@@ -156,6 +156,7 @@
                                     <div id="consumerList" class="collapse">
                                 <a href="/customers/consumerList" class="btn" id="smallfont" >구매회원</a><br/>
                                 <a href="/customers/CouponList" class="btn"  id="smallfont" >쿠폰 보유 회원</a>
+                                
                                     </div>
                                 </div>
                                 
@@ -185,12 +186,14 @@
                                 
                                 
                                     <div class="vertical-menu-item">
-		                                    <a  href="#" class="btn" data-toggle="collapse" data-target="#sellerQna"id="bigfont">관리자</a>
+		                                    <a  href="#" class="btn" data-toggle="collapse" data-target="#sellerQna"id="bigfont">qna</a>
 		                                    <div id="sellerQna" class="collapse">
-		                                <a href="/board/sellerQna" class="btn"id="smallfont" >관리자 문의게시판</a><br/>
+		                                <a href="/board/sellerQna" class="btn"id="smallfont" >관리자님과의 소통</a><br/>
                                     </div>
                                 </div>
                      
+                                
+                                    
                            
                            
                             </div>
