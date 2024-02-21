@@ -3,10 +3,34 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gogi.meatyou.repository.MemberMapper">
+                 
+   	<!-- 장바구니 품목수 카운트 -->
+   	<select id="ShoppingCartCNT" resultType="int" >
+      		select count(*) from shoppingcart_${shop_m_id}
+   	</select>
 
+
+	<!-- 상품찜 -->
+	<select id="pickCNT" resultType="int" >
+      		select count(*) from p_pick_${ppic_m_id}
+	</select>
+   
+
+	<!-- 판매자찜 -->
+   	<select id="pick_P_CNT" resultType="int" >
+      		select count(*) from pick_me_${ppic_m_id}
+   	</select>
+   	
+	<select id="checkEmail" parameterType="hashmap" resultType="int">
+		select count(*) from member where email=#{email}   
+		<if test="m_name!=null and m_name!=''"> and m_name=#{name}</if>
+		<if test="phone!=null and phone!=''"> and phone=#{phone}</if>
+		<if test="m_id!=null and m_id!=''"> and m_id=#{m_id}</if>
+	</select>
+	
    <select id="memberList" resultType="com.gogi.meatyou.bean.MemberDTO">
        SELECT * FROM member
-    WHERE m_id ='${m_id}'
+    WHERE m_id = #{m_id}  
    </select>
 
  	<select id="idCheck" parameterType="String" resultType="int">
@@ -15,6 +39,12 @@
    
  <select id="eMailCheck" parameterType="String" resultType="int">
  SELECT COUNT(email) FROM MEMBER WHERE email= #{email}
+   </select>
+   
+ <select id="deleteCheck" parameterType="String" resultType="int">
+SELECT 
+passwd  from member
+WHERE m_id = #{m_id}' AND passwd = #{passwd}
    </select>
 
    <resultMap id="memberMap" type="com.gogi.meatyou.bean.MemberDTO" >
@@ -111,6 +141,10 @@ WHERE
     INSERT INTO mem_address(add_num,add_m_id,add_mem_address1,add_mem_address2,add_type) VALUES
    (mem_address_seq.nextval,'${add_m_id}','${add_mem_address1.replace("'", "''").replaceAll(",\\s*$", "")}','${add_mem_address2.replace("'", "''").replaceAll(",\\s*$", "")}',0)
 </insert>
+<insert id="insertMember_Addr" parameterType="com.gogi.meatyou.bean.MemAddressDTO">
+    INSERT INTO mem_address(add_num,add_m_id,add_mem_address1,add_mem_address2,add_type) VALUES
+   (mem_address_seq.nextval,'${m_id}','${m_add1.replace("'", "''").replaceAll(",\\s*$", "")}','${m_addr2.replace("'", "''").replaceAll(",\\s*$", "")}',0)
+</insert>
    
    
    
@@ -152,6 +186,7 @@ WHERE
 	]]>
 </select>
 
+
 <select id="ShoppingCartCount" >
 	select count(*) from (select * from product), (select * from shoppingcart_${id}) where p_num=shop_p_num
 </select>
@@ -164,9 +199,10 @@ WHERE
 
 
 <!--장바구니 수량변경  num기준으로 변경 -->
-   <update id="updateQuantity"  >
-        UPDATE shoppingcart_${shop_m_id} SET shop_quantity = #{shop_quantity} WHERE shop_p_num = #{shop_p_num}
+   <update id="updateQuantity"  parameterType="map">
+        UPDATE shoppingcart_${shop_m_id} SET shop_quantity=#{shop_quantity} WHERE shop_num = #{shop_num}
     </update>
+    
 <!--장바구니 수량변경  shop_num기준으로 변경 
    <update id="updateQuantity"  >
         UPDATE shoppingcart_${shop_m_id} SET shop_quantity = #{shop_quantity} WHERE shop_p_num = #{shop_p_num}
@@ -286,7 +322,7 @@ WHERE rnum >= #{startRow, jdbcType=NUMERIC}
 <!-- 게시물 선택 삭제  -->
  <!-- 카트 삭제 shop_num 기준 -->
    <delete id="deleteCart">
-      delete from shoppingcart_${shop_m_id} where shop_p_num = ${shop_p_num}
+      delete from shoppingcart_${shop_m_id} where shop_num = ${shop_num}
    </delete>
  
 <!-- 카트 삭제 shop_p_num 기준
@@ -297,16 +333,13 @@ WHERE rnum >= #{startRow, jdbcType=NUMERIC}
     <!-- 상품 삭제를 위한 쿼리  shop_p_num 기준 -->
 <!-- MyBatis Mapper XML -->
 <delete id="deleteSelectedItems" parameterType="map">
-    DELETE FROM shoppingcart_${shop_m_id}
-    <where>
+    DELETE FROM shoppingcart_${shop_m_id} where 
         <if test="!selectedShopNums.isEmpty()">
-            AND shop_p_num IN
+            shop_num IN
             <foreach collection="selectedShopNums" item="shop_p_num" open="(" separator="," close=")">
                 #{shop_p_num}
             </foreach>
         </if>
-        AND shop_m_id = #{shop_m_id}
-    </where>
 </delete> 
 
  <!-- 상품 삭제를 위한 쿼리  shop_p_num 기준 -->
@@ -433,11 +466,19 @@ WHERE
  
 <insert id="pickMeInsert" parameterType="java.util.Map">
     INSERT INTO pick_me_${pm_m_id}(pm_num, pm_m_id, pm_c_id) VALUES
-   (pick_me_${pm_m_id}_seq.nextval, ${pm_m_id}, '${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")}')
+   (pick_me_${pm_m_id}_seq.nextval,'${pm_m_id}', '${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")}')
 </insert>
+<!-- <insert id="pickMeInsert" parameterType="java.util.Map">
+    INSERT INTO pick_me_${pm_m_id}(pm_num, pm_m_id, pm_c_id) VALUES
+   (pick_me_${pm_m_id}_seq.nextval,${pm_m_id}, '${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")}')
+</insert>
+
+NSERT INTO pick_me_user425(pm_num, pm_m_id, pm_c_id) VALUES (pick_me_user425_seq.nextval, 'user425', 'cuser827');
+ -->
+
  <insert id="pickMeInsert2" parameterType="java.util.Map">
   INSERT INTO pick_me_${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")}(pm_num, pm_m_id, pm_c_id) VALUES
-   (pick_me_${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")}_seq.nextval, ${pm_m_id}, '${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")}')  
+   (pick_me_${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")}_seq.nextval,'${pm_m_id}', '${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")}')  
   </insert>
   
   
@@ -712,33 +753,51 @@ SELECT * FROM ( SELECT * FROM coupon WHERE cp_m_id=#{id} AND cp_status=1 AND cp_
 </select>
 
 <insert id="userPay" parameterType="java.util.List">
-	<foreach collection="list" item="item">
-	insert into m_order values(
-		m_order_seq.nextval,
-		#{item.order_m_id},
-		<if test="item.order_cp_num != 0">#{item.order_cp_num},</if>
-		<if test="item.order_cp_num == 0">null,</if>
-		#{item.order_p_num},
-		#{item.order_p_price},
-		null,
-		#{item.order_dere_pay},
-		#{item.order_addr},
-		#{item.order_dere_pay},
-		#{item.order_quantity},
-		#{item.order_dere_pay},
-		'카드',
-		1,
-		#{item.order_discount},
-		#{item.order_totalprice},
-		<if test="item.order_memo != '' or item.order_memo != null">#{item.order_cp_num},</if>
-		<if test="item.order_memo == '' or item.order_memo == null">null,</if>
-		sysdate,
-		null,
-		null,
-		null
-	)
-	</foreach>
-</insert>
+insert into m_order(
+			order_num,
+			order_m_id,
+			order_cp_num,
+			order_p_num,
+			order_p_price,
+			order_dere_num,
+			order_dere_pay,
+			order_addr,
+			order_quantity,
+			order_paytype,
+			order_status,
+			order_discount,
+			order_totalprice,
+			order_memo,
+			order_paydate,
+			order_canceldate,
+			order_dere_start,
+			order_dere_end
+		) select m_order_seq.nextval,a.* from( 
+	 	<foreach collection="list" item="item" index="index" separator="union all">
+	 		select 
+	 		#{item.order_m_id} as order_m_id,
+		<if test="item.order_cp_num != 0">#{item.order_cp_num} as order_cp_num,</if>
+		<if test="item.order_cp_num == 0">null as order_cp_num,</if>
+		#{item.order_p_num} as order_p_num,
+		#{item.order_p_price} as order_p_price,
+		null as order_dere_num,
+		#{item.order_dere_pay} as order_dere_pay,
+		#{item.order_addr} as order_addr,
+		#{item.order_quantity} as order_quantity,
+		'카드' as order_paytype,
+		1 as order_status,
+		#{item.order_discount} as order_discount,
+		#{item.order_totalprice} as order_totalprice,
+		<if test="item.order_memo != '' or item.order_memo != null">#{item.order_memo} as order_memo,</if>
+		<if test="item.order_memo == '' or item.order_memo == null">null as order_memo,</if>
+		sysdate as order_paydate,
+		null as order_canceldate,
+		null as order_dere_start,
+		null as order_dere_end
+	 		 from dual
+	 	</foreach>
+	 	) a
+	</insert>
 <update id="couponAfterPay" parameterType="hashmap">
 	update coupon set cp_status=0 where cp_num in(
 	<foreach collection="cp_num" separator="," item="item">
@@ -751,7 +810,7 @@ SELECT * FROM ( SELECT * FROM coupon WHERE cp_m_id=#{id} AND cp_status=1 AND cp_
 	<foreach collection="shop_num" separator="," item="item">
 		#{item}
 	</foreach>
-	);
+	)
 </update>
 
 
@@ -829,11 +888,12 @@ SELECT * FROM ( SELECT * FROM coupon WHERE cp_m_id=#{id} AND cp_status=1 AND cp_
   WHERE order_m_id = #{order_m_id, jdbcType=VARCHAR}
 </select>
 
- 
-		<!-- <select id="PaymentHistory" parameterType="int" resultType="com.gogi.meatyou.bean.MOrderDTO">
-			select * from m_order where order_m_id=#{order_m_id}
-		</select> -->
-		
+		<select id="getCouponPrice" parameterType="int" resultType="int">
+			select cp_price from coupon where cp_num=#{cp_num}
+		</select>
+
+
+  
 		<select id="findCouponToCpNum" parameterType="int" resultType="com.gogi.meatyou.bean.CouponDTO">
 			select * from coupon where cp_num=#{cp_num}
 		</select>

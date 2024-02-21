@@ -91,6 +91,7 @@ public interface MainService {
    public int ShoppingCartCNT2(String shop_m_id);
    public int ShoppingCartInsert(Model model, ShoppingCartDTO dto);
    public int ShoppingCartInsert2(Model model, String m_id, int p_num, int shop_quantity);
+   public int plusshop_quantity(Model model, String m_id, int p_num, int shop_quantity);
 
    public int pickCNT(String ppic_m_id);
    public int pick_P_CNT(String ppic_m_id);

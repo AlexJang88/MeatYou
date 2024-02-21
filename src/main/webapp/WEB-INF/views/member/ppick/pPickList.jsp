@@ -20,10 +20,7 @@
     }
 	.heartHim:hover:{
 		font-weight: bold;
-		
 	}
-	
-	
 	 .pagination {
         justify-content: center;
     }

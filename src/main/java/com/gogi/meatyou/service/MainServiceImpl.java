@@ -3661,6 +3661,12 @@ public ProductDetailDTO productDetail(ProductDetailDTO dto, Model model) {
 		model.addAttribute("id", id);
 	}
 
+	@Override
+	public int plusshop_quantity(Model model, String m_id, int p_num, int shop_quantity) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 
 
 }

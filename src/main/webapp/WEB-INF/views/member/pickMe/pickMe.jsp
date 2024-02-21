@@ -5,6 +5,9 @@
 
 <head>
 <style>
+table{
+	width: 80%; 
+}
    .pagination {
         justify-content: center;
     }

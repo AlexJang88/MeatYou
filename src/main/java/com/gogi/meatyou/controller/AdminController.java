@@ -175,6 +175,12 @@ public class AdminController {
 		return "admin/productDetail";
 	}
 	
+	@RequestMapping("/rePortForm")
+	public String rePortForm(Model model
+			 ) {
+		
+		return "admin/reportForm";
+	}
 	@RequestMapping("/reportList")
 	public String reportList(Model model, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,@RequestParam(value = "check", defaultValue = "1")int check) {
 		adminServicImpl.reportList(pageNum, model, check);

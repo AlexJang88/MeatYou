@@ -466,11 +466,19 @@ WHERE
  
 <insert id="pickMeInsert" parameterType="java.util.Map">
     INSERT INTO pick_me_${pm_m_id}(pm_num, pm_m_id, pm_c_id) VALUES
-   (pick_me_${pm_m_id}_seq.nextval, ${pm_m_id}, '${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")}')
+   (pick_me_${pm_m_id}_seq.nextval,'${pm_m_id}', '${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")}')
 </insert>
+<!-- <insert id="pickMeInsert" parameterType="java.util.Map">
+    INSERT INTO pick_me_${pm_m_id}(pm_num, pm_m_id, pm_c_id) VALUES
+   (pick_me_${pm_m_id}_seq.nextval,${pm_m_id}, '${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")}')
+</insert>
+
+NSERT INTO pick_me_user425(pm_num, pm_m_id, pm_c_id) VALUES (pick_me_user425_seq.nextval, 'user425', 'cuser827');
+ -->
+
  <insert id="pickMeInsert2" parameterType="java.util.Map">
   INSERT INTO pick_me_${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")}(pm_num, pm_m_id, pm_c_id) VALUES
-   (pick_me_${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")}_seq.nextval, ${pm_m_id}, '${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")}')  
+   (pick_me_${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")}_seq.nextval,'${pm_m_id}', '${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")}')  
   </insert>
   
   

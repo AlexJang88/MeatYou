@@ -3,6 +3,99 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ include file="../../header.jsp" %>
 <head>
+<style>
+
+button{
+	background-color: white;
+	border:none;
+}
+.main-container{
+   display: flex;
+        justify-content: center; /* Center the children horizontally */
+        align-items: flex-start; /* Align the children at the top */
+        margin-top: 40px;
+        margin-bottom: 50px;
+ }
+ 
+       .summary-table {
+       margin-top:3%;
+            width: 65%;
+            margin-bottom:10%;
+            margin-left: auto;
+            margin-right: auto;
+            
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            font-size: xx-small;
+        }   
+
+  .summary-table th, .summary-table td {
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+} 
+         
+      .summary-table th {
+            background-color: #f2f2f2;
+        }
+
+        .summary-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        #graph-container {
+        /*     width: 60%;*/
+            order: 1; 
+                width: 60%;
+    text-align: center; margin: auto;
+    margin-bottom:5%;
+    margin-top:2%;
+        }
+         #graph-container a{
+               	cursor: pointer;
+				color:gray;
+				font-size: medium;
+         }
+        
+ #graph-container {
+        /*     width: 60%;*/
+            order: 1; 
+                width: 60%;
+    text-align: center; margin: auto;
+    margin-bottom:5%;
+    margin-top:2%;
+        }
+         #graph-container a{
+               	cursor: pointer;
+				color:gray;
+				font-size: medium;
+         }
+
+
+   select {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+        margin-right: 5px;
+    }
+
+    /* Style for submit button */
+    input[type="button"] {
+        padding: 8px 20px;
+        border: none;
+        border-radius: 4px;
+        background-color:white;
+        color: black;
+        cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+        background-color: gray;
+    }
+</style>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
 //선택주문 
@@ -115,21 +208,18 @@ function deleteSelectedItems() {
 </head>
  
 <div class="row">
-    <div class="col-lg-12">
-        <h1 class="page-header">장바구니</h1>
+    <div class="col-lg-12"align="center"> 
+        <h1 class="page-header""align="center"> >장바구니</h1>
     </div>
 </div>
 
 <div class="panel panel-default">
-    <div class="panel-heading">
-   
-    </div>
+ 
 
-    <div class="panel-body">
-        <!-- 수량 조절 폼 -->
-        상품목록 
+    <div class="main-container">
+      
 
-      <table id="productTable" class="table table-striped table-bordered table-hover">
+      <table id="productTable" class="summary-table">
     <thead>
         <tr>
         	<th>선택</th>
@@ -142,7 +232,6 @@ function deleteSelectedItems() {
             <th>상품 수량</th>
             <th>금액</th>
              <th>쿠폰</th>
-             <th>판매상태</th> 
         </tr>
     </thead>
     <tbody>
@@ -179,40 +268,64 @@ function deleteSelectedItems() {
                 
                
                 <td>
-                <div>	
-            
-             	
-                
-						   <select id="cp_num_${item.shop_num}" class="coupon-select">
-								    <option type="hidden" value="0">선택안함</option>
-								    <c:forEach var="cp" items="${item.coupons}" varStatus="loop">
-								         <c:if test="${ empty  item.coupons}">
-								         <option value="0" hidden>
-								         사용에 적합한  쿠폰이없습니다 
-										</c:if> 
-								         <c:if test="${ not empty item.coupons}">
-								        <option value="${cp.cp_num}">쿠폰번호 : ${cp.cp_num}  쿠폰 가격 : ${cp.cp_price}  원 (쿠폰 만료일 : <fmt:formatDate value="${cp.exdate}" pattern="yyyy/MM/dd"/>)</option>
-								        </c:if>
-								    </c:forEach>
-							</select>
-						
-								        
-                </div>
+	                <div>	
+							   <select id="cp_num_${item.shop_num}" class="coupon-select">
+									    <option type="hidden" value="0">선택안함</option>
+									    <c:forEach var="cp" items="${item.coupons}" varStatus="loop">
+									         <c:if test="${ empty  item.coupons}">
+									         <option value="0" hidden>
+									         사용에 적합한  쿠폰이없습니다 
+											</c:if> 
+									         <c:if test="${ not empty item.coupons}">
+									        <option value="${cp.cp_num}">쿠폰번호 : ${cp.cp_num}  쿠폰 가격 : ${cp.cp_price}  원 (쿠폰 만료일 : <fmt:formatDate value="${cp.exdate}" pattern="yyyy/MM/dd"/>)</option>
+									        </c:if>
+									    </c:forEach>
+								</select>
+	                </div>
                 </td>
-              
+               
             </tr>
         </c:forEach>
+        <tr>
+       
+     
+        
+         
+ 
+
+
+<tr> <td colspan="10"> 
+
+
+
+      
+ <b>전체금액 : </b> 
+ <c:out value="${totalAmount}" />
+ <input name=" totalAmount" value="${totalAmount}" type="hidden"/>
+	   <b> 원</b><br/>
+
+   
+<div class="graph-container" style="height: 10px;">
+	선택한 상품 : 
+	
+  	
        
        	<input name="totalAmount" value="${totalAmount}" type="hidden"/>
       			<input type="button" value="주문" onclick="orderSelectedItems()">
-        
-        <tr>
-        	<td></td>
-        	<td></td>
-        	<td></td>
-        	<td style="height: 10px;">
-        	
-<div class="pagination" style="height: 10px;">
+      			
+      			
+      			  <input type="hidden" id="selectedShopNums" name="selectedShopNums" />
+							    <a href="#" id="deleteSelectedBtn" onclick="deleteSelectedItems()">삭제</a>
+</div>
+
+<br/>
+
+	         
+<br/>
+	         
+<br/>
+	          
+<div class="graph-container" style="height: 10px;">
     <c:if test="${page > 1}">
         <a href="?page=${page - 1}&pageSize=${pageSize}">&laquo; 이전</a>
     </c:if>
@@ -232,47 +345,20 @@ function deleteSelectedItems() {
         <a href="?page=${page + 1}&pageSize=${pageSize}">다음 &raquo;</a>
     </c:if>
 </div>
-        	</td>
-        	<td>
-</td>
 
-		<td><b>전체금액: </b></td>
-        	<td> <c:out value="${totalAmount}" />
-        		<input name=" totalAmount" value="${totalAmount}" type="hidden"/>
-                        <b> 원</b>
+
+
+
+
+</td></tr>
+      
+   
                         
-                        </td>
-        </tr>
     </tbody>
     
-</table>
-			<table border="1">
-					<tbody>
-							<tr>
-							<td>선택한 상품</td>
-							<td>
+ 
+			
 			 
-				</td>
-									<td>
-							    <input type="hidden" id="selectedShopNums" name="selectedShopNums" />
-							    <a href="#" id="deleteSelectedBtn" onclick="deleteSelectedItems()">삭제</a>
-							</td>
-							</tr>	
-					</tbody>
-			</table>
-			
-			
-			<table>
-					<tbody>
-					
-						<tr>
-							<td>
-							</td>
-							<td></td>
-						</tr>	
-					</tbody>
-					
-					
 			</table>
     </div>
 </div>

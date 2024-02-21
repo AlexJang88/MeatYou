@@ -156,6 +156,7 @@
                                     <div id="consumerList" class="collapse">
                                 <a href="/customers/consumerList" class="btn" id="smallfont" >구매회원</a><br/>
                                 <a href="/customers/CouponList" class="btn"  id="smallfont" >쿠폰 보유 회원</a>
+                                
                                     </div>
                                 </div>
                                 

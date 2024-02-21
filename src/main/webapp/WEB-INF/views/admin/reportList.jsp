@@ -60,6 +60,7 @@
                 <div id="check" class="collapse">
                     <a href="/admin/noticeList" class="btn" id="smallfont" > 공지 사항</a><br/>
                     <a href="/admin/reportList" class="btn"  id="smallfont" >신고글 보기</a>
+                    
                 </div>
             </div>
         </div>
