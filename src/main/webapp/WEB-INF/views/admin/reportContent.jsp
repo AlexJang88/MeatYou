@@ -62,6 +62,12 @@
 <body>
     <div class="main-container"style="border=1px solid black; width: 70%; align:center; margin:0 auto; " >
         <table class="summary-table" >
+        <c:forEach items="${reports}" var="report">
+<c:if test="${report.ma_m_id=='admin'}">
+			<div>답변 내용</div><br>
+			<div>${report.ma_content}</div>
+</c:if>
+</c:forEach>
 			<c:forEach items="${reports}" var="report">
 <c:if test="${reprot.ma_m_id!='admin'}">
 <tr align="center">
@@ -75,30 +81,18 @@
 <tr>
 <td border=1>
 <div align="center">${report.ma_content}</div><br/>
-
-</td>
-</tr>
+ 
 <c:if test="${report.ma_status==1000}">
 	<form action="/admin/reportReply" method="post"align="center">
 		<input type="hidden" name="ma_title" value="[답변]${report.ma_title}"align="center">
 		<input type="hidden" name="ma_num" value="${report.ma_num}"align="center">
-		<table style="border=1px solid black; width: 70%; align:center; margin:0 auto; " >
 		<textarea rows="5" cols="30" name="ma_content"></textarea>
-			</table>
-			<table style="border=1px solid black; width: 70%; align:center; margin:0 auto; " >
 		<input type="submit" value="답변하기">
-		</table>
 	</form>
-	</table>
 </c:if>
 </c:if>
 </c:forEach>
-<c:forEach items="${reports}" var="report">
-<c:if test="${report.ma_m_id=='admin'}">
-			<div>답변 내용</div><br>
-			<div>${report.ma_content}</div>
-</c:if>
-</c:forEach>
+
                 
 </table>
     </div>

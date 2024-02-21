@@ -267,8 +267,8 @@ public class MemberServiceImpl implements MemberService {
        }
       
         @Override
-          public int updateMemberStatus(MemberDTO dto) {
-          return  mapper.updateMemberStatus(dto);
+          public int updateMemberStatus(String id) {
+          return  mapper.updateMemberStatus(id);
           }
 
           @Override

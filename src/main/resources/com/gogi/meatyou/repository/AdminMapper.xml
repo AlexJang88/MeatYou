@@ -504,7 +504,7 @@
 		user_sequences where sequence_name=upper('qna_seq')
 	</select>
 	<select id="QnAnextval">
-		select qna_seq.nextval from dual;
+		select qna_seq.nextval from dual
 	</select>
 	<select id="reportList" parameterType="hashMap" resultType="com.gogi.meatyou.bean.QnADTO">
 		select * from (select a.*,
@@ -536,7 +536,7 @@
 		1001,
 		sysdate,
 		#{ma_num}
-		);
+		)
 	</insert>
 	<update id="maStatChange">
 		update qna set ma_status=1001 where ma_num=#{ma_num}

@@ -85,7 +85,7 @@ public interface MemberMapper {
       
       
       
-       public int updateMemberStatus(MemberDTO dto);
+       public int updateMemberStatus(String id);
 
        public int insertIntoCusDetail(CusDetailDTO cdto);
        public void shoppingCart(String m_id);

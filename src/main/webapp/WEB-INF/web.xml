@@ -2,6 +2,14 @@
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+<error-page>
+    <error-code>404</error-code>
+    <location>/error404</location>
+</error-page>
+<error-page>
+    <error-code>500</error-code>
+    <location>/error500</location>
+</error-page>
 <filter>
     <filter-name>CorsFilter</filter-name>
     <filter-class>org.apache.catalina.filters.CorsFilter</filter-class>

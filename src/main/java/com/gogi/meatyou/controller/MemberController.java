@@ -406,9 +406,11 @@ public class MemberController {
   		
   		
     @RequestMapping("sallerInputPro")
- public String sallerInputPro(MemberDTO dto,CusDetailDTO cdto, Authentication authentication) { 
-    	String m_id = authentication.getName(); dto.setM_id(m_id); Map<String, Object> statusParamMap = new HashMap<>(); 
-    	statusParamMap.put("m_id", m_id);  service.updateMemberStatus(dto); 
+ public String sallerInputPro(CusDetailDTO cdto) { 
+    	 Map<String, Object> statusParamMap = new HashMap<>(); 
+    	statusParamMap.put("m_id", cdto.getCus_m_id());  
+    	System.out.println("test===="+cdto.getCus_m_id());
+    	service.updateMemberStatus(cdto.getCus_m_id());
     	service.insertIntoCusDetail(cdto);
   return "member/saller/sallerInputPro";
     }

@@ -81,7 +81,7 @@
 	
 		<select id="consumerQnalist" resultType="com.gogi.meatyou.bean.QnADTO" parameterType="hashmap">
 		<![CDATA[
-			 SELECT * FROM ( SELECT b.*, rownum r FROM ( select * from qna where ma_status = 0  order by ma_num desc) b) WHERE r>=#{start} and r<=#{end}
+			 SELECT * FROM ( SELECT b.*, rownum r FROM ( select * from qna where ma_status = 0  order by ma_reg_date desc) b) WHERE r>=#{start} and r<=#{end}
 			 	]]>
 		</select>
 	

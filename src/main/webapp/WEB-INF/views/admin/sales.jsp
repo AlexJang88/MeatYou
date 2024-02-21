@@ -27,9 +27,9 @@
 <div style="display: flex; margin-top: 40px; margin-bottom: 50px;">
     <h2 id="getYear" class="out-table">매출 요약정보</h2><br/> 
 </div>
+
+
 <div class="main-container" >
-
-
     <div class="category-menu">
         <!-- Your category menu content -->
         <div class="vertical-menu">
@@ -64,11 +64,15 @@
                     <a href="/admin/reportList" class="btn"  id="smallfont" >신고글 보기</a>
                 </div>
             </div>
+            <div class="vertical-menu-item">
+                <a href="#" class="btn" class="btn" data-toggle="collapse" data-target="#Qna" id="bigfont">Qna</a>
+                <div id="Qna" class="collapse">
+                    <a href="/board/consumerQna" class="btn" id="smallfont" >관리자에게하는소통</a><br/>
+                    <a href="/board/sellerQna " class="btn"  id="smallfont" >판매자님이 관리자:나에게</a>
+                </div>
+            </div>
         </div>
     </div>
-    
-    
-    
     
     <table class="main-table"  >
         <tr>

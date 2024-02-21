@@ -165,13 +165,18 @@ public class AdminController {
 		}
 		return "admin/productList";
 	}
+	@RequestMapping("/reportForm")
+	public String reportForm(Model model,int p_num) {
+		model.addAttribute("p_num",p_num);
+		return "admin/reportForm";
+	}
 	
 	@RequestMapping("/reportReg")
 	public String reportReg(Principal pc,HttpServletRequest req, HttpServletResponse resp, Model model, QnADTO dto,int category) {
 		String realPath = req.getServletContext().getRealPath("/resources/file/report/");
 		dto.setMa_m_id(pc.getName());
 		adminServicImpl.reportReg(realPath, model, dto);
-		return "admin/productDetail";
+		return "redirect:/main/main";
 	}
 	
 	@RequestMapping("/rePortForm")

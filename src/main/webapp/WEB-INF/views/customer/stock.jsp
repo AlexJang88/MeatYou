@@ -245,7 +245,7 @@
 								                <a href="#" class="btn" class="btn" data-toggle="collapse" data-target="#money" id="bigfont">재고</a>
 								                <div id="money" class="collapse">
 								                    <a href="/customers/stock"  class="btn" id="smallfont" >재고현황</a><br/>
-                                       <a href="/customers/onStock" class="btn"id="smallfont" >월별 판매 현황</a>
+                                       <a href="/customers/onStock" class="btn"id="smallfont" >판매중 재고</a>
 								                </div>
 								            </div>
 					
@@ -319,7 +319,7 @@
 					<c:set var="i" value="${loopStatus.index}" />			 			 			   				             		
 					<c:set var="nam" value="${product.stock - aree[i]}" />			 			 			   				             		
             		 <tr align="center">
-            		 	<td><img src="<%= request.getContextPath() %>/resources/file/product/${product.p_num}/${product.thumb}/" alt="썸네일"></td>
+            		 	<td><img src="<%= request.getContextPath() %>/resources/file/product/${product.p_num}/${product.thumb}/" alt="썸네일" style="width: 40%;"></td>
             		 	<td>${product.p_num}</td>
             		 	<td>${product.p_name}</td>
             		 	<td>

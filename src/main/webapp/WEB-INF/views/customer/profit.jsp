@@ -68,7 +68,7 @@ $(function() {
 								                <a href="#" class="btn" class="btn" data-toggle="collapse" data-target="#money" id="bigfont">재고</a>
 								                <div id="money" class="collapse">
 								                    <a href="/customers/stock"  class="btn" id="smallfont" >재고현황</a><br/>
-                                       <a href="/customers/onStock" class="btn"id="smallfont" >월별 판매 현황</a>
+                                       <a href="/customers/onStock" class="btn"id="smallfont" >판매중  재고</a>
 								                </div>
 								            </div>
 					

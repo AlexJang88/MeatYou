@@ -229,71 +229,71 @@
  
 
 <div class="main-container" >
-             <div class="category-menu">
-                 <!-- Your category menu content -->
-                       <div class="vertical-menu">
-                                 <div class="vertical-menu-item">
-                                     <a href="#" class="btn" data-toggle="collapse" data-target="#mem" id="bigfont">상품</a>
-                                     <div id="mem" class="collapse">
-                                             <a href="/customers/itemUpdate" class="btn" id="smallfont" >상품 등록</a><br/>
-                                                     <a href="/customers/itemList" class="btn"id="smallfont" >상품 목록</a>
-                                     </div>
-                                 </div>
-               
-                                    <div class="vertical-menu-item">
-                                        <a href="#" class="btn" data-toggle="collapse" data-target="#pro" id="bigfont">매출</a>
-                                        <div id="pro" class="collapse">
-                                <a href="/customers/profit" class="btn" id="smallfont" >매출현황</a><br/>
+			    <div class="category-menu">
+			        <!-- Your category menu content -->
+					        <div class="vertical-menu">
+							            <div class="vertical-menu-item">
+							                <a href="#" class="btn" data-toggle="collapse" data-target="#mem" id="bigfont">상품</a>
+							                <div id="mem" class="collapse">
+							           		       <a href="/customers/itemUpdate" class="btn" id="smallfont" >상품 등록</a><br/>
+			                                            <a href="/customers/itemList" class="btn"id="smallfont" >상품 목록</a>
+							                </div>
+							            </div>
+					
+								            <div class="vertical-menu-item">
+								                <a href="#" class="btn" data-toggle="collapse" data-target="#pro" id="bigfont">매출</a>
+								                <div id="pro" class="collapse">
+								        <a href="/customers/profit" class="btn" id="smallfont" >매출현황</a><br/>
                                        <a href="/customers/profitItem"class="btn"id="smallfont" >월별 판매 현황</a>
                                    
-                                        </div>
-                                    </div>
-                        
-                                    <div class="vertical-menu-item">
-                                        <a href="#" class="btn" class="btn" data-toggle="collapse" data-target="#money" id="bigfont">재고</a>
-                                        <div id="money" class="collapse">
-                                            <a href="/customers/stock"  class="btn" id="smallfont" >재고현황</a><br/>
-                                       <a href="/customers/onStock" class="btn"id="smallfont" >월별 판매 현황</a>
-                                        </div>
-                                    </div>
-               
-                                    
-                                    <div class="vertical-menu-item">
-                                        <a href="#" class="btn" class="btn" data-toggle="collapse" data-target="#check" id="bigfont">회원 관리</a>
-                                        <div id="check" class="collapse">
-                                 <a href="/customers/consumerList" class="btn" id="smallfont" >구매회원</a><br/>
+								                </div>
+								            </div>
+								
+								            <div class="vertical-menu-item">
+								                <a href="#" class="btn" class="btn" data-toggle="collapse" data-target="#money" id="bigfont">재고</a>
+								                <div id="money" class="collapse">
+								                    <a href="/customers/stock"  class="btn" id="smallfont" >재고현황</a><br/>
+                                       <a href="/customers/onStock" class="btn"id="smallfont" >판매중  재고</a>
+								                </div>
+								            </div>
+					
+										      
+								            <div class="vertical-menu-item">
+								                <a href="#" class="btn" class="btn" data-toggle="collapse" data-target="#check" id="bigfont">회원 관리</a>
+								                <div id="check" class="collapse">
+								         <a href="/customers/consumerList" class="btn" id="smallfont" >구매회원</a><br/>
                                 <a href="/customers/CouponList" class="btn"  id="smallfont" >쿠폰 보유 회원</a>
-                                        </div>
-                                    </div>
-                                 
-               
-                                    <div class="vertical-menu-item">
-                                        <a href="#" class="btn" class="btn" data-toggle="collapse" data-target="#pay" id="bigfont">결제</a>
-                                        <div id="pay" class="collapse">
-                                     
+								                </div>
+								            </div>
+											
+					
+								            <div class="vertical-menu-item">
+								                <a href="#" class="btn" class="btn" data-toggle="collapse" data-target="#pay" id="bigfont">결제</a>
+								                <div id="pay" class="collapse">
+								             
                               <a href="/customers/pay" class="btn"id="smallfont" >유료결제</a><br/>
                                 <a href="/customers/powerlink" class="btn"id="smallfont" >파워링크 결제</a><br/>
                                 <a href="/customers/itemplus" class="btn"id="smallfont" >품목 확장 결제</a> 
-                                                 </div>
-                                    </div>
-                            
-                                    
-                                    <div class="vertical-menu-item">
-                                        <a href="#" class="btn" class="btn" data-toggle="collapse" data-target="#go" id="bigfont">주문|배송</a>
-                                        <div id="go" class="collapse">
-                                     
+                           		                </div>
+								            </div>
+								    
+								            
+								            <div class="vertical-menu-item">
+								                <a href="#" class="btn" class="btn" data-toggle="collapse" data-target="#go" id="bigfont">주문|배송</a>
+								                <div id="go" class="collapse">
+								             
                               <a href="/customers/delivering" class="btn"id="smallfont" >주문접수 및 배송현황</a><br/>
                                 <a href="/customers/deliverout" class="btn"id="smallfont" > 주문 취소 </a><br/>
-                                                 </div>
-                                    </div> 
-                                      <div class="vertical-menu-item">
-                                          <a  href="#" class="btn" data-toggle="collapse" data-target="#sellerQna"id="bigfont">관리자</a>
-                                          <div id="sellerQna" class="collapse">
-                                      <a href="/board/sellerQna" class="btn"id="smallfont" >관리자 문의게시판</a><br/>
-                                      </div>
+                           		                </div>
+								            </div> 
+								              <div class="vertical-menu-item">
+		                                    <a  href="#" class="btn" data-toggle="collapse" data-target="#sellerQna"id="bigfont">관리자</a>
+		                                    <div id="sellerQna" class="collapse">
+		                                <a href="/board/sellerQna" class="btn"id="smallfont" >관리자 문의게시판</a><br/>
+		                                </div>
                                     </div>
-                       </div>
-             </div>
+					        </div>
+			    </div>
       <table class="main-table"  >
             <td class="graph-and-summary">
                <table class="summary-table" >

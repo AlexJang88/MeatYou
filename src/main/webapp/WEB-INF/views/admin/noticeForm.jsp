@@ -35,6 +35,8 @@
 <div style="display: flex; margin-top: 40px; margin-bottom: 50px;">
     <h2 id="getYear" class="out-table">공지사항 [ 새글 작성하기  ]</h2><br/> 
 </div>
+
+
 <div class="main-container" >
     <div class="category-menu">
         <!-- Your category menu content -->
@@ -48,7 +50,6 @@
                     <a href="/admin/memberlist?check=4" class="btn" id="smallfont" >판매자(유료회원)목록</a><br/>
                 </div>
             </div>
-
             <div class="vertical-menu-item">
                 <a href="#" class="btn" data-toggle="collapse" data-target="#pro" id="bigfont">상품</a>
                 <div id="pro" class="collapse">
@@ -69,6 +70,13 @@
                 <div id="check" class="collapse">
                     <a href="/admin/noticeList" class="btn" id="smallfont" > 공지 사항</a><br/>
                     <a href="/admin/reportList" class="btn"  id="smallfont" >신고글 보기</a>
+                </div>
+            </div>
+            <div class="vertical-menu-item">
+                <a href="#" class="btn" class="btn" data-toggle="collapse" data-target="#Qna" id="bigfont">Qna</a>
+                <div id="Qna" class="collapse">
+                    <a href="/board/consumerQna" class="btn" id="smallfont" >관리자에게하는소통</a><br/>
+                    <a href="/board/sellerQna " class="btn"  id="smallfont" >판매자님이 관리자:나에게</a>
                 </div>
             </div>
         </div>

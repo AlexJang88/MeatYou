@@ -251,49 +251,50 @@
   	</h2>
 		</div>
  
-  
 <div class="main-container" >
-			    <div class="category-menu">
-			        <!-- Your category menu content -->
-					        <div class="vertical-menu">
-							            <div class="vertical-menu-item">
-							                <a href="#" class="btn" data-toggle="collapse" data-target="#mem" id="bigfont">회원</a>
-							                <div id="mem" class="collapse">
-							                    <a href="/admin/memberlist?check=1" class="btn" id="smallfont" >회원목록 조회(일반)</a><br/>
-							                    <a href="/admin/memberlist?check=2" class="btn" id="smallfont" >회원목록 조회(판매자)</a><br/>
-							                    <a href="/admin/memberlist?check=3" class="btn" id="smallfont" >판매자 승인대기</a><br/>
-							                    <a href="/admin/memberlist?check=4" class="btn" id="smallfont" >판매자(유료회원)목록</a><br/>
-							                </div>
-							            </div>
-					
-								            <div class="vertical-menu-item">
-								                <a href="#" class="btn" data-toggle="collapse" data-target="#pro" id="bigfont">상품</a>
-								                <div id="pro" class="collapse">
-								                    <a href="/admin/productList" class="btn" id="smallfont" >상품 목록 보기</a>
-								                </div>
-								            </div>
-								
-								            <div class="vertical-menu-item">
-								                <a href="#" class="btn" class="btn" data-toggle="collapse" data-target="#money" id="bigfont">정산</a>
-								                <div id="money" class="collapse">
-								                    <a href="/admin/sales" class="btn" id="smallfont" >매출 보기</a><br/>
-								                    <a href="/admin/reckon" class="btn" id="smallfont" >정산내역 확인</a>
-								                </div>
-								            </div>
-					
-								            <div class="vertical-menu-item">
-								                <a href="#" class="btn" class="btn" data-toggle="collapse" data-target="#check" id="bigfont">관리자 체크</a>
-								                <div id="check" class="collapse">
-								                    <a href="/admin/noticeList" class="btn" id="smallfont" > 공지 사항</a><br/>
-								                    <a href="/admin/reportList" class="btn"  id="smallfont" >신고글 보기</a>
-								                </div>
-								            </div>
-					        </div>
-			    </div>
-    
- 
-    
-    
+    <div class="category-menu">
+        <!-- Your category menu content -->
+        <div class="vertical-menu">
+            <div class="vertical-menu-item">
+                <a href="#" class="btn" data-toggle="collapse" data-target="#mem" id="bigfont">회원</a>
+                <div id="mem" class="collapse">
+                    <a href="/admin/memberlist?check=1" class="btn" id="smallfont" >회원목록 조회(일반)</a><br/>
+                    <a href="/admin/memberlist?check=2" class="btn" id="smallfont" >회원목록 조회(판매자)</a><br/>
+                    <a href="/admin/memberlist?check=3" class="btn" id="smallfont" >판매자 승인대기</a><br/>
+                    <a href="/admin/memberlist?check=4" class="btn" id="smallfont" >판매자(유료회원)목록</a><br/>
+                </div>
+            </div>
+            <div class="vertical-menu-item">
+                <a href="#" class="btn" data-toggle="collapse" data-target="#pro" id="bigfont">상품</a>
+                <div id="pro" class="collapse">
+                    <a href="/admin/productList" class="btn" id="smallfont" >상품 목록 보기</a>
+                </div>
+            </div>
+
+            <div class="vertical-menu-item">
+                <a href="#" class="btn" class="btn" data-toggle="collapse" data-target="#money" id="bigfont">정산</a>
+                <div id="money" class="collapse">
+                    <a href="/admin/sales" class="btn" id="smallfont" >매출 보기</a><br/>
+                    <a href="/admin/reckon" class="btn" id="smallfont" >정산내역 확인</a>
+                </div>
+            </div>
+
+            <div class="vertical-menu-item">
+                <a href="#" class="btn" class="btn" data-toggle="collapse" data-target="#check" id="bigfont">관리자 체크</a>
+                <div id="check" class="collapse">
+                    <a href="/admin/noticeList" class="btn" id="smallfont" > 공지 사항</a><br/>
+                    <a href="/admin/reportList" class="btn"  id="smallfont" >신고글 보기</a>
+                </div>
+            </div>
+            <div class="vertical-menu-item">
+                <a href="#" class="btn" class="btn" data-toggle="collapse" data-target="#Qna" id="bigfont">Qna</a>
+                <div id="Qna" class="collapse">
+                    <a href="/board/consumerQna" class="btn" id="smallfont" >관리자에게하는소통</a><br/>
+                    <a href="/board/sellerQna " class="btn"  id="smallfont" >판매자님이 관리자:나에게</a>
+                </div>
+            </div>
+        </div>
+    </div>
     
       <table class="main-table"  >
             <td class="graph-and-summary">

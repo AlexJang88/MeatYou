@@ -139,7 +139,7 @@
                                     <a href="/customers/somePage" class="btn" data-toggle="collapse" data-target="#someSubMenu"id="bigfont">매출</a>
                                     <div id="someSubMenu" class="collapse">
                                      <a href="/customers/profit" class="btn" id="smallfont" >매출현황</a><br/>
-                                       <a href="/customers/profitItem"class="btn"id="smallfont" >월별 판매 현황</a>
+                                       <a href="/customers/profitItem"class="btn"id="smallfont" >판매중 재고</a>
                                     </div>
                                 </div>
                             

@@ -687,10 +687,10 @@ WHERE
       
             
             <!-- Update Member Status -->
-      <update id="updateMemberStatus" parameterType="com.gogi.meatyou.bean.MemberDTO">
+      <update id="updateMemberStatus" >
           UPDATE member
           SET m_status = 1050
-          WHERE m_id = #{m_id}
+          WHERE m_id = #{id}
       </update>
       
 

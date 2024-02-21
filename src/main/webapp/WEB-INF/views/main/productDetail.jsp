@@ -166,7 +166,7 @@
 							
 							<c:if test="${mid != null}">
 								<a href="/board/userQna?p_num=${p_num}" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>판매자 문의하기</a>
-								<a href="/board/reportForm?p_num=${p_num}" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>신고하기</a>
+								<a href="/admin/reportForm?p_num=${p_num}" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>신고하기</a>
 							</c:if>
 							
 							<c:if test="${mid == null}">

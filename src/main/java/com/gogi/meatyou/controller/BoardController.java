@@ -23,11 +23,7 @@ public class BoardController {
 	@Autowired
 	private BoardService service;
 	
-	@RequestMapping("/reportForm")
-	public String reportForm(Model model,int p_num) {
-		model.addAttribute("p_num",p_num);
-		return "admin/reportForm";
-	}
+	
 	
 	 @RequestMapping("userQna") // 소비자 - 판매자
 	   public String userQna(Model model, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum, int p_num, Principal pc) {

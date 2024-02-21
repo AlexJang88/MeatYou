@@ -72,7 +72,7 @@ public interface MemberService  {
    public int statusChange(MemberDTO dto);
    public int cusDelete(CusDetailDTO cdto,MemberDTO dto,@Param("m_id") String m_id);
    
-   public int updateMemberStatus  (MemberDTO dto);
+   public int updateMemberStatus  (String id);
    
    public int insertIntoCusDetail(CusDetailDTO cdto) ;
       
