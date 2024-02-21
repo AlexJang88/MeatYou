@@ -780,7 +780,7 @@ insert into m_order(
 		1 as order_status,
 		#{item.order_discount} as order_discount,
 		#{item.order_totalprice} as order_totalprice,
-		<if test="item.order_memo != '' or item.order_memo != null">#{item.order_memo} as order_memo,</if>
+		<if test="item.order_memo != '' and item.order_memo != null">#{item.order_memo} as order_memo,</if>
 		<if test="item.order_memo == '' or item.order_memo == null">null as order_memo,</if>
 		sysdate as order_paydate,
 		null as order_canceldate,

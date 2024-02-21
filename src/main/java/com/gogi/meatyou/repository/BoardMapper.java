@@ -14,7 +14,7 @@ public interface BoardMapper {
 	public List<PQuestionDTO> userQnalist(HashMap boardListMap); // 문의한 글 제목, 등급 반복문
 	public PQuestionDTO getuserQnacotent(PQuestionDTO pquestiondto); //소비자문의내용 가져오기
 	public PQuestionDTO getCuserContent(PQuestionDTO pquestiondto); //판매자 답글 가져오기
-	public String getPidPnum( @Param ("pq_p_num") int pq_p_num, @Param ("pq_ref") int pq_ref); // 상품 번호와 판매자가 일치하는지 가져오기 위해
+	public List<String> getPidPnum( @Param ("pq_p_num") int pq_p_num, @Param ("pq_ref") int pq_ref); // 상품 번호와 판매자가 일치하는지 가져오기 위해
 	public int getAnswerCount(PQuestionDTO pquestiondto);// 답변한 갯수 1이상이면 안나오게 하려고
 	
 	public void wirteAnswerd(PQuestionDTO pquestiondto); // 답변 등록

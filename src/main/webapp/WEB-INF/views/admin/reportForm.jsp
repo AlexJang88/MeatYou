@@ -1,19 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-	<sec:authorize access="hasRole('ROLE_ADMIN')">
-  
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+	
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
 <!-- include summernote css/js -->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-	
-	
 <form method="post" action="/admin/reportReg" enctype="multipart/form-data">
   <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+  <input type="hidden" name="ma_ref" value="${p_num}">
   제목 : <input type="text" name="ma_title">
   <textarea id="summernote" name="ma_content"></textarea>
   <input type="hidden" name="category" value="40">
@@ -129,4 +126,3 @@ function uploadSummernoteImageFile(file, el) {
 } */
 
 </script>
-</sec:authorize>

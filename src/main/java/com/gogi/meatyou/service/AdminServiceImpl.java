@@ -525,8 +525,8 @@ public class AdminServiceImpl implements AdminService {
 	
 	@Override
 	public void reportContent(Model model, int num) {
-		
 		List<QnADTO> list = mapper.reportContent(num);
+		
 		model.addAttribute("reports", list);
 		
 	}

@@ -22,7 +22,7 @@
       <INPUT type="hidden" name="m_id"  size="15" maxlength="12"></TD></TR>
   <TR height="30">
     <TD  >
-      <INPUT type=submit value="회원탈퇴"> 
+      <INPUT type=submit value="판매자신청 취소"> 
       <input type="button" value="취  소" onclick="javascript:window.location='/main/main'"></TD></TR>
           	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 </TABLE>

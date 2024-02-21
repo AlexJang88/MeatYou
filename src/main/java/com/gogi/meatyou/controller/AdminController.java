@@ -70,7 +70,6 @@ public class AdminController {
 		return "admin/chart";
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
 	@RequestMapping("/main")
 	public String main(Model model) {
 		adminServicImpl.getSales(model, 0);
@@ -166,7 +165,7 @@ public class AdminController {
 		}
 		return "admin/productList";
 	}
-
+	
 	@RequestMapping("/reportReg")
 	public String reportReg(Principal pc,HttpServletRequest req, HttpServletResponse resp, Model model, QnADTO dto,int category) {
 		String realPath = req.getServletContext().getRealPath("/resources/file/report/");
@@ -193,6 +192,7 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/uploadReportImageFile", produces = "application/json; charset=utf8")
+	@PreAuthorize("permitAll()")
 	@ResponseBody
 	public String uploadReportImageFile(@RequestParam("file") MultipartFile multipartFile, HttpServletRequest request) {
 		String realPath = request.getServletContext().getRealPath("/resources/file/report/");

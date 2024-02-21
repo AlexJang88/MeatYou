@@ -166,6 +166,7 @@
 							
 							<c:if test="${mid != null}">
 								<a href="/board/userQna?p_num=${p_num}" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>판매자 문의하기</a>
+								<a href="/board/reportForm?p_num=${p_num}" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>신고하기</a>
 							</c:if>
 							
 							<c:if test="${mid == null}">
@@ -174,6 +175,7 @@
 										<input type="hidden" name="ppic_m_id" value="${mid}">
 										<input type="hidden" name="ppic_p_num" value="${p_num}">
 										<button class="add-to-cart-btn" type="submit"><i class="fa fa-shopping-cart"></i> 판매자 문의하기</button>
+										<button class="add-to-cart-btn" type="submit"><i class="fa fa-shopping-cart"></i> 신고하기</button>
 									</div>
 								</form>
 							</c:if>

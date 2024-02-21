@@ -69,123 +69,125 @@ window.onload = function () {
 									<div class="products-slick" data-nav="#slick-nav-1">
 										<!-- product -->
 										<c:forEach var="cus" items="${cusList}">
-										<div class="product">
-											<div class="product-img">
-												<img src="../resources/file/product/${cus.p_num}/${cus.thumb}" alt=""style="width:260px; height:260px;  ">
-												<div class="product-label">
-													<div style="text-align : center;">
-														<form>
-															<input class="viewClass" type="button" value="미리 보기" onclick="openPopUp('${cus.p_num}','${cus.p_m_id}')" color="red"><br>
-														</form>
+										<div class="col-md-4 col-xs-6">
+											<div class="product">
+												<div class="product-img">
+													<img src="../resources/file/product/${cus.p_num}/${cus.thumb}" alt=""style="width:260px; height:260px;  ">
+													<div class="product-label">
+														<div style="text-align : center;">
+															<form>
+																<input class="viewClass" type="button" value="미리 보기" onclick="openPopUp('${cus.p_num}','${cus.p_m_id}')" color="red"><br>
+															</form>
+														</div>
 													</div>
 												</div>
+												<div class="product-body">
+													<h3 class="product-name"><a href="../main/product?p_num=${cus.p_num}&p_m_id=${cus.p_m_id}">${cus.p_name}</a></h3>
+													<a href="../main/product?p_num=${cus.p_num}&p_m_id=${cus.p_m_id}"><h4 class="product-price">${cus.p_price}원</h4></a>
+													<ul class="product-links">
+														<a href="../main/product?p_num=${cus.p_num}&p_m_id=${cus.p_m_id}"><li><h6>${cus.category1} / ${cus.category2} / ${cus.category3}</h6></li></a>
+													</ul>
+														<div class="rating-avg">${cus.star}
+															<c:if test="${cus.star <= 5.0 && cus.star >= 4.7}">
+															<a href="../main/product?p_num=${cus.p_num}&p_m_id=${cus.p_m_id}">
+																<div class="rating-stars">
+																	<i class="fa fa-star"></i>
+																	<i class="fa fa-star"></i>
+																	<i class="fa fa-star"></i>
+																	<i class="fa fa-star"></i>
+																	<i class="fa fa-star"></i>
+																</div>
+															</a>
+															</c:if>
+															<c:if test="${cus.star >= 4.0 && cus.star <= 4.6}">
+																<a href="../main/product?p_num=${cus.p_num}&p_m_id=${cus.p_m_id}">
+																	<div class="rating-stars">
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star-o"></i>
+																	</div>
+																</a>
+															</c:if>
+															<c:if test="${cus.star >= 3.0 && cus.star < 3.9}">
+																<a href="../main/product?p_num=${cus.p_num}&p_m_id=${cus.p_m_id}">
+																	<div class="rating-stars">
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star-o"></i>
+																		<i class="fa fa-star-o"></i>
+																	</div>
+																</a>
+															</c:if>
+															<c:if test="${cus.star >= 2.0 && cus.star < 2.9}">
+																<a href="../main/product?p_num=${cus.p_num}&p_m_id=${cus.p_m_id}">
+																	<div class="rating-stars">
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star-o"></i>
+																		<i class="fa fa-star-o"></i>
+																		<i class="fa fa-star-o"></i>
+																	</div>
+																</a>
+															</c:if>
+															<c:if test="${cus.star >= 1.0 && cus.star < 1.9}">
+																<a href="../main/product?p_num=${cus.p_num}&p_m_id=${cus.p_m_id}">
+																	<div class="rating-stars">
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star-o"></i>
+																		<i class="fa fa-star-o"></i>
+																		<i class="fa fa-star-o"></i>
+																		<i class="fa fa-star-o"></i>
+																	</div>
+																</a>
+															</c:if>
+															<c:if test="${cus.star >= 0.0 && cus.star < 0.9}">
+																<a href="../main/product?p_num=${cus.p_num}&p_m_id=${cus.p_m_id}">
+																	<div class="rating-stars">
+																		<i class="fa fa-star-o"></i>
+																		<i class="fa fa-star-o"></i>
+																		<i class="fa fa-star-o"></i>
+																		<i class="fa fa-star-o"></i>
+																		<i class="fa fa-star-o"></i>
+																	</div>
+																</a>
+															</c:if>
+														</div>
+														
+													<c:if test="${m_id == null}">
+														<div class="product-btns">
+															찜하기<button class="add-to-wishlist" onclick="location.href='/member/customLogin'"><i class="fa fa-heart-o"></i><span class="tooltipp">찜하기</span></button>
+															리뷰 : ${cus.reviewAllCNT}개
+														</div>
+													</c:if>
+	
+													<c:if test="${m_id != null}">
+														<div class="product-btns">
+															찜하기<button class="add-to-wishlist" onclick="location.href='pickInsertMain?ppic_m_id=${cus.ppic_m_id}&ppic_p_num=${cus.ppic_p_num}'"><i class="fa fa-heart-o"></i><span class="tooltipp">찜하기</span></button>
+															리뷰 : ${cus.reviewAllCNT}개
+														</div>
+													</c:if>
+												</div>
+											<c:if test="${m_id != null}">
+												<div class="add-to-cart">
+												<form action="ShoppingCartInsert2" method="post" onsubmit="cart()">
+													<input type="hidden" name="m_id" value="${m_id}">
+													<input type="hidden" name="p_num" value="${cus.p_num}">
+													<input type="hidden" name="shop_quantity" value="1">
+													<button class="add-to-cart-btn" ><i class="fa fa-shopping-cart"></i>장바구니 담기</button>
+												</form>
+												</div>
+											</c:if>
+	
+											<c:if test="${m_id == null}">
+												<div class="add-to-cart">
+													<button class="add-to-cart-btn"  onclick="location.href='/member/customLogin'"><i class="fa fa-shopping-cart"></i>장바구니 담기</button>
+												</div>
+											</c:if>
 											</div>
-											<div class="product-body">
-												<h3 class="product-name"><a href="../main/product?p_num=${cus.p_num}&p_m_id=${cus.p_m_id}">${cus.p_name}</a></h3>
-												<a href="../main/product?p_num=${cus.p_num}&p_m_id=${cus.p_m_id}"><h4 class="product-price">${cus.p_price}원</h4></a>
-												<ul class="product-links">
-													<a href="../main/product?p_num=${cus.p_num}&p_m_id=${cus.p_m_id}"><li><h6>${cus.category1} / ${cus.category2} / ${cus.category3}</h6></li></a>
-												</ul>
-													<div class="rating-avg">${cus.star}
-														<c:if test="${cus.star <= 5.0 && cus.star >= 4.7}">
-														<a href="../main/product?p_num=${cus.p_num}&p_m_id=${cus.p_m_id}">
-															<div class="rating-stars">
-																<i class="fa fa-star"></i>
-																<i class="fa fa-star"></i>
-																<i class="fa fa-star"></i>
-																<i class="fa fa-star"></i>
-																<i class="fa fa-star"></i>
-															</div>
-														</a>
-														</c:if>
-														<c:if test="${cus.star >= 4.0 && cus.star <= 4.6}">
-															<a href="../main/product?p_num=${cus.p_num}&p_m_id=${cus.p_m_id}">
-																<div class="rating-stars">
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star-o"></i>
-																</div>
-															</a>
-														</c:if>
-														<c:if test="${cus.star >= 3.0 && cus.star < 3.9}">
-															<a href="../main/product?p_num=${cus.p_num}&p_m_id=${cus.p_m_id}">
-																<div class="rating-stars">
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star-o"></i>
-																	<i class="fa fa-star-o"></i>
-																</div>
-															</a>
-														</c:if>
-														<c:if test="${cus.star >= 2.0 && cus.star < 2.9}">
-															<a href="../main/product?p_num=${cus.p_num}&p_m_id=${cus.p_m_id}">
-																<div class="rating-stars">
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star-o"></i>
-																	<i class="fa fa-star-o"></i>
-																	<i class="fa fa-star-o"></i>
-																</div>
-															</a>
-														</c:if>
-														<c:if test="${cus.star >= 1.0 && cus.star < 1.9}">
-															<a href="../main/product?p_num=${cus.p_num}&p_m_id=${cus.p_m_id}">
-																<div class="rating-stars">
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star-o"></i>
-																	<i class="fa fa-star-o"></i>
-																	<i class="fa fa-star-o"></i>
-																	<i class="fa fa-star-o"></i>
-																</div>
-															</a>
-														</c:if>
-														<c:if test="${cus.star >= 0.0 && cus.star < 0.9}">
-															<a href="../main/product?p_num=${cus.p_num}&p_m_id=${cus.p_m_id}">
-																<div class="rating-stars">
-																	<i class="fa fa-star-o"></i>
-																	<i class="fa fa-star-o"></i>
-																	<i class="fa fa-star-o"></i>
-																	<i class="fa fa-star-o"></i>
-																	<i class="fa fa-star-o"></i>
-																</div>
-															</a>
-														</c:if>
-													</div>
-													
-												<c:if test="${m_id == null}">
-													<div class="product-btns">
-														찜하기<button class="add-to-wishlist" onclick="location.href='/member/customLogin'"><i class="fa fa-heart-o"></i><span class="tooltipp">찜하기</span></button>
-														리뷰 : ${cus.reviewAllCNT}개
-													</div>
-												</c:if>
-
-												<c:if test="${m_id != null}">
-													<div class="product-btns">
-														찜하기<button class="add-to-wishlist" onclick="location.href='pickInsertMain?ppic_m_id=${cus.ppic_m_id}&ppic_p_num=${cus.ppic_p_num}'"><i class="fa fa-heart-o"></i><span class="tooltipp">찜하기</span></button>
-														리뷰 : ${cus.reviewAllCNT}개
-													</div>
-												</c:if>
-											</div>
-										<c:if test="${m_id != null}">
-											<div class="add-to-cart">
-											<form action="ShoppingCartInsert2" method="post" onsubmit="cart()">
-												<input type="hidden" name="m_id" value="${m_id}">
-												<input type="hidden" name="p_num" value="${cus.p_num}">
-												<input type="hidden" name="shop_quantity" value="1">
-												<button class="add-to-cart-btn" ><i class="fa fa-shopping-cart"></i>장바구니 담기</button>
-											</form>
-											</div>
-										</c:if>
-
-										<c:if test="${m_id == null}">
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"  onclick="location.href='/member/customLogin'"><i class="fa fa-shopping-cart"></i>장바구니 담기</button>
-											</div>
-										</c:if>
-										</div>
+										</div>	
 										</c:forEach>
 										<!-- /product -->
 									</div>
@@ -206,7 +208,7 @@ window.onload = function () {
 
 
 
-		<c:if test="${m_id != null}">
+		<c:if test="${m_id != null or check==1}">
 		<!-- SECTION -->
 		<div class="section">
 			<!-- container -->
@@ -236,6 +238,7 @@ window.onload = function () {
 									<div class="products-slick" data-nav="#slick-nav-3">
 										<!-- product -->
 										<c:forEach var="meat" items="${customOrderBest}">
+										<div class="col-md-4 col-xs-6">
 										<div class="product">
 											<div class="product-img">
 												<img src="../resources/file/product/${meat.p_num}/${meat.thumb}" alt="">
@@ -355,6 +358,7 @@ window.onload = function () {
 													<button class="add-to-cart-btn" onclick="location.href='/member/customLogin'"><i class="fa fa-shopping-cart"></i>장바구니 담기</button>
 												</div>
 											</c:if>
+										</div>
 										</div>
 										</c:forEach>
 										<!-- /product -->
@@ -406,6 +410,7 @@ window.onload = function () {
 									<div class="products-slick" data-nav="#slick-nav-3">
 										<!-- product -->
 										<c:forEach var="meat" items="${meatList}">
+										<div class="col-md-4 col-xs-6">
 										<div class="product">
 											<div class="product-img">
 												<img src="../resources/file/product/${meat.p_num}/${meat.thumb}" alt="">
@@ -526,6 +531,7 @@ window.onload = function () {
 												</div>
 											</c:if>
 										</div>
+										</div>
 										</c:forEach>
 										<!-- /product -->
 									</div>
@@ -576,6 +582,7 @@ window.onload = function () {
 									<div class="products-slick" data-nav="#slick-nav-4">
 										<!-- product -->
 										<c:forEach var="fork" items="${forkList}">
+										<div class="col-md-4 col-xs-6">
 										<div class="product">
 											<div class="product-img">
 												<img src="../resources/file/product/${fork.p_num}/${fork.thumb}" alt="">
@@ -696,6 +703,7 @@ window.onload = function () {
 												</div>
 											</c:if>
 										</div>
+										</div>
 										</c:forEach>
 										<!-- /product -->
 									</div>
@@ -748,6 +756,7 @@ window.onload = function () {
 									<div class="products-slick" data-nav="#slick-nav-5">
 										<!-- product -->
 										<c:forEach var="newList" items="${newProduct}">
+										<div class="col-md-4 col-xs-6">
 										<div class="product"> 
 											<div class="product-img">
 												<img src="../resources/file/product/${newList.p_num}/${newList.thumb}" alt="">
@@ -863,6 +872,7 @@ window.onload = function () {
 													<button class="add-to-cart-btn" onclick="location.href='/member/customLogin'"><i class="fa fa-shopping-cart"></i>장바구니 담기</button>
 												</div>
 											</c:if>
+										</div>
 										</div>
 										</c:forEach>
 										<!-- /product -->

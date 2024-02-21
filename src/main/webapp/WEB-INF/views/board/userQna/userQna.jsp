@@ -46,18 +46,18 @@
 			                
 			                
 			                <c:when test="${userQna.pq_status == 3 and id ne userQna.pq_m_id}">
-							    비공개글입니다.
+			                	<c:if test="${id ne cus_id }">
+							   	 비공개글입니다.
+							    </c:if>
 							</c:when>
 			                
-			                <c:when test="${userQna.pq_status == 3 and id eq userQna.pq_m_id}">
-							    <a href="/board/userQnaContent?pq_p_num=${userQna.pq_p_num}&pq_num=${userQna.pq_num}&pq_ref=${userQna.pq_ref}">${userQna.pq_title}</a>
+			                <c:when test="${userQna.pq_status == 3 and id eq userQna.pq_m_id }">
+							   	 	<a href="/board/userQnaContent?pq_p_num=${userQna.pq_p_num}&pq_num=${userQna.pq_num}&pq_ref=${userQna.pq_ref}">${userQna.pq_title}</a>
 							</c:when>
-			               	
-			               
-							
-							
-			                	                
 			            </c:choose>
+			            <c:if test="${id eq cus_id }">
+							   	<a href="/board/userQnaContent?pq_p_num=${userQna.pq_p_num}&pq_num=${userQna.pq_num}&pq_ref=${userQna.pq_ref}">${userQna.pq_title}</a>
+						</c:if>
 			        </td>
 					<td><fmt:formatDate value="${userQna.pq_reg_date}" pattern="yyyy-MM-dd" /></td>
 	

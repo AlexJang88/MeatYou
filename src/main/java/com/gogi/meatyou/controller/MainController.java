@@ -35,9 +35,12 @@ public class MainController {
 
    @RequestMapping("main")
    public String main(ProductDetailDTO dto, Principal seid, Model model, String pre_m_id) {
-	   if(seid != null) {
-			  String id = seid.getName();
-			  service.getStatus(model, id); //지환이가 설문조사
+
+	   if(seid != null ) {
+		   String tempid = seid.getName();
+		   if(!tempid.equals("admin")) {  
+			  service.getStatus(model, tempid); //지환이가 설문조사
+			}
 	   }
 	   
 	   /* �Ŀ���ũ */
@@ -374,6 +377,7 @@ public class MainController {
 	      
 	      
 	      List<ProductDTO> customOrderBest = service.customOrderBest(pdto.getPre_category());
+	      
 	      for(ProductDTO predto : newProduct) {
 	    	  String ppic_m_id = m_id;
 		      int ppic_p_num = predto.getP_num();
@@ -1230,7 +1234,6 @@ public class MainController {
 		String PDcategory1="";
  		String PDcategory2="";
  		String PDcategory3="";
-   	
 	  	String PDcate = dto.getP_category()+"";
 	
         if((PDcate.charAt(0)-48) == 1) {
