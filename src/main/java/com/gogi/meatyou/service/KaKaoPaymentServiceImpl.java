@@ -48,9 +48,9 @@ public class KaKaoPaymentServiceImpl implements KaKaoPaymentService{
 		        parameters.add("total_amount", dto.getTotal_amount());
 		        parameters.add("tax_free_amount", dto.getTax_free_amount());
 		        parameters.add("vat_amount",dto.getVat_amount());
-		        parameters.add("approval_url", "http://localhost:8080/kakaopay/powerlinkpayPro"); // 성공 시 redirect url
-		        parameters.add("cancel_url", "http://localhost:8080/kakaopay/cancel"); // 취소 시 redirect url
-		        parameters.add("fail_url", "http://localhost:8080/kakaopay/fail"); // 실패 시 redirect url
+		        parameters.add("approval_url", "http://192.168.219.136:8080/kakaopay/powerlinkpayPro"); // 성공 시 redirect url
+		        parameters.add("cancel_url", "http://192.168.219.136:8080/kakaopay/cancel"); // 취소 시 redirect url
+		        parameters.add("fail_url", "http://192.168.219.136:8080/kakaopay/fail"); // 실패 시 redirect url
 		        // 파라미터, 헤더
 		        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(parameters, this.getHeaders());
 		        // 외부에 보낼 url
@@ -112,9 +112,9 @@ public class KaKaoPaymentServiceImpl implements KaKaoPaymentService{
 		        parameters.add("total_amount", dto.getTotal_amount());
 		        parameters.add("tax_free_amount", dto.getTax_free_amount());
 		        parameters.add("vat_amount",dto.getVat_amount());
-		        parameters.add("approval_url", "http://localhost:8080/kakaopay/powerlinkpayProTwo"); // 성공 시 redirect url
-		        parameters.add("cancel_url", "http://localhost:8080/kakaopay/cancel"); // 취소 시 redirect url
-		        parameters.add("fail_url", "http://localhost:8080/kakaopay/fail"); // 실패 시 redirect url
+		        parameters.add("approval_url", "http://192.168.219.136:8080/kakaopay/powerlinkpayProTwo"); // 성공 시 redirect url
+		        parameters.add("cancel_url", "http://192.168.219.136:8080/kakaopay/cancel"); // 취소 시 redirect url
+		        parameters.add("fail_url", "http://192.168.219.136:8080/kakaopay/fail"); // 실패 시 redirect url
 		        
 		        
 		        // 파라미터, 헤더
@@ -143,9 +143,9 @@ public class KaKaoPaymentServiceImpl implements KaKaoPaymentService{
 		        parameters.add("total_amount", dto.getTotal_amount());
 		        parameters.add("tax_free_amount", dto.getTax_free_amount());
 		        parameters.add("vat_amount",dto.getVat_amount());
-		        parameters.add("approval_url", "http://localhost:8080/kakaopay/memsuccess"); // 성공 시 redirect url
-		        parameters.add("cancel_url", "http://localhost:8080/kakaopay/cancel"); // 취소 시 redirect url
-		        parameters.add("fail_url", "http://localhost:8080/kakaopay/fail"); // 실패 시 redirect url
+		        parameters.add("approval_url", "http://192.168.219.136:8080/kakaopay/memsuccess"); // 성공 시 redirect url
+		        parameters.add("cancel_url", "http://192.168.219.136:8080/kakaopay/cancel"); // 취소 시 redirect url
+		        parameters.add("fail_url", "http://192.168.219.136:8080/kakaopay/fail"); // 실패 시 redirect url
 		        // 파라미터, 헤더
 		        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(parameters, this.getHeaders());
 		        // 외부에 보낼 url

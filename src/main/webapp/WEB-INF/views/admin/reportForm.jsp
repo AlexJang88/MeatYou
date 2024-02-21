@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
 <!-- include summernote css/js -->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
@@ -280,6 +280,7 @@ button:hover {
 				   <table class="summary-table" align="center">
                 <td class="graph-and-summary" align="center">
 				  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+          <input type="hidden" name="ma_ref" value="${p_num}">
 				  제목 : <input type="text" name="ma_title"><br/>
 				 
 				  <textarea id="summernote" name="ma_content"  ></textarea>
@@ -297,12 +298,6 @@ button:hover {
                
 
     </div>
-
-
-
-	
-	
-
 <script>
 $(document).ready(function () {
     $('#summernote').summernote({
@@ -497,4 +492,3 @@ function uploadSummernoteImageFile(file, el) {
 		</footer>
 		<!-- /FOOTER -->
 </html>
-

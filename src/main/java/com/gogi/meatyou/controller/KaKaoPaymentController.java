@@ -235,7 +235,7 @@ public class KaKaoPaymentController {
         
         memberService.userPaycomplete(list,mpdto.getArr_shop_num(),mpdto.getArr_order_cp_num(),mpdto.getArr_order_m_id()[0]);
         
-        return "kakaopay/success";
+        return "redirect:/member/PaymentHistory";
     }
     
     
@@ -245,7 +245,7 @@ public class KaKaoPaymentController {
     
     @GetMapping("/cancel")
     public void cancel() {
-
+    	
     }
 
     /**

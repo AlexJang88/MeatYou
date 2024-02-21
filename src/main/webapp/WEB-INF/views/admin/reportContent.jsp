@@ -92,11 +92,11 @@
 	</table>
 </c:if>
 </c:if>
+</c:forEach>
+<c:forEach items="${reports}" var="report">
 <c:if test="${report.ma_m_id=='admin'}">
-<c:if test="${report.ma_status!=1000}">
-		<div>답변 내용</div><br>
-		<div>${report.ma_reply}</div>
-</c:if>
+			<div>답변 내용</div><br>
+			<div>${report.ma_content}</div>
 </c:if>
 </c:forEach>
                 

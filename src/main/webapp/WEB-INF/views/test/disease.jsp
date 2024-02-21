@@ -74,7 +74,6 @@ $('#check').click(function(){
 
 
  function update(d1){
-	console.log("메롱"+d1);
 	 $.ajax({
 		  url: "/admin/dapi",
 		  type: "get",

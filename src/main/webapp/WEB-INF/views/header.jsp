@@ -3,7 +3,7 @@
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script>
     // 로그아웃 시도
-    Kakao.Auth.logout(function() {
+    /* Kakao.Auth.logout(function() {
         console.log("Kakao.Auth.logout: Logout successful.");
 
         // 로그아웃 후 현재 액세스 토큰 확인
@@ -21,7 +21,7 @@
         })
         .catch(function(error) {
             console.log('Kakao.Auth.logout Promise: Logout failed.', error);
-        });
+        }); */
 </script>
 
 <!DOCTYPE html>

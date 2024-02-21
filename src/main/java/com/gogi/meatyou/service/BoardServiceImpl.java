@@ -41,7 +41,12 @@ public class BoardServiceImpl implements BoardService{
 		  int pageSize = 10;
 	      int startRow = (pageNum - 1) * pageSize + 1;
 	      int endRow = pageNum * pageSize;
-	      int count = mapper.userQnacount(p_num); //질문갯수  
+	      int count = mapper.userQnacount(p_num); //질문갯수 
+	      List<String> tempid=mapper.getPidPnum(p_num, 0);
+	      String cus_id="";
+	      if(tempid!=null && tempid.size()>0) {
+	      cus_id = tempid.get(0);
+	      }
 	      List<PQuestionDTO> list = Collections.EMPTY_LIST;
 	      
 	      if (count > 0) {
@@ -53,7 +58,7 @@ public class BoardServiceImpl implements BoardService{
 	      
 	      int answerCheck = 0;
 	      
-	      
+	      model.addAttribute("cus_id", cus_id);
 	      model.addAttribute("list", list);
 	      model.addAttribute("count", count);
 	      model.addAttribute("pageNum", pageNum);
@@ -94,7 +99,8 @@ public class BoardServiceImpl implements BoardService{
 	
 	@Override
 	public String getPidPnum(int pq_p_num, int pq_ref) {
-		String p_m_id = mapper.getPidPnum(pq_p_num, pq_ref);// 상품 번호와 판매자가 일치하는지 가져오기 위해			
+		List<String> tempid=mapper.getPidPnum(pq_p_num, pq_ref);
+		String p_m_id = tempid.get(0);// 상품 번호와 판매자가 일치하는지 가져오기 위해			
 		return p_m_id;
 	}
 	

@@ -246,7 +246,7 @@
          <input type="hidden" name="arr_p_name" value="${item.p_name}"/>
           <input type="hidden" name="arr_order_p_price" value="${item.p_price}" />
          <input type="hidden" name="arr_order_dere_pay" value="${item.order_dere_pay}"/>
-         <input type="hidden" name="arr_order_addr" value="${item.selectedAddress}" />
+         <input type="hidden" name="arr_order_addr" value="${dto.selectedAddress}" />
          <input type="hidden" name="arr_order_quantity" value="${item.shop_quantity}" />
          <input type="hidden" name="arr_order_discount" value="${item.cp_price}" />
          <input type="hidden" name="arr_order_totalprice" value="${(item.shop_quantity*item.p_price)-item.cp_price+item.order_dere_pay}" />

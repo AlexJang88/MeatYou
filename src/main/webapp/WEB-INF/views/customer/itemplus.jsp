@@ -5,23 +5,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ include file="../header.jsp" %>
- 
   
 <html>
 <head>
 <style>
-
-
-
-
-
-
-
-
-
-
-
-
  body {
             font-family: 'Roboto', Arial, sans-serif;
             background-color: #f4f4f4;
@@ -224,11 +211,7 @@
 <meta charset="UTF-8">
 </head>
 <body>
-
-
-
- 
-   <script>
+	<script>
         $(document).ready(function () {
             // Add a click event handler for the menu items with sub-menus
             $('.vertical-menu-item a').click(function () {
@@ -239,9 +222,6 @@
     </script>
 </head>
 <body>
-
- 
-
 <div class="main-container" >
              <div class="category-menu">
                  <!-- Your category menu content -->
@@ -382,20 +362,6 @@
       // 버튼 클릭이벤트 해제
    
 </script>
-          
- 
 </html>
-</body>             
-
-<%@ include file="../footer.jsp" %>
-
-
-
-
-
-
-
-
-
-
-
+</body>
+<%@ include file="../footer.jsp"%>

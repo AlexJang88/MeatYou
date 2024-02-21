@@ -23,7 +23,11 @@
 	</select>
 	
 	<select id="getPidPnum" resultType="String" >
-		select p.p_m_id from product p, P_QUESTION q where p.p_num = q.pq_p_num and q.pq_p_num = #{pq_p_num} and q.pq_ref = #{pq_ref} and (q.pq_status = 0 or q.pq_status = 3)
+		select p.p_m_id from product p, P_QUESTION q where p.p_num = q.pq_p_num and q.pq_p_num = #{pq_p_num} 
+		<if test="pq_ref!=0">
+		and q.pq_ref = #{pq_ref} 
+		</if>
+		and (q.pq_status = 0 or q.pq_status = 3)
 	</select>
 	
 	<select id="getAnswerCount" resultType="int">

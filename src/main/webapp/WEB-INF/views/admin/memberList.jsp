@@ -126,8 +126,7 @@
 									<td>
 												<select name="m_status">
 													<option value="2001">판매자 승인  
-													<option value="1051">판매자 승인보류 
-													<option value="1052">판매자 승인취소 
+													<option value="1001">판매자 승인취소 
 												</select>
 												<input type="submit" value="전송">
 									</td>

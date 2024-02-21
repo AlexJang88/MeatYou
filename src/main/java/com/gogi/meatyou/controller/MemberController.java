@@ -73,7 +73,6 @@ public class MemberController {
    @Autowired
    private HashMap memberMap;
    
-   //@Autowired
    @RequestMapping("all")
    public String doAll(Principal seid,Model model, MemberDTO dto,HttpSession  session,MemStatusDTO mdto) {
 
@@ -105,19 +104,8 @@ public class MemberController {
      	  model.addAttribute("pickCNT", pickCNT);
      	  model.addAttribute("pick_P_CNT", pick_P_CNT);
        }
-
-	   
-	   
-	   
-	   
-	   
-	   
-	   
-	   
-	   
-	   
-	   
-	   return "member/loginSequrity/all"; }
+	   return "member/loginSequrity/all"; 
+	   }
    @RequestMapping("member")
    public String doMember(Principal seid,  Model model, MemberDTO dto,HttpSession  session,MemStatusDTO mdto) {
 
@@ -338,38 +326,29 @@ public class MemberController {
 	    Authentication authentication = new UsernamePasswordAuthenticationToken(m_id, passwd, new ArrayList<>());
 	    SecurityContextHolder.getContext().setAuthentication(authentication);
 	}
-    
-	@GetMapping("/tokenLogout")
-	public String kakaoLogout(HttpSession session) {
-	    // 세션에서 액세스 토큰 얻기
-	    String accessToken = (String) session.getAttribute("access_token");
-
-	    if (accessToken != null) {
-	        // 얻은 액세스 토큰을 사용하여 로그아웃
-	        service.tokenLogout(accessToken);
-
-	        // 세션에서 액세스 토큰 제거
-	        session.removeAttribute("access_token");
-	    }
-
-	    // 로그아웃 성공 페이지로 리다이렉트
-	    return "redirect:/main/main";
-	}
-	 
-	
-	    @GetMapping("callback")
-	    public String kakaoCallback(String code, HttpSession session)throws Throwable {
-	        // Handle Kakao callback and obtain access token
-	        String accessToken = service.getAccessToken(code); 
-
-	        // Store access token in session or database
-	        session.setAttribute("access_token", accessToken);
-
-	        // Redirect to a success page
-	        return "redirect:/main/main";
-	    }
-	
-   
+	/*
+	 * @GetMapping("/tokenLogout") public String kakaoLogout(HttpSession session) {
+	 * // 세션에서 액세스 토큰 얻기 String accessToken = (String)
+	 * session.getAttribute("access_token");
+	 * 
+	 * if (accessToken != null) { // 얻은 액세스 토큰을 사용하여 로그아웃
+	 * service.tokenLogout(accessToken);
+	 * 
+	 * // 세션에서 액세스 토큰 제거 session.removeAttribute("access_token"); }
+	 * 
+	 * // 로그아웃 성공 페이지로 리다이렉트 return "redirect:/main/main"; }
+	 * 
+	 * 
+	 * @GetMapping("callback") public String kakaoCallback(String code, HttpSession
+	 * session)throws Throwable { // Handle Kakao callback and obtain access token
+	 * String accessToken = service.getAccessToken(code);
+	 * 
+	 * // Store access token in session or database
+	 * session.setAttribute("access_token", accessToken);
+	 * 
+	 * // Redirect to a success page return "redirect:/main/main"; }
+	 * 
+	 */
    
    
    

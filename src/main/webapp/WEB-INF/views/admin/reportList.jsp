@@ -6,9 +6,10 @@
 <html>
 <head>
 
-    <link rel="stylesheet" href="/resources/admin/css/reportList.css"> <!-- 외부 스타일시트 추가 -->	
+<link rel="stylesheet" href="/resources/admin/css/reportList.css">
+<!-- 외부 스타일시트 추가 -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
+<script>
         $(document).ready(function () {
             // Add a click event handler for the menu items with sub-menus
             $('.vertical-menu-item a').click(function () {
@@ -17,15 +18,38 @@
             });
         });
     </script>
- </head>
- <body>
-		<div style="margin-top: 40px; display:flex; margin-bottom: 30px;">
-    <h2  class="out-table"> 신고 </h2>  
- 
-</div>
-		
+</head>
+<body>
+	<div style="margin-top: 40px; display: flex; margin-bottom: 30px;">
+		<h2 class="out-table">신고</h2>
 
-<div class="main-container" >
+	</div>
+	<div class="main-container">
+		<div class="category-menu">
+			<!-- Your category menu content -->
+			<div class="vertical-menu">
+				<div class="vertical-menu-item">
+					<a href="#" class="btn" data-toggle="collapse" data-target="#mem" id="bigfont">회원</a>
+					<div id="mem" class="collapse">
+						<a href="/admin/memberlist?check=1" class="btn" id="smallfont">회원목록 조회(일반)</a><br /> 
+						<a href="/admin/memberlist?check=2" class="btn"	id="smallfont">회원목록 조회(판매자)</a><br /> 
+						<a href="/admin/memberlist?check=3" class="btn" id="smallfont">판매자 승인대기</a><br /> 
+						<a href="/admin/memberlist?check=4" class="btn"	id="smallfont">판매자(유료회원)목록</a><br />
+					</div>
+				</div>
+				<div class="vertical-menu-item">
+					<a href="#" class="btn" data-toggle="collapse" data-target="#pro" id="bigfont">상품</a>
+					<div id="pro" class="collapse">
+						<a href="/admin/productList" class="btn" id="smallfont">상품 목록 보기</a>
+					</div>
+				</div>
+				<div class="vertical-menu-item">
+					<a href="#" class="btn" class="btn" data-toggle="collapse" data-target="#money" id="bigfont">정산</a>
+					<div id="money" class="collapse">
+						<a href="/admin/sales" class="btn" id="smallfont">매출 보기</a><br />
+						<a href="/admin/reckon" class="btn" id="smallfont">정산내역 확인</a>
+					</div>
+				</div>
 
     <div class="category-menu">
         <!-- Your category menu content -->
@@ -138,13 +162,7 @@
 			
 			   </td>
 		</table>
-      
- 
-</div>
+	</div>
 </body>
 </html>
-<%@ include file="../footer.jsp"%>		
-		
-		
-		
-		
+<%@ include file="../footer.jsp"%>
