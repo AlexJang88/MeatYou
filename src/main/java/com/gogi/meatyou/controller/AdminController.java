@@ -157,14 +157,14 @@ public class AdminController {
 	}
 
 	@RequestMapping("/pschange")
-	public String pschange(int p_num, String memo, int check) {
-		if (check == 1) {
-			adminServicImpl.StopProduct(p_num, memo);
-		} else if (check != 1) {
-			adminServicImpl.ReleaseIssue(p_num);
-		}
-		return "admin/productList";
-	}
+	   public String pschange(int p_num, String memo, @RequestParam(value = "check", defaultValue = "2")int check) {
+	      if (check == 1) {
+	         adminServicImpl.StopProduct(p_num, memo);
+	      } else if (check != 1) {
+	         adminServicImpl.ReleaseIssue(p_num);
+	      }
+	      return "admin/productList";
+	   }
 	@RequestMapping("/reportForm")
 	public String reportForm(Model model,int p_num) {
 		model.addAttribute("p_num",p_num);

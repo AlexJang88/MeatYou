@@ -25,9 +25,9 @@
     margin-top:2%;
         }
          #pageContent a{
-               	cursor: pointer;
-				color:gray;
-				font-size: medium;
+                  cursor: pointer;
+            color:gray;
+            font-size: medium;
          }
         
             
@@ -152,10 +152,10 @@
                width: 80%;
         margin: 0 auto; /* Center the element horizontally */
         text-align: center; /* Center the content inside the element */
- 		margin-left:auto;
- 		margin-right:auto;
- 		
-		position: relative;
+       margin-left:auto;
+       margin-right:auto;
+       
+      position: relative;
         }
 
 
@@ -248,8 +248,8 @@
   <div style="display: flex; margin-top: 40px; margin-bottom: 50px;">
     <h2  class="out-table">
     상품 목록 
-  	</h2>
-		</div>
+     </h2>
+      </div>
  
 <div class="main-container" >
     <div class="category-menu">
@@ -298,61 +298,61 @@
     
       <table class="main-table"  >
             <td class="graph-and-summary">
-						 		 	 <table class="summary-table" >
-						 		 	 			<tr>
- 	   <input type="hidden" id="pageNum" name="pageNum" value="pageNum">
-			   	<input type="text" name="keyword" id="keyword">
-			    	<select name="searchOpt" id="searchOpt">
-			    		<option value="1">전체</option>
-			    		<option value="2">제목</option>
-			    		<option value="3">판매자</option>
-			    	</select>
-			    <input type="button" value="검색" id="serch">
-			    <hr/>
-			    <select name="cate1" id="cate1">
-			    		<option value="1">전체</option>
-			    		<option value="2">국내산</option>
-			    		<option value="3">수입산</option>
-			    </select>
-			    <select name="cate2" id="cate2">
-			    	<option value="1">전체</option>
-			    	<option value="2">돼지</option>
-			    	<option value="3">소</option>
-			    </select>
-			    <select name="cate3" id="cate3">
-			    	<option value="1">최신순</option>
-			    	<option value="2">매출순</option>
-			    	<option value="3">조회수순</option>
-			    	<option value="4">신고순</option>
-			    </select>
-			    <select name="pstatus" id="pstatus">
-			    	<option value="1">전체</option>
-			    	<option value="2">판매중</option>
-			    	<option value="3">판매중단(이슈)</option>
-			    </select>
- 	</tr>	
-								    	<tr>
-								    		<td style="width:7%; height: 5%;">썸네일</td>
-								    		<td>상품이름</td>
-								    		<td>가격</td>
-								    		<td style="width:9%;">누적판매<br/>금액</td>
-								    		<td style="width:8%;">조회수</td>
-								    		<td>판매자</td>
-								    		<td style="width:8%;">신고수</td>
-								    		<td>등록일</td>
-								    		<td>판매상태</td>
-								    		<td>판매중지</td>
-								    	</tr>
-					
-								       	<tbody id="productBody">
-			    						</tbody>
-									</table>
-									
-									
-									 <div id="pageContent">
-								    </div>
- 					</td>
-			</table>
+                              <table class="summary-table" >
+                                       <tr>
+       <input type="hidden" id="pageNum" name="pageNum" value="pageNum">
+               <input type="text" name="keyword" id="keyword">
+                <select name="searchOpt" id="searchOpt">
+                   <option value="1">전체</option>
+                   <option value="2">제목</option>
+                   <option value="3">판매자</option>
+                </select>
+             <input type="button" value="검색" id="serch">
+             <hr/>
+             <select name="cate1" id="cate1">
+                   <option value="1">전체</option>
+                   <option value="2">국내산</option>
+                   <option value="3">수입산</option>
+             </select>
+             <select name="cate2" id="cate2">
+                <option value="1">전체</option>
+                <option value="2">돼지</option>
+                <option value="3">소</option>
+             </select>
+             <select name="cate3" id="cate3">
+                <option value="1">최신순</option>
+                <option value="2">매출순</option>
+                <option value="3">조회수순</option>
+                <option value="4">신고순</option>
+             </select>
+             <select name="pstatus" id="pstatus">
+                <option value="1">전체</option>
+                <option value="2">판매중</option>
+                <option value="3">판매중단(이슈)</option>
+             </select>
+    </tr>   
+                               <tr>
+                                  <td style="width:7%; height: 5%;">썸네일</td>
+                                  <td>상품이름</td>
+                                  <td>가격</td>
+                                  <td style="width:9%;">누적판매<br/>금액</td>
+                                  <td style="width:8%;">조회수</td>
+                                  <td>판매자</td>
+                                  <td style="width:8%;">신고수</td>
+                                  <td>등록일</td>
+                                  <td>판매상태</td>
+                                  <td>판매중지</td>
+                               </tr>
+               
+                                  <tbody id="productBody">
+                               </tbody>
+                           </table>
+                           
+                           
+                            <div id="pageContent">
+                            </div>
+                </td>
+         </table>
 </div>  
      
     </body>
@@ -366,7 +366,7 @@
 // 데이터 가져오는 함수
 function fetchData(keyword, searchOpt, cate1, cate2, cate3,pstatus,pageNum) {
     console.log(pstatus);
-	 $.ajax({
+    $.ajax({
         url: '/admin/serchProductList', // 서버의 URL을 입력하세요.
         type: 'GET',
         dataType: 'json',
@@ -380,9 +380,9 @@ function fetchData(keyword, searchOpt, cate1, cate2, cate3,pstatus,pageNum) {
             pageNum: pageNum
         },
         success: function(response) {
-           	console.log(response);
-        	updateTable(response.products);
-        	updatePage(response.pageData);
+              console.log(response);
+           updateTable(response.products);
+           updatePage(response.pageData);
         },
         error: function(xhr, status, error) {
             alert("An error occurred: " + error);
@@ -390,7 +390,7 @@ function fetchData(keyword, searchOpt, cate1, cate2, cate3,pstatus,pageNum) {
     }); 
 }
     window.onload=function(){
-	// 초기 검색 조건 설정
+   // 초기 검색 조건 설정
     var initialKeyword = '550e8400-e29b-41d4-a716-446655440000'; // 초기 키워드는 빈 문자열
     var initialSearchOpt = '1'; // 초기 검색 옵션
     var initialCate1 = '1'; // 초기 카테고리 1
@@ -402,12 +402,12 @@ function fetchData(keyword, searchOpt, cate1, cate2, cate3,pstatus,pageNum) {
     // 페이지 로드 시 초기 상품 목록 가져오기
     fetchData(initialKeyword, initialSearchOpt, initialCate1, initialCate2, initialCate3,initialpstatus,initialpageNum);
     }
-	
-	// 검색 버튼 클릭 이벤트
+   
+   // 검색 버튼 클릭 이벤트
     $("#serch").click(function() {
         var keyword = $('#keyword').val();
         if(!keyword){
-        	keyword='550e8400-e29b-41d4-a716-446655440000';
+           keyword='550e8400-e29b-41d4-a716-446655440000';
         }
         var searchOpt = $('#searchOpt').val();
         var pageNum ='1'
@@ -418,7 +418,7 @@ function fetchData(keyword, searchOpt, cate1, cate2, cate3,pstatus,pageNum) {
     $("#cate1, #cate2, #cate3, #pstatus").change(function() {
         var keyword = $('#keyword').val();
         if(!keyword){
-        	keyword='550e8400-e29b-41d4-a716-446655440000';
+           keyword='550e8400-e29b-41d4-a716-446655440000';
         }
         var searchOpt = $('#searchOpt').val();
         var pageNum ='1'
@@ -443,33 +443,33 @@ function fetchData(keyword, searchOpt, cate1, cate2, cate3,pstatus,pageNum) {
                 "<td>" + formatDate(product.p_reg_date) + "</td>";
                 
                if(product.pd_p_status==0){
-            	   tableContent+=
-            		  "<td>판매중(이슈없음)</td>";
+                  tableContent+=
+                    "<td>판매중(이슈없음)</td>";
                }else if(product.pd_p_status>0){
-            	   tableContent+=
-             		  "<td>판매중단(노출안됨)</td>";
+                  tableContent+=
+                     "<td>판매중단(노출안됨)</td>";
                }
                if(product.pd_p_status==0){
                tableContent+="<td>"
                tableContent+="<form action='/admin/memo' method='post'><input type='hidden' name='p_num' value='"+product.p_num+"'>"
-               tableContent+="<intput type='hidden' name='check' value='"+1+"'>"
+               tableContent+="<intput type='hidden' name='check' value='1'>"
                tableContent+="<intput type='hidden' name='p_status' value=''"+product.p_status+"'>"
                
                tableContent+="<input type='submit' value='판매중지' onsubmit='return confirmsbm();'>"
                tableContent+="</td>";
                tableContent+="</tr>";
                }else if((product.pd_p_status/10)%10>0){
-            	   tableContent+="<td>"
+                  tableContent+="<td>"
                    tableContent+="<form action='/admin/pschange' method='post'><input type='hidden' name='p_num' value='"+product.p_num+"'>"
-                   tableContent+="<intput type='hidden' name='check' value='"+2+"'>"
+                   tableContent+="<intput type='hidden' name='check' value='2'>"
                    tableContent+="<intput type='hidden' name='p_status' value='"+product.p_status+"'>"
-                   tableContent+="<input type='submit' value='판매중지' onsubmit='return confirmsbm();'>"
+                   tableContent+="<input type='submit' value='중지해제' onsubmit='return confirmsbm();'>"
                    tableContent+="</td>";
                    tableContent+="</tr>";
                }
         });
         }else{
-        	tableContent += "검색결과가 없습니다.";	
+           tableContent += "검색결과가 없습니다.";   
         }
         $('#productBody').html(tableContent);
     }
@@ -505,12 +505,12 @@ function fetchData(keyword, searchOpt, cate1, cate2, cate3,pstatus,pageNum) {
 </script>
 <script>
  function confirmsbm(){
-	 var check=confirm("판매중지 시키겠습니까?");
-	 if(check){
-		 return true;
-	 }else{
-		 return false;
-	 }
+    var check=confirm("판매중지 시키겠습니까?");
+    if(check){
+       return true;
+    }else{
+       return false;
+    }
  }
 </script>
   <%@ include file="../footer.jsp" %>
