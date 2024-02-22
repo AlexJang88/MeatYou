@@ -3,5 +3,677 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gogi.meatyou.repository.CustomersMapper">
+   <select id="totalsumMoney" resultType="int">
+   SELECT SUM(order_totalprice) AS total_price FROM m_order m, product p WHERE order_p_num = p_num AND p_m_id= #{id}
+   </select>
 
+	<select id='panmeList' resultType="int">
+         select count(*) from product where p_m_id = #{p_m_id} and p_status = 0
+   </select>
+	
+   <select id="graph" resultType="com.gogi.meatyou.bean.customerGraphDTO">
+   SELECT TO_CHAR(months.start_date, 'YYYY-MM') AS mon, -- 월별 날짜 형식으로 변환
+       COALESCE(SUM(mo.order_totalprice), 0) AS mon_sal,
+       COALESCE(SUM(mo.order_totalprice)*0.9-(nvl(sum(order_dere_pay),0))-(nvl(sum(cp_price),0)), 0) AS net_profit,
+       nvl(sum(cp_price),0) cp_price FROM (
+       <![CDATA[
+       SELECT ADD_MONTHS(TO_DATE(#{ydate}, 'YYYY-MM-DD'), LEVEL - 1) AS start_date FROM DUAL CONNECT BY LEVEL <= 12
+        ]]> 
+       ) months LEFT JOIN (select * from (select * from m_order mo left join (select * from coupon where cp_cus_id=#{id} and cp_status= 0) cp on mo.order_p_num=cp.cp_p_num where mo.order_status = 4) mo left join product po on mo.order_p_num = po.p_num where po.p_m_id =#{id}) mo ON TO_CHAR(months.start_date, 'YYYY-MM') = TO_CHAR(order_paydate, 'YYYY-MM')
+      GROUP BY TO_CHAR(months.start_date, 'YYYY-MM') 
+       ORDER BY mon
+   </select>
+
+
+      <insert id="productUp" parameterType="com.gogi.meatyou.bean.ProductDTO">
+          insert into product(p_num, p_m_id, p_name, p_category, p_s_category, thumb, p_price, p_rcount, p_reg_date, startdate, enddate, p_status) values (
+          #{p_num},
+          #{p_m_id},
+          #{p_name},
+          #{p_category},
+          #{p_s_category},
+          #{thumb},
+          #{p_price},
+          0,          
+          sysdate,
+          to_date(#{startdate},'YYYY-MM-DD'),
+          to_date(#{enddate},'YYYY-MM-DD'),    
+          2)
+       </insert>
+      <select id="productCurrval" resultType="int">
+         select product_seq.currval from dual
+      </select>
+      
+      <select id="getProductNEXTNum" resultType="int">
+         select product_seq.NEXTVAL from dual
+      </select>
+      
+      <select id="adressUP" resultType="com.gogi.meatyou.bean.MemAddressDTO">
+         select * from  MEM_ADDRESS where add_p_num=#{num}
+      </select>
+            
+            
+      <update id="itemadUP" parameterType="com.gogi.meatyou.bean.ProductDTO">
+         UPDATE MEM_ADDRESS SET add_mem_address1 = #{add_mem_address1}, add_mem_address2 = #{add_mem_address2} WHERE add_p_num = #{p_num} 
+      </update>
+            
+            
+      <insert id="mem_addressUp" parameterType="com.gogi.meatyou.bean.ProductDTO">
+          insert into MEM_ADDRESS(add_num, add_m_id, add_mem_address1, add_mem_address2, add_type, add_p_num) values (               
+          MEM_ADDRESS_seq.NEXTVAL,
+          #{p_m_id},          
+          #{add_mem_address1},
+          #{add_mem_address2},       
+          2,
+          #{p_num}
+          )          
+       </insert>         
+       
+       <insert id="P_DETAILUp" parameterType="com.gogi.meatyou.bean.ProductDTO">
+          insert into P_DETAIL(pd_p_num, pd_p_desc, origin, local, weight, butchery, serialNum, retain, stock, pd_duedate, pd_p_status) values (
+          #{p_num},
+          #{pd_p_desc},          
+          #{origin},
+          #{local},
+          #{weight},          
+          #{butchery},
+          #{serialNum},
+          #{retain},
+          #{stock},
+          #{pd_duedate},
+          0)          
+       </insert>
+          
+          
+       
+          
+         
+       <select id="useCount" resultType="int">
+            select count(*) from product where p_m_id=#{id} and p_status = 0 or p_status = 1
+       </select>
+          
+       <select id="paycount" resultType="int">
+          select count(*) from cus_order where co_category=2003 and co_m_id=#{id} and co_paydate>add_months(sysdate,-1)
+       </select>
+       
+       <select id="cus_order" resultType="com.gogi.meatyou.bean.CusOrderDTO">
+          select co_num from cus_order where co_category=2003 and co_m_id=#{id} and co_paydate>add_months(sysdate,-1)
+       </select>
+              
+      <select id="stockcount" resultType="int">
+          select count(*) from product where p_m_id=#{id}
+       </select>
+          
+      
+      <select id="itemcount" resultType="int">
+           select count(*) from product where p_m_id =#{id} and  (p_status = 0 or  p_status = 1 or  p_status = 2) order by p_num desc
+       </select>           
+       
+      <select id="itemcounting" resultType="int">
+          select count(*) from product where p_m_id = #{id} and (p_status = 0 or p_status = 1)
+       </select>
+       
+       <select id="itemcountout" resultType="int">
+          select count(*) from product where p_m_id = #{id} and p_status=3
+       </select>
+       
+        <select id="list" resultType="com.gogi.meatyou.bean.ProductDTO" parameterType="hashmap">
+           <![CDATA[
+           SELECT * FROM ( SELECT b.*, rownum r FROM ( SELECT * FROM product LEFT JOIN CUS_ORDER ON product.p_num = CUS_ORDER.co_p_num WHERE product.p_m_id = #{id} AND ((co_category = 2003 OR co_category IS NULL)   OR(co_category = 2002 AND (product.p_status = 0 OR product.p_status = 2)))    AND product.p_status < 3 AND (product.p_status < 3 OR co_num IS NOT NULL) ORDER BY product.p_num DESC)  b)  WHERE r>=#{start} and r<=#{end}
+         ]]>
+       </select>
+       <delete id="productAllFileDelete" >
+          delete from cusfile where cf_p_num=#{num}
+       </delete>
+       <delete id="productUnitDelete">
+          delete from cusfile where cf_filename=#{filename}
+       </delete>
+       
+       <insert id="ProductFileReg" parameterType="com.gogi.meatyou.bean.CusFileDTO">
+         insert into cusfile values(
+         cusfile_seq.nextval,
+         #{cf_p_num},
+         #{cf_filename}
+         )     
+       </insert>
+       
+       
+       
+       
+       
+       <select id="listout" resultType="com.gogi.meatyou.bean.ProductDTO" parameterType="hashmap">
+       <![CDATA[
+        SELECT * FROM ( SELECT b.*, rownum r FROM (SELECT * FROM product where p_m_id=#{id} and  p_status = 3   ORDER BY p_num DESC ) b) WHERE r>=#{start} and r<=#{end}
+        ]]>
+       </select>
+       
+       <select id="member_status" resultType="int">
+       SELECT M_Status FROM member WHERE m_id = #{id}
+       </select>
+       
+       
+       
+       <update id="conumchange" parameterType="com.gogi.meatyou.bean.ProductDTO">
+       UPDATE CUS_ORDER SET co_p_num = NULL WHERE co_p_num = #{p_num} and co_category=2003
+       </update>  
+
+      <update id="statusChange" parameterType="com.gogi.meatyou.bean.ProductDTO">
+          UPDATE product SET p_status=#{p_status} WHERE p_M_ID=#{p_m_id} AND p_num=#{p_num}      
+       </update>   
+
+       <select id="cuscheck" resultType="int">
+         SELECT count(*) FROM product LEFT JOIN CUS_ORDER ON product.p_num = CUS_ORDER.co_p_num WHERE product.p_m_id = #{p_m_id} AND co_num = #{co_num}
+      </select>
+ 
+       <update id="gijon" parameterType="com.gogi.meatyou.bean.ProductDTO">
+         UPDATE product SET p_status = 2 WHERE EXISTS ( SELECT 1 FROM CUS_ORDER WHERE product.p_num = CUS_ORDER.co_p_num AND CUS_ORDER.co_num = #{co_num})
+      </update>
+       
+       <update id="gijonCoNum" parameterType="com.gogi.meatyou.bean.ProductDTO">
+         UPDATE CUS_ORDER SET co_p_num = null WHERE co_num = #{co_num} and co_category=2003
+      </update>
+              
+      <update id="cus_num" parameterType="com.gogi.meatyou.bean.CusOrderDTO">
+          UPDATE CUS_ORDER SET co_p_num=#{p_num} WHERE co_num=#{co_num} and co_category= 2003    
+       </update>
+       
+      <update id="cus_numdelete" parameterType="com.gogi.meatyou.bean.CusOrderDTO">
+         UPDATE cus_order c SET co_p_num = NULL WHERE EXISTS (  SELECT 1  FROM product p WHERE c.co_p_num = p.P_num AND c.co_category = 2003 AND p.P_num = #{p_num})       
+       </update>
+       
+       
+       
+       
+       
+       
+       
+       
+        <select id="lister" resultType="com.gogi.meatyou.bean.ProductDTO">
+       SELECT * FROM product WHERE p_num = #{p_num}
+       </select>
+       
+       <select id="listerPD" resultType="com.gogi.meatyou.bean.PDetailDTO">
+       SELECT * FROM P_DETAIL WHERE pd_P_num = #{p_num}
+       </select>
+      
+       <update id="itemUP" parameterType="com.gogi.meatyou.bean.ProductDTO">
+          update product
+          <set>
+              <if test="p_name != null and p_name != '' ">p_name=#{p_name},</if>
+              <if test="p_category != null and p_category != '' ">p_category=#{p_category},</if> 
+              <if test="p_s_category != null and p_s_category != '' ">p_s_category=#{p_s_category},</if> 
+              <if test="thumb != null and thumb != '' ">thumb=#{thumb},</if> 
+              <if test="p_price != null and p_price != '' ">p_price=#{p_price},</if> 
+              <if test="startdate != null and startdate != '' "> startdate=to_date(#{startdate},'YYYY-MM-DD'),</if> 
+              <if test="enddate != null and enddate != '' "> enddate=to_date(#{enddate},'YYYY-MM-DD')</if>
+          </set>
+          where p_num=#{p_num} 
+      </update>
+      
+      <update id="itemDpUP" parameterType="com.gogi.meatyou.bean.ProductDTO">
+          update P_DETAIL
+          <set>
+              <if test="pd_p_desc != null and pd_p_desc != '' ">pd_p_desc=#{pd_p_desc},</if>
+              <if test="origin != null and origin != '' ">origin=#{origin},</if> 
+              <if test="local != null and local != '' ">local=#{local},</if> 
+              <if test="butchery != null and butchery != '' ">butchery=#{butchery},</if> 
+              <if test="weight != null and weight != '' ">weight=#{weight},</if> 
+              <if test="serialNum != null and serialNum != '' ">serialNum=#{serialNum},</if> 
+              <if test="retain != null and retain != '' ">retain=#{retain},</if> 
+              <if test="stock != null and stock != '' ">stock=#{stock},</if> 
+              <if test="pd_duedate != null and pd_duedate != '' ">pd_duedate=#{pd_duedate}</if> 
+          </set>
+          where pd_p_num=#{pd_p_num} 
+      </update>
+       
+      <select id="stocklist" resultType="com.gogi.meatyou.bean.ProductDTO" parameterType="hashmap">
+         <![CDATA[
+         SELECT * FROM ( SELECT b.*, rownum r FROM (select * from product p, P_DETAIL pd where p.P_num = pd.pd_P_num and p.p_M_ID =#{id} order by p_num desc) b) WHERE r>=#{start} and r<=#{end}
+         ]]>
+       </select>       
+
+      <select id="stockonlist" resultType="com.gogi.meatyou.bean.ProductDTO" parameterType="hashmap">
+         <![CDATA[
+         SELECT * FROM ( SELECT b.*, rownum r FROM (   SELECT * FROM product p, P_DETAIL pd WHERE p.P_num = pd.pd_P_num AND p.p_M_ID = #{id} AND (p.p_status = 0 OR p.p_status = 1) order by p.p_num desc ) b) WHERE r>=#{start} and r<=#{end}
+         ]]>
+       </select>
+
+      <update id="stockPro" parameterType="com.gogi.meatyou.bean.PDetailDTO">
+          update P_DETAIL
+          <set>     
+              <if test="stock != null and stock != '' ">stock=#{stock}</if>            
+          </set>
+          where pd_p_num=#{pd_p_num} 
+      </update>
+
+   <select id="stocklistcount" parameterType="hashmap" resultType="int">
+      select count(*) from product p, m_Order m where (p.P_num = m.order_p_num) and p.p_M_ID =#{id} and p.P_num =#{p_num} order by p_num desc
+   </select>
+      
+
+      <select id="listPayCount" resultType="int">
+       select count(*) from CUS_ORDER where co_m_id=#{id} and co_category=2003 order by co_paydate desc
+       </select>
+       
+       <select id="listpaynowcount" resultType="int">
+       select count(*) from cus_order where co_category=2003 and co_m_id=#{id} and co_paydate>add_months(sysdate,-1)
+       </select>
+   
+      <select id="powerPayCount" resultType="int">
+       select count(*) from CUS_ORDER where co_m_id=#{id} and co_category=2002 order by co_paydate desc
+       </select>
+
+      <select id="powerlist" resultType="com.gogi.meatyou.bean.CusOrderDTO">
+       SELECT * FROM CUS_ORDER WHERE co_m_id = #{id} AND co_category = 2002 ORDER BY co_paydate DESC
+       </select>
+
+      <select id="powerlistOne" resultType="com.gogi.meatyou.bean.CusOrderDTO" parameterType="hashmap">
+      <![CDATA[
+          SELECT * FROM ( SELECT b.*, rownum r FROM ( SELECT * FROM CUS_ORDER WHERE co_m_id = #{id} AND co_category = 2002 ORDER BY co_paydate DESC) b) WHERE r>=#{start} and r<=#{end}
+         ]]>
+      </select>
+
+      <select id="paylist" resultType="com.gogi.meatyou.bean.CusOrderDTO">
+       SELECT * FROM CUS_ORDER where co_category=2003 and co_m_id= #{id} and co_paydate>add_months(sysdate,-1) order by co_num asc
+      </select> 
+      
+      <select id="paylistTwo" resultType="com.gogi.meatyou.bean.CusOrderDTO">
+      <![CDATA[
+       SELECT * FROM ( SELECT b.*, rownum r FROM ( SELECT * FROM CUS_ORDER where co_category=2003 and co_m_id= #{id} and co_paydate>add_months(sysdate,-1) order by co_num desc ) b) WHERE r>=#{start} and r<=#{end}
+        ]]>
+      </select> 
+      
+
+      
+
+       <select id="poweredlist" resultType="com.gogi.meatyou.bean.ProductDTO">
+       SELECT * FROM product p LEFT JOIN (SELECT DISTINCT co_P_num, co_category FROM cus_order) c ON p.P_num = c.co_P_num WHERE p.p_M_ID = #{id} AND p.p_status IN (0, 1) AND ((c.co_category = 2003 OR c.co_category IS NULL)) AND c.co_P_num IS NULL
+       </select>
+       
+       <select id="payMentItem" resultType="com.gogi.meatyou.bean.ProductDTO">
+         select * from product p, P_DETAIL d where  p.P_num = d.pd_p_num and  p.p_m_id = #{p_m_id} and p.p_num= #{p_num}
+       </select>   
+       
+       <select id="getco_num" resultType="int">
+          select CUS_ORDER_seq.NEXTVAL from dual
+       </select>
+       
+      
+       <insert id="insert_cusorder" parameterType="com.gogi.meatyou.bean.CusOrderDTO">
+          insert into CUS_ORDER(co_num, co_category, co_quantity, co_pay, co_m_id, autoPay, co_p_num, co_paydate, co_payenddate) values (
+          #{co_num},
+          2002,          
+          #{co_quantity},
+          #{co_pay},
+          #{co_m_id},                   
+          0,
+          #{co_p_num},
+          sysdate,
+          null
+          )          
+       </insert>
+      
+      <insert id="insert_cusordertwo" parameterType="com.gogi.meatyou.bean.CusOrderDTO">
+          insert into CUS_ORDER(co_num, co_category, co_quantity, co_pay, co_m_id, autoPay, co_p_num, co_paydate, co_payenddate) values (
+          #{co_num},
+          2003,          
+          #{co_quantity},
+          #{co_pay},
+          #{co_m_id},                   
+          0,
+          null,
+          sysdate,
+          sysdate + INTERVAL '1' MONTH
+          )          
+       </insert>
+       
+      <select id="getProductTotalmoney" resultType="int">
+         <choose>
+            <when test="check==0">
+            <![CDATA[
+            select nvl(sum(order_totalprice),0) from product p, m_order m  where p.p_num = m.order_p_num and m.order_status = 4 and  p.p_m_id=#{id} and order_paydate>=trunc(sysdate,'MM') and order_paydate<sysdate
+            ]]>
+            </when>
+            <when test="check==-1">
+            <![CDATA[
+            select nvl(sum(order_totalprice),0) from product p, m_order m  where p.p_num = m.order_p_num and m.order_status = 4 and p.p_m_id=#{id} and order_paydate>=add_months(trunc(sysdate,'mm'), ${check}) and order_paydate<=trunc(sysdate,'mm') ${check}
+            ]]>
+            </when>
+            <!-- 4월 첫쩃날이랑  5월 1일에서 -1을 해서 4월 30일을 구하는 공식 -->
+            <otherwise>
+            <![CDATA[   
+             select nvl(sum(order_totalprice),0) from product p, m_order m  where p.p_num = m.order_p_num and p.p_m_id=#{id} and m.order_status = 4 and order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=add_months(trunc(sysdate,'mm'), ${check}+1)${check}
+            ]]>
+            </otherwise>
+         </choose>
+       </select>
+       
+      <select id="getTotalCount" resultType="int">
+         <choose>
+            <when test="check==0">
+            <![CDATA[
+            select nvl(sum(order_Quantity),0) from product p, m_order m  where p.p_num = m.order_p_num and p.p_m_id=#{id} and m.order_status = 4 and order_paydate>=trunc(sysdate,'MM') and order_paydate<sysdate
+            ]]>
+            </when>
+            <when test="check==-1">
+            <![CDATA[
+            select nvl(sum(order_Quantity),0)  from product p, m_order m  where p.p_num = m.order_p_num and p.p_m_id=#{id} and m.order_status = 4 and order_paydate>=add_months(trunc(sysdate,'mm'), ${check}) and order_paydate<=trunc(sysdate,'mm') ${check}
+            ]]>
+            </when>
+            <!-- 4월 첫쩃날이랑  5월 1일에서 -1을 해서 4월 30일을 구하는 공식 -->
+            <otherwise>
+            <![CDATA[   
+             select nvl(sum(order_Quantity),0) from product p, m_order m  where p.p_num = m.order_p_num and p.p_m_id=#{id} and m.order_status = 4 and order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=add_months(trunc(sysdate,'mm'), ${check}+1)${check}
+            ]]>
+            </otherwise>
+         </choose>
+       </select>  
+       
+     <select id="getDeliveryPay" resultType="int">
+         <choose>
+            <when test="check==0">
+            <![CDATA[
+            select nvl(sum(order_dere_pay),0) from product p, m_order m  where p.p_num = m.order_p_num and p.p_m_id=#{id} and m.order_status = 4 and order_paydate>=trunc(sysdate,'MM') and order_paydate<sysdate
+            ]]>
+            </when>
+            <when test="check==-1">
+            <![CDATA[
+            select nvl(sum(order_dere_pay),0)  from product p, m_order m  where p.p_num = m.order_p_num and p.p_m_id=#{id} and m.order_status = 4 and order_paydate>=add_months(trunc(sysdate,'mm'), ${check}) and order_paydate<=trunc(sysdate,'mm') ${check}
+            ]]>
+            </when>
+            <!-- 4월 첫쩃날이랑  5월 1일에서 -1을 해서 4월 30일을 구하는 공식 -->
+            <otherwise>
+            <![CDATA[   
+             select nvl(sum(order_dere_pay),0) from product p, m_order m  where p.p_num = m.order_p_num and p.p_m_id=#{id} and m.order_status = 4 and order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=add_months(trunc(sysdate,'mm'), ${check}+1)${check}
+            ]]>
+            </otherwise>
+         </choose>
+       </select>   
+      
+       <select id="getCoponPay" resultType="int">
+         <choose>
+            <when test="check==0">
+            <![CDATA[
+            select nvl(sum(order_DISCOUNT),0) from product p, m_order m, coupon  c  where (p.p_num = m.order_p_num and m.order_cp_num = c.cp_num) and  c.c_type > 3 and p.p_m_id= #{id} and m.order_status = 4 and order_paydate>=trunc(sysdate,'MM') and order_paydate<sysdate
+            ]]>
+            </when>
+            <when test="check==-1">
+            <![CDATA[
+            select nvl(sum(order_DISCOUNT),0) from product p, m_order m, coupon  c  where (p.p_num = m.order_p_num and m.order_cp_num = c.cp_num) and  c.c_type > 3 and p.p_m_id= #{id} and m.order_status = 4 and order_paydate>=add_months(trunc(sysdate,'mm'), ${check}) and order_paydate<=trunc(sysdate,'mm') ${check}
+            ]]>
+            </when>
+            <otherwise>
+            <![CDATA[   
+            select nvl(sum(order_DISCOUNT),0) from product p, m_order m, coupon  c  where (p.p_num = m.order_p_num and m.order_cp_num = c.cp_num) and  c.c_type > 3 and p.p_m_id= #{id} and m.order_status = 4 and order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=add_months(trunc(sysdate,'mm'), ${check}+1) -1
+            ]]>
+            </otherwise>
+         </choose>
+       </select> 
+       
+       
+     <select id="getHOT" resultType="int">
+         <choose>
+            <when test="check==0">
+            <![CDATA[
+            SELECT nvl(order_p_num,0) FROM ( SELECT p.*, m.* FROM product p JOIN m_order m ON p.p_num = m.order_p_num WHERE p.p_m_id = #{id} and m.order_status = 4 AND order_paydate >= TRUNC(SYSDATE, 'MM') AND order_paydate < SYSDATE ORDER BY m.order_Quantity DESC) WHERE ROWNUM = 1
+            ]]>
+            </when>
+            <when test="check==-1">
+            <![CDATA[
+            SELECT nvl(order_p_num,0) FROM ( SELECT p.*, m.* FROM product p JOIN m_order m ON p.p_num = m.order_p_num WHERE p.p_m_id = #{id} and m.order_status = 4 and order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=trunc(sysdate,'mm') ${check} ORDER BY m.order_Quantity DESC) WHERE ROWNUM = 1 
+            ]]>
+            </when>
+            <!-- 4월 첫쩃날이랑  5월 1일에서 -1을 해서 4월 30일을 구하는 공식 -->
+            <otherwise>
+            <![CDATA[   
+            SELECT nvl(order_p_num, 0)  FROM ( SELECT p.*, m.* FROM product p JOIN m_order m ON p.p_num = m.order_p_num WHERE p.p_m_id = #{id} and m.order_status = 4  and order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=add_months(trunc(sysdate,'mm'),${check}+1)-1 ORDER BY m.order_Quantity DESC) WHERE ROWNUM = 1          
+            ]]>
+            </otherwise>
+         </choose>
+       </select>   
+      
+      <select id="ProfitItemlist" parameterType="hashmap">
+      <choose>
+            <when test="check==0">
+            <![CDATA[
+            SELECT * FROM ( SELECT b.*, rownum r FROM ( select *  from product p, m_order m  where p.p_num = m.order_p_num and p.p_m_id=#{id} and m.order_status = 4 and order_paydate>=trunc(sysdate,'MM') and order_paydate<sysdate order by order_paydate desc) b) WHERE r>=#{start} and r<=#{end}
+            ]]>
+            </when>
+            <when test="check==-1">
+            <![CDATA[
+            SELECT * FROM ( SELECT b.*, rownum r FROM ( select *  from product p, m_order m  where p.p_num = m.order_p_num and p.p_m_id=#{id} and m.order_status = 4 and order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=trunc(sysdate,'mm') ${check} order by order_paydate desc) b) WHERE r>=#{start} and r<=#{end}
+            ]]>
+            </when>
+            <otherwise>
+            <![CDATA[   
+          SELECT * FROM ( SELECT b.*, rownum r FROM ( select *  from product p, m_order m  where p.p_num = m.order_p_num and p.p_m_id=#{id} and m.order_status = 4 and order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=add_months(trunc(sysdate,'mm'),${check}+1)-1 order by order_paydate desc ) b) WHERE r>=#{start} and r<=#{end}        
+            ]]>
+            </otherwise>
+         </choose>
+        </select> 
+      
+      <select id="ProfitItemcount" resultType="int">
+      <choose>
+            <when test="check==0">
+            <![CDATA[
+            select count(*)  from product p, m_order m  where p.p_num = m.order_p_num and p.p_m_id=#{id} and m.order_status = 4 and order_paydate>=trunc(sysdate,'MM') and order_paydate<sysdate order by order_paydate asc
+            ]]>
+            </when>
+            <when test="check==-1">
+            <![CDATA[
+            select count(*)  from product p, m_order m  where p.p_num = m.order_p_num and p.p_m_id=#{id} and m.order_status = 4 and order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=trunc(sysdate,'mm') ${check} order by order_paydate asc
+            ]]>
+            </when>        
+            <otherwise>
+            <![CDATA[   
+          select count(*)  from product p, m_order m  where p.p_num = m.order_p_num and p.p_m_id=#{id} and m.order_status = 4 and order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=add_months(trunc(sysdate,'mm'),${check}+1)-1 order by order_paydate asc         
+            ]]>
+            </otherwise>
+         </choose>
+        </select> 
+        
+        
+        <select id="getConsumerCount" resultType="int">
+      <choose>
+            <when test="check==0">
+            <![CDATA[
+            select count(*)  from product p, m_order m, member mb, MemStatus ms where (m.order_m_id = mb.m_id and p.p_num = m.order_p_num and mb.m_status= ms.mstat_m_status) and p.p_m_id=#{id} and m.order_status = 4 and order_paydate>=trunc(sysdate,'MM') and order_paydate<sysdate 
+            ]]>
+            </when>
+            <when test="check==-1">
+            <![CDATA[
+            select count(*)  from product p, m_order m, member mb, MemStatus ms where (m.order_m_id = mb.m_id and p.p_num = m.order_p_num and mb.m_status= ms.mstat_m_status) and p.p_m_id=#{id} and m.order_status = 4 and order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=trunc(sysdate,'mm') ${check}
+            ]]>
+            </when>        
+            <otherwise>
+            <![CDATA[
+            select count(*) from product p, m_order m, member mb, MemStatus ms where (m.order_m_id = mb.m_id and p.p_num = m.order_p_num and mb.m_status= ms.mstat_m_status) and p.p_m_id=#{id} and m.order_status = 4 and order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=add_months(trunc(sysdate,'mm'),${check}+1)-1               
+            ]]>
+            </otherwise>
+         </choose>
+        </select>      
+      
+      <select id="memberlist" parameterType="hashmap">
+      <choose>
+            <when test="check==0">
+            <![CDATA[
+            SELECT * FROM ( SELECT b.*, rownum r FROM ( select *  from product p, m_order m, member mb, MemStatus ms where (m.order_m_id = mb.m_id and p.p_num = m.order_p_num and mb.m_status= ms.mstat_m_status) and p.p_m_id=#{id} and m.order_status = 4 and order_paydate>=trunc(sysdate,'MM') and order_paydate<sysdate order by order_paydate desc) b) WHERE r>=#{start} and r<=#{end}
+            ]]>
+            </when>
+            <when test="check==-1">
+            <![CDATA[
+            SELECT * FROM ( SELECT b.*, rownum r FROM ( select *  from product p, m_order m, member mb, MemStatus ms where (m.order_m_id = mb.m_id and p.p_num = m.order_p_num and mb.m_status= ms.mstat_m_status) and p.p_m_id=#{id} and m.order_status = 4 and order_paydate>=add_months(trunc(sysdate,'mm'), ${check}) and order_paydate<=trunc(sysdate,'mm') ${check} order by order_paydate desc) b) WHERE r>=#{start} and r<=#{end}
+            ]]>
+            </when>
+            <otherwise>
+            <![CDATA[   
+          SELECT * FROM ( SELECT b.*, rownum r FROM ( select *  from product p, m_order m, member mb, MemStatus ms where (m.order_m_id = mb.m_id and p.p_num = m.order_p_num and mb.m_status= ms.mstat_m_status) and p.p_m_id=#{id} and m.order_status = 4 and order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=add_months(trunc(sysdate,'mm'),${check}+1)-1 order by order_paydate desc ) b) WHERE r>=#{start} and r<=#{end}        
+            ]]>
+            </otherwise>
+         </choose>
+        </select> 
+
+     <select id="companynum" resultType="int">
+           select CUS_NUM from member mb, cus_detail cd where mb.m_id = cd.cus_m_ID and mb.m_id=#{id}
+     </select>
+     
+     <select id="itemList" resultType="com.gogi.meatyou.bean.ProductDTO">
+         select * from product where p_m_id=#{id}
+     </select>
+      
+      <insert id="cusCouponPro" parameterType="com.gogi.meatyou.bean.CouponDTO">
+      <choose>
+         <when test="couponUse==1">
+         <![CDATA[
+             insert into coupon(cp_num, cp_cus_num, cp_price, cp_m_id, cp_status, exdate, cp_p_num, cp_cus_id, c_type, usedate, publishdate) values (
+             coupon_seq.NEXTVAL,
+             #{cp_cus_num},
+             #{cp_price}, 
+             #{cp_m_id},
+             1,
+             sysdate + INTERVAL '7' DAY,
+             null,
+             #{cp_cus_id},
+             #{c_type},
+             null,
+             sysdate             
+             )
+             ]]>
+           </when>
+              <otherwise>
+              <![CDATA[
+                insert into coupon(cp_num, cp_cus_num, cp_price, cp_m_id, cp_status, exdate, cp_p_num, cp_cus_id, c_type, usedate, publishdate) values (
+             coupon_seq.NEXTVAL,
+             #{cp_cus_num},
+             #{cp_price}, 
+             #{cp_m_id},
+             1,
+             sysdate + INTERVAL '7' DAY,
+             #{cp_p_num},
+             #{cp_cus_id},
+             #{c_type},
+             null,
+             sysdate             
+             )
+             ]]>
+              </otherwise>          
+        </choose>
+       </insert>
+   
+      <select id="userCouponCount" resultType="int">
+         select  count(*) from coupon where cp_cus_num = #{companynum}
+      </select>
+      
+      <select id="couponList" parameterType="hashmap" resultType="com.gogi.meatyou.bean.CouponDTO">
+         <![CDATA[
+         select * FROM ( SELECT b.*, rownum r FROM (select * from coupon where cp_cus_num = #{companynum} order by publishdate desc ) b) WHERE r>=#{start} and r<=#{end}
+         ]]>
+      </select>
+      
+      
+      <select id="deliverOutCount" resultType="int">
+            <choose>
+               <when test="check==0">
+               <![CDATA[
+               select count(*) from product p, m_order m where (p.p_num = m.order_p_num) and m.order_status=0 and p.p_m_id = #{id} and order_paydate>=trunc(sysdate,'MM') and order_paydate<sysdate order by order_p_num desc 
+               ]]>
+               </when>
+               <when test="check==-1">
+               <![CDATA[
+               select count(*) from product p, m_order m where (p.p_num = m.order_p_num) and m.order_status=0 and p.p_m_id = #{id} and order_paydate>=add_months(trunc(sysdate,'mm'), ${check}) and order_paydate<=trunc(sysdate,'mm') ${check}
+               ]]>
+               </when>        
+               <otherwise>
+               <![CDATA[
+               select count(*) from product p, m_order m where (p.p_num = m.order_p_num) and m.order_status=0 and p.p_m_id = #{id} and order_paydate>=add_months(trunc(sysdate,'mm'), ${check}) and order_paydate<=add_months(trunc(sysdate,'mm'),${check}+1)-1           
+               ]]>
+               </otherwise>
+            </choose>
+           </select>  
+      
+       <select id="deliverOutList"  parameterType="hashmap" resultType="com.gogi.meatyou.bean.PurchaseMemberListDTO">
+            <choose>
+               <when test="check==0">
+               <![CDATA[
+               select * FROM ( SELECT b.*, rownum r FROM ( select * from product p, m_order m where (p.p_num = m.order_p_num) and m.order_status=0 and p.p_m_id = #{id} and order_paydate>=trunc(sysdate,'MM') and order_paydate<sysdate order by order_paydate desc ) b) WHERE r>=#{start} and r<=#{end}   
+               ]]>
+               </when>
+               <when test="check==-1">
+               <![CDATA[
+               select * FROM ( SELECT b.*, rownum r FROM ( select * from product p, m_order m where (p.p_num = m.order_p_num) and m.order_status=0 and p.p_m_id = #{id} and order_paydate>=add_months(trunc(sysdate,'mm'), ${check}) and order_paydate<=trunc(sysdate,'mm') ${check} order by order_paydate desc ) b) WHERE r>=#{start} and r<=#{end}            
+               ]]>
+               </when>        
+               <otherwise>
+               <![CDATA[
+               select * FROM ( SELECT b.*, rownum r FROM ( select * from product p, m_order m where (p.p_num = m.order_p_num) and m.order_status=0 and p.p_m_id = #{id} and order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=add_months(trunc(sysdate,'mm'),${check}+1)-1  order by order_paydate desc ) b) WHERE r>=#{start} and r<=#{end}            
+               ]]>
+               </otherwise>
+            </choose>
+           </select> 
+      
+      <select id="deliveringCount" resultType="int">
+            <choose>
+               <when test="check==0">
+               <![CDATA[
+               select count(*) from product p, m_order m where (p.p_num = m.order_p_num) and m.order_status > 0 and p.p_m_id =#{id} and order_paydate>=trunc(sysdate,'MM') and order_paydate<sysdate order by order_paydate desc 
+               ]]>
+               </when>
+               <when test="check==-1">
+               <![CDATA[
+               select count(*) from product p, m_order m where (p.p_num = m.order_p_num) and m.order_status > 0 and p.p_m_id =#{id} and order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=trunc(sysdate,'mm') ${check}
+               ]]>
+               </when>        
+               <otherwise>
+               <![CDATA[
+            select count(*) from product p, m_order m where (p.p_num = m.order_p_num) and m.order_status > 0 and p.p_m_id =#{id} and order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=add_months(trunc(sysdate,'mm'),${check}+1)-1            
+               ]]>
+               </otherwise>
+            </choose>
+           </select> 
+         
+      <select id="deliveringList"  parameterType="hashmap" resultType="com.gogi.meatyou.bean.PurchaseMemberListDTO">
+            <choose>
+               <when test="check==0">
+               <![CDATA[
+               select * FROM ( SELECT b.*, rownum r FROM ( select * from product p, m_order m where (p.p_num = m.order_p_num) and m.order_status > 0 and p.p_m_id = #{id} and order_paydate>=trunc(sysdate,'MM') and order_paydate<sysdate order by order_paydate desc ) b) WHERE r>=#{start} and r<=#{end}   
+               ]]>
+               </when>
+               <when test="check==-1">
+               <![CDATA[
+               select * FROM ( SELECT b.*, rownum r FROM ( select * from product p, m_order m where (p.p_num = m.order_p_num) and m.order_status > 0 and p.p_m_id = #{id} and order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=trunc(sysdate,'mm') ${check} order by order_paydate desc ) b) WHERE r>=#{start} and r<=#{end}            
+               ]]>
+               </when>        
+               <otherwise>
+               <![CDATA[
+               select * FROM ( SELECT b.*, rownum r FROM ( select * from product p, m_order m where (p.p_num = m.order_p_num) and m.order_status > 0 and p.p_m_id =#{id} and order_paydate>=add_months(trunc(sysdate,'mm'),${check}) and order_paydate<=add_months(trunc(sysdate,'mm'),${check} +1)-1  order by order_paydate desc) b) WHERE r>=#{start} and r<=#{end}            
+               ]]>
+               </otherwise>
+            </choose>
+           </select> 
+      
+      <update id="statusOut" parameterType="int">
+          UPDATE m_order SET order_status = #{status}, order_dere_start = null, order_dere_end = null  WHERE order_num = #{num}
+      </update>
+      
+      <update id="statusing" parameterType="int">
+          UPDATE m_order SET order_status = #{status}, order_dere_start = sysdate, order_dere_end = null  WHERE order_num = #{num}
+      </update>
+      
+      <update id="statused" parameterType="int">
+          UPDATE m_order SET order_status = #{status}, order_dere_end = sysdate WHERE order_num = #{num}
+      </update>
+      	 
+		
+		<update id="survey1" parameterType="com.gogi.meatyou.bean.PreferDTO">
+          UPDATE prefer SET pre0_response = #{pre0_response}, pre_reg_date = sysdate, pre_status = 1  WHERE pre_m_id = #{pre_m_id}
+      </update>
+		
+	  <update id="survey2" parameterType="com.gogi.meatyou.bean.PreferDTO">
+	    UPDATE prefer SET pre1_response = #{pre1_response}, pre_reg_date = sysdate, pre_status = 2 WHERE pre_m_id = #{pre_m_id} AND pre0_response IS NOT NULL
+	  </update>
+		<update id="AutoOrderConfirm">
+		  <![CDATA[
+			update m_order set order_status=4 where order_dere_end<=(sysdate-3) and not order_status=4
+			]]>
+		</update>
 </mapper>

@@ -17,6 +17,49 @@
         touch-action: pan-y;
     -webkit-tap-highlight-color: transparent;
 }
+#mainInput{
+	background-color: #f13c0e;
+	color: white;
+}
+#customInput{
+	background-color: #f13c0e;
+	color: white;
+}
+#giftSetInput{
+	background-color: #f13c0e;
+	color: white;
+}
+#giftSetNewsInput{
+	background-color: #f13c0e;
+	color: white;
+}
+#giftSetPriceInput{
+	background-color: #f13c0e;
+	color: white;
+}
+#giftSetReviewInput{
+	background-color: #f13c0e;
+	color: white;
+}
+#giftSetSalesInput{
+	background-color: #f13c0e;
+	color: white;
+}
+.viewClass{
+	background-color: #f13c0e;
+	color: white;
+}
+
+
+
+
+
+
+
+
+
+
+
 
 .slick-list
 {

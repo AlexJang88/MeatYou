@@ -3,5 +3,924 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gogi.meatyou.repository.MemberMapper">
+                 
+   	<!-- 장바구니 품목수 카운트 -->
+   	<select id="ShoppingCartCNT" resultType="int" >
+      		select count(*) from shoppingcart_${shop_m_id}
+   	</select>
 
+
+	<!-- 상품찜 -->
+	<select id="pickCNT" resultType="int" >
+      		select count(*) from p_pick_${ppic_m_id}
+	</select>
+   
+
+	<!-- 판매자찜 -->
+   	<select id="pick_P_CNT" resultType="int" >
+      		select count(*) from pick_me_${ppic_m_id}
+   	</select>
+   	
+	<select id="checkEmail" parameterType="hashmap" resultType="int">
+		select count(*) from member where email=#{email}   
+		<if test="m_name!=null and m_name!=''"> and m_name=#{name}</if>
+		<if test="phone!=null and phone!=''"> and phone=#{phone}</if>
+		<if test="m_id!=null and m_id!=''"> and m_id=#{m_id}</if>
+	</select>
+	
+   <select id="memberList" resultType="com.gogi.meatyou.bean.MemberDTO">
+       SELECT * FROM member
+    WHERE m_id = #{m_id}  
+   </select>
+
+ 	<select id="idCheck" parameterType="String" resultType="int">
+ SELECT COUNT(m_id) FROM MEMBER WHERE m_id= #{m_id}
+   </select>
+   
+ <select id="eMailCheck" parameterType="String" resultType="int">
+ SELECT COUNT(email) FROM MEMBER WHERE email= #{email}
+   </select>
+   
+ <select id="deleteCheck" parameterType="String" resultType="int">
+SELECT 
+passwd  from member
+WHERE m_id = #{m_id}' AND passwd = #{passwd}
+   </select>
+
+   <resultMap id="memberMap" type="com.gogi.meatyou.bean.MemberDTO" >
+      <result property="m_id" column="m_id" />
+      <result property="passwd" column="passwd" />
+      <result property="m_name" column="m_name" />
+      <result property="birth" column="birth" />
+      <result property="m_addr1" column="m_addr1" />
+      <result property="m_addr2" column="m_addr2" />
+      <result property="email" column="email" />
+      <result property="telep" column="telep" />
+      <result property="phone" column="phone" />
+      <result property="m_reg_date" column="m_reg_date" />
+      <result property="m_status" column="m_status" />
+      <collection property="mstatus_list" resultMap="status" />  
+      
+   </resultMap>
+   <resultMap id="status" type="com.gogi.meatyou.bean.MemStatusDTO" >
+      <result property="mstat_m_status" column="msta_m_status" />
+      <result property="mstat_detail" column="mstat_detail" />
+      <result property="mstat_auth" column="mstat_auth" />
+   </resultMap>
+   
+
+   <select id="read" resultMap="memberMap" resultType="com.gogi.meatyou.bean.MemberDTO" >      
+         select * from member a left outer join memstatus b
+                  on a.m_status = b.mstat_m_status
+                  where a.m_id=#{m_id}
+   </select>
+   
+   
+   
+   
+   
+   <select id="member" resultType="com.gogi.meatyou.bean.MemberDTO">
+      select * from member where  m_id='${m_id}'
+   </select>
+   
+   
+   
+      
+   
+<select id="addressCheck" resultType="com.gogi.meatyou.bean.MemAddressDTO">
+    select * from MEM_ADDRESS where add_m_id='${add_m_id.replace("'", "''").replaceAll(",\\s*$", "")}'
+</select>
+
+ <!--판매자 찜-->
+<select id="addressCount" parameterType="map">  
+    SELECT COUNT(*)   FROM  MEM_ADDRESS where add_m_id='${add_m_id.replace("'", "''").replaceAll(",\\s*$", "")}'
+</select>
+
+ <!--주소 목록출력 -->
+<select id="addressCheckProduct" resultType="com.gogi.meatyou.bean.MemAddressDTO">
+ SELECT
+  m.m_id, m.m_addr1, m.m_addr2, addr.add_m_id, addr.add_mem_address1, addr.add_mem_address2, addr.add_type 
+FROM
+  member m
+INNER JOIN
+  mem_address addr ON m.m_id = addr.add_m_id
+WHERE
+  m.m_id = ${add_m_id}
+</select>
+
+<select id="combined_address" resultType="String">
+    select CONCAT (add_mem_address1,add_mem_address2) as address from mem_address where add_m_id=#{id}
+</select>
+
+   <!-- 주소 삭제 -->
+   <delete id="deleteAddr">
+      delete from mem_address  where add_num =#{add_num}
+   </delete>
+  
+
+<!-- 예시: MemAddressDTO를 사용하는 update 쿼리 -->
+<update id="updateAddr" parameterType="com.gogi.meatyou.bean.MemAddressDTO">
+  UPDATE mem_address
+
+         <set>
+          <if test="add_mem_address1 != null  and add_mem_address1 != '' ">    add_mem_address1 = '${add_mem_address1.replace("'", "''").replaceAll(",\\s*$", "")}',</if>
+       <if test="add_mem_address2 != null  and add_mem_address2 != '' "> add_mem_address2 ='${add_mem_address2.replace("'", "''").replaceAll(",\\s*$", "")}' </if>
+              </set>
+  WHERE add_num = ${adto.add_num}
+</update>
+ 
+  
+ <resultMap id="memAddressResultMap" type="com.gogi.meatyou.bean.MemAddressDTO">
+    <result property="add_mem_address1" column="ADD_MEM_ADDRESS1" />
+    <result property="add_mem_address2" column="ADD_MEM_ADDRESS2" jdbcType="VARCHAR" />
+</resultMap>
+
+ 
+
+<insert id="insertAddr" parameterType="com.gogi.meatyou.bean.MemAddressDTO">
+    INSERT INTO mem_address(add_num,add_m_id,add_mem_address1,add_mem_address2,add_type) VALUES
+   (mem_address_seq.nextval,'${add_m_id}','${add_mem_address1.replace("'", "''").replaceAll(",\\s*$", "")}','${add_mem_address2.replace("'", "''").replaceAll(",\\s*$", "")}',0)
+</insert>
+<insert id="insertMember_Addr" parameterType="com.gogi.meatyou.bean.MemAddressDTO">
+    INSERT INTO mem_address(add_num,add_m_id,add_mem_address1,add_mem_address2,add_type) VALUES
+   (mem_address_seq.nextval,'${m_id}','${m_add1.replace("'", "''").replaceAll(",\\s*$", "")}','${m_addr2.replace("'", "''").replaceAll(",\\s*$", "")}',0)
+</insert>
+   
+   
+   
+  
+<select id="shoppingcartCheck" resultType="com.gogi.meatyou.bean.ShoppingCartDTO">
+    select * from shoppingcart_${m_id} where shop_m_id=#{m_id} 
+</select>
+<select id="getCartbyNum" resultType="com.gogi.meatyou.bean.OrderwithCouponDTO" parameterType="hashmap">
+	select * from 
+	(select * from product where p_num=(select shop_p_num from shoppingCart_${m_id} where shop_num=#{shop_num})),(select * from (select * from shoppingCart_${m_id} where shop_num=#{shop_num}))
+	<if test="cp_num!=0">
+	,(SELECT * FROM coupon WHERE cp_num = #{cp_num})
+	</if>
+</select>
+<select id="getCouponNum" resultType="com.gogi.meatyou.bean.OrderwithCouponDTO">
+	select cp_num,cp_price from coupon where  cp_num=#{cp_num}
+</select>
+
+ <!--장바구니 목록출력  
+<select id="ShoppingCartAndProduct" resultType="com.gogi.meatyou.bean.ShoppingCartDTO">
+    SELECT
+        sc.shop_num,
+        sc.shop_m_id,
+        sc.shop_quantity,
+        p.p_num,
+        p.p_name,
+        p.thumb,
+        p.p_price
+    FROM
+        shoppingcart_${shop_m_id} sc
+    INNER JOIN
+        product p ON sc.shop_p_num = p.p_num
+</select>
+ -->
+ <!--장바구니 목록출력  다시  num으로 변경-->
+<select id="ShoppingCartAndProduct" resultType="com.gogi.meatyou.bean.OrderwithCouponDTO" parameterType="hashmap">
+  <![CDATA[
+   select * from (select a.*,rownum r from(select * from (select * from product), (select * from shoppingcart_${id}) where p_num=shop_p_num) a) where r>=#{start} and r<=#{end}
+	]]>
+</select>
+
+
+<select id="ShoppingCartCount" >
+	select count(*) from (select * from product), (select * from shoppingcart_${id}) where p_num=shop_p_num
+</select>
+
+
+
+
+
+
+
+
+<!--장바구니 수량변경  num기준으로 변경 -->
+   <update id="updateQuantity"  parameterType="map">
+        UPDATE shoppingcart_${shop_m_id} SET shop_quantity=#{shop_quantity} WHERE shop_num = #{shop_num}
+    </update>
+    
+<!--장바구니 수량변경  shop_num기준으로 변경 
+   <update id="updateQuantity"  >
+        UPDATE shoppingcart_${shop_m_id} SET shop_quantity = #{shop_quantity} WHERE shop_p_num = #{shop_p_num}
+    </update> -->
+
+  <!-- 특정 회원의 장바구니 목록 조회  shop_num 기준 (페이징 처리) -->
+  
+<select id="getShoppingCartItemsPaged2" parameterType="map" resultType="com.gogi.meatyou.bean.ShoppingCartDTO">
+    <![CDATA[
+
+SELECT rnum, shop_num,shop_p_num, shop_m_id, shop_quantity,p_num,p_name,thumb,p_price,p_m_id,pd_p_num,pd_p_desc
+FROM (
+    SELECT ROWNUM AS rnum, t.*
+    FROM (
+        SELECT
+            sc.shop_num,
+            sc.shop_p_num,
+            sc.shop_m_id,
+            sc.shop_quantity,
+            p.p_num,
+            p.p_name,
+            p.thumb,
+            p.p_price,
+            p.p_m_id,
+            pd.pd_p_num,
+            pd.pd_p_desc
+        FROM
+            shoppingcart_${shop_m_id} sc
+         INNER JOIN
+            product p ON sc.shop_p_num = p.p_num 
+        INNER JOIN
+            p_detail pd ON p.p_num = pd.pd_p_num
+        ORDER BY sc.shop_num
+    ) t
+    WHERE ROWNUM <= #{endRow, jdbcType=NUMERIC}
+)
+WHERE rnum >= #{startRow, jdbcType=NUMERIC}
+
+    ]]>
+</select>
+  <!-- 특정 회원의 장바구니 목록 조회  shop_p_num 기준 (페이징 처리) -->
+  <!-- 
+<select id="getShoppingCartItemsPaged2" parameterType="map" resultType="com.gogi.meatyou.bean.ShoppingCartDTO">
+    <![CDATA[
+
+SELECT rnum, shop_num,shop_p_num, shop_m_id, shop_quantity,p_num,p_name,thumb,p_price,p_m_id,pd_p_num,pd_p_desc
+FROM (
+    SELECT ROWNUM AS rnum, t.*
+    FROM (
+        SELECT
+            sc.shop_num,
+            sc.shop_p_num,
+            sc.shop_m_id,
+            sc.shop_quantity,
+            p.p_num,
+            p.p_name,
+            p.thumb,
+            p.p_price,
+            p.p_m_id,
+            pd.pd_p_num,
+            pd.pd_p_desc
+        FROM
+            shoppingcart_${shop_m_id} sc
+         INNER JOIN
+            product p ON sc.shop_p_num = p.p_num 
+        INNER JOIN
+            p_detail pd ON p.p_num = pd.pd_p_num
+        ORDER BY sc.shop_p_num
+    ) t
+    WHERE ROWNUM <= #{endRow, jdbcType=NUMERIC}
+)
+WHERE rnum >= #{startRow, jdbcType=NUMERIC}
+
+    ]]>
+</select>
+ -->
+<select id="orderpage" parameterType="map" resultType="com.gogi.meatyou.bean.ShoppingCartDTO">
+    <![CDATA[
+SELECT rnum, shop_num, shop_m_id,shop_quantity, p_num, p_name, thumb, p_price,p_m_id
+FROM (
+    SELECT ROWNUM AS rnum, t.*
+    FROM (
+        SELECT
+            sc.shop_num,
+            sc.shop_m_id,
+            sc.shop_quantity,
+            p.p_num,
+            p.p_name,
+            p.thumb,
+            p.p_price,
+            p.p_m_id
+        FROM
+            shoppingcart_${shop_m_id} sc
+        INNER JOIN
+            product p ON sc.shop_p_num = p.p_num
+        ORDER BY sc.shop_num
+    ) t
+    WHERE ROWNUM <= #{endRow, jdbcType=NUMERIC}
+)
+WHERE rnum >= #{startRow, jdbcType=NUMERIC}
+
+    ]]>
+</select>
+
+
+<!-- 총 카운트 보기 -->
+
+<select id="getTotalShoppingCartItems" resultType="int">
+    SELECT COUNT(*)
+    FROM shoppingcart_${shop_m_id}
+</select>
+    
+
+
+    <!-- 여기까지가 페이징 -->
+    
+<!-- 게시물 선택 삭제  -->
+ <!-- 카트 삭제 shop_num 기준 -->
+   <delete id="deleteCart">
+      delete from shoppingcart_${shop_m_id} where shop_num = ${shop_num}
+   </delete>
+ 
+<!-- 카트 삭제 shop_p_num 기준
+   <delete id="deleteCart">
+      delete from shoppingcart_${shop_m_id} where shop_p_num = ${shop_p_num}
+   </delete>
+ -->
+    <!-- 상품 삭제를 위한 쿼리  shop_p_num 기준 -->
+<!-- MyBatis Mapper XML -->
+<delete id="deleteSelectedItems" parameterType="map">
+    DELETE FROM shoppingcart_${shop_m_id} where 
+        <if test="!selectedShopNums.isEmpty()">
+            shop_num IN
+            <foreach collection="selectedShopNums" item="shop_p_num" open="(" separator="," close=")">
+                #{shop_p_num}
+            </foreach>
+        </if>
+</delete> 
+
+ <!-- 상품 삭제를 위한 쿼리  shop_p_num 기준 -->
+<!-- MyBatis Mapper XML
+<delete id="deleteSelectedItems" parameterType="map">
+    DELETE FROM shoppingcart_${shop_m_id}
+    <where>
+        <if test="!selectedShopNums.isEmpty()">
+            AND shop_p_num IN
+            <foreach collection="selectedShopNums" item="shop_p_num" open="(" separator="," close=")">
+                #{shop_p_num}
+            </foreach>
+        </if>
+        AND shop_m_id = #{shop_m_id}
+    </where>
+</delete>
+
+ -->
+ 
+ 
+<select id="findshop_p_num" resultType="com.gogi.meatyou.bean.UserPayDTO" parameterType="hashmap">
+   select * from (select * from shoppingCart_${add_m_id} where shop_p_num in 
+   <foreach collection="list" item="shop_p_num" open="(" separator="," close=")">
+                ${shop_p_num}
+            </foreach>
+   ) s ,(select * from product) p where s.shop_p_num=p.p_num
+</select>
+    
+
+
+
+<!-- 찜 업체  리스트   -->
+<!-- 총 카운트 보기 -->
+
+
+<select id="pickMeCount" parameterType="int">  
+    SELECT COUNT(*)   FROM pick_me_${pm_m_id}
+</select>
+
+  <!-- 찜  업체  확인  -->
+
+<select id="pickMeCountPage"   resultType="com.gogi.meatyou.bean.PickMeDTO">
+    <![CDATA[
+   SELECT
+  rnum, pm_num,pm_m_id, pm_c_id,ceoname,cus_address1,cus_address2,company,cus_pnum,cus_accnum
+FROM (
+  SELECT
+    ROWNUM AS rnum, t.*
+  FROM (
+    SELECT
+    pm.pm_num,pm.pm_m_id,pm.pm_c_id,cu.ceoname,cu.cus_address1,cu.cus_address2,cu.company,cu.cus_pnum,cu.cus_accnum
+    FROM
+      pick_me_${pm_m_id} pm
+    INNER JOIN
+    cus_detail cu ON pm.pm_c_id = cu.cus_m_id
+    ORDER BY
+      pm.pm_num
+  ) t
+  WHERE
+    ROWNUM <= #{endRow, jdbcType=NUMERIC}
+)
+WHERE
+  rnum >= #{startRow, jdbcType=NUMERIC}
+    ]]>
+</select>
+<!-- 
+찜 업체  선택 삭제  -->
+   <delete id="deleteHim" parameterType="map">  
+      delete from pick_me_${pm_m_id} where pm_num = #{pm_num}
+   </delete>
+   
+   <!--판매자 찜-->
+<select id="SallerpickMeCount" parameterType="map">  
+    SELECT COUNT(*)   FROM pick_me_${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")}
+</select>
+ <select id="checkHim" parameterType="int">  
+    SELECT * FROM pick_me_${pm_m_id} where pm_c_id=${pm_c_id}
+</select>
+ 
+  <!-- 찜  업체  확인  -->
+
+<select id="SallerpickMeCountPage"   parameterType="map">
+    <![CDATA[
+ SELECT
+  rnum, pm_num,pm_m_id, pm_c_id,m_name,email,telep,phone,m_status
+FROM (
+  SELECT
+    ROWNUM AS rnum, t.*
+  FROM (
+    SELECT
+    pm.pm_num,pm.pm_m_id,pm.pm_c_id,m.m_name,m.email,m.telep,m.phone,m.m_status 
+    FROM
+      pick_me_${pm_c_id} pm
+    INNER JOIN
+    member m ON pm.pm_m_id = m.m_id
+    ORDER BY
+      pm.pm_num
+  ) t
+  WHERE
+    ROWNUM <= #{endRow, jdbcType=NUMERIC}
+)
+WHERE
+  rnum >= #{startRow, jdbcType=NUMERIC}
+    ]]>
+</select>
+<!-- 
+찜 업체  선택 삭제  -->
+   <delete id="SallerdeleteHim" parameterType="map">  
+      delete from pick_me_${pm_c_id} where pm_num = #{pm_num}
+   </delete>
+
+
+
+ 
+<select id="ppickAndpickMeCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+    SELECT COUNT(*) FROM pick_me_${pm_m_id} WHERE   pm_c_id ='${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")}'
+</select>
+ 
+ 
+<select id="ppickAndpickMeCount2" parameterType="java.util.Map" resultType="java.lang.Integer">
+    SELECT COUNT(*) FROM pick_me_${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")} WHERE  pm_m_id ='${pm_m_id.replace("'", "''").replaceAll(",\\s*$", "")}'
+</select>
+
+ 
+<insert id="pickMeInsert" parameterType="java.util.Map">
+    INSERT INTO pick_me_${pm_m_id}(pm_num, pm_m_id, pm_c_id) VALUES
+   (pick_me_${pm_m_id}_seq.nextval,'${pm_m_id}', '${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")}')
+</insert>
+<!-- <insert id="pickMeInsert" parameterType="java.util.Map">
+    INSERT INTO pick_me_${pm_m_id}(pm_num, pm_m_id, pm_c_id) VALUES
+   (pick_me_${pm_m_id}_seq.nextval,${pm_m_id}, '${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")}')
+</insert>
+
+NSERT INTO pick_me_user425(pm_num, pm_m_id, pm_c_id) VALUES (pick_me_user425_seq.nextval, 'user425', 'cuser827');
+ -->
+
+ <insert id="pickMeInsert2" parameterType="java.util.Map">
+  INSERT INTO pick_me_${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")}(pm_num, pm_m_id, pm_c_id) VALUES
+   (pick_me_${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")}_seq.nextval,'${pm_m_id}', '${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")}')  
+  </insert>
+  
+  
+<!-- pm_c_id만으로 삭제하는 DELETE 쿼리 -->
+<delete id="deletePickMeByCId" >
+    DELETE FROM pick_me_${pm_m_id}    WHERE pm_c_id ='${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")}'
+</delete>
+<delete id="deletePickMeByCId2" >
+    DELETE FROM pick_me_${pm_c_id.replace("'", "''").replaceAll(",\\s*$", "")}    WHERE pm_m_id ='${pm_m_id.replace("'", "''").replaceAll(",\\s*$", "")}'
+</delete>
+
+ 
+  <!-- 특정 찜목록 조회 (페이징 처리) -->
+<!-- 상품 찜 -->
+<select id="pPickCountPage" parameterType="map" resultType="com.gogi.meatyou.bean.PPicDTO">
+  <![CDATA[
+ SELECT
+  rnum, ppic_num, ppic_m_id, ppic_p_num,p_m_id, p_num, p_name, thumb , startdate, enddate, p_status, p_price, cus_m_id, cus_address1, cus_address2
+FROM (
+  SELECT
+    ROWNUM AS rnum, t.*
+  FROM (
+    SELECT
+      pp.ppic_num, pp.ppic_m_id, pp.ppic_p_num,p.p_m_id,p.p_num, p.p_name, p.thumb, p.startdate, p.enddate, p.p_status, p.p_price,c.cus_m_id, c.cus_address1, c.cus_address2 
+    FROM
+      p_pick_${ppic_m_id} pp
+    INNER JOIN
+      product p ON pp.ppic_p_num = p.p_num
+    INNER JOIN
+    cus_detail c ON p.p_m_id = c.cus_m_id
+    ORDER BY
+      pp.ppic_num
+  ) t
+  WHERE
+    ROWNUM <= #{endRow}
+)
+WHERE
+  rnum >= #{startRow}
+    ]]>
+</select>
+
+<!-- 총 카운트 보기 -->
+
+<select id="pPickCount" resultType="int">
+    SELECT COUNT(*)
+    FROM p_pick_${ppic_m_id}
+</select>
+    
+<!-- 찜  상품 삭제  -->
+   <delete id="deleteP_item" parameterType="map">  
+      delete from p_pick_${ppic_m_id} where ppic_num = #{ppic_num}
+   </delete>
+
+ 
+      <insert id="insertMember" parameterType="com.gogi.meatyou.bean.MemberDTO">
+    <![CDATA[
+    INSERT INTO member(m_id, passwd, m_name, birth, m_addr1, m_addr2, email, telep, phone, m_reg_date, m_status)
+    VALUES (
+        #{m_id},
+        #{passwd},
+        #{m_name},
+        to_date(#{birth}, 'YYYY-MM-DD'),
+        #{m_addr1},
+        #{m_addr2},
+        #{email},
+        #{telep},
+        #{phone},
+        TO_CHAR(SYSDATE, 'YYYY-MM-DD'), 
+       1001)
+    ]]>
+</insert>
+<insert id="insertKaKao" parameterType="com.gogi.meatyou.bean.MemberDTO">
+    <![CDATA[
+    INSERT INTO member(m_id, passwd, m_name, birth, m_addr1, m_addr2, email, telep, phone, m_reg_date, m_status)
+    VALUES (
+        '${m_id}',
+        ${m_id}88,
+        '${m_name}',
+   TO_DATE('2000-01-01', 'YYYY-MM-DD'),
+        '변경 부탁드립니다',
+        '변경 부탁드립니다',
+        '${email}',
+        '변경부탁드립니다',
+        '변경부탁드립니다',
+        TO_CHAR(SYSDATE, 'YYYY-MM-DD'),
+       1011)
+    ]]>
+    
+</insert>
+
+<insert id="prefer">
+    <![CDATA[
+        insert into prefer(pre_num, pre_m_id, pre0_response, pre1_response, pre2_response, pre_reg_date, pre_status)
+        values(
+            prefer_seq.nextval,
+           #{m_id},
+            null,
+            null,
+            null,
+            sysdate, 
+            0
+        )
+    ]]>
+</insert>
+
+
+<!--장바구니 생성-->
+         <insert id="shoppingCart" >
+    <![CDATA[
+        CREATE TABLE ShoppingCart_${m_id} (
+            shop_num NUMBER PRIMARY KEY, 
+           shop_m_id VARCHAR2(1000) NOT NULL, 
+            shop_p_num NUMBER NOT NULL,
+             shop_quantity NUMBER NOT NULL,
+            CONSTRAINT fk_shop_member_${m_id} FOREIGN KEY (shop_m_id) REFERENCES MEMBER (m_id) ON DELETE CASCADE,
+            CONSTRAINT fk_shop_product_${m_id} FOREIGN KEY (shop_p_num) REFERENCES PRODUCT (p_num) ON DELETE CASCADE
+        )
+    ]]>
+</insert>
+
+            <insert id="shoppingCart_seq">
+             <![CDATA[
+               create sequence shoppingcart_${m_id}_seq   NOCACHE   
+                   ]]>
+            </insert>
+            
+            
+                        
+                     <insert id="pick_me">
+                <![CDATA[
+                    CREATE TABLE pick_me_${m_id} (
+                        pm_num NUMBER PRIMARY KEY,
+                        pm_m_id VARCHAR2(1000) NOT NULL,
+                        pm_c_id VARCHAR2(1000) NOT NULL,
+                        CONSTRAINT fk_pick_me_member_${m_id}_1 FOREIGN KEY (pm_m_id) REFERENCES MEMBER (m_id) ON DELETE CASCADE,
+                        CONSTRAINT fk_pick_me_member_${m_id}_2 FOREIGN KEY (pm_c_id) REFERENCES MEMBER (m_id) ON DELETE CASCADE
+                    )
+                ]]>
+            </insert>
+
+            
+            <insert id="pick_me_seq">
+             <![CDATA[
+            create   sequence pick_me_${m_id}_seq   NOCACHE
+                ]]>
+            </insert>
+            
+            
+            <insert id="p_pick">
+             <![CDATA[
+                 CREATE TABLE p_pick_${m_id} (
+                     ppic_num NUMBER PRIMARY KEY,
+                     ppic_p_num NUMBER NOT NULL,
+                     ppic_m_id VARCHAR2(1000) NOT NULL,
+                     CONSTRAINT p_pick_product_${m_id} FOREIGN KEY (ppic_p_num) REFERENCES product (p_num) ON DELETE CASCADE,
+                     CONSTRAINT p_pick_member_${m_id} FOREIGN KEY (ppic_m_id) REFERENCES MEMBER (m_id) ON DELETE CASCADE
+                 )
+             ]]>
+         </insert>
+
+            
+            
+            <insert id="p_pick_seq">
+             <![CDATA[
+            create   sequence p_pick_${m_id}_seq   NOCACHE
+                   ]]>
+            </insert>
+            
+            
+         
+      <update id="memberUpdate" parameterType="com.gogi.meatyou.bean.MemberDTO">
+      update member 
+         <set>
+            <if test="passwd != null and passwd != '' ">passwd=#{passwd},</if>
+            <if test="m_name != null and m_name != '' ">m_name=#{m_name},</if>
+      <!--       <if test="birth != null and birth != '' "> birth = TO_DATE(#{birth}, 'YYYY-MM-DD HH24:MI:SS.FF'),,</if> -->
+            <if test="m_addr1 != null and m_addr1 != '' ">m_addr1=#{m_addr1},</if>
+            <if test="m_addr2 != null and m_addr2 != '' ">m_addr2=#{m_addr2},</if>
+            <if test="email != null and email != '' ">email=#{email},</if>
+            <if test="telep != null and telep != '' ">telep=#{telep},</if>
+            <if test="phone != null and phone != '' ">phone=#{phone}</if>
+         </set> 
+      where m_id=#{m_id}
+   </update>
+   
+   
+   
+   <update id="statusChange" parameterType="com.gogi.meatyou.bean.MemberDTO" >
+      update member set m_status = 1000 where  passwd = #{passwd}      
+   </update>
+   <update id="statusChange2" parameterType="com.gogi.meatyou.bean.MemberDTO" >
+      update member set m_status = 1001 where  passwd = #{passwd}      
+   </update>
+   <delete id="cusDelete" parameterType="com.gogi.meatyou.bean.CusDetailDTO" >
+    DELETE FROM cus_detail    WHERE cus_m_id ='${m_id.replace("'", "''").replaceAll(",\\s*$", "")}'
+</delete>
+
+   
+   <update id="statusAdminChange" parameterType="com.gogi.meatyou.bean.MemberDTO">
+      update member set m_status=#{m_status} where m_id=#{m_id}
+   </update>
+             
+      
+      
+      
+      
+            
+            <!-- Update Member Status -->
+      <update id="updateMemberStatus" parameterType="com.gogi.meatyou.bean.MemberDTO">
+          UPDATE member
+          SET m_status = 1050
+          WHERE m_id = #{m_id}
+      </update>
+      
+
+            
+               <insert id="insertIntoCusDetail" parameterType="com.gogi.meatyou.bean.CusDetailDTO">
+                <![CDATA[
+                INSERT INTO cus_detail(cus_num,cus_m_id, ceoname, corpno, company, cus_address1, cus_address2, cus_pnum,cus_accnum)
+                VALUES (
+                   cus_detail_seq.nextval,
+                    #{cus_m_id},
+                    #{ceoname},
+                    #{corpno},
+                    #{company},
+                    #{cus_address1},
+                    #{cus_address2},
+                    #{cus_pnum},
+                    #{cus_accnum}
+            )
+                ]]>
+            </insert>
+ 
+<select id="getSelectedProducts2" resultType="com.gogi.meatyou.bean.ShoppingCartDTO">
+    SELECT
+    sc.*,
+    p.p_name,
+    p.thumb,
+    p.p_price,
+    pd.pd_p_desc
+FROM
+    shoppingcart_${add_m_id} sc
+JOIN
+    product p ON sc.shop_p_num = p.p_num
+JOIN
+    p_detail pd ON sc.shop_p_num = pd.pd_p_num
+WHERE
+    sc.shop_p_num = ${shop_p_num}
+</select>
+
+
+
+
+
+<select id="couponCount"  >		
+    SELECT COUNT(*) FROM coupon where cp_m_id='${cp_m_id}' 
+</select>
+<select id="howmuchCoupon" >
+select * from coupon where cp_m_id='${cp_m_id}'
+</select>
+<select id="CouponForyou" >
+SELECT * FROM coupon
+WHERE cp_m_id = '${shop_m_id}'
+AND cp_p_num IN (
+    SELECT p_num FROM product
+)
+</select>
+<select id="getProductCoupon" parameterType="hashmap">
+SELECT * FROM ( SELECT * FROM coupon WHERE cp_m_id=#{id} AND cp_status=1 AND cp_p_num=#{p_num} AND c_type=2 UNION ALL SELECT * FROM coupon WHERE cp_m_id=#{id} AND cp_status=1 AND c_type=3 UNION ALL SELECT * FROM coupon WHERE cp_m_id=#{id} AND cp_status=1 AND cp_p_num IN (SELECT p_num FROM product WHERE p_m_id=(SELECT p_m_id FROM product WHERE p_num=#{p_num}))
+    AND c_type=1
+) result
+</select>
+
+<insert id="userPay" parameterType="java.util.List">
+insert into m_order(
+			order_num,
+			order_m_id,
+			order_cp_num,
+			order_p_num,
+			order_p_price,
+			order_dere_num,
+			order_dere_pay,
+			order_addr,
+			order_quantity,
+			order_paytype,
+			order_status,
+			order_discount,
+			order_totalprice,
+			order_memo,
+			order_paydate,
+			order_canceldate,
+			order_dere_start,
+			order_dere_end
+		) select m_order_seq.nextval,a.* from( 
+	 	<foreach collection="list" item="item" index="index" separator="union all">
+	 		select 
+	 		#{item.order_m_id} as order_m_id,
+		<if test="item.order_cp_num != 0">#{item.order_cp_num} as order_cp_num,</if>
+		<if test="item.order_cp_num == 0">null as order_cp_num,</if>
+		#{item.order_p_num} as order_p_num,
+		#{item.order_p_price} as order_p_price,
+		null as order_dere_num,
+		#{item.order_dere_pay} as order_dere_pay,
+		#{item.order_addr} as order_addr,
+		#{item.order_quantity} as order_quantity,
+		'카드' as order_paytype,
+		1 as order_status,
+		#{item.order_discount} as order_discount,
+		#{item.order_totalprice} as order_totalprice,
+		<if test="item.order_memo != '' or item.order_memo != null">#{item.order_memo} as order_memo,</if>
+		<if test="item.order_memo == '' or item.order_memo == null">null as order_memo,</if>
+		sysdate as order_paydate,
+		null as order_canceldate,
+		null as order_dere_start,
+		null as order_dere_end
+	 		 from dual
+	 	</foreach>
+	 	) a
+	</insert>
+<update id="couponAfterPay" parameterType="hashmap">
+	update coupon set cp_status=0 where cp_num in(
+	<foreach collection="cp_num" separator="," item="item">
+		#{item}
+	</foreach>
+	)
+</update>
+<update id="cartAfterPay" parameterType="hashmap">
+	delete from shoppingcart_${id} where shop_num in (
+	<foreach collection="shop_num" separator="," item="item">
+		#{item}
+	</foreach>
+	)
+</update>
+
+
+<select id="getProductInfo" parameterType="com.gogi.meatyou.bean.OrderwithCouponDTO">
+	select * from product where p_num=#{p_num}
+</select>
+ 
+
+<insert id="twoNextPay" parameterType="com.gogi.meatyou.bean.MOrderDTO">
+    <![CDATA[
+    INSERT INTO m_order (
+        order_num,
+        order_m_id,
+        order_cp_num,
+        order_p_num,
+        order_p_price,
+        order_dere_num,
+        order_dere_pay,
+        order_addr,
+        order_quantity,
+        order_paytype,
+        order_status,
+        order_discount,
+        order_totalprice,
+        order_memo,
+        order_paydate,
+        order_canceldate,
+        order_dere_start,
+        order_dere_end
+    )
+    VALUES (
+        m_order_seq.nextval,
+        '${order_m_id}',
+          COALESCE(${order_cp_num}, 0),
+        #{order_p_num, javaType=int, jdbcType=NUMERIC},
+        ${order_p_price},
+        0,
+        ${order_dere_pay},
+        '${order_addr}',
+        ${order_quantity},
+        '카드',
+        1,
+         COALESCE(${order_discount}, 0),
+        ${order_totalprice},
+        COALESCE('${order_memo}', NULL),
+        sysdate,
+        NULL,
+        NULL,
+        NULL
+    )
+    ]]>
+</insert>
+<select id="paypage" parameterType="map">
+  <![CDATA[
+    SELECT *
+    FROM (
+      SELECT
+        ROWNUM AS rnum, t.*
+      FROM
+        m_order t
+      ORDER BY
+        order_paydate DESC
+    )
+    WHERE
+      ROWNUM <= #{endRow, jdbcType=NUMERIC}
+    AND
+       rnum >= #{startRow, jdbcType=NUMERIC}
+    AND
+      order_m_id = #{order_m_id, jdbcType=VARCHAR}
+  ]]>
+</select>
+<select id="PaymentCount" parameterType="map">
+  SELECT COUNT(*)
+  FROM m_order
+  WHERE order_m_id = #{order_m_id, jdbcType=VARCHAR}
+</select>
+
+		<select id="getCouponPrice" parameterType="int" resultType="int">
+			select cp_price from coupon where cp_num=#{cp_num}
+		</select>
+
+
+  
+		<select id="findCouponToCpNum" parameterType="int" resultType="com.gogi.meatyou.bean.CouponDTO">
+			select * from coupon where cp_num=#{cp_num}
+		</select>
+
+		
+		<select id="dbName" parameterType="String" resultType="String">
+			select m_name from member where m_name = #{m_name} and phone = #{phone}
+		</select>
+ 		
+ 		<select id="dbPhone" parameterType="String" resultType="String">
+			select phone from member where m_name = #{m_name} and phone = #{phone}
+		</select>
+		
+		<select id="dbId" parameterType="String" resultType="String">
+			select m_id from member where m_name = #{m_name} and phone = #{phone} and m_id =#{m_id}
+		</select>
+		
+		<select id="getDbId" parameterType="String" resultType="String">
+			select m_id from member where m_name = #{m_name} and phone = #{phone}
+		</select>
+		
+		<select id="getDbPw" parameterType="String" resultType="String">
+			select passwd from member where m_name = #{m_name} and phone = #{phone} and m_id = #{m_id}
+		</select>
+		
+		<update id="changePw" parameterType="com.gogi.meatyou.bean.MemberDTO">
+			update member set passwd = #{passwd} where m_id = #{m_id} and phone = #{phone}
+		</update>
+    
 </mapper>

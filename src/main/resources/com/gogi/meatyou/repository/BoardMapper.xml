@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gogi.meatyou.repository.BoardMapper">
+ 	
+ 	<select id="userQnacount" resultType="int">
+ 		select count(*) from P_QUESTION where (pq_status =  0 or pq_status = 3) and pq_p_num=#{p_num}
+ 	</select>
+	
+	<select id="userQnalist" resultType="com.gogi.meatyou.bean.PQuestionDTO" parameterType="hashmap">
+	<![CDATA[
+		SELECT * FROM ( SELECT b.*, rownum r FROM (select * from P_QUESTION where pq_p_num= #{pq_p_num} and (pq_status =  0 or pq_status = 3) order by pq_num desc ) b) WHERE r>=#{start} and r<=#{end}
+	]]>
+	</select>
+	
+	<select id="getuserQnacotent" resultType="com.gogi.meatyou.bean.PQuestionDTO">
+		select * from P_QUESTION where pq_num = #{pq_num} and pq_p_num = #{pq_p_num}
+	</select>
+	
+	<select id="getCuserContent" resultType="com.gogi.meatyou.bean.PQuestionDTO">
+		select * from P_QUESTION where pq_p_num = #{pq_p_num} and pq_ref = #{pq_ref} and (pq_status = 1 or pq_status = 4)
+	</select>
+	
+	<select id="getPidPnum" resultType="String" >
+		select p.p_m_id from product p, P_QUESTION q where p.p_num = q.pq_p_num and q.pq_p_num = #{pq_p_num} 
+		<if test="pq_ref!=0">
+		and q.pq_ref = #{pq_ref} 
+		</if>
+		and (q.pq_status = 0 or q.pq_status = 3)
+	</select>
+	
+	<select id="getAnswerCount" resultType="int">
+		select count(*) from P_QUESTION where pq_p_num = #{pq_p_num} and pq_ref = #{pq_ref}
+	</select>
+	
+	<insert id="wirteAnswerd" parameterType="com.gogi.meatyou.bean.PQuestionDTO">
+		insert into P_QUESTION(pq_num, pq_m_id, pq_p_num, pq_title, pq_content, pq_status, pq_ref, pq_reg_date) values (
+		P_QUESTION_seq.NEXTVAL,
+		#{pq_m_id},
+		#{pq_p_num},
+		'판매자 답변',
+		#{pq_content},
+		#{pq_status},
+		#{pq_ref},
+		sysdate
+		)
+	</insert>
+	
+	
+	<select id="getBoardNEXTNum" resultType="int">
+         select P_QUESTION_seq.NEXTVAL from dual
+      </select>
+	
+	 <insert id="userQnaUp" parameterType="com.gogi.meatyou.bean.PQuestionDTO">
+          insert into P_QUESTION(pq_num, pq_m_id, pq_p_num, pq_title, pq_content, pq_status, pq_ref, pq_reg_date) values (
+         	#{pq_num},
+			#{pq_m_id},
+			#{pq_p_num},
+			#{pq_title},
+			#{pq_content},
+			#{pq_status},
+			#{pq_num},
+			sysdate 
+          )
+       </insert>
+	
+		<insert id="boardFileReg" parameterType="com.gogi.meatyou.bean.NoticeFileDTO">
+         insert into NOTICEFILE values(
+         NOTICEFILE_seq.nextval,
+         #{nf_n_num},
+         #{nf_filename},
+         #{nf_category}
+         )     
+       </insert>
+	
+	
+		<select id="consumerQnacount" resultType="int">
+			select count(*) from qna where ma_status = 0
+		</select>
+	
+		<select id="consumerQnalist" resultType="com.gogi.meatyou.bean.QnADTO" parameterType="hashmap">
+		<![CDATA[
+			 SELECT * FROM ( SELECT b.*, rownum r FROM ( select * from qna where ma_status = 0  order by ma_reg_date desc) b) WHERE r>=#{start} and r<=#{end}
+			 	]]>
+		</select>
+	
+		<select id="getcontent">
+			select * from qna where ma_num = #{ma_num} and ma_ref = #{ma_ref}
+		</select>
+	
+		<select id="getcontentView">
+			select * from qna where ma_ref= #{ma_ref} and ma_status =1
+		</select>
+	
+		<select id="answerCount" resultType="int">
+			select count(*) from qna where ma_ref= #{ma_ref}
+		</select>
+		
+		<select id="m_Status">
+			select m_status from member where m_id = #{id}
+		</select>
+		
+		<insert id="insertanswer" parameterType="com.gogi.meatyou.bean.QnADTO">
+			INSERT INTO QnA (MA_NUM, ma_m_id, ma_TITLE, ma_CONTENT, ma_STATUS, ma_REG_DATE, ma_REF)
+				VALUES (
+				QnA_seq.nextval, 
+				#{ma_m_id}, 
+				'관리자 답변', 
+				#{ma_content}, 
+				1, 
+				SYSDATE, 
+				#{ma_ref}
+				)
+		</insert>
+	
+		<select id="getMaNEXTNum" resultType="int">
+         select qna_seq.NEXTVAL from dual
+      </select>
+		
+		<insert id="CAQnaUp" parameterType="com.gogi.meatyou.bean.QnADTO">
+          insert into qna values (
+         	#{ma_num},
+			#{ma_m_id},
+			#{ma_title},
+			#{ma_content},
+			0,
+			sysdate, 
+			#{ma_num}
+          )
+       </insert>
+		
+		<insert id="QnAFileReg" parameterType="com.gogi.meatyou.bean.NoticeFileDTO">
+         insert into NOTICEFILE values(
+         NOTICEFILE_seq.nextval,
+         #{nf_n_num},
+         #{nf_filename},
+         #{nf_category}
+         )     
+       </insert>
+		
+		
+		
+		
+		<select id="sellerQnAcount" resultType="int">
+			select count(*) from qna where ma_status = 10
+		</select>
+		
+		<select id="sellerQnAlist" resultType="com.gogi.meatyou.bean.QnADTO" parameterType="hashmap">
+		<![CDATA[
+			 SELECT * FROM ( SELECT b.*, rownum r FROM ( select * from qna where ma_status = 10  order by ma_num desc) b) WHERE r>=#{start} and r<=#{end}
+			 	]]>
+		</select>
+		
+		<select id="getsellerContent">
+			select * from qna where ma_num = #{ma_num} and ma_ref = #{ma_ref}
+		</select>
+		
+		<select id="answerSellerCount" resultType="int">
+			select count(*) from qna where ma_ref= #{ma_ref}
+		</select>
+	
+		<insert id="insertAdminanswer" parameterType="com.gogi.meatyou.bean.QnADTO">
+			INSERT INTO QnA (MA_NUM, ma_m_id, ma_TITLE, ma_CONTENT, ma_STATUS, ma_REG_DATE, ma_REF)
+				VALUES (
+				QnA_seq.nextval, 
+				#{ma_m_id}, 
+				'관리자 답변', 
+				#{ma_content}, 
+				11, 
+				SYSDATE, 
+				#{ma_ref}
+				)
+		</insert>
+		
+		<select id="getcontentAdminView">
+			select * from qna where ma_ref= #{ma_ref} and ma_status =11
+		</select>
+		
+		<insert id="SAQnaUp" parameterType="com.gogi.meatyou.bean.QnADTO">
+          insert into qna values (
+         	#{ma_num},
+			#{ma_m_id},
+			#{ma_title},
+			#{ma_content},
+			10,
+			sysdate, 
+			#{ma_num}
+          )
+       </insert>
+		
+		
+		<insert id="QnASAFileReg" parameterType="com.gogi.meatyou.bean.NoticeFileDTO">
+         insert into NOTICEFILE values(
+         NOTICEFILE_seq.nextval,
+         #{nf_n_num},
+         #{nf_filename},
+         #{nf_category}
+         )     
+       </insert>
+		
+		
+</mapper>

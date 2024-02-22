@@ -1,0 +1,187 @@
+@charset "utf-8"; 
+
+/* 메인  시작*/
+
+ 
+ .main-container{
+   display: flex;
+        justify-content: center; /* Center the children horizontally */
+       align-items: center; /* Align the children at the top */
+        margin-top: 40px;
+        margin-bottom: 50px;
+ }
+       .summary-table {
+       margin-top:1%;
+            width: 100%;
+            margin-bottom:5%;
+            margin-left: auto;
+            margin-right: auto;
+            
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            font-size: xx-small;
+        }   
+  .summary-table th, .summary-table td {
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+} 
+.summary-table th {
+            background-color: #f2f2f2;
+        }
+        .summary-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+ .graph-and-summary {
+               width: 80%;
+        margin: 0 auto; /* Center the element horizontally */
+        text-align: center; /* Center the content inside the element */
+ 		margin-left:auto;
+ 		margin-right:auto;
+ 		
+		position: relative;
+        }
+
+
+
+
+     .main-table {
+            width: 50%;
+            margin: 0 auto;
+  
+            height: 60%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+           
+            
+        }
+        
+        .main-table th {
+    font-family: 'Arial', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #f2f2f2;
+    padding: 10px;
+    text-align: center;
+}
+.main-table td {
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    padding: 10px;
+    text-align: center;
+}
+
+
+                
+       select {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 12px;
+        margin-right: 5px;
+     /*    height: 30px; */
+        border:none;
+    }
+
+    /* Style for submit button */
+    input[type="submit"] {
+        padding: 8px 20px;
+        border: none;
+        border-radius: 4px;
+        background-color:lightgray;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+        background-color: gray;
+    }
+ 
+    
+    input[type="submit"] {
+        padding: 8px 20px;
+        border: none;
+        border-radius: 4px;
+        background-color:lightgray;
+        color: #fff;
+        cursor: pointer;
+    }
+    input[type="text"] {
+        border-radius: 4px;
+        margin-top:3%;
+    }
+        
+           button{
+           padding: 8px 20px;
+        border: none;
+        border-radius: 4px;
+        background-color:lightgray;
+        color: #fff;
+        cursor: pointer; 
+           }
+button:hover {
+        background-color: gray;
+    }
+    input[type="button"]:hover {
+        background-color: gray;
+    }
+    input[type="button"] {
+        padding: 8px 20px;
+        border: none;
+        border-radius: 4px;
+        background-color:lightgray;
+        color: #fff;
+        cursor: pointer;
+    }
+        
+  
+        
+        
+        .vertical-menu {
+    /* Existing styles */
+    z-index: 1; /* Set a higher z-index for the category menu */
+}
+
+#footer {
+    /* Existing styles */
+    z-index: 0; /* Set a lower z-index for the footer */
+}
+.out-table {
+            margin: 0 auto;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            
+              font-family: 'Arial', sans-serif; /* Change the font family as needed */
+    font-size: 24px; /* You can adjust the font size as needed */
+    color: #333; /* Change the color as needed */
+    font-weight: bold;
+}    
+
+
+    .graph-container {
+        /*     width: 60%;*/
+            order: 1; 
+                width: auto%;
+    margin-bottom:5%;
+    margin-top:2%;
+        }
+        .graph-container td{
+               	cursor: pointer;
+				color:gray;
+				font-size: medium;
+         }
+         
+         
+          .right {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 20px; /* Adjust the margin as needed */
+    }
+
+    .right a {
+        margin-left: 10px; /* Adjust the margin as needed */
+    }
